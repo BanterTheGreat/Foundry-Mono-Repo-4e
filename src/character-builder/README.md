@@ -1,3 +1,11 @@
+# Level progression through 19
+
+Android and the shared engine support the local advancement schedule through level 19: earned feat slots, class power acquisition, level-11 paragon paths, non-main ability choices at 4 and 12, automatic main/all increases at 8 and 16, and daily replacements at 9, 15 and 19. Later choices use the shared editor and eligibility checks and retain portable occurrence identities. Equipment Choices omits its former Stats button.
+
+Production includes class attacks through level 19, the structured Zeitgeist paths and the older class path summaries. Summary-only paths explicitly lack automated feature/power grants. Combat execution, technique pools, unspecified retraining allowances and levels 20–30 remain incomplete. Historical milestone notes below describe earlier scope.
+
+Validate from this directory with `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. Device UI tests are opt-in. See [test commands](../../tests/README.md) and [choice contracts](CHOICES.md).
+
 # Shared-content migration progress (#29)
 
 See [Character Builder Choices](CHOICES.md) for choice wiring and the Android picker layout defaults.

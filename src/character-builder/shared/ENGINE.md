@@ -22,14 +22,18 @@ equipment proficiencies and closed linear formulas over level/direct abilities.
 The main-ability slot is `(class instance, "main", 0)`. Class HP, surges and three
 non-AC defenses use these formulas and return an explanation of every term.
 Missing/invalid dependencies, conflicting class profiles and integer overflow
-produce unavailable values. Fortitude, Reflex and Will include the default
-Modern 4e tier bonus once. Armor Class is 10 plus the greater of direct Dexterity
+produce unavailable values. All four defenses include the default
+Modern 4e tier bonus once: +1 at levels 1-10, +2 at 11-20 and +3 at 21-30.
+Armor Class also adds half the character level, rounded down, and is otherwise
+10 plus the greater of direct Dexterity
 or Intelligence points in light armor or without armor, plus the equipped
 armor's listed bonus. Heavy armor replaces the ability contribution. A proficient
 equipped shield adds its bonus to Armor Class and Reflex. Unproficient armor
 imposes a −2 Reflex penalty. Multiple equipped armor entries make Armor Class
 and Reflex unavailable. Known points support a Stats preview during unfinished
-creation choices. No half-level bonus is applied. Attacks and damage still have
+creation choices. Class-specific non-AC defense bonuses are shown separately
+from the base 10 in their calculation contributors. Half level is added only to
+Armor Class; skill and non-AC defense formulas remain authored. Attacks and damage still have
 no default base. Allocation remains main 4/non-main budget 5/cap 2 with the
 optional trade.
 
@@ -60,12 +64,15 @@ returns JSON with statistic/calculation pairs, contributors/modifier explanation
 entries, choices, proficiency sources, coverage, diagnostics, conditional benefits
 and occurrence eligibility. No platform math is required.
 
-Explicit v2 class acquisition/formulas can evaluate characters above level 2,
-with a general-progression diagnostic. Ability advancement still blocks totals;
-power replacement replay validates composition without claiming complete
-progression/retraining timing. Shared acquisition through level 10, query pools,
-dynamic counts and collections are described below. General advancement and
-levels 11?30 remain #20. These limits do not remove data.
+Modern 4e progression is evaluated through level 19. Starting allocation stays
+separate from earned increases: levels 4 and 12 require one non-main +1 decision,
+level 8 automatically increases the main ability by 1, and level 16 automatically
+increases all abilities by 1. Invalid or missing non-main decisions stay saved and
+make dependent totals unavailable; known previews still show earned valid points.
+Historical prerequisite snapshots include only increases earned by that level.
+Character feat roots follow the local table, including levels 11 and 17; the
+paragon-path root is `advancement.11/paragon-path/0`. Authored path grants and
+choices activate at their declared acquisition levels. Levels 20?30 remain unsupported.
 
 `SharedClassTest` consumes the exact compiled Fighter golden on JVM/JS; the web
 boundary test consumes the same content. It covers all six independent build
@@ -118,9 +125,10 @@ Duplicate chosen proficiency emits incomplete automation: replacement rules are
 unspecified, so the engine neither invents a replacement nor deletes a choice.
 
 Initial root entry slots are `creation/{class,ancestry,theme,feat}/0` at level 1.
-The level-2 feat slot is `advancement.2/feat/0`. Root categories are checked.
-Class/content grants, choices and authored progression through level 2 are
-evaluated. The engine reports missing declared choices and orphan decisions;
+Later feats use `advancement.N/feat/0` at each local feat level, and the level-11
+path uses `advancement.11/paragon-path/0`. Root categories and active levels are
+checked. Class/content grants, choices and authored progression through level 19
+are evaluated. The engine reports missing declared choices and orphan decisions;
 root-selection and advancement workflows belong to issue #10. Equipped items
 apply their declarative mechanics once per occurrence (inventory quantities do
 not multiply bonuses). Configuration-specific mechanics remain diagnosed as
@@ -153,8 +161,7 @@ selections cannot qualify earlier decisions. Equipment and manual adjustments do
 not establish prerequisite facts because they have no dated acquisition history.
 Forced ineligible selections still contribute their declared benefits under the
 existing editing contract; this is not general dependency-validity filtering.
-Legacy v1 historical/self-benefit cases remain incomplete. General advancement,
-retraining timing and higher levels remain provisional under #20.
+Legacy v1 historical/self-benefit cases remain incomplete. Retraining allowances remain unspecified by the local chapter. Levels after 19 remain unsupported.
 
 Explicit `multiclassFor` counts as the target class for FEAT and PARAGON_PATH
 access/prerequisites, including class source conditions. It does not grant the
@@ -271,7 +278,7 @@ JavaScript, covering the baseline allocation/tradeoff, changed main abilities,
 all skill mappings, background/free/granted proficiency, typed and named-source
 stacking, penalties, SET/MINIMUM, diagnostics, missing/cyclic grants, repeated
 choices, eligibility limits, catalog supplier protection and unavailable values.
-No character UI or combat execution is implemented. V2 class formulas are described above.
+Combat execution remains outside the builder. V2 class formulas are described above.
 
 ## Shared power selections (#34)
 
@@ -282,7 +289,7 @@ Powers without explicit adapted facts are excluded; unsupported technique/other
 queries produce no fabricated candidates and retain incomplete coverage.
 
 Shared choice IDs and acquisition levels come from class `advancement.json`.
-Nine slots match authored GAIN events through level 10. Each active feature may
+Class slots match authored GAIN events through level 19. Each active feature may
 replace a target count and add idempotent distinct/keyword constraints. Finite
 feature choices resolve before shared pools. Differing count/collection overrides
 report `selectionOverrideConflict` and cannot establish eligible candidates.
@@ -308,7 +315,7 @@ spellbook page costs and combat execution remain incomplete.
 
 Power-only `Replacement` histories replay by stable acquisition slot, preserve the
 original occurrence ID and old saved decisions, and recheck all set constraints.
-General progression/retraining timing and allowances remain incomplete under #20.
+Progression replacements validate one earlier class daily attack at levels 9, 15 and 19. Retraining remains explicitly incomplete because the local chapter supplies no allowance.
 `PowerSelectionTest` runs the same count/bounds/order, feature-removal/conflict,
 collection/preparation, Tome, unavailable-catalog, editing/retraining and portable
 reopen scenarios on JVM and JavaScript.

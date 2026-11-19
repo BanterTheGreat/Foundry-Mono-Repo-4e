@@ -17436,6 +17436,2997 @@
       "subtitle": "Warlord Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power1082",
+      "title": "Battle On",
+      "description": "You rally your forces with a battle cry and a calculated blow against the enemy.",
+      "flavor": "You rally your forces with a battle cry and a calculated blow against the enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1082",
+        "publication": "Published in Player's Handbook, page(s) 150, Class Compendium.",
+        "rulesText": "Battle OnWarlord Attack 17\nYou rally your forces with a battle cry and a calculated blow against the enemy.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and each ally within 5 squares of you can make a saving throw.\nInspiring Presence: Each ally gains a bonus to the saving throw equal to your Charisma modifier.\nPublished in Player's Handbook, page(s) 150, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and each ally within 5 squares of you can make a saving throw."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Inspiring Presence",
+              "text": "Each ally gains a bonus to the saving throw equal to your Charisma."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power2337",
+      "title": "Bloody Termination",
+      "description": "Your adversary reels from wounds, and you mean to bring that torment to an end.",
+      "flavor": "Your adversary reels from wounds, and you mean to bring that torment to an end.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2337",
+        "publication": "Published in Martial Power, page(s) 112.",
+        "rulesText": "Bloody TerminationWarlord Attack 17\nYour adversary reels from wounds, and you mean to bring that torment to an end.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One bloodied creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier + Charisma modifier damage.\nResourceful Presence: If the attack's damage doesn't reduce the target to 0 hit points, make a melee basic attack against the target, with a bonus to the attack roll and the damage roll equal to your Charisma modifier.\nPublished in Martial Power, page(s) 112."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One bloodied creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength + Charisma damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Resourceful Presence",
+              "text": "If the attack's damage doesn't reduce the target to 0 hit points, make a melee basic attack against the target, with a bonus to the attack roll and the damage roll equal to your Charisma."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power4586",
+      "title": "Deadly Inspiration",
+      "description": "Your bold strike inspires your allies to show off their fighting prowess.",
+      "flavor": "Your bold strike inspires your allies to show off their fighting prowess.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4586",
+        "publication": "Published in Martial Power, page(s) 112.",
+        "rulesText": "Deadly InspirationWarlord Attack 17\nYour bold strike inspires your allies to show off their fighting prowess.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Reflex\nHit: 2[W] + Strength modifier damage, and allies within 5 squares of you deal 1[W] extra damage with their at-will weapon attacks that hit until the start of your next turn.\nPublished in Martial Power, page(s) 112."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and allies within 5 squares of you deal 1[W] extra damage with their at-will weapon attacks that hit until the start of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power10968",
+      "title": "Disabling Missile",
+      "description": "Your carefully aimed shot leaves a foe unable to concentrate on defending itself.",
+      "flavor": "Your carefully aimed shot leaves a foe unable to concentrate on defending itself.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10968",
+        "publication": "Published in Martial Power 2, page(s) 91.",
+        "rulesText": "Disabling MissileWarlord Attack 17\nYour carefully aimed shot leaves a foe unable to concentrate on defending itself.\nEncounter   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and each ally adjacent to the target can shift 1 square as a free action. Until the end of your next turn, the target provokes opportunity attacks from your allies whenever it attacks.\nSkirmishing Presence: You and your allies gain a power bonus to melee damage rolls against the target equal to your Intelligence modifier or Wisdom modifier. The power bonus lasts until the end of your next turn.\nPublished in Martial Power 2, page(s) 91."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and each ally adjacent to the target can shift 1 square as a free action. Until the end of your next turn, the target provokes opportunity attacks from your allies whenever it attacks."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Skirmishing Presence",
+              "text": "You and your allies gain a power bonus to melee damage rolls against the target equal to your Intelligence or Wisdom. The power bonus lasts until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power10969",
+      "title": "Forced Respect",
+      "description": "Your strike forces your foe to respect you and your ally, making it think twice before confronting the two of you again.",
+      "flavor": "Your strike forces your foe to respect you and your ally, making it think twice before confronting the two of you again.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10969",
+        "publication": "Published in Martial Power 2, page(s) 92.",
+        "rulesText": "Forced RespectWarlord Attack 17\nYour strike forces your foe to respect you and your ally, making it think twice before confronting the two of you again.\nEncounter   ✦     Martial, Weapon\nImmediate Reaction      Melee weapon\nTrigger: An enemy hits your ally with a melee attack\nTarget: The triggering enemy\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and the target grants combat advantage until the end of its next turn.\nInsightful Presence: One ally can make a melee basic attack against the target as a free action.\nPublished in Martial Power 2, page(s) 92."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and the target grants combat advantage until the end of its next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Insightful Presence",
+              "text": "One ally can make a melee basic attack against the target as a free action."
+            }
+          ],
+          "trigger": "An enemy hits your ally with a melee attack",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power2336",
+      "title": "Girding Strike",
+      "description": "You smite your enemy as you shout encouragement to your allies, imparting the vigor they need to push on.",
+      "flavor": "You smite your enemy as you shout encouragement to your allies, imparting the vigor they need to push on.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2336",
+        "publication": "Published in Martial Power, page(s) 112.",
+        "rulesText": "Girding StrikeWarlord Attack 17\nYou smite your enemy as you shout encouragement to your allies, imparting the vigor they need to push on.\nEncounter   ✦     Healing, Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and each ally within 10 squares of you regains the use of second wind.\nResourceful Presence: Any ally who uses second wind before the end of your next turn regains additional hit points equal to your Charisma modifier.\nPublished in Martial Power, page(s) 112."
+      },
+      "keywords": [
+        "HEALING",
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and each ally within 10 squares of you regains the use of second wind."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Resourceful Presence",
+              "text": "Any ally who uses second wind before the end of your next turn regains additional hit points equal to your Charisma."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power1559",
+      "title": "Hail of Steel",
+      "description": "You deliver a well-placed strike against your foe and call your comrades to do the same. They pelt the enemy with attacks.",
+      "flavor": "You deliver a well-placed strike against your foe and call your comrades to do the same. They pelt the enemy with attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1559",
+        "publication": "Published in Player's Handbook, page(s) 150, Class Compendium.",
+        "rulesText": "Hail of SteelWarlord Attack 17\nYou deliver a well-placed strike against your foe and call your comrades to do the same. They pelt the enemy with attacks.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and each ally within 5 squares of you can make a basic attack against the target as a free action.\nPublished in Player's Handbook, page(s) 150, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and each ally within 5 squares of you can make a basic attack against the target as a free action."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power4587",
+      "title": "Into the Breach!",
+      "description": "You leap forward boldly, shouting a battle cry that fills your allies with the same courage.",
+      "flavor": "You leap forward boldly, shouting a battle cry that fills your allies with the same courage.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4587",
+        "publication": "Published in Martial Power, page(s) 113.",
+        "rulesText": "Into the Breach!Warlord Attack 17\nYou leap forward boldly, shouting a battle cry that fills your allies with the same courage.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and one ally within 5 squares of you can charge the target as a free action.\nInspiring Presence: The charging ally gains a power bonus to the attack roll and the damage roll equal to your Charisma modifier.\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Martial Power, page(s) 113."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and one ally within 5 squares of you can charge the target as a free action."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Inspiring Presence",
+              "text": "The charging ally gains a power bonus to the attack roll and the damage roll equal to your Charisma."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power10970",
+      "title": "Pincer Shot",
+      "description": "Your arrow drives a foe backward onto the blade of your ally",
+      "flavor": "Your arrow drives a foe backward onto the blade of your ally",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10970",
+        "publication": "Published in Martial Power 2, page(s) 92.",
+        "rulesText": "Pincer ShotWarlord Attack 17\nYour arrow drives a foe backward onto the blade of your ally\nEncounter   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and you push the target a number of squares equal to your Intelligence modifier or Wisdom modifier. After the push, one of your allies adjacent to the target can make a melee basic attack against it as a free action. The attack deals extra damage equal to the number of squares you pushed the target.\nPublished in Martial Power 2, page(s) 92."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and you push the target a number of squares equal to your Intelligence or Wisdom. After the push, one of your allies adjacent to the target can make a melee basic attack against it as a free action. The attack deals extra damage equal to the number of squares you pushed the target."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power1085",
+      "title": "Thunderous Fury",
+      "description": "You strike your enemy with a furious blow that creates a momentary lull in the fighting, giving you a chance to direct your allies to victory.",
+      "flavor": "You strike your enemy with a furious blow that creates a momentary lull in the fighting, giving you a chance to direct your allies to victory.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1085",
+        "publication": "Published in Player's Handbook, page(s) 150, Class Compendium.",
+        "rulesText": "Thunderous FuryWarlord Attack 17\nYou strike your enemy with a furious blow that creates a momentary lull in the fighting, giving you a chance to direct your allies to victory.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and the target is dazed until the end of your next turn.\nTactical Presence: Until the end of your next turn, each of your allies gains a power bonus to attack rolls against the target equal to your Intelligence modifier.\nPublished in Player's Handbook, page(s) 150, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and the target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Tactical Presence",
+              "text": "Until the end of your next turn, each of your allies gains a power bonus to attack rolls against the target equal to your Intelligence."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power11731",
+      "title": "Vanishing Forces",
+      "description": "An aggressive attack draws attention away from your allies so they can move into position while remaining unseen.",
+      "flavor": "An aggressive attack draws attention away from your allies so they can move into position while remaining unseen.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11731",
+        "publication": "Published in Dragon Magazine 384, page(s) 55.",
+        "rulesText": "Vanishing ForcesWarlord Attack 17\nAn aggressive attack draws attention away from your allies so they can move into position while remaining unseen.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and the target is marked by you until the end of your next turn.\nEffect: Each ally within 5 squares of you that you can see shifts his or her speed as a free action to a square with cover or concealment and makes a Stealth check to become hidden. Before the end of your next turn, each of those allies gains a +5 power bonus to its next damage roll made against an enemy from which it is hidden.\nPublished in Dragon Magazine 384, page(s) 55."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and the target is marked by you until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each ally within 5 squares of you that you can see shifts his or her speed as a free action to a square with cover or concealment and makes a Stealth check to become hidden. Before the end of your next turn, each of those allies gains a +5 power bonus to its next damage roll made against an enemy from which it is hidden."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power1560",
+      "title": "Warlord's Rush",
+      "description": "Like a wild, terrible storm, you hurl yourself at your foe. Your allies are swept along by the force of your wrath.",
+      "flavor": "Like a wild, terrible storm, you hurl yourself at your foe. Your allies are swept along by the force of your wrath.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1560",
+        "publication": "Published in Player's Handbook, page(s) 150, Class Compendium.",
+        "rulesText": "Warlord's RushWarlord Attack 17\nLike a wild, terrible storm, you hurl yourself at your foe. Your allies are swept along by the force of your wrath.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and each ally who can see you can move up to his or her speed as a free action.\nMiss: One ally who can see you can move up to his or her speed as a free action.\nPublished in Player's Handbook, page(s) 150, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and each ally who can see you can move up to his or her speed as a free action."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "One ally who can see you can move up to his or her speed as a free action."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power10971",
+      "title": "We Will Not Fail",
+      "description": "Your wild strike distracts your foe, giving an ally the chance to strike the creature.",
+      "flavor": "Your wild strike distracts your foe, giving an ally the chance to strike the creature.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10971",
+        "publication": "Published in Martial Power 2, page(s) 92.",
+        "rulesText": "We Will Not FailWarlord Attack 17\nYour wild strike distracts your foe, giving an ally the chance to strike the creature.\nEncounter   ✦     Martial\nFree Action      Close burst 10\nTrigger: You miss an enemy with an attack\nTarget: One ally in the burst\nEffect: The target can make a basic attack against the enemy as a free action. The attack deals extra damage equal to 5 + your Intelligence modifier.\nPublished in Martial Power 2, page(s) 92."
+      },
+      "keywords": [
+        "MARTIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One ally in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target can make a basic attack against the enemy as a free action. The attack deals extra damage equal to 5 + your Intelligence."
+            }
+          ],
+          "trigger": "You miss an enemy with an attack",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Warlord Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power10972",
+      "title": "Anticipate the Target",
+      "description": "Your ally's strike drives a foe forward, and you snap off a shot. You then study the enemy and watch for it to drop its guard again.",
+      "flavor": "Your ally's strike drives a foe forward, and you snap off a shot. You then study the enemy and watch for it to drop its guard again.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10972",
+        "publication": "Published in Martial Power 2, page(s) 92.",
+        "rulesText": "Anticipate the TargetWarlord Attack 19\nYour ally's strike drives a foe forward, and you snap off a shot. You then study the enemy and watch for it to drop its guard again.\nDaily   ✦     Martial, Weapon\nImmediate Reaction      Ranged weapon\nTrigger: An enemy is hit by your ally\nTarget: The triggering enemy\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and whenever the target moves during its turn, one ally you can see can make a basic attack against the target as an opportunity action (save ends).\nMiss: Half damage.\nPublished in Martial Power 2, page(s) 92."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and whenever the target moves during its turn, one ally you can see can make a basic attack against the target as an opportunity action (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "trigger": "An enemy is hit by your ally",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power10973",
+      "title": "Assault of the Ram",
+      "description": "You and your comrades hurl yourselves at opponents and gain the upper hand through your audacity.",
+      "flavor": "You and your comrades hurl yourselves at opponents and gain the upper hand through your audacity.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10973",
+        "publication": "Published in Martial Power 2, page(s) 92.",
+        "rulesText": "Assault of the RamWarlord Attack 19\nYou and your comrades hurl yourselves at opponents and gain the upper hand through your audacity.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 5[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: Until the end of the encounter, whenever you or an ally charges, you or the ally gains combat advantage against the target of the charge for that attack.\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Martial Power 2, page(s) 92."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever you or an ally charges, you or the ally gains combat advantage against the target of the charge for that attack."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power1576",
+      "title": "Break the Tempo",
+      "description": "You deliver a punishing blow to your foe and then watch how it reacts, striking again when it leaves itself open and throwing it off balance.",
+      "flavor": "You deliver a punishing blow to your foe and then watch how it reacts, striking again when it leaves itself open and throwing it off balance.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1576",
+        "publication": "Published in Player's Handbook, page(s) 150, Class Compendium.",
+        "rulesText": "Break the TempoWarlord Attack 19\nYou deliver a punishing blow to your foe and then watch how it reacts, striking again when it leaves itself open and throwing it off balance.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage.\nEffect: Until the end of your next turn, you can use an immediate interrupt to move up to 4 squares and make a melee basic attack against the target if it makes an attack roll. If you deal damage, the target takes a penalty to its attack roll equal to your Intelligence modifier.\nSustain Minor: The effect persists until the end of your next turn.\nPublished in Player's Handbook, page(s) 150, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you can use an immediate interrupt to move up to 4 squares and make a melee basic attack against the target if it makes an attack roll. If you deal damage, the target takes a penalty to its attack roll equal to your Intelligence."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The effect persists until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power10974",
+      "title": "Dance on Their Graves",
+      "description": "Your blow shows your allies how best to attack your enemy, and with each subsequent strike, you adapt your strategy to keep your foe off balance.",
+      "flavor": "Your blow shows your allies how best to attack your enemy, and with each subsequent strike, you adapt your strategy to keep your foe off balance.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10974",
+        "publication": "Published in Martial Power 2, page(s) 92.",
+        "rulesText": "Dance on Their GravesWarlord Attack 19\nYour blow shows your allies how best to attack your enemy, and with each subsequent strike, you adapt your strategy to keep your foe off balance.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage, and the target grants combat advantage until the end of your next turn.\nMiss: Half damage.\nEffect: Until the end of the encounter, whenever you hit the target, it grants combat advantage until the end of your next turn.\nPublished in Martial Power 2, page(s) 92."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage, and the target grants combat advantage until the end of your next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever you hit the target, it grants combat advantage until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power10975",
+      "title": "End to Games",
+      "description": "Your strike leaves a foe reeling, and as your allies beat on the creature, their vigor and morale improve.",
+      "flavor": "Your strike leaves a foe reeling, and as your allies beat on the creature, their vigor and morale improve.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10975",
+        "publication": "Published in Martial Power 2, page(s) 92.",
+        "rulesText": "End to GamesWarlord Attack 19\nYour strike leaves a foe reeling, and as your allies beat on the creature, their vigor and morale improve.\nDaily   ✦     Healing, Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and the target is stunned (save ends). While the target is stunned by this power, whenever an ally hits the target, he or she can spend a healing surge.\nMiss: Half damage, and the target is stunned until the end of your next turn.\nPublished in Martial Power 2, page(s) 92."
+      },
+      "keywords": [
+        "HEALING",
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and the target is stunned (save ends). While the target is stunned by this power, whenever an ally hits the target, he or she can spend a healing surge."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is stunned until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power1124",
+      "title": "Exhorted Counterattack",
+      "description": "You shout a warning to a comrade under fire, who avoids the brunt of the attack and responds with a vicious counterattack.",
+      "flavor": "You shout a warning to a comrade under fire, who avoids the brunt of the attack and responds with a vicious counterattack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1124",
+        "publication": "Published in Martial Power, page(s) 113.",
+        "rulesText": "Exhorted CounterattackWarlord Attack 19\nYou shout a warning to a comrade under fire, who avoids the brunt of the attack and responds with a vicious counterattack.\nDaily   ✦     Healing, Martial\nImmediate Reaction      Close burst 20\nTrigger: An ally within 20 squares of you is hit by an enemy\nTarget: The triggering ally in the burst\nEffect: The target regains hit points as if he or she had spent a healing surge and then makes two basic attacks against the attacking enemy as an opportunity action. If either basic attack hits, the enemy is dazed (save ends).\nInspiring Presence: The ally regains additional hit points equal to your Charisma modifier and gains a bonus to the damage rolls equal to your Charisma modifier.\nPublished in Martial Power, page(s) 113."
+      },
+      "keywords": [
+        "HEALING",
+        "MARTIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The triggering ally in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 20"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target regains hit points as if he or she had spent a healing surge and then makes two basic attacks against the attacking enemy as an opportunity action. If either basic attack hits, the enemy is dazed (save ends)."
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Inspiring Presence",
+              "text": "The ally regains additional hit points equal to your Charisma and gains a bonus to the damage rolls equal to your Charisma."
+            }
+          ],
+          "trigger": "An ally within 20 squares of you is hit by an enemy",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power6011",
+      "title": "Glasya's Stride",
+      "description": "As manipulative as the mistress of Malbolge, this exploit wreaks havoc among large groups of enemies.",
+      "flavor": "As manipulative as the mistress of Malbolge, this exploit wreaks havoc among large groups of enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6011",
+        "publication": "Published in Dragon Magazine 369, page(s) 54.",
+        "rulesText": "Glasya's StrideWarlord Attack 19\nAs manipulative as the mistress of Malbolge, this exploit wreaks havoc among large groups of enemies.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nEffect: Shift your speed.\nTargets: A number of creatures within your melee reach at any point during your move up to your Intelligence modifier (minimum 1).\nAttack: Strength vs. AC, one attack per target\nHit: 1[W] + Strength modifier damage, and slide the target 1 square.\nMiss: Strength modifier damage and slide the target 1 square.\nPublished in Dragon Magazine 369, page(s) 54."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "A number of creatures within your melee reach at any point during your move up to your Intelligence (minimum 1)."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Shift your speed."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC, one attack per target",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC, one attack per target"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and slide the target 1 square."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Strength damage and slide the target 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power4588",
+      "title": "Inspiring Charge",
+      "description": "Giving your companions a quick signal, you charge forward to glory, inspiring them.",
+      "flavor": "Giving your companions a quick signal, you charge forward to glory, inspiring them.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4588",
+        "publication": "Published in Martial Power, page(s) 113.",
+        "rulesText": "Inspiring ChargeWarlord Attack 19\nGiving your companions a quick signal, you charge forward to glory, inspiring them.\nDaily   ✦     Healing, Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage.\nEffect: As a free action, each ally within 10 squares of you can shift a number of squares equal to your Charisma modifier and then spend a healing surge.\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Martial Power, page(s) 113."
+      },
+      "keywords": [
+        "HEALING",
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "As a free action, each ally within 10 squares of you can shift a number of squares equal to your Charisma and then spend a healing surge."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power10976",
+      "title": "Leader of the Bowmen",
+      "description": "Your shot signals the beginning of a barrage. Your leadership guides your allies' fire and helps alert them to nearby foes.",
+      "flavor": "Your shot signals the beginning of a barrage. Your leadership guides your allies' fire and helps alert them to nearby foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10976",
+        "publication": "Published in Martial Power 2, page(s) 92.",
+        "rulesText": "Leader of the BowmenWarlord Attack 19\nYour shot signals the beginning of a barrage. Your leadership guides your allies' fire and helps alert them to nearby foes.\nDaily   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage.\nEffect: Until the end of the encounter, you and your allies gain a +2 power bonus to ranged attack rolls and do not provoke opportunity attacks for making ranged attacks.\nSpecial: You can use this power in place of a ranged basic attack.\nPublished in Martial Power 2, page(s) 92."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, you and your allies gain a +2 power bonus to ranged attack rolls and do not provoke opportunity attacks for making ranged attacks."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use this power in place of a ranged basic attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power4589",
+      "title": "Storm of Carnage",
+      "description": "For you and your comrades, every miss is just a new opportunity.",
+      "flavor": "For you and your comrades, every miss is just a new opportunity.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4589",
+        "publication": "Published in Martial Power, page(s) 113.",
+        "rulesText": "Storm of CarnageWarlord Attack 19\nFor you and your comrades, every miss is just a new opportunity.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage.\nMiss: Make a melee basic attack against the target.\nEffect: Until the end of the encounter, each time you or an adjacent ally misses with an encounter or a daily melee attack power, that character can make a melee basic attack against the same target as a free action.\nPublished in Martial Power, page(s) 113."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Make a melee basic attack against the target."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, each time you or an adjacent ally misses with an encounter or a daily melee attack power, that character can make a melee basic attack against the same target as a free action."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power4590",
+      "title": "Unleash Hell",
+      "description": "On your command, you and your allies unleash a ranged barrage upon your enemies.",
+      "flavor": "On your command, you and your allies unleash a ranged barrage upon your enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4590",
+        "publication": "Published in Martial Power, page(s) 113.",
+        "rulesText": "Unleash HellWarlord Attack 19\nOn your command, you and your allies unleash a ranged barrage upon your enemies.\nDaily   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nRequirement: You must be wielding a heavy thrown weapon.\nTarget: One creature\nAttack: Strength vs. AC. The attack can score a critical hit on a roll of 18–20.\nHit: 4[W] + Strength modifier damage.\nEffect: Each ally within 5 squares of you can make a ranged\nbasic attack against an enemy as a free action, with a power bonus to the attack roll and the damage roll equal to your Charisma modifier. Until the end of your next turn, any ranged attack made by you or your allies can score a critical hit on a natural roll of 18–20.\nPublished in Martial Power, page(s) 113."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-3-note",
+              "type": "effect",
+              "label": "Attack",
+              "text": "The attack can score a critical hit on a roll of 18–20."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each ally within 5 squares of you can make a ranged"
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Rule",
+              "text": "basic attack against an enemy as a free action, with a power bonus to the attack roll and the damage roll equal to your Charisma. Until the end of your next turn, any ranged attack made by you or your allies can score a critical hit on a natural roll of 18–20."
+            }
+          ],
+          "requirement": "You must be wielding a heavy thrown weapon.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power1123",
+      "title": "Victory Surge",
+      "description": "With a triumphant roar, you urge your allies to seize every opportunity and fight like never before.",
+      "flavor": "With a triumphant roar, you urge your allies to seize every opportunity and fight like never before.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1123",
+        "publication": "Published in Player's Handbook, page(s) 151, Class Compendium.",
+        "rulesText": "Victory SurgeWarlord Attack 19\nWith a triumphant roar, you urge your allies to seize every opportunity and fight like never before.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage. Until the start of your next turn, each ally within 10 squares of you can follow up a standard action with a basic attack made as a free action.\nMiss: Until the start of your next turn, one ally within 10 squares of you can follow up a standard action with a basic attack made as a free action.\nSustain Minor: Until the start of your next turn, one ally within 10 squares of you can follow up a standard action with a basic attack made as a free action.\nPublished in Player's Handbook, page(s) 151, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage. Until the start of your next turn, each ally within 10 squares of you can follow up a standard action with a basic attack made as a free action."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Until the start of your next turn, one ally within 10 squares of you can follow up a standard action with a basic attack made as a free action."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "Until the start of your next turn, one ally within 10 squares of you can follow up a standard action with a basic attack made as a free action."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power11732",
+      "title": "War Dance",
+      "description": "One attack from you sees each ally moving into planned positions and striking with speed and force.",
+      "flavor": "One attack from you sees each ally moving into planned positions and striking with speed and force.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11732",
+        "publication": "Published in Dragon Magazine 384, page(s) 55.",
+        "rulesText": "War DanceWarlord Attack 19\nOne attack from you sees each ally moving into planned positions and striking with speed and force.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: Each ally that can see and hear you within 5 squares of you can shift his or her speed as a free action. Each of these allies gains 10 temporary hit points the first time he or she hits with an attack made before the end of your next turn.\nPublished in Dragon Magazine 384, page(s) 55."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each ally that can see and hear you within 5 squares of you can shift his or her speed as a free action. Each of these allies gains 10 temporary hit points the first time he or she hits with an attack made before the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.warlord-power2226",
+      "title": "Windmill of Doom",
+      "description": "You cleverly maneuver your adversary into a perfect flanking position. As you land the deciding blow, your surrounding allies strike hard from all sides.",
+      "flavor": "You cleverly maneuver your adversary into a perfect flanking position. As you land the deciding blow, your surrounding allies strike hard from all sides.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2226",
+        "publication": "Published in Player's Handbook, page(s) 151, Class Compendium.",
+        "rulesText": "Windmill of DoomWarlord Attack 19\nYou cleverly maneuver your adversary into a perfect flanking position. As you land the deciding blow, your surrounding allies strike hard from all sides.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and each ally of yours adjacent to the target can make a melee basic attack against it as a free action.\nMiss: One ally of your choice adjacent to the target can make a melee basic attack against it as a free action.\nPublished in Player's Handbook, page(s) 151, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and each ally of yours adjacent to the target can make a melee basic attack against it as a free action."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "One ally of your choice adjacent to the target can make a melee basic attack against it as a free action."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Warlord Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

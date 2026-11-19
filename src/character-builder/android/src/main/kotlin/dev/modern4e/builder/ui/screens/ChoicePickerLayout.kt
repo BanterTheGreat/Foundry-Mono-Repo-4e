@@ -51,11 +51,3 @@ internal fun ChoicePickerActions(busy: Boolean, valid: Boolean, dismiss: () -> U
         TextButton(enabled = valid && !busy, onClick = save) { Text("Save") }
     }
 }
-
-/** Reveals ineligible entries in the same position and style across collapsible lists. */
-@Composable
-internal fun IneligibleChoiceToggle(count: Int, shown: Boolean, toggle: () -> Unit) {
-    TextButton(toggle) {
-        Text(if (shown) "Hide ineligible" else "Show $count ineligible")
-    }
-}

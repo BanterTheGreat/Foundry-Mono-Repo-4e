@@ -22,8 +22,10 @@ stored as typographic `’`, matching the printed book.
 Known source gaps stay explicit: Hyper Beam does not state the action for each
 attack, Beam Shot and Power Fist have no target count, and Aspect of Srasama has no
 summoning range. Printed card order places a power's `Special` rule before its
-`Attack` line. Runtime path effects and builder package integration are not
-implemented.
+`Attack` line. The builder now compiles these paths into `modern4e.paths`, including their
+level-gated grants and supplementary rules. Combat effects remain manual.
+Neighboring class-path summaries are selectable in that package with explicit
+unimplemented coverage; their feature and power stat blocks have not been adapted.
 
 ```sh
 python3 src/modern4e/scripts/path_content.py

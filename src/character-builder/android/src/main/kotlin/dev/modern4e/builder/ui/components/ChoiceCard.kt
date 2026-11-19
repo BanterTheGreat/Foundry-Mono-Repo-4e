@@ -25,7 +25,8 @@ import dev.modern4e.builder.ui.theme.*
 internal fun ChoiceCard(
     title: String, chosen: Boolean, expanded: Boolean, enabled: Boolean, badge: String?, click: () -> Unit,
     compact: Boolean = false, titleColor: Color = Ink, viewed: Boolean = false,
-    badgeWidth: Dp? = null, badgeColor: Color? = null, content: @Composable ColumnScope.() -> Unit
+    badgeWidth: Dp? = null, badgeColor: Color? = null, trailingValue: String? = null,
+    content: @Composable ColumnScope.() -> Unit
 ) {
     Surface(Modifier.fillMaxWidth().clickable(enabled = enabled, onClick = click), color = if (chosen || viewed) Wash else Paper,
         border = BorderStroke(if (chosen) 2.dp else 1.dp, if (chosen || viewed) Accent else Line)) {
@@ -42,6 +43,9 @@ internal fun ChoiceCard(
                             fontSize = if (compact) 11.sp else TextUnit.Unspecified,
                             lineHeight = if (compact) 14.sp else TextUnit.Unspecified, color = Paper, textAlign = TextAlign.Center)
                     }
+                }
+                trailingValue?.let {
+                    Text(it, fontSize = 13.sp, color = Accent)
                 }
             }
             if (expanded || !enabled) { content() }

@@ -20139,6 +20139,4152 @@
       "subtitle": "Cleric Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power14305",
+      "title": "Bastion of Fanaticism",
+      "description": "As you attack, divine magic streams from you to your allies, giving them resistance to harmful attacks.",
+      "flavor": "As you attack, divine magic streams from you to your allies, giving them resistance to harmful attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14305",
+        "publication": "Published in Dragon Magazine 400.",
+        "rulesText": "Bastion of FanaticismCleric Attack 17\nAs you attack, divine magic streams from you to your allies, giving them resistance to harmful attacks.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nRequirement: You must use this power with a simple weapon.\nTarget: One creature\nAttack: Strength + 1 vs. AC\nHit: 3[W] + 3 + Strength modifier damage.\nWeapon: If you're wielding your weapon with both hands, you gain a +3 bonus to the damage roll.\nEffect: You and one ally within 3 squares of you take only half damage from any damage source, including ongoing damage, until the end of your next turn.\nPublished in Dragon Magazine 400."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength + 1 vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength + 1 vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + 3 + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Weapon",
+              "text": "If you're wielding your weapon with both hands, you gain a +3 bonus to the damage roll."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and one ally within 3 squares of you take only half damage from any damage source, including ongoing damage, until the end of your next turn."
+            }
+          ],
+          "requirement": "You must use this power with a simple weapon.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power902",
+      "title": "Blinding Light",
+      "description": "You utter a brief prayer, and a brilliant nimbus of golden light surrounds your weapon, blinding your enemy on impact.",
+      "flavor": "You utter a brief prayer, and a brilliant nimbus of golden light surrounds your weapon, blinding your enemy on impact.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power902",
+        "publication": "Published in Player's Handbook, page(s) 69, Class Compendium.",
+        "rulesText": "Blinding LightCleric Attack 17\nYou utter a brief prayer, and a brilliant nimbus of golden light surrounds your weapon, blinding your enemy on impact.\nEncounter   ✦     Divine, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Fortitude\nHit: 2[W] + Strength modifier radiant damage, and the target is blinded until the end of your next turn.\nPublished in Player's Handbook, page(s) 69, Class Compendium."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength radiant damage, and the target is blinded until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power14254",
+      "title": "Brilliant Idea",
+      "description": "As you visualize your victory, a divine radiance bursts forth from you to sear the eyes of your nearby foes and uplift your friends.",
+      "flavor": "As you visualize your victory, a divine radiance bursts forth from you to sear the eyes of your nearby foes and uplift your friends.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14254",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 59.",
+        "rulesText": "Brilliant IdeaCleric Attack 17\nAs you visualize your victory, a divine radiance bursts forth from you to sear the eyes of your nearby foes and uplift your friends.\nEncounter   ✦     Divine\nStandard Action      Close burst 1\nTarget: Each enemy in the burst\nEffect: Each target is blinded until the end of your next turn, and each ally within 5 squares of you can make a saving throw.\nPublished in Neverwinter Campaign Setting, page(s) 59."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each target is blinded until the end of your next turn, and each ally within 5 squares of you can make a saving throw."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power13948",
+      "title": "Death's Call",
+      "description": "You summon up a burst of divine power, granting resilience to your allies as you drive your foes closer to their doom.",
+      "flavor": "You summon up a burst of divine power, granting resilience to your allies as you drive your foes closer to their doom.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13948",
+        "publication": "Published in Heroes of Shadow, page(s) 89.",
+        "rulesText": "Death's CallCleric Attack 17\nYou summon up a burst of divine power, granting resilience to your allies as you drive your foes closer to their doom.\nEncounter   ✦     Divine, Implement, Psychic, Shadow\nImmediate Reaction      Close burst 5\nTrigger: A creature within 5 squares of you drops to 0 hit points.\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Fortitude\nHit: 2d8 + Wisdom modifier psychic damage.\nEffect: You and each ally in the burst gain a +2 power bonus to attack rolls until the end of your next turn, and gain 10 temporary hit points.\nPublished in Heroes of Shadow, page(s) 89."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "PSYCHIC",
+        "SHADOW"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom psychic damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and each ally in the burst gain a +2 power bonus to attack rolls until the end of your next turn, and gain 10 temporary hit points."
+            }
+          ],
+          "trigger": "A creature within 5 squares of you drops to 0 hit points.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power16425",
+      "title": "Demand Obedience",
+      "description": "You brandish your weapon and utter a word of command, forcing enemies to cower and spurring allies to move.",
+      "flavor": "You brandish your weapon and utter a word of command, forcing enemies to cower and spurring allies to move.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power16425",
+        "publication": "Published in Dragon Magazine 409.",
+        "rulesText": "Demand ObedienceCleric Attack 17\nYou brandish your weapon and utter a word of command, forcing enemies to cower and spurring allies to move.\nEncounter   ✦     Divine, Fear, Shadow, Weapon\nStandard Action      Close burst 1\nTarget: Each enemy in the burst\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier damage, and the target falls prone. Until the end of your next turn, the target provokes opportunity attacks whenever it stands up.\nEffect: Each ally within 5 squares of you can shift up to 3 squares as a free action.\nPublished in Dragon Magazine 409."
+      },
+      "keywords": [
+        "DIVINE",
+        "FEAR",
+        "SHADOW",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Wisdom damage, and the target falls prone. Until the end of your next turn, the target provokes opportunity attacks whenever it stands up."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each ally within 5 squares of you can shift up to 3 squares as a free action."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power7891",
+      "title": "Divine Phalanx",
+      "description": "As you attack, divine trumpets sound, and your allies rally to your side. Together, you are all stronger.",
+      "flavor": "As you attack, divine trumpets sound, and your allies rally to your side. Together, you are all stronger.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7891",
+        "publication": "Published in Divine Power, page(s) 38.",
+        "rulesText": "Divine PhalanxCleric Attack 17\nAs you attack, divine trumpets sound, and your allies rally to your side. Together, you are all stronger.\nEncounter   ✦     Divine, Radiant, Teleportation, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier radiant damage.\nEffect: You teleport each ally within 10 squares of you to a square adjacent to you. Each ally you teleport gains a +2 power bonus to AC and to attack rolls until the end of your next turn.\nPublished in Divine Power, page(s) 38."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "TELEPORTATION",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength radiant damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport each ally within 10 squares of you to a square adjacent to you. Each ally you teleport gains a +2 power bonus to AC and to attack rolls until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power904",
+      "title": "Enthrall",
+      "description": "You recite a verse from an ancient holy text. The power of those words wounds your enemies and hampers their attacks against you.",
+      "flavor": "You recite a verse from an ancient holy text. The power of those words wounds your enemies and hampers their attacks against you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power904",
+        "publication": "Published in Player's Handbook, page(s) 69, Class Compendium.",
+        "rulesText": "EnthrallCleric Attack 17\nYou recite a verse from an ancient holy text. The power of those words wounds your enemies and hampers their attacks against you.\nEncounter   ✦     Charm, Divine, Implement, Psychic\nStandard Action      Area burst 1 within 10 squares\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Will\nHit: 2d10 + Wisdom modifier psychic damage. Until the end of your next turn, the target is immobilized and cannot attack you.\nUpdate (4/25/2011)\nUpdated to match Class Compendium.\nPublished in Player's Handbook, page(s) 69, Class Compendium."
+      },
+      "keywords": [
+        "CHARM",
+        "DIVINE",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom psychic damage. Until the end of your next turn, the target is immobilized and cannot attack you."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power14267",
+      "title": "Gleaming Strike",
+      "description": "A silvery gleam envelops you and your allies as you strike a blow against your foe.",
+      "flavor": "A silvery gleam envelops you and your allies as you strike a blow against your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14267",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 62.",
+        "rulesText": "Gleaming StrikeCleric Attack 17\nA silvery gleam envelops you and your allies as you strike a blow against your foe.\nEncounter   ✦     Divine, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier radiant damage.\nEffect: You and each ally adjacent to the target gain resist 5 to all damage until the end of your next turn.\nPublished in Neverwinter Campaign Setting, page(s) 62."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom radiant damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and each ally adjacent to the target gain resist 5 to all damage until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power7892",
+      "title": "Halo of Peace",
+      "description": "You slam your weapon into your foe and enfold it in brilliant energy that hampers its attacks.",
+      "flavor": "You slam your weapon into your foe and enfold it in brilliant energy that hampers its attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7892",
+        "publication": "Published in Divine Power, page(s) 38.",
+        "rulesText": "Halo of PeaceCleric Attack 17\nYou slam your weapon into your foe and enfold it in brilliant energy that hampers its attacks.\nEncounter   ✦     Divine, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier radiant damage. Until the end of your next turn, the target takes a -4 penalty to attack rolls and cannot make opportunity attacks.\nPublished in Divine Power, page(s) 38."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength radiant damage. Until the end of your next turn, the target takes a -4 penalty to attack rolls and cannot make opportunity attacks."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power14241",
+      "title": "Harmony of Blades",
+      "description": "Your weapon starts the song, and as your allies make their attacks, your magic guarantees that the foe will be struck.",
+      "flavor": "Your weapon starts the song, and as your allies make their attacks, your magic guarantees that the foe will be struck.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14241",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 56.",
+        "rulesText": "Harmony of BladesCleric Attack 17\nYour weapon starts the song, and as your allies make their attacks, your magic guarantees that the foe will be struck.\nEncounter   ✦     Divine, Force, Weapon\nStandard Action      Melee or Ranged weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier force damage.\nEffect: The next time you or an ally misses the target with an attack before the start of your next turn, the target takes 5 force damage.\nPublished in Neverwinter Campaign Setting, page(s) 56."
+      },
+      "keywords": [
+        "DIVINE",
+        "FORCE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom force damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The next time you or an ally misses the target with an attack before the start of your next turn, the target takes 5 force damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power14281",
+      "title": "Honorable Challenge",
+      "description": "Your weapon glows as you challenge your enemy to strike at you alone or face the consequences.",
+      "flavor": "Your weapon glows as you challenge your enemy to strike at you alone or face the consequences.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14281",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 65.",
+        "rulesText": "Honorable ChallengeCleric Attack 17\nYour weapon glows as you challenge your enemy to strike at you alone or face the consequences.\nEncounter   ✦     Divine, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier radiant damage.\nEffect: Any ally of yours adjacent to the target can shift up to 2 squares as a free action, as long as he or she ends the shift not adjacent to the target. In addition, if the target willingly attacks any of your allies before the end of your next turn, it is blinded until the end of its next turn.\nPublished in Neverwinter Campaign Setting, page(s) 65."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Wisdom radiant damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Any ally of yours adjacent to the target can shift up to 2 squares as a free action, as long as he or she ends the shift not adjacent to the target. In addition, if the target willingly attacks any of your allies before the end of your next turn, it is blinded until the end of its next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power6942",
+      "title": "Life-Stealing Light",
+      "description": "A burst of light from your soul draws energy from your enemies as you exhort your allies to take their lives. Each death of your foes brings greater glory.",
+      "flavor": "A burst of light from your soul draws energy from your enemies as you exhort your allies to take their lives. Each death of your foes brings greater glory.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6942",
+        "publication": "Published in Dragon Magazine 372, page(s) 22.",
+        "rulesText": "Life-Stealing LightCleric Attack 17\nA burst of light from your soul draws energy from your enemies as you exhort your allies to take their lives. Each death of your foes brings greater glory.\nEncounter   ✦     Divine, Healing, Implement, Necrotic\nStandard Action      Close burst 3\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Will\nHit: 3d6 + Wisdom modifier necrotic damage, and if the target is reduced to 0 hit points or fewer by you or one of your allies before the end of your next turn, the creature that killed the target heals 3 hit points.\nPublished in Dragon Magazine 372, page(s) 22."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "IMPLEMENT",
+        "NECROTIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom necrotic damage, and if the target is reduced to 0 hit points or fewer by you or one of your allies before the end of your next turn, the creature that killed the target heals 3 hit points."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power3624",
+      "title": "Malediction",
+      "description": "Your enemy is crippled by the terrible curse you pronounce against it.",
+      "flavor": "Your enemy is crippled by the terrible curse you pronounce against it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3624",
+        "publication": "Published in Divine Power, page(s) 38.",
+        "rulesText": "MaledictionCleric Attack 17\nYour enemy is crippled by the terrible curse you pronounce against it.\nEncounter   ✦     Divine, Implement\nStandard Action      Ranged 5\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: The target is weakened and dazed until the end of your next turn.\nPublished in Divine Power, page(s) 38."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target is weakened and dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power13716",
+      "title": "Obsidian Shield (Cleric)",
+      "description": "A shield of gleaming black rock slams into your enemies with brutal force, then shatters into tiny shards that protect your allies and seek out enemy weak points.",
+      "flavor": "A shield of gleaming black rock slams into your enemies with brutal force, then shatters into tiny shards that protect your allies and seek out enemy weak points.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13716",
+        "publication": "Published in Dragon Magazine 392.",
+        "rulesText": "Obsidian Shield (Cleric)Cleric Attack 17\nA shield of gleaming black rock slams into your enemies with brutal force, then shatters into tiny shards that protect your allies and seek out enemy weak points.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 2[W] + Wisdom modifier damage and slide the target 3 squares.\nEffect: You create a zone in a blast 3 that lasts until the end of your next turn. While in the zone, you and your allies gain resist 5 to all damage. You and your allies gain a +5 power bonus to damage rolls against enemies in the zone.\nPublished in Dragon Magazine 392."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Wisdom damage and slide the target 3 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You create a zone in a blast 3 that lasts until the end of your next turn. While in the zone, you and your allies gain resist 5 to all damage. You and your allies gain a +5 power bonus to damage rolls against enemies in the zone."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power12415",
+      "title": "Prescient Boon",
+      "description": "You manipulate fate so that you and your allies become the rewarded instruments of prophecy for a time.",
+      "flavor": "You manipulate fate so that you and your allies become the rewarded instruments of prophecy for a time.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12415",
+        "publication": "Published in Dragon Magazine 386, page(s) 40.",
+        "rulesText": "Prescient BoonCleric Attack 17\nYou manipulate fate so that you and your allies become the rewarded instruments of prophecy for a time.\nEncounter   ✦     Divine, Implement\nStandard Action      Ranged 5\nTarget: One enemy\nAttack: Wisdom vs. Will\nHit: Until the end of your next turn, each of your allies can roll twice on the first attack he or she makes on his or her turn against the target. If both attack rolls hit, the target takes extra damage equal to 5 + your Charisma modifier.\nPublished in Dragon Magazine 386, page(s) 40."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "Until the end of your next turn, each of your allies can roll twice on the first attack he or she makes on his or her turn against the target. If both attack rolls hit, the target takes extra damage equal to 5 + your Charisma."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power316",
+      "title": "Sentinel Strike",
+      "description": "You imbue your weapon with divine power and then strike. Your foe is overcome by the power of your god, foiling its attacks against a chosen ally.",
+      "flavor": "You imbue your weapon with divine power and then strike. Your foe is overcome by the power of your god, foiling its attacks against a chosen ally.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power316",
+        "publication": "Published in Player's Handbook, page(s) 69, Class Compendium.",
+        "rulesText": "Sentinel StrikeCleric Attack 17\nYou imbue your weapon with divine power and then strike. Your foe is overcome by the power of your god, foiling its attacks against a chosen ally.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage. Choose one ally within 5 squares of you. Until the end of your next turn, the damage of the target's attacks against that ally is reduced to 0.\nPublished in Player's Handbook, page(s) 69, Class Compendium."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage. Choose one ally within 5 squares of you. Until the end of your next turn, the damage of the target's attacks against that ally is reduced to 0."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power7111",
+      "title": "Sever the Source",
+      "description": "A gleaming rune of anathema appears on your enemy, cutting it off from divine blessings.",
+      "flavor": "A gleaming rune of anathema appears on your enemy, cutting it off from divine blessings.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7111",
+        "publication": "Published in Divine Power, page(s) 38.",
+        "rulesText": "Sever the SourceCleric Attack 17\nA gleaming rune of anathema appears on your enemy, cutting it off from divine blessings.\nEncounter   ✦     Divine\nStandard Action      Ranged 5\nTarget: One creature\nEffect: Until the end of your next turn, the target gains vulnerability to all damage equal to 10 + your Wisdom modifier and cannot regain hit points.\nPublished in Divine Power, page(s) 38."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, the target gains vulnerability to all damage equal to 10 + your Wisdom and cannot regain hit points."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power7112",
+      "title": "Starry Snare",
+      "description": "You weave a net of astral light, which imprisons your foe in glittering strands.",
+      "flavor": "You weave a net of astral light, which imprisons your foe in glittering strands.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7112",
+        "publication": "Published in Divine Power, page(s) 38.",
+        "rulesText": "Starry SnareCleric Attack 17\nYou weave a net of astral light, which imprisons your foe in glittering strands.\nEncounter   ✦     Divine, Implement, Radiant\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 3d8 + Wisdom modifier radiant damage. Until the end of your next turn, the target is immobilized, cannot teleport, and does not benefit from being insubstantial.\nPublished in Divine Power, page(s) 38."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Wisdom radiant damage. Until the end of your next turn, the target is immobilized, cannot teleport, and does not benefit from being insubstantial."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power12656",
+      "title": "Strength of the Sun",
+      "description": "Radiant light blazes from your weapon, searing your foe and healing you and a friend.",
+      "flavor": "Radiant light blazes from your weapon, searing your foe and healing you and a friend.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12656",
+        "publication": "Published in Heroes of the Fallen Lands, page(s) 120.",
+        "rulesText": "Strength of the SunCleric Attack 17\nRadiant light blazes from your weapon, searing your foe and healing you and a friend.\nEncounter   ✦     Divine, Healing, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier radiant damage.\nEffect: You and one ally within 10 squares of you can spend a healing surge.\nPublished in Heroes of the Fallen Lands, page(s) 120."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom radiant damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and one ally within 10 squares of you can spend a healing surge."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power903",
+      "title": "Thunderous Word",
+      "description": "You shout a word of power that thrusts your enemies back while allowing your allies to reposition themselves.",
+      "flavor": "You shout a word of power that thrusts your enemies back while allowing your allies to reposition themselves.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power903",
+        "publication": "Published in Player's Handbook, page(s) 69, Class Compendium.",
+        "rulesText": "Thunderous WordCleric Attack 17\nYou shout a word of power that thrusts your enemies back while allowing your allies to reposition themselves.\nEncounter   ✦     Divine, Implement, Thunder\nStandard Action      Close blast 5\nTarget: Each enemy in the blast\nAttack: Wisdom vs. Reflex\nHit: 3d6 + Wisdom modifier thunder damage, and you push the target a number of squares up to 3 + your Charisma modifier.\nEffect: Each ally in the blast can shift 1 square as a free action.\nPublished in Player's Handbook, page(s) 69, Class Compendium."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom thunder damage, and you push the target a number of squares up to 3 + your Charisma."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each ally in the blast can shift 1 square as a free action."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power14306",
+      "title": "Violence Betrayed",
+      "description": "You twirl your weapon above your head, generating a wave of divine energy that smites your foes and marks them for death.",
+      "flavor": "You twirl your weapon above your head, generating a wave of divine energy that smites your foes and marks them for death.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14306",
+        "publication": "Published in Dragon Magazine 400.",
+        "rulesText": "Violence BetrayedCleric Attack 17\nYou twirl your weapon above your head, generating a wave of divine energy that smites your foes and marks them for death.\nEncounter   ✦     Divine, Radiant, Weapon\nStandard Action      Close burst 2\nTarget: Each enemy in the burst\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier radiant damage, and the target is dazed until the end of your next turn.\nWeapon: If you're wielding a simple weapon, the attack deals 1d6 extra radiant damage.\nEffect: You and each ally in the burst gain a +5 bonus to damage rolls against dazed targets until the end of your next turn.\nPublished in Dragon Magazine 400."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 2"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength radiant damage, and the target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Weapon",
+              "text": "If you're wielding a simple weapon, the attack deals 1d6 extra radiant damage."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and each ally in the burst gain a +5 bonus to damage rolls against dazed targets until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power12643",
+      "title": "Winds of Fury",
+      "description": "As you slam your weapon down, thunder roars over your enemies, and a howling gale scatters them, while carrying your allies to safety.",
+      "flavor": "As you slam your weapon down, thunder roars over your enemies, and a howling gale scatters them, while carrying your allies to safety.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12643",
+        "publication": "Published in Heroes of the Fallen Lands, page(s) 114.",
+        "rulesText": "Winds of FuryCleric Attack 17\nAs you slam your weapon down, thunder roars over your enemies, and a howling gale scatters them, while carrying your allies to safety.\nEncounter   ✦     Divine, Thunder, Weapon\nStandard Action      Close blast 3\nTarget: Each enemy in the blast\nAttack: Wisdom vs. Fortitude\nHit: 2[W] + Wisdom modifier thunder damage, and you push the target up to 2 squares and knock it prone.\nEffect: You slide each ally within 5 squares of you up to 3 squares.\nPublished in Heroes of the Fallen Lands, page(s) 114."
+      },
+      "keywords": [
+        "DIVINE",
+        "THUNDER",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Wisdom thunder damage, and you push the target up to 2 squares and knock it prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You slide each ally within 5 squares of you up to 3 squares."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power7113",
+      "title": "Beacon of Doom",
+      "description": "With a resounding strike, you denounce your enemy. It crumples under a flurry of attacks from your friends.",
+      "flavor": "With a resounding strike, you denounce your enemy. It crumples under a flurry of attacks from your friends.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7113",
+        "publication": "Published in Divine Power, page(s) 39.",
+        "rulesText": "Beacon of DoomCleric Attack 19\nWith a resounding strike, you denounce your enemy. It crumples under a flurry of attacks from your friends.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: The target takes a -4 penalty to all defenses (save ends).\nEach Failed Saving Throw: One ally within 10 squares of the target can make a basic attack against it as a free action.\nAftereffect: Each ally within 5 squares of the target can make a basic attack against it as a free action.\nPublished in Divine Power, page(s) 39."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      },
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Each Failed Saving Throw",
+                        "text": "One ally within 10 squares of the target can make a basic attack against it as a free action."
+                      },
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Aftereffect",
+                        "text": "Each ally within 5 squares of the target can make a basic attack against it as a free action."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes a -4 penalty to all defenses (save ends)."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power10091",
+      "title": "Breath of the Raven Queen",
+      "description": "You release the Raven Queen's breath to assail your enemies, binding them in black ice to leach strength from their bodies and their souls.",
+      "flavor": "You release the Raven Queen's breath to assail your enemies, binding them in black ice to leach strength from their bodies and their souls.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10091",
+        "publication": "Published in Dragon Magazine 380, page(s) 61.",
+        "rulesText": "Breath of the Raven QueenCleric Attack 19\nYou release the Raven Queen's breath to assail your enemies, binding them in black ice to leach strength from their bodies and their souls.\nDaily   ✦     Cold, Divine, Implement, Necrotic\nStandard Action      Close blast 5\nTarget: Each creature in the blast\nAttack: Strength or Wisdom vs. Fortitude\nHit: 3d6 + Wisdom modifier cold damage, and the target is immobilized (save ends).\nFirst Failed Saving Throw: The target is restrained instead of immobilized (save ends).\nSecond Failed Saving Throw: The target also takes ongoing 10 necrotic damage (save ends).\nMiss: 3d6 cold damage.\nPublished in Dragon Magazine 380, page(s) 61."
+      },
+      "keywords": [
+        "COLD",
+        "DIVINE",
+        "IMPLEMENT",
+        "NECROTIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength or Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength or Wisdom vs. Fortitude"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom cold damage, and the target is immobilized (save ends)."
+                      },
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "First Failed Saving Throw",
+                        "text": "The target is restrained instead of immobilized (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "3d6 cold damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Second Failed Saving Throw",
+              "text": "The target also takes ongoing 10 necrotic damage (save ends)."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power937",
+      "title": "Fire Storm",
+      "description": "A roiling cloud of fire scours your foes, lingering until you allow it to burn itself out.",
+      "flavor": "A roiling cloud of fire scours your foes, lingering until you allow it to burn itself out.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power937",
+        "publication": "Published in Player's Handbook, page(s) 69, Class Compendium.",
+        "rulesText": "Fire StormCleric Attack 19\nA roiling cloud of fire scours your foes, lingering until you allow it to burn itself out.\nDaily   ✦     Divine, Fire, Implement, Zone\nStandard Action      Area burst 3 within 10 squares\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Reflex\nHit: 3d10 + Wisdom modifier fire damage.\nMiss: Half damage.\nEffect: The burst creates a zone that lasts until the end of your next turn. Any enemy that ends its turn in the zone takes 1d10 + your Wisdom modifier fire damage.\nSustain Minor: The zone persists until the end of your next turn.\nUpdate (4/25/2011)\nUpdated to match Class Compendium.\nPublished in Player's Handbook, page(s) 69, Class Compendium."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "IMPLEMENT",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 3 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 3 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Wisdom fire damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone that lasts until the end of your next turn. Any enemy that ends its turn in the zone takes 1d10 + your Wisdom fire damage."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power12627",
+      "title": "Gaze of the Sun",
+      "description": "You create a pulse of divine light from your weapon. No foe can hide within its brilliance.",
+      "flavor": "You create a pulse of divine light from your weapon. No foe can hide within its brilliance.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12627",
+        "publication": "Published in Heroes of the Fallen Lands, page(s) 103.",
+        "rulesText": "Gaze of the SunCleric Attack 19\nYou create a pulse of divine light from your weapon. No foe can hide within its brilliance.\nDaily   ✦     Divine, Radiant, Weapon\nStandard Action      Close blast 5\nTarget: Each creature in the blast\nAttack: Wisdom vs. Reflex\nHit: Ongoing 20 radiant damage (save ends).\nMiss: Ongoing 10 radiant damage (save ends).\nEffect: Until the ongoing damage ends on a target, that target cannot benefit from concealment, invisibility, or being hidden.\nPublished in Heroes of the Fallen Lands, page(s) 103."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "Ongoing 20 radiant damage (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Ongoing 10 radiant damage (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the ongoing damage ends on a target, that target cannot benefit from concealment, invisibility, or being hidden."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power11624",
+      "title": "Greater Augment of War",
+      "description": "The power of your deity flows through an ally's weapon and creates lethargy within any foe the weapon strikes.",
+      "flavor": "The power of your deity flows through an ally's weapon and creates lethargy within any foe the weapon strikes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11624",
+        "publication": "Published in Dragon Magazine 384, page(s) 49.",
+        "rulesText": "Greater Augment of WarCleric Attack 19\nThe power of your deity flows through an ally's weapon and creates lethargy within any foe the weapon strikes.\nDaily   ✦     Divine\nMinor Action      Melee touch\nTarget: One ally's weapon\nEffect: Until the end of the encounter, all attacks made with this weapon deal extra damage equal to 5 + your Strength modifier. When the weapon hits an enemy, that enemy is slowed and grants combat advantage to you until the start of the wielder's next turn.\nPublished in Dragon Magazine 384, page(s) 49."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One ally's weapon"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, all attacks made with this weapon deal extra damage equal to 5 + your Strength. When the weapon hits an enemy, that enemy is slowed and grants combat advantage to you until the start of the wielder's next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power936",
+      "title": "Holy Wrath",
+      "description": "You bring down the wrath of your god upon your foes in a burst of furious light that shines from your weapon. It scours your enemies even as it fortifies you.",
+      "flavor": "You bring down the wrath of your god upon your foes in a burst of furious light that shines from your weapon. It scours your enemies even as it fortifies you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power936",
+        "publication": "Published in Player's Handbook, page(s) 69, Class Compendium.",
+        "rulesText": "Holy WrathCleric Attack 19\nYou bring down the wrath of your god upon your foes in a burst of furious light that shines from your weapon. It scours your enemies even as it fortifies you.\nDaily   ✦     Divine, Healing, Radiant, Weapon\nStandard Action      Close burst 3\nTarget: Each enemy in the burst\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier radiant damage.\nEffect: Until the end of the encounter, you gain regeneration 10 while you are bloodied and a +2 power bonus to attack rolls.\nUpdate (4/25/2011)\nUpdated to match Class Compendium.\nPublished in Player's Handbook, page(s) 69, Class Compendium."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength radiant damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, you gain regeneration 10 while you are bloodied and a +2 power bonus to attack rolls."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power938",
+      "title": "Indomitable Spirit",
+      "description": "The divine power of your mighty attack fortifies your allies.",
+      "flavor": "The divine power of your mighty attack fortifies your allies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power938",
+        "publication": "Published in Player's Handbook, page(s) 69, Class Compendium.",
+        "rulesText": "Indomitable SpiritCleric Attack 19\nThe divine power of your mighty attack fortifies your allies.\nDaily   ✦     Divine, Healing, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: You and each ally within 5 squares of you regain hit points as if you had each spent a healing surge.\nPublished in Player's Handbook, page(s) 69, Class Compendium."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and each ally within 5 squares of you regain hit points as if you had each spent a healing surge."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power935",
+      "title": "Knight of Glory",
+      "description": "You conjure a ghostly warrior clad in the ceremonial armor of your faith. With sword in hand, it attacks your enemies.",
+      "flavor": "You conjure a ghostly warrior clad in the ceremonial armor of your faith. With sword in hand, it attacks your enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power935",
+        "publication": "Published in Player's Handbook, page(s) 69, Class Compendium.",
+        "rulesText": "Knight of GloryCleric Attack 19\nYou conjure a ghostly warrior clad in the ceremonial armor of your faith. With sword in hand, it attacks your enemies.\nDaily   ✦     Conjuration, Divine, Implement\nStandard Action      Ranged 10\nEffect: You conjure a ghostly knight that occupies 1 square within range, and the knight makes the following melee attack. The knight lasts until the end of your next turn. You can move it up to 5 squares as a move action.\nTarget: One creature adjacent to the ghostly knight\nAttack: Wisdom vs. AC\nHit: 3d10 + Wisdom modifier damage.\nSustain Minor: The knight persists, and it repeats the attack.\nUpdate (4/25/2011)\nUpdated to match Class Compendium.\nPublished in Player's Handbook, page(s) 69, Class Compendium."
+      },
+      "keywords": [
+        "CONJURATION",
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature adjacent to the ghostly knight"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You conjure a ghostly knight that occupies 1 square within range, and the knight makes the following melee attack. The knight lasts until the end of your next turn. You can move it up to 5 squares as a move action."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The knight persists, and it repeats the attack."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power7893",
+      "title": "Miraculous Intervention",
+      "description": "Your ally is overcome, but you buy time to restore that companion's health.",
+      "flavor": "Your ally is overcome, but you buy time to restore that companion's health.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7893",
+        "publication": "Published in Divine Power, page(s) 39.",
+        "rulesText": "Miraculous InterventionCleric Attack 19\nYour ally is overcome, but you buy time to restore that companion's health.\nDaily   ✦     Divine, Healing, Implement\nImmediate Reaction      Ranged 5\nTrigger: An ally within 5 squares of you drops to 0 hit points or fewer\nPrimary Target: The triggering ally\nEffect: The primary target regains hit points as if he or she had spent a healing surge. Make a secondary attack that is an area burst 2 centered on the primary target.\nSecondary Target: Each enemy in the burst\nAttack: Wisdom vs. Will\nHit: The secondary target is stunned (save ends).\nPublished in Divine Power, page(s) 39."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The triggering ally"
+            },
+            "targets-4": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The primary target regains hit points as if he or she had spent a healing surge. Make a secondary attack that is an area burst 2 centered on the primary target."
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "Each enemy in the burst"
+            },
+            {
+              "id": "row-5",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-4",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The secondary target is stunned (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "trigger": "An ally within 5 squares of you drops to 0 hit points or fewer",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power7114",
+      "title": "Moment of Peace",
+      "description": "A wave of tranquility washes over your foes, rendering them harmless for a critical moment.",
+      "flavor": "A wave of tranquility washes over your foes, rendering them harmless for a critical moment.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7114",
+        "publication": "Published in Divine Power, page(s) 39.",
+        "rulesText": "Moment of PeaceCleric Attack 19\nA wave of tranquility washes over your foes, rendering them harmless for a critical moment.\nDaily   ✦     Divine, Implement\nStandard Action      Close blast 5\nTarget: Each enemy in the blast\nAttack: Wisdom vs. Will\nHit: The target's attacks deal no damage (save ends).\nMiss: The target's attacks deal no damage until the end of your next turn.\nPublished in Divine Power, page(s) 39."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target's attacks deal no damage (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "The target's attacks deal no damage until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power6943",
+      "title": "Necrotic Transference",
+      "description": "You swathe your weapon in necromantic energy, draining the life from an enemy and transferring it to your ally.",
+      "flavor": "You swathe your weapon in necromantic energy, draining the life from an enemy and transferring it to your ally.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6943",
+        "publication": "Published in Dragon Magazine 372, page(s) 22.",
+        "rulesText": "Necrotic TransferenceCleric Attack 19\nYou swathe your weapon in necromantic energy, draining the life from an enemy and transferring it to your ally.\nDaily   ✦     Divine, Necrotic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Will\nHit: 4[W] + Charisma modifier necrotic damage and one ally within 10 squares of you regains one healing surge.\nMiss: Half damage.\nPublished in Dragon Magazine 372, page(s) 22."
+      },
+      "keywords": [
+        "DIVINE",
+        "NECROTIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Charisma necrotic damage and one ally within 10 squares of you regains one healing surge."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power7115",
+      "title": "Realm of Battle",
+      "description": "You sweep your weapon through the air and call out for divine aid. A flock of angels soars through the sky to surround you, driving back the enemy.",
+      "flavor": "You sweep your weapon through the air and call out for divine aid. A flock of angels soars through the sky to surround you, driving back the enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7115",
+        "publication": "Published in Divine Power, page(s) 39.",
+        "rulesText": "Realm of BattleCleric Attack 19\nYou sweep your weapon through the air and call out for divine aid. A flock of angels soars through the sky to surround you, driving back the enemy.\nDaily   ✦     Divine, Radiant, Weapon, Zone\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier radiant damage.\nMiss: Half damage.\nEffect: The attack creates a zone of angelic soldiers in a close burst 3. The zone lasts until the end of the encounter. While within the zone, you and your allies gain a +1 power bonus to AC and attack rolls. While within the zone, any enemy takes 5 radiant damage at the start of its turn and provokes opportunity attacks when it shifts.\nPublished in Divine Power, page(s) 39."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength radiant damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The attack creates a zone of angelic soldiers in a close burst 3. The zone lasts until the end of the encounter. While within the zone, you and your allies gain a +1 power bonus to AC and attack rolls. While within the zone, any enemy takes 5 radiant damage at the start of its turn and provokes opportunity attacks when it shifts."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power13934",
+      "title": "Shackles of the Grave",
+      "description": "A blast of black energy washes over nearby creatures, marking their souls as your divine property.",
+      "flavor": "A blast of black energy washes over nearby creatures, marking their souls as your divine property.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13934",
+        "publication": "Published in Heroes of Shadow, page(s) 84.",
+        "rulesText": "Shackles of the GraveCleric Attack 19\nA blast of black energy washes over nearby creatures, marking their souls as your divine property.\nDaily   ✦     Divine, Implement, Necrotic, Shadow, Zone\nStandard Action      Close blast 5\nTarget: Each creature in the blast\nAttack: Wisdom vs. Fortitude\nHit: 5d6 + Wisdom modifier necrotic damage.\nMiss: Half damage.\nEffect: The blast creates a zone that lasts until the end of the encounter. The first time any enemy dies in the zone before the end of the encounter, it rises at the start of its next turn as an undead creature allied with you and your allies. Until it dies again, the creature is dominated by you. It has 1 hit point (the creature takes no damage from an attack that misses), no healing surges, and a -2 penalty to all defenses.\nPublished in Heroes of Shadow, page(s) 84."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "NECROTIC",
+        "SHADOW",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5d6 + Wisdom necrotic damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The blast creates a zone that lasts until the end of the encounter. The first time any enemy dies in the zone before the end of the encounter, it rises at the start of its next turn as an undead creature allied with you and your allies. Until it dies again, the creature is dominated by you. It has 1 hit point (the creature takes no damage from an attack that misses), no healing surges, and a -2 penalty to all defenses."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power3672",
+      "title": "Supernal Radiance",
+      "description": "You create a pulse of light that gleams with divine clarity. No foe can hide within its brilliance.",
+      "flavor": "You create a pulse of light that gleams with divine clarity. No foe can hide within its brilliance.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3672",
+        "publication": "Published in Divine Power, page(s) 40.",
+        "rulesText": "Supernal RadianceCleric Attack 19\nYou create a pulse of light that gleams with divine clarity. No foe can hide within its brilliance.\nDaily   ✦     Divine, Implement, Radiant\nStandard Action      Close burst 5\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Will\nHit: 2d10 + Wisdom modifier radiant damage.\nEffect: The target takes ongoing 10 radiant damage, cannot benefit from invisibility or concealment, and cannot become hidden (save ends all).\nPublished in Divine Power, page(s) 40."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom radiant damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes ongoing 10 radiant damage, cannot benefit from invisibility or concealment, and cannot become hidden (save ends all)."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power12628",
+      "title": "Unconquerable Spirit",
+      "description": "Filled with the divine power of ancient heroes, you strike, and your attack fortifies you and your companions.",
+      "flavor": "Filled with the divine power of ancient heroes, you strike, and your attack fortifies you and your companions.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12628",
+        "publication": "Published in Heroes of the Fallen Lands, page(s) 103.",
+        "rulesText": "Unconquerable SpiritCleric Attack 19\nFilled with the divine power of ancient heroes, you strike, and your attack fortifies you and your companions.\nDaily   ✦     Divine, Healing, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage.\nMiss: Half damage.\nEffect: You and each ally within 5 squares of you regain hit points as if you had each spent a healing surge.\nPublished in Heroes of the Fallen Lands, page(s) 103."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and each ally within 5 squares of you regain hit points as if you had each spent a healing surge."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.cleric-power12629",
+      "title": "Wrathful Judgment",
+      "description": "You place a baleful mark of retribution upon your enemy, dooming it to feel the pain it inflicts on others.",
+      "flavor": "You place a baleful mark of retribution upon your enemy, dooming it to feel the pain it inflicts on others.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12629",
+        "publication": "Published in Heroes of the Fallen Lands, page(s) 103.",
+        "rulesText": "Wrathful JudgmentCleric Attack 19\nYou place a baleful mark of retribution upon your enemy, dooming it to feel the pain it inflicts on others.\nDaily   ✦     Divine\nStandard Action      Melee 1\nTarget: One creature\nEffect: Until the end of the encounter, whenever the target damages one of your allies, you can use an immediate reaction to deal half that damage to the target. This damage ignores the target's immunities and resistances.\nPublished in Heroes of the Fallen Lands, page(s) 103."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever the target damages one of your allies, you can use an immediate reaction to deal half that damage to the target. This damage ignores the target's immunities and resistances."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Cleric Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

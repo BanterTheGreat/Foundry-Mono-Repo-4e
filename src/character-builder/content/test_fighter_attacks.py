@@ -20,11 +20,11 @@ class FighterAttacksTest(unittest.TestCase):
         cls.powers = json.loads((class_runtime.authoring.CONTENT / "fighter-attack-powers.json").read_text(encoding="utf-8"))["powers"]
         cls.by_source = {p["source"]["entryId"]: p for p in cls.powers}
 
-    def test_complete_level_fifteen_boundary_and_independent_identities(self):
-        self.assertEqual(174, len(self.powers))
-        self.assertEqual(174, len({p["id"] for p in self.powers}))
+    def test_complete_level_nineteen_boundary_and_independent_identities(self):
+        self.assertEqual(211, len(self.powers))
+        self.assertEqual(211, len({p["id"] for p in self.powers}))
         self.assertEqual({row["ID"] for row in migration.source_rows()}, set(self.by_source))
-        self.assertEqual({1, 3, 5, 7, 9, 13, 15}, {p["level"] for p in self.powers})
+        self.assertEqual({1, 3, 5, 7, 9, 13, 15, 17, 19}, {p["level"] for p in self.powers})
         self.assertEqual(22, sum(p["level"] == 13 for p in self.powers))
         self.assertEqual(18, sum(p["level"] == 15 for p in self.powers))
         for power in self.powers:

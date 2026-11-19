@@ -12409,6 +12409,2356 @@
       "subtitle": "Sorcerer Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power3022",
+      "title": "Acid Shackles",
+      "description": "Caustic words crackle from your mouth, taking physical form around your foes as bands of acid that further punish those who move.",
+      "flavor": "Caustic words crackle from your mouth, taking physical form around your foes as bands of acid that further punish those who move.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3022",
+        "publication": "Published in Arcane Power, page(s) 37.",
+        "rulesText": "Acid ShacklesSorcerer Attack 17\nCaustic words crackle from your mouth, taking physical form around your foes as bands of acid that further punish those who move.\nEncounter   ✦     Acid, Arcane, Implement\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Charisma vs. Reflex\nHit: 3d8 + Charisma modifier acid damage. If the target moves before the end of its next turn, it takes 10 acid damage.\nWild Magic: If you hit and you rolled an even number on the attack roll, add your Dexterity modifier to the acid damage dealt if the target moves before the end of its next turn. If you hit and you rolled an odd number on the attack roll, one enemy within 2 squares of the target takes acid damage equal to your Dexterity modifier.\nPublished in Arcane Power, page(s) 37."
+      },
+      "keywords": [
+        "ACID",
+        "ARCANE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Charisma acid damage. If the target moves before the end of its next turn, it takes 10 acid damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Wild Magic",
+              "text": "If you hit and you rolled an even number on the attack roll, add your Dexterity to the acid damage dealt if the target moves before the end of its next turn. If you hit and you rolled an odd number on the attack roll, one enemy within 2 squares of the target takes acid damage equal to your Dexterity."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power3168",
+      "title": "Azure Talons",
+      "description": "Blue claws of lightning materialize around you and slash at foes that remain too close.",
+      "flavor": "Blue claws of lightning materialize around you and slash at foes that remain too close.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3168",
+        "publication": "Published in Arcane Power, page(s) 37.",
+        "rulesText": "Azure TalonsSorcerer Attack 17\nBlue claws of lightning materialize around you and slash at foes that remain too close.\nEncounter   ✦     Arcane, Implement, Lightning\nStandard Action      Close burst 2\nTarget: Each enemy in the burst\nAttack: Charisma vs. Reflex\nHit: 3d8 + Charisma modifier lightning damage. If the target ends its next turn within 2 squares of you, it takes 5 lightning damage.\nDragon Magic: If the target ends its next turn within 2 squares of you, it takes lightning damage equal to 5 + your Strength modifier.\nRevision (10/13/2009)\nOn the Dragon Magic line, replace “Dexterity” with “Strength”.\nPublished in Arcane Power, page(s) 37."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "LIGHTNING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 2"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Charisma lightning damage. If the target ends its next turn within 2 squares of you, it takes 5 lightning damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Dragon Magic",
+              "text": "If the target ends its next turn within 2 squares of you, it takes lightning damage equal to 5 + your Strength."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power5295",
+      "title": "Breath of Winter",
+      "description": "You exhale a blast of freezing wind to slow your enemies' movement.",
+      "flavor": "You exhale a blast of freezing wind to slow your enemies' movement.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5295",
+        "publication": "Published in Player's Handbook 2, page(s) 144.",
+        "rulesText": "Breath of WinterSorcerer Attack 17\nYou exhale a blast of freezing wind to slow your enemies' movement.\nEncounter   ✦     Arcane, Cold, Implement\nStandard Action      Close blast 3\nTarget: Each creature in the blast\nAttack: Charisma vs. Fortitude\nHit: 2d8 + Charisma modifier cold damage, and the target is slowed until the end of its next turn.\nPublished in Player's Handbook 2, page(s) 144."
+      },
+      "keywords": [
+        "ARCANE",
+        "COLD",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Charisma cold damage, and the target is slowed until the end of its next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power3809",
+      "title": "Dragon Tail Meditation",
+      "description": "A lashing tail of lightning protects you from a foe that thinks it has the advantage.",
+      "flavor": "A lashing tail of lightning protects you from a foe that thinks it has the advantage.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3809",
+        "publication": "Published in Player's Handbook 2, page(s) 144.",
+        "rulesText": "Dragon Tail MeditationSorcerer Attack 17\nA lashing tail of lightning protects you from a foe that thinks it has the advantage.\nEncounter   ✦     Arcane, Implement, Lightning\nImmediate Reaction      Melee 1\nTrigger: An enemy moves into a space where it flanks you\nTarget: The triggering creature\nAttack: Charisma vs. Reflex\nHit: 2d10 + Charisma modifier lightning damage.\nDragon Magic: You push the target a number of squares equal to your Strength modifier.\nPublished in Player's Handbook 2, page(s) 144."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "LIGHTNING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The triggering creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Charisma lightning damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Dragon Magic",
+              "text": "You push the target a number of squares equal to your Strength."
+            }
+          ],
+          "trigger": "An enemy moves into a space where it flanks you",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power5296",
+      "title": "Poisonous Evasion",
+      "description": "You disappear as your enemy misses, leaving a cloud of poison behind.",
+      "flavor": "You disappear as your enemy misses, leaving a cloud of poison behind.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5296",
+        "publication": "Published in Player's Handbook 2, page(s) 145.",
+        "rulesText": "Poisonous EvasionSorcerer Attack 17\nYou disappear as your enemy misses, leaving a cloud of poison behind.\nEncounter   ✦     Arcane, Implement, Poison, Teleportation\nImmediate Reaction      Close burst 1\nTrigger: An enemy misses you with an attack\nTarget: Each creature in the burst\nAttack: Charisma vs. Fortitude\nHit: 3d10 + Charisma modifier poison damage.\nEffect: You teleport 10 squares.\nPublished in Player's Handbook 2, page(s) 145."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "POISON",
+        "TELEPORTATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Charisma poison damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport 10 squares."
+            }
+          ],
+          "trigger": "An enemy misses you with an attack",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power10323",
+      "title": "Rippling Strike",
+      "description": "Your slash opens a psychic connection. The spell seals the connection in pain.",
+      "flavor": "Your slash opens a psychic connection. The spell seals the connection in pain.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10323",
+        "publication": "Published in Dragon Magazine 381, page(s) 44.",
+        "rulesText": "Rippling StrikeSorcerer Attack 17\nYour slash opens a psychic connection. The spell seals the connection in pain.\nEncounter   ✦     Arcane, Implement, Psychic\nStandard Action      Melee 1\nTarget: One creature\nAttack: Charisma vs. Will\nHit: 2d8 + Charisma modifier damage, and one enemy within 5 squares of the target takes 10 psychic damage. If no other enemy creature is within 5 squares, this attack deals 1d8 extra damage to the target instead.\nCosmic Sorcerer: If this attack reduces one or more enemies to 0 hit points, choose an enemy within 5 squares not damaged by the attack. That enemy takes 10 psychic damage.\nPublished in Dragon Magazine 381, page(s) 44."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Charisma damage, and one enemy within 5 squares of the target takes 10 psychic damage. If no other enemy creature is within 5 squares, this attack deals 1d8 extra damage to the target instead."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Cosmic Sorcerer",
+              "text": "If this attack reduces one or more enemies to 0 hit points, choose an enemy within 5 squares not damaged by the attack. That enemy takes 10 psychic damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power12478",
+      "title": "Rolls of Thunder",
+      "description": "Spheres of thunder manifest and roll through the air to bowl over your enemies.",
+      "flavor": "Spheres of thunder manifest and roll through the air to bowl over your enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 17
+          },
+          {
+            "type": "unresolved",
+            "text": "Requires a sorcerer familiar, which Modern 4e does not have.",
+            "reason": "Depends on a build or feature Modern 4e does not have."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12478",
+        "publication": "Published in Dragon Magazine 386, page(s) 23.",
+        "rulesText": "Rolls of ThunderSorcerer Attack 17\nSpheres of thunder manifest and roll through the air to bowl over your enemies.\nEncounter   ✦     Arcane, Implement, Thunder\nStandard Action      Ranged 10\nTarget: One or two creatures\nAttack: Charisma vs. Will\nHit: 3d10 + Charisma modifier damage, and the target falls prone.\nActive Familiar: You can also push the target 3 squares.\nPublished in Dragon Magazine 386, page(s) 23."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Charisma damage, and the target falls prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Active Familiar",
+              "text": "You can also push the target 3 squares."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power5869",
+      "title": "Searing Radiance",
+      "description": "You borrow a bit of the sun's radiance and hurl it at your foe.",
+      "flavor": "You borrow a bit of the sun's radiance and hurl it at your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5869",
+        "publication": "Published in Arcane Power, page(s) 37.",
+        "rulesText": "Searing RadianceSorcerer Attack 17\nYou borrow a bit of the sun's radiance and hurl it at your foe.\nEncounter   ✦     Arcane, Healing, Implement, Radiant\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Reflex\nHit: 4d8 + Charisma modifier radiant damage.\nCosmic Magic: If you use this power while you are in the phase of the sun, you can spend a healing surge.\nPublished in Arcane Power, page(s) 37."
+      },
+      "keywords": [
+        "ARCANE",
+        "HEALING",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d8 + Charisma radiant damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Cosmic Magic",
+              "text": "If you use this power while you are in the phase of the sun, you can spend a healing surge."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power6808",
+      "title": "Stalking Frost",
+      "description": "A wave of utter cold sweeps outward, seeping into the bones of your foes. If your enemies don't move, the cold grows more deadly.",
+      "flavor": "A wave of utter cold sweeps outward, seeping into the bones of your foes. If your enemies don't move, the cold grows more deadly.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6808",
+        "publication": "Published in Arcane Power, page(s) 37.",
+        "rulesText": "Stalking FrostSorcerer Attack 17\nA wave of utter cold sweeps outward, seeping into the bones of your foes. If your enemies don't move, the cold grows more deadly.\nEncounter   ✦     Arcane, Cold, Implement\nStandard Action      Close burst 3\nTarget: Each creature in the burst\nAttack: Charisma vs. Fortitude\nHit: 2d8 + Charisma modifier cold damage. If the target does not end its next turn at least 4 squares away from where it started its turn, it takes 10 cold damage.\nPublished in Arcane Power, page(s) 37."
+      },
+      "keywords": [
+        "ARCANE",
+        "COLD",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Charisma cold damage. If the target does not end its next turn at least 4 squares away from where it started its turn, it takes 10 cold damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power6537",
+      "title": "Thunder Summons",
+      "description": "Thunderous crashes hurl your enemies around in a storm of chaos.",
+      "flavor": "Thunderous crashes hurl your enemies around in a storm of chaos.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6537",
+        "publication": "Published in Player's Handbook 2, page(s) 145.",
+        "rulesText": "Thunder SummonsSorcerer Attack 17\nThunderous crashes hurl your enemies around in a storm of chaos.\nEncounter   ✦     Arcane, Implement, Teleportation, Thunder\nStandard Action      Ranged 10\nTarget: One, two, or three creatures\nAttack: Charisma vs. Will\nHit: 3d8 + Charisma modifier thunder damage, and you teleport the target to a space adjacent to your enemy that is nearest to it.\nWild Magic: If you rolled an even number on the attack roll, you can teleport the target to a space adjacent to your ally, not your enemy, who is nearest to it.\nPublished in Player's Handbook 2, page(s) 145."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "TELEPORTATION",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One, two, or three creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Charisma thunder damage, and you teleport the target to a space adjacent to your enemy that is nearest to it."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Wild Magic",
+              "text": "If you rolled an even number on the attack roll, you can teleport the target to a space adjacent to your ally, not your enemy, who is nearest to it."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power2818",
+      "title": "Thunderstroke",
+      "description": "A stroke of lightning strikes your foe from overhead, followed by a concussive boom.",
+      "flavor": "A stroke of lightning strikes your foe from overhead, followed by a concussive boom.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2818",
+        "publication": "Published in Arcane Power, page(s) 37.",
+        "rulesText": "ThunderstrokeSorcerer Attack 17\nA stroke of lightning strikes your foe from overhead, followed by a concussive boom.\nEncounter   ✦     Arcane, Implement, Lightning, Thunder\nStandard Action      Area burst 1 within 20 squares\nTarget: Each creature in the burst\nAttack: Charisma vs. Reflex\nHit: 2d8 + Charisma modifier thunder damage. If the target is in the burst's origin square, it takes 3d8 extra lightning damage.\nStorm Magic: A target hit by this power is also knocked prone.\nRevision (10/13/2009)\nOn the Hit line, replace the second sentence with the following: “If the target is in the burst's origin square, it takes 3d8 extra lightning damage.”\nPublished in Arcane Power, page(s) 37."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "LIGHTNING",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 20 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 20 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Charisma thunder damage. If the target is in the burst's origin square, it takes 3d8 extra lightning damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Storm Magic",
+              "text": "A target hit by this power is also knocked prone."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power6810",
+      "title": "Aspect of the Dragon",
+      "description": "Your form wavers and is replaced by a dragon that releases a scouring blast of fire. Depending on the course of the battle, it might make another appearance.",
+      "flavor": "Your form wavers and is replaced by a dragon that releases a scouring blast of fire. Depending on the course of the battle, it might make another appearance.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6810",
+        "publication": "Published in Arcane Power, page(s) 37.",
+        "rulesText": "Aspect of the DragonSorcerer Attack 19\nYour form wavers and is replaced by a dragon that releases a scouring blast of fire. Depending on the course of the battle, it might make another appearance.\nDaily   ✦     Arcane, Fire, Implement\nStandard Action      Close blast 5\nTarget: Each enemy in the blast\nAttack: Charisma vs. Reflex\nHit: 3d8 + Charisma modifier fire damage.\nMiss: Half damage.\nEffect: The first time you become bloodied during the encounter, repeat the attack as a free action.\nDragon Magic: You gain a +2 bonus to attack rolls with this repeated attack.\nPublished in Arcane Power, page(s) 37."
+      },
+      "keywords": [
+        "ARCANE",
+        "FIRE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Charisma fire damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The first time you become bloodied during the encounter, repeat the attack as a free action."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Dragon Magic",
+              "text": "You gain a +2 bonus to attack rolls with this repeated attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power5297",
+      "title": "Baleful Gaze of the Basilisk",
+      "description": "You cast a toxic glance at your foe, leaving it paralyzed with fear.",
+      "flavor": "You cast a toxic glance at your foe, leaving it paralyzed with fear.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5297",
+        "publication": "Published in Player's Handbook 2, page(s) 145.",
+        "rulesText": "Baleful Gaze of the BasiliskSorcerer Attack 19\nYou cast a toxic glance at your foe, leaving it paralyzed with fear.\nDaily   ✦     Arcane, Fear, Implement, Poison\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Fortitude\nHit: The target is stunned and takes ongoing 10 poison damage (save ends both).\nMiss: Ongoing 10 poison damage (save ends).\nDragon Magic: When the target saves against the ongoing poison damage, you slide the target a number of squares equal to your Strength modifier.\nPublished in Player's Handbook 2, page(s) 145."
+      },
+      "keywords": [
+        "ARCANE",
+        "FEAR",
+        "IMPLEMENT",
+        "POISON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target is stunned and takes ongoing 10 poison damage (save ends both)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Ongoing 10 poison damage (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Dragon Magic",
+              "text": "When the target saves against the ongoing poison damage, you slide the target a number of squares equal to your Strength."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power5298",
+      "title": "Blackfire Serpent",
+      "description": "A coiled serpent made of black flames appears among your enemies and unleashes a blast of fire.",
+      "flavor": "A coiled serpent made of black flames appears among your enemies and unleashes a blast of fire.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5298",
+        "publication": "Published in Player's Handbook 2, page(s) 145.",
+        "rulesText": "Blackfire SerpentSorcerer Attack 19\nA coiled serpent made of black flames appears among your enemies and unleashes a blast of fire.\nDaily   ✦     Arcane, Conjuration, Fire, Implement\nStandard Action      Ranged 10\nEffect: You conjure a blackfire serpent in an unoccupied square within range. The serpent lasts until the end of your next turn. The serpent occupies 1 square. Enemies cannot move through its space, but allies can.\nWhen it appears, the serpent makes the following attack, which is a close blast 3. As a move action, you can move the serpent a number of squares equal to your Strength modifier.\nTarget: Each creature in the blast\nAttack: Charisma vs. Reflex\nHit: 2d12 + Charisma modifier fire damage.\nSustain Minor: The snake persists, and it can repeat the attack.\nPublished in Player's Handbook 2, page(s) 145."
+      },
+      "keywords": [
+        "ARCANE",
+        "CONJURATION",
+        "FIRE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You conjure a blackfire serpent in an unoccupied square within range. The serpent lasts until the end of your next turn. The serpent occupies 1 square. Enemies cannot move through its space, but allies can."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Rule",
+              "text": "When it appears, the serpent makes the following attack, which is a close blast 3. As a move action, you can move the serpent a number of squares equal to your Strength."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d12 + Charisma fire damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The snake persists, and it can repeat the attack."
+            }
+          ],
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power3046",
+      "title": "Crashing Winds",
+      "description": "Everything standing near you is battered and knocked away, and the winds continue to swirl in your vicinity.",
+      "flavor": "Everything standing near you is battered and knocked away, and the winds continue to swirl in your vicinity.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3046",
+        "publication": "Published in Arcane Power, page(s) 37.",
+        "rulesText": "Crashing WindsSorcerer Attack 19\nEverything standing near you is battered and knocked away, and the winds continue to swirl in your vicinity.\nDaily   ✦     Arcane, Implement, Thunder\nStandard Action      Close blast 3\nTarget: Each creature in the blast\nAttack: Charisma vs. Fortitude\nHit: 5d8 + Charisma modifier thunder damage.\nMiss: Half damage.\nEffect: You push the target a number of squares equal to your Dexterity modifier.\nStorm Magic: Until the end of the encounter, at the start of your turn, you push each enemy adjacent to you a number of squares equal to your Dexterity modifier.\nPublished in Arcane Power, page(s) 37."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5d8 + Charisma thunder damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You push the target a number of squares equal to your Dexterity."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Storm Magic",
+              "text": "Until the end of the encounter, at the start of your turn, you push each enemy adjacent to you a number of squares equal to your Dexterity."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power5871",
+      "title": "Primordial Slime",
+      "description": "With a flick of your wrist, you shoot an ooze at your foe. When the ooze strikes, the creature begins to take on a gelatinous consistency.",
+      "flavor": "With a flick of your wrist, you shoot an ooze at your foe. When the ooze strikes, the creature begins to take on a gelatinous consistency.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5871",
+        "publication": "Published in Arcane Power, page(s) 38.",
+        "rulesText": "Primordial SlimeSorcerer Attack 19\nWith a flick of your wrist, you shoot an ooze at your foe. When the ooze strikes, the creature begins to take on a gelatinous consistency.\nDaily   ✦     Acid, Arcane, Implement, Polymorph\nStandard Action      Ranged 5\nTarget: One creature\nAttack: Charisma vs. Fortitude\nHit: The target is slowed, cannot take standard actions, and takes half damage from melee and ranged attacks (save ends all).\nAftereffect: The target is slowed and takes ongoing 10 acid damage (save ends both).\nWild Magic: If you rolled an even number on the attack roll, the target takes a -2 penalty to all defenses until the aftereffect ends. If you rolled an odd number on the attack roll, the target takes a -2 penalty to attack rolls until the aftereffect ends.\nMiss: The target is slowed and takes ongoing 10 acid damage (save ends both).\nPublished in Arcane Power, page(s) 38."
+      },
+      "keywords": [
+        "ACID",
+        "ARCANE",
+        "IMPLEMENT",
+        "POLYMORPH"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target is slowed, cannot take standard actions, and takes half damage from melee and ranged attacks (save ends all)."
+                      },
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Aftereffect",
+                        "text": "The target is slowed and takes ongoing 10 acid damage (save ends both)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "The target is slowed and takes ongoing 10 acid damage (save ends both)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Wild Magic",
+              "text": "If you rolled an even number on the attack roll, the target takes a -2 penalty to all defenses until the aftereffect ends. If you rolled an odd number on the attack roll, the target takes a -2 penalty to attack rolls until the aftereffect ends."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power5299",
+      "title": "Prismatic Explosion",
+      "description": "You batter a group of enemies with dazzling colors, each color causing a different effect.",
+      "flavor": "You batter a group of enemies with dazzling colors, each color causing a different effect.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5299",
+        "publication": "Published in Player's Handbook 2, page(s) 145.",
+        "rulesText": "Prismatic ExplosionSorcerer Attack 19\nYou batter a group of enemies with dazzling colors, each color causing a different effect.\nDaily   ✦     Arcane, Implement ; Varies\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Charisma vs. Reflex\nHit: 3d12 + Charisma modifier damage. Roll a d6 for each target to determine the attack's damage type and effect.\n1. Yellow: Radiant damage, and the target is blinded (save ends).\n2. Red: Fire damage, and the target is knocked prone and takes ongoing 10 fire damage (save ends).\n3. Green: Poison damage, and the target takes ongoing 15 poison damage (save ends).\n4. Turquoise: Lightning damage, and you knock the target prone and slide it a number of squares equal to your Dexterity modifier.\n5. Blue: Cold damage, and the target is stunned (save ends).\n6. Violet: Psychic damage, and the target takes a penalty to AC equal to your Dexterity modifier (save ends).\nMiss: 2d12 damage. Roll a d6 for each target to determine the attack's damage type and effect, as above.\nPublished in Player's Handbook 2, page(s) 145."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d12 + Charisma damage. Roll a d6 for each target to determine the attack's damage type and effect."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-10",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "2d12 damage. Roll a d6 for each target to determine the attack's damage type and effect, as above."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "1. Yellow",
+              "text": "Radiant damage, and the target is blinded (save ends)."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "2. Red",
+              "text": "Fire damage, and the target is knocked prone and takes ongoing 10 fire damage (save ends)."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "3. Green",
+              "text": "Poison damage, and the target takes ongoing 15 poison damage (save ends)."
+            },
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "4. Turquoise",
+              "text": "Lightning damage, and you knock the target prone and slide it a number of squares equal to your Dexterity."
+            },
+            {
+              "id": "row-8",
+              "type": "effect",
+              "label": "5. Blue",
+              "text": "Cold damage, and the target is stunned (save ends)."
+            },
+            {
+              "id": "row-9",
+              "type": "effect",
+              "label": "6. Violet",
+              "text": "Psychic damage, and the target takes a penalty to AC equal to your Dexterity (save ends)."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power6811",
+      "title": "Radiant Wings",
+      "description": "You rise into the air, borne aloft by rays of golden sunlight that simultaneously blast your foe.",
+      "flavor": "You rise into the air, borne aloft by rays of golden sunlight that simultaneously blast your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6811",
+        "publication": "Published in Arcane Power, page(s) 38.",
+        "rulesText": "Radiant WingsSorcerer Attack 19\nYou rise into the air, borne aloft by rays of golden sunlight that simultaneously blast your foe.\nDaily   ✦     Arcane, Fire, Implement, Radiant\nStandard Action      Ranged 5\nTarget: One creature\nEffect: Before the attack, you can fly a number of squares equal to your Strength modifier.\nCosmic Magic: At the end of this movement, each creature adjacent to you takes fire and radiant damage equal to your Strength modifier.\nAttack: Charisma vs. Reflex\nHit: 3d8 + Charisma modifier fire and radiant damage.\nSustain Minor: When you sustain this power, repeat the effect.\nPublished in Arcane Power, page(s) 38."
+      },
+      "keywords": [
+        "ARCANE",
+        "FIRE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the attack, you can fly a number of squares equal to your Strength."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Cosmic Magic",
+              "text": "At the end of this movement, each creature adjacent to you takes fire and radiant damage equal to your Strength."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Charisma fire and radiant damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "When you sustain this power, repeat the effect."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power12479",
+      "title": "Spiritual Venom",
+      "description": "Your familiar manifests a stinger and injects your foe.",
+      "flavor": "Your familiar manifests a stinger and injects your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12479",
+        "publication": "Published in Dragon Magazine 386, page(s) 23.",
+        "rulesText": "Spiritual VenomSorcerer Attack 19\nYour familiar manifests a stinger and injects your foe.\nDaily   ✦     Arcane, Implement, Poison\nStandard Action      Ranged 10\nRequirement: Your familiar must be in its active mode.\nTarget: One creature adjacent to your familiar\nAttack: Charisma vs. Fortitude\nHit: 3d10 + Charisma modifier poison damage, and the target takes ongoing 10 poison damage (save ends).\nMiss: Half damage, and the target takes ongoing 5 poison damage (save ends).\nPublished in Dragon Magazine 386, page(s) 23."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "POISON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature adjacent to your familiar"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Charisma poison damage, and the target takes ongoing 10 poison damage (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target takes ongoing 5 poison damage (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "Your familiar must be in its active mode.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.sorcerer-power5300",
+      "title": "Split Strike",
+      "description": "A bolt of lightning leaps from each of your hands.",
+      "flavor": "A bolt of lightning leaps from each of your hands.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5300",
+        "publication": "Published in Player's Handbook 2, page(s) 145.",
+        "rulesText": "Split StrikeSorcerer Attack 19\nA bolt of lightning leaps from each of your hands.\nDaily   ✦     Arcane, Implement, Lightning\nStandard Action      Ranged 10\nTarget: One or two creatures\nAttack: Charisma vs. Reflex\nHit: 6d6 + Charisma modifier lightning damage.\nWild Magic: If you rolled an even number on the attack roll, the target is immobilized (save ends). If you rolled an odd number on the attack roll, the target is dazed (save ends).\nMiss: Half damage.\nPublished in Player's Handbook 2, page(s) 145."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "LIGHTNING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "6d6 + Charisma lightning damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Wild Magic",
+              "text": "If you rolled an even number on the attack roll, the target is immobilized (save ends). If you rolled an odd number on the attack roll, the target is dazed (save ends)."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Sorcerer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

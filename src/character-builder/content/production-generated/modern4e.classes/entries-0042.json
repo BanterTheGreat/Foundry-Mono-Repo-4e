@@ -1,0 +1,4436 @@
+{
+  "entries": [
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power465",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "FORCE",
+            "IMPLEMENT"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You hurl an orb of magical force at an enemy. It bursts against the target and throws off razor-sharp shards of force that cut nearby enemies to ribbons.\n\nENCOUNTER / STANDARD\n\nRanged 20\n\nTarget: One creature or object\n\nAttack: Intelligence vs. Reflex\n\nHit: 2d8 + Intelligence force damage. Make a secondary attack.\n\nSecondary Attack Range: Free Action; Area burst 1 centered on the primary target\n\nSecondary Target: Each enemy in the burst other than the primary target\n\nAttack: Intelligence vs. Reflex\n\nHit: 1d10 + Intelligence force damage.",
+        "title": "Force Orb"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature or object"
+              },
+              "targets-7": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst other than the primary target"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d8 + Intelligence force damage. Make a secondary attack.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 20",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Secondary Attack Range",
+                "text": "Free Action; Area burst 1 centered on the primary target",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Secondary Target",
+                "text": "Each enemy in the burst other than the primary target",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-9",
+                          "label": "Hit",
+                          "text": "1d10 + Intelligence force damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-8",
+                "label": "Attack",
+                "range": {
+                  "text": "Each enemy in the burst other than the primary target",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-7",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 20",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You hurl an orb of magical force at an enemy. It bursts against the target and throws off razor-sharp shards of force that cut nearby enemies to ribbons.",
+        "flavor": "You hurl an orb of magical force at an enemy. It bursts against the target and throws off razor-sharp shards of force that cut nearby enemies to ribbons.",
+        "id": "modern4e.power.wizard-power465",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "FORCE",
+          "IMPLEMENT"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power465",
+          "publication": "Published in Player's Handbook, page(s) 160, Class Compendium.",
+          "rulesText": "Force OrbWizard Attack 1\nYou hurl an orb of magical force at an enemy. It bursts against the target and throws off razor-sharp shards of force that cut nearby enemies to ribbons.\nEncounter   ✦     Arcane, Evocation, Force, Implement\nStandard Action      Ranged 20\nPrimary Target: One creature or object\nAttack: Intelligence vs. Reflex\nHit: 2d8 + Intelligence modifier force damage. Make a secondary attack.\nForce Orb Secondary Attack\nEncounter ✦     Arcane, Evocation, Force, Implement\nFree Action      Area burst 1 centered on the primary target\nSecondary Target: Each enemy in the burst other than the primary target\nAttack: Intelligence vs. Reflex\nHit: 1d10 + Intelligence modifier force damage.\nUpdate (1/24/2012)\nUpdated in Class Compendium.\nPublished in Player's Handbook, page(s) 160, Class Compendium."
+        },
+        "subtitle": "Wizard Attack 1",
+        "title": "Force Orb"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power480",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "IMPLEMENT",
+            "LIGHTNING",
+            "POISON"
+          ],
+          "level": 9,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 9,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A crackling bolt of lightning springs from your hand and leaps at a foe, taking serpentine form as it strikes.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Intelligence vs. Reflex\n\nHit: 2d12 + Intelligence lightning damage, and the target is slowed and takes ongoing 5 poison damage (save ends both).\n\nMiss: Half damage, and the target is slowed (save ends).",
+        "title": "Lightning Serpent"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d12 + Intelligence lightning damage, and the target is slowed and takes ongoing 5 poison damage (save ends both).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and the target is slowed (save ends).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A crackling bolt of lightning springs from your hand and leaps at a foe, taking serpentine form as it strikes.",
+        "flavor": "A crackling bolt of lightning springs from your hand and leaps at a foe, taking serpentine form as it strikes.",
+        "id": "modern4e.power.wizard-power480",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "IMPLEMENT",
+          "LIGHTNING",
+          "POISON"
+        ],
+        "level": 9,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 9,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power480",
+          "publication": "Published in Player's Handbook, page(s) 163, Class Compendium.",
+          "rulesText": "Lightning SerpentWizard Attack 9\nA crackling bolt of lightning springs from your hand and leaps at a foe, taking serpentine form as it strikes.\nDaily   ✦     Arcane, Evocation, Implement, Lightning, Poison\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Intelligence vs. Reflex\nHit: 2d12 + Intelligence modifier lightning damage, and the target is slowed and takes ongoing 5 poison damage (save ends both).\nMiss: Half damage, and the target is slowed (save ends).\nUpdate (1/24/2012)\nUpdated in Class Compendium.\nPublished in Player's Handbook, page(s) 163, Class Compendium."
+        },
+        "subtitle": "Wizard Attack 9",
+        "title": "Lightning Serpent"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5799",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "FIRE",
+            "FORCE",
+            "IMPLEMENT",
+            "ZONE"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Gouts of flame pulse from your orb and explode amid your enemies, setting the area alight and roasting them as they attempt to escape.\n\nENCOUNTER / STANDARD\n\nArea burst 1 within 10 squares\n\nTarget: Each creature in the burst\n\nAttack: Intelligence vs. Reflex\n\nHit: 1d6 + Intelligence force damage, and you knock the target prone.\n\nEffect: The burst creates a zone of licking flames that lasts until the end of your next turn. Each enemy that enters the zone or starts its turn there takes 2 fire damage. An enemy can take this damage only once per turn.\n\nOrb of Imposition: You can extend the duration of this effect, even though it is not an at-will power. If you do so, the area expands to burst 3 and doesn't affect you or your allies.",
+        "title": "Orbmaster's Incendiary Detonation"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d6 + Intelligence force damage, and you knock the target prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 1 within 10 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "The burst creates a zone of licking flames that lasts until the end of your next turn. Each enemy that enters the zone or starts its turn there takes 2 fire damage. An enemy can take this damage only once per turn.",
+                "type": "effect"
+              },
+              {
+                "id": "row-5",
+                "label": "Orb of Imposition",
+                "text": "You can extend the duration of this effect, even though it is not an at-will power. If you do so, the area expands to burst 3 and doesn't affect you or your allies.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 1 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Gouts of flame pulse from your orb and explode amid your enemies, setting the area alight and roasting them as they attempt to escape.",
+        "flavor": "Gouts of flame pulse from your orb and explode amid your enemies, setting the area alight and roasting them as they attempt to escape.",
+        "id": "modern4e.power.wizard-power5799",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "FIRE",
+          "FORCE",
+          "IMPLEMENT",
+          "ZONE"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5799",
+          "publication": "Published in Arcane Power, page(s) 102.",
+          "rulesText": "Orbmaster's Incendiary DetonationWizard Attack 1\nGouts of flame pulse from your orb and explode amid your enemies, setting the area alight and roasting them as they attempt to escape.\nEncounter   ✦     Arcane, Evocation, Fire, Force, Implement, Zone\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Intelligence vs. Reflex\nHit: 1d6 + Intelligence modifier force damage, and you knock the target prone.\nEffect: The burst creates a zone of licking flames that lasts until the end of your next turn. Each enemy that enters the zone or starts its turn there takes 2 fire damage. An enemy can take this damage only once per turn.\nOrb of Imposition: You can extend the duration of this effect, even though it is not an at-will power. If you do so, the area expands to burst 3 and doesn't affect you or your allies.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Arcane Power, page(s) 102."
+        },
+        "subtitle": "Wizard Attack 1",
+        "title": "Orbmaster's Incendiary Detonation"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5800",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ACID",
+            "ARCANE",
+            "EVOCATION",
+            "IMPLEMENT"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You tap your staff on the ground, and acid boils up to envelop your target in a caustic haze.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Intelligence vs. Reflex\n\nHit: 1d6 + Intelligence acid damage. Until the end of your next turn, creatures more than 5 squares away from the target have concealment against it.\n\nStaff of Defense: The next time you use the Staff of Defense class feature before the end of the encounter, the attacker also takes acid damage equal to your Intelligence.",
+        "title": "Staffstrike Corrosion"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d6 + Intelligence acid damage. Until the end of your next turn, creatures more than 5 squares away from the target have concealment against it.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Staff of Defense",
+                "text": "The next time you use the Staff of Defense class feature before the end of the encounter, the attacker also takes acid damage equal to your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You tap your staff on the ground, and acid boils up to envelop your target in a caustic haze.",
+        "flavor": "You tap your staff on the ground, and acid boils up to envelop your target in a caustic haze.",
+        "id": "modern4e.power.wizard-power5800",
+        "keywords": [
+          "ACID",
+          "ARCANE",
+          "EVOCATION",
+          "IMPLEMENT"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5800",
+          "publication": "Published in Arcane Power, page(s) 102.",
+          "rulesText": "Staffstrike CorrosionWizard Attack 1\nYou tap your staff on the ground, and acid boils up to envelop your target in a caustic haze.\nEncounter   ✦     Acid, Arcane, Evocation, Implement\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Intelligence vs. Reflex\nHit: 1d6 + Intelligence modifier acid damage. Until the end of your next turn, creatures more than 5 squares away from the target have concealment against it.\nStaff of Defense: The next time you use the Staff of Defense class feature before the end of the encounter, the attacker also takes acid damage equal to your Intelligence modifier.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Arcane Power, page(s) 102."
+        },
+        "subtitle": "Wizard Attack 1",
+        "title": "Staffstrike Corrosion"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5801",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "IMPLEMENT",
+            "LIGHTNING"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Green and yellow lightning twines around your wand, then flashes toward your enemy and explodes in a shower of sparks.\n\nENCOUNTER / STANDARD\n\nRanged 20\n\nTarget: One creature\n\nAttack: Intelligence vs. Reflex\n\nHit: 2d8 + Intelligence lightning damage, and you push the target 1 square.\n\nWand of Accuracy: The next time you use the Wand of Accuracy class feature before the end of the encounter, you also gain a bonus to that attack's damage roll equal to your Intelligence.",
+        "title": "Empowering Lightning"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d8 + Intelligence lightning damage, and you push the target 1 square.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 20",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Wand of Accuracy",
+                "text": "The next time you use the Wand of Accuracy class feature before the end of the encounter, you also gain a bonus to that attack's damage roll equal to your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 20",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Green and yellow lightning twines around your wand, then flashes toward your enemy and explodes in a shower of sparks.",
+        "flavor": "Green and yellow lightning twines around your wand, then flashes toward your enemy and explodes in a shower of sparks.",
+        "id": "modern4e.power.wizard-power5801",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "IMPLEMENT",
+          "LIGHTNING"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5801",
+          "publication": "Published in Arcane Power, page(s) 102.",
+          "rulesText": "Empowering LightningWizard Attack 1\nGreen and yellow lightning twines around your wand, then flashes toward your enemy and explodes in a shower of sparks.\nEncounter   ✦     Arcane, Evocation, Implement, Lightning\nStandard Action      Ranged 20\nTarget: One creature\nAttack: Intelligence vs. Reflex\nHit: 2d8 + Intelligence modifier lightning damage, and you push the target 1 square.\nWand of Accuracy: The next time you use the Wand of Accuracy class feature before the end of the encounter, you also gain a bonus to that attack's damage roll equal to your Intelligence modifier.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Arcane Power, page(s) 102."
+        },
+        "subtitle": "Wizard Attack 1",
+        "title": "Empowering Lightning"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5802",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "ILLUSION",
+            "IMPLEMENT",
+            "PSYCHIC"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your enemies are seemingly beset by dreadful noises. Desperate to find the source, they are oblivious to the true threat posed by you and your allies.\n\nDAILY / STANDARD\n\nArea burst 1 within 10 squares\n\nTarget: Each enemy in the burst\n\nAttack: Intelligence vs. Will\n\nHit: 1d6 + Intelligence psychic damage, and the target is slowed and takes a -2 penalty to attack rolls (save ends both).\n\nAftereffect: You knock the target prone.\n\nMiss: The target is slowed and takes a -2 penalty to attack rolls until the end of your next turn.",
+        "title": "Horrid Whispers"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d6 + Intelligence psychic damage, and the target is slowed and takes a -2 penalty to attack rolls (save ends both).",
+                          "type": "effect"
+                        },
+                        {
+                          "id": "row-4",
+                          "label": "Aftereffect",
+                          "text": "You knock the target prone.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-5",
+                          "label": "Miss",
+                          "text": "The target is slowed and takes a -2 penalty to attack rolls until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 1 within 10 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Will",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 1 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your enemies are seemingly beset by dreadful noises. Desperate to find the source, they are oblivious to the true threat posed by you and your allies.",
+        "flavor": "Your enemies are seemingly beset by dreadful noises. Desperate to find the source, they are oblivious to the true threat posed by you and your allies.",
+        "id": "modern4e.power.wizard-power5802",
+        "keywords": [
+          "ARCANE",
+          "ILLUSION",
+          "IMPLEMENT",
+          "PSYCHIC"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5802",
+          "publication": "Published in Arcane Power, page(s) 102.",
+          "rulesText": "Horrid WhispersWizard Attack 1\nYour enemies are seemingly beset by dreadful noises. Desperate to find the source, they are oblivious to the true threat posed by you and your allies.\nDaily   ✦     Arcane, Illusion, Implement, Psychic\nStandard Action      Area burst 1 within 10 squares\nTarget: Each enemy in the burst\nAttack: Intelligence vs. Will\nHit: 1d6 + Intelligence modifier psychic damage, and the target is slowed and takes a -2 penalty to attack rolls (save ends both).\nAftereffect: You knock the target prone.\nMiss: The target is slowed and takes a -2 penalty to attack rolls until the end of your next turn.\nPublished in Arcane Power, page(s) 102."
+        },
+        "subtitle": "Wizard Attack 1",
+        "title": "Horrid Whispers"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5803",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "CONJURATION",
+            "EVOCATION",
+            "IMPLEMENT",
+            "THUNDER"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Elemental thunder creatures tumble through your foes and knock them about.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One or two creatures\n\nAttack: Intelligence vs. Reflex\n\nHit: 3d6 + Intelligence thunder damage, and you slide the primary target 3 squares.\n\nMiss: Half damage, and you slide the primary target 1 square.\n\nEffect: You conjure a thunderball in 1 square within each primary target's space. Each thunderball lasts until the end of your next turn. Each thunderball can make a secondary attack.\n\nOpportunity Action: Melee 1\n\nTrigger: A creature moves out of the thunderball's square.\n\nSecondary Target: The triggering creature\n\nSecondary Attack: Intelligence vs. Reflex\n\nHit: 5 thunder damage.\n\nSustain Minor: Each thunderball persists.",
+        "title": "Rolling Thunder"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One or two creatures"
+              },
+              "targets-8": {
+                "kind": "TARGET_SET",
+                "text": "The triggering creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3d6 + Intelligence thunder damage, and you slide the primary target 3 squares.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and you slide the primary target 1 square.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "You conjure a thunderball in 1 square within each primary target's space. Each thunderball lasts until the end of your next turn. Each thunderball can make a secondary attack.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Opportunity Action",
+                "text": "Melee 1",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Trigger",
+                "text": "A creature moves out of the thunderball's square.",
+                "type": "effect"
+              },
+              {
+                "id": "row-8",
+                "label": "Secondary Target",
+                "text": "The triggering creature",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-10",
+                          "label": "Hit",
+                          "text": "5 thunder damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-9",
+                "label": "Secondary Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-8",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-11",
+                "label": "Sustain Minor",
+                "text": "Each thunderball persists.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Elemental thunder creatures tumble through your foes and knock them about.",
+        "flavor": "Elemental thunder creatures tumble through your foes and knock them about.",
+        "id": "modern4e.power.wizard-power5803",
+        "keywords": [
+          "ARCANE",
+          "CONJURATION",
+          "EVOCATION",
+          "IMPLEMENT",
+          "THUNDER"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5803",
+          "publication": "Published in Arcane Power, page(s) 103.",
+          "rulesText": "Rolling ThunderWizard Attack 1\nElemental thunder creatures tumble through your foes and knock them about.\nDaily   ✦     Arcane, Conjuration, Evocation, Implement, Thunder\nStandard Action      Ranged 10\nTarget: One or two creatures\nAttack: Intelligence vs. Reflex\nHit: 3d6 + Intelligence modifier thunder damage, and you slide the primary target 3 squares.\nMiss: Half damage, and you slide the primary target 1 square.\nEffect: You conjure a thunderball in 1 square within each primary target's space. Each thunderball lasts until the end of your next turn. Each thunderball can make a secondary attack.\nOpportunity Action: Melee 1\nTrigger: A creature moves out of the thunderball's square.\nSecondary Target: The triggering creature\nSecondary Attack: Intelligence vs. Reflex\nHit: 5 thunder damage.\nSustain Minor: Each thunderball persists.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Arcane Power, page(s) 103."
+        },
+        "subtitle": "Wizard Attack 1",
+        "title": "Rolling Thunder"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5804",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "IMPLEMENT"
+          ],
+          "level": 3,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 3,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A miniature tornado roars forth to batter your enemy and lift it into the air.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Intelligence vs. Fortitude\n\nHit: 2d6 + Intelligence damage, and you slide the target 10 feet (2 squares) vertically. The target remains aloft until the start of its next turn; while aloft, it is dazed and immobilized, and it grants combat advantage to you and your allies. At the start of its next turn, it lands on its feet in the space it formerly occupied or in the nearest unoccupied space of its choice.",
+        "title": "Pinioning Vortex"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d6 + Intelligence damage, and you slide the target 10 feet (2 squares) vertically. The target remains aloft until the start of its next turn; while aloft, it is dazed and immobilized, and it grants combat advantage to you and your allies. At the start of its next turn, it lands on its feet in the space it formerly occupied or in the nearest unoccupied space of its choice.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Fortitude",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A miniature tornado roars forth to batter your enemy and lift it into the air.",
+        "flavor": "A miniature tornado roars forth to batter your enemy and lift it into the air.",
+        "id": "modern4e.power.wizard-power5804",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "IMPLEMENT"
+        ],
+        "level": 3,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 3,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5804",
+          "publication": "Published in Arcane Power, page(s) 104.",
+          "rulesText": "Pinioning VortexWizard Attack 3\nA miniature tornado roars forth to batter your enemy and lift it into the air.\nEncounter   ✦     Arcane, Evocation, Implement\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Intelligence vs. Fortitude\nHit: 2d6 + Intelligence modifier damage, and you slide the target 10 feet (2 squares) vertically. The target remains aloft until the start of its next turn; while aloft, it is dazed and immobilized, and it grants combat advantage to you and your allies. At the start of its next turn, it lands on its feet in the space it formerly occupied or in the nearest unoccupied space of its choice.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Arcane Power, page(s) 104."
+        },
+        "subtitle": "Wizard Attack 3",
+        "title": "Pinioning Vortex"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5806",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ACID",
+            "ARCANE",
+            "CONJURATION",
+            "EVOCATION",
+            "IMPLEMENT"
+          ],
+          "level": 7,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 7,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your foe is engulfed by an acidic, jellylike mass that continues to eat at it when that foe tries to attack.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nEffect: You conjure an ooze that fills the target's space. It lasts until the end of your next turn. If the target moves, the ooze moves with it while it remains within range.\n\nAttack: Intelligence vs. Reflex\n\nHit: 4d8 + Intelligence acid damage. Until the end of your next turn, whenever the target makes an attack roll, it takes acid damage equal to your Constitution.\n\nTome of Binding: When the target first makes an attack roll before the end of your next turn, the ooze explodes. The explosion deals acid damage equal to your Constitution to all enemies within 2 squares of the target, and the effect ends.",
+        "title": "Tomebound Ooze"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You conjure an ooze that fills the target's space. It lasts until the end of your next turn. If the target moves, the ooze moves with it while it remains within range.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "4d8 + Intelligence acid damage. Until the end of your next turn, whenever the target makes an attack roll, it takes acid damage equal to your Constitution.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Tome of Binding",
+                "text": "When the target first makes an attack roll before the end of your next turn, the ooze explodes. The explosion deals acid damage equal to your Constitution to all enemies within 2 squares of the target, and the effect ends.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your foe is engulfed by an acidic, jellylike mass that continues to eat at it when that foe tries to attack.",
+        "flavor": "Your foe is engulfed by an acidic, jellylike mass that continues to eat at it when that foe tries to attack.",
+        "id": "modern4e.power.wizard-power5806",
+        "keywords": [
+          "ACID",
+          "ARCANE",
+          "CONJURATION",
+          "EVOCATION",
+          "IMPLEMENT"
+        ],
+        "level": 7,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 7,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5806",
+          "publication": "Published in Arcane Power, page(s) 106.",
+          "rulesText": "Tomebound OozeWizard Attack 7\nYour foe is engulfed by an acidic, jellylike mass that continues to eat at it when that foe tries to attack.\nEncounter   ✦     Acid, Arcane, Conjuration, Evocation, Implement\nStandard Action      Ranged 10\nTarget: One creature\nEffect: You conjure an ooze that fills the target's space. It lasts until the end of your next turn. If the target moves, the ooze moves with it while it remains within range.\nAttack: Intelligence vs. Reflex\nHit: 4d8 + Intelligence modifier acid damage. Until the end of your next turn, whenever the target makes an attack roll, it takes acid damage equal to your Constitution modifier.\nTome of Binding: When the target first makes an attack roll before the end of your next turn, the ooze explodes. The explosion deals acid damage equal to your Constitution modifier to all enemies within 2 squares of the target, and the effect ends.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Arcane Power, page(s) 106."
+        },
+        "subtitle": "Wizard Attack 7",
+        "title": "Tomebound Ooze"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5807",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "FEAR",
+            "ILLUSION",
+            "IMPLEMENT"
+          ],
+          "level": 9,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 9,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You create a vision of the reaper of souls before your foes' eyes, and they freeze in terror of their impending death.\n\nDAILY / STANDARD\n\nArea burst 1 within 10 squares\n\nTarget: Each creature in the burst\n\nAttack: Intelligence vs. Will\n\nHit: The target is immobilized (save ends).\n\nFirst Failed Saving Throw: The target is helpless (save ends).\n\nAftereffect: The target is slowed (save ends).\n\nAftereffect: The target is slowed (save ends).\n\nMiss: The target is immobilized (save ends).",
+        "title": "Face of Death"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "The target is immobilized (save ends).",
+                          "type": "effect"
+                        },
+                        {
+                          "id": "row-4",
+                          "label": "First Failed Saving Throw",
+                          "text": "The target is helpless (save ends).",
+                          "type": "effect"
+                        },
+                        {
+                          "id": "row-5",
+                          "label": "Aftereffect",
+                          "text": "The target is slowed (save ends).",
+                          "type": "effect"
+                        },
+                        {
+                          "id": "row-7",
+                          "label": "Aftereffect",
+                          "text": "The target is slowed (save ends).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-6",
+                          "label": "Miss",
+                          "text": "The target is immobilized (save ends).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 1 within 10 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Will",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 1 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You create a vision of the reaper of souls before your foes' eyes, and they freeze in terror of their impending death.",
+        "flavor": "You create a vision of the reaper of souls before your foes' eyes, and they freeze in terror of their impending death.",
+        "id": "modern4e.power.wizard-power5807",
+        "keywords": [
+          "ARCANE",
+          "FEAR",
+          "ILLUSION",
+          "IMPLEMENT"
+        ],
+        "level": 9,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 9,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5807",
+          "publication": "Published in Arcane Power, page(s) 106.",
+          "rulesText": "Face of DeathWizard Attack 9\nYou create a vision of the reaper of souls before your foes' eyes, and they freeze in terror of their impending death.\nDaily   ✦     Arcane, Fear, Illusion, Implement\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Intelligence vs. Will\nHit: The target is immobilized (save ends).\nFirst Failed Saving Throw: The target is helpless (save ends).\nAftereffect: The target is slowed (save ends).\nMiss: The target is immobilized (save ends).\nAftereffect: The target is slowed (save ends).\nPublished in Arcane Power, page(s) 106."
+        },
+        "subtitle": "Wizard Attack 9",
+        "title": "Face of Death"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5808",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "ILLUSION",
+            "IMPLEMENT",
+            "NECROTIC",
+            "ZONE"
+          ],
+          "level": 13,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 13,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A shroud of roiling shadows coalesces around your orb. Your enemies see a globe of utter blackness flare out to engulf them.\n\nENCOUNTER / STANDARD\n\nArea burst 1 within 20 squares\n\nTarget: Each creature in the burst\n\nAttack: Intelligence vs. Will\n\nHit: 1d6 + Intelligence necrotic damage.\n\nEffect: The burst creates a zone of illusory darkness that lasts until the end of your next turn. All creatures are blinded while they are within the zone.\n\nOrb of Imposition: You can extend the duration of this effect, even though it is not an at-will power. If you do so, the zone expands to a burst 3 and doesn't affect you or your allies.",
+        "title": "Orbmaster's Umbral Assault"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d6 + Intelligence necrotic damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 1 within 20 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "The burst creates a zone of illusory darkness that lasts until the end of your next turn. All creatures are blinded while they are within the zone.",
+                "type": "effect"
+              },
+              {
+                "id": "row-5",
+                "label": "Orb of Imposition",
+                "text": "You can extend the duration of this effect, even though it is not an at-will power. If you do so, the zone expands to a burst 3 and doesn't affect you or your allies.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 1 within 20 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A shroud of roiling shadows coalesces around your orb. Your enemies see a globe of utter blackness flare out to engulf them.",
+        "flavor": "A shroud of roiling shadows coalesces around your orb. Your enemies see a globe of utter blackness flare out to engulf them.",
+        "id": "modern4e.power.wizard-power5808",
+        "keywords": [
+          "ARCANE",
+          "ILLUSION",
+          "IMPLEMENT",
+          "NECROTIC",
+          "ZONE"
+        ],
+        "level": 13,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 13,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5808",
+          "publication": "Published in Arcane Power, page(s) 108.",
+          "rulesText": "Orbmaster's Umbral AssaultWizard Attack 13\nA shroud of roiling shadows coalesces around your orb. Your enemies see a globe of utter blackness flare out to engulf them.\nEncounter   ✦     Arcane, Illusion, Implement, Necrotic, Zone\nStandard Action      Area burst 1 within 20 squares\nTarget: Each creature in the burst\nAttack: Intelligence vs. Will\nHit: 1d6 + Intelligence modifier necrotic damage.\nEffect: The burst creates a zone of illusory darkness that lasts until the end of your next turn. All creatures are blinded while they are within the zone.\nOrb of Imposition: You can extend the duration of this effect, even though it is not an at-will power. If you do so, the zone expands to a burst 3 and doesn't affect you or your allies.\nPublished in Arcane Power, page(s) 108."
+        },
+        "subtitle": "Wizard Attack 13",
+        "title": "Orbmaster's Umbral Assault"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5809",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "FORCE",
+            "IMPLEMENT"
+          ],
+          "level": 13,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 13,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A burst of force erupts around your enemies, knocking them off balance and impeding their movement.\n\nENCOUNTER / STANDARD\n\nArea burst 1 within 10 squares\n\nTarget: Each creature in the burst\n\nAttack: Intelligence vs. Reflex\n\nHit: 3d6 + Intelligence force damage. Until the end of your next turn, the target is slowed and can't teleport, and it provokes opportunity attacks when it shifts.\n\nWand of Accuracy: On a miss, you deal force damage to the target equal to your Intelligence.",
+        "title": "Entangling Force"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3d6 + Intelligence force damage. Until the end of your next turn, the target is slowed and can't teleport, and it provokes opportunity attacks when it shifts.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 1 within 10 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Wand of Accuracy",
+                "text": "On a miss, you deal force damage to the target equal to your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 1 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A burst of force erupts around your enemies, knocking them off balance and impeding their movement.",
+        "flavor": "A burst of force erupts around your enemies, knocking them off balance and impeding their movement.",
+        "id": "modern4e.power.wizard-power5809",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "FORCE",
+          "IMPLEMENT"
+        ],
+        "level": 13,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 13,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5809",
+          "publication": "Published in Arcane Power, page(s) 108.",
+          "rulesText": "Entangling ForceWizard Attack 13\nA burst of force erupts around your enemies, knocking them off balance and impeding their movement.\nEncounter   ✦     Arcane, Evocation, Force, Implement\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Intelligence vs. Reflex\nHit: 3d6 + Intelligence modifier force damage. Until the end of your next turn, the target is slowed and can't teleport, and it provokes opportunity attacks when it shifts.\nWand of Accuracy: On a miss, you deal force damage to the target equal to your Intelligence modifier.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Arcane Power, page(s) 108."
+        },
+        "subtitle": "Wizard Attack 13",
+        "title": "Entangling Force"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5812",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "IMPLEMENT",
+            "LIGHTNING"
+          ],
+          "level": 17,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 17,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Snapping blue arcs of lightning erupt from the ground, leaping from one foe to another.\n\nENCOUNTER / STANDARD\n\nRanged 20\n\nTarget: One creature\n\nAttack: Intelligence vs. Reflex\n\nHit: 2d6 + Intelligence lightning damage, and you slide the target 1 square. If, after this movement, the target is within 2 squares of an enemy that has not yet been attacked by this use of this power, make the following secondary attack against that enemy using the primary target as the origin square of the burst.\n\nGrants: Dancing Bolts Secondary Attack\n\nENCOUNTER / FREE\n\nArea burst 2\n\nRequirement: You have hit an enemy with the Dancing Bolts power this round.\n\nTarget: One enemy that has not yet been attacked by a Dancing Bolts attack and is within 2 squares of an enemy that has been hit by the Dancing Bolt power.\n\nAttack: Intelligence vs. Reflex\n\nHit: 2d6 + Intelligence lightning damage, and you slide the target 1 square. If, after this movement, the target is within 2 squares of an enemy that has not yet been attacked by this use of this power, make a Dancing Bolts tertiary attack against that enemy using the secondary target as the origin square of the burst.",
+        "title": "Dancing Bolts"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d6 + Intelligence lightning damage, and you slide the target 1 square. If, after this movement, the target is within 2 squares of an enemy that has not yet been attacked by this use of this power, make the following secondary attack against that enemy using the primary target as the origin square of the burst.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 20",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "activationId": "use-dancing-bolts-secondary-attack",
+                "duration": "As stated in the power's rules",
+                "id": "grant-use-dancing-bolts-secondary-attack",
+                "label": "Grants",
+                "text": "Dancing Bolts Secondary Attack",
+                "type": "grant"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 20",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          },
+          {
+            "action": "FREE",
+            "availability": "GRANTED",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-9": {
+                "kind": "TARGET_SET",
+                "text": "One enemy that has not yet been attacked by a Dancing Bolts attack and is within 2 squares of an enemy that has been hit by the Dancing Bolt power."
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-11",
+                          "label": "Hit",
+                          "text": "2d6 + Intelligence lightning damage, and you slide the target 1 square. If, after this movement, the target is within 2 squares of an enemy that has not yet been attacked by this use of this power, make a Dancing Bolts tertiary attack against that enemy using the secondary target as the origin square of the burst.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-10",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 2",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-9",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use-dancing-bolts-secondary-attack",
+            "range": {
+              "text": "Area burst 2",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You have hit an enemy with the Dancing Bolts power this round.",
+            "targets": "targets-9",
+            "title": "Dancing Bolts Secondary Attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Snapping blue arcs of lightning erupt from the ground, leaping from one foe to another.",
+        "flavor": "Snapping blue arcs of lightning erupt from the ground, leaping from one foe to another.",
+        "id": "modern4e.power.wizard-power5812",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "IMPLEMENT",
+          "LIGHTNING"
+        ],
+        "level": 17,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 17,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5812",
+          "publication": "Published in Arcane Power, page(s) 110.",
+          "rulesText": "Dancing BoltsWizard Attack 17\nSnapping blue arcs of lightning erupt from the ground, leaping from one foe to another.\nEncounter   ✦     Arcane, Evocation, Implement, Lightning\nStandard Action      Ranged 20\nTarget: One creature\nAttack: Intelligence vs. Reflex\nHit: 2d6 + Intelligence modifier lightning damage, and you slide the target 1 square. If, after this movement, the target is within 2 squares of an enemy that has not yet been attacked by this use of this power, make the following secondary attack against that enemy using the primary target as the origin square of the burst.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nDancing Bolts Secondary Attack\nSnapping blue arcs of lightning erupt from the ground, leaping from one foe to another.\nEncounter ✦     Arcane, Implement, Lightning\nFree Action      Area burst 2\nRequirement: You have hit an enemy with the Dancing Bolts power this round.\nTarget: One enemy that has not yet been attacked by a Dancing Bolts attack and is within 2 squares of an enemy that has been hit by the Dancing Bolt power.\nAttack: Intelligence vs. Reflex\nHit: 2d6 + Intelligence modifier lightning damage, and you slide the target 1 square. If, after this movement, the target is within 2 squares of an enemy that has not yet been attacked by this use of this power, make a Dancing Bolts tertiary attack against that enemy using the secondary target as the origin square of the burst.\nPublished in Arcane Power, page(s) 110."
+        },
+        "subtitle": "Wizard Attack 17",
+        "title": "Dancing Bolts"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power5813",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "FORCE",
+            "IMPLEMENT"
+          ],
+          "level": 19,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 19,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A massive barrage of arcane energy slams your foe to the ground and grinds it into the dirt.\n\nDAILY / STANDARD\n\nRanged 20\n\nTarget: One creature\n\nAttack: Intelligence vs. Reflex\n\nHit: 3d10 + Intelligence force damage, and the target is knocked prone and affected by oppressive force (save ends). While affected by oppressive force, the target takes ongoing 10 force damage and can't stand up from prone.\n\nMiss: Half damage, and the target is knocked prone and affected by oppressive force (save ends). While affected by oppressive force, the target takes ongoing 5 force damage and can't stand up from prone.",
+        "title": "Oppressive Force"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3d10 + Intelligence force damage, and the target is knocked prone and affected by oppressive force (save ends). While affected by oppressive force, the target takes ongoing 10 force damage and can't stand up from prone.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and the target is knocked prone and affected by oppressive force (save ends). While affected by oppressive force, the target takes ongoing 5 force damage and can't stand up from prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 20",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 20",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A massive barrage of arcane energy slams your foe to the ground and grinds it into the dirt.",
+        "flavor": "A massive barrage of arcane energy slams your foe to the ground and grinds it into the dirt.",
+        "id": "modern4e.power.wizard-power5813",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "FORCE",
+          "IMPLEMENT"
+        ],
+        "level": 19,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 19,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5813",
+          "publication": "Published in Arcane Power, page(s) 111.",
+          "rulesText": "Oppressive ForceWizard Attack 19\nA massive barrage of arcane energy slams your foe to the ground and grinds it into the dirt.\nDaily   ✦     Arcane, Evocation, Force, Implement\nStandard Action      Ranged 20\nTarget: One creature\nAttack: Intelligence vs. Reflex\nHit: 3d10 + Intelligence modifier force damage, and the target is knocked prone and affected by oppressive force (save ends). While affected by oppressive force, the target takes ongoing 10 force damage and can't stand up from prone.\nMiss: Half damage, and the target is knocked prone and affected by oppressive force (save ends). While affected by oppressive force, the target takes ongoing 5 force damage and can't stand up from prone.\nPublished in Arcane Power, page(s) 111."
+        },
+        "subtitle": "Wizard Attack 19",
+        "title": "Oppressive Force"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power65",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "FORCE",
+            "IMPLEMENT"
+          ],
+          "level": 17,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 17,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You speak a ringing word of doleful power, enmeshing your foes in spectral bonds.\n\nENCOUNTER / STANDARD\n\nArea burst 2 within 20 squares\n\nTarget: Each creature in the burst\n\nAttack: Intelligence vs. Reflex\n\nHit: 3d6 + Intelligence force damage. Until the end of your next turn, the target is slowed, and it provokes opportunity attacks when it shifts.",
+        "title": "Gripping Chains"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3d6 + Intelligence force damage. Until the end of your next turn, the target is slowed, and it provokes opportunity attacks when it shifts.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 2 within 20 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 2 within 20 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You speak a ringing word of doleful power, enmeshing your foes in spectral bonds.",
+        "flavor": "You speak a ringing word of doleful power, enmeshing your foes in spectral bonds.",
+        "id": "modern4e.power.wizard-power65",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "FORCE",
+          "IMPLEMENT"
+        ],
+        "level": 17,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 17,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power65",
+          "publication": "Published in Arcane Power, page(s) 110.",
+          "rulesText": "Gripping ChainsWizard Attack 17\nYou speak a ringing word of doleful power, enmeshing your foes in spectral bonds.\nEncounter   ✦     Arcane, Evocation, Force, Implement\nStandard Action      Area burst 2 within 20 squares\nTarget: Each creature in the burst\nAttack: Intelligence vs. Reflex\nHit: 3d6 + Intelligence modifier force damage. Until the end of your next turn, the target is slowed, and it provokes opportunity attacks when it shifts.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Arcane Power, page(s) 110."
+        },
+        "subtitle": "Wizard Attack 17",
+        "title": "Gripping Chains"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power67",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT",
+            "POISON",
+            "ZONE"
+          ],
+          "level": 5,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 5,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You call forth a thick cloud of bilious yellow vapors. The foul fumes overwhelm any creature within.\n\nDAILY / STANDARD\n\nArea burst 2 within 20 squares\n\nTarget: Each creature in the burst\n\nAttack: Intelligence vs. Fortitude\n\nHit: 1d10 + Intelligence poison damage.\n\nEffect: The burst creates a zone that lasts until the end of your next turn. The zone is heavily obscured. Any creature that enters the zone or starts its turn there takes 5 + your Intelligence poison damage (a creature can take this damage only once per turn). As a move action, you can move the zone up to 6 squares.\n\nSustain Minor: The zone persists until the end of your next turn.",
+        "title": "Stinking Cloud"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d10 + Intelligence poison damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 2 within 20 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "The burst creates a zone that lasts until the end of your next turn. The zone is heavily obscured. Any creature that enters the zone or starts its turn there takes 5 + your Intelligence poison damage (a creature can take this damage only once per turn). As a move action, you can move the zone up to 6 squares.",
+                "type": "effect"
+              },
+              {
+                "id": "row-5",
+                "label": "Sustain Minor",
+                "text": "The zone persists until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 2 within 20 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You call forth a thick cloud of bilious yellow vapors. The foul fumes overwhelm any creature within.",
+        "flavor": "You call forth a thick cloud of bilious yellow vapors. The foul fumes overwhelm any creature within.",
+        "id": "modern4e.power.wizard-power67",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "POISON",
+          "ZONE"
+        ],
+        "level": 5,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 5,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power67",
+          "publication": "Published in Player's Handbook, page(s) 161, Class Compendium.",
+          "rulesText": "Stinking CloudWizard Attack 5\nYou call forth a thick cloud of bilious yellow vapors. The foul fumes overwhelm any creature within.\nDaily   ✦     Arcane, Implement, Poison, Zone\nStandard Action      Area burst 2 within 20 squares\nTarget: Each creature in the burst\nAttack: Intelligence vs. Fortitude\nHit: 1d10 + Intelligence modifier poison damage.\nEffect: The burst creates a zone that lasts until the end of your next turn. The zone is heavily obscured. Any creature that enters the zone or starts its turn there takes 5 + your Intelligence modifier poison damage (a creature can take this damage only once per turn). As a move action, you can move the zone up to 6 squares.\nSustain Minor: The zone persists until the end of your next turn.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Player's Handbook, page(s) 161, Class Compendium."
+        },
+        "subtitle": "Wizard Attack 5",
+        "title": "Stinking Cloud"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power6903",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "CHARM",
+            "EVOCATION",
+            "IMPLEMENT",
+            "THUNDER"
+          ],
+          "level": 7,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 7,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A focused blast of thunder slams into your foe, and the energy of the blast is stored in your enemy's body. When it next attacks, that energy is released in a concussive burst.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Intelligence vs. Will\n\nHit: 2d6 + Intelligence thunder damage. The first time the target makes an attack roll before the end of your next turn, it deals 5 thunder damage to itself and to each enemy within 3 squares of it.",
+        "title": "Concussive Echo"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d6 + Intelligence thunder damage. The first time the target makes an attack roll before the end of your next turn, it deals 5 thunder damage to itself and to each enemy within 3 squares of it.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Will",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A focused blast of thunder slams into your foe, and the energy of the blast is stored in your enemy's body. When it next attacks, that energy is released in a concussive burst.",
+        "flavor": "A focused blast of thunder slams into your foe, and the energy of the blast is stored in your enemy's body. When it next attacks, that energy is released in a concussive burst.",
+        "id": "modern4e.power.wizard-power6903",
+        "keywords": [
+          "ARCANE",
+          "CHARM",
+          "EVOCATION",
+          "IMPLEMENT",
+          "THUNDER"
+        ],
+        "level": 7,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 7,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6903",
+          "publication": "Published in Arcane Power, page(s) 106.",
+          "rulesText": "Concussive EchoWizard Attack 7\nA focused blast of thunder slams into your foe, and the energy of the blast is stored in your enemy's body. When it next attacks, that energy is released in a concussive burst.\nEncounter   ✦     Arcane, Charm, Evocation, Implement, Thunder\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Intelligence vs. Will\nHit: 2d6 + Intelligence modifier thunder damage. The first time the target makes an attack roll before the end of your next turn, it deals 5 thunder damage to itself and to each enemy within 3 squares of it.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Arcane Power, page(s) 106."
+        },
+        "subtitle": "Wizard Attack 7",
+        "title": "Concussive Echo"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power6904",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "ILLUSION",
+            "IMPLEMENT",
+            "PSYCHIC"
+          ],
+          "level": 13,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 13,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You produce a lifelike illusion of a warrior that attacks your enemies and aids your allies.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature adjacent to the warrior\n\nEffect: You bring forth a Medium illusory warrior in an unoccupied square within range, and the warrior makes the following melee attack. Enemies cannot enter the illusory warrior's space, but allies can, and the illusory warrior is considered an ally for the purpose of flanking. The illusory warrior lasts until the end of your next turn,\n\nAttack: Intelligence vs. Reflex\n\nHit: 4d8 + Intelligence damage.",
+        "title": "Illusory Assailant"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature adjacent to the warrior"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You bring forth a Medium illusory warrior in an unoccupied square within range, and the warrior makes the following melee attack. Enemies cannot enter the illusory warrior's space, but allies can, and the illusory warrior is considered an ally for the purpose of flanking. The illusory warrior lasts until the end of your next turn,",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "4d8 + Intelligence damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You produce a lifelike illusion of a warrior that attacks your enemies and aids your allies.",
+        "flavor": "You produce a lifelike illusion of a warrior that attacks your enemies and aids your allies.",
+        "id": "modern4e.power.wizard-power6904",
+        "keywords": [
+          "ARCANE",
+          "ILLUSION",
+          "IMPLEMENT",
+          "PSYCHIC"
+        ],
+        "level": 13,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 13,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6904",
+          "publication": "Published in Arcane Power, page(s) 108.",
+          "rulesText": "Illusory AssailantWizard Attack 13\nYou produce a lifelike illusion of a warrior that attacks your enemies and aids your allies.\nEncounter   ✦     Arcane, Illusion, Implement, Psychic\nStandard Action      Ranged 10\nEffect: You bring forth a Medium illusory warrior in an unoccupied square within range, and the warrior makes the following melee attack. Enemies cannot enter the illusory warrior's space, but allies can, and the illusory warrior is considered an ally for the purpose of flanking. The illusory warrior lasts until the end of your next turn,\nTarget: One creature adjacent to the warrior\nAttack: Intelligence vs. Reflex\nHit: 4d8 + Intelligence modifier damage.\nPublished in Arcane Power, page(s) 108."
+        },
+        "subtitle": "Wizard Attack 13",
+        "title": "Illusory Assailant"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power6958",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT",
+            "NECROMANCY",
+            "NECROTIC",
+            "ZONE"
+          ],
+          "level": 5,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 5,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Skeletal hands burst from the earth and ghostly claws swirl from the air to snatch at your foes.\n\nDAILY / STANDARD\n\nArea burst 2 within 20 squares\n\nTarget: Each enemy in the burst\n\nAttack: Intelligence vs. Reflex\n\nHit: 1d10 + Intelligence necrotic damage, and the target is dazed until the end of your next turn.\n\nMiss: 1d10 + Intelligence necrotic damage.\n\nEffect: The burst creates a zone that lasts until the end of the encounter. An enemy that enters the zone or that starts its turn in the zone takes 5 necrotic damage. An enemy can take this damage only once per turn.",
+        "title": "Grasp of the Grave"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d10 + Intelligence necrotic damage, and the target is dazed until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "1d10 + Intelligence necrotic damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 2 within 20 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "The burst creates a zone that lasts until the end of the encounter. An enemy that enters the zone or that starts its turn in the zone takes 5 necrotic damage. An enemy can take this damage only once per turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 2 within 20 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Skeletal hands burst from the earth and ghostly claws swirl from the air to snatch at your foes.",
+        "flavor": "Skeletal hands burst from the earth and ghostly claws swirl from the air to snatch at your foes.",
+        "id": "modern4e.power.wizard-power6958",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "NECROMANCY",
+          "NECROTIC",
+          "ZONE"
+        ],
+        "level": 5,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 5,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6958",
+          "publication": "Published in Dragon Magazine 372, page(s) 24.",
+          "rulesText": "Grasp of the GraveWizard Attack 5\nSkeletal hands burst from the earth and ghostly claws swirl from the air to snatch at your foes.\nDaily   ✦     Arcane, Implement, Necromancy, Necrotic, Zone\nStandard Action      Area burst 2 within 20 squares\nTarget: Each enemy in the burst\nAttack: Intelligence vs. Reflex\nHit: 1d10 + Intelligence modifier necrotic damage, and the target is dazed until the end of your next turn.\nMiss: 1d10 + Intelligence modifier necrotic damage.\nEffect: The burst creates a zone that lasts until the end of the encounter. An enemy that enters the zone or that starts its turn in the zone takes 5 necrotic damage. An enemy can take this damage only once per turn.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Dragon Magazine 372, page(s) 24."
+        },
+        "subtitle": "Wizard Attack 5",
+        "title": "Grasp of the Grave"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power6959",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT",
+            "NECROMANCY",
+            "NECROTIC",
+            "SUMMONING"
+          ],
+          "level": 9,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 9,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You flood a fallen foe's animus with shadow, imbuing it with arcane strength.\n\nDAILY / MINOR\n\nRanged 10\n\nTarget: One dead creature\n\nEffect: You summon the animated corpse of one of your fallen enemies in an unoccupied square within range. The summoned creature is the same size as one dead creature within the range of this power. The animated creature has reach equal to the target creature's reach and speed 6. It has a +2 bonus to AC and a +2 bonus to Fortitude. You can give the animated creature the following special commands.\n\nStandard Action: Targets one enemy in reach; Intelligence vs. AC; 1d10 + Intelligence necrotic damage.\n\nOpportunity Attack: Targets one enemy in reach; Intelligence vs. AC; 1d10 + Intelligence necrotic damage.",
+        "title": "Animate Dead"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One dead creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You summon the animated corpse of one of your fallen enemies in an unoccupied square within range. The summoned creature is the same size as one dead creature within the range of this power. The animated creature has reach equal to the target creature's reach and speed 6. It has a +2 bonus to AC and a +2 bonus to Fortitude. You can give the animated creature the following special commands.",
+                "type": "effect"
+              },
+              {
+                "id": "row-3",
+                "label": "Standard Action",
+                "text": "Targets one enemy in reach; Intelligence vs. AC; 1d10 + Intelligence necrotic damage.",
+                "type": "effect"
+              },
+              {
+                "id": "row-4",
+                "label": "Opportunity Attack",
+                "text": "Targets one enemy in reach; Intelligence vs. AC; 1d10 + Intelligence necrotic damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You flood a fallen foe's animus with shadow, imbuing it with arcane strength.",
+        "flavor": "You flood a fallen foe's animus with shadow, imbuing it with arcane strength.",
+        "id": "modern4e.power.wizard-power6959",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "NECROMANCY",
+          "NECROTIC",
+          "SUMMONING"
+        ],
+        "level": 9,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 9,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6959",
+          "publication": "Published in Dragon Magazine 372, page(s) 24.",
+          "rulesText": "Animate DeadWizard Attack 9\nYou flood a fallen foe's animus with shadow, imbuing it with arcane strength.\nDaily   ✦     Arcane, Implement, Necromancy, Necrotic, Summoning\nMinor Action      Ranged 10\nTarget: One dead creature\nEffect: You summon the animated corpse of one of your fallen enemies in an unoccupied square within range. The summoned creature is the same size as one dead creature within the range of this power. The animated creature has reach equal to the target creature's reach and speed 6. It has a +2 bonus to AC and a +2 bonus to Fortitude. You can give the animated creature the following special commands.\nStandard Action: Targets one enemy in reach; Intelligence vs. AC; 1d10 + Intelligence modifier necrotic damage.\nOpportunity Attack: Targets one enemy in reach; Intelligence vs. AC; 1d10 + Intelligence modifier necrotic damage.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Dragon Magazine 372, page(s) 24."
+        },
+        "subtitle": "Wizard Attack 9",
+        "title": "Animate Dead"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power6960",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "CHARM",
+            "IMPLEMENT",
+            "NECROMANCY",
+            "NECROTIC",
+            "SHADOW"
+          ],
+          "level": 15,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 15,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You reach out and crush your foes' animating spirits, manipulating their limbs like a puppeteer.\n\nDAILY / STANDARD\n\nArea burst 2 within 20 squares\n\nTarget: Each enemy in the burst\n\nAttack: Intelligence vs. Will\n\nHit: 4d8 + Intelligence necrotic damage, and the target is immobilized (save ends). If the target is undead, it takes no damage, and it is dominated instead of immobilized (save ends).\n\nMiss: Half damage.",
+        "title": "Soul Puppets"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "4d8 + Intelligence necrotic damage, and the target is immobilized (save ends). If the target is undead, it takes no damage, and it is dominated instead of immobilized (save ends).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 2 within 20 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Will",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 2 within 20 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You reach out and crush your foes' animating spirits, manipulating their limbs like a puppeteer.",
+        "flavor": "You reach out and crush your foes' animating spirits, manipulating their limbs like a puppeteer.",
+        "id": "modern4e.power.wizard-power6960",
+        "keywords": [
+          "ARCANE",
+          "CHARM",
+          "IMPLEMENT",
+          "NECROMANCY",
+          "NECROTIC",
+          "SHADOW"
+        ],
+        "level": 15,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 15,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6960",
+          "publication": "Published in Dragon Magazine 372, page(s) 24, Heroes of Shadow, page(s) 105.",
+          "rulesText": "Soul PuppetsWizard Attack 15\nYou reach out and crush your foes' animating spirits, manipulating their limbs like a puppeteer.\nDaily   ✦     Arcane, Charm, Implement, Necromancy, Necrotic, Shadow\nStandard Action      Area burst 2 within 20 squares\nTarget: Each enemy in the burst\nAttack: Intelligence vs. Will\nHit: 4d8 + Intelligence modifier necrotic damage, and the target is immobilized (save ends). If the target is undead, it takes no damage, and it is dominated instead of immobilized (save ends).\nMiss: Half damage.\nPublished in Dragon Magazine 372, page(s) 24, Heroes of Shadow, page(s) 105."
+        },
+        "subtitle": "Wizard Attack 15",
+        "title": "Soul Puppets"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power6961",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT",
+            "NECROMANCY",
+            "NECROTIC"
+          ],
+          "level": 19,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 19,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A maw of moaning grave dirt appears around your foe and slams shut with echoing finality.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Intelligence vs. Reflex\n\nHit: 2d10 + Intelligence necrotic damage, and the target takes ongoing 10 necrotic damage and is stunned (save ends both). Other creatures cannot gain line of sight or line of effect to the target while it is stunned.\n\nMiss: Half damage, and the target takes ongoing 10 necrotic damage (save ends).",
+        "title": "Entombing Earth"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d10 + Intelligence necrotic damage, and the target takes ongoing 10 necrotic damage and is stunned (save ends both). Other creatures cannot gain line of sight or line of effect to the target while it is stunned.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and the target takes ongoing 10 necrotic damage (save ends).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A maw of moaning grave dirt appears around your foe and slams shut with echoing finality.",
+        "flavor": "A maw of moaning grave dirt appears around your foe and slams shut with echoing finality.",
+        "id": "modern4e.power.wizard-power6961",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "NECROMANCY",
+          "NECROTIC"
+        ],
+        "level": 19,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 19,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6961",
+          "publication": "Published in Dragon Magazine 372, page(s) 24.",
+          "rulesText": "Entombing EarthWizard Attack 19\nA maw of moaning grave dirt appears around your foe and slams shut with echoing finality.\nDaily   ✦     Arcane, Implement, Necromancy, Necrotic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Intelligence vs. Reflex\nHit: 2d10 + Intelligence modifier necrotic damage, and the target takes ongoing 10 necrotic damage and is stunned (save ends both). Other creatures cannot gain line of sight or line of effect to the target while it is stunned.\nMiss: Half damage, and the target takes ongoing 10 necrotic damage (save ends).\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Dragon Magazine 372, page(s) 24."
+        },
+        "subtitle": "Wizard Attack 19",
+        "title": "Entombing Earth"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power71",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "FIRE",
+            "IMPLEMENT",
+            "ZONE"
+          ],
+          "level": 17,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 17,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You create a powerful storm of desert winds and red-hot sand.\n\nENCOUNTER / STANDARD\n\nArea burst 2 within 20 squares\n\nTarget: Each creature in the burst\n\nAttack: Intelligence vs. Reflex\n\nHit: 2d6 + Intelligence fire damage.\n\nEffect: The burst creates a zone of red-hot swirling sand that lasts until the end of your next turn. All creatures are blinded while they are within the zone, and the area is lightly obscured. Each creature that enters the zone takes 1d10 + your Intelligence fire damage. A creature can take this damage only once per turn.",
+        "title": "Furnace of Sand"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d6 + Intelligence fire damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 2 within 20 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "The burst creates a zone of red-hot swirling sand that lasts until the end of your next turn. All creatures are blinded while they are within the zone, and the area is lightly obscured. Each creature that enters the zone takes 1d10 + your Intelligence fire damage. A creature can take this damage only once per turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 2 within 20 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You create a powerful storm of desert winds and red-hot sand.",
+        "flavor": "You create a powerful storm of desert winds and red-hot sand.",
+        "id": "modern4e.power.wizard-power71",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "FIRE",
+          "IMPLEMENT",
+          "ZONE"
+        ],
+        "level": 17,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 17,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power71",
+          "publication": "Published in Arcane Power, page(s) 110.",
+          "rulesText": "Furnace of SandWizard Attack 17\nYou create a powerful storm of desert winds and red-hot sand.\nEncounter   ✦     Arcane, Evocation, Fire, Implement, Zone\nStandard Action      Area burst 2 within 20 squares\nTarget: Each creature in the burst\nAttack: Intelligence vs. Reflex\nHit: 2d6 + Intelligence modifier fire damage.\nEffect: The burst creates a zone of red-hot swirling sand that lasts until the end of your next turn. All creatures are blinded while they are within the zone, and the area is lightly obscured. Each creature that enters the zone takes 1d10 + your Intelligence modifier fire damage. A creature can take this damage only once per turn.\nUpdate (2/15/2012)\nChanged in December 2011 updates.\nPublished in Arcane Power, page(s) 110."
+        },
+        "subtitle": "Wizard Attack 17",
+        "title": "Furnace of Sand"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power722",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "CONJURATION",
+            "FIRE",
+            "IMPLEMENT"
+          ],
+          "level": 9,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 9,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A blazing wall of flame erupts from the ground at your command.\n\nDAILY / STANDARD\n\nArea wall 8 within 10 squares\n\nEffect: You conjure a wall of fire that lasts until the end of your next turn. The wall can be up to 4 squares high. Any creature that starts its turn adjacent to the wall takes 1d6 + Intelligence fire damage. Any creature that enters the wall or starts its turn there takes 3d6 + Intelligence fire damage (a creature can take this damage only once per turn). The wall blocks line of sight. Each square of movement that includes one or more squares of the wall costs 3 extra squares of movement.\n\nSustain Minor: The wall persists until the end of your next turn.",
+        "title": "Wall of Fire"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You conjure a wall of fire that lasts until the end of your next turn. The wall can be up to 4 squares high. Any creature that starts its turn adjacent to the wall takes 1d6 + Intelligence fire damage. Any creature that enters the wall or starts its turn there takes 3d6 + Intelligence fire damage (a creature can take this damage only once per turn). The wall blocks line of sight. Each square of movement that includes one or more squares of the wall costs 3 extra squares of movement.",
+                "type": "effect"
+              },
+              {
+                "id": "row-2",
+                "label": "Sustain Minor",
+                "text": "The wall persists until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area wall 8 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A blazing wall of flame erupts from the ground at your command.",
+        "flavor": "A blazing wall of flame erupts from the ground at your command.",
+        "id": "modern4e.power.wizard-power722",
+        "keywords": [
+          "ARCANE",
+          "CONJURATION",
+          "FIRE",
+          "IMPLEMENT"
+        ],
+        "level": 9,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 9,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power722",
+          "publication": "Published in Player's Handbook, page(s) 163, Class Compendium.",
+          "rulesText": "Wall of FireWizard Attack 9\nA blazing wall of flame erupts from the ground at your command.\nDaily   ✦     Arcane, Conjuration, Fire, Implement\nStandard Action      Area wall 8 within 10 squares\nEffect: You conjure a wall of fire that lasts until the end of your next turn. The wall can be up to 4 squares high. Any creature that starts its turn adjacent to the wall takes 1d6 + Intelligence modifier fire damage. Any creature that enters the wall or starts its turn there takes 3d6 + Intelligence modifier fire damage (a creature can take this damage only once per turn). The wall blocks line of sight. Each square of movement that includes one or more squares of the wall costs 3 extra squares of movement.\nSustain Minor: The wall persists until the end of your next turn.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Player's Handbook, page(s) 163, Class Compendium."
+        },
+        "subtitle": "Wizard Attack 9",
+        "title": "Wall of Fire"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power7406",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "COLD",
+            "EVOCATION",
+            "IMPLEMENT"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "AT_WILL"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A lingering swarm of ice crystals chills foes to the bone.\n\nAT_WILL / STANDARD\n\nArea burst 1 within 10 squares\n\nTarget: Each enemy in the burst\n\nAttack: Intelligence vs. Fortitude\n\nHit: Intelligence cold damage.\n\nEffect: Until the end of your next turn, any enemy in the power's area takes a -2 penalty to attack rolls. Increase damage to twice Intelligence at 21st level.",
+        "title": "Chilling Cloud"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "Intelligence cold damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 1 within 10 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "Until the end of your next turn, any enemy in the power's area takes a -2 penalty to attack rolls. Increase damage to twice Intelligence at 21st level.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 1 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A lingering swarm of ice crystals chills foes to the bone.",
+        "flavor": "A lingering swarm of ice crystals chills foes to the bone.",
+        "id": "modern4e.power.wizard-power7406",
+        "keywords": [
+          "ARCANE",
+          "COLD",
+          "EVOCATION",
+          "IMPLEMENT"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7406",
+          "publication": "Published in PH Heroes: Series 1.",
+          "rulesText": "Chilling CloudWizard Attack 1\nA lingering swarm of ice crystals chills foes to the bone.\nAt-Will   ✦     Arcane, Cold, Evocation, Implement\nStandard Action      Area burst 1 within 10 squares\nTarget: Each enemy in the burst\nAttack: Intelligence vs. Fortitude\nHit: Intelligence modifier cold damage.\nEffect: Until the end of your next turn, any enemy in the power's area takes a -2 penalty to attack rolls. Increase damage to twice Intelligence modifier at 21st level.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in PH Heroes: Series 1."
+        },
+        "subtitle": "Wizard Attack 1",
+        "title": "Chilling Cloud"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: You must know the magic missile at-will wizard power.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power7429",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 1,
+                "type": "level"
+              },
+              {
+                "reason": "Unadapted source prerequisite.",
+                "text": "You must know the magic missile at-will wizard power.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: You must know the magic missile at-will wizard power."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You begin to fling force bolts with a flick of your wrist.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the end of the encounter, as a minor action once per turn, you can cast magic missile.",
+        "title": "Wizard's Fury"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "Until the end of the encounter, as a minor action once per turn, you can cast magic missile.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You begin to fling force bolts with a flick of your wrist.",
+        "flavor": "You begin to fling force bolts with a flick of your wrist.",
+        "id": "modern4e.power.wizard-power7429",
+        "keywords": [
+          "ARCANE",
+          "FORCE",
+          "IMPLEMENT"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 1,
+              "type": "level"
+            },
+            {
+              "reason": "Unadapted source prerequisite.",
+              "text": "You must know the magic missile at-will wizard power.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7429",
+          "publication": "Published in Dragon Magazine 374, page(s) 22.",
+          "rulesText": "Wizard's FuryWizard Attack 1\nYou begin to fling force bolts with a flick of your wrist.\nDaily   ✦     Arcane, Force, Implement\nMinor Action\nPrerequisite: You must know the magic missile at-will wizard power.\nEffect: Until the end of the encounter, as a minor action once per turn, you can cast magic missile.\nPublished in Dragon Magazine 374, page(s) 22."
+        },
+        "subtitle": "Wizard Attack 1",
+        "title": "Wizard's Fury"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.wizard-power7510",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "EVOCATION",
+            "IMPLEMENT",
+            "THUNDER"
+          ],
+          "level": 7,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 7,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your foe is rocked by thunderous noise, and an ominous rumble begins at your enemy's slightest move.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Intelligence vs. Fortitude\n\nHit: 2d10 + Intelligence thunder damage. If the target leaves the space it currently occupies before the start of your next turn, it takes an extra 1d10 + Intelligence thunder damage.",
+        "title": "Thunder Cage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d10 + Intelligence thunder damage. If the target leaves the space it currently occupies before the start of your next turn, it takes an extra 1d10 + Intelligence thunder damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Fortitude",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your foe is rocked by thunderous noise, and an ominous rumble begins at your enemy's slightest move.",
+        "flavor": "Your foe is rocked by thunderous noise, and an ominous rumble begins at your enemy's slightest move.",
+        "id": "modern4e.power.wizard-power7510",
+        "keywords": [
+          "ARCANE",
+          "EVOCATION",
+          "IMPLEMENT",
+          "THUNDER"
+        ],
+        "level": 7,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 7,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7510",
+          "publication": "Published in Dragon Magazine 375, page(s) 14.",
+          "rulesText": "Thunder CageWizard Attack 7\nYour foe is rocked by thunderous noise, and an ominous rumble begins at your enemy's slightest move.\nEncounter   ✦     Arcane, Evocation, Implement, Thunder\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Intelligence vs. Fortitude\nHit: 2d10 + Intelligence modifier thunder damage. If the target leaves the space it currently occupies before the start of your next turn, it takes an extra 1d10 + Intelligence modifier thunder damage.\nUpdate (10/18/2011)\nUpdated in Wizard Schools article.\nPublished in Dragon Magazine 375, page(s) 14."
+        },
+        "subtitle": "Wizard Attack 7",
+        "title": "Thunder Cage"
+      }
+    }
+  ],
+  "id": "entries-0042"
+}

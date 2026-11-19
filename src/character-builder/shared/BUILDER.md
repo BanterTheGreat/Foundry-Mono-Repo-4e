@@ -30,7 +30,7 @@ implicit. See [ENGINE.md](ENGINE.md) for class formulas and conditional benefits
 
 `BuilderOperations(catalog)` uses the character's existing package-order catalog.
 `create` takes caller-generated character ID, RFC 3339 saved timestamp, identity,
-package revisions, direct point allocation and level 1 or 2. It fills empty level
+package revisions, direct point allocation and a level from 1 through 19. It fills empty level
 containers without inventing player choices. `evaluate` refreshes content and
 returns `BuilderState(document, rules)` without saving. Recreate the coordinator
 when packages change; use the reconciliation workflow below for package switching.
@@ -48,15 +48,13 @@ Use `options(document, level, slot)` for eligible entry choices. Pass
 `Entry.acceptIneligible = true` explicitly accepts an available noneligible entry
 and retains engine diagnostics. Unavailable entries cannot be newly selected;
 existing unavailable selections survive unrelated edits. Root slots are
-`creation/{class,ancestry,theme,feat}/0` at level 1 and
-`advancement.2/feat/0` at level 2. Child slots come from engine choices. Existing
+`creation/{class,ancestry,theme,feat}/0` at level 1, `advancement.N/feat/0` at
+each local feat level and `advancement.11/paragon-path/0` at level 11. Child slots come from engine choices. Existing
 occurrence IDs survive replacement, keeping child slots stable; new occurrence
 IDs come from callers. Repeated choices use distinct ordinals and instances.
 
 `Level(2)` preserves all prior choices and exposes authored level-2 choices.
-Direct level-2 creation allows filling both levels. `Level(n)` accepts levels 1–30. Raising pads empty decisions for each new level. Lowering removes decisions acquired above the target level. Progression above level 2 stays incomplete automation, and
-general advancement and retraining allowances remain
-incomplete; explicit power replacement composition is supported as described below.
+Direct level-2 creation allows filling both levels. `Level(n)` accepts levels 1–30. Raising pads empty decisions for each new level. Lowering removes decisions acquired above the target level. Progression through level 19 uses the local advancement table. `Advancement(level, value)` saves or clears the non-main increase at levels 4 and 12; level 8 main and level 16 all-ability increases are automatic. Retraining allowances remain unspecified.
 
 `Background` selects environment/upbringing and one skill; changing its name
 preserves the old skill unless explicitly replaced, so a now-invalid skill stays
@@ -125,14 +123,25 @@ belong to the source pool; invalid eligibility or completed-set constraints are
 rejected unless `acceptIneligible` is explicit. Wire-valid invalid history remains
 exportable and can be inspected after reopen. No other choices are silently pruned.
 
-Tome-style sources enforce their authored replacement levels; general allowance
-and timing checks remain explicitly incomplete (#20). `options` can inspect
-active slots in direct higher-level documents, but this does not add full
-higher-level character creation or forward advancement. Shared power acquisition
-is supported through level 10; later provisional content and technique pools
-remain incomplete.
+Tome-style sources enforce their authored replacement levels. Progression replaces
+one earlier class daily attack at levels 9, 15 and 19, preserving the acquisition
+slot and occurrence ID. `replacementOptions(document, level, slot)` evaluates
+candidates at the replacement level using the expanded original pool. Invalid
+progression timing is rejected even when eligibility override is requested.
+`RemoveReplacement(level, slot)` removes that history record and replays the rest.
+Retraining remains explicitly incomplete; the local chapter does not supply an allowance.
+`options` and normal typed edits support active choices through level 19.
+Unsupported technique pools retain explicit coverage diagnostics.
 
 ## Progressive option browsing
+
+Paragon-path roots filter `pathClassIds` index metadata before resolving candidate
+definitions or checking eligibility. Qualifying classes come from the acquired
+class and multiclass feats, including active grants, as of the path acquisition
+level. Later qualifications cannot widen an earlier picker. Empty scope metadata
+preserves theme-based and legacy paths; unavailable qualification definitions keep
+the candidate set conservative. Direct catalog resolution and saved provenance
+remain unchanged.
 
 `optionListing(document, level, slot)` creates an explicit content snapshot for one
 unchanged character and choice slot. `rows(featGroup)` returns metadata rows before
@@ -161,4 +170,4 @@ in metadata title order during loading. Cancelling/tab switching stops delivery;
 reopening the unchanged character reuses checked results. At most two slot snapshots
 are retained; edits, character changes and catalog reloads clear them. Bundled content
 is immutable for the session; a new catalog is required after installed metadata changes.
-Higher-level choices retain their explicitly incomplete eligibility policy.
+Choices through level 19 use the shared eligibility policy.

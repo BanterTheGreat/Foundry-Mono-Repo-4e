@@ -57,7 +57,7 @@ class ClassScopedLoadingTest {
     @Test fun indexRowsNameTheClassOfSelectablePowersAndNothingElse() = runTest {
         val catalog = open(Recording())
         val fighterPowers = catalog.search(category = EntryCategory.POWER).filter { it.metadata.id.startsWith("modern4e.power.fighter-power") }
-        assertEquals(174, fighterPowers.size)
+        assertEquals(211, fighterPowers.size)
         assertTrue(fighterPowers.all { it.metadata.classId == "modern4e.class.fighter" })
         assertTrue(catalog.search(category = EntryCategory.CLASS).all { it.metadata.classId == null })
         assertTrue(catalog.search(category = EntryCategory.FEAT).all { it.metadata.classId == null })

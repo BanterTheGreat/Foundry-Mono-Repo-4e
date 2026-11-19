@@ -86,6 +86,18 @@ class BuilderOperationsTest {
         assertEquals(LevelDecisions(2), raisedAgain.state.document.levels.single { it.level == 2 })
     }
 
+    @Test fun proficiencyEditsKeepTheirAcquisitionLevelAfterAdvancing() = run {
+        val ops = operations()
+        val doc = create(ops, 19)
+        val choice = ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 0), Skill.ATHLETICS)
+        val late = ops.apply(doc, BuilderEdit.Proficiency(19, choice))
+        assertFalse(late.applied)
+        assertEquals(doc, late.state.document)
+        val original = ops.apply(doc, BuilderEdit.Proficiency(1, choice))
+        assertTrue(original.applied, original.diagnostics.toString())
+        assertEquals(choice, original.state.document.levels.first { it.level == 1 }.proficiencies.single())
+    }
+
     @Test fun levelChangesStayWithinBoundsAndPadNewDecisions() = run {
         val ops = operations()
         val base = create(ops)
@@ -94,7 +106,7 @@ class BuilderOperationsTest {
         assertEquals(5, raised.state.document.level)
         assertEquals((1..5).toList(), raised.state.document.levels.map { it.level }.sorted())
         assertTrue(raised.state.document.levels.filter { it.level > 1 }.all { it.entries.isEmpty() && it.abilityAdvancements.isEmpty() })
-        assertTrue(raised.state.rules.diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
+        assertTrue(raised.state.rules.diagnostics.any { it.code == "engine.missingAdvancement" })
         assertIs<ContractResult.Available<String>>(ContractCodec.encodeChecked(raised.state.document))
         val same = ops.apply(raised.state.document, BuilderEdit.Level(5))
         assertTrue(same.applied)
@@ -107,6 +119,25 @@ class BuilderOperationsTest {
         assertEquals(29, ops.apply(top.state.document, BuilderEdit.Level(29)).state.document.level)
         val decided = ops.apply(raised.state.document, BuilderEdit.LaterDecisions(LevelDecisions(3)))
         assertTrue(decided.applied, decided.diagnostics.toString())
+    }
+
+    @Test fun laterAdvancementEditsValidateAndMissingMilestonesRemainVisible() = run {
+        val ops = operations()
+        var document = create(ops, 19)
+        document = select(ops, document, 1, ChoiceSlotId("creation", "class", 0), "fighter", "fighter")
+        val increase = AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.DEXTERITY to 1))
+        val changed = ops.apply(document, BuilderEdit.Advancement(4, increase))
+        assertTrue(changed.applied)
+        assertEquals(listOf(increase), changed.state.document.levels.single { it.level == 4 }.abilityAdvancements)
+        assertFalse(ops.apply(document, BuilderEdit.Advancement(4, increase.copy(increases = mapOf(Ability.STRENGTH to 1)))).applied)
+        assertFalse(ops.apply(document, BuilderEdit.Advancement(8, increase)).applied)
+        val cleared = ops.apply(changed.state.document, BuilderEdit.Advancement(4, null))
+        assertTrue(cleared.applied)
+        assertTrue(cleared.state.rules.diagnostics.any { it.code == "engine.missingAdvancement" && it.slot == increase.slot })
+        for (at in AdvancementRules.dailyReplacementLevels) {
+            assertTrue(cleared.state.rules.diagnostics.any { it.code == "builder.missingChoice" && it.slot == ChoiceSlotId("advancement.$at", "replacement", 0) })
+        }
+        assertTrue(ops.options(document, 12, ChoiceSlotId("advancement.11", "paragon-path", 0), true).isEmpty())
     }
 
     @Test fun eligibleDefaultAndForcedInvalidSelectionSurviveExport() = run {

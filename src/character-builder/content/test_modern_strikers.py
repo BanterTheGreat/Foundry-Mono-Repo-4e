@@ -62,7 +62,9 @@ class ModernStrikersTest(unittest.TestCase):
         self.assertIn("on the triggering enemy", soul["activations"][0]["range"]["text"])
 
     def test_all_96_revised_barbarian_powers_are_selectable_not_granted(self):
-        powers = classes.shared.load_json(classes.CONTENT / "barbarian-attack-powers.json")["powers"]
+        all_powers = classes.shared.load_json(classes.CONTENT / "barbarian-attack-powers.json")["powers"]
+        powers = [p for p in all_powers if p["level"] <= 9]
+        self.assertEqual({1, 3, 5, 7, 9, 13, 15, 17, 19}, {p["level"] for p in all_powers})
         self.assertEqual(len(powers), 96)
         self.assertEqual(len({p["id"] for p in powers}), 96)
         self.assertEqual({p["level"] for p in powers}, {1, 3, 5, 7, 9})

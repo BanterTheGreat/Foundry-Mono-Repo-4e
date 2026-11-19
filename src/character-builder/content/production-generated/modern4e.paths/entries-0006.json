@@ -1,0 +1,49 @@
+{
+  "entries": [
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [
+          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.path.paragonpath223",
+      "mechanics": {
+        "access": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.warlock",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.wizard",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Treat distance and planar boundaries as problems you already know how to solve, gaining portal lore and a long teleport alongside your action point maneuver. In battle, you can banish an enemy long enough to change the odds, and later your presence keeps nearby allies from being teleported against their will. Your portals offer a swift escape to a known circle at a steep cost in healing surges, while your greatest attack sends a foe through a succession of hostile planes and brings it back still suffering.",
+        "title": "Planeshifter"
+      },
+      "sharedData": {
+        "description": "Treat distance and planar boundaries as problems you already know how to solve, gaining portal lore and a long teleport alongside your action point maneuver. In battle, you can banish an enemy long enough to change the odds, and later your presence keeps nearby allies from being teleported against their will. Your portals offer a swift escape to a known circle at a steep cost in healing surges, while your greatest attack sends a foe through a succession of hostile planes and brings it back still suffering.",
+        "link": "https://iws.mx/dnd/?view=paragonpath223",
+        "requirements": null,
+        "sourceEntryId": "paragonpath223",
+        "title": "Planeshifter"
+      }
+    }
+  ],
+  "id": "entries-0006"
+}

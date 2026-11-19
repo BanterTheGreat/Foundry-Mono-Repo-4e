@@ -20482,6 +20482,4600 @@
       "subtitle": "Fighter Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power378",
+      "title": "Battering Ram",
+      "description": "You pick up the enemy you are grappling and run it headfirst into another foe.",
+      "flavor": "You pick up the enemy you are grappling and run it headfirst into another foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power378",
+        "publication": "Published in Martial Power 2, page(s) 16.",
+        "rulesText": "Battering RamFighter Attack 17\nYou pick up the enemy you are grappling and run it headfirst into another foe.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee 1\nTarget: One creature grabbed by you\nEffect: You move your speed, pulling the target with you. The target remains grabbed, and you do not provoke an opportunity attack from the target for this movement.\nAttack: Strength vs. Fortitude (unarmed)\nHit: 2[W] + Strength modifier damage, and you knock the target prone. If the target is adjacent to one or more of your enemies, it takes extra damage equal to 2 + your Dexterity modifier, and the enemies it is adjacent to are also knocked prone.\nPublished in Martial Power 2, page(s) 16."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature grabbed by you"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You move your speed, pulling the target with you. The target remains grabbed, and you do not provoke an opportunity attack from the target for this movement."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Fortitude (unarmed)",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. Fortitude (unarmed)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and you knock the target prone. If the target is adjacent to one or more of your enemies, it takes extra damage equal to 2 + your Dexterity, and the enemies it is adjacent to are also knocked prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10004",
+      "title": "Bitter Harvest",
+      "description": "You smash through the pressing host to set your eyes and your weapon on your chosen foe.",
+      "flavor": "You smash through the pressing host to set your eyes and your weapon on your chosen foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10004",
+        "publication": "Published in Dragon Magazine 379, page(s) 65.",
+        "rulesText": "Bitter HarvestFighter Attack 17\nYou smash through the pressing host to set your eyes and your weapon on your chosen foe.\nEncounter   ✦     Martial, Weapon\nStandard Action      Close burst 1\nRequirement: You must be wielding a two-handed weapon.\nPrimary Target: Each enemy in the burst\nPrimary Attack: Strength vs. Fortitude\nHit: Constitution modifier damage, and you push the target 1 square.\nEffect: You shift 1 square and make a secondary melee attack.\nSecondary Target: An enemy marked by you\nSecondary Attack: Strength -2 vs. Fortitude\nHit: 2[W] + Strength modifier + Constitution modifier damage.\nRevision (11/5/2009)\nPage 65. Bitter Harvest's target line was changed to say “Each enemy in burst”\nPublished in Dragon Magazine 379, page(s) 65."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            },
+            "targets-6": {
+              "kind": "TARGET_SET",
+              "text": "An enemy marked by you"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "Constitution damage, and you push the target 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift 1 square and make a secondary melee attack."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "An enemy marked by you"
+            },
+            {
+              "id": "row-7",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Strength -2 vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-6",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength -2 vs. Fortitude"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength + Constitution damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a two-handed weapon.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power4343",
+      "title": "Boggling Smash",
+      "description": "Your solid blow momentarily costs your enemy its wits.",
+      "flavor": "Your solid blow momentarily costs your enemy its wits.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4343",
+        "publication": "Published in Martial Power, page(s) 17.",
+        "rulesText": "Boggling SmashFighter Attack 17\nYour solid blow momentarily costs your enemy its wits.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and the target takes a –2 penalty to attack rolls until the end of your next turn.\nWeapon: If you're wielding a hammer or a mace, the attack deals extra damage equal to your Constitution modifier, and the target is dazed until the end of your next turn.\nPublished in Martial Power, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and the target takes a –2 penalty to attack rolls until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Weapon",
+              "text": "If you're wielding a hammer or a mace, the attack deals extra damage equal to your Constitution, and the target is dazed until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power2145",
+      "title": "Buffeting Torque",
+      "description": "Your body and weapon spin as one, and jarring hits knock down those foes who fail to throw themselves out of harm's way.",
+      "flavor": "Your body and weapon spin as one, and jarring hits knock down those foes who fail to throw themselves out of harm's way.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2145",
+        "publication": "Published in Martial Power, page(s) 17.",
+        "rulesText": "Buffeting TorqueFighter Attack 17\nYour body and weapon spin as one, and jarring hits knock down those foes who fail to throw themselves out of harm's way.\nEncounter   ✦     Martial, Weapon\nStandard Action      Close burst 1\nRequirement: You must be wielding a two-handed weapon.\nTarget: Each enemy in the burst you can see\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and until the start of your next turn, any enemy that enters a square adjacent to you is marked until the end of your next turn and takes 5 damage. An enemy can take this damage only once per turn.\nWeapon: If you're wielding an axe, a hammer, or a mace, the attack deals extra damage equal to your Constitution modifier.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Martial Power, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and until the start of your next turn, any enemy that enters a square adjacent to you is marked until the end of your next turn and takes 5 damage. An enemy can take this damage only once per turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Weapon",
+              "text": "If you're wielding an axe, a hammer, or a mace, the attack deals extra damage equal to your Constitution."
+            }
+          ],
+          "requirement": "You must be wielding a two-handed weapon.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power12858",
+      "title": "Cruelest Chains",
+      "description": "Your words or actions cause the enemy to draw close, giving you an opportunity to attack. If your foe ignores your summons, you vow to make it pay.",
+      "flavor": "Your words or actions cause the enemy to draw close, giving you an opportunity to attack. If your foe ignores your summons, you vow to make it pay.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12858",
+        "publication": "Published in Dark Sun Campaign Setting, page(s) 88.",
+        "rulesText": "Cruelest ChainsFighter Attack 17\nYour words or actions cause the enemy to draw close, giving you an opportunity to attack. If your foe ignores your summons, you vow to make it pay.\nEncounter   ✦     Martial, Weapon\nImmediate Reaction      Melee weapon\nTrigger: An enemy able to take actions and within 4 squares of you makes an attack that doesn't include you as a target.\nEffect: The triggering enemy can shift 6 squares as a free action to a square adjacent to you. If the enemy makes this shift, you make the following attack. Otherwise, your next weapon attack against that enemy that hits before the end of your next turn deals 4[W] extra damage.\nTarget: The triggering enemy\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage.\nPublished in Dark Sun Campaign Setting, page(s) 88."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The triggering enemy can shift 6 squares as a free action to a square adjacent to you. If the enemy makes this shift, you make the following attack. Otherwise, your next weapon attack against that enemy that hits before the end of your next turn deals 4[W] extra damage."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "trigger": "An enemy able to take actions and within 4 squares of you makes an attack that doesn't include you as a target.",
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power2456",
+      "title": "Driving Flurry",
+      "description": "You force your opponent back with a sustained series of jabs, then use the break in his defenses to slip away.",
+      "flavor": "You force your opponent back with a sustained series of jabs, then use the break in his defenses to slip away.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2456",
+        "publication": "Published in Martial Power, page(s) 17.",
+        "rulesText": "Driving FlurryFighter Attack 17\nYou force your opponent back with a sustained series of jabs, then use the break in his defenses to slip away.\nEncounter   ✦     Invigorating, Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and you push the target 2 squares. You can then shift 2 squares.\nWeapon: If you're wielding a light blade or a heavy blade, the attack deals extra damage equal to your Dexterity modifier.\nPublished in Martial Power, page(s) 17."
+      },
+      "keywords": [
+        "INVIGORATING",
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and you push the target 2 squares. You can then shift 2 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Weapon",
+              "text": "If you're wielding a light blade or a heavy blade, the attack deals extra damage equal to your Dexterity."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power2178",
+      "title": "Exacting Strike",
+      "description": "You trade damage for accuracy to land a much-needed hit on your opponent.",
+      "flavor": "You trade damage for accuracy to land a much-needed hit on your opponent.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2178",
+        "publication": "Published in Player's Handbook, page(s) 83, Class Compendium.",
+        "rulesText": "Exacting StrikeFighter Attack 17\nYou trade damage for accuracy to land a much-needed hit on your opponent.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength + 6 vs. AC\nHit: 2[W] + Strength modifier damage.\nPublished in Player's Handbook, page(s) 83, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength + 6 vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength + 6 vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power2179",
+      "title": "Exorcism of Steel",
+      "description": "You make a powerful chopping attack against your foe, forcing it to drop what it is holding.",
+      "flavor": "You make a powerful chopping attack against your foe, forcing it to drop what it is holding.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2179",
+        "publication": "Published in Player's Handbook, page(s) 83, Class Compendium.",
+        "rulesText": "Exorcism of SteelFighter Attack 17\nYou make a powerful chopping attack against your foe, forcing it to drop what it is holding.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Reflex\nHit: 2[W] + Strength modifier damage, and the target drops one item it is holding. You can choose to catch the item in a free hand or have it land in your space.\nPublished in Player's Handbook, page(s) 83, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and the target drops one item it is holding. You can choose to catch the item in a free hand or have it land in your space."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power1514",
+      "title": "Harrying Assault",
+      "description": "You land a calculated blow on your enemy, and then change position to deliver a simple attack on that foe or another.",
+      "flavor": "You land a calculated blow on your enemy, and then change position to deliver a simple attack on that foe or another.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1514",
+        "publication": "Published in Player's Handbook, page(s) 83, Class Compendium.",
+        "rulesText": "Harrying AssaultFighter Attack 17\nYou land a calculated blow on your enemy, and then change position to deliver a simple attack on that foe or another.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage.\nEffect: After the attack, you can move a number of squares up to your Dexterity modifier and then make a melee basic attack.\nPublished in Player's Handbook, page(s) 83, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "After the attack, you can move a number of squares up to your Dexterity and then make a melee basic attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10531",
+      "title": "Lunging Dervish",
+      "description": "You take a long step forward, bending low as your leading arm delivers an arcing slash. You follow the attack with a quick cut from your off-hand weapon.",
+      "flavor": "You take a long step forward, bending low as your leading arm delivers an arcing slash. You follow the attack with a quick cut from your off-hand weapon.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10531",
+        "publication": "Published in Martial Power 2, page(s) 16.",
+        "rulesText": "Lunging DervishFighter Attack 17\nYou take a long step forward, bending low as your leading arm delivers an arcing slash. You follow the attack with a quick cut from your off-hand weapon.\nEncounter   ✦     Martial, Weapon\nStandard Action      Close burst 2\nRequirement: You must be wielding two melee weapons.\nPrimary Target: Each enemy in the burst you can see\nPrimary Attack: Strength vs. AC (main weapon)\nHit: 1[W] + Strength modifier damage, and you slide the primary target 1 square.\nEffect: Make a secondary attack that is a close burst 1.\nSecondary Target: Each enemy in the burst you can see\nSecondary Attack: Strength vs. AC (off-hand weapon)\nHit: Strength modifier damage.\nPublished in Martial Power 2, page(s) 16."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst you can see"
+            },
+            "targets-6": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC (main weapon)",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 2"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC (main weapon)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and you slide the primary target 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a secondary attack that is a close burst 1."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "Each enemy in the burst you can see"
+            },
+            {
+              "id": "row-7",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Strength vs. AC (off-hand weapon)",
+              "actor": "self",
+              "targets": "targets-6",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Each enemy in the burst you can see"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC (off-hand weapon)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10532",
+      "title": "Minotaur Charge",
+      "description": "You lower your head and charge your foe, sending it sprawling.",
+      "flavor": "You lower your head and charge your foe, sending it sprawling.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10532",
+        "publication": "Published in Martial Power 2, page(s) 16.",
+        "rulesText": "Minotaur ChargeFighter Attack 17\nYou lower your head and charge your foe, sending it sprawling.\nEncounter   ✦     Invigorating, Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nPrimary Attack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and you push the target 1 square and shift 1 square to a square the target vacated. Make a secondary attack against the target.\nSecondary Attack: Strength vs. Fortitude\nHit: You push the target 3 squares and knock it prone.\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Martial Power 2, page(s) 16."
+      },
+      "keywords": [
+        "INVIGORATING",
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and you push the target 1 square and shift 1 square to a square the target vacated. Make a secondary attack against the target."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "You push the target 3 squares and knock it prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power1516",
+      "title": "Mountain Breaking Blow",
+      "description": "You land a crushing blow, pushing your foe back, and press your advantage before any other enemies can retaliate.",
+      "flavor": "You land a crushing blow, pushing your foe back, and press your advantage before any other enemies can retaliate.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1516",
+        "publication": "Published in Player's Handbook, page(s) 83, Class Compendium.",
+        "rulesText": "Mountain Breaking BlowFighter Attack 17\nYou land a crushing blow, pushing your foe back, and press your advantage before any other enemies can retaliate.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and you push the target up to 3 squares.\nEffect: After the attack, you can shift the same number of squares you pushed the target. You must end this movement adjacent to the target.\nPublished in Player's Handbook, page(s) 83, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and you push the target up to 3 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "After the attack, you can shift the same number of squares you pushed the target. You must end this movement adjacent to the target."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10533",
+      "title": "Punishing Shield Block",
+      "description": "You catch your enemy's attack with your shield and then slam the shield back into your foe, knocking it down.",
+      "flavor": "You catch your enemy's attack with your shield and then slam the shield back into your foe, knocking it down.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10533",
+        "publication": "Published in Martial Power 2, page(s) 16.",
+        "rulesText": "Punishing Shield BlockFighter Attack 17\nYou catch your enemy's attack with your shield and then slam the shield back into your foe, knocking it down.\nEncounter   ✦     Martial\nImmediate Interrupt      Melee 1\nRequirement: You must be using a shield.\nTrigger: An enemy adjacent to you hits or misses you with a close or a melee attack\nTarget: The triggering enemy\nEffect: The target takes a –2 penalty to the attack roll.\nAttack: Strength + 4 vs. Fortitude\nLevel 21: Strength + 6 vs. Fortitude\nHit: 2d6 + Strength modifier damage, and you knock the target prone.\nPublished in Martial Power 2, page(s) 16."
+      },
+      "keywords": [
+        "MARTIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes a –2 penalty to the attack roll."
+            },
+            {
+              "id": "row-5",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength + 4 vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength + 4 vs. Fortitude"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Strength damage, and you knock the target prone."
+                      }
+                    ]
+                  }
+                }
+              ],
+              "scaling": [
+                {
+                  "atLevel": 21,
+                  "text": "Strength + 6 vs. Fortitude"
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be using a shield.",
+          "trigger": "An enemy adjacent to you hits or misses you with a close or a melee attack",
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10154",
+      "title": "Revel in Pain",
+      "description": "You grin widely as you focus the pain your foe wrought upon you and use it to move toward it with the hope of returning the pain.",
+      "flavor": "You grin widely as you focus the pain your foe wrought upon you and use it to move toward it with the hope of returning the pain.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 17
+          },
+          {
+            "type": "proficiency",
+            "skill": "ENDURANCE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10154",
+        "publication": "Published in Dragon Magazine 381, page(s) 79.",
+        "rulesText": "Revel in PainFighter Attack 17\nYou grin widely as you focus the pain your foe wrought upon you and use it to move toward it with the hope of returning the pain.\nEncounter   ✦     Martial, Weapon\nImmediate Reaction      Melee 1\nPrerequisite: You must be trained in Endurance.\nTrigger: An enemy within 4 squares of you damages you with an attack\nTarget: The triggering creature\nEffect: You can move your speed to a space adjacent to the target. If you do, you can make the following attack against the target.\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and you gain temporary hit points equal to half the damage of the triggering attack.\nPublished in Dragon Magazine 381, page(s) 79."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "The triggering creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can move your speed to a space adjacent to the target. If you do, you can make the following attack against the target."
+            },
+            {
+              "id": "row-5",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and you gain temporary hit points equal to half the damage of the triggering attack."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "trigger": "An enemy within 4 squares of you damages you with an attack",
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power11017",
+      "title": "Shifting Blade",
+      "description": "You switch your weapon to your empty hand, catching your enemy completely off guard.",
+      "flavor": "You switch your weapon to your empty hand, catching your enemy completely off guard.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11017",
+        "publication": "Published in Martial Power 2, page(s) 17.",
+        "rulesText": "Shifting BladeFighter Attack 17\nYou switch your weapon to your empty hand, catching your enemy completely off guard.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee\nRequirement: You must have a hand free.\nTarget: One creature\nEffect: The target grants combat advantage to you until the end of your next turn.\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage.\nPublished in Martial Power 2, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target grants combat advantage to you until the end of your next turn."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must have a hand free.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power4345",
+      "title": "Skirmisher Pounce",
+      "description": "You leap forward, skewering one foe and using your momentum to harry another.",
+      "flavor": "You leap forward, skewering one foe and using your momentum to harry another.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4345",
+        "publication": "Published in Martial Power, page(s) 17.",
+        "rulesText": "Skirmisher PounceFighter Attack 17\nYou leap forward, skewering one foe and using your momentum to harry another.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nPrimary Target: One creature\nPrimary Attack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and you can shift 2 squares and make a secondary attack.\nIf you have combat advantage against the primary target, the primary attack deals extra damage equal to your Dexterity modifier.\nSecondary Target: One creature other than the primary target\nSecondary Attack: Strength vs. AC\nHit: 1[W] + Strength modifier damage.\nIf you have combat advantage against the secondary target, the secondary attack deals extra damage equal to your Dexterity modifier.\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Martial Power, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            },
+            "targets-5": {
+              "kind": "TARGET_SET",
+              "text": "One creature other than the primary target"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and you can shift 2 squares and make a secondary attack."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rule",
+              "text": "If you have combat advantage against the primary target, the primary attack deals extra damage equal to your Dexterity."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "One creature other than the primary target"
+            },
+            {
+              "id": "row-6",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-5",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-8",
+              "type": "effect",
+              "label": "Rule",
+              "text": "If you have combat advantage against the secondary target, the secondary attack deals extra damage equal to your Dexterity."
+            },
+            {
+              "id": "row-9",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power4346",
+      "title": "Tap and Counterstrike",
+      "description": "You tap your foe, holding back your full strength to keep its attention fixed squarely on you.",
+      "flavor": "You tap your foe, holding back your full strength to keep its attention fixed squarely on you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4346",
+        "publication": "Published in Martial Power, page(s) 17.",
+        "rulesText": "Tap and CounterstrikeFighter Attack 17\nYou tap your foe, holding back your full strength to keep its attention fixed squarely on you.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding two melee weapons.\nTarget: One creature\nPrimary Attack: Strength vs. Fortitude\nHit: 1[W] + Strength modifier damage. If the target makes an attack that does not include you before the start of your next turn, you can shift 1 square and make a secondary attack against the target with your off-hand weapon as an immediate interrupt.\nSecondary Attack: Strength + 2 vs. AC\nHit: 3[W] + Strength modifier damage.\nPublished in Martial Power, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage. If the target makes an attack that does not include you before the start of your next turn, you can shift 1 square and make a secondary attack against the target with your off-hand weapon as an immediate interrupt."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Strength + 2 vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength + 2 vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10534",
+      "title": "Vicious Uppercut",
+      "description": "You make a diversionary attack with your weapon to hide the real threat—an uppercut from your free hand.",
+      "flavor": "You make a diversionary attack with your weapon to hide the real threat—an uppercut from your free hand.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10534",
+        "publication": "Published in Martial Power 2, page(s) 17.",
+        "rulesText": "Vicious UppercutFighter Attack 17\nYou make a diversionary attack with your weapon to hide the real threat—an uppercut from your free hand.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must have a hand free.\nTarget: One creature\nPrimary Attack: Strength vs. AC\nHit: 1[W] + Strength modifier damage.\nEffect: Make a secondary attack against the target.\nSecondary Attack: Strength vs. Fortitude (unarmed)\nHit: 1[W] + Strength modifier damage, and the target is stunned until the end of your next turn.\nPublished in Martial Power 2, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a secondary attack against the target."
+            },
+            {
+              "id": "row-6",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Strength vs. Fortitude (unarmed)",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. Fortitude (unarmed)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and the target is stunned until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must have a hand free.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power1517",
+      "title": "Vorpal Tornado",
+      "description": "Like a whirling cyclone of death, you spin and strike one foe after another, driving each one back and knocking it to the ground.",
+      "flavor": "Like a whirling cyclone of death, you spin and strike one foe after another, driving each one back and knocking it to the ground.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1517",
+        "publication": "Published in Player's Handbook, page(s) 83, Class Compendium.",
+        "rulesText": "Vorpal TornadoFighter Attack 17\nLike a whirling cyclone of death, you spin and strike one foe after another, driving each one back and knocking it to the ground.\nEncounter   ✦     Martial, Weapon\nStandard Action      Close burst 1\nTarget: Each enemy you can see in the burst\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and you can push the target 1 square and knock it prone.\nPublished in Player's Handbook, page(s) 83, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy you can see in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and you can push the target 1 square and knock it prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power1513",
+      "title": "Warrior's Challenge",
+      "description": "You land a mighty blow that staggers your foe and sends it backward. With a wicked grin, you hoist your weapon and challenge the other enemies nearby.",
+      "flavor": "You land a mighty blow that staggers your foe and sends it backward. With a wicked grin, you hoist your weapon and challenge the other enemies nearby.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1513",
+        "publication": "Published in Player's Handbook, page(s) 83, Class Compendium.",
+        "rulesText": "Warrior's ChallengeFighter Attack 17\nYou land a mighty blow that staggers your foe and sends it backward. With a wicked grin, you hoist your weapon and challenge the other enemies nearby.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and you push the target up to 2 squares.\nEffect: You mark each enemy within 2 squares of the target until the end of your next turn.\nPublished in Player's Handbook, page(s) 83, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and you push the target up to 2 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You mark each enemy within 2 squares of the target until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10340",
+      "title": "Weapon Master's Tactics",
+      "description": "You shift to a new weapon, catching your enemy off guard as your tactics make a dramatic transformation.",
+      "flavor": "You shift to a new weapon, catching your enemy off guard as your tactics make a dramatic transformation.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10340",
+        "publication": "Published in Dragon Magazine 382, page(s) 47.",
+        "rulesText": "Weapon Master's TacticsFighter Attack 17\nYou shift to a new weapon, catching your enemy off guard as your tactics make a dramatic transformation.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nEffect: Before making this attack, you may sheathe a weapon and draw a different one as a free action.\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage.\nAxe: All enemies adjacent to you and the target take damage equal to 5 + your Constitution modifier.\nMace: The target is dazed until the end of your next turn.\nHeavy Blade: The target's attack penalty due to your mark increases to –4 until the end of your next turn.\nSpear or Polearm: You slide the target to any other square adjacent to you.\nPublished in Dragon Magazine 382, page(s) 47."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before making this attack, you may sheathe a weapon and draw a different one as a free action."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Axe",
+              "text": "All enemies adjacent to you and the target take damage equal to 5 + your Constitution."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Mace",
+              "text": "The target is dazed until the end of your next turn."
+            },
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "Heavy Blade",
+              "text": "The target's attack penalty due to your mark increases to –4 until the end of your next turn."
+            },
+            {
+              "id": "row-8",
+              "type": "effect",
+              "label": "Spear or Polearm",
+              "text": "You slide the target to any other square adjacent to you."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power4347",
+      "title": "Wild Strike",
+      "description": "Throwing caution to the wind, you lash out desperately at your foe.",
+      "flavor": "Throwing caution to the wind, you lash out desperately at your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4347",
+        "publication": "Published in Martial Power, page(s) 17.",
+        "rulesText": "Wild StrikeFighter Attack 17\nThrowing caution to the wind, you lash out desperately at your foe.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage, and you grant combat advantage to all enemies until the start of your next turn.\nSpecial: If you are a human, the attack deals extra damage equal to your Wisdom modifier\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Martial Power, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage, and you grant combat advantage to all enemies until the start of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Special",
+              "text": "If you are a human, the attack deals extra damage equal to your Wisdom"
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power9369",
+      "title": "Adaptable Maneuver",
+      "description": "A swift attack tests your enemy's defenses and tells you whether you should drop into a defensive posture or strike again.",
+      "flavor": "A swift attack tests your enemy's defenses and tells you whether you should drop into a defensive posture or strike again.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9369",
+        "publication": "Published in Dragon Magazine 378.",
+        "rulesText": "Adaptable ManeuverFighter Attack 19\nA swift attack tests your enemy's defenses and tells you whether you should drop into a defensive posture or strike again.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding two melee weapons.\nTarget: One creature\nAttack: Strength vs. AC. Make the attack twice, once with your main weapon and once with your off-hand weapon.\nHit: 3[W] + Strength modifier damage on the first hit. If both attacks hit, you can add 2[W] to the damage dealt or have the target take a –4 penalty to attack rolls (save ends).\nPublished in Dragon Magazine 378."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 2,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage on the first hit. If both attacks hit, you can add 2[W] to the damage dealt or have the target take a –4 penalty to attack rolls (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-3-note",
+              "type": "effect",
+              "label": "Attack",
+              "text": "Make the attack twice, once with your main weapon and once with your off-hand weapon."
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10535",
+      "title": "Battlefield Challenge",
+      "description": "Roaring a war cry, you rush an enemy and prove that it is you that it should be attacking.",
+      "flavor": "Roaring a war cry, you rush an enemy and prove that it is you that it should be attacking.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10535",
+        "publication": "Published in Martial Power 2, page(s) 17.",
+        "rulesText": "Battlefield ChallengeFighter Attack 19\nRoaring a war cry, you rush an enemy and prove that it is you that it should be attacking.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 5[W] + Strength modifier damage.\nEffect: Until the end of the encounter, whenever an enemy you can see makes an attack that does not include you as a target, you can mark that enemy as an opportunity action. The mark takes effect after the attack, and it lasts until the end of your next turn.\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Martial Power 2, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever an enemy you can see makes an attack that does not include you as a target, you can mark that enemy as an opportunity action. The mark takes effect after the attack, and it lasts until the end of your next turn."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power12859",
+      "title": "Bloodletter Stance",
+      "description": "You strike at vital spots to draw your foe's blood. With each hit, you aggravate the wounds and slowly destroy your enemy.",
+      "flavor": "You strike at vital spots to draw your foe's blood. With each hit, you aggravate the wounds and slowly destroy your enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12859",
+        "publication": "Published in Dark Sun Campaign Setting, page(s) 89.",
+        "rulesText": "Bloodletter StanceFighter Attack 19\nYou strike at vital spots to draw your foe's blood. With each hit, you aggravate the wounds and slowly destroy your enemy.\nDaily   ✦     Martial, Stance, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: The target takes ongoing 10 damage (save ends). In addition, you can assume the stance of the bloodletter. Until the stance ends, whenever you hit an enemy with a melee weapon attack, that enemy takes ongoing 5 damage (save ends).\nPublished in Dark Sun Campaign Setting, page(s) 89."
+      },
+      "keywords": [
+        "MARTIAL",
+        "STANCE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes ongoing 10 damage (save ends). In addition, you can assume the stance of the bloodletter. Until the stance ends, whenever you hit an enemy with a melee weapon attack, that enemy takes ongoing 5 damage (save ends)."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power4348",
+      "title": "Controlling Thrust",
+      "description": "After a vicious stab, you expertly corral your opponent with your polearm.",
+      "flavor": "After a vicious stab, you expertly corral your opponent with your polearm.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4348",
+        "publication": "Published in Martial Power, page(s) 18.",
+        "rulesText": "Controlling ThrustFighter Attack 19\nAfter a vicious stab, you expertly corral your opponent with your polearm.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a polearm or a spear.\nTarget: One creature\nPrimary Attack: Strength vs. AC\nHit: 4[W] + Strength modifier damage, and the target is marked (save ends).\nMiss: Half damage, and the target is marked until the end of your next turn.\nEffect: If the target takes a move action before the end of your next turn and is within your melee reach, you can make a secondary attack against the target as an immediate interrupt.\nSecondary Attack: Strength vs. AC\nSecondary Damage: 2[W] + Strength modifier damage, and cancel the target's move action.\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Martial Power, page(s) 18."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage, and the target is marked (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is marked until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "If the target takes a move action before the end of your next turn and is within your melee reach, you can make a secondary attack against the target as an immediate interrupt."
+            },
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "Secondary Attack",
+              "text": "Strength vs. AC"
+            },
+            {
+              "id": "row-8",
+              "type": "effect",
+              "label": "Secondary Damage",
+              "text": "2[W] + Strength damage, and cancel the target's move action."
+            },
+            {
+              "id": "row-9",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack."
+            }
+          ],
+          "requirement": "You must be wielding a polearm or a spear.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power1525",
+      "title": "Devastation's Wake",
+      "description": "You thrash your foes with an array of strikes, and then unleash your fury a second time against any that are left standing.",
+      "flavor": "You thrash your foes with an array of strikes, and then unleash your fury a second time against any that are left standing.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1525",
+        "publication": "Published in Player's Handbook, page(s) 84, Class Compendium.",
+        "rulesText": "Devastation's WakeFighter Attack 19\nYou thrash your foes with an array of strikes, and then unleash your fury a second time against any that are left standing.\nDaily   ✦     Martial, Weapon\nStandard Action      Close burst 1\nPrimary Target: Each enemy you can see in the burst\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: Until the start of your next turn, you can use the secondary power at will.\nDevastation's Wake Secondary Power\nAt-Will ✦     Martial, Weapon\nFree Action      Melee 1\nRequirement: The power Devastation's Wake must be active in order to use this power.\nTrigger: An enemy starts its turn adjacent to you.\nSecondary Target: The triggering enemy\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage.\nPublished in Player's Handbook, page(s) 84, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy you can see in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the start of your next turn, you can use the secondary power at will."
+            },
+            {
+              "id": "grant-use-devastation-s-wake-secondary-power",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Devastation's Wake Secondary Power",
+              "activationId": "use-devastation-s-wake-secondary-power",
+              "duration": "As stated in the power's rules"
+            }
+          ],
+          "targets": "targets-1"
+        },
+        {
+          "id": "use-devastation-s-wake-secondary-power",
+          "availability": "GRANTED",
+          "action": "FREE",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-11": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-12",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-11",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-13",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "title": "Devastation's Wake Secondary Power",
+          "requirement": "The power Devastation's Wake must be active in order to use this power.",
+          "trigger": "An enemy starts its turn adjacent to you.",
+          "targets": "targets-11"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10536",
+      "title": "Iron Tornado",
+      "description": "You sweep your weapon through nearby enemies. Then, while they're recovering, you seize a foe and hurl it away from you.",
+      "flavor": "You sweep your weapon through nearby enemies. Then, while they're recovering, you seize a foe and hurl it away from you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10536",
+        "publication": "Published in Martial Power 2, page(s) 17.",
+        "rulesText": "Iron TornadoFighter Attack 19\nYou sweep your weapon through nearby enemies. Then, while they're recovering, you seize a foe and hurl it away from you.\nDaily   ✦     Martial, Weapon\nStandard Action      Close burst 1\nRequirement: You must have a hand free.\nPrimary Target: Each enemy in the burst you can see\nPrimary Attack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and the primary target is dazed until the end of your next turn. Make a melee secondary attack.\nSecondary Target: One creature hit by the primary attack\nSecondary Attack: Strength vs. Fortitude (unarmed)\nHit: You push the secondary target a number of squares equal to 1 + your Dexterity modifier and knock it prone.\nMiss: Half damage.\nPublished in Martial Power 2, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst you can see"
+            },
+            "targets-5": {
+              "kind": "TARGET_SET",
+              "text": "One creature hit by the primary attack"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and the primary target is dazed until the end of your next turn. Make a melee secondary attack."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "One creature hit by the primary attack"
+            },
+            {
+              "id": "row-6",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Strength vs. Fortitude (unarmed)",
+              "actor": "self",
+              "targets": "targets-5",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. Fortitude (unarmed)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "You push the secondary target a number of squares equal to 1 + your Dexterity and knock it prone."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must have a hand free.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10537",
+      "title": "Mighty Shield Slam",
+      "description": "You slam your shield into your foe with a quick, powerful thrust.",
+      "flavor": "You slam your shield into your foe with a quick, powerful thrust.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10537",
+        "publication": "Published in Martial Power 2, page(s) 17.",
+        "rulesText": "Mighty Shield SlamFighter Attack 19\nYou slam your shield into your foe with a quick, powerful thrust.\nDaily   ✦     Martial, Reliable\nMinor Action      Melee 1\nRequirement: You must be using a shield.\nTarget: One creature\nAttack: Strength + 4 vs. Fortitude\nLevel 21: Strength + 6 vs. Fortitude\nHit: 2d6 + Strength modifier damage, and you push the target 1 square. The target is dazed until the end of your next turn.\nPublished in Martial Power 2, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RELIABLE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength + 4 vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength + 4 vs. Fortitude"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Strength damage, and you push the target 1 square. The target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ],
+              "scaling": [
+                {
+                  "atLevel": 21,
+                  "text": "Strength + 6 vs. Fortitude"
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be using a shield.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10538",
+      "title": "Persistence of Blades",
+      "description": "You are a whirl of steel and resolve. Nothing can deter you from striking your foe.",
+      "flavor": "You are a whirl of steel and resolve. Nothing can deter you from striking your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10538",
+        "publication": "Published in Martial Power 2, page(s) 17.",
+        "rulesText": "Persistence of BladesFighter Attack 19\nYou are a whirl of steel and resolve. Nothing can deter you from striking your foe.\nDaily   ✦     Martial, Stance\nMinor Action      Personal\nEffect: Until the stance ends, once per turn when you miss with a melee attack roll, you can reroll the attack roll.\nPublished in Martial Power 2, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "STANCE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Personal"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the stance ends, once per turn when you miss with a melee attack roll, you can reroll the attack roll."
+            }
+          ]
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power4349",
+      "title": "Protective Sweep",
+      "description": "You swing your weapon around with care, and then take up a defensive posture.",
+      "flavor": "You swing your weapon around with care, and then take up a defensive posture.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4349",
+        "publication": "Published in Martial Power, page(s) 18.",
+        "rulesText": "Protective SweepFighter Attack 19\nYou swing your weapon around with care, and then take up a defensive posture.\nDaily   ✦     Martial, Weapon\nStandard Action      Close burst 1\nTarget: Each creature in the burst you can see\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage.\nMiss: Half damage.\nWeapon: If you're wielding a flail or a heavy blade, the attack deals extra damage equal to your Dexterity modifier.\nEffect: You gain a +4 power bonus to AC until the start of your next turn.\nPublished in Martial Power, page(s) 18."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Weapon",
+              "text": "If you're wielding a flail or a heavy blade, the attack deals extra damage equal to your Dexterity."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a +4 power bonus to AC until the start of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10539",
+      "title": "Pugilist's Resolve",
+      "description": "Your enemies leave themselves open to your powerful punches when they attack you but fail to hit.",
+      "flavor": "Your enemies leave themselves open to your powerful punches when they attack you but fail to hit.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10539",
+        "publication": "Published in Martial Power 2, page(s) 17.",
+        "rulesText": "Pugilist's ResolveFighter Attack 19\nYour enemies leave themselves open to your powerful punches when they attack you but fail to hit.\nDaily   ✦     Martial, Stance, Weapon\nMinor Action      Personal\nRequirement: You must have a hand free.\nEffect: Until the stance ends, you can use the power Pugilist's Resolve Attack.\nPugilist's Resolve Attack\nAt-Will ✦     Martial, Weapon\nImmediate Reaction      Melee weapon\nRequirement: The power Pugilist's Resolve must be active in order to use this power.\nTrigger: An enemy adjacent to you misses you with a melee attack\nRequirement: You must have a hand free.\nTarget: The triggering enemy.\nAttack: Strength vs. AC (unarmed)\nHit: Strength modifier + Dexterity modifier damage, and you knock the target prone.\nPublished in Martial Power 2, page(s) 17."
+      },
+      "keywords": [
+        "MARTIAL",
+        "STANCE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Personal"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the stance ends, you can use the power Pugilist's Resolve Attack."
+            },
+            {
+              "id": "grant-use-pugilist-s-resolve-attack",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Pugilist's Resolve Attack",
+              "activationId": "use-pugilist-s-resolve-attack",
+              "duration": "As stated in the power's rules"
+            }
+          ],
+          "requirement": "You must have a hand free."
+        },
+        {
+          "id": "use-pugilist-s-resolve-attack",
+          "availability": "GRANTED",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-9": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-10",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC (unarmed)",
+              "actor": "self",
+              "targets": "targets-9",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC (unarmed)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-11",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "Strength + Dexterity damage, and you knock the target prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "title": "Pugilist's Resolve Attack",
+          "requirement": "The power Pugilist's Resolve must be active in order to use this power. You must have a hand free.",
+          "trigger": "An enemy adjacent to you misses you with a melee attack",
+          "targets": "targets-9"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power1526",
+      "title": "Reaving Strike",
+      "description": "You make a powerful overhand strike, hitting your foe with such force that it stumbles backward.",
+      "flavor": "You make a powerful overhand strike, hitting your foe with such force that it stumbles backward.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1526",
+        "publication": "Published in Player's Handbook, page(s) 84, Class Compendium.",
+        "rulesText": "Reaving StrikeFighter Attack 19\nYou make a powerful overhand strike, hitting your foe with such force that it stumbles backward.\nDaily   ✦     Martial, Reliable, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 5[W] + Strength damage, and you can push the target 1 square.\nPublished in Player's Handbook, page(s) 84, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RELIABLE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5[W] + Strength damage, and you can push the target 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power2144",
+      "title": "Relentless Assailant",
+      "description": "You get a boost out of pummeling your opponent.",
+      "flavor": "You get a boost out of pummeling your opponent.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2144",
+        "publication": "Published in Martial Power, page(s) 18.",
+        "rulesText": "Relentless AssailantFighter Attack 19\nYou get a boost out of pummeling your opponent.\nDaily   ✦     Healing, Invigorating, Martial, Reliable, Weapon\nStandard Action      Melee Weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage, and you can spend a healing surge.\nPublished in Martial Power, page(s) 18."
+      },
+      "keywords": [
+        "HEALING",
+        "INVIGORATING",
+        "MARTIAL",
+        "RELIABLE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee Weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee Weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage, and you can spend a healing surge."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power2219",
+      "title": "Smash and Grab",
+      "description": "Your hammering blow distracts your enemy long enough for you to obtain a crushing hold.",
+      "flavor": "Your hammering blow distracts your enemy long enough for you to obtain a crushing hold.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2219",
+        "publication": "Published in Martial Power, page(s) 18.",
+        "rulesText": "Smash and GrabFighter Attack 19\nYour hammering blow distracts your enemy long enough for you to obtain a crushing hold.\nDaily   ✦     Invigorating, Martial, Reliable, Weapon\nStandard Action      Melee weapon\nRequirement: You must have a hand free.\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and you grab the target. Each time you sustain the grab, the target takes 1[W] + Strength modifier damage.\nWeapon: If you're wielding an axe, a hammer, or a mace, the attack deals extra damage equal to your Constitution modifier.\nPublished in Martial Power, page(s) 18."
+      },
+      "keywords": [
+        "INVIGORATING",
+        "MARTIAL",
+        "RELIABLE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and you grab the target. Each time you sustain the grab, the target takes 1[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Weapon",
+              "text": "If you're wielding an axe, a hammer, or a mace, the attack deals extra damage equal to your Constitution."
+            }
+          ],
+          "requirement": "You must have a hand free.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power1527",
+      "title": "Strike of the Watchful Guard",
+      "description": "After landing a tremendous blow, you trail your enemy and make it think twice about turning its back on you.",
+      "flavor": "After landing a tremendous blow, you trail your enemy and make it think twice about turning its back on you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1527",
+        "publication": "Published in Player's Handbook, page(s) 84, Class Compendium.",
+        "rulesText": "Strike of the Watchful GuardFighter Attack 19\nAfter landing a tremendous blow, you trail your enemy and make it think twice about turning its back on you.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage.\nEffect: Until the end of the encounter, you can make a melee basic attack against the target as a free action if you are adjacent to it and it either shifts or attacks one of your allies.\nPublished in Player's Handbook, page(s) 84, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, you can make a melee basic attack against the target as a free action if you are adjacent to it and it either shifts or attacks one of your allies."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.fighter-power10005",
+      "title": "Toppling Finish",
+      "description": "In one smooth stroke, you topple the enemy and bring your weapon back to plunge it down into its struggling body.",
+      "flavor": "In one smooth stroke, you topple the enemy and bring your weapon back to plunge it down into its struggling body.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10005",
+        "publication": "Published in Dragon Magazine 379, page(s) 65.",
+        "rulesText": "Toppling FinishFighter Attack 19\nIn one smooth stroke, you topple the enemy and bring your weapon back to plunge it down into its struggling body.\nDaily   ✦     Martial, Reliable, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a two-handed weapon.\nPrimary Target: One creature\nPrimary Attack: Strength vs. Fortitude\nHit: The target falls prone.\nEffect: You make a secondary attack against the same target.\nSecondary Attack: Strength vs. AC\nHit: 5[W] + Strength modifier damage.\nMiss: Half damage.\nSpecial: If the target grants combat advantage to you, your attack deals extra damage equal to 3 + your Constitution modifier.\nPublished in Dragon Magazine 379, page(s) 65."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RELIABLE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target falls prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You make a secondary attack against the same target."
+            },
+            {
+              "id": "row-6",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-9",
+              "type": "effect",
+              "label": "Special",
+              "text": "If the target grants combat advantage to you, your attack deals extra damage equal to 3 + your Constitution."
+            }
+          ],
+          "requirement": "You must be wielding a two-handed weapon.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Fighter Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

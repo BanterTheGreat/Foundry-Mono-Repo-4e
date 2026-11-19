@@ -1,3 +1,19 @@
+## Builder progression through level 19
+
+The builder runtime now extends the authoritative acquisition schedule through level
+19. The existing JSON advancement slots through level 10 keep their identities;
+the compiler adds class acquisitions at 13 and 17 from `creation/standard.json`.
+The source's level-17 encounter kind remains unspecified and is not guessed.
+
+Attack authoring now includes levels 17 and 19 for every class, plus Barbarian
+levels 13 and 15. These 532 additional powers use the existing offline adaptation
+pipeline and preserve all earlier reviewed local powers. Older counts below
+record the original migrations. Production reads only the authored JSON.
+
+Wizard's universal spellbook learning rule covers the new level-17 utility slot;
+Tome of Readiness permits its authored encounter-acquisition replacements at
+levels 13 and 17 too. Combat execution and magic-technique pools remain manual.
+
 # Shared class authoring (catalog/export schema v2)
 
 All 19 local classes are authoritative here: four Defenders, six Leaders, three

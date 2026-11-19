@@ -1,3 +1,32 @@
+## Levels 2?19 content
+
+Production includes class acquisition slots through level 19, preserving the existing
+level 1?10 slot identities. Level 13 grants an encounter attack; level 17 grants a
+utility and an encounter power. The level 17 source leaves its attack/utility kind
+unspecified, so the encounter pool filters usage and level without inventing a kind.
+Replacement levels retain the original acquisition slot instead of granting more powers.
+
+The attack catalog adds 532 attacks (505 at levels 17/19 and 27 Barbarian level 13/15 attacks) across all 19 classes using the
+existing explicit offline adaptation pipeline. Prior reviewed attacks are preserved.
+The production build reads the reviewed local JSON and never imports source rules.
+
+`modern4e.paths` compiles all nine structured Zeitgeist paths with absolute-level
+feature and power grants and readable supplementary rules. Granted path powers
+never enter class selection pools. Class-page paths are selectable local summaries;
+their absent adapted feature/power stat blocks remain explicitly unimplemented and
+require manual resolution. Narrative prerequisites retain GM-confirmation diagnostics.
+New character starters enable the paths package alongside the other production packages.
+
+Paths package revision 2 indexes class-bound paths with `pathClassIds`, including
+every authored class alternative. Identical class access sets occupy separate chunks,
+so candidate filtering can skip unrelated path definitions and eligibility checks.
+Theme-based Zeitgeist paths and unrestricted access alternatives remain unscoped;
+metadata never replaces their actual prerequisite evaluation.
+
+`test_path_runtime.py` checks path grants, source rules, selection isolation and
+higher-level acquisition identities. Attack suites check source fidelity and complete
+level-19 coverage. Run the usual content build, sample generation and Python suites.
+
 # Build-time content production
 
 ## Shared-content acceptance and migration (#29)
@@ -45,15 +74,15 @@ unavailable selectable pools and unsupported combat/later-level behavior.
 Published class HTML and mechanics never supply or fill these definitions.
 
 Package revision 4 chunks the package (`entries-NNNN.json`) per class: a selectable power whose access names a class is grouped with that class's powers and its index row carries `classId`, so the engine and the Android level 3+ pickers skip other classes' powers and chunks (`modern4e.utilities`, revision 2, uses the same scoping; powers gated by skill or power source stay unscoped). It adds the other 17 non-Barbarian
-classes' 2,118 selectable attacks through level 15 from `<class>-attack-powers.json` (see the shared class README).
+classes' 2,118 selectable attacks through level 19 from `<class>-attack-powers.json` (see the shared class README).
 Powers with an unresolved prerequisite (builds Modern 4e lacks) compile without a `powerProfile`, so they resolve by ID
-but never enter a query pool. Revision 2 added all 174 Fighter selectable attacks through level 15 from
+but never enter a query pool. Revision 2 added 174 Fighter selectable attacks through level 15; revision 5 extends the pool through level 19 from
 `modern4e/content/classes/fighter-attack-powers.json`, with stable local IDs,
 level/usage profiles, class access and skill prerequisites. Descriptions render
 reviewed ordered rules; original published text is retained only as provenance.
 The explicit migration helper is not part of production. The Fighter-only compiler
 subset includes its curated attack pool when advancement is enabled; the named
-old proof compilation without advancement remains unchanged. Level-13/15 replacement candidates use replacement-level ceilings; general
+old proof compilation without advancement remains unchanged. Level-9/15/19 replacement candidates use replacement-level ceilings; general
 progression/retraining timing remains provisional.
 
 ```powershell
@@ -193,15 +222,14 @@ conditional vocabulary. If intentionally changing the runtime mapping or Fighter
 authoring, regenerate this golden with `class_runtime.build(class_ids=[
 "modern4e.class.fighter"])["modern4e.classes/entries.json"]` and review its diff.
 
-The shared acquisition slots mirror authored GAIN events through level 10. Wizard
+The shared acquisition slots mirror authored GAIN events through level 19. Wizard
 known/stored/prepared daily and utility choices have separate capacities; extra
 technique slots remain unresolved because an adapted technique catalog is absent.
-Tome of Readiness excludes known powers and exposes replacement levels 1/3/7.
+Tome of Readiness excludes known powers and exposes replacement levels 1/3/7/13/17.
 `ReplacePower` preserves the target occurrence and revalidates composition while
-replaying saved history. General retraining and progression timing remain
-incomplete under #20; builder creation/forward editing is still limited to levels
-1?2. Direct higher-level documents expose authored acquisition without claiming
-complete higher-level rules.
+replaying saved history. Builder progression now validates the represented choices through level 19;
+technique catalogs, combat execution and unresolved narrative qualifications remain
+explicit limitations. Levels 20?30 remain outside supported progression.
 
 ## Shared equipment authoring
 

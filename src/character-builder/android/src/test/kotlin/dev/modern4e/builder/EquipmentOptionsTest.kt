@@ -4,6 +4,8 @@ import dev.modern4e.builder.ui.screens.equipmentPickerSections
 import java.io.File
 import java.util.concurrent.atomic.AtomicInteger
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -103,6 +105,36 @@ class EquipmentOptionsTest {
         assertEquals(setOf("Cloth", "Leather", "Hide", "Chainmail", "Scale", "Plate"),
             options.eligible.map { it.entry.presentation.title }.toSet())
         assertTrue(options.ineligible.isEmpty())
+    }
+
+    @Test fun armorSectionsSortByAcBeforeNameRegardlessOfEligibility() {
+        fun armor(id: String, title: String, bonus: Int?, category: String = "LIGHT") = ResolvedEntry(
+            ContentEntry(id, EntryCategory.ITEM, Presentation(title), Mechanics(), Coverage(CoverageStatus.SUPPORTED),
+                sharedData = buildJsonObject {
+                    put("equipment", buildJsonObject {
+                        put("kind", "ARMOR")
+                        put("armorCategory", category)
+                        bonus?.let { put("armorBonus", it) }
+                    })
+                }), PackageRevision("standard", "1"), "fingerprint")
+        val high = armor("high", "Aardvark", 5)
+        val low = armor("low", "Zebra", 0)
+        val tieB = armor("tie-b", "Alpha", 2)
+        val tieA = armor("tie-a", "alpha", 2)
+        val unknown = armor("unknown", "Aaa", null)
+        val heavyLow = armor("heavy-low", "Zebra heavy", 6, "HEAVY")
+        val heavyHigh = armor("heavy-high", "Alpha heavy", 8, "HEAVY")
+        val options = EquipmentOptions(eligible = listOf(high, tieB, unknown, heavyHigh),
+            ineligible = listOf(low, tieA, heavyLow))
+        val sections = equipmentPickerSections(EquipmentSlot.ARMOR, options)
+        assertEquals(listOf("Light Armor", "Heavy Armor"), sections.map { it.title })
+        assertEquals(listOf(low, tieA, tieB, high, unknown), sections.first().rows.map { it.option })
+        assertFalse(sections.first().rows.first().eligible)
+        assertTrue(sections.first().rows.first { it.option == high }.eligible)
+        assertEquals(listOf(heavyLow, heavyHigh), sections.last().rows.map { it.option })
+        val shieldTitles = equipmentPickerSections(EquipmentSlot.SHIELD, options).single().rows
+            .map { it.option.entry.presentation.title }
+        assertEquals(shieldTitles.sortedBy { it.lowercase() }, shieldTitles)
     }
 
     @Test fun olderDocumentAdoptsEquipmentPackageOnSaveAndSlotsReopenIndependently() = runBlocking {

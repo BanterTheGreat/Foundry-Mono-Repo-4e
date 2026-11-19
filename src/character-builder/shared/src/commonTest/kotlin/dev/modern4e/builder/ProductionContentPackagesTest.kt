@@ -73,7 +73,7 @@ class ProductionContentPackagesTest {
     fun templateEnablesEveryProductionPackageAndCatalogIsComplete() = run {
         val (sample, catalog, _) = openTemplate()
         assertEquals(listOf("modern4e.classes", "modern4e.ancestries", "modern4e.themes", "modern4e.feats",
-            "modern4e.utilities", "modern4e.equipment"), sample.packages.map { it.packageId })
+            "modern4e.utilities", "modern4e.equipment", "modern4e.paths"), sample.packages.map { it.packageId })
         assertTrue(catalog.diagnostics.none { it.code == "catalog.packageUnavailable" })
         assertEquals(19, catalog.search(category = EntryCategory.CLASS).size)
         assertEquals(13, catalog.search(category = EntryCategory.ANCESTRY).count { it.supplier.packageId == "modern4e.ancestries" })
@@ -214,8 +214,8 @@ class ProductionContentPackagesTest {
         assertTrue(result.state.rules.diagnostics.none { it.code == "engine.equipmentCategory" })
         val before = operations.evaluate(sample).rules
         val after = result.state.rules
-        assertEquals(12, assertIs<ContractResult.Available<CalculatedValue>>(before.displayedDefense(Statistic.AC)).value.total)
-        assertEquals(16, assertIs<ContractResult.Available<CalculatedValue>>(after.displayedDefense(Statistic.AC)).value.total)
+        assertEquals(13, assertIs<ContractResult.Available<CalculatedValue>>(before.displayedDefense(Statistic.AC)).value.total)
+        assertEquals(17, assertIs<ContractResult.Available<CalculatedValue>>(after.displayedDefense(Statistic.AC)).value.total)
         val ac = ModifierTarget(Statistic.AC)
         assertEquals(before.statistics - ac, after.statistics - ac)
     }

@@ -43,12 +43,15 @@ class SharedClassTest {
     fun fighterHasLocalFormulaGoldensIndependentChoicesAndThreeAutomaticPowers() {
         val result = evaluate()
         for ((statistic, expected) in mapOf(Statistic.HIT_POINTS to 29, Statistic.HEALING_SURGES to 11,
-            Statistic.AC to 12, Statistic.FORTITUDE to 20, Statistic.REFLEX to 15, Statistic.WILL to 12)) {
+            Statistic.AC to 13, Statistic.FORTITUDE to 20, Statistic.REFLEX to 15, Statistic.WILL to 12)) {
             val value = calculation(result, statistic)
             assertEquals(expected, value.total)
             assertEquals(expected, value.contributors.sumOf { it.value })
         }
         assertEquals(3, result.entries.count { it.granted && it.definition.entry.category == EntryCategory.POWER })
+        assertEquals(3, calculation(result, Statistic.FORTITUDE).contributors.single { it.label == "Fighter defense bonus" }.value)
+        assertEquals(1, calculation(result, Statistic.REFLEX).contributors.single { it.label == "Fighter defense bonus" }.value)
+        assertEquals(1, calculation(result, Statistic.WILL).contributors.single { it.label == "Fighter defense bonus" }.value)
         assertEquals(2, result.choices.count { it.entries.isNotEmpty() })
         assertTrue(result.choices.flatMap { it.entries }.all { it.status == Eligibility.ELIGIBLE })
         assertEquals(CombatCondition.ONE_HANDED_WEAPON, result.conditionalModifiers.single().benefit.condition)
@@ -59,20 +62,28 @@ class SharedClassTest {
     }
 
     @Test
-    fun tierBonusChangesOnlyNonArmorDefensesAndUsesNormalModifierStacking() {
+    fun everyDefenseGetsTierBonusWhileArmorClassAlsoGetsFlooredHalfLevel() {
         val doc = character()
-        for ((level, tier) in listOf(1 to 1, 10 to 1, 11 to 2, 20 to 2, 21 to 3, 30 to 3)) {
+        for ((level, tier) in listOf(1 to 1, 2 to 1, 3 to 1, 10 to 1, 11 to 2, 20 to 2, 21 to 3, 30 to 3)) {
             val target = ModifierTarget(Statistic.FORTITUDE)
             val adjustments = listOf(1, 2).map { amount ->
                 ManualAdjustment("fortitude-$amount", TypedModifier(target, ModifierOperation.ADD, amount, BonusType.ITEM))
             }
-            val result = evaluate(doc.copy(level = level, manualAdjustments = adjustments))
+            val progressed = doc.copy(level = level, levels = doc.levels +
+                AdvancementRules.nonMainLevels.filter { it <= level }.map { at -> LevelDecisions(at,
+                    abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(at), mapOf(Ability.WISDOM to 1)))) },
+                manualAdjustments = adjustments)
+            val result = evaluate(progressed)
+            fun points(ability: Ability) = assertIs<ContractResult.Available<CalculatedValue>>(result.ability(ability)).value.total
             val fortitude = calculation(result, Statistic.FORTITUDE)
-            assertEquals(19 + tier + 2, fortitude.total)
+            assertEquals(13 + points(Ability.STRENGTH) + points(Ability.CONSTITUTION) + tier + 2, fortitude.total)
             assertEquals(1, fortitude.contributors.count { it.label == "Tier bonus" && it.value == tier })
-            assertEquals(14 + tier, calculation(result, Statistic.REFLEX).total)
-            assertEquals(11 + tier, calculation(result, Statistic.WILL).total)
-            assertEquals(12, calculation(result, Statistic.AC).total)
+            assertEquals(11 + points(Ability.DEXTERITY) + points(Ability.INTELLIGENCE) + tier, calculation(result, Statistic.REFLEX).total)
+            assertEquals(11 + points(Ability.WISDOM) + points(Ability.CHARISMA) + tier, calculation(result, Statistic.WILL).total)
+            val ac = calculation(result, Statistic.AC)
+            assertEquals(10 + maxOf(points(Ability.DEXTERITY), points(Ability.INTELLIGENCE)) + level / 2 + tier, ac.total)
+            assertEquals(1, ac.contributors.count { it.label == "Tier bonus" && it.value == tier })
+            assertEquals(level / 2, ac.contributors.filter { it.label == "Half level" }.sumOf { it.value })
         }
     }
 
@@ -86,7 +97,7 @@ class SharedClassTest {
         val result = evaluate(draft)
         assertIs<ContractResult.Unavailable>(result.statistics.getValue(ModifierTarget(Statistic.FORTITUDE)).value)
         assertEquals(18, assertIs<ContractResult.Available<CalculatedValue>>(result.displayedDefense(Statistic.FORTITUDE)).value.total)
-        assertEquals(10, assertIs<ContractResult.Available<CalculatedValue>>(result.displayedDefense(Statistic.AC)).value.total)
+        assertEquals(11, assertIs<ContractResult.Available<CalculatedValue>>(result.displayedDefense(Statistic.AC)).value.total)
         val missing = RulesEngine.evaluate(draft, content(draft).copy(selections = emptyMap()))
         assertIs<ContractResult.Unavailable>(missing.displayedDefense(Statistic.FORTITUDE))
         assertIs<ContractResult.Unavailable>(missing.displayedDefense(Statistic.AC))
@@ -155,14 +166,16 @@ class SharedClassTest {
     }
 
     @Test
-    fun explicitAcquisitionAndClassFormulaWorkAtLaterLevelsWithGeneralProgressionDiagnostic() {
+    fun explicitAcquisitionAndClassFormulaWorkAtLaterLevelsWithEarnedAdvancement() {
         val late = feature("combat-reactivity")
         val updated = fighter.copy(mechanics = fighter.mechanics.copy(grants = fighter.mechanics.grants + Grant.Entry("late-five", late.id, 5)))
-        val doc = character("combat-superiority").copy(level = 5)
+        val original = character("combat-superiority")
+        val doc = original.copy(level = 5, levels = original.levels + LevelDecisions(4,
+            abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.DEXTERITY to 1)))))
         val result = evaluate(doc, listOf(updated))
         assertEquals(57, calculation(result, Statistic.HIT_POINTS).total)
         assertTrue(result.entries.any { it.instanceId == ModernCreation.grantInstance("fighter", "late-five") })
-        assertTrue(result.diagnostics.any { it.code == "engine.progressionUnsupported" })
+        assertFalse(result.diagnostics.any { it.code == "engine.progressionUnsupported" })
     }
 
     @Test

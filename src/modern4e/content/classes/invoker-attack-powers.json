@@ -11343,6 +11343,1933 @@
       "subtitle": "Invoker Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power7209",
+      "title": "Astral Dust",
+      "description": "Motes of silvery dust rain from above, burning whatever enemy they land on.",
+      "flavor": "Motes of silvery dust rain from above, burning whatever enemy they land on.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7209",
+        "publication": "Published in Divine Power, page(s) 64.",
+        "rulesText": "Astral DustInvoker Attack 17\nMotes of silvery dust rain from above, burning whatever enemy they land on.\nEncounter   ✦     Divine, Fire, Implement, Radiant\nStandard Action      Close burst 3\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Reflex\nHit: 2d8 + Wisdom modifier fire and radiant damage. If the target doesn't move away from you before the end of its next turn, it takes 5 fire and radiant damage and a -2 penalty to all defenses until the end of your next turn.\nPublished in Divine Power, page(s) 64."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom fire and radiant damage. If the target doesn't move away from you before the end of its next turn, it takes 5 fire and radiant damage and a -2 penalty to all defenses until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power3302",
+      "title": "Blood Debt",
+      "description": "Each wound your foe deals adds to its mounting debt of blood and invites your allies' retribution.",
+      "flavor": "Each wound your foe deals adds to its mounting debt of blood and invites your allies' retribution.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3302",
+        "publication": "Published in Player's Handbook 2, page(s) 110.",
+        "rulesText": "Blood DebtInvoker Attack 17\nEach wound your foe deals adds to its mounting debt of blood and invites your allies' retribution.\nEncounter   ✦     Divine, Implement, Radiant\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: 3d10 + Wisdom modifier radiant damage. Until the end of your next turn, each creature that the target attacks gains a +2 bonus to its next attack roll against the target.\nCovenant of Wrath: The bonus to the attack roll equals 1 + your Constitution modifier.\nAddition (10/13/2009)\nOn the Hit line, add “modifier” between “Wisdom” and “radiant.”\nPublished in Player's Handbook 2, page(s) 110."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Wisdom radiant damage. Until the end of your next turn, each creature that the target attacks gains a +2 bonus to its next attack roll against the target."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Covenant of Wrath",
+              "text": "The bonus to the attack roll equals 1 + your Constitution."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power7210",
+      "title": "Chainfire",
+      "description": "You ignite a foe in a column of holy flames, from which fire streams to nearby enemies.",
+      "flavor": "You ignite a foe in a column of holy flames, from which fire streams to nearby enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7210",
+        "publication": "Published in Divine Power, page(s) 65.",
+        "rulesText": "ChainfireInvoker Attack 17\nYou ignite a foe in a column of holy flames, from which fire streams to nearby enemies.\nEncounter   ✦     Divine, Fire, Implement\nStandard Action      Ranged 10\nPrimary Target: One creature\nPrimary Attack: Wisdom vs. Reflex\nHit: 3d6 + Wisdom modifier fire damage. Make a secondary attack that is an area burst 2 centered on the primary target.\nSecondary Target: Each enemy in the burst other than the primary target\nSecondary Attack: Wisdom vs. Reflex\nHit: 2d6 + Wisdom modifier fire damage.\nPublished in Divine Power, page(s) 65."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            },
+            "targets-4": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst other than the primary target"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom fire damage. Make a secondary attack that is an area burst 2 centered on the primary target."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "Each enemy in the burst other than the primary target"
+            },
+            {
+              "id": "row-5",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-4",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Each enemy in the burst other than the primary target"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Wisdom fire damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power3304",
+      "title": "Curse of Haemnathuun",
+      "description": "You invoke a faint echo of the curse that transformed the fearsome primordial Haemnathuun into a statue, partially encasing your foes in stone for a moment.",
+      "flavor": "You invoke a faint echo of the curse that transformed the fearsome primordial Haemnathuun into a statue, partially encasing your foes in stone for a moment.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3304",
+        "publication": "Published in Player's Handbook 2, page(s) 110.",
+        "rulesText": "Curse of HaemnathuunInvoker Attack 17\nYou invoke a faint echo of the curse that transformed the fearsome primordial Haemnathuun into a statue, partially encasing your foes in stone for a moment.\nEncounter   ✦     Divine, Implement\nStandard Action      Close blast 5\nTarget: Each creature in the blast\nAttack: Wisdom vs. Fortitude\nHit: 2d8 + Wisdom modifier damage, and the target is dazed and immobilized until the end of your next turn.\nPublished in Player's Handbook 2, page(s) 110."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom damage, and the target is dazed and immobilized until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power7211",
+      "title": "Daunting Blasphemy",
+      "description": "The vile words you speak darken your soul as they eat away at your enemies, who dare not move.",
+      "flavor": "The vile words you speak darken your soul as they eat away at your enemies, who dare not move.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7211",
+        "publication": "Published in Divine Power, page(s) 65.",
+        "rulesText": "Daunting BlasphemyInvoker Attack 17\nThe vile words you speak darken your soul as they eat away at your enemies, who dare not move.\nEncounter   ✦     Divine, Implement, Necrotic\nStandard Action      Close burst 3\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Fortitude\nHit: 2d10 + Wisdom modifier necrotic damage. The first time the target moves before the start of your next turn, it takes 5 necrotic damage.\nEffect: You take 5 damage.\nPublished in Divine Power, page(s) 65."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "NECROTIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom necrotic damage. The first time the target moves before the start of your next turn, it takes 5 necrotic damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You take 5 damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power3308",
+      "title": "Glyph of Radiance",
+      "description": "You invoke a glyph of radiance, a tool used by the gods both to illuminate the darkest realms and to blind their enemies with the glyph's unyielding light.",
+      "flavor": "You invoke a glyph of radiance, a tool used by the gods both to illuminate the darkest realms and to blind their enemies with the glyph's unyielding light.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3308",
+        "publication": "Published in Player's Handbook 2, page(s) 110.",
+        "rulesText": "Glyph of RadianceInvoker Attack 17\nYou invoke a glyph of radiance, a tool used by the gods both to illuminate the darkest realms and to blind their enemies with the glyph's unyielding light.\nEncounter   ✦     Divine, Implement, Radiant\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Wisdom vs. Will\nHit: 2d6 + Wisdom modifier radiant damage, and the target is blinded until the end of your next turn.\nPublished in Player's Handbook 2, page(s) 110."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Wisdom radiant damage, and the target is blinded until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power3301",
+      "title": "Glyph of Three Blades",
+      "description": "In ages past, the gods forged three sacred blades that could surround and trap the mightiest primordials. You invoke these weapons to trap your foes in a ring of spectral blades.",
+      "flavor": "In ages past, the gods forged three sacred blades that could surround and trap the mightiest primordials. You invoke these weapons to trap your foes in a ring of spectral blades.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3301",
+        "publication": "Published in Player's Handbook 2, page(s) 110.",
+        "rulesText": "Glyph of Three BladesInvoker Attack 17\nIn ages past, the gods forged three sacred blades that could surround and trap the mightiest primordials. You invoke these weapons to trap your foes in a ring of spectral blades.\nEncounter   ✦     Divine, Implement\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Wisdom vs. Reflex\nHit: 2d8 + Wisdom modifier damage. If the target moves more than 1 square before the end of your next turn, the target takes 5 damage.\nCovenant of Preservation: The damage the target takes from moving more than 1 square equals 5 + your Intelligence modifier.\nPublished in Player's Handbook 2, page(s) 110."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom damage. If the target moves more than 1 square before the end of your next turn, the target takes 5 damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Covenant of Preservation",
+              "text": "The damage the target takes from moving more than 1 square equals 5 + your Intelligence."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power7212",
+      "title": "Sound of the Golden Clarion",
+      "description": "Heavenly trumpets sound, blasting your foes with a perfect note.",
+      "flavor": "Heavenly trumpets sound, blasting your foes with a perfect note.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7212",
+        "publication": "Published in Divine Power, page(s) 65.",
+        "rulesText": "Sound of the Golden ClarionInvoker Attack 17\nHeavenly trumpets sound, blasting your foes with a perfect note.\nEncounter   ✦     Divine, Implement, Thunder\nStandard Action      Close blast 5\nTarget: Each creature in the blast\nAttack: Wisdom vs. Fortitude\nHit: 3d6 + Wisdom modifier thunder damage, and the target is pushed 1 square and deafened until the end of its next turn.\nPublished in Divine Power, page(s) 65."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom thunder damage, and the target is pushed 1 square and deafened until the end of its next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power7213",
+      "title": "Word of Pain",
+      "description": "At your word, agony lances through the minds of the creatures around you. You are momentarily distracted by their mental screams.",
+      "flavor": "At your word, agony lances through the minds of the creatures around you. You are momentarily distracted by their mental screams.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7213",
+        "publication": "Published in Divine Power, page(s) 65.",
+        "rulesText": "Word of PainInvoker Attack 17\nAt your word, agony lances through the minds of the creatures around you. You are momentarily distracted by their mental screams.\nEncounter   ✦     Divine, Implement, Psychic\nStandard Action      Close burst 1\nTarget: Each creature in the burst\nAttack: Wisdom vs. Will\nHit: 2d10 + Wisdom modifier psychic damage, and the target is weakened until the end of your next turn.\nEffect: You are dazed until the end of your next turn.\nCovenant of Malediction: The size of the burst increases by 1.\nPublished in Divine Power, page(s) 65."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom psychic damage, and the target is weakened until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You are dazed until the end of your next turn."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Covenant of Malediction",
+              "text": "The size of the burst increases by 1."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power3347",
+      "title": "Astral Tempest",
+      "description": "You breach the wall between this world and an astral dominion, causing a storm of divine energy to rip through your foes, scattering them, before it dissipates.",
+      "flavor": "You breach the wall between this world and an astral dominion, causing a storm of divine energy to rip through your foes, scattering them, before it dissipates.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3347",
+        "publication": "Published in Player's Handbook 2, page(s) 110.",
+        "rulesText": "Astral TempestInvoker Attack 19\nYou breach the wall between this world and an astral dominion, causing a storm of divine energy to rip through your foes, scattering them, before it dissipates.\nDaily   ✦     Divine, Implement\nStandard Action      Area burst 2 within 10 squares\nTarget: Each creature in the burst\nAttack: Wisdom vs. Fortitude\nHit: 7d6 + Wisdom modifier damage, and you slide the target 5 squares and knock it prone.\nMiss: Half damage, and you slide the target 3 squares and knock it prone.\nPublished in Player's Handbook 2, page(s) 110."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "7d6 + Wisdom damage, and you slide the target 5 squares and knock it prone."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you slide the target 3 squares and knock it prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power7214",
+      "title": "Forced Submission",
+      "description": "Your enemy bends to the divine will expressed through you. You cease focusing on your own defense while you harness it.",
+      "flavor": "Your enemy bends to the divine will expressed through you. You cease focusing on your own defense while you harness it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7214",
+        "publication": "Published in Divine Power, page(s) 65.",
+        "rulesText": "Forced SubmissionInvoker Attack 19\nYour enemy bends to the divine will expressed through you. You cease focusing on your own defense while you harness it.\nDaily   ✦     Charm, Divine, Implement, Psychic, Reliable\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: 2d10 + Wisdom modifier psychic damage, and the target is dominated (save ends). Until this domination ends, you grant combat advantage.\nCovenant of Malediction: The target takes a -2 penalty to saving throws against this domination.\nPublished in Divine Power, page(s) 65."
+      },
+      "keywords": [
+        "CHARM",
+        "DIVINE",
+        "IMPLEMENT",
+        "PSYCHIC",
+        "RELIABLE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom psychic damage, and the target is dominated (save ends). Until this domination ends, you grant combat advantage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Covenant of Malediction",
+              "text": "The target takes a -2 penalty to saving throws against this domination."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power3346",
+      "title": "Malediction of Gartak",
+      "description": "The exarch Gartak betrayed the gods. He was cursed so that the next killing blow he landed on a foe caused him to die with the same wound.",
+      "flavor": "The exarch Gartak betrayed the gods. He was cursed so that the next killing blow he landed on a foe caused him to die with the same wound.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3346",
+        "publication": "Published in Player's Handbook 2, page(s) 110.",
+        "rulesText": "Malediction of GartakInvoker Attack 19\nThe exarch Gartak betrayed the gods. He was cursed so that the next killing blow he landed on a foe caused him to die with the same wound.\nDaily   ✦     Divine, Implement\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: 5d6 + Wisdom modifier damage.\nEffect: Whenever the target hits with an attack, the target takes 10 damage. This effect ends at the end of the target's turn if it has not attacked since the end of its last turn.\nPublished in Player's Handbook 2, page(s) 110."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5d6 + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Whenever the target hits with an attack, the target takes 10 damage. This effect ends at the end of the target's turn if it has not attacked since the end of its last turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power7215",
+      "title": "Mark of Forbearance",
+      "description": "You superimpose a divine glyph on your foe. The ancient mark sears your foe with radiant damage and interferes with its attacks.",
+      "flavor": "You superimpose a divine glyph on your foe. The ancient mark sears your foe with radiant damage and interferes with its attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7215",
+        "publication": "Published in Divine Power, page(s) 65.",
+        "rulesText": "Mark of ForbearanceInvoker Attack 19\nYou superimpose a divine glyph on your foe. The ancient mark sears your foe with radiant damage and interferes with its attacks.\nDaily   ✦     Divine, Implement, Radiant\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: 4d8 + Wisdom modifier radiant damage.\nMiss: Half damage.\nEffect: The target takes a -5 penalty to attack rolls against your bloodied allies (save ends). On each of the target's turns, it can make a saving throw against this effect only if it does not attack during that turn.\nPublished in Divine Power, page(s) 65."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d8 + Wisdom radiant damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes a -5 penalty to attack rolls against your bloodied allies (save ends). On each of the target's turns, it can make a saving throw against this effect only if it does not attack during that turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power3320",
+      "title": "Summon Angel of Light",
+      "description": "A mote of light appears before you, and an angel clad in glowing silver armor steps forth from it. The angel wields a flail that ends in an orb of pure radiance.",
+      "flavor": "A mote of light appears before you, and an angel clad in glowing silver armor steps forth from it. The angel wields a flail that ends in an orb of pure radiance.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3320",
+        "publication": "Published in Player's Handbook 2, page(s) 111.",
+        "rulesText": "Summon Angel of LightInvoker Attack 19\nA mote of light appears before you, and an angel clad in glowing silver armor steps forth from it. The angel wields a flail that ends in an orb of pure radiance.\nDaily   ✦     Divine, Implement, Radiant, Summoning\nMinor Action      Ranged 10\nEffect: You summon a Medium angel of light in an unoccupied square within range. The angel has speed 6 and fly 8 (hover). It has a +4 bonus to AC and a +2 bonus to its other defenses. Any enemy that starts its turn adjacent to the angel is marked by the angel until the end of your next turn. You can give the angel the following special commands.\nMinor Action: Melee 1; targets one creature; Wisdom vs. Reflex; 1d10 + Wisdom modifier radiant damage, and until the end of your next turn, the target doesn't have line of sight to creatures more than 5 squares away from it.\nOpportunity Attack: Melee 1; targets one creature; Wisdom vs. Reflex; 1d10 + Wisdom modifier radiant damage.\nPublished in Player's Handbook 2, page(s) 111."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You summon a Medium angel of light in an unoccupied square within range. The angel has speed 6 and fly 8 (hover). It has a +4 bonus to AC and a +2 bonus to its other defenses. Any enemy that starts its turn adjacent to the angel is marked by the angel until the end of your next turn. You can give the angel the following special commands."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Minor Action",
+              "text": "Melee 1; targets one creature; Wisdom vs. Reflex; 1d10 + Wisdom radiant damage, and until the end of your next turn, the target doesn't have line of sight to creatures more than 5 squares away from it."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Opportunity Attack",
+              "text": "Melee 1; targets one creature; Wisdom vs. Reflex; 1d10 + Wisdom radiant damage."
+            }
+          ]
+        }
+      ],
+      "subtitle": "Invoker Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power7216",
+      "title": "Thunderous Shout",
+      "description": "Intoning a word of creation, you split the air with a cacophonous blast. Your ears bleed as the word hurls your foes away.",
+      "flavor": "Intoning a word of creation, you split the air with a cacophonous blast. Your ears bleed as the word hurls your foes away.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7216",
+        "publication": "Published in Divine Power, page(s) 65.",
+        "rulesText": "Thunderous ShoutInvoker Attack 19\nIntoning a word of creation, you split the air with a cacophonous blast. Your ears bleed as the word hurls your foes away.\nDaily   ✦     Divine, Implement, Thunder\nStandard Action      Close blast 5\nTarget: Each creature in the blast\nAttack: Wisdom vs. Fortitude\nHit: 3d10 + Wisdom modifier thunder damage, and you push the target 5 squares and knock it prone. In addition, the target is deafened (save ends).\nMiss: Half damage, and you push the target 2 squares.\nEffect: You take 10 damage.\nCovenant of Malediction: You instead take 5 damage.\nPublished in Divine Power, page(s) 65."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Wisdom thunder damage, and you push the target 5 squares and knock it prone. In addition, the target is deafened (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you push the target 2 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You take 10 damage."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Covenant of Malediction",
+              "text": "You instead take 5 damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power3316",
+      "title": "Tomb of Magrym",
+      "description": "You invoke the name of Magrym—an exarch of stone and darkness who helped build the prison Carceri—to entomb your foes.",
+      "flavor": "You invoke the name of Magrym—an exarch of stone and darkness who helped build the prison Carceri—to entomb your foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3316",
+        "publication": "Published in Player's Handbook 2, page(s) 111.",
+        "rulesText": "Tomb of MagrymInvoker Attack 19\nYou invoke the name of Magrym—an exarch of stone and darkness who helped build the prison Carceri—to entomb your foes.\nDaily   ✦     Conjuration, Divine, Implement\nStandard Action      Area burst 1 within 10 squares\nEffect: The burst conjures a tomb of white stone. The tomb fills the burst and must be on a solid surface. The tomb is a solid obstacle, and it can be attacked as an object: AC 6, Fortitude 10, Reflex 5, and 60 hit points. When the tomb is destroyed, it crumbles into difficult terrain.\nAs the tomb appears, make the following attack.\nTarget: Each creature in the burst\nAttack: Wisdom vs. Reflex\nHit: 3d6 + Wisdom modifier damage, and the target disappears into the tomb. While inside the tomb, the target is dazed and doesn't have line of sight or line of effect to anything other than the tomb. The target can make melee and close attacks only against the tomb. When the tomb is destroyed, the target reappears in the space it last occupied or in the nearest unoccupied space.\nMiss: Half damage, and you slide the target to the nearest space outside the burst.\nPublished in Player's Handbook 2, page(s) 111."
+      },
+      "keywords": [
+        "CONJURATION",
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst conjures a tomb of white stone. The tomb fills the burst and must be on a solid surface. The tomb is a solid obstacle, and it can be attacked as an object: AC 6, Fortitude 10, Reflex 5, and 60 hit points. When the tomb is destroyed, it crumbles into difficult terrain."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Rule",
+              "text": "As the tomb appears, make the following attack."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom damage, and the target disappears into the tomb. While inside the tomb, the target is dazed and doesn't have line of sight or line of effect to anything other than the tomb. The target can make melee and close attacks only against the tomb. When the tomb is destroyed, the target reappears in the space it last occupied or in the nearest unoccupied space."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you slide the target to the nearest space outside the burst."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Invoker Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.invoker-power7217",
+      "title": "Wrath of the Fallen God",
+      "description": "The memory of a fallen god's anger and agony fills nearby creatures' minds.",
+      "flavor": "The memory of a fallen god's anger and agony fills nearby creatures' minds.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7217",
+        "publication": "Published in Divine Power, page(s) 66.",
+        "rulesText": "Wrath of the Fallen GodInvoker Attack 19\nThe memory of a fallen god's anger and agony fills nearby creatures' minds.\nDaily   ✦     Divine, Implement, Psychic, Zone\nStandard Action      Area burst 2 within 10 squares\nTarget: Each creature in the burst\nAttack: Wisdom vs. Fortitude\nHit: 4d6 + Wisdom modifier psychic damage, and ongoing 10 psychic damage (save ends).\nMiss: Half damage, and ongoing 5 psychic damage (save ends).\nEffect: The burst creates a zone of agony that lasts until the end of your next turn. Any creature that starts its turn within the zone is slowed and takes a -2 penalty to attack rolls until the end of your next turn.\nPublished in Divine Power, page(s) 66."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "PSYCHIC",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d6 + Wisdom psychic damage, and ongoing 10 psychic damage (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and ongoing 5 psychic damage (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone of agony that lasts until the end of your next turn. Any creature that starts its turn within the zone is slowed and takes a -2 penalty to attack rolls until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Invoker Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

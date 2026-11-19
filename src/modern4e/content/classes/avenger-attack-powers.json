@@ -15761,6 +15761,4026 @@
       "subtitle": "Avenger Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power7040",
+      "title": "Accept No Defeat",
+      "description": "Single-minded pursuit is usually your strength, but prayers, like plans, can be phrased with fallback maneuvers.",
+      "flavor": "Single-minded pursuit is usually your strength, but prayers, like plans, can be phrased with fallback maneuvers.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7040",
+        "publication": "Published in Divine Power, page(s) 15.",
+        "rulesText": "Accept No DefeatAvenger Attack 17\nSingle-minded pursuit is usually your strength, but prayers, like plans, can be phrased with fallback maneuvers.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage.\nMiss: You shift 1 square and make a melee basic attack against a different creature, with a +4 bonus to the damage roll.\nPublished in Divine Power, page(s) 15."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "You shift 1 square and make a melee basic attack against a different creature, with a +4 bonus to the damage roll."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power3529",
+      "title": "Astral Fury",
+      "description": "You send your foes tumbling through the Astral Sea, teleporting them a short distance and leaving them disoriented.",
+      "flavor": "You send your foes tumbling through the Astral Sea, teleporting them a short distance and leaving them disoriented.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3529",
+        "publication": "Published in Player's Handbook 2, page(s) 40.",
+        "rulesText": "Astral FuryAvenger Attack 17\nYou send your foes tumbling through the Astral Sea, teleporting them a short distance and leaving them disoriented.\nEncounter   ✦     Divine, Implement, Psychic, Teleportation\nStandard Action      Melee touch\nTarget: One or two creatures\nAttack: Wisdom vs. Will\nHit: 2d6 + Wisdom modifier psychic damage, and you teleport the target 3 squares. The target is immobilized until the end of your next turn.\nPublished in Player's Handbook 2, page(s) 40."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "PSYCHIC",
+        "TELEPORTATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee touch"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Wisdom psychic damage, and you teleport the target 3 squares. The target is immobilized until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power10085",
+      "title": "Chains of Letherna",
+      "description": "You invoke your god's power to bind your enemy in icy chains until you can visit the divine vengeance its presence demands.",
+      "flavor": "You invoke your god's power to bind your enemy in icy chains until you can visit the divine vengeance its presence demands.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10085",
+        "publication": "Published in Dragon Magazine 380, page(s) 60.",
+        "rulesText": "Chains of LethernaAvenger Attack 17\nYou invoke your god's power to bind your enemy in icy chains until you can visit the divine vengeance its presence demands.\nEncounter   ✦     Cold, Divine, Implement\nStandard Action      Ranged 5\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 1d10 + Wisdom cold damage, and the target is immobilized until the end of your next turn. Until the end of your next turn, any enemy that ends its turn in a space adjacent to the target takes cold damage equal to your Wisdom modifier.\nPublished in Dragon Magazine 380, page(s) 60."
+      },
+      "keywords": [
+        "COLD",
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d10 + Wisdom cold damage, and the target is immobilized until the end of your next turn. Until the end of your next turn, any enemy that ends its turn in a space adjacent to the target takes cold damage equal to your Wisdom."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power10409",
+      "title": "Haunting Step",
+      "description": "You let nothing stand in the way of reaching your enemies, especially when they threaten your allies.",
+      "flavor": "You let nothing stand in the way of reaching your enemies, especially when they threaten your allies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10409",
+        "publication": "Published in Dragon Magazine 382, page(s) 44.",
+        "rulesText": "Haunting StepAvenger Attack 17\nYou let nothing stand in the way of reaching your enemies, especially when they threaten your allies.\nEncounter   ✦     Divine, Teleportation, Weapon\nStandard Action      Melee weapon\nEffect: Before making this attack, shift up to your speed +2.\nCensure of Unity: If your oath of enmity target is within 10 squares of you and adjacent to one of your allies, teleport into any unoccupied square adjacent to the target instead of shifting.\nTarget: Your oath of enmity target\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage.\nPublished in Dragon Magazine 382, page(s) 44."
+      },
+      "keywords": [
+        "DIVINE",
+        "TELEPORTATION",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "Your oath of enmity target"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before making this attack, shift up to your speed +2."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Censure of Unity",
+              "text": "If your oath of enmity target is within 10 squares of you and adjacent to one of your allies, teleport into any unoccupied square adjacent to the target instead of shifting."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power7041",
+      "title": "Lethal Intercession",
+      "description": "Spiritual echoes of your weapon surround your foe, confounding its attacks.",
+      "flavor": "Spiritual echoes of your weapon surround your foe, confounding its attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7041",
+        "publication": "Published in Divine Power, page(s) 15.",
+        "rulesText": "Lethal IntercessionAvenger Attack 17\nSpiritual echoes of your weapon surround your foe, confounding its attacks.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage, and the target takes a -2 penalty to attack rolls until the end of your next turn.\nCensure of Pursuit: When you use this power against your oath of enmity target, the power is reliable.\nSpecial: This power can be used as an opportunity attack against your oath of enmity target.\nPublished in Divine Power, page(s) 15."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom damage, and the target takes a -2 penalty to attack rolls until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Censure of Pursuit",
+              "text": "When you use this power against your oath of enmity target, the power is reliable."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "This power can be used as an opportunity attack against your oath of enmity target."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power7042",
+      "title": "Punishing Blow",
+      "description": "Your sworn enemy and all who stand with it must answer to you now.",
+      "flavor": "Your sworn enemy and all who stand with it must answer to you now.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7042",
+        "publication": "Published in Divine Power, page(s) 15.",
+        "rulesText": "Punishing BlowAvenger Attack 17\nYour sworn enemy and all who stand with it must answer to you now.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage. If the target is your oath of enmity target, each enemy adjacent to the target also counts as a target of your oath of enmity until the end of your next turn.\nPublished in Divine Power, page(s) 15."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom damage. If the target is your oath of enmity target, each enemy adjacent to the target also counts as a target of your oath of enmity until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power3527",
+      "title": "Ready the Final Blow",
+      "description": "Your attack leaves your foe frozen in place, less able to avoid your next assault.",
+      "flavor": "Your attack leaves your foe frozen in place, less able to avoid your next assault.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3527",
+        "publication": "Published in Player's Handbook 2, page(s) 40.",
+        "rulesText": "Ready the Final BlowAvenger Attack 17\nYour attack leaves your foe frozen in place, less able to avoid your next assault.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier damage, and the target is immobilized until the end of your next turn. You gain a +2 bonus to your next attack roll against the target before the end of your next turn.\nCensure of Pursuit: The bonus to the attack roll equals 2 + your Dexterity modifier.\nPublished in Player's Handbook 2, page(s) 40."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Wisdom damage, and the target is immobilized until the end of your next turn. You gain a +2 bonus to your next attack roll against the target before the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Censure of Pursuit",
+              "text": "The bonus to the attack roll equals 2 + your Dexterity."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power12208",
+      "title": "Soulforge Hammering",
+      "description": "Like Moradin working the Soulforge, you scorch your enemy with astral fire as you hammer at him relentlessly.",
+      "flavor": "Like Moradin working the Soulforge, you scorch your enemy with astral fire as you hammer at him relentlessly.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12208",
+        "publication": "Published in Dragon Magazine 385, page(s) 74.",
+        "rulesText": "Soulforge HammeringAvenger Attack 17\nLike Moradin working the Soulforge, you scorch your enemy with astral fire as you hammer at him relentlessly.\nEncounter   ✦     Divine, Fire, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 1[W] fire and radiant damage.\nEffect: Once per turn until the end of your next turn, you repeat this attack against the target of this power as a minor action. Additionally, until the end of your next turn, your melee attacks deal extra radiant and fire damage equal to your Dexterity modifier or Intelligence modifier.\nPublished in Dragon Magazine 385, page(s) 74."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] fire and radiant damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Once per turn until the end of your next turn, you repeat this attack against the target of this power as a minor action. Additionally, until the end of your next turn, your melee attacks deal extra radiant and fire damage equal to your Dexterity or Intelligence."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power3533",
+      "title": "Spectral Charge",
+      "description": "As you move to engage your enemy, part of you leaves the physical world momentarily.",
+      "flavor": "As you move to engage your enemy, part of you leaves the physical world momentarily.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3533",
+        "publication": "Published in Player's Handbook 2, page(s) 41.",
+        "rulesText": "Spectral ChargeAvenger Attack 17\nAs you move to engage your enemy, part of you leaves the physical world momentarily.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nEffect: Before the attack, you become insubstantial until the end of your next turn.\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier damage.\nSpecial: When charging, you can use this power in place of a melee basic attack. If you charge, you become insubstantial when you begin the charge.\nPublished in Player's Handbook 2, page(s) 41."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the attack, you become insubstantial until the end of your next turn."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack. If you charge, you become insubstantial when you begin the charge."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power7043",
+      "title": "Vengeful Parry",
+      "description": "You parry your enemy's attack and make a riposte infused with holy power.",
+      "flavor": "You parry your enemy's attack and make a riposte infused with holy power.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7043",
+        "publication": "Published in Divine Power, page(s) 15.",
+        "rulesText": "Vengeful ParryAvenger Attack 17\nYou parry your enemy's attack and make a riposte infused with holy power.\nEncounter   ✦     Divine, Weapon\nImmediate Interrupt      Melee 1\nTrigger: An enemy adjacent to you hits or misses you\nTarget: The triggering enemy\nEffect: The target takes a -2 penalty to the attack roll. Make the following attack against the target.\nCensure of Unity: The penalty to the target's attack roll equals your Intelligence modifier.\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier damage. You shift 1 square and then slide the target 2 squares to a square adjacent to you.\nPublished in Divine Power, page(s) 15."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes a -2 penalty to the attack roll. Make the following attack against the target."
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Censure of Unity",
+              "text": "The penalty to the target's attack roll equals your Intelligence."
+            },
+            {
+              "id": "row-5",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Wisdom damage. You shift 1 square and then slide the target 2 squares to a square adjacent to you."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "trigger": "An enemy adjacent to you hits or misses you",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power3528",
+      "title": "Warding Blade",
+      "description": "Your weapon cracks with thunder as it slams into your foe, knocking any nearby enemies away. If any other foes draw too close, your thunder-infused weapon is ready to punish them.",
+      "flavor": "Your weapon cracks with thunder as it slams into your foe, knocking any nearby enemies away. If any other foes draw too close, your thunder-infused weapon is ready to punish them.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3528",
+        "publication": "Published in Player's Handbook 2, page(s) 41.",
+        "rulesText": "Warding BladeAvenger Attack 17\nYour weapon cracks with thunder as it slams into your foe, knocking any nearby enemies away. If any other foes draw too close, your thunder-infused weapon is ready to punish them.\nEncounter   ✦     Divine, Thunder, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier thunder damage, and you push any enemy within 2 squares of you, other than the target, 2 squares. Until the end of your next turn, if any enemy other than the target enters a square adjacent to you or hits or misses you from a square within your reach, you can make a melee basic attack against that enemy as an opportunity action.\nCensure of Retribution: You gain a power bonus to the attack roll of the melee basic attack equal to your Intelligence modifier.\nPublished in Player's Handbook 2, page(s) 41."
+      },
+      "keywords": [
+        "DIVINE",
+        "THUNDER",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Wisdom thunder damage, and you push any enemy within 2 squares of you, other than the target, 2 squares. Until the end of your next turn, if any enemy other than the target enters a square adjacent to you or hits or misses you from a square within your reach, you can make a melee basic attack against that enemy as an opportunity action."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Censure of Retribution",
+              "text": "You gain a power bonus to the attack roll of the melee basic attack equal to your Intelligence."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power7044",
+      "title": "Wrathful Charge",
+      "description": "You dash across the battlefield, gaining momentum from each attack against you, until you slam into your enemy with your weapon.",
+      "flavor": "You dash across the battlefield, gaining momentum from each attack against you, until you slam into your enemy with your weapon.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7044",
+        "publication": "Published in Divine Power, page(s) 15.",
+        "rulesText": "Wrathful ChargeAvenger Attack 17\nYou dash across the battlefield, gaining momentum from each attack against you, until you slam into your enemy with your weapon.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee 1\nEffect: You gain phasing and a +4 bonus to AC against opportunity attacks until the end of your turn. You then charge and make the following attack in place of a melee basic attack.\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier damage. The attack deals 2 extra damage for each opportunity attack made against you during the charge movement.\nCensure of Retribution: The extra damage for each opportunity attack equals your Intelligence modifier.\nPublished in Divine Power, page(s) 15."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain phasing and a +4 bonus to AC against opportunity attacks until the end of your turn. You then charge and make the following attack in place of a melee basic attack."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Wisdom damage. The attack deals 2 extra damage for each opportunity attack made against you during the charge movement."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Censure of Retribution",
+              "text": "The extra damage for each opportunity attack equals your Intelligence."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power3641",
+      "title": "Aspect of Awe",
+      "description": "Cloaking yourself in a divine glamor, you assault your foe's mind and compel the creature to approach you.",
+      "flavor": "Cloaking yourself in a divine glamor, you assault your foe's mind and compel the creature to approach you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3641",
+        "publication": "Published in Player's Handbook 2, page(s) 41.",
+        "rulesText": "Aspect of AweAvenger Attack 19\nCloaking yourself in a divine glamor, you assault your foe's mind and compel the creature to approach you.\nDaily   ✦     Charm, Divine, Implement, Psychic\nStandard Action      Close burst 5\nTarget: One creature in the burst.\nAttack: Wisdom vs. Will\nHit: 4d8 + Wisdom modifier psychic damage, and you pull the target 3 squares. At the start of each of your turns, you pull the target 3 squares (save ends).\nMiss: Half damage, and you pull the target 2 squares. At the start of your next turn, you pull the target 3 squares.\nPublished in Player's Handbook 2, page(s) 41."
+      },
+      "keywords": [
+        "CHARM",
+        "DIVINE",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature in the burst."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d8 + Wisdom psychic damage, and you pull the target 3 squares. At the start of each of your turns, you pull the target 3 squares (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you pull the target 2 squares. At the start of your next turn, you pull the target 3 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11683",
+      "title": "Avandra's Footsteps (Paragon)",
+      "description": "Filled with righteous indignation, your attack damages your foe and lends swiftness to your movement.",
+      "flavor": "Filled with righteous indignation, your attack damages your foe and lends swiftness to your movement.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Alacrity",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11683",
+        "publication": "Published in Dragon Magazine 384, page(s) 45.",
+        "rulesText": "Avandra's Footsteps (Paragon)Avenger Attack 19\nFilled with righteous indignation, your attack damages your foe and lends swiftness to your movement.\nDaily   ✦     Divine, Implement\nStandard Action      Ranged 5\nPrerequisite: Godsworn Alacrity\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: You gain a +3 power bonus to speed until the end of the encounter.\nPublished in Dragon Magazine 384, page(s) 45."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a +3 power bonus to speed until the end of the encounter."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11686",
+      "title": "Bahamut's Wing (Paragon)",
+      "description": "The power of your god wounds your enemy and bolsters your allies' defenses.",
+      "flavor": "The power of your god wounds your enemy and bolsters your allies' defenses.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Defender",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11686",
+        "publication": "Published in Dragon Magazine 384, page(s) 45.",
+        "rulesText": "Bahamut's Wing (Paragon)Avenger Attack 19\nThe power of your god wounds your enemy and bolsters your allies' defenses.\nDaily   ✦     Divine, Implement\nStandard Action      Ranged 5\nPrerequisite: Godsworn Defender\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, each ally that can see you gains a +1 power bonus to all defenses until the start of your next turn.\nPublished in Dragon Magazine 384, page(s) 45."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, each ally that can see you gains a +1 power bonus to all defenses until the start of your next turn."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power7045",
+      "title": "Blade of Astral Hosts",
+      "description": "You stride into the midst of your enemies, laying about with your weapon. For each foe you strike, a celestial blade forms alongside your own, lending might to your final attack.",
+      "flavor": "You stride into the midst of your enemies, laying about with your weapon. For each foe you strike, a celestial blade forms alongside your own, lending might to your final attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7045",
+        "publication": "Published in Divine Power, page(s) 15.",
+        "rulesText": "Blade of Astral HostsAvenger Attack 19\nYou stride into the midst of your enemies, laying about with your weapon. For each foe you strike, a celestial blade forms alongside your own, lending might to your final attack.\nDaily   ✦     Divine, Teleportation, Weapon\nStandard Action      Close burst 1\nEffect: Before the primary attack, you teleport 5 squares.\nPrimary Target: Each enemy in the burst\nPrimary Attack: Wisdom vs. AC\nHit: 1[W] + Wisdom modifier damage.\nEffect: You teleport 5 squares and make a melee secondary attack.\nSecondary Target: One creature adjacent to you\nSecondary Attack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage, plus 2 damage for each enemy hit by the primary attack.\nMiss: Half damage.\nPublished in Divine Power, page(s) 15."
+      },
+      "keywords": [
+        "DIVINE",
+        "TELEPORTATION",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            },
+            "targets-6": {
+              "kind": "TARGET_SET",
+              "text": "One creature adjacent to you"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the primary attack, you teleport 5 squares."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport 5 squares and make a melee secondary attack."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "One creature adjacent to you"
+            },
+            {
+              "id": "row-7",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-6",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "One creature adjacent to you"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom damage, plus 2 damage for each enemy hit by the primary attack."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-9",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power7046",
+      "title": "Bonded by Blood",
+      "description": "Your attack forges a bond between you and your enemy.",
+      "flavor": "Your attack forges a bond between you and your enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7046",
+        "publication": "Published in Divine Power, page(s) 15.",
+        "rulesText": "Bonded by BloodAvenger Attack 19\nYour attack forges a bond between you and your enemy.\nDaily   ✦     Divine, Teleportation, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 4[W] + Wisdom modifier damage.\nMiss: Half damage.\nEffect: Whenever the target moves, you can teleport to a square adjacent to it as a free action after its movement is complete. This effect lasts until the end of the encounter or until you end your turn not adjacent to the target.\nPublished in Divine Power, page(s) 15."
+      },
+      "keywords": [
+        "DIVINE",
+        "TELEPORTATION",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Wisdom damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Whenever the target moves, you can teleport to a square adjacent to it as a free action after its movement is complete. This effect lasts until the end of the encounter or until you end your turn not adjacent to the target."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11689",
+      "title": "Corellon's Evasion (Paragon)",
+      "description": "Corellon graces you with the ability to move around the field of combat quickly after you hit your foe.",
+      "flavor": "Corellon graces you with the ability to move around the field of combat quickly after you hit your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Sidestep",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11689",
+        "publication": "Published in Dragon Magazine 384, page(s) 46.",
+        "rulesText": "Corellon's Evasion (Paragon)Avenger Attack 19\nCorellon graces you with the ability to move around the field of combat quickly after you hit your foe.\nDaily   ✦     Divine, Implement, Teleportation\nStandard Action      Ranged 5\nPrerequisite: Godsworn Sidestep\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, you can teleport 3 squares.\nPublished in Dragon Magazine 384, page(s) 46."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "TELEPORTATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, you can teleport 3 squares."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11692",
+      "title": "Erathis's Coordination (Paragon)",
+      "description": "The divine power of your deity damages your foe and makes it easier for others to strike your chosen enemy.",
+      "flavor": "The divine power of your deity damages your foe and makes it easier for others to strike your chosen enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Assault",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11692",
+        "publication": "Published in Dragon Magazine 384, page(s) 46.",
+        "rulesText": "Erathis's Coordination (Paragon)Avenger Attack 19\nThe divine power of your deity damages your foe and makes it easier for others to strike your chosen enemy.\nDaily   ✦     Divine, Implement\nStandard Action      Ranged 5\nPrerequisite: Godsworn Assault\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, one ally you can see gains a +2 power bonus to attack rolls against your target until the start of your next turn.\nPublished in Dragon Magazine 384, page(s) 46."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, one ally you can see gains a +2 power bonus to attack rolls against your target until the start of your next turn."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power7047",
+      "title": "Flame Unquenchable",
+      "description": "Your prayer sets your weapon ablaze with blue fire. A single thrust transfers the flames to your foe.",
+      "flavor": "Your prayer sets your weapon ablaze with blue fire. A single thrust transfers the flames to your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7047",
+        "publication": "Published in Divine Power, page(s) 16.",
+        "rulesText": "Flame UnquenchableAvenger Attack 19\nYour prayer sets your weapon ablaze with blue fire. A single thrust transfers the flames to your foe.\nDaily   ✦     Divine, Fire, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage, and ongoing 10 fire damage (save ends).\nMiss: Half damage, and ongoing 5 fire damage (save ends).\nEffect: Until the end of the encounter, the target takes a -1 penalty to saving throws against ongoing damage. The penalty worsens by -1 for each creature taking ongoing damage within 10 squares of the target.\nPublished in Divine Power, page(s) 16."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom damage, and ongoing 10 fire damage (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and ongoing 5 fire damage (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, the target takes a -1 penalty to saving throws against ongoing damage. The penalty worsens by -1 for each creature taking ongoing damage within 10 squares of the target."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11696",
+      "title": "Ioun's Irrefutable Logic (Paragon)",
+      "description": "The power of Ioun resonates within the mind of your foe, causing it to quiver with pain.",
+      "flavor": "The power of Ioun resonates within the mind of your foe, causing it to quiver with pain.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Mentalist",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11696",
+        "publication": "Published in Dragon Magazine 384, page(s) 46.",
+        "rulesText": "Ioun's Irrefutable Logic (Paragon)Avenger Attack 19\nThe power of Ioun resonates within the mind of your foe, causing it to quiver with pain.\nDaily   ✦     Divine, Implement, Psychic\nStandard Action      Ranged 5\nPrerequisite: Godsworn Mentalist\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: Until the end of the encounter, your avenger encounter attack powers deal 6 extra psychic damage against your oath of enmity target.\nPublished in Dragon Magazine 384, page(s) 46."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, your avenger encounter attack powers deal 6 extra psychic damage against your oath of enmity target."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11699",
+      "title": "Kord's Storm (Paragon)",
+      "description": "The thunderous might of Kord flows through you and into your foe with each successful attack you make.",
+      "flavor": "The thunderous might of Kord flows through you and into your foe with each successful attack you make.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Avalanche",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11699",
+        "publication": "Published in Dragon Magazine 384, page(s) 46.",
+        "rulesText": "Kord's Storm (Paragon)Avenger Attack 19\nThe thunderous might of Kord flows through you and into your foe with each successful attack you make.\nDaily   ✦     Divine, Implement, Lightning, Thunder\nStandard Action      Ranged 5\nPrerequisite: Godsworn Avalanche\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: Until the end of the encounter, your avenger encounter attack powers deal 6 extra lightning and thunder damage against your oath of enmity target.\nPublished in Dragon Magazine 384, page(s) 46."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "LIGHTNING",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, your avenger encounter attack powers deal 6 extra lightning and thunder damage against your oath of enmity target."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power10086",
+      "title": "Leprous Wound",
+      "description": "Your dire strike causes your enemy to fall to pieces.",
+      "flavor": "Your dire strike causes your enemy to fall to pieces.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10086",
+        "publication": "Published in Dragon Magazine 380, page(s) 60.",
+        "rulesText": "Leprous WoundAvenger Attack 19\nYour dire strike causes your enemy to fall to pieces.\nDaily   ✦     Divine, Necrotic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 2[W] + Wisdom modifier necrotic damage. Whenever the target takes damage from an attack, it takes 10 extra necrotic damage and is slowed until the end of your next turn (save ends).\nMiss: Half damage, and the target takes 10 necrotic damage the next time an attack hits it before the start of your next turn.\nPublished in Dragon Magazine 380, page(s) 60."
+      },
+      "keywords": [
+        "DIVINE",
+        "NECROTIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Wisdom necrotic damage. Whenever the target takes damage from an attack, it takes 10 extra necrotic damage and is slowed until the end of your next turn (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target takes 10 necrotic damage the next time an attack hits it before the start of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11702",
+      "title": "Melora's Inexorable Tide (Paragon)",
+      "description": "The power of Melora accompanies your attack, causing a nearby enemy pain.",
+      "flavor": "The power of Melora accompanies your attack, causing a nearby enemy pain.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Tidedancer",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11702",
+        "publication": "Published in Dragon Magazine 384, page(s) 46.",
+        "rulesText": "Melora's Inexorable Tide (Paragon)Avenger Attack 19\nThe power of Melora accompanies your attack, causing a nearby enemy pain.\nDaily   ✦     Divine, Implement, Radiant\nStandard Action      Ranged 5\nPrerequisite: Godsworn Tidedancer\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, one other enemy adjacent to you takes radiant damage equal to your Wisdom modifier.\nPublished in Dragon Magazine 384, page(s) 46."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, one other enemy adjacent to you takes radiant damage equal to your Wisdom."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11705",
+      "title": "Moradin's Stalwart Shield (Paragon)",
+      "description": "The strength of Moradin not only wounds your foe but also provides you with inner resources to protect you from damage.",
+      "flavor": "The strength of Moradin not only wounds your foe but also provides you with inner resources to protect you from damage.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Bulwark",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11705",
+        "publication": "Published in Dragon Magazine 384, page(s) 46.",
+        "rulesText": "Moradin's Stalwart Shield (Paragon)Avenger Attack 19\nThe strength of Moradin not only wounds your foe but also provides you with inner resources to protect you from damage.\nDaily   ✦     Divine, Implement\nStandard Action      Ranged 5\nPrerequisite: Godsworn Bulwark\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, you gain resistance to damage equal to your Wisdom modifier until the start of your next turn.\nPublished in Dragon Magazine 384, page(s) 46."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, you gain resistance to damage equal to your Wisdom until the start of your next turn."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power3644",
+      "title": "Oath of the Inevitable Blade",
+      "description": "You swear that your blade shall taste your foe's blood, and even if your attack fails to draw blood, you are assured of a later success.",
+      "flavor": "You swear that your blade shall taste your foe's blood, and even if your attack fails to draw blood, you are assured of a later success.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3644",
+        "publication": "Published in Player's Handbook 2, page(s) 41.",
+        "rulesText": "Oath of the Inevitable BladeAvenger Attack 19\nYou swear that your blade shall taste your foe's blood, and even if your attack fails to draw blood, you are assured of a later success.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 5[W] + Wisdom modifier damage.\nMiss: Half damage. You gain a +5 power bonus to your next damage roll against the target before the end of the encounter, unless you attack another creature first.\nPublished in Player's Handbook 2, page(s) 41."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5[W] + Wisdom damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage. You gain a +5 power bonus to your next damage roll against the target before the end of the encounter, unless you attack another creature first."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11708",
+      "title": "Pelor's Divine Fire (Paragon)",
+      "description": "The light of Pelor fills you and wounds your enemy.",
+      "flavor": "The light of Pelor fills you and wounds your enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Radiant",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11708",
+        "publication": "Published in Dragon Magazine 384, page(s) 47.",
+        "rulesText": "Pelor's Divine Fire (Paragon)Avenger Attack 19\nThe light of Pelor fills you and wounds your enemy.\nDaily   ✦     Divine, Implement, Radiant\nStandard Action      Ranged 5\nPrerequisite: Godsworn Radiant\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: Until the end of the encounter, your avenger encounter attack powers deal 6 extra radiant damage against your oath of enmity target.\nPublished in Dragon Magazine 384, page(s) 47."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, your avenger encounter attack powers deal 6 extra radiant damage against your oath of enmity target."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power10410",
+      "title": "Radiant Beckoning",
+      "description": "You draw upon the radiant energy of your deity, infusing your sworn oaths with power that sears your enemy and draws it into your attack.",
+      "flavor": "You draw upon the radiant energy of your deity, infusing your sworn oaths with power that sears your enemy and draws it into your attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10410",
+        "publication": "Published in Dragon Magazine 382, page(s) 44.",
+        "rulesText": "Radiant BeckoningAvenger Attack 19\nYou draw upon the radiant energy of your deity, infusing your sworn oaths with power that sears your enemy and draws it into your attack.\nDaily   ✦     Divine, Implement, Radiant\nStandard Action      Ranged 5\nTarget: Your oath of enmity target\nAttack: Wisdom vs. Reflex\nHit: 5d8 + Wisdom modifier radiant damage, and you pull the target 5 squares to a square adjacent to you.\nMiss: Half damage and you pull the target 2 squares.\nEffect: Until the end of the encounter, when you use an avenger implement attack power against your oath of enmity target, you can benefit from your oath of enmity as though you were making a melee attack and the target were adjacent to you.\nUpdate (2/18/2010)\nChange hit line to “5d8 + Wisdom modifier radiant damage, and you pull the target 5 squares to a square adjacent to you.”\nPublished in Dragon Magazine 382, page(s) 44."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Your oath of enmity target"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5d8 + Wisdom radiant damage, and you pull the target 5 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage and you pull the target 2 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, when you use an avenger implement attack power against your oath of enmity target, you can benefit from your oath of enmity as though you were making a melee attack and the target were adjacent to you."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11714",
+      "title": "Sehanine's Misdirection (Paragon)",
+      "description": "Sehanine provides you with the power to dance in and out of sight of your foe when you wound it.",
+      "flavor": "Sehanine provides you with the power to dance in and out of sight of your foe when you wound it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Mystic",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11714",
+        "publication": "Published in Dragon Magazine 384, page(s) 47.",
+        "rulesText": "Sehanine's Misdirection (Paragon)Avenger Attack 19\nSehanine provides you with the power to dance in and out of sight of your foe when you wound it.\nDaily   ✦     Divine, Illusion, Implement\nStandard Action      Ranged 5\nPrerequisite: Godsworn Mystic\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, you become invisible until the start of your next turn.\nPublished in Dragon Magazine 384, page(s) 47."
+      },
+      "keywords": [
+        "DIVINE",
+        "ILLUSION",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever you hit your oath of enmity target with an avenger encounter attack power, you become invisible until the start of your next turn."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power7048",
+      "title": "Stroke of Doom",
+      "description": "You brandish your weapon, seeking to drag your foe toward you with divine force. Failing that, you leap to the foe. Either way, your weapon is charged with lethal power.",
+      "flavor": "You brandish your weapon, seeking to drag your foe toward you with divine force. Failing that, you leap to the foe. Either way, your weapon is charged with lethal power.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7048",
+        "publication": "Published in Divine Power, page(s) 16.",
+        "rulesText": "Stroke of DoomAvenger Attack 19\nYou brandish your weapon, seeking to drag your foe toward you with divine force. Failing that, you leap to the foe. Either way, your weapon is charged with lethal power.\nDaily   ✦     Divine, Weapon\nStandard Action      Ranged 5\nTarget: One creature\nPrimary Attack: Wisdom vs. Fortitude\nHit: You pull the target to a square adjacent to you.\nMiss: You shift 5 squares to a square adjacent to the target.\nEffect: Make a melee secondary attack against the target if it is adjacent to you.\nSecondary Attack: Wisdom vs. AC\nHit: 5[W] + Wisdom modifier damage.\nMiss: Half damage.\nPublished in Divine Power, page(s) 16."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "You pull the target to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "You shift 5 squares to a square adjacent to the target."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a melee secondary attack against the target if it is adjacent to you."
+            },
+            {
+              "id": "row-6",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5[W] + Wisdom damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power3651",
+      "title": "Temple of Respite",
+      "description": "Radiant power sears and slows your foe and forms a divine pattern that bolsters your defenses and hinders your enemies' movement.",
+      "flavor": "Radiant power sears and slows your foe and forms a divine pattern that bolsters your defenses and hinders your enemies' movement.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3651",
+        "publication": "Published in Player's Handbook 2, page(s) 41.",
+        "rulesText": "Temple of RespiteAvenger Attack 19\nRadiant power sears and slows your foe and forms a divine pattern that bolsters your defenses and hinders your enemies' movement.\nDaily   ✦     Divine, Radiant, Weapon, Zone\nStandard Action      Melee touch\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier radiant damage, and the target is slowed (save ends).\nMiss: Half damage, and the target is slowed until the end of your next turn.\nEffect: The attack creates a zone of radiance in a close burst 1. The zone lasts until the end of the encounter. While you are within the zone, you gain a +2 bonus to all defenses. The zone is difficult terrain to enemies.\nPublished in Player's Handbook 2, page(s) 41."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee touch"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom radiant damage, and the target is slowed (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is slowed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The attack creates a zone of radiance in a close burst 1. The zone lasts until the end of the encounter. While you are within the zone, you gain a +2 bonus to all defenses. The zone is difficult terrain to enemies."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power11711",
+      "title": "The Raven Queen's Decay (Paragon)",
+      "description": "Your deity's power finds a place within the body of your foe, causing it bone-deep pain.",
+      "flavor": "Your deity's power finds a place within the body of your foe, causing it bone-deep pain.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Godsworn Fatalist",
+            "reason": "Unadapted source prerequisite."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11711",
+        "publication": "Published in Dragon Magazine 384, page(s) 47.",
+        "rulesText": "The Raven Queen's Decay (Paragon)Avenger Attack 19\nYour deity's power finds a place within the body of your foe, causing it bone-deep pain.\nDaily   ✦     Divine, Implement, Necrotic\nStandard Action      Ranged 5\nPrerequisite: Godsworn Fatalist\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d12 + Wisdom modifier damage, and you pull the target 4 squares to a square adjacent to you.\nMiss: Half damage.\nEffect: Until the end of the encounter, your avenger encounter attack powers deal 6 extra necrotic damage against your oath of enmity target.\nPublished in Dragon Magazine 384, page(s) 47."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "NECROTIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d12 + Wisdom damage, and you pull the target 4 squares to a square adjacent to you."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, your avenger encounter attack powers deal 6 extra necrotic damage against your oath of enmity target."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.avenger-power3645",
+      "title": "Vengeful Recovery",
+      "description": "You visit the pain of your wounds upon your foe as you draw strength and health from your god.",
+      "flavor": "You visit the pain of your wounds upon your foe as you draw strength and health from your god.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3645",
+        "publication": "Published in Player's Handbook 2, page(s) 41.",
+        "rulesText": "Vengeful RecoveryAvenger Attack 19\nYou visit the pain of your wounds upon your foe as you draw strength and health from your god.\nDaily   ✦     Divine, Healing, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage, and the target is dazed (save ends). You regain hit points as if you had spent a healing surge.\nMiss: Half damage, and the target is dazed until the end of your next turn. You can spend a healing surge.\nPublished in Player's Handbook 2, page(s) 41."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom damage, and the target is dazed (save ends). You regain hit points as if you had spent a healing surge."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is dazed until the end of your next turn. You can spend a healing surge."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Avenger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

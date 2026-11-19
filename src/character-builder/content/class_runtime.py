@@ -3,6 +3,7 @@
 The package supplies the shared engine and normal web/Android production bundles.
 Unsupported decisions/effects retain their complete authoring data and diagnostics.
 """
+import copy
 import importlib.util
 import json
 from pathlib import Path
@@ -146,6 +147,35 @@ def compile_entry(entry):
             "mechanics": mechanics, "coverage": coverage, "sharedData": entry}
 
 
+def advancement_choices(catalog):
+    """Add class acquisitions from the authoritative schedule through level nineteen.
+
+    Earlier authored slots keep their persistent IDs. Path powers are automatic
+    path grants, and replacement events retain their original acquisition slots.
+    """
+    choices = copy.deepcopy(catalog["advancement"]["powerChoices"])
+    schedule = json.loads((authoring.CONTENT.parent / "creation/standard.json").read_text(encoding="utf-8"))
+    for row in schedule["levels"]:
+        if not 11 <= row["level"] <= 19:
+            continue
+        for event in row["events"]:
+            if event.get("category") != "POWER" or event.get("owner") != "CLASS" or event["operation"] != "GAIN":
+                continue
+            filters = {"levelMaximum": row["level"], "access": "CHARACTER"}
+            kind, usage = event["powerKind"], event["usage"]
+            if kind != "UNRESOLVED":
+                filters["powerKind"] = kind
+            if usage != "UNRESOLVED":
+                filters["usage"] = usage
+            suffix = "utility" if kind == "UTILITY" else "attack-encounter" if kind == "ATTACK" else "encounter"
+            choices.append({"id": f"modern4e.choice.class-{suffix}-{row['level']}",
+                            "title": f"Level {row['level']} {event['target']}", "kind": "ENTRY",
+                            "atLevel": row["level"], "count": event["count"],
+                            "source": {"type": "query", "category": "POWER", "filters": filters},
+                            "constraints": [{"type": "distinct"}]})
+    return choices
+
+
 def build(content=authoring.CONTENT, class_ids=None, include_advancement=True):
     """Validate all sources before emitting a deterministic, independently loadable package."""
     catalog = authoring.catalog(content)
@@ -174,10 +204,24 @@ def build(content=authoring.CONTENT, class_ids=None, include_advancement=True):
     for entry in entries:
         if entry["category"] == "CLASS" and include_advancement:
             entry["sharedData"] = {**entry["sharedData"], "runtimeReferences": catalog["references"],
-                                   "runtimeAdvancementCoverage": catalog["advancement"]["coverage"]}
+                                   "runtimeAdvancementCoverage": {"status": "PARTIAL", "limitations": ["Class power acquisitions through level 19 follow the local advancement schedule. Level 17 encounter kind is unspecified, so its pool is usage-only. Levels 20-30 remain unverified."]}}
         if entry["category"] == "CLASS" and include_advancement:
-            entry["mechanics"]["choices"] += [compile_choice(choice) for choice in catalog["advancement"]["powerChoices"]]
+            entry["mechanics"]["choices"] += [compile_choice(choice) for choice in advancement_choices(catalog)]
+    if include_advancement:
+        # Spellbook's authored universal "learn two" utility rule also covers
+        # the newly represented utility acquisition. Preserve the source data.
+        for entry in entries:
+            modifiers = entry["mechanics"].get("selectionModifiers", [])
+            utility = next((modifier for modifier in modifiers
+                            if modifier["choiceId"] == "modern4e.choice.class-utility-10"), None)
+            if utility is not None:
+                modifiers.append({**copy.deepcopy(utility), "choiceId": "modern4e.choice.class-utility-17"})
+            for choice in entry["mechanics"].get("choices", []):
+                if choice.get("replacementLevels") == [1, 3, 7] and choice.get("query", {}).get("usage") == "ENCOUNTER":
+                    # Tome's explicit rule allows replacing on each encounter
+                    # acquisition, including the newly supported 13 and 17.
+                    choice["replacementLevels"] = choice["replacementLevels"] + [13, 17]
     # Selectable attack powers make the package large; each class's powers fill their own chunks so loaders can skip other classes.
     class_ids = {key for key, entry in source.items() if entry["category"] == "CLASS"}
-    return runtime_common.package("modern4e.classes", "Modern 4e shared classes", entries, revision="4",
+    return runtime_common.package("modern4e.classes", "Modern 4e shared classes", entries, revision="5",
                                   scope=runtime_common.power_scope(class_ids))

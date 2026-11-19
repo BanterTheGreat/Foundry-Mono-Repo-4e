@@ -127,7 +127,7 @@ internal class PreparedFeatChoices(
         val entry = definition.entry
         val mechanics = entry.mechanics
         val root = slot.ordinal == 0 && slot.choiceId == "feat" &&
-            (level == 1 && slot.sourceInstanceId == "creation" || level == 2 && slot.sourceInstanceId == "advancement.2")
+            AdvancementRules.rootCategory(level, slot) == EntryCategory.FEAT
         if (!root || level !in 1..document.level || document.levels.none { it.level == level } || entry.category != EntryCategory.FEAT ||
             mechanics.version != 2 || mechanics.copy(prerequisites = emptyList(), access = null,
                 maximumSelections = null, unsupported = emptyList()) != Mechanics(version = 2)) {
@@ -262,7 +262,8 @@ private class Evaluation(
     private val proficiencies = linkedMapOf<Skill, MutableList<ChoiceSlotId>>()
     private val equipmentProficiencies = linkedMapOf<String, MutableList<ChoiceSlotId>>()
     private val usedEntries = mutableSetOf<EntryChoice>()
-    private data class PendingChoice(val owner: EngineEntry, val choice: ChoiceDefinition, val ancestors: Set<String>)
+    private data class PendingChoice(val owner: EngineEntry, val choice: ChoiceDefinition, val ancestors: Set<String>, val acquiredAt: Int)
+    private val choiceAcquisitionLevels = mutableMapOf<ChoiceSlotId, Int>()
     private val pendingChoices = mutableListOf<PendingChoice>()
     private val sets = mutableListOf<SelectionSetResult>()
     private val usedProficiencies = mutableSetOf<ProficiencyChoice>()
@@ -290,11 +291,29 @@ private class Evaluation(
                         change.replaces, change.replacement.selection.entryId)
                     continue
                 }
+                if (resolved.value.entry.mechanics.powerProfile?.level?.let { it > level.level } == true) {
+                    invalid("replacementAcquisition", "A replacement power cannot exceed its recorded replacement level.",
+                        change.replaces, change.replacement.selection.entryId)
+                }
                 current.remove(original)
                 current += change.replacement.copy(instanceId = original.instanceId)
-                diagnostics += diagnostic("replacementTiming", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                    "Replacement composition is checked; general progression/retraining timing and allowances remain unverified (#20).",
-                    change.replaces, change.replacement.selection.entryId)
+                if (change.kind == ReplacementKind.RETRAINING) {
+                    diagnostics += diagnostic("replacementTiming", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                        "Retraining allowances are not specified by the local advancement rules.",
+                        change.replaces, change.replacement.selection.entryId)
+                } else {
+                    val acquired = document.levels.firstOrNull { row -> row.entries.any { it.slot == change.replaces } }?.level
+                    val profile = source.value.entry.mechanics.powerProfile
+                    val classInstances = document.levels.flatMap { it.entries }.filter {
+                        it.slot == ChoiceSlotId("creation", "class", 0)
+                    }.map { it.instanceId }
+                    if (level.level !in AdvancementRules.dailyReplacementLevels || acquired == null || acquired >= level.level ||
+                        change.replaces.sourceInstanceId !in classInstances || profile?.powerKind != "ATTACK" || profile.usage != "DAILY" ||
+                        level.replacements.count { it.kind == ReplacementKind.PROGRESSION } > 1) {
+                        invalid("replacementTiming", "Replace one earlier class daily attack at levels 9, 15 and 19.",
+                            change.replaces, change.replacement.selection.entryId)
+                    }
+                }
             }
         }
         return current
@@ -351,32 +370,17 @@ private class Evaluation(
             invalid("duplicateSlot", "Multiple decisions occupy the same choice slot.", slot)
             blockers += diagnostics.last()
         }
-        if (document.level > 2 || document.levels.any { it.abilityAdvancements.isNotEmpty() }) {
+        if (document.level > 19) {
             diagnostics += diagnostic("progressionUnsupported", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                "General progression above level 2, advancement and replacements require the progression milestone; explicit class acquisition and formulas still apply.")
-            val sharedClass = entryDecisions.any { decision ->
-                val resolved = content.selections[decision.selection] as? ContractResult.Available
-                resolved?.value?.entry?.mechanics?.classProfile != null
-            }
-            if (!sharedClass || document.levels.any { it.abilityAdvancements.isNotEmpty() }) {
-                blockers += diagnostics.last()
-            }
+                "Progression after level 19 remains unsupported.")
         }
         for (level in document.levels.sortedBy { it.level }) {
             for (decision in level.entries) {
                 if (decision.slot in repeatedSlots) {
                     continue
                 }
-                val rootCategory = when (decision.slot.choiceId) {
-                    "class" -> EntryCategory.CLASS
-                    "ancestry" -> EntryCategory.ANCESTRY
-                    "theme" -> EntryCategory.THEME
-                    "feat" -> EntryCategory.FEAT
-                    else -> null
-                }
-                val initial = level.level == 1 && decision.slot.sourceInstanceId == "creation"
-                val secondFeat = level.level == 2 && decision.slot.sourceInstanceId == "advancement.2" && decision.slot.choiceId == "feat"
-                if ((initial || secondFeat) && rootCategory != null && decision.slot.ordinal == 0) {
+                val rootCategory = AdvancementRules.rootCategory(level.level, decision.slot)
+                if (rootCategory != null) {
                     usedEntries += decision
                     val definition = selected(decision)
                     if (definition != null) {
@@ -458,7 +462,7 @@ private class Evaluation(
         val offered = choices.map { (slot, definition) ->
             when (definition) {
                 is ChoiceDefinition.Entries -> EngineChoice(slot, optional = slot in grantReplacementSlots,
-                    acquisitionLevel = if (slot in grantReplacementSlots) decisionLevels[slot] else null, entries = definition.entryIds.map { id ->
+                    acquisitionLevel = if (slot in grantReplacementSlots) decisionLevels[slot] else choiceAcquisitionLevels[slot] ?: definition.atLevel, entries = definition.entryIds.map { id ->
                     val resolved = content.entries[id]
                     if (resolved is ContractResult.Available) {
                         eligibility(resolved.value.entry, slot, entryIds)
@@ -469,9 +473,9 @@ private class Evaluation(
                             }.map { it.copy(slot = slot, entryId = id) })
                     }
                 })
-                is ChoiceDefinition.Proficiencies -> EngineChoice(slot, skills = proficiencySelectionRules.skills(slot, definition))
+                is ChoiceDefinition.Proficiencies -> EngineChoice(slot, skills = proficiencySelectionRules.skills(slot, definition), acquisitionLevel = choiceAcquisitionLevels[slot])
                 is ChoiceDefinition.MainAbility -> EngineChoice(slot, abilities = definition.abilities)
-                is ChoiceDefinition.Values -> EngineChoice(slot, values = valueOptions[slot].orEmpty(), valueKind = definition.kind)
+                is ChoiceDefinition.Values -> EngineChoice(slot, values = valueOptions[slot].orEmpty(), valueKind = definition.kind, acquisitionLevel = choiceAcquisitionLevels[slot])
             }
         }
         val statistics = linkedMapOf<ModifierTarget, StatisticCalculation>()
@@ -686,7 +690,12 @@ private class Evaluation(
         }
         val owner = classes.single()
         val formula = owner.definition.entry.mechanics.classProfile!!.statistics[statistic] ?: return null
-        val terms = mutableListOf(Contributor("${owner.definition.entry.presentation.title} base", formula.base, owner.slot))
+        val terms = if (statistic in defenseStatistics && statistic != Statistic.AC && formula.base >= 10) {
+            mutableListOf(Contributor("Defense base", 10),
+                Contributor("${owner.definition.entry.presentation.title} defense bonus", formula.base - 10, owner.slot))
+        } else {
+            mutableListOf(Contributor("${owner.definition.entry.presentation.title} base", formula.base, owner.slot))
+        }
         val level = formula.perLevel.toLong() * document.level
         if (level !in Int.MIN_VALUE.toLong()..Int.MAX_VALUE.toLong()) {
             return ContractResult.Unavailable(listOf(diagnostic("formulaOverflow", DiagnosticKind.INCOMPLETE_AUTOMATION, "Class formula overflow.")))
@@ -833,7 +842,9 @@ private class Evaluation(
         }
         val owner = entries.first { it.instanceId == instance }
         for (choice in sourceChoices) {
-            pendingChoices += PendingChoice(owner, choice, ancestors + entry.id)
+            val acquiredAt = maxOf(acquisitionLevel(owner), (choice as? ChoiceDefinition.Entries)?.atLevel ?: 1,
+                progression.filter { choice in it.choices }.maxOfOrNull { it.level } ?: 1)
+            pendingChoices += PendingChoice(owner, choice, ancestors + entry.id, acquiredAt)
         }
     }
 
@@ -892,6 +903,7 @@ private class Evaluation(
         }
         for (ordinal in 0 until count) {
             val slot = ChoiceSlotId(instance, id, ordinal)
+            choiceAcquisitionLevels[slot] = pending.acquiredAt
             val originalQuery = (pending.choice as? ChoiceDefinition.Entries)?.query
             val slotChoice = if (choice is ChoiceDefinition.Entries && originalQuery != null && !originalQuery.characterLevel) {
                 val replacedAt = document.levels.filter { level -> level.replacements.any { it.replaces == slot } }.maxOfOrNull { it.level }
@@ -1077,30 +1089,61 @@ private class Evaluation(
                     "Main-ability slot is not filled by this allocation.", slot)
             }
         }
+        val advancementPoints = Ability.entries.associateWith { 0 }.toMutableMap()
+        for (level in document.levels) {
+            for (advancement in level.abilityAdvancements) {
+                if (!AdvancementRules.validAdvancement(level.level, advancement, allocation.mainAbility) ||
+                    level.abilityAdvancements.size != 1) {
+                    errors += diagnostic("abilityAdvancement", DiagnosticKind.INVALID_SELECTION,
+                        "Choose exactly one non-main ability to increase by 1 at levels 4 and 12.", advancement.slot)
+                } else {
+                    for ((ability, amount) in advancement.increases) {
+                        advancementPoints[ability] = advancementPoints.getValue(ability) + amount
+                    }
+                }
+            }
+        }
+        for (level in AdvancementRules.nonMainLevels.filter { it <= document.level }) {
+            if (document.levels.singleOrNull { it.level == level }?.abilityAdvancements.isNullOrEmpty()) {
+                errors += diagnostic("missingAdvancement", DiagnosticKind.INVALID_SELECTION,
+                    "Choose a non-main ability to increase by 1.", AdvancementRules.abilitySlot(level))
+            }
+        }
+        if (document.level >= 8) {
+            advancementPoints[allocation.mainAbility] = advancementPoints.getValue(allocation.mainAbility) + 1
+        }
+        if (document.level >= 16) {
+            for (ability in Ability.entries) {
+                advancementPoints[ability] = advancementPoints.getValue(ability) + 1
+            }
+        }
+        diagnostics += errors.filter { it !in diagnostics }
         for (ability in Ability.entries) {
             val target = ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)
-            val knownPoints = if (hasAllocation) points.getValue(ability) else if (ability == defaultMain) 4 else 0
+            val knownPoints = (if (hasAllocation) points.getValue(ability) else if (ability == defaultMain) 4 else 0) + advancementPoints.getValue(ability)
             val contributions = modifiers.filter { it.modifier.target == target }
             val knownBase = ContractResult.Available(CalculatedValue(knownPoints,
                 listOf(Contributor("${ability.name} points", knownPoints, allocation.source))))
             val knownValue = ModifierCalculator.calculate(knownBase, contributions).value
             overviewAbilityValues[ability] = knownValue
             overviewAbilityTotals[ability] = (knownValue as? ContractResult.Available)?.value?.total ?: knownPoints
-            val base = if (!legal || blockers.isNotEmpty()) {
+            val base = if (!legal || errors.isNotEmpty() || blockers.isNotEmpty()) {
                 ContractResult.Unavailable((errors + blockers).distinct())
             } else {
-                ContractResult.Available(CalculatedValue(points.getValue(ability),
-                    listOf(Contributor("${ability.name} points", points.getValue(ability), allocation.source))))
+                ContractResult.Available(CalculatedValue(points.getValue(ability) + advancementPoints.getValue(ability),
+                    listOf(Contributor("${ability.name} points", points.getValue(ability), allocation.source),
+                        Contributor("Ability advancement", advancementPoints.getValue(ability))).filter { it.value != 0 }))
             }
             abilityValues[ability] = ModifierCalculator.calculate(base, contributions)
             // An unfilled feature choice cannot erase an independently validated allocation.
             // Unavailable definitions/cycles still block facts because their effects are unknown.
             val factBlockers = blockers.filter { it.code != "engine.missingChoice" }
-            val facts = if (!legal || factBlockers.isNotEmpty()) {
+            val facts = if (!legal || errors.isNotEmpty() || factBlockers.isNotEmpty()) {
                 ContractResult.Unavailable((errors + factBlockers).distinct())
             } else {
-                ContractResult.Available(CalculatedValue(points.getValue(ability),
-                    listOf(Contributor("${ability.name} points", points.getValue(ability), allocation.source))))
+                ContractResult.Available(CalculatedValue(points.getValue(ability) + advancementPoints.getValue(ability),
+                    listOf(Contributor("${ability.name} points", points.getValue(ability), allocation.source),
+                        Contributor("Ability advancement", advancementPoints.getValue(ability))).filter { it.value != 0 }))
             }
             abilityFacts[ability] = ModifierCalculator.calculate(facts, contributions)
         }

@@ -33,6 +33,8 @@ data class EntryMetadata(
     @EncodeDefault(EncodeDefault.Mode.NEVER) val featClassIds: List<String> = emptyList(),
     /** For an Ancestry feat, at least one of these access routes is required. Empty means unscoped. */
     @EncodeDefault(EncodeDefault.Mode.NEVER) val featAncestryIds: List<String> = emptyList(),
+    /** Classes that can access this path. Empty preserves unscoped and older package rows. */
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val pathClassIds: List<String> = emptyList(),
 ) {
     /** Unscoped and older index rows always proceed to eligibility checks. */
     fun matchesFeatClasses(classes: Set<String>): Boolean = featClassIds.isEmpty() || featClassIds.any { it in classes }
@@ -40,6 +42,10 @@ data class EntryMetadata(
     /** Keep unscoped rows and feats that match a selected or qualifying ancestry. */
     fun matchesFeatAncestries(ancestries: Set<String>): Boolean =
         featAncestryIds.isEmpty() || featAncestryIds.any { it in ancestries }
+
+    /** Metadata narrows path candidates before their definitions and eligibility are evaluated. */
+    fun matchesPathClasses(classes: Set<String>): Boolean =
+        pathClassIds.isEmpty() || pathClassIds.any { it in classes }
 }
 
 /** Authored access grouping for feat browsing; never an eligibility result. */

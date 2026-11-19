@@ -1,0 +1,2873 @@
+{
+  "entries": [
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9871",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "HEALING",
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 13,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 13,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The savagery of your attack invigorates your allies when they target the same foe.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 3[W] + Strength damage. Until the start of your next turn, when any ally hits the target, that ally regains 2 + your Wisdom hit points.\n\nLifespirit: The target grants combat advantage to your allies until the start of your next turn.",
+        "title": "Healing Harvest"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Strength damage. Until the start of your next turn, when any ally hits the target, that ally regains 2 + your Wisdom hit points.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Lifespirit",
+                "text": "The target grants combat advantage to your allies until the start of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The savagery of your attack invigorates your allies when they target the same foe.",
+        "flavor": "The savagery of your attack invigorates your allies when they target the same foe.",
+        "id": "modern4e.power.warden-power9871",
+        "keywords": [
+          "HEALING",
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 13,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 13,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9871",
+          "publication": "Published in Primal Power, page(s) 99.",
+          "rulesText": "Healing HarvestWarden Attack 13\nThe savagery of your attack invigorates your allies when they target the same foe.\nEncounter   ✦     Healing, Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage. Until the start of your next turn, when any ally hits the target, that ally regains 2 + your Wisdom modifier hit points.\nLifespirit: The target grants combat advantage to your allies until the start of your next turn.\nPublished in Primal Power, page(s) 99."
+        },
+        "subtitle": "Warden Attack 13",
+        "title": "Healing Harvest"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9872",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "LIGHTNING",
+            "PRIMAL",
+            "THUNDER",
+            "WEAPON"
+          ],
+          "level": 13,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 13,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your strike cracks with a pulse of thunder, which knocks your target across the battlefield, and then summons lightning against other foes.\n\nENCOUNTER / STANDARD\n\nClose burst 5\n\nTarget: One creature in the burst\n\nAttack: Strength vs. Fortitude\n\nHit: 2[W] + Strength thunder damage, and you slide the target 2 squares. The target is deafened and marked until the end of your next turn. At the start of your next turn, each enemy marked by you that is not adjacent to you takes 5 lightning damage.\n\nStormheart: The lightning damage equals 3 + your Constitution.",
+        "title": "Rumbling Doom"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Strength thunder damage, and you slide the target 2 squares. The target is deafened and marked until the end of your next turn. At the start of your next turn, each enemy marked by you that is not adjacent to you takes 5 lightning damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Close burst 5",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Stormheart",
+                "text": "The lightning damage equals 3 + your Constitution.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your strike cracks with a pulse of thunder, which knocks your target across the battlefield, and then summons lightning against other foes.",
+        "flavor": "Your strike cracks with a pulse of thunder, which knocks your target across the battlefield, and then summons lightning against other foes.",
+        "id": "modern4e.power.warden-power9872",
+        "keywords": [
+          "LIGHTNING",
+          "PRIMAL",
+          "THUNDER",
+          "WEAPON"
+        ],
+        "level": 13,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 13,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9872",
+          "publication": "Published in Primal Power, page(s) 99.",
+          "rulesText": "Rumbling DoomWarden Attack 13\nYour strike cracks with a pulse of thunder, which knocks your target across the battlefield, and then summons lightning against other foes.\nEncounter   ✦     Lightning, Primal, Thunder, Weapon\nStandard Action      Close burst 5\nTarget: One creature in the burst\nAttack: Strength vs. Fortitude\nHit: 2[W] + Strength modifier thunder damage, and you slide the target 2 squares. The target is deafened and marked until the end of your next turn. At the start of your next turn, each enemy marked by you that is not adjacent to you takes 5 lightning damage.\nStormheart: The lightning damage equals 3 + your Constitution modifier.\nPublished in Primal Power, page(s) 99."
+        },
+        "subtitle": "Warden Attack 13",
+        "title": "Rumbling Doom"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9875",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "POLYMORPH",
+            "PRIMAL"
+          ],
+          "level": 15,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 15,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You take on a resilient shell of rock and ice even as your presence on the battlefield slows your foes.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You assume the guardian form of the avalanche unleashed until the end of the encounter. While you are in this form, you gain resist 5 to all damage. In addition, each enemy that starts its turn within 2 squares of you is slowed until the start of its next turn.\n\nRule: Once during this encounter, you can use the Form of the Avalanche Unleashed Attack power while you are in this form.\n\nGrants: Form of the Avalanche Unleashed Attack\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nRequirement: The power Form of the Avalanche Unleashed must be active in order to use this power.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage, and you knock the target prone. The target is stunned (save ends).\n\nMiss: Half damage, and the target is dazed (save ends).",
+        "title": "Form of the Avalanche Unleashed"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You assume the guardian form of the avalanche unleashed until the end of the encounter. While you are in this form, you gain resist 5 to all damage. In addition, each enemy that starts its turn within 2 squares of you is slowed until the start of its next turn.",
+                "type": "effect"
+              },
+              {
+                "id": "row-2",
+                "label": "Rule",
+                "text": "Once during this encounter, you can use the Form of the Avalanche Unleashed Attack power while you are in this form.",
+                "type": "effect"
+              },
+              {
+                "activationId": "use-form-of-the-avalanche-unleashed-attack",
+                "duration": "As stated in the power's rules",
+                "id": "grant-use-form-of-the-avalanche-unleashed-attack",
+                "label": "Grants",
+                "text": "Form of the Avalanche Unleashed Attack",
+                "type": "grant"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          },
+          {
+            "action": "STANDARD",
+            "availability": "GRANTED",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-6": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-8",
+                          "label": "Hit",
+                          "text": "1[W] + Strength damage, and you knock the target prone. The target is stunned (save ends).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-9",
+                          "label": "Miss",
+                          "text": "Half damage, and the target is dazed (save ends).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-7",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-6",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use-form-of-the-avalanche-unleashed-attack",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "The power Form of the Avalanche Unleashed must be active in order to use this power.",
+            "targets": "targets-6",
+            "title": "Form of the Avalanche Unleashed Attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You take on a resilient shell of rock and ice even as your presence on the battlefield slows your foes.",
+        "flavor": "You take on a resilient shell of rock and ice even as your presence on the battlefield slows your foes.",
+        "id": "modern4e.power.warden-power9875",
+        "keywords": [
+          "POLYMORPH",
+          "PRIMAL"
+        ],
+        "level": 15,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 15,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9875",
+          "publication": "Published in Primal Power, page(s) 99.",
+          "rulesText": "Form of the Avalanche UnleashedWarden Attack 15\nYou take on a resilient shell of rock and ice even as your presence on the battlefield slows your foes.\nDaily   ✦     Polymorph, Primal\nMinor Action      Personal\nEffect: You assume the guardian form of the avalanche unleashed until the end of the encounter. While you are in this form, you gain resist 5 to all damage. In addition, each enemy that starts its turn within 2 squares of you is slowed until the start of its next turn.\nOnce during this encounter, you can use the Form of the Avalanche Unleashed Attack power while you are in this form.\nForm of the Avalanche Unleashed Attack\nEncounter ✦     Polymorph, Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and you knock the target prone. The target is stunned (save ends).\nMiss: Half damage, and the target is dazed (save ends).\nRequirement: The power Form of the Avalanche Unleashed must be active in order to use this power.\nPublished in Primal Power, page(s) 99."
+        },
+        "subtitle": "Warden Attack 15",
+        "title": "Form of the Avalanche Unleashed"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9876",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "POLYMORPH",
+            "PRIMAL"
+          ],
+          "level": 15,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 15,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your body takes on the form of unworked stone, toughening it as your forbidding presence hinders the movement of foes around you. When the time is right, you magically pull enemies to your side.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You assume the guardian form of the crushing mountain until the end of the encounter. While you are in this form, you gain a +2 bonus to AC. In addition, enemies adjacent to you cannot shift, and enemies must spend 1 extra square of movement to leave squares adjacent to you.\n\nRule: Once during this encounter, you can use the Form of the Crushing Mountain Attack power while you are in this form.\n\nGrants: Form of the Crushing Mountain Attack\n\nENCOUNTER / STANDARD\n\nClose burst 3\n\nRequirement: The power Form of the Crushing Mountain must be active in order to use this power.\n\nTarget: Each enemy you can see in the burst\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage, and you pull the target 2 squares.\n\nMiss: Half damage, and you pull the target 1 square.",
+        "title": "Form of the Crushing Mountain"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You assume the guardian form of the crushing mountain until the end of the encounter. While you are in this form, you gain a +2 bonus to AC. In addition, enemies adjacent to you cannot shift, and enemies must spend 1 extra square of movement to leave squares adjacent to you.",
+                "type": "effect"
+              },
+              {
+                "id": "row-2",
+                "label": "Rule",
+                "text": "Once during this encounter, you can use the Form of the Crushing Mountain Attack power while you are in this form.",
+                "type": "effect"
+              },
+              {
+                "activationId": "use-form-of-the-crushing-mountain-attack",
+                "duration": "As stated in the power's rules",
+                "id": "grant-use-form-of-the-crushing-mountain-attack",
+                "label": "Grants",
+                "text": "Form of the Crushing Mountain Attack",
+                "type": "grant"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          },
+          {
+            "action": "STANDARD",
+            "availability": "GRANTED",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-6": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy you can see in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-8",
+                          "label": "Hit",
+                          "text": "1[W] + Strength damage, and you pull the target 2 squares.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-9",
+                          "label": "Miss",
+                          "text": "Half damage, and you pull the target 1 square.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-7",
+                "label": "Attack",
+                "range": {
+                  "text": "Close burst 3",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-6",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use-form-of-the-crushing-mountain-attack",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "The power Form of the Crushing Mountain must be active in order to use this power.",
+            "targets": "targets-6",
+            "title": "Form of the Crushing Mountain Attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your body takes on the form of unworked stone, toughening it as your forbidding presence hinders the movement of foes around you. When the time is right, you magically pull enemies to your side.",
+        "flavor": "Your body takes on the form of unworked stone, toughening it as your forbidding presence hinders the movement of foes around you. When the time is right, you magically pull enemies to your side.",
+        "id": "modern4e.power.warden-power9876",
+        "keywords": [
+          "POLYMORPH",
+          "PRIMAL"
+        ],
+        "level": 15,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 15,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9876",
+          "publication": "Published in Primal Power, page(s) 100.",
+          "rulesText": "Form of the Crushing MountainWarden Attack 15\nYour body takes on the form of unworked stone, toughening it as your forbidding presence hinders the movement of foes around you. When the time is right, you magically pull enemies to your side.\nDaily   ✦     Polymorph, Primal\nMinor Action      Personal\nEffect: You assume the guardian form of the crushing mountain until the end of the encounter. While you are in this form, you gain a +2 bonus to AC. In addition, enemies adjacent to you cannot shift, and enemies must spend 1 extra square of movement to leave squares adjacent to you.\nOnce during this encounter, you can use the Form of the Crushing Mountain Attack power while you are in this form.\nForm of the Crushing Mountain Attack\nEncounter ✦     Polymorph, Primal, Weapon\nStandard Action      Close burst 3\nTarget: Each enemy you can see in the burst\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and you pull the target 2 squares.\nMiss: Half damage, and you pull the target 1 square.\nRequirement: The power Form of the Crushing Mountain must be active in order to use this power.\nPublished in Primal Power, page(s) 100."
+        },
+        "subtitle": "Warden Attack 15",
+        "title": "Form of the Crushing Mountain"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9877",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "POLYMORPH",
+            "PRIMAL"
+          ],
+          "level": 15,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 15,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You assume the aspect of a tiger, boosting your speed and agility, especially when your allies are under attack.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You assume the guardian form of the hunting tiger until the end of the encounter. While you are in this form, you gain a +2 bonus to speed and Reflex. In addition, when any enemy marked by you makes an attack roll against any of your allies, you can shift 2 squares toward that enemy as a free action.\n\nRule: Once during this encounter, you can use the Form of the Hunting Tiger Attack power while you are in this form.\n\nGrants: Form of the Hunting Tiger Attack\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nRequirement: The power Form of the Hunting Tiger must be active in order to use this power.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage. If both of your attack rolls would hit, the attack deals 10 extra damage.\n\nMiss: Half damage.\n\nAttack: Make the attack roll twice and use either result.",
+        "title": "Form of the Hunting Tiger"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You assume the guardian form of the hunting tiger until the end of the encounter. While you are in this form, you gain a +2 bonus to speed and Reflex. In addition, when any enemy marked by you makes an attack roll against any of your allies, you can shift 2 squares toward that enemy as a free action.",
+                "type": "effect"
+              },
+              {
+                "id": "row-2",
+                "label": "Rule",
+                "text": "Once during this encounter, you can use the Form of the Hunting Tiger Attack power while you are in this form.",
+                "type": "effect"
+              },
+              {
+                "activationId": "use-form-of-the-hunting-tiger-attack",
+                "duration": "As stated in the power's rules",
+                "id": "grant-use-form-of-the-hunting-tiger-attack",
+                "label": "Grants",
+                "text": "Form of the Hunting Tiger Attack",
+                "type": "grant"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          },
+          {
+            "action": "STANDARD",
+            "availability": "GRANTED",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-6": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-8",
+                          "label": "Hit",
+                          "text": "1[W] + Strength damage. If both of your attack rolls would hit, the attack deals 10 extra damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-9",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-7",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-6",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-7-note",
+                "label": "Attack",
+                "text": "Make the attack roll twice and use either result.",
+                "type": "effect"
+              }
+            ],
+            "id": "use-form-of-the-hunting-tiger-attack",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "The power Form of the Hunting Tiger must be active in order to use this power.",
+            "targets": "targets-6",
+            "title": "Form of the Hunting Tiger Attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You assume the aspect of a tiger, boosting your speed and agility, especially when your allies are under attack.",
+        "flavor": "You assume the aspect of a tiger, boosting your speed and agility, especially when your allies are under attack.",
+        "id": "modern4e.power.warden-power9877",
+        "keywords": [
+          "POLYMORPH",
+          "PRIMAL"
+        ],
+        "level": 15,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 15,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9877",
+          "publication": "Published in Primal Power, page(s) 100.",
+          "rulesText": "Form of the Hunting TigerWarden Attack 15\nYou assume the aspect of a tiger, boosting your speed and agility, especially when your allies are under attack.\nDaily   ✦     Polymorph, Primal\nMinor Action      Personal\nEffect: You assume the guardian form of the hunting tiger until the end of the encounter. While you are in this form, you gain a +2 bonus to speed and Reflex. In addition, when any enemy marked by you makes an attack roll against any of your allies, you can shift 2 squares toward that enemy as a free action.\nOnce during this encounter, you can use the Form of the Hunting Tiger Attack power while you are in this form.\nForm of the Hunting Tiger Attack\nEncounter ✦     Polymorph, Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC. Make the attack roll twice and use either result.\nHit: 1[W] + Strength modifier damage. If both of your attack rolls would hit, the attack deals 10 extra damage.\nMiss: Half damage.\nRequirement: The power Form of the Hunting Tiger must be active in order to use this power.\nPublished in Primal Power, page(s) 100."
+        },
+        "subtitle": "Warden Attack 15",
+        "title": "Form of the Hunting Tiger"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9878",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "POLYMORPH",
+            "PRIMAL"
+          ],
+          "level": 15,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 15,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You are girded by wind and rain, which protect you and nearby allies and drive your foes across the battlefield.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You assume the guardian form of the windstorm's wrath until the end of the encounter. While you are in this form, you gain a +2 bonus to Fortitude and Reflex. In addition, allies adjacent to you take half damage from melee attacks and ranged attacks.\n\nRule: Once during this encounter, you can use the Form of the Windstorm's Wrath Attack power while you are in this form.\n\nGrants: Form of the Windstorm's Wrath Attack\n\nENCOUNTER / STANDARD\n\nClose blast 3\n\nRequirement: The power Form of the Windstorm's Wrath must be active in order to use this power.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage, and you slide the target 3 squares and knock it prone.\n\nEffect: You slide each enemy marked by you 1 square.",
+        "title": "Form of the Windstorm's Wrath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You assume the guardian form of the windstorm's wrath until the end of the encounter. While you are in this form, you gain a +2 bonus to Fortitude and Reflex. In addition, allies adjacent to you take half damage from melee attacks and ranged attacks.",
+                "type": "effect"
+              },
+              {
+                "id": "row-2",
+                "label": "Rule",
+                "text": "Once during this encounter, you can use the Form of the Windstorm's Wrath Attack power while you are in this form.",
+                "type": "effect"
+              },
+              {
+                "activationId": "use-form-of-the-windstorm-s-wrath-attack",
+                "duration": "As stated in the power's rules",
+                "id": "grant-use-form-of-the-windstorm-s-wrath-attack",
+                "label": "Grants",
+                "text": "Form of the Windstorm's Wrath Attack",
+                "type": "grant"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          },
+          {
+            "action": "STANDARD",
+            "availability": "GRANTED",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-6": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-8",
+                          "label": "Hit",
+                          "text": "1[W] + Strength damage, and you slide the target 3 squares and knock it prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-7",
+                "label": "Attack",
+                "range": {
+                  "text": "Close blast 3",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-6",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-9",
+                "label": "Effect",
+                "text": "You slide each enemy marked by you 1 square.",
+                "type": "effect"
+              }
+            ],
+            "id": "use-form-of-the-windstorm-s-wrath-attack",
+            "range": {
+              "text": "Close blast 3",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "The power Form of the Windstorm's Wrath must be active in order to use this power.",
+            "targets": "targets-6",
+            "title": "Form of the Windstorm's Wrath Attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You are girded by wind and rain, which protect you and nearby allies and drive your foes across the battlefield.",
+        "flavor": "You are girded by wind and rain, which protect you and nearby allies and drive your foes across the battlefield.",
+        "id": "modern4e.power.warden-power9878",
+        "keywords": [
+          "POLYMORPH",
+          "PRIMAL"
+        ],
+        "level": 15,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 15,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9878",
+          "publication": "Published in Primal Power, page(s) 100.",
+          "rulesText": "Form of the Windstorm's WrathWarden Attack 15\nYou are girded by wind and rain, which protect you and nearby allies and drive your foes across the battlefield.\nDaily   ✦     Polymorph, Primal\nMinor Action      Personal\nEffect: You assume the guardian form of the windstorm's wrath until the end of the encounter. While you are in this form, you gain a +2 bonus to Fortitude and Reflex. In addition, allies adjacent to you take half damage from melee attacks and ranged attacks.\nOnce during this encounter, you can use the Form of the Windstorm's Wrath Attack power while you are in this form.\nForm of the Windstorm's Wrath Attack\nEncounter ✦     Polymorph, Primal, Weapon\nStandard Action      Close blast 3\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and you slide the target 3 squares and knock it prone.\nEffect: You slide each enemy marked by you 1 square.\nRequirement: The power Form of the Windstorm's Wrath must be active in order to use this power.\nPublished in Primal Power, page(s) 100."
+        },
+        "subtitle": "Warden Attack 15",
+        "title": "Form of the Windstorm's Wrath"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9890",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "FIRE",
+            "HEALING",
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 17,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 17,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "With your weapon wreathed in primal flame, your attack channels healing energy to an ally.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One or two creatures\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength fire damage, and an ally within 5 squares of you regains 5 hit points.\n\nLifespirit: Add your Wisdom to the hit points the ally regains.",
+        "title": "Flames of Life"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One or two creatures"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Strength fire damage, and an ally within 5 squares of you regains 5 hit points.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Lifespirit",
+                "text": "Add your Wisdom to the hit points the ally regains.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "With your weapon wreathed in primal flame, your attack channels healing energy to an ally.",
+        "flavor": "With your weapon wreathed in primal flame, your attack channels healing energy to an ally.",
+        "id": "modern4e.power.warden-power9890",
+        "keywords": [
+          "FIRE",
+          "HEALING",
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 17,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 17,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9890",
+          "publication": "Published in Primal Power, page(s) 101.",
+          "rulesText": "Flames of LifeWarden Attack 17\nWith your weapon wreathed in primal flame, your attack channels healing energy to an ally.\nEncounter   ✦     Fire, Healing, Primal, Weapon\nStandard Action      Melee weapon\nTarget: One or two creatures\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier fire damage, and an ally within 5 squares of you regains 5 hit points.\nLifespirit: Add your Wisdom modifier to the hit points the ally regains.\nPublished in Primal Power, page(s) 101."
+        },
+        "subtitle": "Warden Attack 17",
+        "title": "Flames of Life"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9891",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 17,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 17,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When a foe moves too close to your ally, you cross the battlefield in the blink of an eye to make a savage attack.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nMelee 1\n\nTrigger: An enemy marked by you enters a square adjacent to your ally within 5 squares of you\n\nTarget: The triggering enemy\n\nEffect: You shift your speed to a square adjacent to the triggering enemy. Then make the following attack.\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength damage, and you slide the target 1 square to another square adjacent to you.\n\nWildblood: You gain a bonus to the attack roll equal to your Wisdom.",
+        "title": "Leap of the Relentless Hunter"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_REACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-3": {
+                "kind": "TARGET_SET",
+                "text": "The triggering enemy"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You shift your speed to a square adjacent to the triggering enemy. Then make the following attack.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-6",
+                          "label": "Hit",
+                          "text": "2[W] + Strength damage, and you slide the target 1 square to another square adjacent to you.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-4",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee 1",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-3",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Wildblood",
+                "text": "You gain a bonus to the attack roll equal to your Wisdom.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-3",
+            "trigger": "An enemy marked by you enters a square adjacent to your ally within 5 squares of you",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When a foe moves too close to your ally, you cross the battlefield in the blink of an eye to make a savage attack.",
+        "flavor": "When a foe moves too close to your ally, you cross the battlefield in the blink of an eye to make a savage attack.",
+        "id": "modern4e.power.warden-power9891",
+        "keywords": [
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 17,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 17,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9891",
+          "publication": "Published in Primal Power, page(s) 101.",
+          "rulesText": "Leap of the Relentless HunterWarden Attack 17\nWhen a foe moves too close to your ally, you cross the battlefield in the blink of an eye to make a savage attack.\nEncounter   ✦     Primal, Weapon\nImmediate Reaction      Melee 1\nTrigger: An enemy marked by you enters a square adjacent to your ally within 5 squares of you\nEffect: You shift your speed to a square adjacent to the triggering enemy. Then make the following attack.\nTarget: The triggering enemy\nAttack: Strength vs. AC\nWildblood: You gain a bonus to the attack roll equal to your Wisdom modifier.\nHit: 2[W] + Strength modifier damage, and you slide the target 1 square to another square adjacent to you.\nPublished in Primal Power, page(s) 101."
+        },
+        "subtitle": "Warden Attack 17",
+        "title": "Leap of the Relentless Hunter"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9893",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 17,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 17,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Wind topples your foe and then blows others toward you.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength damage, and you knock the target prone. You then pull each enemy within 5 squares of you that is marked by you 2 squares.\n\nStormheart: Each enemy within 5 squares of you that is marked by you grants combat advantage until the start of your next turn.",
+        "title": "Windy Assault"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Strength damage, and you knock the target prone. You then pull each enemy within 5 squares of you that is marked by you 2 squares.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Stormheart",
+                "text": "Each enemy within 5 squares of you that is marked by you grants combat advantage until the start of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Wind topples your foe and then blows others toward you.",
+        "flavor": "Wind topples your foe and then blows others toward you.",
+        "id": "modern4e.power.warden-power9893",
+        "keywords": [
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 17,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 17,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9893",
+          "publication": "Published in Primal Power, page(s) 102.",
+          "rulesText": "Windy AssaultWarden Attack 17\nWind topples your foe and then blows others toward you.\nEncounter   ✦     Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and you knock the target prone. You then pull each enemy within 5 squares of you that is marked by you 2 squares.\nStormheart: Each enemy within 5 squares of you that is marked by you grants combat advantage until the start of your next turn.\nPublished in Primal Power, page(s) 102."
+        },
+        "subtitle": "Warden Attack 17",
+        "title": "Windy Assault"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9894",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "WEAPON",
+            "ZONE"
+          ],
+          "level": 19,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 19,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Brambles thrust up from the ground, lashing at your enemies while hindering attacks against you and your allies.\n\nDAILY / STANDARD\n\nClose blast 3\n\nTarget: Each enemy in the blast\n\nAttack: Strength vs. Reflex\n\nHit: 2[W] + Strength damage, and the target is slowed (save ends).\n\nMiss: Half damage, and the target is slowed until the end of your next turn.\n\nEffect: The blast creates a zone of brambles that lasts until the end of your next turn. While within the zone, you and your allies gain cover. When any enemy enters the zone or starts its turn there, it takes 5 damage. An enemy can take this damage only once per turn. As a move action, you can move the zone 3 squares.\n\nSustain Minor: The zone persists.",
+        "title": "Creeping Brambles"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the blast"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Strength damage, and the target is slowed (save ends).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and the target is slowed until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Close blast 3",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "The blast creates a zone of brambles that lasts until the end of your next turn. While within the zone, you and your allies gain cover. When any enemy enters the zone or starts its turn there, it takes 5 damage. An enemy can take this damage only once per turn. As a move action, you can move the zone 3 squares.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Sustain Minor",
+                "text": "The zone persists.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close blast 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Brambles thrust up from the ground, lashing at your enemies while hindering attacks against you and your allies.",
+        "flavor": "Brambles thrust up from the ground, lashing at your enemies while hindering attacks against you and your allies.",
+        "id": "modern4e.power.warden-power9894",
+        "keywords": [
+          "PRIMAL",
+          "WEAPON",
+          "ZONE"
+        ],
+        "level": 19,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 19,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9894",
+          "publication": "Published in Primal Power, page(s) 102.",
+          "rulesText": "Creeping BramblesWarden Attack 19\nBrambles thrust up from the ground, lashing at your enemies while hindering attacks against you and your allies.\nDaily   ✦     Primal, Weapon, Zone\nStandard Action      Close blast 3\nTarget: Each enemy in the blast\nAttack: Strength vs. Reflex\nHit: 2[W] + Strength modifier damage, and the target is slowed (save ends).\nMiss: Half damage, and the target is slowed until the end of your next turn.\nEffect: The blast creates a zone of brambles that lasts until the end of your next turn. While within the zone, you and your allies gain cover. When any enemy enters the zone or starts its turn there, it takes 5 damage. An enemy can take this damage only once per turn. As a move action, you can move the zone 3 squares.\nSustain Minor: The zone persists.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Primal Power, page(s) 102."
+        },
+        "subtitle": "Warden Attack 19",
+        "title": "Creeping Brambles"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9895",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "FEAR",
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 19,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 19,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "With your devastating strike, you unleash a wail that makes your enemies freeze in terror.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 3[W] + Strength damage, and the target and each enemy within 5 squares of you are immobilized (save ends).\n\nMiss: Half damage, and the target and each enemy within 5 squares of you are slowed until the end of your next turn.",
+        "title": "Howl of Wrath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Strength damage, and the target and each enemy within 5 squares of you are immobilized (save ends).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and the target and each enemy within 5 squares of you are slowed until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "With your devastating strike, you unleash a wail that makes your enemies freeze in terror.",
+        "flavor": "With your devastating strike, you unleash a wail that makes your enemies freeze in terror.",
+        "id": "modern4e.power.warden-power9895",
+        "keywords": [
+          "FEAR",
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 19,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 19,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9895",
+          "publication": "Published in Primal Power, page(s) 102.",
+          "rulesText": "Howl of WrathWarden Attack 19\nWith your devastating strike, you unleash a wail that makes your enemies freeze in terror.\nDaily   ✦     Fear, Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and the target and each enemy within 5 squares of you are immobilized (save ends).\nMiss: Half damage, and the target and each enemy within 5 squares of you are slowed until the end of your next turn.\nPublished in Primal Power, page(s) 102."
+        },
+        "subtitle": "Warden Attack 19",
+        "title": "Howl of Wrath"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9965",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "AT_WILL"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You lunge at your foe, making an attack it cannot ignore.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage.\n\nLevel 21: 2[W] + Strength damage.\n\nEffect: You mark the target until the end of your next turn.\n\nSpecial: When you charge, you can use this power in place of a melee basic attack.",
+        "title": "Warden's Lunge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "scaling": [
+                            {
+                              "atLevel": 21,
+                              "text": "2[W] + Strength damage."
+                            }
+                          ],
+                          "text": "1[W] + Strength damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "You mark the target until the end of your next turn.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Special",
+                "text": "When you charge, you can use this power in place of a melee basic attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You lunge at your foe, making an attack it cannot ignore.",
+        "flavor": "You lunge at your foe, making an attack it cannot ignore.",
+        "id": "modern4e.power.warden-power9965",
+        "keywords": [
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9965",
+          "publication": "Published in Dragon Magazine 379, page(s) 46.",
+          "rulesText": "Warden's LungeWarden Attack 1\nYou lunge at your foe, making an attack it cannot ignore.\nAt-Will   ✦     Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage.\nLevel 21: 2[W] + Strength modifier damage.\nEffect: You mark the target until the end of your next turn.\nSpecial: When you charge, you can use this power in place of a melee basic attack.\nPublished in Dragon Magazine 379, page(s) 46."
+        },
+        "subtitle": "Warden Attack 1",
+        "title": "Warden's Lunge"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9966",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "LIGHTNING",
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 3,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 3,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Calling lightning down from the clouds, you hurl your electrified weapon at your foe.\n\nENCOUNTER / STANDARD\n\nRanged 5\n\nRequirement: You must throw your weapon at the target.\n\nTarget: One creature\n\nAttack: Strength vs. Fortitude\n\nHit: 1[W] + Strength damage + 1d8 lightning damage, and you gain resist 10 lightning until the end of your next turn.\n\nEffect: Your weapon returns to your hand.",
+        "title": "Storm Throw"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "1[W] + Strength damage + 1d8 lightning damage, and you gain resist 10 lightning until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 5",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Strength vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "Your weapon returns to your hand.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 5",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must throw your weapon at the target.",
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Calling lightning down from the clouds, you hurl your electrified weapon at your foe.",
+        "flavor": "Calling lightning down from the clouds, you hurl your electrified weapon at your foe.",
+        "id": "modern4e.power.warden-power9966",
+        "keywords": [
+          "LIGHTNING",
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 3,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 3,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9966",
+          "publication": "Published in Dragon Magazine 379, page(s) 46.",
+          "rulesText": "Storm ThrowWarden Attack 3\nCalling lightning down from the clouds, you hurl your electrified weapon at your foe.\nEncounter   ✦     Lightning, Primal, Weapon\nStandard Action      Ranged 5\nRequirement: You must throw your weapon at the target.\nTarget: One creature\nAttack: Strength vs. Fortitude\nHit: 1[W] + Strength modifier damage + 1d8 lightning damage, and you gain resist 10 lightning until the end of your next turn.\nEffect: Your weapon returns to your hand.\nPublished in Dragon Magazine 379, page(s) 46."
+        },
+        "subtitle": "Warden Attack 3",
+        "title": "Storm Throw"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9967",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 7,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 7,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You stab your weapon arm straight up, and it sprouts long, sharp wooden protrusions that stab out at your enemies like spider legs.\n\nENCOUNTER / STANDARD\n\nClose burst 3\n\nTarget: Two creatures in the burst\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage",
+        "title": "Limbs of the Tree Spider"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Two creatures in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1[W] + Strength damage",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Close burst 3",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You stab your weapon arm straight up, and it sprouts long, sharp wooden protrusions that stab out at your enemies like spider legs.",
+        "flavor": "You stab your weapon arm straight up, and it sprouts long, sharp wooden protrusions that stab out at your enemies like spider legs.",
+        "id": "modern4e.power.warden-power9967",
+        "keywords": [
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 7,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 7,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9967",
+          "publication": "Published in Dragon Magazine 379, page(s) 46.",
+          "rulesText": "Limbs of the Tree SpiderWarden Attack 7\nYou stab your weapon arm straight up, and it sprouts long, sharp wooden protrusions that stab out at your enemies like spider legs.\nEncounter   ✦     Primal, Weapon\nStandard Action      Close burst 3\nTarget: Two creatures in the burst\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage\nPublished in Dragon Magazine 379, page(s) 46."
+        },
+        "subtitle": "Warden Attack 7",
+        "title": "Limbs of the Tree Spider"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9970",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 13,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 13,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your weapon arm transforms into a spike of rock that skewers your foe and pulls it closer.\n\nENCOUNTER / STANDARD\n\nMelee 2\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 3[W] + Strength damage, you pull the target 1 square, and the target is slowed until the end of your next turn.",
+        "title": "Stalactite Hook"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Strength damage, you pull the target 1 square, and the target is slowed until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee 2",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee 2",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your weapon arm transforms into a spike of rock that skewers your foe and pulls it closer.",
+        "flavor": "Your weapon arm transforms into a spike of rock that skewers your foe and pulls it closer.",
+        "id": "modern4e.power.warden-power9970",
+        "keywords": [
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 13,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 13,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9970",
+          "publication": "Published in Dragon Magazine 379, page(s) 46.",
+          "rulesText": "Stalactite HookWarden Attack 13\nYour weapon arm transforms into a spike of rock that skewers your foe and pulls it closer.\nEncounter   ✦     Primal, Weapon\nStandard Action      Melee 2\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, you pull the target 1 square, and the target is slowed until the end of your next turn.\nPublished in Dragon Magazine 379, page(s) 46."
+        },
+        "subtitle": "Warden Attack 13",
+        "title": "Stalactite Hook"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9972",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 17,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 17,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You grow massive ram's horns and bound at your foe, sending both him and you flying.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nRequirement: You must charge and use this power in place of a melee basic attack.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 4[W] + Strength damage, and both you and your target fall prone.",
+        "title": "Reckless Ram Assault"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "4[W] + Strength damage, and both you and your target fall prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must charge and use this power in place of a melee basic attack.",
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You grow massive ram's horns and bound at your foe, sending both him and you flying.",
+        "flavor": "You grow massive ram's horns and bound at your foe, sending both him and you flying.",
+        "id": "modern4e.power.warden-power9972",
+        "keywords": [
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 17,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 17,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9972",
+          "publication": "Published in Dragon Magazine 379, page(s) 47.",
+          "rulesText": "Reckless Ram AssaultWarden Attack 17\nYou grow massive ram's horns and bound at your foe, sending both him and you flying.\nEncounter   ✦     Primal, Weapon\nStandard Action      Melee weapon\nRequirement: You must charge and use this power in place of a melee basic attack.\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage, and both you and your target fall prone.\nPublished in Dragon Magazine 379, page(s) 47."
+        },
+        "subtitle": "Warden Attack 17",
+        "title": "Reckless Ram Assault"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warden-power9973",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "WEAPON"
+          ],
+          "level": 19,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 19,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You sink into the earth, tunnel under the ground, reemerge under your foe, and skewer it with your weapon.\n\nDAILY / STANDARD\n\nMelee weapon\n\nRequirement: You must charge and use this power in place of a melee basic attack.\n\nTarget: One creature\n\nSpecial: You receive a +2 bonus to the attack roll instead of the normal +1 bonus for a charge. You do not provoke opportunity attacks for movement made during this charge.\n\nAttack: Strength vs. AC\n\nHit: 4[W] + Strength damage, the target falls prone, and the target grants combat advantage (save ends).\n\nMiss: Half damage, and the target falls prone.\n\nEffect: You gain a +2 power bonus to your AC and Fortitude until the end of your next turn.",
+        "title": "Land Shark Charge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-3": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Special",
+                "text": "You receive a +2 bonus to the attack roll instead of the normal +1 bonus for a charge. You do not provoke opportunity attacks for movement made during this charge.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-5",
+                          "label": "Hit",
+                          "text": "4[W] + Strength damage, the target falls prone, and the target grants combat advantage (save ends).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-6",
+                          "label": "Miss",
+                          "text": "Half damage, and the target falls prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-4",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-3",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-7",
+                "label": "Effect",
+                "text": "You gain a +2 power bonus to your AC and Fortitude until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must charge and use this power in place of a melee basic attack.",
+            "targets": "targets-3",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You sink into the earth, tunnel under the ground, reemerge under your foe, and skewer it with your weapon.",
+        "flavor": "You sink into the earth, tunnel under the ground, reemerge under your foe, and skewer it with your weapon.",
+        "id": "modern4e.power.warden-power9973",
+        "keywords": [
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 19,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 19,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9973",
+          "publication": "Published in Dragon Magazine 379, page(s) 47.",
+          "rulesText": "Land Shark ChargeWarden Attack 19\nYou sink into the earth, tunnel under the ground, reemerge under your foe, and skewer it with your weapon.\nDaily   ✦     Primal, Weapon\nStandard Action      Melee weapon\nRequirement: You must charge and use this power in place of a melee basic attack.\nSpecial: You receive a +2 bonus to the attack roll instead of the normal +1 bonus for a charge. You do not provoke opportunity attacks for movement made during this charge.\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage, the target falls prone, and the target grants combat advantage (save ends).\nMiss: Half damage, and the target falls prone.\nEffect: You gain a +2 power bonus to your AC and Fortitude until the end of your next turn.\nPublished in Dragon Magazine 379, page(s) 47."
+        },
+        "subtitle": "Warden Attack 19",
+        "title": "Land Shark Charge"
+      }
+    }
+  ],
+  "id": "entries-0034"
+}

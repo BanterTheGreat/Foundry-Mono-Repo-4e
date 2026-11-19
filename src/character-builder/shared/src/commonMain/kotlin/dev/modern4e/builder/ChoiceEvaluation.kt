@@ -15,6 +15,7 @@ internal class ChoiceEvaluation(
     private val featFacts = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, PreparedFeatChoices>()
     private val powerFacts = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, Pair<PreparedPowerChoices, RulesContent>>()
     private val selections = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, Selection>()
+    private val pathClasses = mutableMapOf<Pair<CharacterDocument, Int>, Set<String>?>()
     private val indexed by lazy { catalog.search() }
 
     /** Metadata-first browsing never evaluates a root choice or unrelated tabs. */
@@ -87,12 +88,91 @@ internal class ChoiceEvaluation(
         if (offered?.optional == true && offered.acquisitionLevel != level) {
             return null
         }
-        val ids = if (category != null) catalog.search(category = category).map { it.metadata.id }
-            else offered?.entries?.map { it.entryId }.orEmpty()
+        val ids = if (category != null) {
+            val classes = if (category == EntryCategory.PARAGON_PATH) pathAccessClasses(document, level) else null
+            catalog.search(category = category).filter {
+                classes == null || it.metadata.matchesPathClasses(classes)
+            }.map { it.metadata.id }
+        } else {
+            offered?.entries?.map { it.entryId }.orEmpty()
+        }
         val existing = document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
         val instance = if (offered?.optional == true) ModernCreation.grantInstance(slot.sourceInstanceId, slot.choiceId)
             else existing?.instanceId
         return Selection(ids, instance).also { selections[key] = it }
+    }
+
+    /**
+     * Inspect only acquired class/feat definitions and their active grants. Later multiclass feats cannot
+     * widen an earlier path picker. Unknown saved suppliers keep browsing conservative rather than hiding
+     * a possibly applicable path; ordinary eligibility still reports the missing facts.
+     */
+    private suspend fun pathAccessClasses(document: CharacterDocument, level: Int): Set<String>? {
+        val key = document to level
+        if (pathClasses.containsKey(key)) {
+            return pathClasses[key]
+        }
+        val classes = mutableSetOf<String>()
+        var unresolved = false
+        val seen = mutableSetOf<String>()
+        val decisions = document.levels.filter { it.level <= level }.flatMap { it.entries }
+        val bySlot = decisions.associateBy { it.slot }
+        val categories = indexed.associate { it.metadata.id to it.metadata.category }
+        val qualifyingCategories = setOf(EntryCategory.CLASS, EntryCategory.FEAT, EntryCategory.FEATURE,
+            EntryCategory.ANCESTRY, EntryCategory.THEME, EntryCategory.BACKGROUND)
+        suspend fun visit(entry: ContentEntry, instance: String, acquiredAt: Int, ancestors: Set<String> = emptySet()) {
+            if (entry.id in ancestors) {
+                unresolved = true
+                return
+            }
+            if (acquiredAt > level || !seen.add(instance)) {
+                return
+            }
+            if (entry.category == EntryCategory.CLASS) {
+                classes += entry.id
+            }
+            if (entry.category == EntryCategory.FEAT) {
+                entry.mechanics.multiclassFor?.let { classes += it }
+            }
+            val grants = entry.mechanics.grants + entry.mechanics.progression.filter { it.level <= level }
+                .flatMap { progression -> progression.grants.map { grant ->
+                    if (grant is Grant.Entry) grant.copy(atLevel = maxOf(grant.atLevel, progression.level)) else grant
+                } }
+            for (grant in grants.filterIsInstance<Grant.Entry>()) {
+                val acquired = maxOf(acquiredAt, grant.atLevel)
+                if (acquired > level) {
+                    continue
+                }
+                val substitution = bySlot[ChoiceSlotId(instance, grant.grantId, 0)]
+                    ?.takeIf { it.selection.entryId in grant.replacementEntryIds }
+                val id = substitution?.selection?.entryId ?: grant.entryId
+                if (categories[id] != null && categories[id] !in qualifyingCategories) {
+                    continue
+                }
+                val resolved = if (substitution != null) catalog.resolve(substitution.selection)
+                    else catalog.lookup(grant.entryId)
+                val child = (resolved as? ContractResult.Available)?.value
+                if (child == null) {
+                    unresolved = true
+                } else {
+                    visit(child.entry, ModernCreation.grantInstance(instance, grant.grantId), acquired, ancestors + entry.id)
+                }
+            }
+        }
+        for (row in document.levels.filter { it.level <= level }) {
+            for (decision in row.entries) {
+                if (categories[decision.selection.entryId] != null && categories[decision.selection.entryId] !in qualifyingCategories) {
+                    continue
+                }
+                val resolved = (catalog.resolve(decision.selection) as? ContractResult.Available)?.value
+                if (resolved == null) {
+                    unresolved = true
+                } else {
+                    visit(resolved.entry, decision.instanceId, row.level)
+                }
+            }
+        }
+        return (if (unresolved) null else classes).also { pathClasses[key] = it }
     }
 
     private suspend fun candidate(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
@@ -146,22 +226,6 @@ internal class ChoiceEvaluation(
     private fun previewInstance(slot: ChoiceSlotId) =
         "builder-preview:${slot.sourceInstanceId.length}:${slot.sourceInstanceId}:${slot.choiceId}:${slot.ordinal}"
 
-    private fun rootCategory(level: Int, slot: ChoiceSlotId): EntryCategory? {
-        if (slot.ordinal != 0) {
-            return null
-        }
-        if (level == 2 && slot == ChoiceSlotId("advancement.2", "feat", 0)) {
-            return EntryCategory.FEAT
-        }
-        if (level != 1 || slot.sourceInstanceId != "creation") {
-            return null
-        }
-        return when (slot.choiceId) {
-            "class" -> EntryCategory.CLASS
-            "ancestry" -> EntryCategory.ANCESTRY
-            "theme" -> EntryCategory.THEME
-            "feat" -> EntryCategory.FEAT
-            else -> null
-        }
-    }
+    private fun rootCategory(level: Int, slot: ChoiceSlotId): EntryCategory? =
+        AdvancementRules.rootCategory(level, slot)
 }

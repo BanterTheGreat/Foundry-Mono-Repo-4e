@@ -11259,6 +11259,2183 @@
       "subtitle": "Swordmage Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power5762",
+      "title": "Dazzling Display",
+      "description": "With dizzying speed, you slash and slice your foes. Your swordplay leaves your foes off balance and unable to discern your location.",
+      "flavor": "With dizzying speed, you slash and slice your foes. Your swordplay leaves your foes off balance and unable to discern your location.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5762",
+        "publication": "Published in Arcane Power, page(s) 59.",
+        "rulesText": "Dazzling DisplaySwordmage Attack 17\nWith dizzying speed, you slash and slice your foes. Your swordplay leaves your foes off balance and unable to discern your location.\nEncounter   ✦     Arcane, Weapon\nStandard Action      Close burst 1\nTarget: Each enemy in the burst\nAttack: Intelligence vs. Reflex\nHit: 1[W] + Intelligence modifier damage. Until the end of your next turn, the target grants combat advantage to you and your allies.\nEffect: Until the end of your next turn or until you move, you have concealment.\nPublished in Arcane Power, page(s) 59."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Intelligence damage. Until the end of your next turn, the target grants combat advantage to you and your allies."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn or until you move, you have concealment."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power12223",
+      "title": "Elemental Detention",
+      "description": "The lightning dancing on your blade leaps to your foe and holds it in place.",
+      "flavor": "The lightning dancing on your blade leaps to your foe and holds it in place.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12223",
+        "publication": "Published in Dragon Magazine 385, page(s) 52.",
+        "rulesText": "Elemental DetentionSwordmage Attack 17\nThe lightning dancing on your blade leaps to your foe and holds it in place.\nEncounter   ✦     Arcane, Lightning, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 2[W] + Intelligence modifier lightning damage, and the target is restrained until the end of your next turn.\nPublished in Dragon Magazine 385, page(s) 52."
+      },
+      "keywords": [
+        "ARCANE",
+        "LIGHTNING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Intelligence lightning damage, and the target is restrained until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power3979",
+      "title": "Firelasher's Lunge",
+      "description": "Flame licks your blade, then explodes in a fiery blast when you strike your foe.",
+      "flavor": "Flame licks your blade, then explodes in a fiery blast when you strike your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3979",
+        "publication": "Published in Arcane Power, page(s) 59.",
+        "rulesText": "Firelasher's LungeSwordmage Attack 17\nFlame licks your blade, then explodes in a fiery blast when you strike your foe.\nEncounter   ✦     Arcane, Fire, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 2[W] + Intelligence modifier fire damage. Each enemy adjacent to the target takes fire damage equal to your Strength modifier.\nAegis of Assault: When you use your aegis of assault to teleport and make an attack, you can use this power in place of the melee basic attack.\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Arcane Power, page(s) 59."
+      },
+      "keywords": [
+        "ARCANE",
+        "FIRE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Intelligence fire damage. Each enemy adjacent to the target takes fire damage equal to your Strength."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Aegis of Assault",
+              "text": "When you use your aegis of assault to teleport and make an attack, you can use this power in place of the melee basic attack."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power1778",
+      "title": "Ice Cage",
+      "description": "As your blade lances into your foe, ice erupts from the wound, winding around your enemy's limbs in a crushing embrace.",
+      "flavor": "As your blade lances into your foe, ice erupts from the wound, winding around your enemy's limbs in a crushing embrace.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1778",
+        "publication": "Published in Forgotten Realms Player's Guide, page(s) 32.",
+        "rulesText": "Ice CageSwordmage Attack 17\nAs your blade lances into your foe, ice erupts from the wound, winding around your enemy's limbs in a crushing embrace.\nEncounter   ✦     Arcane, Cold, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Intelligence vs. Fortitude\nHit: 1[W] + Intelligence modifier damage, and the target is weakened until the end of your next turn. If the target attacks while it is weakened, it takes cold damage equal to 5 + your Constitution modifier.\nPublished in Forgotten Realms Player's Guide, page(s) 32."
+      },
+      "keywords": [
+        "ARCANE",
+        "COLD",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Intelligence damage, and the target is weakened until the end of your next turn. If the target attacks while it is weakened, it takes cold damage equal to 5 + your Constitution."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power6950",
+      "title": "Necromantic Disruption",
+      "description": "A burst of light from your soul ensures that each enemy's death brings you greater opportunities to strike them down.",
+      "flavor": "A burst of light from your soul ensures that each enemy's death brings you greater opportunities to strike them down.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6950",
+        "publication": "Published in Dragon Magazine 372, page(s) 23.",
+        "rulesText": "Necromantic DisruptionSwordmage Attack 17\nA burst of light from your soul ensures that each enemy's death brings you greater opportunities to strike them down.\nEncounter   ✦     Arcane, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 3[W] + Intelligence modifier damage. This damage ignores insubstantial.\nSpecial: If this attack reduces your target to 0 or fewer hit points, you regain the use of this power.\nPublished in Dragon Magazine 372, page(s) 23."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Intelligence damage. This damage ignores insubstantial."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Special",
+              "text": "If this attack reduces your target to 0 or fewer hit points, you regain the use of this power."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power5763",
+      "title": "Snake Strike",
+      "description": "Your sword extends into the form of a shadowy asp and bites an enemy. If that foe dares to leave your side, poison assails it a second time.",
+      "flavor": "Your sword extends into the form of a shadowy asp and bites an enemy. If that foe dares to leave your side, poison assails it a second time.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5763",
+        "publication": "Published in Arcane Power, page(s) 59.",
+        "rulesText": "Snake StrikeSwordmage Attack 17\nYour sword extends into the form of a shadowy asp and bites an enemy. If that foe dares to leave your side, poison assails it a second time.\nEncounter   ✦     Arcane, Implement, Poison\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Intelligence vs. Fortitude\nHit: 2d8 + Intelligence modifier poison damage. If the target ends its next turn in a space that is not adjacent to you, it takes 1d8 + your Constitution modifier poison damage.\nPublished in Arcane Power, page(s) 59."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "POISON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Intelligence poison damage. If the target ends its next turn in a space that is not adjacent to you, it takes 1d8 + your Constitution poison damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power1740",
+      "title": "Spidersilk Slash",
+      "description": "You spin your blade impossibly fast, creating silvery strands of silk that bind nearby enemies.",
+      "flavor": "You spin your blade impossibly fast, creating silvery strands of silk that bind nearby enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1740",
+        "publication": "Published in Forgotten Realms Player's Guide, page(s) 32.",
+        "rulesText": "Spidersilk SlashSwordmage Attack 17\nYou spin your blade impossibly fast, creating silvery strands of silk that bind nearby enemies.\nEncounter   ✦     Arcane, Weapon\nStandard Action      Close burst 1\nTarget: Each enemy in the burst\nAttack: Intelligence vs. Fortitude\nHit: 1d10 + Intelligence modifier damage, and the target is immobilized until the end of your next turn.\nPublished in Forgotten Realms Player's Guide, page(s) 32."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d10 + Intelligence damage, and the target is immobilized until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power5764",
+      "title": "Surprising Transposition",
+      "description": "You sever the fabric of reality, transporting an ally to safety while redirecting an enemy's attack.",
+      "flavor": "You sever the fabric of reality, transporting an ally to safety while redirecting an enemy's attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5764",
+        "publication": "Published in Arcane Power, page(s) 59.",
+        "rulesText": "Surprising TranspositionSwordmage Attack 17\nYou sever the fabric of reality, transporting an ally to safety while redirecting an enemy's attack.\nEncounter   ✦     Arcane, Implement, Teleportation\nImmediate Interrupt      Ranged 10\nTrigger: An enemy within 10 squares of you hits an ally with a melee attack\nTarget: One creature other than the triggering enemy or the ally who was hit\nAttack: Intelligence vs. Fortitude. If the target is an ally, you do not make an attack roll.\nHit: The target swaps positions with the ally, and the target is subject to the triggering enemy's attack.\nPublished in Arcane Power, page(s) 59."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "TELEPORTATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature other than the triggering enemy or the ally who was hit"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target swaps positions with the ally, and the target is subject to the triggering enemy's attack."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-3-note",
+              "type": "effect",
+              "label": "Attack",
+              "text": "If the target is an ally, you do not make an attack roll."
+            }
+          ],
+          "trigger": "An enemy within 10 squares of you hits an ally with a melee attack",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Swordmage Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power1736",
+      "title": "Swordshock",
+      "description": "Electric death pulses from your sword as you plunge it into the enemy.",
+      "flavor": "Electric death pulses from your sword as you plunge it into the enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1736",
+        "publication": "Published in Forgotten Realms Player's Guide, page(s) 32.",
+        "rulesText": "SwordshockSwordmage Attack 17\nElectric death pulses from your sword as you plunge it into the enemy.\nEncounter   ✦     Arcane, Lightning, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 3[W] + Intelligence modifier lightning damage.\nPublished in Forgotten Realms Player's Guide, page(s) 32."
+      },
+      "keywords": [
+        "ARCANE",
+        "LIGHTNING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Intelligence lightning damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power5765",
+      "title": "Thundering Vortex",
+      "description": "A whirlwind of arcane energy lashes out to draw your foes closer to your blade.",
+      "flavor": "A whirlwind of arcane energy lashes out to draw your foes closer to your blade.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5765",
+        "publication": "Published in Arcane Power, page(s) 60.",
+        "rulesText": "Thundering VortexSwordmage Attack 17\nA whirlwind of arcane energy lashes out to draw your foes closer to your blade.\nEncounter   ✦     Arcane, Implement, Thunder\nStandard Action      Close burst 3\nTarget: Each enemy in the burst\nAttack: Intelligence vs. Fortitude\nHit: 2d8 + Intelligence modifier thunder damage, and you pull the target 2 squares. The target is marked until the end of your next turn.\nAegis of Shielding: The target is marked by your aegis of shielding. Marking the target does not remove the mark on another target already affected by your aegis of shielding.\nPublished in Arcane Power, page(s) 60."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Intelligence thunder damage, and you pull the target 2 squares. The target is marked until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Aegis of Shielding",
+              "text": "The target is marked by your aegis of shielding. Marking the target does not remove the mark on another target already affected by your aegis of shielding."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power3380",
+      "title": "Bane Blade",
+      "description": "Attuning your blade's arcane might, you launch a devastating barrage of cuts and thrusts against your foe.",
+      "flavor": "Attuning your blade's arcane might, you launch a devastating barrage of cuts and thrusts against your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3380",
+        "publication": "Published in Forgotten Realms Player's Guide, page(s) 32.",
+        "rulesText": "Bane BladeSwordmage Attack 19\nAttuning your blade's arcane might, you launch a devastating barrage of cuts and thrusts against your foe.\nDaily   ✦     Arcane, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 3[W] + Intelligence modifier damage.\nEffect: Choose a creature type that the target has (animate, beast, humanoid, or magical beast). Until the end of the encounter, your attacks against creatures of that type deal 2d6 extra damage.\nPublished in Forgotten Realms Player's Guide, page(s) 32."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Intelligence damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose a creature type that the target has (animate, beast, humanoid, or magical beast). Until the end of the encounter, your attacks against creatures of that type deal 2d6 extra damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power6951",
+      "title": "Death's Resurgence",
+      "description": "Death's power turns your foe's triumph into a victory of your own. Your pain explodes from you, and as others fall, you draw strength from their defeat.",
+      "flavor": "Death's power turns your foe's triumph into a victory of your own. Your pain explodes from you, and as others fall, you draw strength from their defeat.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6951",
+        "publication": "Published in Dragon Magazine 372, page(s) 23.",
+        "rulesText": "Death's ResurgenceSwordmage Attack 19\nDeath's power turns your foe's triumph into a victory of your own. Your pain explodes from you, and as others fall, you draw strength from their defeat.\nDaily   ✦     Arcane, Healing, Implement, Necrotic\nImmediate Interrupt      Close burst 2\nTrigger: You become bloodied or brought to 0 or fewer hit points\nTarget: Each enemy in the burst\nAttack: Intelligence vs. Reflex\nHit: 3d8 + Intelligence modifier necrotic damage.\nMiss: Half damage.\nEffect: You can spend a healing surge. If you do, you regain 1d6 additional hit points for each enemy bloodied or reduced to 0 hit points by this attack.\nPublished in Dragon Magazine 372, page(s) 23."
+      },
+      "keywords": [
+        "ARCANE",
+        "HEALING",
+        "IMPLEMENT",
+        "NECROTIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 2"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Intelligence necrotic damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can spend a healing surge. If you do, you regain 1d6 additional hit points for each enemy bloodied or reduced to 0 hit points by this attack."
+            }
+          ],
+          "trigger": "You become bloodied or brought to 0 or fewer hit points",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Swordmage Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power5766",
+      "title": "Forceful Rebuke",
+      "description": "Just as your foes close in on you, your sword strikes send out blasts of force that repel the enemies and send them staggering.",
+      "flavor": "Just as your foes close in on you, your sword strikes send out blasts of force that repel the enemies and send them staggering.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5766",
+        "publication": "Published in Arcane Power, page(s) 60.",
+        "rulesText": "Forceful RebukeSwordmage Attack 19\nJust as your foes close in on you, your sword strikes send out blasts of force that repel the enemies and send them staggering.\nDaily   ✦     Arcane, Force, Weapon\nStandard Action      Close burst 1\nTarget: Each enemy in the burst\nAttack: Intelligence vs. AC\nHit: 2[W] + Intelligence modifier force damage, and you push the target a number of squares equal to your Constitution modifier.\nMiss: Half damage, and you push the target 1 square.\nPublished in Arcane Power, page(s) 60."
+      },
+      "keywords": [
+        "ARCANE",
+        "FORCE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Intelligence force damage, and you push the target a number of squares equal to your Constitution."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you push the target 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power3381",
+      "title": "Hell's Own Blade",
+      "description": "You hurl your sword, and it buries itself into the chest of a distant foe. Your sword explodes, sending waves of roiling flame out in all directions, before reforming in your hand.",
+      "flavor": "You hurl your sword, and it buries itself into the chest of a distant foe. Your sword explodes, sending waves of roiling flame out in all directions, before reforming in your hand.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3381",
+        "publication": "Published in Forgotten Realms Player's Guide, page(s) 32.",
+        "rulesText": "Hell's Own BladeSwordmage Attack 19\nYou hurl your sword, and it buries itself into the chest of a distant foe. Your sword explodes, sending waves of roiling flame out in all directions, before reforming in your hand.\nDaily   ✦     Arcane, Fire, Weapon\nStandard Action      Ranged 10\nPrimary Target: One creature\nAttack: Intelligence vs. AC\nHit: 1[W] + Intelligence modifier fire damage.\nEffect: Make a secondary attack.\nSecondary Targets: The primary target and each enemy within 2 squares of it\nSecondary Attack: Intelligence vs. Reflex\nHit: 3d8 + Intelligence modifier fire damage.\nMiss: Half damage.\nPublished in Forgotten Realms Player's Guide, page(s) 32."
+      },
+      "keywords": [
+        "ARCANE",
+        "FIRE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Intelligence fire damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a secondary attack."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Secondary Targets",
+              "text": "The primary target and each enemy within 2 squares of it"
+            },
+            {
+              "id": "row-6",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Intelligence vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Intelligence fire damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power3382",
+      "title": "Lightning Rod",
+      "description": "Thrusting the point of your sword into your enemy, you channel a kernel of deadly power into it. Dark cloudsd seep from the wound and lightning lashes out, shocking nearby foes.",
+      "flavor": "Thrusting the point of your sword into your enemy, you channel a kernel of deadly power into it. Dark cloudsd seep from the wound and lightning lashes out, shocking nearby foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3382",
+        "publication": "Published in Forgotten Realms Player's Guide, page(s) 32.",
+        "rulesText": "Lightning RodSwordmage Attack 19\nThrusting the point of your sword into your enemy, you channel a kernel of deadly power into it. Dark cloudsd seep from the wound and lightning lashes out, shocking nearby foes.\nDaily   ✦     Arcane, Lightning, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 2[W] + Intelligence modifier damage, and ongoing 10 lightning damage (save ends). When the target takes ongoing damage from this power, enemies adjacent to the target take 10 lightning damage.\nMiss: Half damage, and no ongoing damage.\nPublished in Forgotten Realms Player's Guide, page(s) 32."
+      },
+      "keywords": [
+        "ARCANE",
+        "LIGHTNING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Intelligence damage, and ongoing 10 lightning damage (save ends). When the target takes ongoing damage from this power, enemies adjacent to the target take 10 lightning damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and no ongoing damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power5767",
+      "title": "Marksman's Vision",
+      "description": "With one swipe, you mark your opponent with a burning, magic sigil that distracts your foe and ensures that the creature can't hide.",
+      "flavor": "With one swipe, you mark your opponent with a burning, magic sigil that distracts your foe and ensures that the creature can't hide.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5767",
+        "publication": "Published in Arcane Power, page(s) 60.",
+        "rulesText": "Marksman's VisionSwordmage Attack 19\nWith one swipe, you mark your opponent with a burning, magic sigil that distracts your foe and ensures that the creature can't hide.\nDaily   ✦     Arcane, Weapon\nStandard Action      Melee weapoon\nEffect: Until the end of the encounter, you can see the target of this power even if it is invisible or hidden. You take no penalty to attack rolls against the target for any concealment, total concealment, cover, or superior cover it has, but you cannot see through walls or any other solid barriers. In addition, you gain the benefit of flanking against the target as long as you and at least one ally are adjacent to it.\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 3[W] + Intelligence modifier damage.\nPublished in Arcane Power, page(s) 60."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapoon"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, you can see the target of this power even if it is invisible or hidden. You take no penalty to attack rolls against the target for any concealment, total concealment, cover, or superior cover it has, but you cannot see through walls or any other solid barriers. In addition, you gain the benefit of flanking against the target as long as you and at least one ally are adjacent to it."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapoon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Intelligence damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Swordmage Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power5768",
+      "title": "Planar Shock",
+      "description": "Your weapon sends an enemy flying through otherworldly space. When the foe returns, it is reeling from the experience.",
+      "flavor": "Your weapon sends an enemy flying through otherworldly space. When the foe returns, it is reeling from the experience.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5768",
+        "publication": "Published in Arcane Power, page(s) 60.",
+        "rulesText": "Planar ShockSwordmage Attack 19\nYour weapon sends an enemy flying through otherworldly space. When the foe returns, it is reeling from the experience.\nDaily   ✦     Arcane, Teleportation, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 2[W] + Intelligence modifier damage. You teleport the target 10 squares, and the target is stunned (save ends).\nMiss: Half damage, and you teleport the target 5 squares.\nPublished in Arcane Power, page(s) 60."
+      },
+      "keywords": [
+        "ARCANE",
+        "TELEPORTATION",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Intelligence damage. You teleport the target 10 squares, and the target is stunned (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you teleport the target 5 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Swordmage Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power5769",
+      "title": "Ward of Scales",
+      "description": "You form a protective barrier of scintillating, silver dragon scales that strikes an enemy while providing shelter for an ally.",
+      "flavor": "You form a protective barrier of scintillating, silver dragon scales that strikes an enemy while providing shelter for an ally.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5769",
+        "publication": "Published in Arcane Power, page(s) 60.",
+        "rulesText": "Ward of ScalesSwordmage Attack 19\nYou form a protective barrier of scintillating, silver dragon scales that strikes an enemy while providing shelter for an ally.\nDaily   ✦     Arcane, Implement, Lightning\nImmediate Interrupt      Close burst 5\nTrigger: An enemy hits an ally within 5 squares of you\nTarget: The triggering enemy\nAttack: Intelligence vs. Reflex\nHit: 4d8 + Intelligence modifier lightning damage.\nMiss: Half damage.\nEffect: The ally who was hit gains resistance to all damage equal to your Constitution modifier until the end of your next turn.\nSustain Minor: The effect persists.\nPublished in Arcane Power, page(s) 60."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "LIGHTNING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d8 + Intelligence lightning damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The ally who was hit gains resistance to all damage equal to your Constitution until the end of your next turn."
+            },
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The effect persists."
+            }
+          ],
+          "trigger": "An enemy hits an ally within 5 squares of you",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Swordmage Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.swordmage-power5770",
+      "title": "Whirling Threat",
+      "description": "Appearing in a flash of light in the midst of your foes, you are a terror of flashing steel, threatening all adjacent enemies.",
+      "flavor": "Appearing in a flash of light in the midst of your foes, you are a terror of flashing steel, threatening all adjacent enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5770",
+        "publication": "Published in Arcane Power, page(s) 60.",
+        "rulesText": "Whirling ThreatSwordmage Attack 19\nAppearing in a flash of light in the midst of your foes, you are a terror of flashing steel, threatening all adjacent enemies.\nDaily   ✦     Arcane, Stance, Teleportation, Weapon\nStandard Action      Close burst 1\nEffect: Before the attack, you teleport 10 squares.\nTarget: Each enemy in the burst\nAttack: Intelligence vs. AC\nHit: 3[W] + Intelligence modifier damage, and the target is marked until the end of your next turn.\nMiss: Half damage.\nEffect: Until the stance ends, once during each of your turns as a free action, you can mark one enemy that is adjacent to you. The mark lasts until the end of your next turn.\nPublished in Arcane Power, page(s) 60."
+      },
+      "keywords": [
+        "ARCANE",
+        "STANCE",
+        "TELEPORTATION",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the attack, you teleport 10 squares."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Intelligence damage, and the target is marked until the end of your next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the stance ends, once during each of your turns as a free action, you can mark one enemy that is adjacent to you. The mark lasts until the end of your next turn."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Swordmage Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

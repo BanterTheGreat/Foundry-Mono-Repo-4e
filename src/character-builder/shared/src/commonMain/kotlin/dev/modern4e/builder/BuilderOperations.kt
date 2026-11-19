@@ -8,11 +8,13 @@ sealed class BuilderEdit {
     data class Identity(val value: CharacterIdentity) : BuilderEdit()
     data class Allocation(val value: AbilityAllocation) : BuilderEdit()
     data class Level(val value: Int) : BuilderEdit()
+    data class Advancement(val level: Int, val value: AbilityAdvancement?) : BuilderEdit()
     data class Entry(val level: Int, val slot: ChoiceSlotId, val entryId: String, val instanceId: String,
         val acceptIneligible: Boolean = false) : BuilderEdit()
     data class ReplacePower(val level: Int, val slot: ChoiceSlotId, val entryId: String,
         val kind: ReplacementKind = ReplacementKind.RETRAINING, val acceptIneligible: Boolean = false) : BuilderEdit()
     data class RemoveEntry(val slot: ChoiceSlotId) : BuilderEdit()
+    data class RemoveReplacement(val level: Int, val slot: ChoiceSlotId) : BuilderEdit()
     data class Proficiency(val level: Int, val value: ProficiencyChoice) : BuilderEdit()
     data class Value(val level: Int, val value: ValueChoice) : BuilderEdit()
     /** Changing background preserves its skill unless the caller explicitly supplies a replacement. */
@@ -38,10 +40,10 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
 
     /** Decoded content and calculations live for one command, never across content refreshes. */
     private fun operation() = if (operation) this else BuilderOperations(catalog.readSession(), true)
-    /** Direct creation at either proof level; incomplete decisions remain exportable. */
+    /** Direct creation through level 19; incomplete decisions remain exportable. */
     suspend fun create(id: String, savedAt: String, identity: CharacterIdentity, packages: List<PackageRevision>,
         abilities: AbilityAllocation, level: Int = 1): BuilderState {
-        require(level in 1..2)
+        require(level in 1..19)
         val document = CharacterDocument(id = id, savedAt = savedAt, identity = identity, packages = packages,
             level = level, abilities = abilities, levels = (1..level).map { LevelDecisions(it) })
         require(ContractCodec.encodeChecked(document) is ContractResult.Available)
@@ -65,13 +67,18 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
     private suspend fun calculate(document: CharacterDocument): BuilderState {
         val rules = RulesEngine.evaluate(document, preparation.load(document))
         val required = ModernCreation.requiredEntryKinds.map { ChoiceSlotId("creation", it, 0) } +
-            if (document.level >= 2) listOf(ChoiceSlotId("advancement.2", "feat", 0)) else emptyList()
+            AdvancementRules.featLevels.filter { it <= document.level }.map { ChoiceSlotId("advancement.$it", "feat", 0) } +
+            if (document.level >= 11) listOf(ChoiceSlotId("advancement.11", "paragon-path", 0)) else emptyList()
         val selected = document.levels.flatMap { it.entries }.map { it.slot }.toSet()
         val missing = required.filter { it !in selected }.map { slot ->
             val message = if (slot.choiceId == "theme") "Choose a Theme." else "Select an entry for this starting or advancement slot."
             Diagnostic("builder.missingChoice", DiagnosticKind.INVALID_SELECTION, message, slot)
         }
-        return BuilderState(document, rules.copy(diagnostics = rules.diagnostics + missing))
+        val missingReplacements = AdvancementRules.dailyReplacementLevels.filter { it <= document.level }.filter { at ->
+            document.levels.singleOrNull { it.level == at }?.replacements.orEmpty().none { it.kind == ReplacementKind.PROGRESSION }
+        }.map { at -> Diagnostic("builder.missingChoice", DiagnosticKind.INVALID_SELECTION,
+            "Replace an earlier class daily attack power.", ChoiceSlotId("advancement.$at", "replacement", 0)) }
+        return BuilderState(document, rules.copy(diagnostics = rules.diagnostics + missing + missingReplacements))
     }
 
     /** Root and child entry options share engine eligibility. Unknown/ineligible options require explicit opt-in. */
@@ -81,6 +88,41 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
             return operation().options(document, level, slot, includeIneligible)
         }
         return choiceEvaluation().options(document, level, slot, includeIneligible)
+    }
+
+    /** Replacement browsing replays each candidate at its actual replacement level. */
+    suspend fun replacementOptions(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
+        kind: ReplacementKind = ReplacementKind.PROGRESSION): List<BuilderOption> {
+        if (!operation) {
+            return operation().replacementOptions(document, level, slot, kind)
+        }
+        if (level !in 1..document.level) {
+            return emptyList()
+        }
+        val historical = atLevel(document, level)
+        val state = evaluate(historical)
+        val current = state.rules.entries.singleOrNull { it.slot == slot && !it.granted } ?: return emptyList()
+        val seed = Replacement(slot, EntryChoice(current.instanceId, slot, SavedSelection(current.definition.entry.id,
+            current.definition.entry.presentation.title, current.definition.supplier.packageId, current.definition.fingerprint)), kind)
+        val preview = historical.copy(levels = levels(historical, level).map {
+            if (it.level == level) it.copy(replacements = it.replacements.filterNot { change ->
+                change.replaces == slot || kind == ReplacementKind.PROGRESSION && change.kind == ReplacementKind.PROGRESSION
+            } + seed) else it
+        })
+        val offered = evaluate(preview).rules.choices.singleOrNull { it.slot == slot }?.entries.orEmpty()
+        return offered.mapNotNull { candidate ->
+            val definition = (catalog.lookup(candidate.entryId) as? ContractResult.Available)?.value ?: return@mapNotNull null
+            val replacement = seed.copy(replacement = seed.replacement.copy(selection = saved(definition)))
+            val candidateDocument = preview.copy(levels = preview.levels.map { row ->
+                if (row.level == level) row.copy(replacements = row.replacements.filterNot { it.replaces == slot } + replacement) else row
+            })
+            val rules = RulesEngine.evaluateChoice(candidateDocument, preparation.load(candidateDocument), current.instanceId)
+            if (rules.diagnostics.any { it.slot == slot && it.code == "engine.replacementTiming" && it.kind == DiagnosticKind.INVALID_SELECTION }) {
+                return@mapNotNull null
+            }
+            val eligibility = rules.entryEligibility[current.instanceId] ?: return@mapNotNull null
+            BuilderOption(definition, eligibility.status, eligibility.diagnostics)
+        }
     }
 
     private fun choiceEvaluation() = ChoiceEvaluation(catalog, { evaluate(it) }, { preparation.load(it) })
@@ -138,6 +180,15 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
             })
             is BuilderEdit.Identity -> next = document.copy(identity = edit.value)
             is BuilderEdit.Allocation -> next = document.copy(abilities = edit.value.copy(points = edit.value.points.toMap()))
+            is BuilderEdit.Advancement -> {
+                if (edit.level !in AdvancementRules.nonMainLevels || edit.level > document.level ||
+                    edit.value?.let { !AdvancementRules.validAdvancement(edit.level, it, document.abilities.mainAbility) } == true) {
+                    return reject("Choose one non-main ability to increase at level 4 or 12.")
+                }
+                next = document.copy(levels = levels(document, edit.level).map { level ->
+                    if (level.level == edit.level) level.copy(abilityAdvancements = listOfNotNull(edit.value)) else level
+                })
+            }
             is BuilderEdit.Level -> {
                 if (edit.value !in 1..30) {
                     return reject("Choose a level from 1 to 30.")
@@ -156,8 +207,8 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 }
                 val existing = document.levels.flatMap { it.entries }.firstOrNull { it.slot == edit.slot }
                 val offered = evaluate(document).rules.choices.singleOrNull { it.slot == edit.slot }
-                if (offered?.optional == true && offered.acquisitionLevel != edit.level) {
-                    return reject("Grant substitutions belong to the granting source's acquisition level; later replacement allowances are not implemented.")
+                if (offered?.acquisitionLevel != null && offered.acquisitionLevel != edit.level) {
+                    return reject("Entry decisions belong to their source acquisition level; use replacement history for later power changes.")
                 }
                 val instance = if (offered?.optional == true) ModernCreation.grantInstance(edit.slot.sourceInstanceId, edit.slot.choiceId)
                     else existing?.instanceId ?: edit.instanceId
@@ -176,7 +227,7 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 if (edit.level !in 1..document.level) {
                     return reject("Replacement level must be active.")
                 }
-                val state = evaluate(document)
+                val state = evaluate(atLevel(document, edit.level))
                 val current = state.rules.entries.singleOrNull { it.slot == edit.slot && !it.granted }
                     ?: return reject("Replace an active selected power occurrence.")
                 if (current.definition.entry.category != EntryCategory.POWER) {
@@ -190,11 +241,15 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 val change = Replacement(edit.slot, EntryChoice(current.instanceId, edit.slot, saved(definition)), edit.kind)
                 next = document.copy(levels = levels(document, edit.level).map { level ->
                     if (level.level != edit.level) level else level.copy(replacements =
-                        level.replacements.filterNot { it.replaces == edit.slot } + change)
+                        level.replacements.filterNot { it.replaces == edit.slot ||
+                            edit.kind == ReplacementKind.PROGRESSION && it.kind == ReplacementKind.PROGRESSION } + change)
                 })
-                val evaluated = evaluate(next)
+                val evaluated = evaluate(atLevel(next, edit.level))
                 if (evaluated.rules.choices.singleOrNull { it.slot == edit.slot }?.entries?.none { it.entryId == edit.entryId } != false) {
                     return reject("Replacement must belong to the source pool at its replacement level.")
+                }
+                if (evaluated.rules.diagnostics.any { it.slot == edit.slot && it.code == "engine.replacementTiming" && it.kind == DiagnosticKind.INVALID_SELECTION }) {
+                    return reject("Progression replaces one earlier class daily attack at levels 9, 15 and 19.")
                 }
                 val invalid = evaluated.rules.selectionSets.filter { it.sourceInstanceId == edit.slot.sourceInstanceId && it.choiceId == edit.slot.choiceId }
                     .flatMap { it.diagnostics }.any { it.code != "engine.selectionRemaining" && it.kind == DiagnosticKind.INVALID_SELECTION }
@@ -202,6 +257,11 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 if (!edit.acceptIneligible && (invalid || eligibility != Eligibility.ELIGIBLE)) {
                     return reject("Replacement violates eligibility or selection-set requirements; explicitly accept to preserve it with diagnostics.")
                 }
+            }
+            is BuilderEdit.RemoveReplacement -> {
+                next = document.copy(levels = document.levels.map { level ->
+                    if (level.level == edit.level) level.copy(replacements = level.replacements.filterNot { it.replaces == edit.slot }) else level
+                })
             }
             is BuilderEdit.RemoveEntry -> next = document.copy(levels = document.levels.map { level ->
                 level.copy(entries = level.entries.filterNot { it.slot == edit.slot }) })
@@ -220,12 +280,16 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 }
             }
             is BuilderEdit.Proficiency -> {
-                if (edit.level !in 1..document.level || edit.level > 2) {
-                    return reject("Proficiency level must be an active proof level.")
+                if (edit.level !in 1..document.level) {
+                    return reject("Proficiency level must be active.")
                 }
                 val slot = edit.value.slot
-                if (evaluate(document).rules.choices.none { it.slot == slot && it.skills.isNotEmpty() }) {
+                val offered = evaluate(document).rules.choices.singleOrNull { it.slot == slot && it.skills.isNotEmpty() }
+                if (offered == null) {
                     return reject("Proficiency slot is not active; choose a background with Background first.")
+                }
+                if ((offered.acquisitionLevel ?: 1) != edit.level) {
+                    return reject("Proficiency decisions belong to their source acquisition level.")
                 }
                 next = document.copy(levels = levels(document, edit.level).map { level -> level.copy(proficiencies =
                     level.proficiencies.filterNot { it.slot == slot } + if (level.level == edit.level) listOf(edit.value) else emptyList()) })
@@ -260,6 +324,10 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
         }
         return ContractResult.Available(next)
     }
+
+    /** Validate a historical edit before later replacement records can mask its selected occurrence. */
+    private fun atLevel(document: CharacterDocument, level: Int) = document.copy(
+        level = level, levels = document.levels.filter { it.level <= level })
 
     private fun saved(entry: ResolvedEntry) = SavedSelection(entry.entry.id, entry.entry.presentation.title,
         entry.supplier.packageId, entry.fingerprint)

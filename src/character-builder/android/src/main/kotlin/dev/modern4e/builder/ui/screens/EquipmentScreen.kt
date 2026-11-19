@@ -11,6 +11,8 @@ import dev.modern4e.builder.*
 import dev.modern4e.builder.ui.components.*
 import dev.modern4e.builder.ui.theme.*
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.intOrNull
 
 /** Shows the four optional equipped selections and opens a picker for each slot. */
 @Composable
@@ -34,7 +36,6 @@ internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
             val selected = slotOptions?.selected
             val entry = slotOptions?.selectedEntry?.entry
             val ineligible = entry != null && !entry.meetsEquipmentProficiencyRequirement(state.rules.equipmentProficiencies.keys)
-            var expanded by remember(slot, selected) { mutableStateOf(false) }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Field(
                     slot.title,
@@ -45,20 +46,9 @@ internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
                     valueIsHint = selected == null,
                     invalid = ineligible,
                 ) { editing = slot }
-                if (selected != null) {
-                    TextButton(
-                        onClick = { expanded = !expanded },
-                        contentPadding = PaddingValues(horizontal = 6.dp),
-                    ) {
-                        Text(if (expanded) "Hide stats" else "Stats", fontSize = 12.sp)
-                    }
-                }
             }
             if (ineligible) {
                 Text("Requires proficiency", fontSize = 12.sp, color = MaterialTheme.colorScheme.error)
-            }
-            if (expanded) {
-                PlainChoiceDescription(entry?.presentation?.description ?: "Equipment details unavailable.")
             }
         }
     }
@@ -81,7 +71,7 @@ internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
 
 internal data class EquipmentPickerRow(val option: ResolvedEntry, val eligible: Boolean)
 
-/** Groups all options by their authored category, with eligible and ineligible items in the same section. */
+/** Group authored categories, ordering armor by AC contribution and other equipment by name. */
 internal fun equipmentPickerSections(slot: EquipmentSlot, options: EquipmentOptions): List<ListSection<EquipmentPickerRow>> {
     val headings = when (slot) {
         EquipmentSlot.WEAPON_ONE, EquipmentSlot.WEAPON_TWO -> listOf(
@@ -103,10 +93,22 @@ internal fun equipmentPickerSections(slot: EquipmentSlot, options: EquipmentOpti
         }
         if (key != null && key in sectionKeys) key else "OTHER"
     }
+    val order = if (slot == EquipmentSlot.ARMOR) {
+        compareBy<EquipmentPickerRow> { it.armorBonus() == null }
+            .thenBy { it.armorBonus() ?: 0 }
+            .thenBy { it.option.entry.presentation.title.lowercase() }
+            .thenBy { it.option.entry.id }
+    } else {
+        compareBy { row: EquipmentPickerRow -> row.option.entry.presentation.title.lowercase() }
+    }
     return headings.mapNotNull { (key, title) ->
-        sections[key]?.let { ListSection(key, title, it.sortedBy { row -> row.option.entry.presentation.title.lowercase() }) }
+        sections[key]?.let { ListSection(key, title, it.sortedWith(order)) }
     }
 }
+
+/** Missing armor data stays at the end of its authored category. */
+private fun EquipmentPickerRow.armorBonus(): Int? =
+    (option.entry.equipmentProfile?.get("armorBonus") as? JsonPrimitive)?.intOrNull
 
 /** Uses the sectioned collapsible picker to inspect and stage equipment changes. */
 @Composable
@@ -148,9 +150,6 @@ private fun EquipmentPicker(
                     }
                 },
             ) {
-                if (!row.eligible) {
-                    Text("Requires proficiency", fontSize = 12.sp, color = Dim)
-                }
                 PlainChoiceDescription(entry.presentation.description)
             }
         }

@@ -28,7 +28,7 @@ class ClassAttacksTest(unittest.TestCase):
             path = class_runtime.authoring.CONTENT / f"{name.lower()}-attack-powers.json"
             cls.powers[name] = json.loads(path.read_text(encoding="utf-8"))["powers"]
 
-    def test_complete_level_fifteen_boundary_and_independent_identities(self):
+    def test_complete_level_nineteen_boundary_and_independent_identities(self):
         everything = [p for powers in self.powers.values() for p in powers]
         self.assertEqual(len(everything), len({p["id"] for p in everything}))
         for name, powers in self.powers.items():
@@ -36,7 +36,7 @@ class ClassAttacksTest(unittest.TestCase):
                 rows = migration.importable_rows(name)
                 self.assertEqual(len(rows), len(powers))
                 self.assertEqual({row["ID"] for row in rows}, {p["source"]["entryId"] for p in powers})
-                self.assertTrue(all(1 <= p["level"] <= 15 for p in powers))
+                self.assertTrue(all(1 <= p["level"] <= 19 for p in powers))
                 self.assertEqual({"AT_WILL", "ENCOUNTER", "DAILY"},
                                  {p["activations"][0]["usage"]["frequency"] for p in powers})
                 for power in powers:
@@ -194,7 +194,7 @@ class ClassAttacksTest(unittest.TestCase):
     def test_package_is_chunked_and_indexed_consistently(self):
         assets = class_runtime.build()
         manifest = assets["modern4e.classes/manifest.json"]
-        self.assertEqual("4", manifest["revision"])
+        self.assertEqual("5", manifest["revision"])
         self.assertGreater(len(manifest["chunks"]), 1)
         self.assertNotIn("modern4e.classes/entries.json", assets)
         chunked = {c: {e["id"] for e in assets[f"modern4e.classes/{c}.json"]["entries"]} for c in manifest["chunks"]}

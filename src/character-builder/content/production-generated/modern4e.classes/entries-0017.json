@@ -9,10 +9,10 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.power.paladin-power7384",
+      "id": "modern4e.power.fighter-power9369",
       "mechanics": {
         "access": {
-          "entryId": "modern4e.class.paladin",
+          "entryId": "modern4e.class.fighter",
           "type": "entry"
         },
         "choices": [],
@@ -21,16 +21,16 @@
         "maximumSelections": 1,
         "powerProfile": {
           "keywords": [
-            "DIVINE",
+            "MARTIAL",
             "WEAPON"
           ],
-          "level": 1,
+          "level": 19,
           "powerKind": "ATTACK",
-          "usage": "AT_WILL"
+          "usage": "DAILY"
         },
         "prerequisites": [
           {
-            "minimum": 1,
+            "minimum": 19,
             "type": "level"
           }
         ],
@@ -39,12 +39,12 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "The divine might of your attack extends your shield's magical protection to your ally.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nRequirement: You must be using a shield.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage, and an ally adjacent to you gains resist 2 to all damage until the end of your next turn.\n\nLevel 11: Resist 5 to all damage.\n\nLevel 21: Resist 10 to all damage.",
-        "title": "Forbidding Strike"
+        "description": "A swift attack tests your enemy's defenses and tells you whether you should drop into a defensive posture or strike again.\n\nDAILY / STANDARD\n\nMelee weapon\n\nRequirement: You must be wielding two melee weapons.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 3[W] + Strength damage on the first hit. If both attacks hit, you can add 2[W] to the damage dealt or have the target take a –4 penalty to attack rolls (save ends).\n\nAttack: Make the attack twice, once with your main weapon and once with your off-hand weapon.",
+        "title": "Adaptable Maneuver"
       },
       "sharedData": {
         "access": {
-          "entryId": "modern4e.class.paladin",
+          "entryId": "modern4e.class.fighter",
           "type": "entry"
         },
         "activations": [
@@ -73,17 +73,7 @@
                         {
                           "id": "row-4",
                           "label": "Hit",
-                          "scaling": [
-                            {
-                              "atLevel": 11,
-                              "text": "Resist 5 to all damage."
-                            },
-                            {
-                              "atLevel": 21,
-                              "text": "Resist 10 to all damage."
-                            }
-                          ],
-                          "text": "1[W] + Strength damage, and an ally adjacent to you gains resist 2 to all damage until the end of your next turn.",
+                          "text": "3[W] + Strength damage on the first hit. If both attacks hit, you can add 2[W] to the damage dealt or have the target take a –4 penalty to attack rolls (save ends).",
                           "type": "effect"
                         }
                       ]
@@ -97,7 +87,7 @@
                   "type": "RULES_TEXT"
                 },
                 "roll": {
-                  "count": 1,
+                  "count": 2,
                   "sharing": "PER_TARGET",
                   "statistic": {
                     "ability": "STRENGTH",
@@ -107,166 +97,11 @@
                 "targets": "targets-2",
                 "text": "Strength vs. AC",
                 "type": "attack"
-              }
-            ],
-            "id": "use",
-            "range": {
-              "text": "Melee weapon",
-              "type": "RULES_TEXT"
-            },
-            "requirement": "You must be using a shield.",
-            "targets": "targets-2",
-            "usage": {
-              "costs": [],
-              "frequency": "AT_WILL",
-              "limits": [],
-              "rules": []
-            }
-          }
-        ],
-        "category": "POWER",
-        "choices": [],
-        "coverage": {
-          "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
-          ],
-          "status": "UNIMPLEMENTED"
-        },
-        "description": "The divine might of your attack extends your shield's magical protection to your ally.",
-        "flavor": "The divine might of your attack extends your shield's magical protection to your ally.",
-        "id": "modern4e.power.paladin-power7384",
-        "keywords": [
-          "DIVINE",
-          "WEAPON"
-        ],
-        "level": 1,
-        "powerKind": "ATTACK",
-        "prerequisites": {
-          "minimum": 1,
-          "type": "level"
-        },
-        "rulesProfile": "MODERN4E",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": {
-          "entryId": "power7384",
-          "publication": "Published in PH Heroes: Series 2.",
-          "rulesText": "Forbidding StrikePaladin Attack 1\nThe divine might of your attack extends your shield's magical protection to your ally.\nAt-Will   ✦     Divine, Weapon\nStandard Action      Melee weapon\nRequirement: You must be using a shield.\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and an ally adjacent to you gains resist 2 to all damage until the end of your next turn.\nLevel 11: Resist 5 to all damage.\nLevel 21: Resist 10 to all damage.\nPublished in PH Heroes: Series 2."
-        },
-        "subtitle": "Paladin Attack 1",
-        "title": "Forbidding Strike"
-      }
-    },
-    {
-      "category": "POWER",
-      "coverage": {
-        "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.power.paladin-power7407",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "choices": [],
-        "conditionalModifiers": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "powerProfile": {
-          "keywords": [
-            "DIVINE",
-            "WEAPON"
-          ],
-          "level": 1,
-          "powerKind": "ATTACK",
-          "usage": "AT_WILL"
-        },
-        "prerequisites": [
-          {
-            "minimum": 1,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2,
-        "weaponAbilities": {}
-      },
-      "presentation": {
-        "description": "Your powerful attack challenges your foe to face you.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage, and the target is marked until the end of your next turn or until you move into a square not adjacent to the target.\n\nLevel 21: 2[W] + Strength\n\nRule: If you are bloodied, this attack is Strength vs. the lower of the target's AC or Will.",
-        "title": "Challenging Strike"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "activations": [
-          {
-            "action": "STANDARD",
-            "availability": "ENTRY",
-            "bindings": {
-              "self": {
-                "kind": "ACTOR",
-                "text": "The power user."
               },
-              "targets-1": {
-                "kind": "TARGET_SET",
-                "text": "One creature"
-              }
-            },
-            "blocks": [
               {
-                "actor": "self",
-                "comparisons": [
-                  {
-                    "defense": "AC",
-                    "id": "defense",
-                    "outcomes": {
-                      "hit": [
-                        {
-                          "id": "row-4",
-                          "label": "Hit",
-                          "scaling": [
-                            {
-                              "atLevel": 21,
-                              "text": "2[W] + Strength"
-                            }
-                          ],
-                          "text": "1[W] + Strength damage, and the target is marked until the end of your next turn or until you move into a square not adjacent to the target.",
-                          "type": "effect"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "id": "row-2",
+                "id": "row-3-note",
                 "label": "Attack",
-                "range": {
-                  "text": "Melee weapon",
-                  "type": "RULES_TEXT"
-                },
-                "roll": {
-                  "count": 1,
-                  "sharing": "PER_TARGET",
-                  "statistic": {
-                    "ability": "STRENGTH",
-                    "type": "ABILITY"
-                  }
-                },
-                "targets": "targets-1",
-                "text": "Strength vs. AC",
-                "type": "attack"
-              },
-              {
-                "id": "row-3",
-                "label": "Rule",
-                "text": "If you are bloodied, this attack is Strength vs. the lower of the target's AC or Will.",
+                "text": "Make the attack twice, once with your main weapon and once with your off-hand weapon.",
                 "type": "effect"
               }
             ],
@@ -275,163 +110,7 @@
               "text": "Melee weapon",
               "type": "RULES_TEXT"
             },
-            "targets": "targets-1",
-            "usage": {
-              "costs": [],
-              "frequency": "AT_WILL",
-              "limits": [],
-              "rules": []
-            }
-          }
-        ],
-        "category": "POWER",
-        "choices": [],
-        "coverage": {
-          "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
-          ],
-          "status": "UNIMPLEMENTED"
-        },
-        "description": "Your powerful attack challenges your foe to face you.",
-        "flavor": "Your powerful attack challenges your foe to face you.",
-        "id": "modern4e.power.paladin-power7407",
-        "keywords": [
-          "DIVINE",
-          "WEAPON"
-        ],
-        "level": 1,
-        "powerKind": "ATTACK",
-        "prerequisites": {
-          "minimum": 1,
-          "type": "level"
-        },
-        "rulesProfile": "MODERN4E",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": {
-          "entryId": "power7407",
-          "publication": "Published in PH Heroes: Series 1.",
-          "rulesText": "Challenging StrikePaladin Attack 1\nYour powerful attack challenges your foe to face you.\nAt-Will   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nIf you are bloodied, this attack is Strength vs. the lower of the target's AC or Will.\nHit: 1[W] + Strength modifier damage, and the target is marked until the end of your next turn or until you move into a square not adjacent to the target.\nIncrease damage to 2[W] + Strength modifier at 21st level.\nPublished in PH Heroes: Series 1."
-        },
-        "subtitle": "Paladin Attack 1",
-        "title": "Challenging Strike"
-      }
-    },
-    {
-      "category": "POWER",
-      "coverage": {
-        "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.power.paladin-power7501",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "choices": [],
-        "conditionalModifiers": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "powerProfile": {
-          "keywords": [
-            "DIVINE",
-            "WEAPON"
-          ],
-          "level": 15,
-          "powerKind": "ATTACK",
-          "usage": "DAILY"
-        },
-        "prerequisites": [
-          {
-            "minimum": 15,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2,
-        "weaponAbilities": {}
-      },
-      "presentation": {
-        "description": "Nothing can stand between your divine wrath and your foe.\n\nDAILY / STANDARD\n\nMelee weapon\n\nRequirement: You must charge an enemy and use this power in place of a melee basic attack. You can charge a target marked by you even if other creatures occupy spaces that would block your charge movement. You slide such creatures 1 square before you charge. If you cannot force creatures out of the path of your charge, you cannot use this power on the marked target. Creatures that take opportunity attacks against you for your charge movement take 1[W] damage and slide 1 square.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 3[W] + Strength damage.\n\nMiss: Half damage.",
-        "title": "Wayfinder's Charge"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "activations": [
-          {
-            "action": "STANDARD",
-            "availability": "ENTRY",
-            "bindings": {
-              "self": {
-                "kind": "ACTOR",
-                "text": "The power user."
-              },
-              "targets-2": {
-                "kind": "TARGET_SET",
-                "text": "One creature"
-              }
-            },
-            "blocks": [
-              {
-                "actor": "self",
-                "comparisons": [
-                  {
-                    "defense": "AC",
-                    "id": "defense",
-                    "outcomes": {
-                      "hit": [
-                        {
-                          "id": "row-4",
-                          "label": "Hit",
-                          "text": "3[W] + Strength damage.",
-                          "type": "effect"
-                        }
-                      ],
-                      "miss": [
-                        {
-                          "id": "row-5",
-                          "label": "Miss",
-                          "text": "Half damage.",
-                          "type": "effect"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "id": "row-3",
-                "label": "Attack",
-                "range": {
-                  "text": "Melee weapon",
-                  "type": "RULES_TEXT"
-                },
-                "roll": {
-                  "count": 1,
-                  "sharing": "PER_TARGET",
-                  "statistic": {
-                    "ability": "STRENGTH",
-                    "type": "ABILITY"
-                  }
-                },
-                "targets": "targets-2",
-                "text": "Strength vs. AC",
-                "type": "attack"
-              }
-            ],
-            "id": "use",
-            "range": {
-              "text": "Melee weapon",
-              "type": "RULES_TEXT"
-            },
-            "requirement": "You must charge an enemy and use this power in place of a melee basic attack. You can charge a target marked by you even if other creatures occupy spaces that would block your charge movement. You slide such creatures 1 square before you charge. If you cannot force creatures out of the path of your charge, you cannot use this power on the marked target. Creatures that take opportunity attacks against you for your charge movement take 1[W] damage and slide 1 square.",
+            "requirement": "You must be wielding two melee weapons.",
             "targets": "targets-2",
             "usage": {
               "costs": [],
@@ -449,17 +128,17 @@
           ],
           "status": "UNIMPLEMENTED"
         },
-        "description": "Nothing can stand between your divine wrath and your foe.",
-        "flavor": "Nothing can stand between your divine wrath and your foe.",
-        "id": "modern4e.power.paladin-power7501",
+        "description": "A swift attack tests your enemy's defenses and tells you whether you should drop into a defensive posture or strike again.",
+        "flavor": "A swift attack tests your enemy's defenses and tells you whether you should drop into a defensive posture or strike again.",
+        "id": "modern4e.power.fighter-power9369",
         "keywords": [
-          "DIVINE",
+          "MARTIAL",
           "WEAPON"
         ],
-        "level": 15,
+        "level": 19,
         "powerKind": "ATTACK",
         "prerequisites": {
-          "minimum": 15,
+          "minimum": 19,
           "type": "level"
         },
         "rulesProfile": "MODERN4E",
@@ -468,12 +147,12 @@
           "maximum": 1
         },
         "source": {
-          "entryId": "power7501",
-          "publication": "Published in Dragon Magazine 375, page(s) 13.",
-          "rulesText": "Wayfinder's ChargePaladin Attack 15\nNothing can stand between your divine wrath and your foe.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nRequirement: You must charge an enemy and use this power in place of a melee basic attack. You can charge a target marked by you even if other creatures occupy spaces that would block your charge movement. You slide such creatures 1 square before you charge. If you cannot force creatures out of the path of your charge, you cannot use this power on the marked target. Creatures that take opportunity attacks against you for your charge movement take 1[W] damage and slide 1 square.\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage.\nMiss: Half damage.\nPublished in Dragon Magazine 375, page(s) 13."
+          "entryId": "power9369",
+          "publication": "Published in Dragon Magazine 378.",
+          "rulesText": "Adaptable ManeuverFighter Attack 19\nA swift attack tests your enemy's defenses and tells you whether you should drop into a defensive posture or strike again.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding two melee weapons.\nTarget: One creature\nAttack: Strength vs. AC. Make the attack twice, once with your main weapon and once with your off-hand weapon.\nHit: 3[W] + Strength modifier damage on the first hit. If both attacks hit, you can add 2[W] to the damage dealt or have the target take a –4 penalty to attack rolls (save ends).\nPublished in Dragon Magazine 378."
         },
-        "subtitle": "Paladin Attack 15",
-        "title": "Wayfinder's Charge"
+        "subtitle": "Fighter Attack 19",
+        "title": "Adaptable Maneuver"
       }
     },
     {
@@ -485,10 +164,10 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.power.paladin-power754",
+      "id": "modern4e.power.fighter-power988",
       "mechanics": {
         "access": {
-          "entryId": "modern4e.class.paladin",
+          "entryId": "modern4e.class.fighter",
           "type": "entry"
         },
         "choices": [],
@@ -497,310 +176,7 @@
         "maximumSelections": 1,
         "powerProfile": {
           "keywords": [
-            "DIVINE",
-            "WEAPON"
-          ],
-          "level": 3,
-          "powerKind": "ATTACK",
-          "usage": "ENCOUNTER"
-        },
-        "prerequisites": [
-          {
-            "minimum": 3,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2,
-        "weaponAbilities": {}
-      },
-      "presentation": {
-        "description": "Your righteous blow fills you and your nearby allies with preternatural resolve.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Charisma vs. AC\n\nHit: 2[W] + Charisma damage, and you and each ally within 5 squares of you gain temporary hit points equal to 5 + your Wisdom.",
-        "title": "Righteous Smite"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "activations": [
-          {
-            "action": "STANDARD",
-            "availability": "ENTRY",
-            "bindings": {
-              "self": {
-                "kind": "ACTOR",
-                "text": "The power user."
-              },
-              "targets-1": {
-                "kind": "TARGET_SET",
-                "text": "One creature"
-              }
-            },
-            "blocks": [
-              {
-                "actor": "self",
-                "comparisons": [
-                  {
-                    "defense": "AC",
-                    "id": "defense",
-                    "outcomes": {
-                      "hit": [
-                        {
-                          "id": "row-3",
-                          "label": "Hit",
-                          "text": "2[W] + Charisma damage, and you and each ally within 5 squares of you gain temporary hit points equal to 5 + your Wisdom.",
-                          "type": "effect"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "id": "row-2",
-                "label": "Attack",
-                "range": {
-                  "text": "Melee weapon",
-                  "type": "RULES_TEXT"
-                },
-                "roll": {
-                  "count": 1,
-                  "sharing": "PER_TARGET",
-                  "statistic": {
-                    "ability": "CHARISMA",
-                    "type": "ABILITY"
-                  }
-                },
-                "targets": "targets-1",
-                "text": "Charisma vs. AC",
-                "type": "attack"
-              }
-            ],
-            "id": "use",
-            "range": {
-              "text": "Melee weapon",
-              "type": "RULES_TEXT"
-            },
-            "targets": "targets-1",
-            "usage": {
-              "costs": [],
-              "frequency": "ENCOUNTER",
-              "limits": [],
-              "rules": []
-            }
-          }
-        ],
-        "category": "POWER",
-        "choices": [],
-        "coverage": {
-          "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
-          ],
-          "status": "UNIMPLEMENTED"
-        },
-        "description": "Your righteous blow fills you and your nearby allies with preternatural resolve.",
-        "flavor": "Your righteous blow fills you and your nearby allies with preternatural resolve.",
-        "id": "modern4e.power.paladin-power754",
-        "keywords": [
-          "DIVINE",
-          "WEAPON"
-        ],
-        "level": 3,
-        "powerKind": "ATTACK",
-        "prerequisites": {
-          "minimum": 3,
-          "type": "level"
-        },
-        "rulesProfile": "MODERN4E",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": {
-          "entryId": "power754",
-          "publication": "Published in Player's Handbook, page(s) 93.",
-          "rulesText": "Righteous SmitePaladin Attack 3\nYour righteous blow fills you and your nearby allies with preternatural resolve.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 2[W] + Charisma modifier damage, and you and each ally within 5 squares of you gain temporary hit points equal to 5 + your Wisdom modifier.\nDeletion (7/28/2008)\nRemove Healing keyword\nPublished in Player's Handbook, page(s) 93."
-        },
-        "subtitle": "Paladin Attack 3",
-        "title": "Righteous Smite"
-      }
-    },
-    {
-      "category": "POWER",
-      "coverage": {
-        "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.power.paladin-power755",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "choices": [],
-        "conditionalModifiers": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "powerProfile": {
-          "keywords": [
-            "DIVINE",
-            "WEAPON"
-          ],
-          "level": 1,
-          "powerKind": "ATTACK",
-          "usage": "ENCOUNTER"
-        },
-        "prerequisites": [
-          {
-            "minimum": 1,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2,
-        "weaponAbilities": {}
-      },
-      "presentation": {
-        "description": "A translucent golden shield forms in front of a nearby ally as you attack with your weapon.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Charisma vs. AC\n\nHit: 2[W] + Charisma damage.\n\nEffect: Until the end of your next turn, one ally within 5 squares of you gains a power bonus to AC equal to your Wisdom.",
-        "title": "Shielding Smite"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "activations": [
-          {
-            "action": "STANDARD",
-            "availability": "ENTRY",
-            "bindings": {
-              "self": {
-                "kind": "ACTOR",
-                "text": "The power user."
-              },
-              "targets-1": {
-                "kind": "TARGET_SET",
-                "text": "One creature"
-              }
-            },
-            "blocks": [
-              {
-                "actor": "self",
-                "comparisons": [
-                  {
-                    "defense": "AC",
-                    "id": "defense",
-                    "outcomes": {
-                      "hit": [
-                        {
-                          "id": "row-3",
-                          "label": "Hit",
-                          "text": "2[W] + Charisma damage.",
-                          "type": "effect"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "id": "row-2",
-                "label": "Attack",
-                "range": {
-                  "text": "Melee weapon",
-                  "type": "RULES_TEXT"
-                },
-                "roll": {
-                  "count": 1,
-                  "sharing": "PER_TARGET",
-                  "statistic": {
-                    "ability": "CHARISMA",
-                    "type": "ABILITY"
-                  }
-                },
-                "targets": "targets-1",
-                "text": "Charisma vs. AC",
-                "type": "attack"
-              },
-              {
-                "id": "row-4",
-                "label": "Effect",
-                "text": "Until the end of your next turn, one ally within 5 squares of you gains a power bonus to AC equal to your Wisdom.",
-                "type": "effect"
-              }
-            ],
-            "id": "use",
-            "range": {
-              "text": "Melee weapon",
-              "type": "RULES_TEXT"
-            },
-            "targets": "targets-1",
-            "usage": {
-              "costs": [],
-              "frequency": "ENCOUNTER",
-              "limits": [],
-              "rules": []
-            }
-          }
-        ],
-        "category": "POWER",
-        "choices": [],
-        "coverage": {
-          "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
-          ],
-          "status": "UNIMPLEMENTED"
-        },
-        "description": "A translucent golden shield forms in front of a nearby ally as you attack with your weapon.",
-        "flavor": "A translucent golden shield forms in front of a nearby ally as you attack with your weapon.",
-        "id": "modern4e.power.paladin-power755",
-        "keywords": [
-          "DIVINE",
-          "WEAPON"
-        ],
-        "level": 1,
-        "powerKind": "ATTACK",
-        "prerequisites": {
-          "minimum": 1,
-          "type": "level"
-        },
-        "rulesProfile": "MODERN4E",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": {
-          "entryId": "power755",
-          "publication": "Published in Player's Handbook, page(s) 92.",
-          "rulesText": "Shielding SmitePaladin Attack 1\nA translucent golden shield forms in front of a nearby ally as you attack with your weapon.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 2[W] + Charisma modifier damage.\nEffect: Until the end of your next turn, one ally within 5 squares of you gains a power bonus to AC equal to your Wisdom modifier.\nPublished in Player's Handbook, page(s) 92."
-        },
-        "subtitle": "Paladin Attack 1",
-        "title": "Shielding Smite"
-      }
-    },
-    {
-      "category": "POWER",
-      "coverage": {
-        "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.power.paladin-power778",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "choices": [],
-        "conditionalModifiers": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "powerProfile": {
-          "keywords": [
-            "DIVINE",
-            "THUNDER",
+            "MARTIAL",
             "WEAPON"
           ],
           "level": 7,
@@ -818,26 +194,26 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your weapon flashes as it strikes, and moments later, a peal of thunder slams into your foe.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength thunder damage, and the target is knocked prone.\n\nAttack: If the target is marked by you, the attack can score a critical hit on a roll of 19–20.",
-        "title": "Thunder Smite"
+        "description": "You tangle your enemy's feet with your weapon.\n\nENCOUNTER / FREE\n\nMelee weapon\n\nTrigger: You hit an enemy with a melee basic attack\n\nTarget: The triggering enemy\n\nAttack: Strength vs. Reflex\n\nHit: 1[W] + Strength damage, and the target is slowed until the end of your next turn.\n\nWeapon: If you're wielding a polearm or a spear, you can knock the target prone instead of slowing it.",
+        "title": "Trip Up"
       },
       "sharedData": {
         "access": {
-          "entryId": "modern4e.class.paladin",
+          "entryId": "modern4e.class.fighter",
           "type": "entry"
         },
         "activations": [
           {
-            "action": "STANDARD",
+            "action": "FREE",
             "availability": "ENTRY",
             "bindings": {
               "self": {
                 "kind": "ACTOR",
                 "text": "The power user."
               },
-              "targets-1": {
+              "targets-2": {
                 "kind": "TARGET_SET",
-                "text": "One creature"
+                "text": "The triggering enemy"
               }
             },
             "blocks": [
@@ -845,21 +221,21 @@
                 "actor": "self",
                 "comparisons": [
                   {
-                    "defense": "AC",
+                    "defense": "REFLEX",
                     "id": "defense",
                     "outcomes": {
                       "hit": [
                         {
-                          "id": "row-3",
+                          "id": "row-4",
                           "label": "Hit",
-                          "text": "2[W] + Strength thunder damage, and the target is knocked prone.",
+                          "text": "1[W] + Strength damage, and the target is slowed until the end of your next turn.",
                           "type": "effect"
                         }
                       ]
                     }
                   }
                 ],
-                "id": "row-2",
+                "id": "row-3",
                 "label": "Attack",
                 "range": {
                   "text": "Melee weapon",
@@ -873,14 +249,14 @@
                     "type": "ABILITY"
                   }
                 },
-                "targets": "targets-1",
-                "text": "Strength vs. AC",
+                "targets": "targets-2",
+                "text": "Strength vs. Reflex",
                 "type": "attack"
               },
               {
-                "id": "row-2-note",
-                "label": "Attack",
-                "text": "If the target is marked by you, the attack can score a critical hit on a roll of 19–20.",
+                "id": "row-5",
+                "label": "Weapon",
+                "text": "If you're wielding a polearm or a spear, you can knock the target prone instead of slowing it.",
                 "type": "effect"
               }
             ],
@@ -889,7 +265,8 @@
               "text": "Melee weapon",
               "type": "RULES_TEXT"
             },
-            "targets": "targets-1",
+            "targets": "targets-2",
+            "trigger": "You hit an enemy with a melee basic attack",
             "usage": {
               "costs": [],
               "frequency": "ENCOUNTER",
@@ -906,12 +283,11 @@
           ],
           "status": "UNIMPLEMENTED"
         },
-        "description": "Your weapon flashes as it strikes, and moments later, a peal of thunder slams into your foe.",
-        "flavor": "Your weapon flashes as it strikes, and moments later, a peal of thunder slams into your foe.",
-        "id": "modern4e.power.paladin-power778",
+        "description": "You tangle your enemy's feet with your weapon.",
+        "flavor": "You tangle your enemy's feet with your weapon.",
+        "id": "modern4e.power.fighter-power988",
         "keywords": [
-          "DIVINE",
-          "THUNDER",
+          "MARTIAL",
           "WEAPON"
         ],
         "level": 7,
@@ -926,12 +302,12 @@
           "maximum": 1
         },
         "source": {
-          "entryId": "power778",
-          "publication": "Published in Player's Handbook, page(s) 94.",
-          "rulesText": "Thunder SmitePaladin Attack 7\nYour weapon flashes as it strikes, and moments later, a peal of thunder slams into your foe.\nEncounter   ✦     Divine, Thunder, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC. If the target is marked by you, the attack can score a critical hit on a roll of 19–20.\nHit: 2[W] + Strength modifier thunder damage, and the target is knocked prone.\nRevision (7/28/2008)\nReplace the parenthetical on the Attack line with the following:\nIf the target is marked by you, the attack can score a critical hit on a roll of 19–20.\nPublished in Player's Handbook, page(s) 94."
+          "entryId": "power988",
+          "publication": "Published in Martial Power, page(s) 12.",
+          "rulesText": "Trip UpFighter Attack 7\nYou tangle your enemy's feet with your weapon.\nEncounter   ✦     Martial, Weapon\nFree Action      Melee weapon\nTrigger: You hit an enemy with a melee basic attack\nTarget: The triggering enemy\nAttack: Strength vs. Reflex\nHit: 1[W] + Strength modifier damage, and the target is slowed until the end of your next turn.\nWeapon: If you're wielding a polearm or a spear, you can knock the target prone instead of slowing it.\nPublished in Martial Power, page(s) 12."
         },
-        "subtitle": "Paladin Attack 7",
-        "title": "Thunder Smite"
+        "subtitle": "Fighter Attack 7",
+        "title": "Trip Up"
       }
     },
     {
@@ -943,10 +319,10 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.power.paladin-power8099",
+      "id": "modern4e.power.fighter-power992",
       "mechanics": {
         "access": {
-          "entryId": "modern4e.class.paladin",
+          "entryId": "modern4e.class.fighter",
           "type": "entry"
         },
         "choices": [],
@@ -955,155 +331,7 @@
         "maximumSelections": 1,
         "powerProfile": {
           "keywords": [
-            "DIVINE",
-            "WEAPON"
-          ],
-          "level": 1,
-          "powerKind": "ATTACK",
-          "usage": "ENCOUNTER"
-        },
-        "prerequisites": [
-          {
-            "minimum": 1,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2,
-        "weaponAbilities": {}
-      },
-      "presentation": {
-        "description": "You lay into your foe without regard to your own safety.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 3[W] + Strength damage, and you take a -5 penalty to all defenses until the end of your next turn.",
-        "title": "Heedless Fury"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "activations": [
-          {
-            "action": "STANDARD",
-            "availability": "ENTRY",
-            "bindings": {
-              "self": {
-                "kind": "ACTOR",
-                "text": "The power user."
-              },
-              "targets-1": {
-                "kind": "TARGET_SET",
-                "text": "One creature"
-              }
-            },
-            "blocks": [
-              {
-                "actor": "self",
-                "comparisons": [
-                  {
-                    "defense": "AC",
-                    "id": "defense",
-                    "outcomes": {
-                      "hit": [
-                        {
-                          "id": "row-3",
-                          "label": "Hit",
-                          "text": "3[W] + Strength damage, and you take a -5 penalty to all defenses until the end of your next turn.",
-                          "type": "effect"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "id": "row-2",
-                "label": "Attack",
-                "range": {
-                  "text": "Melee weapon",
-                  "type": "RULES_TEXT"
-                },
-                "roll": {
-                  "count": 1,
-                  "sharing": "PER_TARGET",
-                  "statistic": {
-                    "ability": "STRENGTH",
-                    "type": "ABILITY"
-                  }
-                },
-                "targets": "targets-1",
-                "text": "Strength vs. AC",
-                "type": "attack"
-              }
-            ],
-            "id": "use",
-            "range": {
-              "text": "Melee weapon",
-              "type": "RULES_TEXT"
-            },
-            "targets": "targets-1",
-            "usage": {
-              "costs": [],
-              "frequency": "ENCOUNTER",
-              "limits": [],
-              "rules": []
-            }
-          }
-        ],
-        "category": "POWER",
-        "choices": [],
-        "coverage": {
-          "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
-          ],
-          "status": "UNIMPLEMENTED"
-        },
-        "description": "You lay into your foe without regard to your own safety.",
-        "flavor": "You lay into your foe without regard to your own safety.",
-        "id": "modern4e.power.paladin-power8099",
-        "keywords": [
-          "DIVINE",
-          "WEAPON"
-        ],
-        "level": 1,
-        "powerKind": "ATTACK",
-        "prerequisites": {
-          "minimum": 1,
-          "type": "level"
-        },
-        "rulesProfile": "MODERN4E",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": {
-          "entryId": "power8099",
-          "publication": "Published in Divine Power, page(s) 84.",
-          "rulesText": "Heedless FuryPaladin Attack 1\nYou lay into your foe without regard to your own safety.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and you take a -5 penalty to all defenses until the end of your next turn.\nPublished in Divine Power, page(s) 84."
-        },
-        "subtitle": "Paladin Attack 1",
-        "title": "Heedless Fury"
-      }
-    },
-    {
-      "category": "POWER",
-      "coverage": {
-        "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.power.paladin-power833",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "choices": [],
-        "conditionalModifiers": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "powerProfile": {
-          "keywords": [
-            "DIVINE",
+            "MARTIAL",
             "WEAPON"
           ],
           "level": 1,
@@ -1121,12 +349,12 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You attack your foe without mercy or reprieve, and your accuracy is rewarded with a divine gift of vigor.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Charisma vs. AC\n\nHit: 1[W] + Charisma damage, and you gain temporary hit points equal to your Wisdom.\n\nLevel 21: 2[W] + Charisma",
-        "title": "Bolstering Strike"
+        "description": "You hit one enemy, then cleave into another.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage, and an enemy adjacent to you other than the target takes damage equal to your Strength.\n\nLevel 21: 2[W] + Strength damage.",
+        "title": "Cleave"
       },
       "sharedData": {
         "access": {
-          "entryId": "modern4e.class.paladin",
+          "entryId": "modern4e.class.fighter",
           "type": "entry"
         },
         "activations": [
@@ -1158,10 +386,10 @@
                           "scaling": [
                             {
                               "atLevel": 21,
-                              "text": "2[W] + Charisma"
+                              "text": "2[W] + Strength damage."
                             }
                           ],
-                          "text": "1[W] + Charisma damage, and you gain temporary hit points equal to your Wisdom.",
+                          "text": "1[W] + Strength damage, and an enemy adjacent to you other than the target takes damage equal to your Strength.",
                           "type": "effect"
                         }
                       ]
@@ -1178,12 +406,12 @@
                   "count": 1,
                   "sharing": "PER_TARGET",
                   "statistic": {
-                    "ability": "CHARISMA",
+                    "ability": "STRENGTH",
                     "type": "ABILITY"
                   }
                 },
                 "targets": "targets-1",
-                "text": "Charisma vs. AC",
+                "text": "Strength vs. AC",
                 "type": "attack"
               }
             ],
@@ -1209,11 +437,11 @@
           ],
           "status": "UNIMPLEMENTED"
         },
-        "description": "You attack your foe without mercy or reprieve, and your accuracy is rewarded with a divine gift of vigor.",
-        "flavor": "You attack your foe without mercy or reprieve, and your accuracy is rewarded with a divine gift of vigor.",
-        "id": "modern4e.power.paladin-power833",
+        "description": "You hit one enemy, then cleave into another.",
+        "flavor": "You hit one enemy, then cleave into another.",
+        "id": "modern4e.power.fighter-power992",
         "keywords": [
-          "DIVINE",
+          "MARTIAL",
           "WEAPON"
         ],
         "level": 1,
@@ -1228,12 +456,12 @@
           "maximum": 1
         },
         "source": {
-          "entryId": "power833",
-          "publication": "Published in Player's Handbook, page(s) 92.",
-          "rulesText": "Bolstering StrikePaladin Attack 1\nYou attack your foe without mercy or reprieve, and your accuracy is rewarded with a divine gift of vigor.\nAt-Will   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 1[W] + Charisma modifier damage, and you gain temporary hit points equal to your Wisdom modifier.\nIncrease damage to 2[W] + Charisma modifier at 21st level.\nPublished in Player's Handbook, page(s) 92."
+          "entryId": "power992",
+          "publication": "Published in Player's Handbook, page(s) 77, Class Compendium.",
+          "rulesText": "CleaveFighter Attack 1\nYou hit one enemy, then cleave into another.\nAt-Will   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTargets: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and an enemy adjacent to you other than the target takes damage equal to your Strength modifier.\nLevel 21: 2[W] + Strength modifier damage.\nPublished in Player's Handbook, page(s) 77, Class Compendium."
         },
-        "subtitle": "Paladin Attack 1",
-        "title": "Bolstering Strike"
+        "subtitle": "Fighter Attack 1",
+        "title": "Cleave"
       }
     },
     {
@@ -1245,10 +473,10 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.power.paladin-power835",
+      "id": "modern4e.power.fighter-power997",
       "mechanics": {
         "access": {
-          "entryId": "modern4e.class.paladin",
+          "entryId": "modern4e.class.fighter",
           "type": "entry"
         },
         "choices": [],
@@ -1257,7 +485,7 @@
         "maximumSelections": 1,
         "powerProfile": {
           "keywords": [
-            "DIVINE",
+            "MARTIAL",
             "WEAPON"
           ],
           "level": 1,
@@ -1275,12 +503,12 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You attack a foe, gaining strength from your conviction as the odds against you rise.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage.\n\nLevel 21: 2[W] + Strength damage.\n\nAttack: You gain a bonus to the attack roll equal to the number of enemies adjacent to you.",
-        "title": "Valiant Strike"
+        "description": "You punctuate your scything attacks with wicked jabs and small cutting blows that slip through your enemy's defenses.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage.\n\nLevel 21: 2[W] + Strength damage.\n\nMiss: Half Strength damage. If you're wielding a two-handed weapon, you deal damage equal to your Strength.",
+        "title": "Reaping Strike"
       },
       "sharedData": {
         "access": {
-          "entryId": "modern4e.class.paladin",
+          "entryId": "modern4e.class.fighter",
           "type": "entry"
         },
         "activations": [
@@ -1318,6 +546,14 @@
                           "text": "1[W] + Strength damage.",
                           "type": "effect"
                         }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-5",
+                          "label": "Miss",
+                          "text": "Half Strength damage. If you're wielding a two-handed weapon, you deal damage equal to your Strength.",
+                          "type": "effect"
+                        }
                       ]
                     }
                   }
@@ -1339,12 +575,6 @@
                 "targets": "targets-1",
                 "text": "Strength vs. AC",
                 "type": "attack"
-              },
-              {
-                "id": "row-2-note",
-                "label": "Attack",
-                "text": "You gain a bonus to the attack roll equal to the number of enemies adjacent to you.",
-                "type": "effect"
               }
             ],
             "id": "use",
@@ -1369,11 +599,11 @@
           ],
           "status": "UNIMPLEMENTED"
         },
-        "description": "You attack a foe, gaining strength from your conviction as the odds against you rise.",
-        "flavor": "You attack a foe, gaining strength from your conviction as the odds against you rise.",
-        "id": "modern4e.power.paladin-power835",
+        "description": "You punctuate your scything attacks with wicked jabs and small cutting blows that slip through your enemy's defenses.",
+        "flavor": "You punctuate your scything attacks with wicked jabs and small cutting blows that slip through your enemy's defenses.",
+        "id": "modern4e.power.fighter-power997",
         "keywords": [
-          "DIVINE",
+          "MARTIAL",
           "WEAPON"
         ],
         "level": 1,
@@ -1388,12 +618,12 @@
           "maximum": 1
         },
         "source": {
-          "entryId": "power835",
-          "publication": "Published in Player's Handbook, page(s) 92, Heroes of the Forgotten Kingdoms, page(s) 126.",
-          "rulesText": "Valiant StrikePaladin Attack 1\nYou attack a foe, gaining strength from your conviction as the odds against you rise.\nAt-Will   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC. You gain a bonus to the attack roll equal to the number of enemies adjacent to you.\nHit: 1[W] + Strength modifier damage.\nLevel 21: 2[W] + Strength modifier damage.\nUpdate (11/16/2010)\nUpdated to match Essentials data.\nPublished in Player's Handbook, page(s) 92, Heroes of the Forgotten Kingdoms, page(s) 126."
+          "entryId": "power997",
+          "publication": "Published in Player's Handbook, page(s) 77, Class Compendium.",
+          "rulesText": "Reaping StrikeFighter Attack 1\nYou punctuate your scything attacks with wicked jabs and small cutting blows that slip through your enemy's defenses.\nAt-Will   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage.\nLevel 21: 2[W] + Strength modifier damage.\nMiss: Half Strength modifier damage. If you're wielding a two-handed weapon, you deal damage equal to your Strength modifier.\nPublished in Player's Handbook, page(s) 77, Class Compendium."
         },
-        "subtitle": "Paladin Attack 1",
-        "title": "Valiant Strike"
+        "subtitle": "Fighter Attack 1",
+        "title": "Reaping Strike"
       }
     },
     {
@@ -1405,10 +635,10 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.power.paladin-power836",
+      "id": "modern4e.power.fighter-power9991",
       "mechanics": {
         "access": {
-          "entryId": "modern4e.class.paladin",
+          "entryId": "modern4e.class.fighter",
           "type": "entry"
         },
         "choices": [],
@@ -1417,7 +647,325 @@
         "maximumSelections": 1,
         "powerProfile": {
           "keywords": [
-            "DIVINE",
+            "MARTIAL",
+            "WEAPON"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As you charge into battle, your weapon opens a path to your chosen foe.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nRequirement: You must be wielding a two-handed weapon. You must charge and use this power in place of the melee basic attack.\n\nTarget: One creature\n\nEffect: Any enemy that attacks you with an opportunity attack triggered by your charge takes damage equal to your Constitution.\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength + Constitution damage.",
+        "title": "Punishing Charge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-3": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "Any enemy that attacks you with an opportunity attack triggered by your charge takes damage equal to your Constitution.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-5",
+                          "label": "Hit",
+                          "text": "1[W] + Strength + Constitution damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-4",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-3",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must be wielding a two-handed weapon. You must charge and use this power in place of the melee basic attack.",
+            "targets": "targets-3",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As you charge into battle, your weapon opens a path to your chosen foe.",
+        "flavor": "As you charge into battle, your weapon opens a path to your chosen foe.",
+        "id": "modern4e.power.fighter-power9991",
+        "keywords": [
+          "MARTIAL",
+          "WEAPON"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9991",
+          "publication": "Published in Dragon Magazine 379, page(s) 63.",
+          "rulesText": "Punishing ChargeFighter Attack 1\nAs you charge into battle, your weapon opens a path to your chosen foe.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a two-handed weapon. You must charge and use this power in place of the melee basic attack.\nEffect: Any enemy that attacks you with an opportunity attack triggered by your charge takes damage equal to your Constitution modifier.\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier + Constitution modifier damage.\nPublished in Dragon Magazine 379, page(s) 63."
+        },
+        "subtitle": "Fighter Attack 1",
+        "title": "Punishing Charge"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.fighter-power9992",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "MARTIAL",
+            "WEAPON"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your enemy falls back beneath your savage attack, but you pursue to finish the job.\n\nDAILY / STANDARD\n\nMelee weapon\n\nRequirement: You must be wielding a two-handed weapon.\n\nTarget: One creature\n\nEffect: Before the attack, you slide the target 1 square, and you shift into the square the target vacated.\n\nAttack: Strength –2 vs. AC\n\nHit: 3[W] + Strength + Constitution damage.\n\nMiss: Half damage.",
+        "title": "Savage Advance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-3",
+                "label": "Effect",
+                "text": "Before the attack, you slide the target 1 square, and you shift into the square the target vacated.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-5",
+                          "label": "Hit",
+                          "text": "3[W] + Strength + Constitution damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-6",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-4",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "text": "Strength –2 vs. AC",
+                    "type": "RULES_TEXT"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Strength –2 vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must be wielding a two-handed weapon.",
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your enemy falls back beneath your savage attack, but you pursue to finish the job.",
+        "flavor": "Your enemy falls back beneath your savage attack, but you pursue to finish the job.",
+        "id": "modern4e.power.fighter-power9992",
+        "keywords": [
+          "MARTIAL",
+          "WEAPON"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9992",
+          "publication": "Published in Dragon Magazine 379, page(s) 64.",
+          "rulesText": "Savage AdvanceFighter Attack 1\nYour enemy falls back beneath your savage attack, but you pursue to finish the job.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a two-handed weapon.\nTarget: One creature\nEffect: Before the attack, you slide the target 1 square, and you shift into the square the target vacated.\nAttack: Strength –2 vs. AC\nHit: 3[W] + Strength + Constitution modifier damage.\nMiss: Half damage.\nPublished in Dragon Magazine 379, page(s) 64."
+        },
+        "subtitle": "Fighter Attack 1",
+        "title": "Savage Advance"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.fighter-power9993",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "MARTIAL",
             "WEAPON"
           ],
           "level": 1,
@@ -1435,12 +983,12 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your brutal weapon attack leaves your foe weakened.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Charisma vs. AC\n\nHit: 1[W] + Charisma damage. If you marked the target, it takes a –2 penalty to attack rolls until the end of your next turn.\n\nLevel 21: 2[W] + Charisma",
-        "title": "Enfeebling Strike"
+        "description": "Your weapon might be cumbersome, but it packs quite a punch when it connects.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nRequirement: You must be wielding a two-handed weapon.\n\nTarget: One creature marked by you\n\nAttack: Strength -2 vs. AC\n\nHit: 1[W] + Strength + Constitution damage.\n\nLevel 21: 2[W] + Strength + twice your Constitution damage.\n\nSpecial: You can use the power in place of a melee basic attack.",
+        "title": "Wicked Strike"
       },
       "sharedData": {
         "access": {
-          "entryId": "modern4e.class.paladin",
+          "entryId": "modern4e.class.fighter",
           "type": "entry"
         },
         "activations": [
@@ -1452,9 +1000,9 @@
                 "kind": "ACTOR",
                 "text": "The power user."
               },
-              "targets-1": {
+              "targets-2": {
                 "kind": "TARGET_SET",
-                "text": "One creature"
+                "text": "One creature marked by you"
               }
             },
             "blocks": [
@@ -1467,22 +1015,22 @@
                     "outcomes": {
                       "hit": [
                         {
-                          "id": "row-3",
+                          "id": "row-4",
                           "label": "Hit",
                           "scaling": [
                             {
                               "atLevel": 21,
-                              "text": "2[W] + Charisma"
+                              "text": "2[W] + Strength + twice your Constitution damage."
                             }
                           ],
-                          "text": "1[W] + Charisma damage. If you marked the target, it takes a –2 penalty to attack rolls until the end of your next turn.",
+                          "text": "1[W] + Strength + Constitution damage.",
                           "type": "effect"
                         }
                       ]
                     }
                   }
                 ],
-                "id": "row-2",
+                "id": "row-3",
                 "label": "Attack",
                 "range": {
                   "text": "Melee weapon",
@@ -1492,13 +1040,19 @@
                   "count": 1,
                   "sharing": "PER_TARGET",
                   "statistic": {
-                    "ability": "CHARISMA",
-                    "type": "ABILITY"
+                    "text": "Strength -2 vs. AC",
+                    "type": "RULES_TEXT"
                   }
                 },
-                "targets": "targets-1",
-                "text": "Charisma vs. AC",
+                "targets": "targets-2",
+                "text": "Strength -2 vs. AC",
                 "type": "attack"
+              },
+              {
+                "id": "row-6",
+                "label": "Special",
+                "text": "You can use the power in place of a melee basic attack.",
+                "type": "effect"
               }
             ],
             "id": "use",
@@ -1506,7 +1060,8 @@
               "text": "Melee weapon",
               "type": "RULES_TEXT"
             },
-            "targets": "targets-1",
+            "requirement": "You must be wielding a two-handed weapon.",
+            "targets": "targets-2",
             "usage": {
               "costs": [],
               "frequency": "AT_WILL",
@@ -1523,11 +1078,11 @@
           ],
           "status": "UNIMPLEMENTED"
         },
-        "description": "Your brutal weapon attack leaves your foe weakened.",
-        "flavor": "Your brutal weapon attack leaves your foe weakened.",
-        "id": "modern4e.power.paladin-power836",
+        "description": "Your weapon might be cumbersome, but it packs quite a punch when it connects.",
+        "flavor": "Your weapon might be cumbersome, but it packs quite a punch when it connects.",
+        "id": "modern4e.power.fighter-power9993",
         "keywords": [
-          "DIVINE",
+          "MARTIAL",
           "WEAPON"
         ],
         "level": 1,
@@ -1542,12 +1097,634 @@
           "maximum": 1
         },
         "source": {
-          "entryId": "power836",
-          "publication": "Published in Player's Handbook, page(s) 92.",
-          "rulesText": "Enfeebling StrikePaladin Attack 1\nYour brutal weapon attack leaves your foe weakened.\nAt-Will   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 1[W] + Charisma modifier damage. If you marked the target, it takes a –2 penalty to attack rolls until the end of your next turn.\nIncrease damage to 2[W] + Charisma modifier at 21st level.\nPublished in Player's Handbook, page(s) 92."
+          "entryId": "power9993",
+          "publication": "Published in Dragon Magazine 379, page(s) 64.",
+          "rulesText": "Wicked StrikeFighter Attack 1\nYour weapon might be cumbersome, but it packs quite a punch when it connects.\nAt-Will   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a two-handed weapon.\nTarget: One creature marked by you\nAttack: Strength -2 vs. AC\nHit: 1[W] + Strength modifier + Constitution modifier damage.\nLevel 21: 2[W] + Strength modifier + twice your Constitution modifier damage.\nSpecial: You can use the power in place of a melee basic attack.\nRevision (11/5/2009)\nPage 64. Wicked Strike special was changed to say “You can use the power in place of a melee basic attack.”\nPublished in Dragon Magazine 379, page(s) 64."
         },
-        "subtitle": "Paladin Attack 1",
-        "title": "Enfeebling Strike"
+        "subtitle": "Fighter Attack 1",
+        "title": "Wicked Strike"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.fighter-power9995",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "MARTIAL",
+            "WEAPON"
+          ],
+          "level": 3,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 3,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your weapon impacts with a satisfying crunch, filling you with new confidence.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nRequirement: You must be wielding a two-handed weapon.\n\nTarget: One creature\n\nAttack: Strength -2 vs. AC\n\nHit: 1[W] + Strength + Constitution damage, and before the end of your next turn, you can use your second wind as a minor action.",
+        "title": "Restoring Strike"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "1[W] + Strength + Constitution damage, and before the end of your next turn, you can use your second wind as a minor action.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "text": "Strength -2 vs. AC",
+                    "type": "RULES_TEXT"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Strength -2 vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must be wielding a two-handed weapon.",
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your weapon impacts with a satisfying crunch, filling you with new confidence.",
+        "flavor": "Your weapon impacts with a satisfying crunch, filling you with new confidence.",
+        "id": "modern4e.power.fighter-power9995",
+        "keywords": [
+          "MARTIAL",
+          "WEAPON"
+        ],
+        "level": 3,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 3,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9995",
+          "publication": "Published in Dragon Magazine 379, page(s) 64.",
+          "rulesText": "Restoring StrikeFighter Attack 3\nYour weapon impacts with a satisfying crunch, filling you with new confidence.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a two-handed weapon.\nTarget: One creature\nAttack: Strength -2 vs. AC\nHit: 1[W] + Strength modifier + Constitution modifier damage, and before the end of your next turn, you can use your second wind as a minor action.\nPublished in Dragon Magazine 379, page(s) 64."
+        },
+        "subtitle": "Fighter Attack 3",
+        "title": "Restoring Strike"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.fighter-power9996",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "MARTIAL",
+            "WEAPON"
+          ],
+          "level": 5,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 5,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "After throwing your enemy back, you charge to deliver the killing blow.\n\nDAILY / STANDARD\n\nMelee weapon\n\nRequirement: You must be wielding a two-handed weapon.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage, and you push the target 3 squares.\n\nMiss: No damage, and you push the target 3 squares.\n\nEffect: After the attack, you can make a charge attack against the same target as a free action. If you hit with this attack, you deal extra damage equal to your Constitution and the target falls prone.",
+        "title": "Brutal Advance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "1[W] + Strength damage, and you push the target 3 squares.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-5",
+                          "label": "Miss",
+                          "text": "No damage, and you push the target 3 squares.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-6",
+                "label": "Effect",
+                "text": "After the attack, you can make a charge attack against the same target as a free action. If you hit with this attack, you deal extra damage equal to your Constitution and the target falls prone.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must be wielding a two-handed weapon.",
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "After throwing your enemy back, you charge to deliver the killing blow.",
+        "flavor": "After throwing your enemy back, you charge to deliver the killing blow.",
+        "id": "modern4e.power.fighter-power9996",
+        "keywords": [
+          "MARTIAL",
+          "WEAPON"
+        ],
+        "level": 5,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 5,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9996",
+          "publication": "Published in Dragon Magazine 379, page(s) 64.",
+          "rulesText": "Brutal AdvanceFighter Attack 5\nAfter throwing your enemy back, you charge to deliver the killing blow.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a two-handed weapon.\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and you push the target 3 squares.\nMiss: No damage, and you push the target 3 squares.\nEffect: After the attack, you can make a charge attack against the same target as a free action. If you hit with this attack, you deal extra damage equal to your Constitution modifier and the target falls prone.\nPublished in Dragon Magazine 379, page(s) 64."
+        },
+        "subtitle": "Fighter Attack 5",
+        "title": "Brutal Advance"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.fighter-power9998",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "MARTIAL",
+            "WEAPON"
+          ],
+          "level": 7,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 7,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your tremendous swing carries your weapon through one enemy and into anyone else in your reach.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nRequirement: You must be wielding a two-handed weapon.\n\nTarget: One creature\n\nAttack: Strength -2 vs. AC\n\nHit: 2[W] + Strength damage, and any enemy adjacent to you other than the target takes damage equal to your Constitution.",
+        "title": "Inertia Strike"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "2[W] + Strength damage, and any enemy adjacent to you other than the target takes damage equal to your Constitution.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "text": "Strength -2 vs. AC",
+                    "type": "RULES_TEXT"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Strength -2 vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must be wielding a two-handed weapon.",
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your tremendous swing carries your weapon through one enemy and into anyone else in your reach.",
+        "flavor": "Your tremendous swing carries your weapon through one enemy and into anyone else in your reach.",
+        "id": "modern4e.power.fighter-power9998",
+        "keywords": [
+          "MARTIAL",
+          "WEAPON"
+        ],
+        "level": 7,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 7,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9998",
+          "publication": "Published in Dragon Magazine 379, page(s) 64.",
+          "rulesText": "Inertia StrikeFighter Attack 7\nYour tremendous swing carries your weapon through one enemy and into anyone else in your reach.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a two-handed weapon.\nTarget: One creature\nAttack: Strength -2 vs. AC\nHit: 2[W] + Strength modifier damage, and any enemy adjacent to you other than the target takes damage equal to your Constitution modifier.\nPublished in Dragon Magazine 379, page(s) 64."
+        },
+        "subtitle": "Fighter Attack 7",
+        "title": "Inertia Strike"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.fighter-power9999",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "MARTIAL",
+            "WEAPON"
+          ],
+          "level": 9,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 9,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You slam your weapon into your foe and surge in one smooth motion to swing again at another foe.\n\nDAILY / STANDARD\n\nMelee weapon\n\nRequirement: You must be wielding a two-handed weapon.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength damage.\n\nSpecial: If you have combat advantage against the target, you deal extra damage equal to your Strength.\n\nEffect: You can make a charge attack against a different target.",
+        "title": "Murderous Assault"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "2[W] + Strength damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Special",
+                "text": "If you have combat advantage against the target, you deal extra damage equal to your Strength.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Effect",
+                "text": "You can make a charge attack against a different target.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must be wielding a two-handed weapon.",
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You slam your weapon into your foe and surge in one smooth motion to swing again at another foe.",
+        "flavor": "You slam your weapon into your foe and surge in one smooth motion to swing again at another foe.",
+        "id": "modern4e.power.fighter-power9999",
+        "keywords": [
+          "MARTIAL",
+          "WEAPON"
+        ],
+        "level": 9,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 9,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9999",
+          "publication": "Published in Dragon Magazine 379, page(s) 64.",
+          "rulesText": "Murderous AssaultFighter Attack 9\nYou slam your weapon into your foe and surge in one smooth motion to swing again at another foe.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a two-handed weapon.\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage.\nSpecial: If you have combat advantage against the target, you deal extra damage equal to your Strength modifier.\nEffect: You can make a charge attack against a different target.\nPublished in Dragon Magazine 379, page(s) 64."
+        },
+        "subtitle": "Fighter Attack 9",
+        "title": "Murderous Assault"
       }
     }
   ],

@@ -1,5 +1,22 @@
 package dev.modern4e.builder
 
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.intOrNull
+
+/** Prefer the authored power level over prerequisite prose, including grouped utility requirements. */
+internal fun ContentEntry.pickerPowerLevel(): Int? {
+    mechanics.powerProfile?.level?.let { return it }
+    (sharedData?.get("level") as? JsonPrimitive)?.intOrNull?.let { return it }
+    fun minimum(condition: Prerequisite): Int = when (condition) {
+        is Prerequisite.Level -> condition.minimum
+        is Prerequisite.AllOf -> condition.conditions.maxOfOrNull(::minimum) ?: 0
+        is Prerequisite.AnyOf -> condition.conditions.minOfOrNull(::minimum) ?: 0
+        else -> 0
+    }
+    mechanics.prerequisites.maxOfOrNull(::minimum)?.takeIf { it > 0 }?.let { return it }
+    return Regex("(?:Attack|Utility) (\\d+)").find(presentation.description)?.groupValues?.get(1)?.toIntOrNull()
+}
+
 /** Class choices that include features use the full rules reader, including mixed feature/power pools. */
 internal fun usesClassFeatureReader(
     rows: List<BuilderOptionRow>?, slot: ChoiceSlotId?, entries: List<EngineEntry>,
@@ -26,8 +43,8 @@ internal fun usesPowerReader(rows: List<BuilderOptionRow>?): Boolean =
     !rows.isNullOrEmpty() && rows.all { it.metadata.metadata.category == EntryCategory.POWER }
 
 /** Search the current slot's visible names and authored rules without widening its power pool. */
-internal fun visibleReaderPowers(options: PickerOptions.Ready, showIneligible: Boolean, query: String): List<BuilderOptionRow> {
-    val visible = options.eligible + if (showIneligible) options.ineligible else emptyList()
+internal fun visibleReaderPowers(options: PickerOptions.Ready, query: String): List<BuilderOptionRow> {
+    val visible = options.visible
     val search = query.trim()
     return visible.filter {
         search.isEmpty() || it.metadata.metadata.title.contains(search, ignoreCase = true) ||

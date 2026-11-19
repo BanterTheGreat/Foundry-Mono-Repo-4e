@@ -11292,6 +11292,2536 @@
       "subtitle": "Shaman Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power9775",
+      "title": "Boar's Toss",
+      "description": "Your spirit companion slams your enemy through the air, leaving it open for your allies' ranged attacks.",
+      "flavor": "Your spirit companion slams your enemy through the air, leaving it open for your allies' ranged attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9775",
+        "publication": "Published in Primal Power, page(s) 74.",
+        "rulesText": "Boar's TossShaman Attack 17\nYour spirit companion slams your enemy through the air, leaving it open for your allies' ranged attacks.\nEncounter   ✦     Implement, Primal, Spirit\nStandard Action      Melee spirit 1\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 1d10 + Wisdom modifier damage, and you slide the target 2 squares. Then move your spirit companion to a square adjacent to it, and each ally within 10 squares of the target can make a ranged basic attack against it as a free action.\nWatcher Spirit: The allies gain a power bonus to the damage rolls of the ranged basic attacks equal to your Dexterity modifier.\nPublished in Primal Power, page(s) 74."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee spirit 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee spirit 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d10 + Wisdom damage, and you slide the target 2 squares. Then move your spirit companion to a square adjacent to it, and each ally within 10 squares of the target can make a ranged basic attack against it as a free action."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Watcher Spirit",
+              "text": "The allies gain a power bonus to the damage rolls of the ranged basic attacks equal to your Dexterity."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power5410",
+      "title": "Call to the Lashing Behemoth",
+      "description": "Your spirit companion channels the spirit of a behemoth with a lashing tail and knocks your foe to the ground. The behemoth spirit then empowers your nearby allies.",
+      "flavor": "Your spirit companion channels the spirit of a behemoth with a lashing tail and knocks your foe to the ground. The behemoth spirit then empowers your nearby allies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5410",
+        "publication": "Published in Player's Handbook 2, page(s) 128.",
+        "rulesText": "Call to the Lashing BehemothShaman Attack 17\nYour spirit companion channels the spirit of a behemoth with a lashing tail and knocks your foe to the ground. The behemoth spirit then empowers your nearby allies.\nEncounter   ✦     Implement, Primal, Spirit\nStandard Action      Melee spirit 1\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 2d10 + Wisdom modifier damage, and the target falls prone. Until the end of your next turn, while adjacent to your spirit companion, any ally can knock a target prone that he or she hits. If the target is already prone, it takes 1d8 extra damage.\nPublished in Player's Handbook 2, page(s) 128."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee spirit 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee spirit 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom damage, and the target falls prone. Until the end of your next turn, while adjacent to your spirit companion, any ally can knock a target prone that he or she hits. If the target is already prone, it takes 1d8 extra damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power12880",
+      "title": "Cloudburst",
+      "description": "Your spirit companion dissolves into roiling black clouds that loose lightning and slashing rain.",
+      "flavor": "Your spirit companion dissolves into roiling black clouds that loose lightning and slashing rain.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12880",
+        "publication": "Published in Dark Sun Campaign Setting, page(s) 93.",
+        "rulesText": "CloudburstShaman Attack 17\nYour spirit companion dissolves into roiling black clouds that loose lightning and slashing rain.\nEncounter   ✦     Implement, Lightning, Primal\nStandard Action      Close burst spirit 1\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Reflex\nHit: 2d6 + Wisdom modifier lightning damage, and the target is immobilized until the end of your next turn.\nElemental Spirit: You and each ally in the burst can choose to deal lightning damage until the end of your next turn. This lightning damage replaces an attack's normal damage types.\nEffect: Your spirit companion disappears.\nPublished in Dark Sun Campaign Setting, page(s) 93."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "LIGHTNING",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst spirit 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst spirit 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Wisdom lightning damage, and the target is immobilized until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Elemental Spirit",
+              "text": "You and each ally in the burst can choose to deal lightning damage until the end of your next turn. This lightning damage replaces an attack's normal damage types."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Your spirit companion disappears."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power9776",
+      "title": "Flesh Ripper's Claws",
+      "description": "Your spirit companion slashes your foe, leaving it unbalanced and vulnerable to your ally's attack.",
+      "flavor": "Your spirit companion slashes your foe, leaving it unbalanced and vulnerable to your ally's attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9776",
+        "publication": "Published in Primal Power, page(s) 74.",
+        "rulesText": "Flesh Ripper's ClawsShaman Attack 17\nYour spirit companion slashes your foe, leaving it unbalanced and vulnerable to your ally's attack.\nEncounter   ✦     Implement, Primal, Spirit\nStandard Action      Melee spirit 1\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 2d10 + Wisdom modifier damage, and an ally adjacent to the target can make a melee basic attack against it as a free action. If that attack hits, the target is knocked prone.\nProtector Spirit: If the target stands up on its next turn, an ally adjacent to it can make a melee basic attack against it as a free action.\nPublished in Primal Power, page(s) 74."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee spirit 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee spirit 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom damage, and an ally adjacent to the target can make a melee basic attack against it as a free action. If that attack hits, the target is knocked prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Protector Spirit",
+              "text": "If the target stands up on its next turn, an ally adjacent to it can make a melee basic attack against it as a free action."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power5437",
+      "title": "Hunt and Return",
+      "description": "Your spirit companion ranges ahead for a moment, attacking an enemy before retreating toward your allies.",
+      "flavor": "Your spirit companion ranges ahead for a moment, attacking an enemy before retreating toward your allies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5437",
+        "publication": "Published in Primal Power, page(s) 74.",
+        "rulesText": "Hunt and ReturnShaman Attack 17\nYour spirit companion ranges ahead for a moment, attacking an enemy before retreating toward your allies.\nEncounter   ✦     Implement, Primal, Spirit\nStandard Action      Melee spirit 1\nTarget: One creature\nAttack: Wisdom vs. Reflex\nStalker Spirit: You gain a +2 bonus to the attack roll if no creatures are within 3 squares of the target.\nHit: 3d8 + Wisdom modifier damage, or 4d8 + Wisdom modifier damage if no creatures are adjacent to the target.\nEffect: After the attack, you can move your spirit companion 4 squares.\nPublished in Primal Power, page(s) 74."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee spirit 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee spirit 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Wisdom damage, or 4d8 + Wisdom damage if no creatures are adjacent to the target."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Stalker Spirit",
+              "text": "You gain a +2 bonus to the attack roll if no creatures are within 3 squares of the target."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "After the attack, you can move your spirit companion 4 squares."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power3808",
+      "title": "Shackles of the Mountain",
+      "description": "Two spirits—humanoid forms of granite—appear and batter your foes. They then channel power through your spirit companion to weaken the defenses of nearby enemies.",
+      "flavor": "Two spirits—humanoid forms of granite—appear and batter your foes. They then channel power through your spirit companion to weaken the defenses of nearby enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3808",
+        "publication": "Published in Player's Handbook 2, page(s) 128.",
+        "rulesText": "Shackles of the MountainShaman Attack 17\nTwo spirits—humanoid forms of granite—appear and batter your foes. They then channel power through your spirit companion to weaken the defenses of nearby enemies.\nEncounter   ✦     Implement, Primal\nStandard Action      Ranged 10\nTarget: One or two creatures\nAttack: Wisdom vs. Reflex\nHit: 2d10 + Wisdom modifier damage. Until the end of your next turn, any enemy uses the lower of its AC and Reflex as its AC while adjacent to your spirit companion.\nStalker Spirit: The enemy instead uses the lowest of its AC, Fortitude, and Reflex as its AC.\nPublished in Player's Handbook 2, page(s) 128."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom damage. Until the end of your next turn, any enemy uses the lower of its AC and Reflex as its AC while adjacent to your spirit companion."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Stalker Spirit",
+              "text": "The enemy instead uses the lowest of its AC, Fortitude, and Reflex as its AC."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power5411",
+      "title": "Spirit Bond of Vengeance",
+      "description": "Your spirit companion channels a vengeful spirit as it lashes out at a foe. For a short time, the pain of other enemies flows through your companion to wrack that enemy.",
+      "flavor": "Your spirit companion channels a vengeful spirit as it lashes out at a foe. For a short time, the pain of other enemies flows through your companion to wrack that enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5411",
+        "publication": "Published in Player's Handbook 2, page(s) 128.",
+        "rulesText": "Spirit Bond of VengeanceShaman Attack 17\nYour spirit companion channels a vengeful spirit as it lashes out at a foe. For a short time, the pain of other enemies flows through your companion to wrack that enemy.\nEncounter   ✦     Implement, Primal, Spirit\nStandard Action      Melee spirit 1\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 2d6 + Wisdom modifier damage. Until the end of your next turn, the target takes 1d6 damage when any ally hits an enemy, other than the target, that is adjacent to your spirit companion.\nPublished in Player's Handbook 2, page(s) 128."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee spirit 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee spirit 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Wisdom damage. Until the end of your next turn, the target takes 1d6 damage when any ally hits an enemy, other than the target, that is adjacent to your spirit companion."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power5444",
+      "title": "Spirit Lance",
+      "description": "Your spirit companion's form wavers momentarily as a spear of brilliant energy lances from it toward your enemy.",
+      "flavor": "Your spirit companion's form wavers momentarily as a spear of brilliant energy lances from it toward your enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5444",
+        "publication": "Published in Primal Power, page(s) 74.",
+        "rulesText": "Spirit LanceShaman Attack 17\nYour spirit companion's form wavers momentarily as a spear of brilliant energy lances from it toward your enemy.\nEncounter   ✦     Force, Implement, Primal, Spirit\nStandard Action      Ranged spirit 10\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: 3d10 + Wisdom modifier force damage.\nPublished in Primal Power, page(s) 74."
+      },
+      "keywords": [
+        "FORCE",
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged spirit 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged spirit 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Wisdom force damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power3810",
+      "title": "Spirit of Spring's Renewal",
+      "description": "A humanoid spirit formed of bark, vines, and roots appears and slams your enemy. Channeling power through your spirit companion, the spirit renews your allies' strength.",
+      "flavor": "A humanoid spirit formed of bark, vines, and roots appears and slams your enemy. Channeling power through your spirit companion, the spirit renews your allies' strength.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3810",
+        "publication": "Published in Player's Handbook 2, page(s) 128.",
+        "rulesText": "Spirit of Spring's RenewalShaman Attack 17\nA humanoid spirit formed of bark, vines, and roots appears and slams your enemy. Channeling power through your spirit companion, the spirit renews your allies' strength.\nEncounter   ✦     Healing, Implement, Primal\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: 3d6 + Wisdom modifier damage, and each ally adjacent to your spirit companion can spend a healing surge.\nProtector Spirit: Each of the allies who spends a healing surge regains additional hit points equal to twice your Constitution modifier.\nPublished in Player's Handbook 2, page(s) 128."
+      },
+      "keywords": [
+        "HEALING",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom damage, and each ally adjacent to your spirit companion can spend a healing surge."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Protector Spirit",
+              "text": "Each of the allies who spends a healing surge regains additional hit points equal to twice your Constitution."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power5434",
+      "title": "Thorn Ally",
+      "description": "Thorny branches from thickets in the spirit realm erupt from your spirit companion to pierce and entangle your enemy.",
+      "flavor": "Thorny branches from thickets in the spirit realm erupt from your spirit companion to pierce and entangle your enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5434",
+        "publication": "Published in Primal Power, page(s) 74.",
+        "rulesText": "Thorn AllyShaman Attack 17\nThorny branches from thickets in the spirit realm erupt from your spirit companion to pierce and entangle your enemy.\nEncounter   ✦     Implement, Primal\nStandard Action      Ranged 5\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 2d8 + Wisdom modifier damage. Until the end of your next turn, any enemy that starts its turn adjacent to your spirit companion is restrained until the end of your next turn.\nPublished in Primal Power, page(s) 74."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom damage. Until the end of your next turn, any enemy that starts its turn adjacent to your spirit companion is restrained until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power12537",
+      "title": "Winter's End",
+      "description": "Winter flees the fires wreathing your spirit companion, bringing new hope and zeal to the allies bathed in its glow.",
+      "flavor": "Winter flees the fires wreathing your spirit companion, bringing new hope and zeal to the allies bathed in its glow.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12537",
+        "publication": "Published in Dragon Magazine 387, page(s) 83.",
+        "rulesText": "Winter's EndShaman Attack 17\nWinter flees the fires wreathing your spirit companion, bringing new hope and zeal to the allies bathed in its glow.\nEncounter   ✦     Fire, Implement, Primal, Spirit, Zone\nStandard Action      Close burst spirit 2\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Reflex\nHit: 2d6 + Wisdom modifier fire damage.\nEffect: The burst becomes a zone that lasts until the end of your next turn. Any ally that starts its turn in the zone and is slowed, immobilized, or taking ongoing cold damage makes a saving throw for each such condition. On a success, that condition ends.\nPublished in Dragon Magazine 387, page(s) 83."
+      },
+      "keywords": [
+        "FIRE",
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst spirit 2"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst spirit 2"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Wisdom fire damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst becomes a zone that lasts until the end of your next turn. Any ally that starts its turn in the zone and is slowed, immobilized, or taking ongoing cold damage makes a saving throw for each such condition. On a success, that condition ends."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power9777",
+      "title": "Ancestor's Drum",
+      "description": "A spectral drum created by your ancestors manifests in your hands, thundering until you put it aside or until its power reaches a crescendo.",
+      "flavor": "A spectral drum created by your ancestors manifests in your hands, thundering until you put it aside or until its power reaches a crescendo.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9777",
+        "publication": "Published in Primal Power, page(s) 75.",
+        "rulesText": "Ancestor's DrumShaman Attack 19\nA spectral drum created by your ancestors manifests in your hands, thundering until you put it aside or until its power reaches a crescendo.\nDaily   ✦     Healing, Implement, Primal, Thunder\nStandard Action      Close burst 1\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Will\nHit: 2d8 + Wisdom modifier thunder damage.\nEffect: One ally in the burst can spend a healing surge.\nSustain Standard: The size of the burst increases by 1, and you make the attack again. After you use the power as a close burst 3, it can't be sustained.\nPublished in Primal Power, page(s) 75."
+      },
+      "keywords": [
+        "HEALING",
+        "IMPLEMENT",
+        "PRIMAL",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom thunder damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "One ally in the burst can spend a healing surge."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Sustain Standard",
+              "text": "The size of the burst increases by 1, and you make the attack again. After you use the power as a close burst 3, it can't be sustained."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power3919",
+      "title": "Great Bear Guardian",
+      "description": "A bear spirit appears amid your foes. It knocks one enemy aside and stands alert, ready to protect you and your allies with its vicious claws.",
+      "flavor": "A bear spirit appears amid your foes. It knocks one enemy aside and stands alert, ready to protect you and your allies with its vicious claws.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3919",
+        "publication": "Published in Player's Handbook 2, page(s) 128.",
+        "rulesText": "Great Bear GuardianShaman Attack 19\nA bear spirit appears amid your foes. It knocks one enemy aside and stands alert, ready to protect you and your allies with its vicious claws.\nDaily   ✦     Conjuration, Implement, Primal\nStandard Action      Close burst 10\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 2d10 + Wisdom modifier damage, and you push the target 2 squares and knock it prone.\nMiss: Half damage, and you push the target 1 square.\nEffect: You conjure a bear spirit in an unoccupied square adjacent to the target. The spirit lasts until the end of the encounter. The spirit occupies 1 square. Enemies cannot move through its space, but allies can. As a move action, you can move the spirit 5 squares.\nThe spirit can flank enemies with you and your allies, and it can make opportunity attacks against your enemies: Wisdom vs. Reflex; 2d10 + your Wisdom modifier damage.\nPublished in Player's Handbook 2, page(s) 128."
+      },
+      "keywords": [
+        "CONJURATION",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom damage, and you push the target 2 squares and knock it prone."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you push the target 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You conjure a bear spirit in an unoccupied square adjacent to the target. The spirit lasts until the end of the encounter. The spirit occupies 1 square. Enemies cannot move through its space, but allies can. As a move action, you can move the spirit 5 squares."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "The spirit can flank enemies with you and your allies, and it can make opportunity attacks against your enemies",
+              "text": "Wisdom vs. Reflex; 2d10 + your Wisdom damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power6947",
+      "title": "Guardians of Howling Wrath",
+      "description": "Your spirit transforms into a howling echo of death itself, assaults your enemies, consumes their life force, and channels it into primal power.",
+      "flavor": "Your spirit transforms into a howling echo of death itself, assaults your enemies, consumes their life force, and channels it into primal power.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6947",
+        "publication": "Published in Dragon Magazine 372, page(s) 22.",
+        "rulesText": "Guardians of Howling WrathShaman Attack 19\nYour spirit transforms into a howling echo of death itself, assaults your enemies, consumes their life force, and channels it into primal power.\nDaily   ✦     Necrotic, Primal, Spirit\nStandard Action      Melee spirit 1\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: 4d10 + Wisdom modifier necrotic damage.\nMiss: Half damage.\nEffect: Until the end of the encounter, any time an enemy within 2 squares of your spirit companion is reduced to 0 hit points or fewer, you gain a +2 power bonus on attack rolls until the end of your next turn.\nPublished in Dragon Magazine 372, page(s) 22."
+      },
+      "keywords": [
+        "NECROTIC",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee spirit 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee spirit 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d10 + Wisdom necrotic damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, any time an enemy within 2 squares of your spirit companion is reduced to 0 hit points or fewer, you gain a +2 power bonus on attack rolls until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power5412",
+      "title": "Horns of the Undefeated Khan",
+      "description": "Horns sound as the great khan—a champion of the primal forest who has never been defeated in battle—strides from the spirit world to lead your allies into the fray.",
+      "flavor": "Horns sound as the great khan—a champion of the primal forest who has never been defeated in battle—strides from the spirit world to lead your allies into the fray.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5412",
+        "publication": "Published in Player's Handbook 2, page(s) 128.",
+        "rulesText": "Horns of the Undefeated KhanShaman Attack 19\nHorns sound as the great khan—a champion of the primal forest who has never been defeated in battle—strides from the spirit world to lead your allies into the fray.\nDaily   ✦     Implement, Primal\nStandard Action      Ranged 20\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d8 + Wisdom modifier damage.\nMiss: Half damage.\nEffect: Until the end of your next turn, you and your allies gain a +2 bonus to attack rolls and a +5 bonus to damage rolls against the target. As a free action before your next turn, each ally within 20 squares of the target can make a saving throw and shift 3 squares as the first action of his or her turn.\nPublished in Player's Handbook 2, page(s) 128."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 20"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 20"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d8 + Wisdom damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you and your allies gain a +2 bonus to attack rolls and a +5 bonus to damage rolls against the target. As a free action before your next turn, each ally within 20 squares of the target can make a saving throw and shift 3 squares as the first action of his or her turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power12881",
+      "title": "Sirocco Spirit",
+      "description": "Your elemental spirit breaks apart to become a storm of dust and wind that blinds your enemies and makes them more susceptible to attacks.",
+      "flavor": "Your elemental spirit breaks apart to become a storm of dust and wind that blinds your enemies and makes them more susceptible to attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12881",
+        "publication": "Published in Dark Sun Campaign Setting, page(s) 93.",
+        "rulesText": "Sirocco SpiritShaman Attack 19\nYour elemental spirit breaks apart to become a storm of dust and wind that blinds your enemies and makes them more susceptible to attacks.\nDaily   ✦     Implement, Primal, Spirit\nStandard Action      Close burst spirit 2\nTarget: Each creature in the burst\nAttack: Wisdom vs. Fortitude\nHit: 2d8 + Wisdom modifier damage, and the target is blinded and gains vulnerable 5 to all damage (save ends both).\nMiss: Half damage, and the target gains vulnerable 5 to all damage (save ends).\nEffect: Your spirit companion disappears.\nPublished in Dark Sun Campaign Setting, page(s) 93."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst spirit 2"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst spirit 2"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom damage, and the target is blinded and gains vulnerable 5 to all damage (save ends both)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target gains vulnerable 5 to all damage (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Your spirit companion disappears."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power12538",
+      "title": "Spirit of Endings Begun",
+      "description": "Darkness swirls out from your spirit companion, eroding your enemies' defenses and stealing their life.",
+      "flavor": "Darkness swirls out from your spirit companion, eroding your enemies' defenses and stealing their life.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12538",
+        "publication": "Published in Dragon Magazine 387, page(s) 83.",
+        "rulesText": "Spirit of Endings BegunShaman Attack 19\nDarkness swirls out from your spirit companion, eroding your enemies' defenses and stealing their life.\nDaily   ✦     Implement, Primal, Spirit, Zone\nStandard Action      Close burst spirit 2\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Fortitude\nHit: 2d8 + Wisdom modifier damage. The target takes ongoing 5 damage and a -2 penalty to all defenses (save ends both).\nMiss: Half damage, and you push the target 1 square from your spirit companion.\nEffect: The burst becomes a zone that lasts until the end of the encounter or until your spirit companion is no longer present in the encounter. Any creature that starts its turn in the zone takes 5 damage and you push the target 1 square from your spirit companion.\nPublished in Dragon Magazine 387, page(s) 83."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst spirit 2"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst spirit 2"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom damage. The target takes ongoing 5 damage and a -2 penalty to all defenses (save ends both)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you push the target 1 square from your spirit companion."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst becomes a zone that lasts until the end of the encounter or until your spirit companion is no longer present in the encounter. Any creature that starts its turn in the zone takes 5 damage and you push the target 1 square from your spirit companion."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power5558",
+      "title": "Spirit of the Hunter's Soul",
+      "description": "The spirit of a great hunter appears and strikes at your foe with a mighty attack. It then bonds with an ally to continue the onslaught.",
+      "flavor": "The spirit of a great hunter appears and strikes at your foe with a mighty attack. It then bonds with an ally to continue the onslaught.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5558",
+        "publication": "Published in Primal Power, page(s) 75.",
+        "rulesText": "Spirit of the Hunter's SoulShaman Attack 19\nThe spirit of a great hunter appears and strikes at your foe with a mighty attack. It then bonds with an ally to continue the onslaught.\nDaily   ✦     Implement, Primal\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 5d8 + Wisdom modifier damage.\nMiss: Half damage.\nEffect: Choose an ally within range. That ally gains a +5 power bonus to damage rolls against the target until the end of the encounter. While that ally is adjacent to your spirit companion, add your Intelligence modifier to the power bonus.\nPublished in Primal Power, page(s) 75."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5d8 + Wisdom damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose an ally within range. That ally gains a +5 power bonus to damage rolls against the target until the end of the encounter. While that ally is adjacent to your spirit companion, add your Intelligence to the power bonus."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power3918",
+      "title": "Spirit of the Shield Breaker",
+      "description": "A howling warrior bearing a greataxe leaps on your foe, shattering its defenses and urging your allies to greater glory.",
+      "flavor": "A howling warrior bearing a greataxe leaps on your foe, shattering its defenses and urging your allies to greater glory.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3918",
+        "publication": "Published in Player's Handbook 2, page(s) 128.",
+        "rulesText": "Spirit of the Shield BreakerShaman Attack 19\nA howling warrior bearing a greataxe leaps on your foe, shattering its defenses and urging your allies to greater glory.\nDaily   ✦     Conjuration, Implement, Primal\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: 3d12 + Wisdom modifier damage, and the target takes a -4 penalty to AC (save ends).\nAftereffect: The target takes a -2 penalty to AC (save ends).\nMiss: Half damage, and the target takes a -2 penalty to AC (save ends).\nEffect: You conjure the spirit of the shield breaker in a square adjacent to the target. The spirit lasts until the end of the encounter. As a move action, you can move the spirit 5 squares. While adjacent to the spirit or in its space, you and your allies gain a +5 power bonus to damage rolls.\nPublished in Player's Handbook 2, page(s) 128."
+      },
+      "keywords": [
+        "CONJURATION",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d12 + Wisdom damage, and the target takes a -4 penalty to AC (save ends)."
+                      },
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Aftereffect",
+                        "text": "The target takes a -2 penalty to AC (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target takes a -2 penalty to AC (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You conjure the spirit of the shield breaker in a square adjacent to the target. The spirit lasts until the end of the encounter. As a move action, you can move the spirit 5 squares. While adjacent to the spirit or in its space, you and your allies gain a +5 power bonus to damage rolls."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power3917",
+      "title": "Tendrils of the Fate Weaver",
+      "description": "You call on the spirit of the Fate Weaver, a great spider said to have created the bindings between the planes, to wrap your foe in rock-hard spiderwebs and to protect your friend.",
+      "flavor": "You call on the spirit of the Fate Weaver, a great spider said to have created the bindings between the planes, to wrap your foe in rock-hard spiderwebs and to protect your friend.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3917",
+        "publication": "Published in Player's Handbook 2, page(s) 129.",
+        "rulesText": "Tendrils of the Fate WeaverShaman Attack 19\nYou call on the spirit of the Fate Weaver, a great spider said to have created the bindings between the planes, to wrap your foe in rock-hard spiderwebs and to protect your friend.\nDaily   ✦     Implement, Primal\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: 4d10 + Wisdom modifier damage, and the target is slowed and can't gain combat advantage against any target (save ends both). The target takes a -5 penalty to saving throws against this effect.\nMiss: Half damage.\nEffect: Choose an ally within 10 squares of you. Until the end of the encounter, if any enemy hits that ally, that enemy is immobilized until the end of its next turn.\nPublished in Player's Handbook 2, page(s) 129."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d10 + Wisdom damage, and the target is slowed and can't gain combat advantage against any target (save ends both). The target takes a -5 penalty to saving throws against this effect."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose an ally within 10 squares of you. Until the end of the encounter, if any enemy hits that ally, that enemy is immobilized until the end of its next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power9778",
+      "title": "Tree Father's Ward",
+      "description": "You call on Tree Father to punish your enemies for attacking and to reward your allies for fighting bravely.",
+      "flavor": "You call on Tree Father to punish your enemies for attacking and to reward your allies for fighting bravely.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9778",
+        "publication": "Published in Primal Power, page(s) 75.",
+        "rulesText": "Tree Father's WardShaman Attack 19\nYou call on Tree Father to punish your enemies for attacking and to reward your allies for fighting bravely.\nDaily   ✦     Healing, Implement, Primal\nStandard Action      Close blast 5\nTarget: One or two enemies in the blast\nAttack: Wisdom vs. Fortitude\nHit: 3d8 + Wisdom modifier damage, and the target takes a –4 penalty to attack rolls (save ends).\nMiss: Half damage.\nEffect: Each bloodied ally in the blast regains hit points as if he or she had spent a healing surge.\nPublished in Primal Power, page(s) 75."
+      },
+      "keywords": [
+        "HEALING",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two enemies in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Wisdom damage, and the target takes a –4 penalty to attack rolls (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each bloodied ally in the blast regains hit points as if he or she had spent a healing surge."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.shaman-power5455",
+      "title": "Wind of Death and Mercy",
+      "description": "Your spirit companion joins with a wind spirit to entwine your enemy in chilly currents. Your allies are then invigorated by this union.",
+      "flavor": "Your spirit companion joins with a wind spirit to entwine your enemy in chilly currents. Your allies are then invigorated by this union.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5455",
+        "publication": "Published in Primal Power, page(s) 75.",
+        "rulesText": "Wind of Death and MercyShaman Attack 19\nYour spirit companion joins with a wind spirit to entwine your enemy in chilly currents. Your allies are then invigorated by this union.\nDaily   ✦     Cold, Healing, Implement, Primal, Spirit\nStandard Action      Melee spirit 1\nTarget: One creature\nAttack: Wisdom vs. Will\nHit: 5d10 + Wisdom modifier cold damage.\nMiss: Half damage.\nEffect: The first ally to regain hit points while adjacent to your spirit companion regains 1d12 additional hit points. The second ally to do so regains 2d12 additional hit points, and the third ally to do so regains 3d12 additional hit points. This effect ends after the third ally regains these additional hit points or at the end of the encounter.\nPublished in Primal Power, page(s) 75."
+      },
+      "keywords": [
+        "COLD",
+        "HEALING",
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee spirit 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee spirit 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5d10 + Wisdom cold damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The first ally to regain hit points while adjacent to your spirit companion regains 1d12 additional hit points. The second ally to do so regains 2d12 additional hit points, and the third ally to do so regains 3d12 additional hit points. This effect ends after the third ally regains these additional hit points or at the end of the encounter."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Shaman Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

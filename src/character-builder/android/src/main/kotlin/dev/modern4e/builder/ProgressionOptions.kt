@@ -33,24 +33,66 @@ internal fun BuilderOptionRow.pickerSelectable(taken: Set<String>): Boolean = ch
         it != Eligibility.INELIGIBLE && it != Eligibility.UNRESOLVED
     } == true
 
-/** Either progress for an unfinished check or the final list, with blocked options grouped last. */
+/** Eligibility remains available for styling and selection while every checked row is visible. */
 internal sealed interface PickerOptions {
     data class Loading(val checked: Int = 0, val total: Int? = null, val eligible: Int = 0) : PickerOptions
-    data class Ready(val eligible: List<BuilderOptionRow>, val ineligible: List<BuilderOptionRow>) : PickerOptions
+    data class Ready(val eligible: List<BuilderOptionRow>, val ineligible: List<BuilderOptionRow>) : PickerOptions {
+        val visible: List<BuilderOptionRow>
+            get() {
+                fun ordered(rows: List<BuilderOptionRow>): List<BuilderOptionRow> {
+                    return if (rows.all { it.metadata.metadata.category == EntryCategory.FEAT } ||
+                        rows.all { it.metadata.metadata.category == EntryCategory.POWER }) {
+                        rows.sortedPickerRows()
+                    } else {
+                        rows.sortedWith(compareBy<BuilderOptionRow> { it.metadata.metadata.title.lowercase() }
+                            .thenBy { it.metadata.metadata.id })
+                    }
+                }
+                return ordered(eligible) + ordered(ineligible)
+            }
+    }
 }
 
-/** Keep partial results out of the picker until all options in the current category are checked. */
-internal fun pickerOptions(rows: List<BuilderOptionRow>?, taken: Set<String>): PickerOptions {
+/** Keep partial results hidden and omit feats above the tier of the choice being filled. */
+internal fun pickerOptions(rows: List<BuilderOptionRow>?, taken: Set<String>, featLevel: Int? = null): PickerOptions {
     if (rows == null) {
         return PickerOptions.Loading()
     }
-    val (eligible, ineligible) = rows.partition { it.pickerSelectable(taken) }
+    val offered = rows.filter { row ->
+        val entry = row.option?.entry?.entry
+        featLevel == null || !row.checked || entry == null || entry.category != EntryCategory.FEAT ||
+            when (entry.featTierBadge()) {
+                "E" -> featLevel >= 21
+                "P" -> featLevel >= 11
+                else -> true
+            }
+    }
+    val (eligible, ineligible) = offered.partition { it.pickerSelectable(taken) }
     val pending = ineligible.count { !it.checked }
     return if (pending > 0) {
-        PickerOptions.Loading(rows.size - pending, rows.size, eligible.count { it.option?.eligibility == Eligibility.ELIGIBLE })
+        PickerOptions.Loading(offered.size - pending, offered.size, eligible.count { it.option?.eligibility == Eligibility.ELIGIBLE })
     } else {
-        PickerOptions.Ready(eligible, ineligible)
+        PickerOptions.Ready(eligible.sortedPickerRows(), ineligible.sortedPickerRows())
     }
+}
+
+/** Sort catalog feats and powers within their eligibility groups using the displayed tier or level. */
+private fun List<BuilderOptionRow>.sortedPickerRows(): List<BuilderOptionRow> {
+    if (isEmpty()) {
+        return this
+    }
+    val category = first().metadata.metadata.category
+    if (category !in setOf(EntryCategory.FEAT, EntryCategory.POWER) || any { it.metadata.metadata.category != category }) {
+        return this
+    }
+    return sortedWith(compareByDescending<BuilderOptionRow> { row ->
+        val entry = row.option?.entry?.entry
+        if (category == EntryCategory.FEAT) {
+            when (entry?.featTierBadge()) { "E" -> 3; "P" -> 2; "H" -> 1; else -> 0 }
+        } else {
+            entry?.mechanics?.powerProfile?.level ?: 0
+        }
+    }.thenBy { it.metadata.metadata.title.lowercase() }.thenBy { it.metadata.metadata.id })
 }
 
 /** Display the earliest tier allowed by a feat's level requirements. */

@@ -62,8 +62,6 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
                         )
                         Box(
                             Modifier.weight(1f).heightIn(min = 48.dp).fillMaxHeight()
-                                .clickable(enabled = canEdit) { model.beginEdit("Size") }
-                                .semantics { contentDescription = "Edit Size" }
                                 .padding(horizontal = 12.dp, vertical = 6.dp),
                             contentAlignment = Alignment.CenterEnd,
                         ) {
@@ -101,13 +99,16 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
     }
 }
 
-/** Uses the authored creation ancestry size when no saved size override exists. */
-internal fun BuilderState.sizeDisplay(): String =
-    document.identity.size.ifBlank {
-        rules.entries.firstOrNull {
-            it.slot == ChoiceSlotId("creation", "ancestry", 0) && it.definition.entry.category == EntryCategory.ANCESTRY
-        }?.definition?.entry?.mechanics?.size?.name?.readable() ?: "Size —"
+/** Display only an unambiguous active ancestry size; legacy identity text is not a rules source. */
+internal fun BuilderState.sizeDisplay(): String {
+    val ancestries = rules.entries.filter { it.definition.entry.category == EntryCategory.ANCESTRY }
+    val sizes = ancestries.mapNotNull { it.definition.entry.mechanics.size }.distinct()
+    return if (ancestries.isEmpty() || ancestries.any { it.definition.entry.mechanics.size == null } || sizes.size != 1) {
+        "Size —"
+    } else {
+        sizes.single().name.readable()
     }
+}
 
 /**
  * Base speed comes from the ancestry alone, so it has no value until one is selected.

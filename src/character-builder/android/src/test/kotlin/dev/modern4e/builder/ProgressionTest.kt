@@ -4,6 +4,38 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ProgressionTest {
+    @Test fun abilityIncreasePreviewMovesTheDraftWithoutStackingTheSavedIncrease() {
+        val points = Ability.entries.associateWith { if (it == Ability.STRENGTH) 6 else 2 }
+        val document = CharacterDocument(id = "preview", savedAt = "2026-11-19T00:00:00Z",
+            identity = CharacterIdentity("Preview"), packages = emptyList(), level = 19,
+            abilities = AbilityAllocation(ChoiceSlotId("class", "main", 0), Ability.STRENGTH, emptyMap()),
+            levels = listOf(LevelDecisions(4, abilityAdvancements = listOf(
+                AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.WISDOM to 1))))))
+        val rules = EngineResult(emptyMap(), emptyList(), emptyList(), emptyMap(), emptyMap(), emptyList(),
+            overviewAbilityTotals = points)
+        val state = BuilderState(document, rules)
+        assertEquals(points, Progression.advancementPreviewPoints(state, 4, Ability.WISDOM))
+        val moved = Progression.advancementPreviewPoints(state, 4, Ability.DEXTERITY)
+        assertEquals(1, moved[Ability.WISDOM])
+        assertEquals(3, moved[Ability.DEXTERITY])
+        assertEquals(6, moved[Ability.STRENGTH])
+        assertEquals(2, moved[Ability.CONSTITUTION])
+        assertEquals(1, Progression.advancementPreviewPoints(state, 4, null)[Ability.WISDOM])
+        assertEquals(3, Progression.advancementPreviewPoints(state, 12, Ability.WISDOM)[Ability.WISDOM])
+        assertEquals(points, state.rules.overviewAbilityTotals)
+        assertEquals(points, Progression.advancementPreviewPoints(state, 8, Ability.WISDOM))
+    }
+
+    @Test fun invalidSavedAbilityIncreaseIsNotSubtractedFromKnownPoints() {
+        val base = evaluated(4, emptyList(), emptyList())
+        val invalid = base.copy(document = base.document.copy(levels = listOf(LevelDecisions(4,
+            abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.STRENGTH to 1)))))))
+        val before = invalid.rules.overviewAbilityTotals
+        val preview = Progression.advancementPreviewPoints(invalid, 4, Ability.WISDOM)
+        assertEquals(before.getValue(Ability.STRENGTH), preview[Ability.STRENGTH])
+        assertEquals(before.getValue(Ability.WISDOM) + 1, preview[Ability.WISDOM])
+    }
+
     @Test fun ancestryLanguagesUseAncestryLabelAndFeatLanguagesKeepTheirNumber() {
         assertEquals("Ancestry Language",
             Progression.valueChoiceLabel(FactKind.LANGUAGE, 0, "Human", EntryCategory.ANCESTRY))
@@ -83,7 +115,7 @@ class ProgressionTest {
             Progression.automaticGrants(evaluated(level, choices, definitions)).associate { it.entry.id to (it.level to it.label) }
 
         val classGrants = mapOf(classFeature.id to (0 to "Class Feature"), classPower.id to (0 to "Class Power"))
-        val initial = classGrants + mapOf(themeFeature.id to (1 to "Theme Feature"), themePower.id to (0 to "Theme Power"))
+        val initial = classGrants + mapOf(themeFeature.id to (0 to "Theme Feature"), themePower.id to (0 to "Theme Power"))
         assertEquals(initial, grants(1))
         assertEquals(initial + mapOf(laterFeature.id to (5 to "Theme Feature"), laterPower.id to (5 to "Theme Power")), grants(5))
         assertEquals(classGrants, grants(5, classSelections + entryChoice(replacement, themeSlot)))
@@ -171,6 +203,59 @@ class ProgressionTest {
             val slot = Progression.levelChoices(state, 1).single { it.slot.choiceId == choiceId }.slot
             assertEquals("You gain arcane powers.", Progression.choiceIntroduction(state, slot))
         }
+    }
+
+    @Test fun authoredAcquisitionLevelsPlaceChoicesOnceAtTheirActualLevel() {
+        val power = entry("later-power", EntryCategory.POWER)
+        val feature = entry("later-feature", EntryCategory.FEATURE, Mechanics(choices = listOf(
+            ChoiceDefinition.Entries("later-choice", 1, listOf(power.id), atLevel = 17),
+        )))
+        val fighter = entry("fighter", EntryCategory.CLASS, Mechanics(grants = listOf(
+            Grant.Entry("feature", feature.id),
+        )))
+        val state = evaluated(19, listOf(entryChoice(fighter, ChoiceSlotId("creation", "class", 0))),
+            listOf(fighter, feature, power))
+        assertFalse(Progression.levelChoices(state, 1).any { it.slot.choiceId == "later-choice" })
+        assertEquals(1, Progression.levelChoices(state, 17).count { it.slot.choiceId == "later-choice" })
+        assertEquals(1, (1..19).sumOf { level -> Progression.levelChoices(state, level).count { it.slot.choiceId == "later-choice" } })
+    }
+
+    @Test fun replacementTargetsExcludeGrantedUtilityAndWrongUsagePowers() {
+        val daily = entry("daily", EntryCategory.POWER, Mechanics(powerProfile = PowerProfile(1, "DAILY", "ATTACK")))
+        val encounter = entry("encounter", EntryCategory.POWER, Mechanics(powerProfile = PowerProfile(1, "ENCOUNTER", "ATTACK")))
+        val utility = entry("utility", EntryCategory.POWER, Mechanics(powerProfile = PowerProfile(1, "DAILY", "UTILITY")))
+        val granted = entry("granted", EntryCategory.POWER, Mechanics(powerProfile = PowerProfile(1, "DAILY", "ATTACK")))
+        val fighter = entry("fighter", EntryCategory.CLASS, Mechanics(
+            choices = listOf(ChoiceDefinition.Entries("daily", 1, listOf(daily.id)),
+                ChoiceDefinition.Entries("encounter", 1, listOf(encounter.id)),
+                ChoiceDefinition.Entries("utility", 1, listOf(utility.id))),
+            grants = listOf(Grant.Entry("grant", granted.id)),
+        ))
+        val selections = listOf(entryChoice(fighter, ChoiceSlotId("creation", "class", 0)),
+            entryChoice(daily, ChoiceSlotId(fighter.id, "daily", 0)),
+            entryChoice(encounter, ChoiceSlotId(fighter.id, "encounter", 0)),
+            entryChoice(utility, ChoiceSlotId(fighter.id, "utility", 0)))
+        val state = evaluated(19, selections, listOf(fighter, daily, encounter, utility, granted))
+        assertEquals(listOf(daily.id), Progression.replacementTargets(state, 9).map { it.selection.entryId })
+        assertEquals(listOf(daily.id), Progression.replacementTargets(state, 19).map { it.selection.entryId })
+        assertTrue(Progression.replacementTargets(state, 8).isEmpty())
+    }
+
+    @Test fun missingBadgeCountsEnginePowerSlotsWithoutInventingLaterPowerDuplicates() {
+        val slot = ChoiceSlotId("fighter", "modern4e.choice.class-attack-encounter-3", 0)
+        val doc = CharacterDocument(id = "badge-later", savedAt = "2026-11-19T12:00:00Z",
+            identity = CharacterIdentity("Badge", environment = "urban", upbringing = "academic"),
+            packages = emptyList(), level = 3,
+            abilities = AbilityAllocation(ChoiceSlotId("fighter", "main", 0), Ability.STRENGTH,
+                mapOf(Ability.STRENGTH to 4, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.WISDOM to 1)),
+            levels = listOf(LevelDecisions(1, entries = ModernCreation.requiredEntryKinds.map { kind ->
+                entryChoice(entry(kind, if (kind == "feat") EntryCategory.FEAT else EntryCategory.FEATURE), ChoiceSlotId("creation", kind, 0))
+            }), LevelDecisions(2, entries = listOf(entryChoice(entry("feat2", EntryCategory.FEAT), ChoiceSlotId("advancement.2", "feat", 0))))),
+        )
+        val rules = EngineResult(emptyMap(), emptyList(), listOf(EngineChoice(slot, acquisitionLevel = 3)), emptyMap(), emptyMap(), emptyList())
+        assertEquals(1, Progression.missing(BuilderState(doc, rules)))
+        val filled = doc.copy(levels = doc.levels + LevelDecisions(3, entries = listOf(entryChoice(entry("power", EntryCategory.POWER), slot))))
+        assertEquals(0, Progression.missing(BuilderState(filled, rules)))
     }
 
     @Test fun scheduleMatchesPrintedMilestones() {

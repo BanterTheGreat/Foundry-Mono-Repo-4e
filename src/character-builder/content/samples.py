@@ -12,7 +12,7 @@ FIXTURES = HERE.parent / 'shared/fixtures'
 TEST_PACKAGES = HERE / 'test-generated'
 OVERRIDE = 'test.modern4e.presentation-override'
 MODERN_PACKAGES = ['modern4e.classes', 'modern4e.ancestries', 'modern4e.themes',
-                   'modern4e.feats', 'modern4e.utilities', 'modern4e.equipment']
+                   'modern4e.feats', 'modern4e.utilities', 'modern4e.equipment', 'modern4e.paths']
 
 
 def fingerprint(entry):

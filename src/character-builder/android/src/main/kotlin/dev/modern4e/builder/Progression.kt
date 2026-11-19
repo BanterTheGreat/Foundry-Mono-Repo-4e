@@ -12,6 +12,20 @@ internal data class ProgressionGrant(val occurrence: EngineEntry, val level: Int
 }
 
 object Progression {
+    /** Preview a replacement draft for this milestone without counting its saved increase twice. */
+    internal fun advancementPreviewPoints(state: BuilderState, level: Int, selected: Ability?): Map<Ability, Int> {
+        val current = state.rules.overviewAbilityTotals
+        if (level !in AdvancementRules.nonMainLevels || level > state.document.level) {
+            return current
+        }
+        val saved = state.document.levels.firstOrNull { it.level == level }?.abilityAdvancements?.singleOrNull()
+            ?.takeIf { AdvancementRules.validAdvancement(level, it, state.document.abilities.mainAbility) }
+        return current.mapValues { (ability, points) ->
+            points - (saved?.increases?.get(ability) ?: 0) +
+                if (ability == selected && ability != state.document.abilities.mainAbility) 1 else 0
+        }
+    }
+
     private val grantSources = setOf(EntryCategory.ANCESTRY, EntryCategory.CLASS, EntryCategory.THEME, EntryCategory.PARAGON_PATH, EntryCategory.EPIC_DESTINY)
 
     fun level(n: Int): ProgressionLevel {
@@ -54,13 +68,29 @@ object Progression {
 
     /** Only the engine can declare real class choices; this is the set the Progression screen shows at a level. */
     fun levelChoices(state: BuilderState, level: Int): List<EngineChoice> = state.rules.choices.filter { choice ->
-        state.rules.entries.any { source ->
-            source.instanceId == choice.slot.sourceInstanceId &&
-                (if (source.definition.entry.mechanics.progression.any { progression -> progression.level == level && progression.choices.any { it.choiceId() == choice.slot.choiceId } }) true
-                else level == acquiredAt(state, source) && (source.definition.entry.mechanics.choices.any { it.choiceId() == choice.slot.choiceId } ||
-                    source.definition.entry.mechanics.grants.filterIsInstance<Grant.Entry>().any {
-                        it.grantId == choice.slot.choiceId && it.replacementEntryIds.isNotEmpty()
-                    }))
+        (choice.acquisitionLevel ?: state.rules.entries.firstOrNull {
+            it.instanceId == choice.slot.sourceInstanceId
+        }?.let { source ->
+            maxOf(acquiredAt(state, source), source.definition.entry.mechanics.progression.filter { progression ->
+                progression.choices.any { it.choiceId() == choice.slot.choiceId }
+            }.maxOfOrNull { it.level } ?: 1)
+        }) == level
+    }
+
+    /** Active class attack acquisitions that can be replaced at this printed milestone. */
+    internal fun replacementTargets(state: BuilderState, level: Int): List<EntryChoice> {
+        val usage = level(level).replacement?.uppercase() ?: return emptyList()
+        val selectedAt = state.document.levels.flatMap { decisions -> decisions.entries.map { it.slot to decisions.level } }.toMap()
+        return state.rules.entries.filter { occurrence ->
+            val profile = occurrence.definition.entry.mechanics.powerProfile
+            val choice = state.rules.choices.firstOrNull { it.slot == occurrence.slot }
+            !occurrence.granted && (selectedAt[occurrence.slot] ?: level) < level &&
+                profile?.powerKind == "ATTACK" && profile.usage == usage &&
+                choice != null && isClassFeatureChoice(state, choice)
+        }.map { occurrence ->
+            val definition = occurrence.definition
+            EntryChoice(occurrence.instanceId, occurrence.slot, SavedSelection(definition.entry.id,
+                definition.entry.presentation.title, definition.supplier.packageId, definition.fingerprint))
         }
     }
 
@@ -131,8 +161,7 @@ object Progression {
                 if (sourceCategory in grantSources) {
                     val acquired = acquiredAt(state, occurrence)
                     val startingGrant = when (sourceCategory) {
-                        EntryCategory.ANCESTRY, EntryCategory.CLASS -> true
-                        EntryCategory.THEME -> entry.category == EntryCategory.POWER
+                        EntryCategory.ANCESTRY, EntryCategory.CLASS, EntryCategory.THEME -> true
                         else -> false
                     }
                     val displayLevel = if (startingGrant && acquired == 1) 0 else acquired
@@ -318,13 +347,22 @@ object Progression {
         val values = doc.levels.flatMap { it.values }.map { it.slot }.toSet()
         val slots = state.rules.choices.filter { it.abilities.isEmpty() && !it.optional }.map { it.slot }.toMutableSet()
         ModernCreation.requiredEntryKinds.forEach { slots += ChoiceSlotId("creation", it, 0) }
-        if (doc.level >= 2) { slots += ChoiceSlotId("advancement.2", "feat", 0) }
-        (3..doc.level).forEach { level ->
-            val schedule = level(level)
-            if (schedule.feat) { slots += ChoiceSlotId("advancement.$level", "feat", 0) }
-            schedule.powers.indices.forEach { slots += ChoiceSlotId("advancement.$level", "power", it) }
+        (2..doc.level).forEach { level ->
+            if (level(level).feat) { slots += ChoiceSlotId("advancement.$level", "feat", 0) }
         }
-        return slots.count { it !in entries && it !in skills && it !in values } +
+        if (doc.level >= 11) { slots += ChoiceSlotId("advancement.11", "paragon-path", 0) }
+        val missingAdvancements = listOf(4, 12).count { level ->
+            level <= doc.level && doc.levels.firstOrNull { it.level == level }?.abilityAdvancements.orEmpty().none {
+                it.slot == ChoiceSlotId("advancement.$level", "ability", 0) && it.increases.size == 1 &&
+                    it.increases.values.single() == 1 && it.increases.keys.single() != doc.abilities.mainAbility
+            }
+        }
+        val missingReplacements = listOf(9, 15, 19).count { level ->
+            level <= doc.level && doc.levels.firstOrNull { it.level == level }?.replacements.orEmpty().none {
+                it.kind == ReplacementKind.PROGRESSION
+            }
+        }
+        return missingAdvancements + missingReplacements + slots.count { it !in entries && it !in skills && it !in values } +
             listOf("environment", "upbringing").count { background(doc, it).isEmpty() } +
             if (validAllocation(doc.abilities)) 0 else 1
     }

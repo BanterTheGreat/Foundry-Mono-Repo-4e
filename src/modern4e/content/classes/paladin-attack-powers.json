@@ -12456,6 +12456,2688 @@
       "subtitle": "Paladin Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power1248",
+      "title": "Enervating Smite",
+      "description": "With a mighty blow, you leave your foe horribly weakened.",
+      "flavor": "With a mighty blow, you leave your foe horribly weakened.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1248",
+        "publication": "Published in Player's Handbook, page(s) 96.",
+        "rulesText": "Enervating SmitePaladin Attack 17\nWith a mighty blow, you leave your foe horribly weakened.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. Will\nHit: 2[W] + Charisma modifier damage, and the target is weakened until the end of your next turn.\nPublished in Player's Handbook, page(s) 96."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Charisma damage, and the target is weakened until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power352",
+      "title": "Fortifying Smite",
+      "description": "A symphony of otherworldly music resonates throughout your body, fortifying it to withstand the tests to come.",
+      "flavor": "A symphony of otherworldly music resonates throughout your body, fortifying it to withstand the tests to come.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power352",
+        "publication": "Published in Player's Handbook, page(s) 97.",
+        "rulesText": "Fortifying SmitePaladin Attack 17\nA symphony of otherworldly music resonates throughout your body, fortifying it to withstand the tests to come.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 3[W] + Charisma modifier damage. Until the end of your next turn, you gain a power bonus to AC equal to your Wisdom modifier.\nPublished in Player's Handbook, page(s) 97."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Charisma damage. Until the end of your next turn, you gain a power bonus to AC equal to your Wisdom."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power10101",
+      "title": "Frozen Shackles",
+      "description": "Heat flees from your enemy, causing the target to freeze in place.",
+      "flavor": "Heat flees from your enemy, causing the target to freeze in place.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10101",
+        "publication": "Published in Dragon Magazine 380, page(s) 62.",
+        "rulesText": "Frozen ShacklesPaladin Attack 17\nHeat flees from your enemy, causing the target to freeze in place.\nEncounter   ✦     Cold, Divine, Implement\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Strength or Charisma vs. Fortitude\nHit: 2d8 + Strength or Charisma modifier cold damage, and the target is immobilized until it takes damage from an attack. If the target is marked by you, it also grants combat advantage until the end of your next turn.\nPublished in Dragon Magazine 380, page(s) 62."
+      },
+      "keywords": [
+        "COLD",
+        "DIVINE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength or Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength or Charisma vs. Fortitude"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Strength or Charisma cold damage, and the target is immobilized until it takes damage from an attack. If the target is marked by you, it also grants combat advantage until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power2323",
+      "title": "Hand of the Gods",
+      "description": "You hold your holy symbol high above your head, and a brilliant flash of divine light explodes from it. The radiance sears your foes and inspires your closest allies.",
+      "flavor": "You hold your holy symbol high above your head, and a brilliant flash of divine light explodes from it. The radiance sears your foes and inspires your closest allies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2323",
+        "publication": "Published in Player's Handbook, page(s) 97.",
+        "rulesText": "Hand of the GodsPaladin Attack 17\nYou hold your holy symbol high above your head, and a brilliant flash of divine light explodes from it. The radiance sears your foes and inspires your closest allies.\nEncounter   ✦     Divine, Implement, Radiant\nStandard Action      Close burst 1\nTarget: Each enemy in the burst\nAttack: Charisma vs. Fortitude\nHit: 2d10 + Charisma modifier radiant damage, and the target is marked until the end of your next turn.\nEffect: Until the end of your next turn, allies in the burst gain a power bonus to attack rolls equal to your Wisdom modifier.\nRevision (7/28/2008)\nReplace “Minor Action” with “Standard Action”.\nPublished in Player's Handbook, page(s) 97."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Charisma radiant damage, and the target is marked until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, allies in the burst gain a power bonus to attack rolls equal to your Wisdom."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power10257",
+      "title": "Icy Clutches",
+      "description": "You drive your foe to the ground, commanding it to stay down or suffer the consequences.",
+      "flavor": "You drive your foe to the ground, commanding it to stay down or suffer the consequences.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10257",
+        "publication": "Published in Dragon Magazine 381, page(s) 73.",
+        "rulesText": "Icy ClutchesPaladin Attack 17\nYou drive your foe to the ground, commanding it to stay down or suffer the consequences.\nEncounter   ✦     Cold, Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier cold damage, and the target is subject to your divine sanction until the end of your next turn, and it falls prone. Until the target is no longer subject to this divine sanction, if it stands up, it takes damage as if it made an attack that didn't include you.\nPublished in Dragon Magazine 381, page(s) 73."
+      },
+      "keywords": [
+        "COLD",
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength cold damage, and the target is subject to your divine sanction until the end of your next turn, and it falls prone. Until the target is no longer subject to this divine sanction, if it stands up, it takes damage as if it made an attack that didn't include you."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power944",
+      "title": "Mark of Terror",
+      "description": "As you strike, your god's presence fills the enemy with dread.",
+      "flavor": "As you strike, your god's presence fills the enemy with dread.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power944",
+        "publication": "Published in Divine Power, page(s) 90.",
+        "rulesText": "Mark of TerrorPaladin Attack 17\nAs you strike, your god's presence fills the enemy with dread.\nEncounter   ✦     Divine, Fear, Weapon\nStandard Action      Melee weapon\nTarget: One creature marked by you\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and the target is stunned until the end of your next turn.\nPublished in Divine Power, page(s) 90."
+      },
+      "keywords": [
+        "DIVINE",
+        "FEAR",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature marked by you"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and the target is stunned until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power7276",
+      "title": "Reassuring Strike",
+      "description": "You land a solid blow and are rewarded with renewed vitality.",
+      "flavor": "You land a solid blow and are rewarded with renewed vitality.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7276",
+        "publication": "Published in Divine Power, page(s) 90.",
+        "rulesText": "Reassuring StrikePaladin Attack 17\nYou land a solid blow and are rewarded with renewed vitality.\nEncounter   ✦     Divine, Healing, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength or Charisma vs. AC\nHit: 3[W] + Strength or Charisma modifier damage. You can spend a healing surge and add your Wisdom modifier to the hit points regained.\nPublished in Divine Power, page(s) 90."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength or Charisma vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength or Charisma vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength or Charisma damage. You can spend a healing surge and add your Wisdom to the hit points regained."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power7277",
+      "title": "Sanctified Light",
+      "description": "A flash from your holy symbol sears your foes, particularly those bearing your mark.",
+      "flavor": "A flash from your holy symbol sears your foes, particularly those bearing your mark.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7277",
+        "publication": "Published in Divine Power, page(s) 90.",
+        "rulesText": "Sanctified LightPaladin Attack 17\nA flash from your holy symbol sears your foes, particularly those bearing your mark.\nEncounter   ✦     Divine, Implement, Radiant\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Charisma vs. Reflex\nHit: 1d8 radiant damage. If the target is marked by you, the attack instead deals 2d8 + your Charisma modifier radiant damage.\nPublished in Divine Power, page(s) 90."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d8 radiant damage. If the target is marked by you, the attack instead deals 2d8 + your Charisma radiant damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power7278",
+      "title": "Shattering Smite",
+      "description": "A well-placed strike punches through your opponent's defenses.",
+      "flavor": "A well-placed strike punches through your opponent's defenses.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7278",
+        "publication": "Published in Divine Power, page(s) 90.",
+        "rulesText": "Shattering SmitePaladin Attack 17\nA well-placed strike punches through your opponent's defenses.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and the target loses all resistances until the end of your next turn.\nPublished in Divine Power, page(s) 90."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and the target loses all resistances until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power1251",
+      "title": "Terrifying Smite",
+      "description": "Striking mercilessly, you hound your foe with waves of divine dread.",
+      "flavor": "Striking mercilessly, you hound your foe with waves of divine dread.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1251",
+        "publication": "Published in Player's Handbook, page(s) 97.",
+        "rulesText": "Terrifying SmitePaladin Attack 17\nStriking mercilessly, you hound your foe with waves of divine dread.\nEncounter   ✦     Divine, Fear, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and you push the target a number of squares equal to your Charisma modifier. The target can't move nearer to you on its next turn.\nPublished in Player's Handbook, page(s) 97."
+      },
+      "keywords": [
+        "DIVINE",
+        "FEAR",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and you push the target a number of squares equal to your Charisma. The target can't move nearer to you on its next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power7279",
+      "title": "Wrathful Smite",
+      "description": "With a burst of whirling steel, you batter down foes who surround you.",
+      "flavor": "With a burst of whirling steel, you batter down foes who surround you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7279",
+        "publication": "Published in Divine Power, page(s) 90.",
+        "rulesText": "Wrathful SmitePaladin Attack 17\nWith a burst of whirling steel, you batter down foes who surround you.\nEncounter   ✦     Divine, Weapon\nStandard Action      Close burst 1\nTarget: Each enemy in the burst\nAttack: Charisma vs. Reflex\nHit: 2[W] + Charisma modifier damage, and the target takes a -2 penalty to attack rolls until the end of your next turn. If the target is marked by you, the attack deals 1[W] extra damage.\nPublished in Divine Power, page(s) 90."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Charisma damage, and the target takes a -2 penalty to attack rolls until the end of your next turn. If the target is marked by you, the attack deals 1[W] extra damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power1263",
+      "title": "Corona of Blinding Radiance",
+      "description": "You swing your weapon and brilliant light explodes around you, blinding your enemies.",
+      "flavor": "You swing your weapon and brilliant light explodes around you, blinding your enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1263",
+        "publication": "Published in Player's Handbook, page(s) 97.",
+        "rulesText": "Corona of Blinding RadiancePaladin Attack 19\nYou swing your weapon and brilliant light explodes around you, blinding your enemies.\nDaily   ✦     Divine, Radiant, Weapon\nStandard Action      Close burst 1\nTarget: Each enemy in the burst you can see\nAttack: Charisma vs. Reflex\nHit: 3[W] + Charisma modifier radiant damage, and the target is blinded (save ends).\nMiss: Half damage, and the target is blinded until the end of your next turn.\nPublished in Player's Handbook, page(s) 97."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Charisma radiant damage, and the target is blinded (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is blinded until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power1247",
+      "title": "Crusader's Boon",
+      "description": "You strike your foe with such conviction that nearby allies can't help but feel inspired.",
+      "flavor": "You strike your foe with such conviction that nearby allies can't help but feel inspired.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1247",
+        "publication": "Published in Player's Handbook, page(s) 97.",
+        "rulesText": "Crusader's BoonPaladin Attack 19\nYou strike your foe with such conviction that nearby allies can't help but feel inspired.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: You and allies adjacent to you gain a +1 power bonus to attack rolls until the end of the encounter.\nPublished in Player's Handbook, page(s) 97."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and allies adjacent to you gain a +1 power bonus to attack rolls until the end of the encounter."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power10258",
+      "title": "Deathguide's Sanction",
+      "description": "You strike and sanction your foe, and your allies can siphon its life force with each successful attack.",
+      "flavor": "You strike and sanction your foe, and your allies can siphon its life force with each successful attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10258",
+        "publication": "Published in Dragon Magazine 381, page(s) 73.",
+        "rulesText": "Deathguide's SanctionPaladin Attack 19\nYou strike and sanction your foe, and your allies can siphon its life force with each successful attack.\nDaily   ✦     Divine, Healing, Radiant, Reliable, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Charisma modifier radiant damage, and the target is under the effect of your divine sanction (save ends). Until this divine sanction ends, on each of your allies' turns, the first time that ally hits the target, he or she regains a number of hit points equal to 5 + your Charisma modifier.\nPublished in Dragon Magazine 381, page(s) 73."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "RADIANT",
+        "RELIABLE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Charisma radiant damage, and the target is under the effect of your divine sanction (save ends). Until this divine sanction ends, on each of your allies' turns, the first time that ally hits the target, he or she regains a number of hit points equal to 5 + your Charisma."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power8100",
+      "title": "Name of Potency",
+      "description": "In a resounding voice, you speak an ancient angelic name that stops your enemies in their tracks.",
+      "flavor": "In a resounding voice, you speak an ancient angelic name that stops your enemies in their tracks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power8100",
+        "publication": "Published in Divine Power, page(s) 91.",
+        "rulesText": "Name of PotencyPaladin Attack 19\nIn a resounding voice, you speak an ancient angelic name that stops your enemies in their tracks.\nDaily   ✦     Divine, Implement, Thunder\nStandard Action      Close burst 2\nTarget: Each enemy in the burst\nAttack: Charisma vs. Fortitude\nHit: 3d8 + Charisma modifier thunder damage, and the target is immobilized (save ends).\nMiss: Half damage, and the target is slowed (save ends).\nPublished in Divine Power, page(s) 91."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 2"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Charisma thunder damage, and the target is immobilized (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is slowed (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power7280",
+      "title": "Overwhelming Fervor",
+      "description": "You name your enemy a foe of the faith and press the attack relentlessly.",
+      "flavor": "You name your enemy a foe of the faith and press the attack relentlessly.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7280",
+        "publication": "Published in Divine Power, page(s) 91.",
+        "rulesText": "Overwhelming FervorPaladin Attack 19\nYou name your enemy a foe of the faith and press the attack relentlessly.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 5[W] + Strength modifier damage, and the target is subject to your divine sanction until the end of your next turn. Whenever you attack the target until the end of the encounter, the target is subject to your divine sanction until the end of your next turn.\nMiss: Half damage.\nPublished in Divine Power, page(s) 91."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5[W] + Strength damage, and the target is subject to your divine sanction until the end of your next turn. Whenever you attack the target until the end of the encounter, the target is subject to your divine sanction until the end of your next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power13832",
+      "title": "Plundering Smite",
+      "description": "Your strike leaves a vile blight behind. As your enemy's energy ebbs, yours grows.",
+      "flavor": "Your strike leaves a vile blight behind. As your enemy's energy ebbs, yours grows.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13832",
+        "publication": "Published in Heroes of Shadow, page(s) 43.",
+        "rulesText": "Plundering SmitePaladin Attack 19\nYour strike leaves a vile blight behind. As your enemy's energy ebbs, yours grows.\nDaily   ✦     Divine, Healing, Necrotic, Shadow\nNo Action      Melee 1\nTrigger: You hit an adjacent creature with an at-will weapon attack.\nTarget: The creature you hit\nEffect: The target takes 10 necrotic damage, and ongoing 10 necrotic damage (save ends). The target takes a -2 penalty to saving throws against this ongoing damage. Each time the target takes the ongoing damage, you regain 10 hit points.\nPublished in Heroes of Shadow, page(s) 43."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "NECROTIC",
+        "SHADOW"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The creature you hit"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes 10 necrotic damage, and ongoing 10 necrotic damage (save ends). The target takes a -2 penalty to saving throws against this ongoing damage. Each time the target takes the ongoing damage, you regain 10 hit points."
+            }
+          ],
+          "trigger": "You hit an adjacent creature with an at-will weapon attack.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power1262",
+      "title": "Righteous Inferno",
+      "description": "A raging inferno of holy fire engulfs your enemies and continues to burn those who are drawn to it like moths.",
+      "flavor": "A raging inferno of holy fire engulfs your enemies and continues to burn those who are drawn to it like moths.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1262",
+        "publication": "Published in Player's Handbook, page(s) 97.",
+        "rulesText": "Righteous InfernoPaladin Attack 19\nA raging inferno of holy fire engulfs your enemies and continues to burn those who are drawn to it like moths.\nDaily   ✦     Divine, Fire, Implement, Zone\nStandard Action      Area burst 2 within 10 squares\nTarget: Each enemy in the burst\nAttack: Charisma vs. Reflex\nHit: 3d10 + Charisma modifier fire damage, and the target grants combat advantage to you and your allies until the end of your next turn.\nMiss: Half damage, and the target does not grant combat advantage.\nEffect: The burst creates a zone of fire that lasts until the end of your next turn. Enemies that enter the zone or start their turns there take 1d10 fire damage and grant combat advantage to you and your allies. An enemy can take this damage only once per turn.\nSustain Minor: The zone persists.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Player's Handbook, page(s) 97."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "IMPLEMENT",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Charisma fire damage, and the target grants combat advantage to you and your allies until the end of your next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target does not grant combat advantage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone of fire that lasts until the end of your next turn. Enemies that enter the zone or start their turns there take 1d10 fire damage and grant combat advantage to you and your allies. An enemy can take this damage only once per turn."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power7281",
+      "title": "Righteous Resolve",
+      "description": "Each blow struck by your foe only heightens your resistance.",
+      "flavor": "Each blow struck by your foe only heightens your resistance.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7281",
+        "publication": "Published in Divine Power, page(s) 91.",
+        "rulesText": "Righteous ResolvePaladin Attack 19\nEach blow struck by your foe only heightens your resistance.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 4[W] + Charisma modifier damage.\nMiss: Half damage.\nEffect: Until the end of the encounter, whenever the target deals damage to you or an ally, you gain temporary hit points equal to 5 + your Wisdom modifier.\nPublished in Divine Power, page(s) 91."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Charisma damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever the target deals damage to you or an ally, you gain temporary hit points equal to 5 + your Wisdom."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power13833",
+      "title": "Ruinous Smite",
+      "description": "Your blow proves more costly than the enemy realized, and it collapses to the ground.",
+      "flavor": "Your blow proves more costly than the enemy realized, and it collapses to the ground.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13833",
+        "publication": "Published in Heroes of Shadow, page(s) 43.",
+        "rulesText": "Ruinous SmitePaladin Attack 19\nYour blow proves more costly than the enemy realized, and it collapses to the ground.\nDaily   ✦     Divine, Shadow\nNo Action      Melee 1\nTrigger: You hit an adjacent creature with an at-will weapon attack.\nTarget: The creature you hit\nEffect: The target takes 25 damage and falls prone. It can't stand up while you are adjacent to it (save ends). You grant combat advantage until the end of your next turn.\nPublished in Heroes of Shadow, page(s) 43."
+      },
+      "keywords": [
+        "DIVINE",
+        "SHADOW"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The creature you hit"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes 25 damage and falls prone. It can't stand up while you are adjacent to it (save ends). You grant combat advantage until the end of your next turn."
+            }
+          ],
+          "trigger": "You hit an adjacent creature with an at-will weapon attack.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power13571",
+      "title": "Smite of Winter's Grip",
+      "description": "You strike your foe, and frost spreads across its body from the point of impact, encasing your enemy in a layer of imprisoning ice.",
+      "flavor": "You strike your foe, and frost spreads across its body from the point of impact, encasing your enemy in a layer of imprisoning ice.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13571",
+        "publication": "Published in Heroes of the Forgotten Kingdoms.",
+        "rulesText": "Smite of Winter's GripPaladin Attack 19\nYou strike your foe, and frost spreads across its body from the point of impact, encasing your enemy in a layer of imprisoning ice.\nDaily   ✦     Cold, Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier cold damage, and the target takes ongoing 10 cold damage and is restrained (save ends both).\nMiss: Half damage, and the target is restrained until the end of your next turn.\nPublished in Heroes of the Forgotten Kingdoms."
+      },
+      "keywords": [
+        "COLD",
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength cold damage, and the target takes ongoing 10 cold damage and is restrained (save ends both)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is restrained until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power13570",
+      "title": "Smite of the Flame Cage",
+      "description": "As you attack, your weapon erupts with holy fire, which swirls around you and prevents your enemies from escaping.",
+      "flavor": "As you attack, your weapon erupts with holy fire, which swirls around you and prevents your enemies from escaping.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13570",
+        "publication": "Published in Heroes of the Forgotten Kingdoms.",
+        "rulesText": "Smite of the Flame CagePaladin Attack 19\nAs you attack, your weapon erupts with holy fire, which swirls around you and prevents your enemies from escaping.\nDaily   ✦     Divine, Fire, Weapon, Zone\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier fire damage.\nEffect: You create a zone in a close burst 2 that lasts until the end of your next turn. Any enemy that willingly leaves the zone or that attacks a creature outside the zone takes 15 fire damage.\nPublished in Heroes of the Forgotten Kingdoms."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "WEAPON",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Strength fire damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You create a zone in a close burst 2 that lasts until the end of your next turn. Any enemy that willingly leaves the zone or that attacks a creature outside the zone takes 15 fire damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power3279",
+      "title": "Smite the Soul",
+      "description": "Your wrathful strike drives deep, incapacitating your foe.",
+      "flavor": "Your wrathful strike drives deep, incapacitating your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3279",
+        "publication": "Published in Divine Power, page(s) 91.",
+        "rulesText": "Smite the SoulPaladin Attack 19\nYour wrathful strike drives deep, incapacitating your foe.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and the target is stunned (save ends).\nAftereffect: The target is dazed until the end of its next turn.\nMiss: Half damage, and the target is dazed until the end of your next turn.\nPublished in Divine Power, page(s) 91."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and the target is stunned (save ends)."
+                      },
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Aftereffect",
+                        "text": "The target is dazed until the end of its next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power10102",
+      "title": "Visage of Sorrow",
+      "description": "You call forth divine power from the Shadowfell, welcoming its power to transform your aspect to one of utter sorrow and grief.",
+      "flavor": "You call forth divine power from the Shadowfell, welcoming its power to transform your aspect to one of utter sorrow and grief.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10102",
+        "publication": "Published in Dragon Magazine 380, page(s) 62.",
+        "rulesText": "Visage of SorrowPaladin Attack 19\nYou call forth divine power from the Shadowfell, welcoming its power to transform your aspect to one of utter sorrow and grief.\nDaily   ✦     Divine, Fear, Implement, Psychic\nStandard Action      Close burst 2\nTarget: Each enemy in the burst\nAttack: Strength or Charisma vs. Will\nHit: 3d8 + Strength or Charisma modifier psychic damage, and the target is subject to your divine sanction until the end of your next turn.\nEffect: Until the end of the encounter, melee and ranged attacks made against you take a −2 penalty.\nPublished in Dragon Magazine 380, page(s) 62."
+      },
+      "keywords": [
+        "DIVINE",
+        "FEAR",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength or Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 2"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength or Charisma vs. Will"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Strength or Charisma psychic damage, and the target is subject to your divine sanction until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, melee and ranged attacks made against you take a −2 penalty."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.paladin-power7282",
+      "title": "Wheel of Fate",
+      "description": "You unleash a flurry of attacks against all nearby enemies, drawing greater strength from their pain.",
+      "flavor": "You unleash a flurry of attacks against all nearby enemies, drawing greater strength from their pain.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7282",
+        "publication": "Published in Divine Power, page(s) 91.",
+        "rulesText": "Wheel of FatePaladin Attack 19\nYou unleash a flurry of attacks against all nearby enemies, drawing greater strength from their pain.\nDaily   ✦     Divine, Healing, Weapon\nStandard Action      Close burst 1\nTarget: Each enemy in the burst\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage. If the attack hits two or more targets, you regain hit points equal to your healing surge value.\nEffect: Until the end of the encounter, you gain regeneration equal to your Wisdom modifier while bloodied.\nPublished in Divine Power, page(s) 91."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage. If the attack hits two or more targets, you regain hit points equal to your healing surge value."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, you gain regeneration equal to your Wisdom while bloodied."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Paladin Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

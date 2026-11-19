@@ -89,7 +89,9 @@ class ProductionClassPackageTest {
             assertTrue(laterRules.choices.single { it.slot == encounter.slot }.entries.any { it.entryId == lateEncounter.selection.entryId && it.status == Eligibility.ELIGIBLE },
                 laterRules.choices.single { it.slot == encounter.slot }.entries.single { it.entryId == lateEncounter.selection.entryId }.toString())
             assertTrue(laterRules.choices.single { it.slot == daily.slot }.entries.any { it.entryId == lateDaily.selection.entryId && it.status == Eligibility.ELIGIBLE })
-            assertTrue(laterRules.diagnostics.any { it.code == "engine.replacementTiming" })
+            assertTrue(laterRules.diagnostics.any { it.code == "engine.replacementTiming" &&
+                it.slot == encounter.slot && it.kind == DiagnosticKind.INVALID_SELECTION })
+            assertFalse(laterRules.diagnostics.any { it.code == "engine.replacementTiming" && it.slot == daily.slot })
             val portable = assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(later))).value
             assertEquals(later, portable)
             assertEquals(laterRules.diagnostics, RulesEngine.evaluate(portable, RulesContent.load(portable, catalog)).diagnostics)

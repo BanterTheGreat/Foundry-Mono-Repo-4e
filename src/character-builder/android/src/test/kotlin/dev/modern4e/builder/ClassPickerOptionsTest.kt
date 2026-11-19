@@ -35,25 +35,21 @@ class ClassPickerOptionsTest {
         val ranger = row("Ranger", "STRIKER")
         val options = PickerOptions.Ready(listOf(ranger, wizard, bard, fighter, druid), emptyList())
 
-        val sections = classPickerSections(options, showIneligible = false)
+        val sections = classPickerSections(options)
 
         assertEquals(listOf("Controller", "Defender", "Leader", "Striker"), sections.map { it.title })
         assertEquals(listOf(listOf(druid, wizard), listOf(fighter), listOf(bard), listOf(ranger)),
             sections.map { it.rows })
     }
 
-    @Test fun revealingBlockedClassesKeepsThemInTheirRolesAndPreservesUnclassifiedRows() {
+    @Test fun blockedClassesAreAlwaysInlineWithinTheirRolesAndUnclassifiedRowsRemainVisible() {
         val wizard = row("Wizard", "CONTROLLER")
         val invoker = row("Invoker", "CONTROLLER", Eligibility.INELIGIBLE)
         val ranger = row("Ranger", "STRIKER", Eligibility.INELIGIBLE)
         val unavailable = row("Unknown class", null).copy(option = null)
         val options = PickerOptions.Ready(listOf(wizard), listOf(ranger, unavailable, invoker))
 
-        val hidden = classPickerSections(options, showIneligible = false)
-        assertEquals(listOf("Controller"), hidden.map { it.title })
-        assertEquals(listOf(wizard), hidden.single().rows)
-
-        val visible = classPickerSections(options, showIneligible = true)
+        val visible = classPickerSections(options)
         assertEquals(listOf("Controller", "Striker", "Unclassified"), visible.map { it.title })
         assertEquals(listOf(listOf(invoker, wizard), listOf(ranger), listOf(unavailable)), visible.map { it.rows })
     }

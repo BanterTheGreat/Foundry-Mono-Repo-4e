@@ -330,12 +330,13 @@ def production(content=None, snapshot=SNAPSHOT, campaign=None):
     import class_runtime
     import equipment_runtime
     import feat_runtime
+    import path_runtime
     import runtime_common
     import theme_runtime
     import utility_runtime
     classes = class_runtime.build() if content is None else class_runtime.build(content)
     modern = dict(classes)
-    for compiler in (ancestry_runtime, theme_runtime, feat_runtime, utility_runtime, equipment_runtime):
+    for compiler in (ancestry_runtime, theme_runtime, feat_runtime, utility_runtime, equipment_runtime, path_runtime):
         package = compiler.build()
         require(not modern.keys() & package.keys(), "production", "duplicate package assets")
         modern |= package

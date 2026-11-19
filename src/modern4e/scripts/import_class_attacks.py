@@ -32,7 +32,7 @@ def source_rows(class_name="Fighter"):
     listing = compendium.payload(compendium.DATA / "power/_listing.js")
     rows = [dict(zip(listing[-2], row)) for row in listing[-1]]
     return sorted((row for row in rows if row["ClassName"] == class_name
-                   and row["Level"].isdigit() and 1 <= int(row["Level"]) <= 15
+                   and row["Level"].isdigit() and 1 <= int(row["Level"]) <= 19
                    and row["Type"] in ("At-Will Attack", "Enc. Attack", "Daily Attack")),
                   key=lambda row: (int(row["Level"]), row["Type"], row["Name"], row["ID"]))
 

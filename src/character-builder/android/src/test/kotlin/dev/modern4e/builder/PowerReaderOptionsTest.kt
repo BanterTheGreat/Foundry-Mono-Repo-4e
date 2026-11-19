@@ -4,6 +4,19 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class PowerReaderOptionsTest {
+    @Test fun utilityBadgesUseAuthoredLevelsEvenWithGroupedRequirements() {
+        val grouped = Mechanics(prerequisites = listOf(Prerequisite.AllOf(listOf(
+            Prerequisite.Level(6), Prerequisite.Proficiency(Skill.ARCANA)))),
+            powerProfile = PowerProfile(6, "ENCOUNTER", "UTILITY"))
+        val utility = ContentEntry("utility", EntryCategory.POWER, Presentation("Utility"), grouped,
+            Coverage(CoverageStatus.PARTIAL))
+        assertEquals(6, utility.pickerPowerLevel())
+        assertEquals(6, utility.copy(mechanics = grouped.copy(powerProfile = null)).pickerPowerLevel())
+        assertEquals(2, utility.copy(mechanics = grouped.copy(powerProfile = PowerProfile(2, "DAILY", "UTILITY")))
+            .pickerPowerLevel())
+        assertNull(utility.copy(mechanics = Mechanics()).pickerPowerLevel())
+    }
+
     private fun row(id: String, eligibility: Eligibility = Eligibility.ELIGIBLE, category: EntryCategory = EntryCategory.POWER): BuilderOptionRow {
         val supplier = PackageRevision("standard", "1")
         val metadata = CatalogEntry(EntryMetadata(id, category, id, "powers"), supplier)
@@ -82,7 +95,7 @@ class PowerReaderOptionsTest {
         assertEquals(incomplete.option, incomplete.powerDraftOnTap(emptySet(), "draft", replacementReady = true))
     }
 
-    @Test fun revealedIneligibleOptionsCanBeExplicitlyDrafted() {
+    @Test fun visibleIneligibleOptionsCanBeExplicitlyDraftedButPendingAndUnavailableRowsCannot() {
         val blocked = row("blocked", Eligibility.INELIGIBLE)
         val duplicate = row("duplicate")
         val unresolved = row("unresolved", Eligibility.UNRESOLVED, EntryCategory.THEME)
@@ -121,13 +134,13 @@ class PowerReaderOptionsTest {
         val other = row("Sure Strike")
         val blocked = row("Blocked Strike", Eligibility.INELIGIBLE)
         val options = PickerOptions.Ready(listOf(first, other), listOf(blocked))
-        assertEquals(listOf(other), visibleReaderPowers(options, false, "  STRIKE  "))
-        assertEquals(other, catalogReaderPage(visibleReaderPowers(options, false, "strike"), "Cleave", "Cleave"))
-        assertNull(catalogReaderPage(visibleReaderPowers(options, false, "no match"), "Cleave", "Cleave"))
-        assertEquals(listOf(other, blocked), visibleReaderPowers(options, true, "strike"))
+        assertEquals(listOf(other, blocked), visibleReaderPowers(options, "  STRIKE  "))
+        assertEquals(other, catalogReaderPage(visibleReaderPowers(options, "strike"), "Cleave", "Cleave"))
+        assertNull(catalogReaderPage(visibleReaderPowers(options, "no match"), "Cleave", "Cleave"))
+        assertEquals(listOf(blocked), visibleReaderPowers(options, "blocked"))
         val definition = requireNotNull(other.option)
         val described = other.copy(option = definition.copy(entry = definition.entry.copy(
             entry = definition.entry.entry.copy(presentation = Presentation("Sure Strike", "Martial Weapon")))))
-        assertEquals(listOf(described), visibleReaderPowers(PickerOptions.Ready(listOf(described), emptyList()), false, "weapon"))
+        assertEquals(listOf(described), visibleReaderPowers(PickerOptions.Ready(listOf(described), emptyList()), "weapon"))
     }
 }

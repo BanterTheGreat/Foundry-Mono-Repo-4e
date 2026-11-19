@@ -1,0 +1,3612 @@
+{
+  "entries": [
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6855",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 1,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your enemy's eyes glow with an eldritch light as your vestige takes hold and scours that foe's mind while you curse another nearby foe.\n\nAT_WILL / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Will\n\nHit: 1d6 + Constitution psychic damage. Choose the target or a creature within 3 squares of the target and within the target's line of sight. You place your Warlock's Curse on that creature; if the creature is already cursed by you, you can deal your Warlock's Curse extra damage to that creature instead of to the target.\n\nLevel 21: 2d6 + Constitution psychic damage.\n\nAugment (King Elidyr): One ally who hits the target before the end of your next turn can roll a saving throw.\n\nAugment (Zutwa): You gain your Prime Shot bonus against the target until the end of your next turn.\n\nAugment (other vestige): See the “Eyes of the Vestige Augment” entry for the daily power that grants access to the vestige.",
+        "title": "Eyes of the Vestige"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "scaling": [
+                            {
+                              "atLevel": 21,
+                              "text": "2d6 + Constitution psychic damage."
+                            }
+                          ],
+                          "text": "1d6 + Constitution psychic damage. Choose the target or a creature within 3 squares of the target and within the target's line of sight. You place your Warlock's Curse on that creature; if the creature is already cursed by you, you can deal your Warlock's Curse extra damage to that creature instead of to the target.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Augment (King Elidyr)",
+                "text": "One ally who hits the target before the end of your next turn can roll a saving throw.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Augment (Zutwa)",
+                "text": "You gain your Prime Shot bonus against the target until the end of your next turn.",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Augment (other vestige)",
+                "text": "See the “Eyes of the Vestige Augment” entry for the daily power that grants access to the vestige.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your enemy's eyes glow with an eldritch light as your vestige takes hold and scours that foe's mind while you curse another nearby foe.",
+        "flavor": "Your enemy's eyes glow with an eldritch light as your vestige takes hold and scours that foe's mind while you curse another nearby foe.",
+        "id": "modern4e.power.warlock-power6855",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "PSYCHIC"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 1,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6855",
+          "publication": "Published in Arcane Power, page(s) 73, Adventurer's Vault 2, page(s) 50.",
+          "rulesText": "Eyes of the VestigeWarlock Attack 1\nYour enemy's eyes glow with an eldritch light as your vestige takes hold and scours that foe's mind while you curse another nearby foe.\nAt-Will   ✦     Arcane, Implement, Psychic ; Varies\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Will\nHit: 1d6 + Constitution modifier psychic damage. Choose the target or a creature within 3 squares of the target and within the target's line of sight. You place your Warlock's Curse on that creature; if the creature is already cursed by you, you can deal your Warlock's Curse extra damage to that creature instead of to the target.\nLevel 21: 2d6 + Constitution modifier psychic damage.\nAugment (King Elidyr): One ally who hits the target before the end of your next turn can roll a saving throw.\nAugment (Zutwa): You gain your Prime Shot bonus against the target until the end of your next turn.\nAugment (other vestige): See the “Eyes of the Vestige Augment” entry for the daily power that grants access to the vestige.\nPublished in Arcane Power, page(s) 73, Adventurer's Vault 2, page(s) 50."
+        },
+        "subtitle": "Warlock Attack 1",
+        "title": "Eyes of the Vestige"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6856",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 1,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Khaeleth was a divine entity that gave of himself until only a shred remained. Invoking him, you perform a similar act on behalf of an ally.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Reflex\n\nHit: 1d8 + Constitution damage. You gain a bonus to the damage roll equal to your Intelligence for each ally adjacent to you.\n\nMiss: Half damage.\n\nVestige Pact: You gain access to the vestige of Khaeleth.\n\nKhaeleth Pact Boon: An ally within 5 squares of you gains temporary hit points equal to your Intelligence.\n\nEyes of the Vestige Augment: The first time your eyes of the vestige target deals damage to an ally before the end of your next turn, you can reduce that damage by any amount and take damage equal to the amount of the reduction. The damage has no type.",
+        "title": "Vestige of Khaeleth"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d8 + Constitution damage. You gain a bonus to the damage roll equal to your Intelligence for each ally adjacent to you.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Vestige Pact",
+                "text": "You gain access to the vestige of Khaeleth.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Khaeleth Pact Boon",
+                "text": "An ally within 5 squares of you gains temporary hit points equal to your Intelligence.",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Eyes of the Vestige Augment",
+                "text": "The first time your eyes of the vestige target deals damage to an ally before the end of your next turn, you can reduce that damage by any amount and take damage equal to the amount of the reduction. The damage has no type.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Khaeleth was a divine entity that gave of himself until only a shred remained. Invoking him, you perform a similar act on behalf of an ally.",
+        "flavor": "Khaeleth was a divine entity that gave of himself until only a shred remained. Invoking him, you perform a similar act on behalf of an ally.",
+        "id": "modern4e.power.warlock-power6856",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 1,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6856",
+          "publication": "Published in Arcane Power, page(s) 75.",
+          "rulesText": "Vestige of KhaelethWarlock Attack 1\nKhaeleth was a divine entity that gave of himself until only a shred remained. Invoking him, you perform a similar act on behalf of an ally.\nDaily   ✦     Arcane, Implement\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Reflex\nHit: 1d8 + Constitution modifier damage. You gain a bonus to the damage roll equal to your Intelligence modifier for each ally adjacent to you.\nMiss: Half damage.\nVestige Pact: You gain access to the vestige of Khaeleth.\nKhaeleth Pact Boon: An ally within 5 squares of you gains temporary hit points equal to your Intelligence modifier.\nEyes of the Vestige Augment: The first time your eyes of the vestige target deals damage to an ally before the end of your next turn, you can reduce that damage by any amount and take damage equal to the amount of the reduction. The damage has no type.\nPublished in Arcane Power, page(s) 75."
+        },
+        "subtitle": "Warlock Attack 1",
+        "title": "Vestige of Khaeleth"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6857",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 1,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You tell of the victory of the primordials against the divine army at Mount Vaelis, conjuring the thunderous echoes of their success.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Reflex\n\nHit: 2d8 + Constitution thunder damage, and the target cannot walk or run (save ends).\n\nMiss: Half damage, and the target cannot walk or run until the end of your next turn.\n\nVestige Pact: You gain access to the vestige of Mount Vaelis.\n\nMount Vaelis Pact Boon: One creature cursed by you and within 5 squares of you gains vulnerable 5 thunder until the end of your next turn.\n\nEyes of the Vestige Augment: Your eyes of the vestige attack deals 1d6 extra thunder damage.",
+        "title": "Vestige of Mount Vaelis"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d8 + Constitution thunder damage, and the target cannot walk or run (save ends).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and the target cannot walk or run until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Vestige Pact",
+                "text": "You gain access to the vestige of Mount Vaelis.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Mount Vaelis Pact Boon",
+                "text": "One creature cursed by you and within 5 squares of you gains vulnerable 5 thunder until the end of your next turn.",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Eyes of the Vestige Augment",
+                "text": "Your eyes of the vestige attack deals 1d6 extra thunder damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You tell of the victory of the primordials against the divine army at Mount Vaelis, conjuring the thunderous echoes of their success.",
+        "flavor": "You tell of the victory of the primordials against the divine army at Mount Vaelis, conjuring the thunderous echoes of their success.",
+        "id": "modern4e.power.warlock-power6857",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "THUNDER"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 1,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6857",
+          "publication": "Published in Arcane Power, page(s) 75.",
+          "rulesText": "Vestige of Mount VaelisWarlock Attack 1\nYou tell of the victory of the primordials against the divine army at Mount Vaelis, conjuring the thunderous echoes of their success.\nDaily   ✦     Arcane, Implement, Thunder\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Reflex\nHit: 2d8 + Constitution modifier thunder damage, and the target cannot walk or run (save ends).\nMiss: Half damage, and the target cannot walk or run until the end of your next turn.\nVestige Pact: You gain access to the vestige of Mount Vaelis.\nMount Vaelis Pact Boon: One creature cursed by you and within 5 squares of you gains vulnerable 5 thunder until the end of your next turn.\nEyes of the Vestige Augment: Your eyes of the vestige attack deals 1d6 extra thunder damage.\nPublished in Arcane Power, page(s) 75."
+        },
+        "subtitle": "Warlock Attack 1",
+        "title": "Vestige of Mount Vaelis"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6858",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 5,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Upon his demise, Ugar the Unforgiving dissolved into sand and became a harsh desert. Your words of power bring forth the searing flame of that land to burn your foes.\n\nDAILY / STANDARD\n\nArea burst 2 within 10 squares\n\nTarget: Each creature in the burst\n\nAttack: Constitution vs. Reflex\n\nHit: 1d10 + Constitution fire damage.\n\nEffect: The burst creates a zone of burning light that lasts until the end of the encounter. Each creature that enters the zone or starts its turn there takes 1d10 fire damage. A creature can take this damage only once per turn. Creatures cannot benefit from concealment while within the zone.\n\nVestige Pact: You gain access to the vestige of Ugar the Unforgiving.\n\nUgar Pact Boon: You can move the zone 3 squares as a free action.\n\nEyes of the Vestige Augment: Your eyes of the vestige attack deals fire damage instead of psychic damage. The target loses concealment and cannot regain it until the end of your next turn.",
+        "title": "Vestige of Ugar"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d10 + Constitution fire damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 2 within 10 squares",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "The burst creates a zone of burning light that lasts until the end of the encounter. Each creature that enters the zone or starts its turn there takes 1d10 fire damage. A creature can take this damage only once per turn. Creatures cannot benefit from concealment while within the zone.",
+                "type": "effect"
+              },
+              {
+                "id": "row-5",
+                "label": "Vestige Pact",
+                "text": "You gain access to the vestige of Ugar the Unforgiving.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Ugar Pact Boon",
+                "text": "You can move the zone 3 squares as a free action.",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Eyes of the Vestige Augment",
+                "text": "Your eyes of the vestige attack deals fire damage instead of psychic damage. The target loses concealment and cannot regain it until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 2 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Upon his demise, Ugar the Unforgiving dissolved into sand and became a harsh desert. Your words of power bring forth the searing flame of that land to burn your foes.",
+        "flavor": "Upon his demise, Ugar the Unforgiving dissolved into sand and became a harsh desert. Your words of power bring forth the searing flame of that land to burn your foes.",
+        "id": "modern4e.power.warlock-power6858",
+        "keywords": [
+          "ARCANE",
+          "FIRE",
+          "IMPLEMENT",
+          "ZONE"
+        ],
+        "level": 5,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 5,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6858",
+          "publication": "Published in Arcane Power, page(s) 77.",
+          "rulesText": "Vestige of UgarWarlock Attack 5\nUpon his demise, Ugar the Unforgiving dissolved into sand and became a harsh desert. Your words of power bring forth the searing flame of that land to burn your foes.\nDaily   ✦     Arcane, Fire, Implement, Zone\nStandard Action      Area burst 2 within 10 squares\nTarget: Each creature in the burst\nAttack: Constitution vs. Reflex\nHit: 1d10 + Constitution modifier fire damage.\nEffect: The burst creates a zone of burning light that lasts until the end of the encounter. Each creature that enters the zone or starts its turn there takes 1d10 fire damage. A creature can take this damage only once per turn. Creatures cannot benefit from concealment while within the zone.\nVestige Pact: You gain access to the vestige of Ugar the Unforgiving.\nUgar Pact Boon: You can move the zone 3 squares as a free action.\nEyes of the Vestige Augment: Your eyes of the vestige attack deals fire damage instead of psychic damage. The target loses concealment and cannot regain it until the end of your next turn.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Arcane Power, page(s) 77."
+        },
+        "subtitle": "Warlock Attack 5",
+        "title": "Vestige of Ugar"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6859",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 5,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "To know the borders of sanity, one has to cross them. With the aid of Xandor the Mad, you push your foe across that threshold.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Will\n\nHit: 2d6 + Constitution psychic damage, and the target is influenced by the vestige of Xandor (save ends). While it is influenced, at the start of each of its turns, it must choose either to be dazed until the start of its next turn or to take psychic damage equal to twice your Constitution.\n\nMiss: 2d6 + Constitution psychic damage, and the target is dazed until the end of your next turn.\n\nVestige Pact: You gain access to the vestige of Xandor the Mad.\n\nXandor Pact Boon: You can roll a saving throw. If you have no effect on you that a save can end, you instead gain temporary hit points equal to your Constitution.\n\nEyes of the Vestige Augment: Your eyes of the vestige attack deals 1d8 extra psychic damage.",
+        "title": "Vestige of Xandor"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d6 + Constitution psychic damage, and the target is influenced by the vestige of Xandor (save ends). While it is influenced, at the start of each of its turns, it must choose either to be dazed until the start of its next turn or to take psychic damage equal to twice your Constitution.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "2d6 + Constitution psychic damage, and the target is dazed until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Vestige Pact",
+                "text": "You gain access to the vestige of Xandor the Mad.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Xandor Pact Boon",
+                "text": "You can roll a saving throw. If you have no effect on you that a save can end, you instead gain temporary hit points equal to your Constitution.",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Eyes of the Vestige Augment",
+                "text": "Your eyes of the vestige attack deals 1d8 extra psychic damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "To know the borders of sanity, one has to cross them. With the aid of Xandor the Mad, you push your foe across that threshold.",
+        "flavor": "To know the borders of sanity, one has to cross them. With the aid of Xandor the Mad, you push your foe across that threshold.",
+        "id": "modern4e.power.warlock-power6859",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "PSYCHIC"
+        ],
+        "level": 5,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 5,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6859",
+          "publication": "Published in Arcane Power, page(s) 77.",
+          "rulesText": "Vestige of XandorWarlock Attack 5\nTo know the borders of sanity, one has to cross them. With the aid of Xandor the Mad, you push your foe across that threshold.\nDaily   ✦     Arcane, Implement, Psychic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Will\nHit: 2d6 + Constitution modifier psychic damage, and the target is influenced by the vestige of Xandor (save ends). While it is influenced, at the start of each of its turns, it must choose either to be dazed until the start of its next turn or to take psychic damage equal to twice your Constitution modifier.\nMiss: 2d6 + Constitution modifier psychic damage, and the target is dazed until the end of your next turn.\nVestige Pact: You gain access to the vestige of Xandor the Mad.\nXandor Pact Boon: You can roll a saving throw. If you have no effect on you that a save can end, you instead gain temporary hit points equal to your Constitution modifier.\nEyes of the Vestige Augment: Your eyes of the vestige attack deals 1d8 extra psychic damage.\nPublished in Arcane Power, page(s) 77."
+        },
+        "subtitle": "Warlock Attack 5",
+        "title": "Vestige of Xandor"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6860",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 9,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The primordial Ilmeth felt sorrow for the lives he claimed in the Dawn War, and the war-frenzied titans under his command destroyed him for his weakness. You channel the sorrow of the slain primordial to wound your enemy with regret.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Reflex\n\nHit: 2d10 + Constitution psychic damage. Until the end of the encounter, whenever the target makes an attack roll against you, it takes psychic damage equal to your Intelligence.\n\nMiss: Half damage.\n\nVestige Pact: You gain access to the vestige of Ilmeth.\n\nIlmeth Pact Boon: You and an ally within 5 squares of you can swap positions as a free action.\n\nEyes of the Vestige Augment: Your eyes of the vestige target also takes a -2 penalty to attack rolls until the end of your next turn.",
+        "title": "Vestige of Ilmeth"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d10 + Constitution psychic damage. Until the end of the encounter, whenever the target makes an attack roll against you, it takes psychic damage equal to your Intelligence.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Vestige Pact",
+                "text": "You gain access to the vestige of Ilmeth.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Ilmeth Pact Boon",
+                "text": "You and an ally within 5 squares of you can swap positions as a free action.",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Eyes of the Vestige Augment",
+                "text": "Your eyes of the vestige target also takes a -2 penalty to attack rolls until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The primordial Ilmeth felt sorrow for the lives he claimed in the Dawn War, and the war-frenzied titans under his command destroyed him for his weakness. You channel the sorrow of the slain primordial to wound your enemy with regret.",
+        "flavor": "The primordial Ilmeth felt sorrow for the lives he claimed in the Dawn War, and the war-frenzied titans under his command destroyed him for his weakness. You channel the sorrow of the slain primordial to wound your enemy with regret.",
+        "id": "modern4e.power.warlock-power6860",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "PSYCHIC",
+          "TELEPORTATION"
+        ],
+        "level": 9,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 9,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6860",
+          "publication": "Published in Arcane Power, page(s) 79.",
+          "rulesText": "Vestige of IlmethWarlock Attack 9\nThe primordial Ilmeth felt sorrow for the lives he claimed in the Dawn War, and the war-frenzied titans under his command destroyed him for his weakness. You channel the sorrow of the slain primordial to wound your enemy with regret.\nDaily   ✦     Arcane, Implement, Psychic, Teleportation\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Reflex\nHit: 2d10 + Constitution modifier psychic damage. Until the end of the encounter, whenever the target makes an attack roll against you, it takes psychic damage equal to your Intelligence modifier.\nMiss: Half damage.\nVestige Pact: You gain access to the vestige of Ilmeth.\nIlmeth Pact Boon: You and an ally within 5 squares of you can swap positions as a free action.\nEyes of the Vestige Augment: Your eyes of the vestige target also takes a -2 penalty to attack rolls until the end of your next turn.\nPublished in Arcane Power, page(s) 79."
+        },
+        "subtitle": "Warlock Attack 9",
+        "title": "Vestige of Ilmeth"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6861",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 9,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Shax the Devastator is a dead primordial of the sea. With a wave of your hand, you summon a fragment of his power.\n\nDAILY / STANDARD\n\nClose blast 3\n\nTarget: Each creature in the blast\n\nEffect: You knock the target prone.\n\nAttack: Constitution vs. Fortitude\n\nHit: 2d10 + Constitution damage, and you push the target a number of squares equal to your Intelligence.\n\nMiss: Half damage.\n\nVestige Pact: You gain access to the vestige of Shax the Devastator\n\nShax Pact Boon: You can end one dazed, stunned, immobilized, or restrained condition on you or on an ally within 5 squares of you.\n\nEyes of the Vestige Augment: You push your eyes of the vestige target a number of squares equal to your Intelligence.",
+        "title": "Vestige of Shax"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the blast"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You knock the target prone.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "2d10 + Constitution damage, and you push the target a number of squares equal to your Intelligence.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-5",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Close blast 3",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-6",
+                "label": "Vestige Pact",
+                "text": "You gain access to the vestige of Shax the Devastator",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Shax Pact Boon",
+                "text": "You can end one dazed, stunned, immobilized, or restrained condition on you or on an ally within 5 squares of you.",
+                "type": "effect"
+              },
+              {
+                "id": "row-8",
+                "label": "Eyes of the Vestige Augment",
+                "text": "You push your eyes of the vestige target a number of squares equal to your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close blast 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Shax the Devastator is a dead primordial of the sea. With a wave of your hand, you summon a fragment of his power.",
+        "flavor": "Shax the Devastator is a dead primordial of the sea. With a wave of your hand, you summon a fragment of his power.",
+        "id": "modern4e.power.warlock-power6861",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT"
+        ],
+        "level": 9,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 9,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6861",
+          "publication": "Published in Arcane Power, page(s) 79.",
+          "rulesText": "Vestige of ShaxWarlock Attack 9\nShax the Devastator is a dead primordial of the sea. With a wave of your hand, you summon a fragment of his power.\nDaily   ✦     Arcane, Implement\nStandard Action      Close blast 3\nTarget: Each creature in the blast\nEffect: You knock the target prone.\nAttack: Constitution vs. Fortitude\nHit: 2d10 + Constitution modifier damage, and you push the target a number of squares equal to your Intelligence modifier.\nMiss: Half damage.\nVestige Pact: You gain access to the vestige of Shax the Devastator\nShax Pact Boon: You can end one dazed, stunned, immobilized, or restrained condition on you or on an ally within 5 squares of you.\nEyes of the Vestige Augment: You push your eyes of the vestige target a number of squares equal to your Intelligence modifier.\nPublished in Arcane Power, page(s) 79."
+        },
+        "subtitle": "Warlock Attack 9",
+        "title": "Vestige of Shax"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6862",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 15,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Leraje gave up the lush woods to prove her mastery of the bow, and was cast away for it. You borrow her skill, but not her pride.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Reflex\n\nHit: 2d10 + Constitution damage.\n\nEffect: The target takes ongoing 5 poison damage (save ends).\n\nVestige Pact: You gain access to the vestige of Leraje.\n\nLeraje Pact Boon: Living plants temporarily grow around you. Until the end of your next turn, you have cover against attackers that are not adjacent to you.\n\nEyes of the Vestige Augment: Your eyes of the vestige target is also immobilized until the end of your next turn.",
+        "title": "Vestige of Leraje"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d10 + Constitution damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "The target takes ongoing 5 poison damage (save ends).",
+                "type": "effect"
+              },
+              {
+                "id": "row-5",
+                "label": "Vestige Pact",
+                "text": "You gain access to the vestige of Leraje.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Leraje Pact Boon",
+                "text": "Living plants temporarily grow around you. Until the end of your next turn, you have cover against attackers that are not adjacent to you.",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Eyes of the Vestige Augment",
+                "text": "Your eyes of the vestige target is also immobilized until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Leraje gave up the lush woods to prove her mastery of the bow, and was cast away for it. You borrow her skill, but not her pride.",
+        "flavor": "Leraje gave up the lush woods to prove her mastery of the bow, and was cast away for it. You borrow her skill, but not her pride.",
+        "id": "modern4e.power.warlock-power6862",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "POISON"
+        ],
+        "level": 15,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 15,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6862",
+          "publication": "Published in Arcane Power, page(s) 81.",
+          "rulesText": "Vestige of LerajeWarlock Attack 15\nLeraje gave up the lush woods to prove her mastery of the bow, and was cast away for it. You borrow her skill, but not her pride.\nDaily   ✦     Arcane, Implement, Poison\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Reflex\nHit: 2d10 + Constitution modifier damage.\nEffect: The target takes ongoing 5 poison damage (save ends).\nVestige Pact: You gain access to the vestige of Leraje.\nLeraje Pact Boon: Living plants temporarily grow around you. Until the end of your next turn, you have cover against attackers that are not adjacent to you.\nEyes of the Vestige Augment: Your eyes of the vestige target is also immobilized until the end of your next turn.\nPublished in Arcane Power, page(s) 81."
+        },
+        "subtitle": "Warlock Attack 15",
+        "title": "Vestige of Leraje"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6863",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 15,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A falling star soars downward, burning bright as it strikes your foe in a deafening explosion.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Reflex\n\nHit: 2d8 + Constitution fire damage. The target takes ongoing 10 thunder damage (save ends). Make the vestige of Solis Secondary Attack centered on the target.\n\nVestige Pact: You gain access to the vestige of Solis.\n\nSolis Pact Boon: Each enemy within 3 squares of you is deafened and grants combat advantage until the end of your next turn.\n\nEyes of the Vestige Augment: If your eyes of the vestige target makes an attack roll against any of your allies before the end of the target's next turn, the target takes fire and thunder damage equal to your Constitution.\n\nGrants: Vestige of Solis Secondary Attack\n\nDAILY / NO_ACTION\n\nArea burst 1\n\nRequirement: Primary target of the Vestige of Solis power has been hit.\n\nTarget: Each creature in the burst centered on the primary target of the Vestige of Solis attack.\n\nAttack: Constitution vs. Fortitude\n\nHit: The target is dazed and deafened (save ends both).",
+        "title": "Vestige of Solis"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d8 + Constitution fire damage. The target takes ongoing 10 thunder damage (save ends). Make the vestige of Solis Secondary Attack centered on the target.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Vestige Pact",
+                "text": "You gain access to the vestige of Solis.",
+                "type": "effect"
+              },
+              {
+                "id": "row-5",
+                "label": "Solis Pact Boon",
+                "text": "Each enemy within 3 squares of you is deafened and grants combat advantage until the end of your next turn.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Eyes of the Vestige Augment",
+                "text": "If your eyes of the vestige target makes an attack roll against any of your allies before the end of the target's next turn, the target takes fire and thunder damage equal to your Constitution.",
+                "type": "effect"
+              },
+              {
+                "activationId": "use-vestige-of-solis-secondary-attack",
+                "duration": "As stated in the power's rules",
+                "id": "grant-use-vestige-of-solis-secondary-attack",
+                "label": "Grants",
+                "text": "Vestige of Solis Secondary Attack",
+                "type": "grant"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          },
+          {
+            "action": "NO_ACTION",
+            "availability": "GRANTED",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-12": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst centered on the primary target of the Vestige of Solis attack."
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-14",
+                          "label": "Hit",
+                          "text": "The target is dazed and deafened (save ends both).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-13",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 1",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-12",
+                "text": "Constitution vs. Fortitude",
+                "type": "attack"
+              }
+            ],
+            "id": "use-vestige-of-solis-secondary-attack",
+            "range": {
+              "text": "Area burst 1",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "Primary target of the Vestige of Solis power has been hit.",
+            "targets": "targets-12",
+            "title": "Vestige of Solis Secondary Attack",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A falling star soars downward, burning bright as it strikes your foe in a deafening explosion.",
+        "flavor": "A falling star soars downward, burning bright as it strikes your foe in a deafening explosion.",
+        "id": "modern4e.power.warlock-power6863",
+        "keywords": [
+          "ARCANE",
+          "FIRE",
+          "IMPLEMENT",
+          "THUNDER"
+        ],
+        "level": 15,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 15,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6863",
+          "publication": "Published in Arcane Power, page(s) 81.",
+          "rulesText": "Vestige of SolisWarlock Attack 15\nA falling star soars downward, burning bright as it strikes your foe in a deafening explosion.\nDaily   ✦     Arcane, Fire, Implement, Thunder\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Reflex\nHit: 2d8 + Constitution modifier fire damage. The target takes ongoing 10 thunder damage (save ends). Make the vestige of Solis Secondary Attack centered on the target.\nVestige Pact: You gain access to the vestige of Solis.\nSolis Pact Boon: Each enemy within 3 squares of you is deafened and grants combat advantage until the end of your next turn.\nEyes of the Vestige Augment: If your eyes of the vestige target makes an attack roll against any of your allies before the end of the target's next turn, the target takes fire and thunder damage equal to your Constitution modifier.\nVestige of Solis Secondary Attack\nA falling star soars downward, burning bright as it strikes your foe in a deafening explosion.\nDaily ✦     Arcane, Fire, Implement, Thunder\nNo Action      Area burst 1\nRequirement: Primary target of the Vestige of Solis power has been hit.\nTarget: Each creature in the burst centered on the primary target of the Vestige of Solis attack.\nAttack: Constitution vs. Fortitude\nHit: The target is dazed and deafened (save ends both).\nPublished in Arcane Power, page(s) 81."
+        },
+        "subtitle": "Warlock Attack 15",
+        "title": "Vestige of Solis"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6864",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "FEAR",
+            "IMPLEMENT",
+            "PSYCHIC"
+          ],
+          "level": 17,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 17,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You manifest an aspect of the blank face of dead Zhudun, causing your foe to collapse in fear.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Will\n\nHit: 1d8 + Constitution psychic damage, and you knock the target prone. If the target stands up during its next turn, it takes 2d8 psychic damage and grants combat advantage until the end of your next turn.\n\nStar Pact: If the target stands up during its next turn, it also takes a -2 penalty to attack rolls until the end of your next turn.",
+        "title": "Despair of Zhudun"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d8 + Constitution psychic damage, and you knock the target prone. If the target stands up during its next turn, it takes 2d8 psychic damage and grants combat advantage until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Star Pact",
+                "text": "If the target stands up during its next turn, it also takes a -2 penalty to attack rolls until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You manifest an aspect of the blank face of dead Zhudun, causing your foe to collapse in fear.",
+        "flavor": "You manifest an aspect of the blank face of dead Zhudun, causing your foe to collapse in fear.",
+        "id": "modern4e.power.warlock-power6864",
+        "keywords": [
+          "ARCANE",
+          "FEAR",
+          "IMPLEMENT",
+          "PSYCHIC"
+        ],
+        "level": 17,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 17,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6864",
+          "publication": "Published in Arcane Power, page(s) 82.",
+          "rulesText": "Despair of ZhudunWarlock Attack 17\nYou manifest an aspect of the blank face of dead Zhudun, causing your foe to collapse in fear.\nEncounter   ✦     Arcane, Fear, Implement, Psychic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Will\nHit: 1d8 + Constitution modifier psychic damage, and you knock the target prone. If the target stands up during its next turn, it takes 2d8 psychic damage and grants combat advantage until the end of your next turn.\nStar Pact: If the target stands up during its next turn, it also takes a -2 penalty to attack rolls until the end of your next turn.\nPublished in Arcane Power, page(s) 82."
+        },
+        "subtitle": "Warlock Attack 17",
+        "title": "Despair of Zhudun"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6865",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 17,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Arcane waves sweep your foes to the ground as you harness the rage of the ancient Sea Tyrant.\n\nENCOUNTER / STANDARD\n\nClose blast 5\n\nTarget: Each creature in the blast\n\nAttack: Constitution vs. Reflex\n\nHit: 2d8 + Constitution damage, and you knock the target prone and push it a number of squares equal to your Intelligence.\n\nVestige Pact: You and any allies within 5 squares of you gain a +2 power bonus to saving throws until the end of your next turn.",
+        "title": "Sea Tyrant's Fury"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the blast"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d8 + Constitution damage, and you knock the target prone and push it a number of squares equal to your Intelligence.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Close blast 5",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Vestige Pact",
+                "text": "You and any allies within 5 squares of you gain a +2 power bonus to saving throws until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close blast 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Arcane waves sweep your foes to the ground as you harness the rage of the ancient Sea Tyrant.",
+        "flavor": "Arcane waves sweep your foes to the ground as you harness the rage of the ancient Sea Tyrant.",
+        "id": "modern4e.power.warlock-power6865",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT"
+        ],
+        "level": 17,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 17,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6865",
+          "publication": "Published in Arcane Power, page(s) 83.",
+          "rulesText": "Sea Tyrant's FuryWarlock Attack 17\nArcane waves sweep your foes to the ground as you harness the rage of the ancient Sea Tyrant.\nEncounter   ✦     Arcane, Implement\nStandard Action      Close blast 5\nTarget: Each creature in the blast\nAttack: Constitution vs. Reflex\nHit: 2d8 + Constitution modifier damage, and you knock the target prone and push it a number of squares equal to your Intelligence modifier.\nVestige Pact: You and any allies within 5 squares of you gain a +2 power bonus to saving throws until the end of your next turn.\nPublished in Arcane Power, page(s) 83."
+        },
+        "subtitle": "Warlock Attack 17",
+        "title": "Sea Tyrant's Fury"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6866",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 19,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your magic recalls Kaestelaria's enslavement by the dead god Amaan, imposing similar shackles upon your foe.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Fortitude\n\nHit: 3d8 + Constitution damage, and the target is immobilized and gains vulnerable 10 to all damage (save ends both).\n\nMiss: Half damage, and the target is immobilized (save ends).\n\nVestige Pact: You gain access to the vestige of Amaan.\n\nAmaan Pact Boon: You can push or pull a creature cursed by you and within 10 squares of you a number of squares equal to your Intelligence.\n\nEyes of the Vestige Augment: You push or pull your eyes of the vestige target a number of squares equal to your Intelligence.",
+        "title": "Vestige of Amaan"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3d8 + Constitution damage, and the target is immobilized and gains vulnerable 10 to all damage (save ends both).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and the target is immobilized (save ends).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Vestige Pact",
+                "text": "You gain access to the vestige of Amaan.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Amaan Pact Boon",
+                "text": "You can push or pull a creature cursed by you and within 10 squares of you a number of squares equal to your Intelligence.",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Eyes of the Vestige Augment",
+                "text": "You push or pull your eyes of the vestige target a number of squares equal to your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your magic recalls Kaestelaria's enslavement by the dead god Amaan, imposing similar shackles upon your foe.",
+        "flavor": "Your magic recalls Kaestelaria's enslavement by the dead god Amaan, imposing similar shackles upon your foe.",
+        "id": "modern4e.power.warlock-power6866",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT"
+        ],
+        "level": 19,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 19,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6866",
+          "publication": "Published in Arcane Power, page(s) 84.",
+          "rulesText": "Vestige of AmaanWarlock Attack 19\nYour magic recalls Kaestelaria's enslavement by the dead god Amaan, imposing similar shackles upon your foe.\nDaily   ✦     Arcane, Implement\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Fortitude\nHit: 3d8 + Constitution modifier damage, and the target is immobilized and gains vulnerable 10 to all damage (save ends both).\nMiss: Half damage, and the target is immobilized (save ends).\nVestige Pact: You gain access to the vestige of Amaan.\nAmaan Pact Boon: You can push or pull a creature cursed by you and within 10 squares of you a number of squares equal to your Intelligence modifier.\nEyes of the Vestige Augment: You push or pull your eyes of the vestige target a number of squares equal to your Intelligence modifier.\nPublished in Arcane Power, page(s) 84."
+        },
+        "subtitle": "Warlock Attack 19",
+        "title": "Vestige of Amaan"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6867",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 19,
+                "type": "level"
+              },
+              {
+                "reason": "Depends on a build or feature Modern 4e does not have.",
+                "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [
+          "Unresolved prerequisite; excluded from query pools: Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The Burned Emperors ruled a region torn by strife. Once defeated, they became a shadowy entity, which you now call upon.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Reflex\n\nHit: 2d10 + Constitution damage. You gain a bonus to the damage roll equal to your Intelligence for each ally adjacent to the target.\n\nMiss: Half damage.\n\nVestige Pact: You gain access to the vestige of the Burned Emperors.\n\nBurned Emperor Pact Boon: You can teleport an ally within 5 squares of you 3 squares.\n\nEyes of the Vestige Augment: Each ally adjacent to your eyes of the vestige target can shift 1 square as a free action.",
+        "title": "Vestige of the Burned Emperors"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d10 + Constitution damage. You gain a bonus to the damage roll equal to your Intelligence for each ally adjacent to the target.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Vestige Pact",
+                "text": "You gain access to the vestige of the Burned Emperors.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Burned Emperor Pact Boon",
+                "text": "You can teleport an ally within 5 squares of you 3 squares.",
+                "type": "effect"
+              },
+              {
+                "id": "row-7",
+                "label": "Eyes of the Vestige Augment",
+                "text": "Each ally adjacent to your eyes of the vestige target can shift 1 square as a free action.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The Burned Emperors ruled a region torn by strife. Once defeated, they became a shadowy entity, which you now call upon.",
+        "flavor": "The Burned Emperors ruled a region torn by strife. Once defeated, they became a shadowy entity, which you now call upon.",
+        "id": "modern4e.power.warlock-power6867",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "TELEPORTATION"
+        ],
+        "level": 19,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 19,
+              "type": "level"
+            },
+            {
+              "reason": "Depends on a build or feature Modern 4e does not have.",
+              "text": "Requires a Vestige, Sorcerer-King or Binder build, which Modern 4e does not have.",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6867",
+          "publication": "Published in Arcane Power, page(s) 84.",
+          "rulesText": "Vestige of the Burned EmperorsWarlock Attack 19\nThe Burned Emperors ruled a region torn by strife. Once defeated, they became a shadowy entity, which you now call upon.\nDaily   ✦     Arcane, Implement, Teleportation\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Reflex\nHit: 2d10 + Constitution modifier damage. You gain a bonus to the damage roll equal to your Intelligence modifier for each ally adjacent to the target.\nMiss: Half damage.\nVestige Pact: You gain access to the vestige of the Burned Emperors.\nBurned Emperor Pact Boon: You can teleport an ally within 5 squares of you 3 squares.\nEyes of the Vestige Augment: Each ally adjacent to your eyes of the vestige target can shift 1 square as a free action.\nPublished in Arcane Power, page(s) 84."
+        },
+        "subtitle": "Warlock Attack 19",
+        "title": "Vestige of the Burned Emperors"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6954",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT",
+            "NECROTIC"
+          ],
+          "level": 5,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 5,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You show your foes their doom, channeling dark power from your allies' very souls.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Charisma vs. Will\n\nHit: 2d8 + Charisma necrotic damage.\n\nMiss: Half damage.\n\nEffect: An ally within 5 squares of you can lose a healing surge to allow you to deal an additional 2d8 necrotic damage.",
+        "title": "Well of Death"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d8 + Charisma necrotic damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CHARISMA",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Charisma vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "An ally within 5 squares of you can lose a healing surge to allow you to deal an additional 2d8 necrotic damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You show your foes their doom, channeling dark power from your allies' very souls.",
+        "flavor": "You show your foes their doom, channeling dark power from your allies' very souls.",
+        "id": "modern4e.power.warlock-power6954",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "NECROTIC"
+        ],
+        "level": 5,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 5,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6954",
+          "publication": "Published in Dragon Magazine 372, page(s) 23.",
+          "rulesText": "Well of DeathWarlock Attack 5\nYou show your foes their doom, channeling dark power from your allies' very souls.\nDaily   ✦     Arcane, Implement, Necrotic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Will\nHit: 2d8 + Charisma modifier necrotic damage.\nMiss: Half damage.\nEffect: An ally within 5 squares of you can lose a healing surge to allow you to deal an additional 2d8 necrotic damage.\nPublished in Dragon Magazine 372, page(s) 23."
+        },
+        "subtitle": "Warlock Attack 5",
+        "title": "Well of Death"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6955",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT",
+            "NECROTIC"
+          ],
+          "level": 9,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 9,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You barter with your pact holder for temporary power, consuming your own life force for a powerful attack\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Charisma vs. Will\n\nHit: 3d8 + Charisma necrotic damage.\n\nMiss: Half damage.\n\nEffect: You can choose to lose a healing surge. If you do so, the target takes ongoing 5 necrotic damage (save ends).",
+        "title": "Consuming Ray"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3d8 + Charisma necrotic damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CHARISMA",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Charisma vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "You can choose to lose a healing surge. If you do so, the target takes ongoing 5 necrotic damage (save ends).",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You barter with your pact holder for temporary power, consuming your own life force for a powerful attack",
+        "flavor": "You barter with your pact holder for temporary power, consuming your own life force for a powerful attack",
+        "id": "modern4e.power.warlock-power6955",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "NECROTIC"
+        ],
+        "level": 9,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 9,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6955",
+          "publication": "Published in Dragon Magazine 372, page(s) 23.",
+          "rulesText": "Consuming RayWarlock Attack 9\nYou barter with your pact holder for temporary power, consuming your own life force for a powerful attack\nDaily   ✦     Arcane, Implement, Necrotic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Will\nHit: 3d8 + Charisma modifier necrotic damage.\nMiss: Half damage.\nEffect: You can choose to lose a healing surge. If you do so, the target takes ongoing 5 necrotic damage (save ends).\nPublished in Dragon Magazine 372, page(s) 23."
+        },
+        "subtitle": "Warlock Attack 9",
+        "title": "Consuming Ray"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power6957",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "FIRE",
+            "IMPLEMENT",
+            "NECROTIC"
+          ],
+          "level": 15,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 15,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Drawing upon your infernal ties, you set a foe's soul afire.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Constitution vs. Will\n\nHit: 3d10 + Charisma necrotic and fire damage.\n\nMiss: Half damage.\n\nEffect: If this attack would reduce the target to 0 hit points or fewer, you instead reduce the target to 1 hit point and the target is dominated by you until the end of the encounter.",
+        "title": "Hellfire Soul"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3d10 + Charisma necrotic and fire damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Constitution vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "If this attack would reduce the target to 0 hit points or fewer, you instead reduce the target to 1 hit point and the target is dominated by you until the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Drawing upon your infernal ties, you set a foe's soul afire.",
+        "flavor": "Drawing upon your infernal ties, you set a foe's soul afire.",
+        "id": "modern4e.power.warlock-power6957",
+        "keywords": [
+          "ARCANE",
+          "FIRE",
+          "IMPLEMENT",
+          "NECROTIC"
+        ],
+        "level": 15,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 15,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6957",
+          "publication": "Published in Dragon Magazine 372, page(s) 24.",
+          "rulesText": "Hellfire SoulWarlock Attack 15\nDrawing upon your infernal ties, you set a foe's soul afire.\nDaily   ✦     Arcane, Fire, Implement, Necrotic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Constitution vs. Will\nHit: 3d10 + Charisma modifier necrotic and fire damage.\nMiss: Half damage.\nEffect: If this attack would reduce the target to 0 hit points or fewer, you instead reduce the target to 1 hit point and the target is dominated by you until the end of the encounter.\nPublished in Dragon Magazine 372, page(s) 24."
+        },
+        "subtitle": "Warlock Attack 15",
+        "title": "Hellfire Soul"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power7428",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT"
+          ],
+          "level": 1,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 1,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Invisible force lifts your foes from the ground and squeezes the life from them.\n\nDAILY / STANDARD\n\nClose burst 2\n\nTarget: Each enemy in the burst\n\nAttack: Charisma vs. Fortitude\n\nHit: 1d6 + Charisma damage, and the target is grabbed. If the target attempts to escape, use your Fortitude or Reflex.\n\nSustain Standard: Those this power still has grabbed take 1d6 + Charisma damage when you sustain this power. After you sustain this power, you can use a minor action to use this power's attack on one target the power doesn't have grabbed within 2 squares of a target the power does have grabbed.",
+        "title": "Star Shackles"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d6 + Charisma damage, and the target is grabbed. If the target attempts to escape, use your Fortitude or Reflex.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Close burst 2",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CHARISMA",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Charisma vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Sustain Standard",
+                "text": "Those this power still has grabbed take 1d6 + Charisma damage when you sustain this power. After you sustain this power, you can use a minor action to use this power's attack on one target the power doesn't have grabbed within 2 squares of a target the power does have grabbed.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 2",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Invisible force lifts your foes from the ground and squeezes the life from them.",
+        "flavor": "Invisible force lifts your foes from the ground and squeezes the life from them.",
+        "id": "modern4e.power.warlock-power7428",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT"
+        ],
+        "level": 1,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 1,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7428",
+          "publication": "Published in Dragon Magazine 374, page(s) 22.",
+          "rulesText": "Star ShacklesWarlock Attack 1\nInvisible force lifts your foes from the ground and squeezes the life from them.\nDaily   ✦     Arcane, Implement\nStandard Action      Close burst 2\nTarget: Each enemy in the burst\nAttack: Charisma vs. Fortitude\nHit: 1d6 + Charisma modifier damage, and the target is grabbed. If the target attempts to escape, use your Fortitude or Reflex.\nSustain Standard: Those this power still has grabbed take 1d6 + Charisma modifier damage when you sustain this power. After you sustain this power, you can use a minor action to use this power's attack on one target the power doesn't have grabbed within 2 squares of a target the power does have grabbed.\nPublished in Dragon Magazine 374, page(s) 22."
+        },
+        "subtitle": "Warlock Attack 1",
+        "title": "Star Shackles"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power7437",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "COLD",
+            "IMPLEMENT"
+          ],
+          "level": 7,
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 7,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You lash out with a frigid wind to hold your foe at bay.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Charisma vs. Fortitude\n\nHit: 2d6 + Charisma cold damage, and the target is slowed (save ends).\n\nFey Pact: The target is pushed a number of squares equal to 1 + your Intelligence.",
+        "title": "Lash of the Long Night"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d6 + Charisma cold damage, and the target is slowed (save ends).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CHARISMA",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Charisma vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Fey Pact",
+                "text": "The target is pushed a number of squares equal to 1 + your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You lash out with a frigid wind to hold your foe at bay.",
+        "flavor": "You lash out with a frigid wind to hold your foe at bay.",
+        "id": "modern4e.power.warlock-power7437",
+        "keywords": [
+          "ARCANE",
+          "COLD",
+          "IMPLEMENT"
+        ],
+        "level": 7,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 7,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7437",
+          "publication": "Published in Dragon Magazine 374, page(s) 63.",
+          "rulesText": "Lash of the Long NightWarlock Attack 7\nYou lash out with a frigid wind to hold your foe at bay.\nEncounter   ✦     Arcane, Cold, Implement\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Fortitude\nHit: 2d6 + Charisma modifier cold damage, and the target is slowed (save ends).\nFey Pact: The target is pushed a number of squares equal to 1 + your Intelligence modifier.\nPublished in Dragon Magazine 374, page(s) 63."
+        },
+        "subtitle": "Warlock Attack 7",
+        "title": "Lash of the Long Night"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power7506",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ACID",
+            "ARCANE",
+            "IMPLEMENT",
+            "POLYMORPH"
+          ],
+          "level": 9,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 9,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your body and items turn to caustic jelly as you slide through a throng of foes.\n\nDAILY / STANDARD\n\nPersonal\n\nTarget: Creatures whose spaces you shift through\n\nEffect: You shift your speed, including through squares occupied by enemies. Until the end of your next turn, you can squeeze without penalties to your attack rolls or speed.\n\nAttack: Constitution vs. Reflex\n\nHit: 3d8 + Constitution acid damage, and you push the target 1 square.\n\nMiss: You push the target 1 square.",
+        "title": "Ooze Incarnate"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "Creatures whose spaces you shift through"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You shift your speed, including through squares occupied by enemies. Until the end of your next turn, you can squeeze without penalties to your attack rolls or speed.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "3d8 + Constitution acid damage, and you push the target 1 square.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-5",
+                          "label": "Miss",
+                          "text": "You push the target 1 square.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Personal",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CONSTITUTION",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Constitution vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your body and items turn to caustic jelly as you slide through a throng of foes.",
+        "flavor": "Your body and items turn to caustic jelly as you slide through a throng of foes.",
+        "id": "modern4e.power.warlock-power7506",
+        "keywords": [
+          "ACID",
+          "ARCANE",
+          "IMPLEMENT",
+          "POLYMORPH"
+        ],
+        "level": 9,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 9,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7506",
+          "publication": "Published in Dragon Magazine 375, page(s) 13.",
+          "rulesText": "Ooze IncarnateWarlock Attack 9\nYour body and items turn to caustic jelly as you slide through a throng of foes.\nDaily   ✦     Acid, Arcane, Implement, Polymorph\nStandard Action      Personal\nEffect: You shift your speed, including through squares occupied by enemies. Until the end of your next turn, you can squeeze without penalties to your attack rolls or speed.\nTargets: Creatures whose spaces you shift through\nAttack: Constitution vs. Reflex\nHit: 3d8 + Constitution modifier acid damage, and you push the target 1 square.\nMiss: You push the target 1 square.\nPublished in Dragon Magazine 375, page(s) 13."
+        },
+        "subtitle": "Warlock Attack 9",
+        "title": "Ooze Incarnate"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.warlock-power7507",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT",
+            "NECROTIC"
+          ],
+          "level": 19,
+          "powerKind": "ATTACK",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 19,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Oily black vines bristling with thorns erupt around your foe and swiftly shroud it in life-draining tangles.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Charisma vs. Fortitude\n\nHit: 2d10 + Charisma necrotic damage, and ongoing 10 necrotic damage and the target is immobilized (save ends both).\n\nMiss: Half damage, and the target is slowed until the end of your next turn.\n\nFey Pact: This attack ignores necrotic resistance.",
+        "title": "Dread Briars"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d10 + Charisma necrotic damage, and ongoing 10 necrotic damage and the target is immobilized (save ends both).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and the target is slowed until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CHARISMA",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Charisma vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Fey Pact",
+                "text": "This attack ignores necrotic resistance.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Oily black vines bristling with thorns erupt around your foe and swiftly shroud it in life-draining tangles.",
+        "flavor": "Oily black vines bristling with thorns erupt around your foe and swiftly shroud it in life-draining tangles.",
+        "id": "modern4e.power.warlock-power7507",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "NECROTIC"
+        ],
+        "level": 19,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 19,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7507",
+          "publication": "Published in Dragon Magazine 375, page(s) 14.",
+          "rulesText": "Dread BriarsWarlock Attack 19\nOily black vines bristling with thorns erupt around your foe and swiftly shroud it in life-draining tangles.\nDaily   ✦     Arcane, Implement, Necrotic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Fortitude\nHit: 2d10 + Charisma modifier necrotic damage, and ongoing 10 necrotic damage and the target is immobilized (save ends both).\nMiss: Half damage, and the target is slowed until the end of your next turn.\nFey Pact: This attack ignores necrotic resistance.\nPublished in Dragon Magazine 375, page(s) 14."
+        },
+        "subtitle": "Warlock Attack 19",
+        "title": "Dread Briars"
+      }
+    }
+  ],
+  "id": "entries-0037"
+}

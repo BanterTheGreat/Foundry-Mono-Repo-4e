@@ -60,15 +60,14 @@ internal class DefenseEquipment(entries: List<EngineEntry>, proficiencies: Set<S
         return ContractResult.Available(CalculatedValue(total.toInt(), listOf(base, higher)))
     }
 
-    /** Only non-AC defenses get the default Modern 4e tier bonus. */
+    /** Every defense gets its tier bonus; AC also receives half the level, rounded down. */
     fun modifiers(statistic: Statistic, level: Int): List<ModifierContribution> = buildList {
         fun addDefense(value: Int, title: String, key: String, source: ChoiceSlotId? = null) {
             add(ModifierContribution(TypedModifier(ModifierTarget(statistic), ModifierOperation.ADD, value), title, key, source))
         }
-        if (statistic != Statistic.AC) {
-            addDefense((level - 1) / 10 + 1, "Tier bonus", "modern.defense-tier")
-        }
+        addDefense((level - 1) / 10 + 1, "Tier bonus", "modern.defense-tier")
         if (statistic == Statistic.AC) {
+            addDefense(level / 2, "Half level", "modern.armor-half-level")
             wornArmor?.armorBonus?.let { addDefense(it, wornArmor.title, "modern.armor-bonus", wornArmor.slot) }
         }
         if (statistic == Statistic.REFLEX && wornArmor?.proficiency != null && !proficientArmor) {

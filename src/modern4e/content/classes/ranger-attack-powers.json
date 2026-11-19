@@ -18561,6 +18561,4061 @@
       "subtitle": "Ranger Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power1537",
+      "title": "Arrow of Vengeance",
+      "description": "You point your bow at the villain who just wounded your friend and loose a vengeful arrow.",
+      "flavor": "You point your bow at the villain who just wounded your friend and loose a vengeful arrow.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1537",
+        "publication": "Published in Player's Handbook, page(s) 110.",
+        "rulesText": "Arrow of VengeanceRanger Attack 17\nYou point your bow at the villain who just wounded your friend and loose a vengeful arrow.\nEncounter   ✦     Martial, Weapon\nImmediate Reaction      Ranged weapon\nTrigger: A creature within range attacks your ally\nTarget: The attacking creature\nAttack: Dexterity vs. AC, and you gain a power bonus to this attack equal to your Wisdom modifier.\nHit: 2[W] + Dexterity modifier damage.\nPublished in Player's Handbook, page(s) 110."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The attacking creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC, and you gain a power bonus to this attack equal to your Wisdom.",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Dexterity vs. AC, and you gain a power bonus to this attack equal to your Wisdom."
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "trigger": "A creature within range attacks your ally",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4432",
+      "title": "Blade and Fang",
+      "description": "Attacking as one, you and your beast companion tear into an opponent.",
+      "flavor": "Attacking as one, you and your beast companion tear into an opponent.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 17
+          },
+          {
+            "type": "unresolved",
+            "text": "Requires a ranger beast companion, which Modern 4e does not have.",
+            "reason": "Depends on a build or feature Modern 4e does not have."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4432",
+        "publication": "Published in Martial Power, page(s) 52.",
+        "rulesText": "Blade and FangRanger Attack 17\nAttacking as one, you and your beast companion tear into an opponent.\nEncounter   ✦     Beast, Martial, Weapon\nStandard Action      Melee weapon (beast 1)\nTarget: One creature\nPrimary Attack: Strength vs. AC\nHit: 2[W] + Strength modifier damage.\nEffect: Your beast companion makes a secondary attack against the target.\nSecondary Attack: Beast's attack bonus vs. AC\nHit: 1[B] + beast's Strength modifier damage.\nBeast: If your companion is a bear, a boar, a lizard, or a snake, the secondary attack deals extra damage equal to your Wisdom modifier.\nPublished in Martial Power, page(s) 52."
+      },
+      "keywords": [
+        "BEAST",
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon (beast 1)"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon (beast 1)"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Your beast companion makes a secondary attack against the target."
+            },
+            {
+              "id": "row-5",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Beast's attack bonus vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon (beast 1)"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Beast's attack bonus vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[B] + beast's Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "Beast",
+              "text": "If your companion is a bear, a boar, a lizard, or a snake, the secondary attack deals extra damage equal to your Wisdom."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4433",
+      "title": "Blow-Through Assault",
+      "description": "Your attack flies through the ranks of closely clustered foes, hurting them all.",
+      "flavor": "Your attack flies through the ranks of closely clustered foes, hurting them all.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4433",
+        "publication": "Published in Martial Power, page(s) 53.",
+        "rulesText": "Blow-Through AssaultRanger Attack 17\nYour attack flies through the ranks of closely clustered foes, hurting them all.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding two melee weapons or a ranged weapon.\nTarget: One creature\nAttack: Strength vs. AC (melee) or Dexterity vs. AC (ranged)\nHit: 3[W] + Strength modifier damage (melee) or 3[W] + Dexterity modifier damage (ranged), and each enemy adjacent to the target takes damage equal to your Wisdom modifier.\nPublished in Martial Power, page(s) 53."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC (melee) or Dexterity vs. AC (ranged)",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC (melee) or Dexterity vs. AC (ranged)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage (melee) or 3[W] + Dexterity damage (ranged), and each enemy adjacent to the target takes damage equal to your Wisdom."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons or a ranged weapon.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power9360",
+      "title": "Canopy of Blades",
+      "description": "You whirl your blades ferociously, cutting your foe and warding off attacks",
+      "flavor": "You whirl your blades ferociously, cutting your foe and warding off attacks",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9360",
+        "publication": "Published in Dragon Magazine 377, page(s) 71.",
+        "rulesText": "Canopy of BladesRanger Attack 17\nYou whirl your blades ferociously, cutting your foe and warding off attacks\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding two melee weapons\nTarget: One creature\nAttack: Strength vs. AC. Make the attack twice, once with your main weapon and once with your off-hand weapon\nHit: 1[W] + Strength modifier damage\nEffect: You gain a +2 power bonus to all defenses until the end of your next turn. The bonus increases to 4 if either attack hit and to 6 if both hit\nPublished in Dragon Magazine 377, page(s) 71."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 2,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-3-note",
+              "type": "effect",
+              "label": "Attack",
+              "text": "Make the attack twice, once with your main weapon and once with your off-hand weapon"
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a +2 power bonus to all defenses until the end of your next turn. The bonus increases to 4 if either attack hit and to 6 if both hit"
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power1534",
+      "title": "Cheetah's Rake",
+      "description": "You whirl around with blades outstretched, slashing your foes across the legs and causing them to fall to the ground in mewling heaps.",
+      "flavor": "You whirl around with blades outstretched, slashing your foes across the legs and causing them to fall to the ground in mewling heaps.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1534",
+        "publication": "Published in Player's Handbook, page(s) 110.",
+        "rulesText": "Cheetah's RakeRanger Attack 17\nYou whirl around with blades outstretched, slashing your foes across the legs and causing them to fall to the ground in mewling heaps.\nEncounter   ✦     Martial, Weapon\nStandard Action      Close burst 1\nRequirement: You must be wielding two melee weapons.\nTarget: Each enemy in the burst you can see\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and you knock the target prone. The target is immobilized until the end of your next turn.\nRevision (10/14/2009)\nReplace the Hit line with the following: “Hit: 1[W] + Strength modifier damage, and you knock the target prone. The target is immobilized until the end of your next turn.”\nPublished in Player's Handbook, page(s) 110."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and you knock the target prone. The target is immobilized until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10654",
+      "title": "Duck and Draw",
+      "description": "You duck beneath your enemy's attack and then step away, striking at range.",
+      "flavor": "You duck beneath your enemy's attack and then step away, striking at range.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10654",
+        "publication": "Published in Martial Power 2, page(s) 41.",
+        "rulesText": "Duck and DrawRanger Attack 17\nYou duck beneath your enemy's attack and then step away, striking at range.\nEncounter   ✦     Martial, Weapon\nImmediate Interrupt      Ranged weapon\nTrigger: An enemy makes a melee attack against you\nEffect: You shift a number of squares equal to your Wisdom modifier.\nTarget: The triggering enemy\nAttack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage.\nPublished in Martial Power 2, page(s) 41."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift a number of squares equal to your Wisdom."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "trigger": "An enemy makes a melee attack against you",
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10709",
+      "title": "Entrapping Arrows",
+      "description": "If your enemies move too far, you teach them why they shouldn't.",
+      "flavor": "If your enemies move too far, you teach them why they shouldn't.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10709",
+        "publication": "Published in Dragon Magazine 383, page(s) 51.",
+        "rulesText": "Entrapping ArrowsRanger Attack 17\nIf your enemies move too far, you teach them why they shouldn't.\nEncounter   ✦     Martial, Weapon\nStandard Action      Area burst 1 within 20\nRequirement: You must be wielding a bow or a crossbow.\nTarget: Each enemy in the burst\nAttack: Dexterity vs. AC\nHit: 1[W] + Dexterity modifier damage. If the target leaves the area of the burst before the start of your next turn, you can make a ranged basic attack with a weapon against that enemy as a free action. If that attack hits, the target ends its movement.\nPublished in Dragon Magazine 383, page(s) 51."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 20"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 20"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Dexterity damage. If the target leaves the area of the burst before the start of your next turn, you can make a ranged basic attack with a weapon against that enemy as a free action. If that attack hits, the target ends its movement."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a bow or a crossbow.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4434",
+      "title": "Hounding Beast",
+      "description": "Your beast companion darts around an opponent, leaving it hopelessly sidetracked.",
+      "flavor": "Your beast companion darts around an opponent, leaving it hopelessly sidetracked.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 17
+          },
+          {
+            "type": "unresolved",
+            "text": "Requires a ranger beast companion, which Modern 4e does not have.",
+            "reason": "Depends on a build or feature Modern 4e does not have."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4434",
+        "publication": "Published in Martial Power, page(s) 53.",
+        "rulesText": "Hounding BeastRanger Attack 17\nYour beast companion darts around an opponent, leaving it hopelessly sidetracked.\nEncounter   ✦     Beast, Martial, Weapon\nStandard Action      Melee weapon (beast 1)\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and the target provokes opportunity attacks from you if it shifts or attacks on its next turn.\nEffect: Before or after the attack, your beast companion can shift 1 square. If the beast shifts, the target grants combat advantage to you for other attacks until the end of your next turn.\nBeast: If your companion is a cat, a raptor, a spider, or a wolf, it can shift 1 square both before and after the attack.\nPublished in Martial Power, page(s) 53."
+      },
+      "keywords": [
+        "BEAST",
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon (beast 1)"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon (beast 1)"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and the target provokes opportunity attacks from you if it shifts or attacks on its next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before or after the attack, your beast companion can shift 1 square. If the beast shifts, the target grants combat advantage to you for other attacks until the end of your next turn."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Beast",
+              "text": "If your companion is a cat, a raptor, a spider, or a wolf, it can shift 1 square both before and after the attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power12507",
+      "title": "Lights Out",
+      "description": "In a sudden move, you and your companion attack the eyes of your foes, making them easy prey.",
+      "flavor": "In a sudden move, you and your companion attack the eyes of your foes, making them easy prey.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 17
+          },
+          {
+            "type": "unresolved",
+            "text": "Requires a ranger beast companion, which Modern 4e does not have.",
+            "reason": "Depends on a build or feature Modern 4e does not have."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12507",
+        "publication": "Published in Dragon Magazine 387, page(s) 46.",
+        "rulesText": "Lights OutRanger Attack 17\nIn a sudden move, you and your companion attack the eyes of your foes, making them easy prey.\nEncounter   ✦     Beast, Martial, Weapon\nStandard Action      Melee weapon\nPrimary Target: One creature\nPrimary Attack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and the target is blinded until the end of your next turn.\nEffect: Make a secondary attack.\nMelee: beast 1\nSecondary Target: One creature other than the primary target\nSecondary Attack: Beast's attack bonus vs. AC\nHit: 1[B] + beast's Strength modifier damage, and the target is blinded until the end of your next turn.\nPublished in Dragon Magazine 387, page(s) 46."
+      },
+      "keywords": [
+        "BEAST",
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            },
+            "targets-6": {
+              "kind": "TARGET_SET",
+              "text": "One creature other than the primary target"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and the target is blinded until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a secondary attack."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Melee",
+              "text": "beast 1"
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "One creature other than the primary target"
+            },
+            {
+              "id": "row-7",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Beast's attack bonus vs. AC",
+              "actor": "self",
+              "targets": "targets-6",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Beast's attack bonus vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[B] + beast's Strength damage, and the target is blinded until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4435",
+      "title": "Pounding Barrage",
+      "description": "You pepper your enemy with a flurry of projectiles, leaving it tottering and unable to move.",
+      "flavor": "You pepper your enemy with a flurry of projectiles, leaving it tottering and unable to move.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4435",
+        "publication": "Published in Martial Power, page(s) 53.",
+        "rulesText": "Pounding BarrageRanger Attack 17\nYou pepper your enemy with a flurry of projectiles, leaving it tottering and unable to move.\nEncounter   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Dexterity vs. AC, three attacks\nHit: 1[W] + Dexterity modifier damage per attack. If two of the attacks hit, the target takes 1d6 extra damage. If three of the attacks hit, the target is also immobilized until the end of your next turn.\nPublished in Martial Power, page(s) 53."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC, three attacks",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 3,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Dexterity vs. AC, three attacks"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Dexterity damage per attack. If two of the attacks hit, the target takes 1d6 extra damage. If three of the attacks hit, the target is also immobilized until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10655",
+      "title": "Reproving Strike",
+      "description": "Your attack brings vengeance to enemies that have hurt your friends.",
+      "flavor": "Your attack brings vengeance to enemies that have hurt your friends.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10655",
+        "publication": "Published in Martial Power 2, page(s) 41.",
+        "rulesText": "Reproving StrikeRanger Attack 17\nYour attack brings vengeance to enemies that have hurt your friends.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nTarget: One creature\nAttack: Strength (melee or thrown weapon) vs. AC\nHit: 3[W] + Strength modifier damage. If a bloodied ally is adjacent to the target, you push the target 1 square and knock it prone.\nPublished in Martial Power 2, page(s) 41."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength (melee or thrown weapon) vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength (melee or thrown weapon) vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage. If a bloodied ally is adjacent to the target, you push the target 1 square and knock it prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10656",
+      "title": "Suppressing Shots",
+      "description": "You shower enemies with arrows, pinning them down. Any foes that try to move through the area you threaten will suffer the consequences.",
+      "flavor": "You shower enemies with arrows, pinning them down. Any foes that try to move through the area you threaten will suffer the consequences.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10656",
+        "publication": "Published in Martial Power 2, page(s) 41.",
+        "rulesText": "Suppressing ShotsRanger Attack 17\nYou shower enemies with arrows, pinning them down. Any foes that try to move through the area you threaten will suffer the consequences.\nEncounter   ✦     Martial, Weapon\nStandard Action      Area burst 1 within 20 squares\nTarget: Each enemy in the burst\nAttack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage, and the target is immobilized until the end of your next turn.\nEffect: Until the end of your next turn, you can make a ranged basic attack as an opportunity action against any enemy that moves into the area of the burst during its turn.\nPublished in Martial Power 2, page(s) 41."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 20 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 20 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage, and the target is immobilized until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you can make a ranged basic attack as an opportunity action against any enemy that moves into the area of the burst during its turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power11577",
+      "title": "Swooping Raptor",
+      "description": "Deaths falls from above in the form of both arrow and talon.",
+      "flavor": "Deaths falls from above in the form of both arrow and talon.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 17
+          },
+          {
+            "type": "unresolved",
+            "text": "Requires a ranger beast companion, which Modern 4e does not have.",
+            "reason": "Depends on a build or feature Modern 4e does not have."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11577",
+        "publication": "Published in Dragon Magazine 384, page(s) 37.",
+        "rulesText": "Swooping RaptorRanger Attack 17\nDeaths falls from above in the form of both arrow and talon.\nEncounter   ✦     Beast, Martial, Weapon\nStandard Action      Ranged weapon (beast 1)\nTarget: One creature\nPrimary Attack: Dexterity vs. AC\nHit: 2[W] + Strength modifier damage.\nEffect: Make a secondary attack against the target that is a melee beast 1.\nSecondary Attack: Beast's attack bonus vs. AC\nHit: 1[B] + beast's Strength modifier damage.\nBeast: If your beast companion is a bear, a raptor, or a wolf, the beast can charge in place of the secondary attack.\nPublished in Dragon Magazine 384, page(s) 37."
+      },
+      "keywords": [
+        "BEAST",
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon (beast 1)"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon (beast 1)"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a secondary attack against the target that is a melee beast 1."
+            },
+            {
+              "id": "row-5",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Beast's attack bonus vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon (beast 1)"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Beast's attack bonus vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[B] + beast's Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "Beast",
+              "text": "If your beast companion is a bear, a raptor, or a wolf, the beast can charge in place of the secondary attack."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power1536",
+      "title": "Triple Shot",
+      "description": "You launch a volley of three arrows, which streak across the battlefield with whispered threats of oblivion.",
+      "flavor": "You launch a volley of three arrows, which streak across the battlefield with whispered threats of oblivion.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1536",
+        "publication": "Published in Player's Handbook, page(s) 111.",
+        "rulesText": "Triple ShotRanger Attack 17\nYou launch a volley of three arrows, which streak across the battlefield with whispered threats of oblivion.\nEncounter   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nTargets: One, two, or three creatures\nAttack: Dexterity vs. AC, three attacks\nHit: 1[W] + Dexterity modifier damage per attack.\nPublished in Player's Handbook, page(s) 111."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One, two, or three creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC, three attacks",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 3,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Dexterity vs. AC, three attacks"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Dexterity damage per attack."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power1388",
+      "title": "Two-Weapon Eviscerate",
+      "description": "You swing your blades in lethal arcs, dousing the battlefield in your enemy's blood.",
+      "flavor": "You swing your blades in lethal arcs, dousing the battlefield in your enemy's blood.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1388",
+        "publication": "Published in Player's Handbook, page(s) 111.",
+        "rulesText": "Two-Weapon EviscerateRanger Attack 17\nYou swing your blades in lethal arcs, dousing the battlefield in your enemy's blood.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding two melee weapons.\nTarget: One creature\nAttack: Strength vs. AC (main weapon and off-hand weapon), two attacks\nHit: 1[W] + Strength modifier damage per attack. If both attacks hit, the target takes an extra 1d10 damage and is weakened until the end of your next turn.\nPublished in Player's Handbook, page(s) 111."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC (main weapon and off-hand weapon), two attacks",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 2,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC (main weapon and off-hand weapon), two attacks"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage per attack. If both attacks hit, the target takes an extra 1d10 damage and is weakened until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4436",
+      "title": "Untamed Outburst",
+      "description": "You lash out with your weapons, surprising your enemy with your wildness.",
+      "flavor": "You lash out with your weapons, surprising your enemy with your wildness.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4436",
+        "publication": "Published in Martial Power, page(s) 53.",
+        "rulesText": "Untamed OutburstRanger Attack 17\nYou lash out with your weapons, surprising your enemy with your wildness.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding two melee weapons.\nTarget: One creature\nAttack: Strength + 2 vs. AC (main weapon and off-hand weapon), two attacks\nHit: 2[W] + Strength modifier damage per attack. If both attacks hit, the target is dazed until the end of your next turn.\nPublished in Martial Power, page(s) 53."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength + 2 vs. AC (main weapon and off-hand weapon), two attacks",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 2,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength + 2 vs. AC (main weapon and off-hand weapon), two attacks"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage per attack. If both attacks hit, the target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10657",
+      "title": "Wolverine Claw Strike",
+      "description": "You dart among your foes in a low crouch, striking out on both sides.",
+      "flavor": "You dart among your foes in a low crouch, striking out on both sides.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10657",
+        "publication": "Published in Martial Power 2, page(s) 41.",
+        "rulesText": "Wolverine Claw StrikeRanger Attack 17\nYou dart among your foes in a low crouch, striking out on both sides.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nEffect: Before the attack, you shift 2 squares.\nPrimary Target: One creature\nPrimary Attack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage.\nEffect: You shift 2 squares and make a secondary attack.\nSecondary Target: One creature other than the primary target\nSecondary Attack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage.\nEffect: You gain a bonus to AC equal to your Wisdom modifier until the end of your next turn.\nPublished in Martial Power 2, page(s) 41."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            },
+            "targets-6": {
+              "kind": "TARGET_SET",
+              "text": "One creature other than the primary target"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the attack, you shift 2 squares."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift 2 squares and make a secondary attack."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "One creature other than the primary target"
+            },
+            {
+              "id": "row-7",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-6",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-9",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a bonus to AC equal to your Wisdom until the end of your next turn."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10658",
+      "title": "Barbed Arrows",
+      "description": "You loose a couple of shots at nearby enemies. When your opponents pull out the projectiles, chunks of flesh come with them.",
+      "flavor": "You loose a couple of shots at nearby enemies. When your opponents pull out the projectiles, chunks of flesh come with them.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10658",
+        "publication": "Published in Martial Power 2, page(s) 41.",
+        "rulesText": "Barbed ArrowsRanger Attack 19\nYou loose a couple of shots at nearby enemies. When your opponents pull out the projectiles, chunks of flesh come with them.\nDaily   ✦     Martial, Reliable, Weapon\nStandard Action      Ranged weapon\nTarget: One or two creatures\nAttack: Dexterity vs. AC. Make two attack rolls and use the higher result.\nHit: 2[W] + Dexterity modifier damage, and the target is weakened (save ends).\nAftereffect: The target takes ongoing 10 damage (save ends).\nPublished in Martial Power 2, page(s) 41."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RELIABLE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 2,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage, and the target is weakened (save ends)."
+                      },
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Aftereffect",
+                        "text": "The target takes ongoing 10 damage (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-2-note",
+              "type": "effect",
+              "label": "Attack",
+              "text": "Make two attack rolls and use the higher result."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4437",
+      "title": "Claim the Prize",
+      "description": "Taking advantage of your foe's weakness, you try to land a finishing blow.",
+      "flavor": "Taking advantage of your foe's weakness, you try to land a finishing blow.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4437",
+        "publication": "Published in Martial Power, page(s) 53.",
+        "rulesText": "Claim the PrizeRanger Attack 19\nTaking advantage of your foe's weakness, you try to land a finishing blow.\nDaily   ✦     Martial, Reliable, Weapon\nStandard Action      Melee or Ranged weapon\nTarget: One bloodied creature designated as your quarry\nAttack: Strength vs. AC (melee) or Dexterity vs. AC (ranged)\nHit: 5[W] + Strength modifier damage (melee) or 4[W] + Dexterity modifier damage (ranged).\nPublished in Martial Power, page(s) 53."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RELIABLE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One bloodied creature designated as your quarry"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC (melee) or Dexterity vs. AC (ranged)",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC (melee) or Dexterity vs. AC (ranged)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5[W] + Strength damage (melee) or 4[W] + Dexterity damage (ranged)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10659",
+      "title": "Crippling Spiral",
+      "description": "Your arrow injures your enemy, knocking it to the ground or pinning it in place. Once your foe is hampered, your beast companion leaps into action.",
+      "flavor": "Your arrow injures your enemy, knocking it to the ground or pinning it in place. Once your foe is hampered, your beast companion leaps into action.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Requires a ranger beast companion, which Modern 4e does not have.",
+            "reason": "Depends on a build or feature Modern 4e does not have."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10659",
+        "publication": "Published in Martial Power 2, page(s) 42.",
+        "rulesText": "Crippling SpiralRanger Attack 19\nYour arrow injures your enemy, knocking it to the ground or pinning it in place. Once your foe is hampered, your beast companion leaps into action.\nDaily   ✦     Beast, Martial, Weapon\nStandard Action      Ranged weapon (beast 1)\nRequirement: You must be wielding a thrown weapon.\nTarget: One creature\nAttack: Strength (thrown weapon) vs. AC\nHit: 3[W] + Strength modifier damage, and the target is immobilized (save ends). In addition, the target loses its fly speed (save ends).\nMiss: Half damage, and the target loses its fly speed until the end of its next turn.\nEffect: Your beast companion shifts its speed and makes a secondary attack against the target.\nSecondary Attack: Beast's attack bonus vs. AC\nHit: 2[B] + beast's Strength modifier damage.\nPublished in Martial Power 2, page(s) 42."
+      },
+      "keywords": [
+        "BEAST",
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon (beast 1)"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength (thrown weapon) vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon (beast 1)"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength (thrown weapon) vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and the target is immobilized (save ends). In addition, the target loses its fly speed (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target loses its fly speed until the end of its next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Your beast companion shifts its speed and makes a secondary attack against the target."
+            },
+            {
+              "id": "row-7",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Beast's attack bonus vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon (beast 1)"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Beast's attack bonus vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[B] + beast's Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a thrown weapon.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power285",
+      "title": "Cruel Cage of Steel",
+      "description": "You move swiftly around your enemies, weaving back and forth and delivering a vicious slash with each soft step.",
+      "flavor": "You move swiftly around your enemies, weaving back and forth and delivering a vicious slash with each soft step.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power285",
+        "publication": "Published in Player's Handbook, page(s) 111.",
+        "rulesText": "Cruel Cage of SteelRanger Attack 19\nYou move swiftly around your enemies, weaving back and forth and delivering a vicious slash with each soft step.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding two melee weapons.\nTargets: One, two, or three creatures\nAttack: Strength + 2 vs. AC, three attacks\nHit: 2[W] + Strength modifier damage (first attack; main), 2[W] + Strength modifier damage (second attack; off-hand), and 1[W] + Strength modifier (third attack; main). A target hit once is dazed until the end of your next turn. A target hit twice is stunned until the end of your next turn. A target hit three times is weakened and stunned until the end of your next turn.\nMiss: Half damage per attack, and the target is not dazed, stunned, or weakened.\nEffect: After the first attack and after the second attack, you can shift 1 square.\nPublished in Player's Handbook, page(s) 111."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One, two, or three creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength + 2 vs. AC, three attacks",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 3,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength + 2 vs. AC, three attacks"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage (first attack; main), 2[W] + Strength damage (second attack; off-hand), and 1[W] + Strength (third attack; main). A target hit once is dazed until the end of your next turn. A target hit twice is stunned until the end of your next turn. A target hit three times is weakened and stunned until the end of your next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage per attack, and the target is not dazed, stunned, or weakened."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "After the first attack and after the second attack, you can shift 1 square."
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4438",
+      "title": "Dead Stop",
+      "description": "With a well-timed shot, you bring down a charging adversary, which skids to a halt at your feet.",
+      "flavor": "With a well-timed shot, you bring down a charging adversary, which skids to a halt at your feet.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4438",
+        "publication": "Published in Martial Power, page(s) 53.",
+        "rulesText": "Dead StopRanger Attack 19\nWith a well-timed shot, you bring down a charging adversary, which skids to a halt at your feet.\nDaily   ✦     Martial, Weapon\nImmediate Interrupt      Ranged weapon\nTrigger: An enemy makes a charge attack against you\nTarget: The triggering enemy\nAttack: Dexterity vs. Reflex\nHit: 3[W] + Dexterity modifier damage, and you knock the target prone.\nMiss: Half damage, and you don't knock the target prone.\nSpecial: Using this power doesn't provoke an opportunity attack from the target.\nPublished in Martial Power, page(s) 53."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage, and you knock the target prone."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you don't knock the target prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Special",
+              "text": "Using this power doesn't provoke an opportunity attack from the target."
+            }
+          ],
+          "trigger": "An enemy makes a charge attack against you",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4439",
+      "title": "Driving Offensive",
+      "description": "An initial strike hurls your opponent away from you, and as it stumbles, you heave a sense-rattling chaser after it.",
+      "flavor": "An initial strike hurls your opponent away from you, and as it stumbles, you heave a sense-rattling chaser after it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4439",
+        "publication": "Published in Martial Power, page(s) 53.",
+        "rulesText": "Driving OffensiveRanger Attack 19\nAn initial strike hurls your opponent away from you, and as it stumbles, you heave a sense-rattling chaser after it.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding two melee weapons.\nTarget: One creature\nPrimary Attack: Strength vs. AC (main weapon)\nHit: 3[W] + Strength modifier damage, and you push the target 3 squares.\nMiss: Half damage, and you push the target 1 square.\nEffect: Make a ranged secondary attack against the target.\nSecondary Attack: Strength vs. AC (off-hand weapon)\nHit: 1[W] + Strength modifier damage, and the target is dazed (save ends).\nMiss: Half damage, and the target is not dazed.\nPublished in Martial Power, page(s) 53."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC (main weapon)",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC (main weapon)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and you push the target 3 squares."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you push the target 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a ranged secondary attack against the target."
+            },
+            {
+              "id": "row-7",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Strength vs. AC (off-hand weapon)",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC (off-hand weapon)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and the target is dazed (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-9",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is not dazed."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4440",
+      "title": "Ferocious Roar",
+      "description": "With a terrifying vocalization, your beast sends nearby enemies lurching in panic.",
+      "flavor": "With a terrifying vocalization, your beast sends nearby enemies lurching in panic.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Requires a ranger beast companion, which Modern 4e does not have.",
+            "reason": "Depends on a build or feature Modern 4e does not have."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4440",
+        "publication": "Published in Martial Power, page(s) 53.",
+        "rulesText": "Ferocious RoarRanger Attack 19\nWith a terrifying vocalization, your beast sends nearby enemies lurching in panic.\nDaily   ✦     Beast, Fear, Martial, Psychic\nStandard Action      Close burst 2 (beast)\nTarget: Each enemy in the burst\nAttack: Beast's attack bonus vs. Will\nHit: 2d8 + Wisdom modifier psychic damage, and the target is pushed 1 square and dazed (save ends).\nBeast: If your companion is a bear, a cat, a snake, or a wolf, the attack deals extra damage equal to your Wisdom modifier.\nMiss: Half damage, the target is pushed 1 square, and the target is not dazed.\nPublished in Martial Power, page(s) 53."
+      },
+      "keywords": [
+        "BEAST",
+        "FEAR",
+        "MARTIAL",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2 (beast)"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Beast's attack bonus vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 2 (beast)"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Beast's attack bonus vs. Will"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom psychic damage, and the target is pushed 1 square and dazed (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, the target is pushed 1 square, and the target is not dazed."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Beast",
+              "text": "If your companion is a bear, a cat, a snake, or a wolf, the attack deals extra damage equal to your Wisdom."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10660",
+      "title": "Frantic Assault",
+      "description": "Your shot marks the target you intend to kill. As you confront your foe in melee, your weapons flash in a whirlwind of steel, threatening other enemies as well.",
+      "flavor": "Your shot marks the target you intend to kill. As you confront your foe in melee, your weapons flash in a whirlwind of steel, threatening other enemies as well.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10660",
+        "publication": "Published in Martial Power 2, page(s) 42.",
+        "rulesText": "Frantic AssaultRanger Attack 19\nYour shot marks the target you intend to kill. As you confront your foe in melee, your weapons flash in a whirlwind of steel, threatening other enemies as well.\nDaily   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nTarget: One creature designated as your quarry\nAttack: Dexterity vs. AC\nHit: 4[W] + Dexterity modifier damage.\nMiss: Half damage.\nEffect: Until the target is no longer your quarry, whenever you hit the target with a melee attack, any enemy adjacent to you takes damage equal to 5 + your Wisdom modifier.\nPublished in Martial Power 2, page(s) 42."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature designated as your quarry"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Dexterity damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the target is no longer your quarry, whenever you hit the target with a melee attack, any enemy adjacent to you takes damage equal to 5 + your Wisdom."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4441",
+      "title": "Gnawing Assault",
+      "description": "Your beast companion clamps down on a foe and rends its flesh.",
+      "flavor": "Your beast companion clamps down on a foe and rends its flesh.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "unresolved",
+            "text": "Requires a ranger beast companion, which Modern 4e does not have.",
+            "reason": "Depends on a build or feature Modern 4e does not have."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4441",
+        "publication": "Published in Martial Power, page(s) 54.",
+        "rulesText": "Gnawing AssaultRanger Attack 19\nYour beast companion clamps down on a foe and rends its flesh.\nDaily   ✦     Beast, Martial\nStandard Action      Melee beast 1\nTarget: One creature\nAttack: Beast's attack bonus vs. AC\nHit: 2[B] + beast's Strength modifier damage, and the target is immobilized (save ends).\nMiss: Half damage, and the target is immobilized until the end of its next turn.\nEffect: If the target was already immobilized and your beast companion began the turn adjacent to it, the target takes ongoing 10 damage (save ends).\nPublished in Martial Power, page(s) 54."
+      },
+      "keywords": [
+        "BEAST",
+        "MARTIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee beast 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Beast's attack bonus vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee beast 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Beast's attack bonus vs. AC"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[B] + beast's Strength damage, and the target is immobilized (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is immobilized until the end of its next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "If the target was already immobilized and your beast companion began the turn adjacent to it, the target takes ongoing 10 damage (save ends)."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power162",
+      "title": "Great Ram Arrow",
+      "description": "You loose an arrow that pierces your foe, hurls him back, and knocks him off his feet.",
+      "flavor": "You loose an arrow that pierces your foe, hurls him back, and knocks him off his feet.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power162",
+        "publication": "Published in Player's Handbook, page(s) 111.",
+        "rulesText": "Great Ram ArrowRanger Attack 19\nYou loose an arrow that pierces your foe, hurls him back, and knocks him off his feet.\nDaily   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 3[W] + Dexterity modifier damage. In addition, you push the target a number of squares equal to your Strength modifier, and it is knocked prone.\nMiss: Half damage, and you push the target 1 square and it is knocked prone.\nPublished in Player's Handbook, page(s) 111."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage. In addition, you push the target a number of squares equal to your Strength, and it is knocked prone."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you push the target 1 square and it is knocked prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10661",
+      "title": "Ringing the Bell",
+      "description": "You come up behind your enemy and drive your weapon against its head, leaving it senseless.",
+      "flavor": "You come up behind your enemy and drive your weapon against its head, leaving it senseless.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10661",
+        "publication": "Published in Martial Power 2, page(s) 42.",
+        "rulesText": "Ringing the BellRanger Attack 19\nYou come up behind your enemy and drive your weapon against its head, leaving it senseless.\nDaily   ✦     Martial, Reliable, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and ongoing 5 damage (save ends). If you have combat advantage against the target, it is also dazed (save ends).\nPublished in Martial Power 2, page(s) 42."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RELIABLE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage, and ongoing 5 damage (save ends). If you have combat advantage against the target, it is also dazed (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10710",
+      "title": "Surprising Arrow Stance",
+      "description": "Your arrows pin down everything you see.",
+      "flavor": "Your arrows pin down everything you see.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10710",
+        "publication": "Published in Dragon Magazine 383, page(s) 51.",
+        "rulesText": "Surprising Arrow StanceRanger Attack 19\nYour arrows pin down everything you see.\nDaily   ✦     Martial, Stance, Weapon\nMinor Action      Personal\nEffect: Until the stance ends, as an immediate reaction when an enemy within 5 squares of you moves, you can use the Surprising Arrow Attack power.\nSurprising Arrow Attack\nAt-Will ✦     Martial, Stance, Weapon\nImmediate Reaction      Ranged weapon\nRequirement: The power Surprising Arrow Stance must be active in order to use this power.\nTarget: The triggering enemy\nAttack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage, and the target ends its movement.\nPublished in Dragon Magazine 383, page(s) 51."
+      },
+      "keywords": [
+        "MARTIAL",
+        "STANCE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Personal"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the stance ends, as an immediate reaction when an enemy within 5 squares of you moves, you can use the Surprising Arrow Attack power."
+            },
+            {
+              "id": "grant-use-surprising-arrow-attack",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Surprising Arrow Attack",
+              "activationId": "use-surprising-arrow-attack",
+              "duration": "As stated in the power's rules"
+            }
+          ]
+        },
+        {
+          "id": "use-surprising-arrow-attack",
+          "availability": "GRANTED",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-6": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-7",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-6",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage, and the target ends its movement."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "title": "Surprising Arrow Attack",
+          "requirement": "The power Surprising Arrow Stance must be active in order to use this power.",
+          "targets": "targets-6"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power4442",
+      "title": "Threefold Assault",
+      "description": "In a wild onslaught, you unleash three attacks with escalating potential.",
+      "flavor": "In a wild onslaught, you unleash three attacks with escalating potential.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4442",
+        "publication": "Published in Martial Power, page(s) 54.",
+        "rulesText": "Threefold AssaultRanger Attack 19\nIn a wild onslaught, you unleash three attacks with escalating potential.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding two melee weapons.\nTargets: One, two, or three creatures\nAttack: Strength vs. AC, three attacks (at least one attack with each weapon)\nHit: 1[W] + Strength modifier damage per attack. If you hit a target twice, you push it a number of squares equal to your Wisdom modifier. If you hit a target three times, it is also dazed until the end of your next turn.\nMiss: Half damage per attack.\nSpecial: If you use this power as a ranged attack, it doesn't provoke opportunity attacks.\nPublished in Martial Power, page(s) 54."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One, two, or three creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC, three attacks (at least one attack with each weapon)",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 3,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC, three attacks (at least one attack with each weapon)"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage per attack. If you hit a target twice, you push it a number of squares equal to your Wisdom. If you hit a target three times, it is also dazed until the end of your next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage per attack."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Special",
+              "text": "If you use this power as a ranged attack, it doesn't provoke opportunity attacks."
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power2211",
+      "title": "Two-in-One Shot",
+      "description": "The first shot is always the toughest.",
+      "flavor": "The first shot is always the toughest.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2211",
+        "publication": "Published in Player's Handbook, page(s) 111.",
+        "rulesText": "Two-in-One ShotRanger Attack 19\nThe first shot is always the toughest.\nDaily   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Dexterity vs. AC, two attacks. If the first attack hits, you gain a +5 bonus to the attack roll for the second attack. If the first attack misses, make the second attack normally.\nHit: 2[W] + Dexterity modifier damage per attack.\nMiss: Half damage per attack.\nPublished in Player's Handbook, page(s) 111."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC, two attacks. If the first attack hits, you gain a +5 bonus to the attack roll for the second attack. If the first attack misses, make the second attack normally.",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 2,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Dexterity vs. AC, two attacks. If the first attack hits, you gain a +5 bonus to the attack roll for the second attack. If the first attack misses, make the second attack normally."
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage per attack."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage per attack."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power10662",
+      "title": "Unrestrained Aggression",
+      "description": "Your volley of arrows rains down across your enemies. Among the targets, you pick out a single opponent to kill.",
+      "flavor": "Your volley of arrows rains down across your enemies. Among the targets, you pick out a single opponent to kill.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10662",
+        "publication": "Published in Martial Power 2, page(s) 42.",
+        "rulesText": "Unrestrained AggressionRanger Attack 19\nYour volley of arrows rains down across your enemies. Among the targets, you pick out a single opponent to kill.\nDaily   ✦     Martial, Weapon\nStandard Action      Area burst 3 within 10 squares\nTarget: Each enemy in the burst\nEffect: Using your Hunter's Quarry, you designate one target you can see as your quarry.\nAttack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage.\nPublished in Martial Power 2, page(s) 42."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 3 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Using your Hunter's Quarry, you designate one target you can see as your quarry."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 3 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.ranger-power882",
+      "title": "Wounding Whirlwind",
+      "description": "Crimson droplets splatter as you slash into all nearby foes.",
+      "flavor": "Crimson droplets splatter as you slash into all nearby foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power882",
+        "publication": "Published in Player's Handbook, page(s) 111.",
+        "rulesText": "Wounding WhirlwindRanger Attack 19\nCrimson droplets splatter as you slash into all nearby foes.\nDaily   ✦     Martial, Weapon\nStandard Action      Close burst 1\nRequirement: You must be wielding two melee weapons.\nTarget: Each enemy in the burst you can see\nAttack: Strength vs. AC (main weapon and off-hand weapon), two attacks per target\nHit: 1[W] + Strength modifier damage per attack. If you hit a target with one weapon, it takes ongoing 5 damage (save ends). If you hit a target with both weapons, it takes ongoing 10 damage (save ends).\nMiss: Half damage per attack, and no ongoing damage.\nAddition (7/28/2008)\nAdd: \"Requirement: You must be wielding two melee weapons.\" before Target\nPublished in Player's Handbook, page(s) 111."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC (main weapon and off-hand weapon), two attacks per target",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 2,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength vs. AC (main weapon and off-hand weapon), two attacks per target"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage per attack. If you hit a target with one weapon, it takes ongoing 5 damage (save ends). If you hit a target with both weapons, it takes ongoing 10 damage (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage per attack, and no ongoing damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding two melee weapons.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Ranger Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

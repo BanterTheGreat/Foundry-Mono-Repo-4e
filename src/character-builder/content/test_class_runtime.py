@@ -147,6 +147,8 @@ class ClassRuntimeTest(unittest.TestCase):
         modifiers = {modifier["choiceId"]: modifier for modifier in book["selectionModifiers"]}
         self.assertEqual(4, modifiers["modern4e.choice.class-attack-daily"]["count"])
         self.assertEqual(2, modifiers["modern4e.choice.class-utility-2"]["count"])
+        self.assertEqual(2, modifiers["modern4e.choice.class-utility-17"]["count"])
+        self.assertEqual(modifiers["modern4e.choice.class-utility-10"]["collection"], modifiers["modern4e.choice.class-utility-17"]["collection"])
         self.assertEqual(2, modifiers["modern4e.choice.class-attack-daily-5"]["count"])
         daily = next(choice for choice in book["choices"] if choice["id"].endswith("prepare-dailies"))
         utility = next(choice for choice in book["choices"] if choice["id"].endswith("prepare-utilities"))
@@ -158,7 +160,8 @@ class ClassRuntimeTest(unittest.TestCase):
         self.assertEqual([3, 2, 2, 2, 2, 2], [choice["count"] for choice in techniques])
         tome = entries["modern4e.feature.tome-of-readiness"]["mechanics"]["choices"][0]
         self.assertEqual([{"type": "notKnown"}], tome["constraints"])
-        self.assertEqual([1, 3, 7], tome["replacementLevels"])
+        self.assertEqual([1, 3, 7, 13, 17], tome["replacementLevels"])
+        self.assertEqual([1, 3, 7], entries["modern4e.feature.tome-of-readiness"]["sharedData"]["choices"][0]["replacementLevels"])
         self.assertIn("runtimeReferences", entries["modern4e.class.wizard"]["sharedData"])
         self.assertNotEqual("SUPPORTED", entries["modern4e.class.wizard"]["coverage"]["status"])
 

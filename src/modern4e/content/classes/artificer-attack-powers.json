@@ -6426,6 +6426,1505 @@
       "subtitle": "Artificer Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power10214",
+      "title": "Addling Pattern",
+      "description": "You weave an enchantment over your allies' armor that confuses foes, causing them to attack their friends.",
+      "flavor": "You weave an enchantment over your allies' armor that confuses foes, causing them to attack their friends.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10214",
+        "publication": "Published in Dragon Magazine 381, page(s) 59.",
+        "rulesText": "Addling PatternArtificer Attack 17\nYou weave an enchantment over your allies' armor that confuses foes, causing them to attack their friends.\nEncounter   ✦     Arcane, Charm, Implement, Psychic\nStandard Action      Close blast 5\nTarget: One or two enemies in the blast\nAttack: Intelligence vs. Will\nHit: 2d8 + Intelligence modifier psychic damage, and until the end of your next turn if the target attacks you or an ally adjacent to you, the target must also make a basic attack against a creature of your choice.\nPublished in Dragon Magazine 381, page(s) 59."
+      },
+      "keywords": [
+        "ARCANE",
+        "CHARM",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two enemies in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Intelligence psychic damage, and until the end of your next turn if the target attacks you or an ally adjacent to you, the target must also make a basic attack against a creature of your choice."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Artificer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power10215",
+      "title": "Arsenal Transference",
+      "description": "You lend your arcane knowledge to an ally, briefly letting him or her make use of your enchantments.",
+      "flavor": "You lend your arcane knowledge to an ally, briefly letting him or her make use of your enchantments.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10215",
+        "publication": "Published in Dragon Magazine 381, page(s) 59.",
+        "rulesText": "Arsenal TransferenceArtificer Attack 17\nYou lend your arcane knowledge to an ally, briefly letting him or her make use of your enchantments.\nEncounter   ✦     Arcane\nImmediate Reaction      Ranged 10\nTrigger: An ally within 10 squares of you is hit and damaged by an attack\nEffect: You can use an at-will artificer attack power against the target, using the ally's space as the origin for the attack. This attack deals extra damage equal to your Wisdom modifier.\nPublished in Dragon Magazine 381, page(s) 59."
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can use an at-will artificer attack power against the target, using the ally's space as the origin for the attack. This attack deals extra damage equal to your Wisdom."
+            }
+          ],
+          "trigger": "An ally within 10 squares of you is hit and damaged by an attack"
+        }
+      ],
+      "subtitle": "Artificer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power4157",
+      "title": "Earth's Embrace",
+      "description": "You transpose a glowing rune of force onto an ally's armor and send that ally skating across the battle field, crashing into nearby foes.",
+      "flavor": "You transpose a glowing rune of force onto an ally's armor and send that ally skating across the battle field, crashing into nearby foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4157",
+        "publication": "Published in Eberron Player's Guide, page(s) 53.",
+        "rulesText": "Earth's EmbraceArtificer Attack 17\nYou transpose a glowing rune of force onto an ally's armor and send that ally skating across the battle field, crashing into nearby foes.\nEncounter   ✦     Arcane, Force, Implement\nStandard Action      Ranged 10\nPrimary Target: One ally\nEffect: You slide the primary target a number of squares equal to your Wisdom modifier. You then make an attack that is an area burst 1 centered on the primary target.\nSecondary Target: Each enemy adjacent to the primary target\nAttack: Intelligence vs. Fortitude\nHit: 2d10 + Intelligence modifier force damage, and you slide the secondary target 1 square or immobilize it until the end of your next turn.\nPublished in Eberron Player's Guide, page(s) 53."
+      },
+      "keywords": [
+        "ARCANE",
+        "FORCE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One ally"
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy adjacent to the primary target"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You slide the primary target a number of squares equal to your Wisdom. You then make an attack that is an area burst 1 centered on the primary target."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "Each enemy adjacent to the primary target"
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Intelligence force damage, and you slide the secondary target 1 square or immobilize it until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Artificer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power7671",
+      "title": "Radiant Burst",
+      "description": "As your ally heals, you channel the excess healing energy into a flash of arcane light that burns a nearby foe.",
+      "flavor": "As your ally heals, you channel the excess healing energy into a flash of arcane light that burns a nearby foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7671",
+        "publication": "Published in Eberron Player's Guide, page(s) 54.",
+        "rulesText": "Radiant BurstArtificer Attack 17\nAs your ally heals, you channel the excess healing energy into a flash of arcane light that burns a nearby foe.\nEncounter   ✦     Arcane, Healing, Implement, Radiant\nStandard Action      Ranged 10\nEffect: You or one ally within 10 squares of you can spend a healing surge and regain additional hit points equal to your Intelligence modifier.\nTarget: One creature adjacent to the character who spent the healing surge\nAttack: Intelligence vs. Fortitude\nHit: 2d8 + Intelligence modifier radiant damage, and the target is dazed until the end of your next turn.\nPublished in Eberron Player's Guide, page(s) 54."
+      },
+      "keywords": [
+        "ARCANE",
+        "HEALING",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature adjacent to the character who spent the healing surge"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You or one ally within 10 squares of you can spend a healing surge and regain additional hit points equal to your Intelligence."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Intelligence radiant damage, and the target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Artificer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power14405",
+      "title": "Siphon Fate",
+      "description": "Your arcane strikes draw fortune's boon from your opponents, and you surround a nearby companion with a nimbus of luck.",
+      "flavor": "Your arcane strikes draw fortune's boon from your opponents, and you surround a nearby companion with a nimbus of luck.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14405",
+        "publication": "Published in Dragon Magazine 403.",
+        "rulesText": "Siphon FateArtificer Attack 17\nYour arcane strikes draw fortune's boon from your opponents, and you surround a nearby companion with a nimbus of luck.\nEncounter   ✦     Arcane, Psychic, Weapon\nStandard Action      Melee or Ranged weapon\nTarget: One or two creatures\nAttack: Intelligence vs. AC\nHit: 1[W] + Intelligence modifier psychic damage, and the target takes a -2 penalty to attack rolls and all defenses until the end of your next turn.\nEffect: Until the end of your next turn, one ally within 5 squares of you gains a power bonus to attack rolls and all defenses equal to 2 + the number of targets you hit with this power.\nPublished in Dragon Magazine 403."
+      },
+      "keywords": [
+        "ARCANE",
+        "PSYCHIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Intelligence psychic damage, and the target takes a -2 penalty to attack rolls and all defenses until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, one ally within 5 squares of you gains a power bonus to attack rolls and all defenses equal to 2 + the number of targets you hit with this power."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Artificer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power4156",
+      "title": "Skipping Shot",
+      "description": "Infusing a projectile with volatile energy, you send the missile ricocheting among opponents.",
+      "flavor": "Infusing a projectile with volatile energy, you send the missile ricocheting among opponents.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4156",
+        "publication": "Published in Eberron Player's Guide, page(s) 54.",
+        "rulesText": "Skipping ShotArtificer Attack 17\nInfusing a projectile with volatile energy, you send the missile ricocheting among opponents.\nEncounter   ✦     Arcane, Force, Weapon\nStandard Action      Ranged weapon\nPrimary Target: One creature\nPrimary Attack: Intelligence vs. AC\nHit: 1[W] + Intelligence modifier force damage, and the primary target is dazed until the end of your next turn.\nEffect: Make a secondary attack.\nSecondary Targets: One creature other than the primary target\nSecondary Attack: Intelligence vs. AC\nHit: 1[W] + Intelligence modifier force damage, and the target is dazed until the end of your next turn.\nPublished in Eberron Player's Guide, page(s) 54."
+      },
+      "keywords": [
+        "ARCANE",
+        "FORCE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Intelligence force damage, and the primary target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a secondary attack."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Secondary Targets",
+              "text": "One creature other than the primary target"
+            },
+            {
+              "id": "row-6",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Intelligence force damage, and the target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Artificer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power7672",
+      "title": "Unstable Infusion",
+      "description": "You sabotage one of your infusions, loosing a blast of raw arcane energy.",
+      "flavor": "You sabotage one of your infusions, loosing a blast of raw arcane energy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7672",
+        "publication": "Published in Eberron Player's Guide, page(s) 54.",
+        "rulesText": "Unstable InfusionArtificer Attack 17\nYou sabotage one of your infusions, loosing a blast of raw arcane energy.\nEncounter   ✦     Arcane, Implement\nStandard Action      Close blast 3\nTarget: Each creature in the blast\nAttack: Intelligence vs. Reflex\nHit: 2d10 + Intelligence modifier damage, and you knock the target prone.\nPublished in Eberron Player's Guide, page(s) 54."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Intelligence damage, and you knock the target prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Artificer Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power4159",
+      "title": "Burrowing Projectile",
+      "description": "When your shot strikes a foe, the projectile spins like a top, burrowing into the creature.",
+      "flavor": "When your shot strikes a foe, the projectile spins like a top, burrowing into the creature.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4159",
+        "publication": "Published in Eberron Player's Guide, page(s) 54.",
+        "rulesText": "Burrowing ProjectileArtificer Attack 19\nWhen your shot strikes a foe, the projectile spins like a top, burrowing into the creature.\nDaily   ✦     Arcane, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 3[W] + Intelligence modifier damage, and the target takes ongoing 5 damage and grants combat advantage (save ends both).\nAftereffect: The target takes ongoing 5 damage (save ends). If the target drops to 0 hit points before the ongoing damage ends, you choose an enemy within 5 squares of the target to take ongoing 5 damage (save ends).\nMiss: Half damage, and the target grants combat advantage (save ends).\nPublished in Eberron Player's Guide, page(s) 54."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Intelligence damage, and the target takes ongoing 5 damage and grants combat advantage (save ends both)."
+                      },
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Aftereffect",
+                        "text": "The target takes ongoing 5 damage (save ends). If the target drops to 0 hit points before the ongoing damage ends, you choose an enemy within 5 squares of the target to take ongoing 5 damage (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target grants combat advantage (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Artificer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power7673",
+      "title": "Clockwork Acid Wasp",
+      "description": "You grant animation to a clockwork wasp fueled by acid.",
+      "flavor": "You grant animation to a clockwork wasp fueled by acid.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7673",
+        "publication": "Published in Eberron Player's Guide, page(s) 54.",
+        "rulesText": "Clockwork Acid WaspArtificer Attack 19\nYou grant animation to a clockwork wasp fueled by acid.\nDaily   ✦     Acid, Arcane, Implement, Summoning\nStandard Action      Ranged 5\nEffect: You create a Small clockwork acid wasp in an unoccupied square within range. The wasp has speed 4 and fly 8 (hover). It has a +2 bonus to AC and to Reflex. When the clockwork wasp drops to 0 hit points, you don't lose a healing surge. You can give the clockwork acid wasp the following special commands.\nStandard Action: Melee 1 or Ranged 5; Intelligence + 2 vs. AC; 1d10 + Intelligence modifier damage, and ongoing 10 acid damage (save ends).\nOpportunity Attack: Melee 1; targets one creature; Intelligence + 2 vs. AC; 1d10 + Intelligence modifier damage, and ongoing 10 acid damage (save ends).\nNo Action: When the clockwork acid wasp drops to 0 hit points, it must make the following attack: Close burst 1; Intelligence vs. Reflex; 2d8 + Wisdom modifier acid damage.\nPublished in Eberron Player's Guide, page(s) 54."
+      },
+      "keywords": [
+        "ACID",
+        "ARCANE",
+        "IMPLEMENT",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You create a Small clockwork acid wasp in an unoccupied square within range. The wasp has speed 4 and fly 8 (hover). It has a +2 bonus to AC and to Reflex. When the clockwork wasp drops to 0 hit points, you don't lose a healing surge. You can give the clockwork acid wasp the following special commands."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Standard Action",
+              "text": "Melee 1 or Ranged 5; Intelligence + 2 vs. AC; 1d10 + Intelligence damage, and ongoing 10 acid damage (save ends)."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Opportunity Attack",
+              "text": "Melee 1; targets one creature; Intelligence + 2 vs. AC; 1d10 + Intelligence damage, and ongoing 10 acid damage (save ends)."
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "No Action",
+              "text": "When the clockwork acid wasp drops to 0 hit points, it must make the following attack: Close burst 1; Intelligence vs. Reflex; 2d8 + Wisdom acid damage."
+            }
+          ]
+        }
+      ],
+      "subtitle": "Artificer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power4158",
+      "title": "Grasping Rope",
+      "description": "Weaving magic into a prepared rope, you transform the object into a whirling, grasping artifice.",
+      "flavor": "Weaving magic into a prepared rope, you transform the object into a whirling, grasping artifice.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4158",
+        "publication": "Published in Eberron Player's Guide, page(s) 54.",
+        "rulesText": "Grasping RopeArtificer Attack 19\nWeaving magic into a prepared rope, you transform the object into a whirling, grasping artifice.\nDaily   ✦     Arcane, Implement, Zone\nStandard Action      Area burst 2 within 10 squares\nTarget: Each enemy in the burst\nAttack: Intelligence vs. Reflex\nHit: 3d10 + Intelligence modifier damage, and the target is immobilized (save ends).\nMiss: Half damage, and the target is slowed until the end of your next turn.\nEffect: The burst creates a zone of grasping rope that lasts until the end of your next turn. The zone is difficult terrain to enemies, and each enemy that enters the zone or starts its turn there is slowed until the end of its next turn.\nSustain Minor: The zone persists.\nPublished in Eberron Player's Guide, page(s) 54."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Intelligence damage, and the target is immobilized (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is slowed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone of grasping rope that lasts until the end of your next turn. The zone is difficult terrain to enemies, and each enemy that enters the zone or starts its turn there is slowed until the end of its next turn."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Artificer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power7675",
+      "title": "Hellfire Sigil",
+      "description": "Flames dance upon the surface of the item you infuse with magic, eager to incinerate your foes.",
+      "flavor": "Flames dance upon the surface of the item you infuse with magic, eager to incinerate your foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7675",
+        "publication": "Published in Eberron Player's Guide, page(s) 54.",
+        "rulesText": "Hellfire SigilArtificer Attack 19\nFlames dance upon the surface of the item you infuse with magic, eager to incinerate your foes.\nDaily   ✦     Arcane, Fire\nMinor Action      Melee touch\nTarget: One weapon or implement\nEffect: Until the end of the encounter, any attack that uses the target as a weapon or an implement deals extra fire damage equal to 1d8 + your Constitution modifier.\nAs a free action, the target's wielder can end the effect when he or she hits a creature using the target in order to ignite that creature with hellfire (save ends). While affected by hellfire, the target takes 10 fire damage at the start of its turn. In addition, any enemy within 2 squares of the target at the start of its turn takes 10 fire damage.\nPublished in Eberron Player's Guide, page(s) 54."
+      },
+      "keywords": [
+        "ARCANE",
+        "FIRE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One weapon or implement"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, any attack that uses the target as a weapon or an implement deals extra fire damage equal to 1d8 + your Constitution."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Rule",
+              "text": "As a free action, the target's wielder can end the effect when he or she hits a creature using the target in order to ignite that creature with hellfire (save ends). While affected by hellfire, the target takes 10 fire damage at the start of its turn. In addition, any enemy within 2 squares of the target at the start of its turn takes 10 fire damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Artificer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power10216",
+      "title": "Planestorm Anchor",
+      "description": "You weave enchantments used by powerful planeswalkers over your ally, transforming them into a focal point for teleportation.",
+      "flavor": "You weave enchantments used by powerful planeswalkers over your ally, transforming them into a focal point for teleportation.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10216",
+        "publication": "Published in Dragon Magazine 381, page(s) 60.",
+        "rulesText": "Planestorm AnchorArtificer Attack 19\nYou weave enchantments used by powerful planeswalkers over your ally, transforming them into a focal point for teleportation.\nDaily   ✦     Arcane, Lightning, Thunder, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 3[W] + Intelligence modifier lightning and thunder damage, and the target is dazed (save ends).\nMiss: Half damage, and the target is dazed until the end of your next turn.\nEffect: Choose an ally within 5 squares of the target. Until the end of the encounter, when the ally is within 10 squares of you, you can use the Planestorm Anchor Attack power.\nPlanestorm Anchor Attack\nAt-will ✦     Arcane, Lightning, Thunder, Weapon\nStandard Action      Ranged\nRequirement: The power Planestorm Anchor must be active in order to use this power.\nEffect: You teleport into an unoccupied space adjacent to the chosen ally and make the following secondary attack.\nSecondary Target: Each adjacent enemy\nSecondary Attack: Intelligence vs. Reflex\nHit: 2d8 + Intelligence modifier lightning and thunder damage.\nPublished in Dragon Magazine 381, page(s) 60."
+      },
+      "keywords": [
+        "ARCANE",
+        "LIGHTNING",
+        "THUNDER",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            },
+            "targets-11": {
+              "kind": "TARGET_SET",
+              "text": "Each adjacent enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Intelligence lightning and thunder damage, and the target is dazed (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose an ally within 5 squares of the target. Until the end of the encounter, when the ally is within 10 squares of you, you can use the Planestorm Anchor Attack power."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Rule",
+              "text": "Planestorm Anchor Attack"
+            },
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "Rule",
+              "text": "At-will ✦     Arcane, Lightning, Thunder, Weapon"
+            },
+            {
+              "id": "row-8",
+              "type": "effect",
+              "label": "Rule",
+              "text": "Standard Action      Ranged"
+            },
+            {
+              "id": "row-10",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport into an unoccupied space adjacent to the chosen ally and make the following secondary attack."
+            },
+            {
+              "id": "row-11",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "Each adjacent enemy"
+            },
+            {
+              "id": "row-12",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Intelligence vs. Reflex",
+              "actor": "self",
+              "targets": "targets-11",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Each adjacent enemy"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-13",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Intelligence lightning and thunder damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1",
+          "requirement": "The power Planestorm Anchor must be active in order to use this power."
+        }
+      ],
+      "subtitle": "Artificer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.artificer-power10432",
+      "title": "Radiant Forcefield",
+      "description": "You bestow an enchantment of radiant energy upon the armor of your ally, warding them against oncoming attackers.",
+      "flavor": "You bestow an enchantment of radiant energy upon the armor of your ally, warding them against oncoming attackers.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10432",
+        "publication": "Published in Dragon Magazine 381, page(s) 60.",
+        "rulesText": "Radiant ForcefieldArtificer Attack 19\nYou bestow an enchantment of radiant energy upon the armor of your ally, warding them against oncoming attackers.\nDaily   ✦     Arcane, Implement, Radiant\nMinor Action      Melee touch\nTarget: You or one ally\nEffect: You infuse the target's armor with radiant energy. Until the end of the encounter, the target gains resist 10 radiant. In addition, you can use the Radiant Forcefield Attack once per round until the end of the encounter if the primary target is within 5 squares of you.\nRadiant Forcefield AttackArtificer Attack 19\nAt-Will   ✦     Arcane, Implement, Radiant\nStandard Action      Close burst 2 centered on the primary target\nRequirement: The power Radiant Forcefield must be active in order to use this power.\nSecondary Target: Each enemy in the burst\nEffect: The target takes radiant damage equal to 10 + your implement's enhancement bonus and grants combat advantage until the end of your next turn.\nPublished in Dragon Magazine 381, page(s) 60."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You infuse the target's armor with radiant energy. Until the end of the encounter, the target gains resist 10 radiant. In addition, you can use the Radiant Forcefield Attack once per round until the end of the encounter if the primary target is within 5 squares of you."
+            },
+            {
+              "id": "grant-use-radiant-forcefield-attackartificer-attack-19",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Radiant Forcefield AttackArtificer Attack 19",
+              "activationId": "use-radiant-forcefield-attackartificer-attack-19",
+              "duration": "As stated in the power's rules"
+            }
+          ],
+          "targets": "targets-1"
+        },
+        {
+          "id": "use-radiant-forcefield-attackartificer-attack-19",
+          "availability": "GRANTED",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-7": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2 centered on the primary target"
+          },
+          "blocks": [
+            {
+              "id": "row-8",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes radiant damage equal to 10 + your implement's enhancement bonus and grants combat advantage until the end of your next turn."
+            }
+          ],
+          "title": "Radiant Forcefield AttackArtificer Attack 19",
+          "requirement": "The power Radiant Forcefield must be active in order to use this power.",
+          "targets": "targets-7"
+        }
+      ],
+      "subtitle": "Artificer Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

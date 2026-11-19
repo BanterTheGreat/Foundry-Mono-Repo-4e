@@ -16730,6 +16730,3651 @@
       "subtitle": "Rogue Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power4512",
+      "title": "Audacious Strike",
+      "description": "You lunge forward recklessly, then roll defensively to the side.",
+      "flavor": "You lunge forward recklessly, then roll defensively to the side.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4512",
+        "publication": "Published in Martial Power, page(s) 82.",
+        "rulesText": "Audacious StrikeRogue Attack 17\nYou lunge forward recklessly, then roll defensively to the side.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade.\nTarget: One creature\nEffect: Before the attack, you can move 4 squares.\nAttack: Dexterity vs. AC\nHit: 3[W] + Dexterity modifier damage.\nEffect: You can shift 2 squares.\nPublished in Martial Power, page(s) 82."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the attack, you can move 4 squares."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can shift 2 squares."
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power4513",
+      "title": "Blistering Outburst",
+      "description": "In a flurry of lunges and strikes, you leave nearby foes unable to give decisive counterattacks.",
+      "flavor": "In a flurry of lunges and strikes, you leave nearby foes unable to give decisive counterattacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4513",
+        "publication": "Published in Martial Power, page(s) 82.",
+        "rulesText": "Blistering OutburstRogue Attack 17\nIn a flurry of lunges and strikes, you leave nearby foes unable to give decisive counterattacks.\nEncounter   ✦     Martial, Weapon\nStandard Action      Close burst 1\nRequirement: You must be wielding a light blade.\nTarget: Each creature in the burst you can see\nAttack: Dexterity vs. Fortitude\nHit: 1[W] + Dexterity modifier damage, and the target takes a –2 penalty to attack rolls until the end of your next turn.\nPublished in Martial Power, page(s) 82."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Dexterity damage, and the target takes a –2 penalty to attack rolls until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10792",
+      "title": "Dazing Shot",
+      "description": "Your sling bullet slams into your target's head and leaves the enemy reeling.",
+      "flavor": "Your sling bullet slams into your target's head and leaves the enemy reeling.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10792",
+        "publication": "Published in Martial Power 2, page(s) 66.",
+        "rulesText": "Dazing ShotRogue Attack 17\nYour sling bullet slams into your target's head and leaves the enemy reeling.\nEncounter   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nRequirement: You must be wielding a sling.\nTarget: One creature\nAttack: Dexterity vs. Fortitude\nHit: 2[W] + Dexterity modifier damage, and the target is dazed until the end of its next turn.\nCunning Sneak: If the target moves or attacks before the end of its next turn, it falls prone at the end of that action.\nPublished in Martial Power 2, page(s) 66."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage, and the target is dazed until the end of its next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Cunning Sneak",
+              "text": "If the target moves or attacks before the end of its next turn, it falls prone at the end of that action."
+            }
+          ],
+          "requirement": "You must be wielding a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power986",
+      "title": "Dragon Tail Strike",
+      "description": "First you set them up, and then you knock them down.",
+      "flavor": "First you set them up, and then you knock them down.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power986",
+        "publication": "Published in Player's Handbook, page(s) 124, Class Compendium.",
+        "rulesText": "Dragon Tail StrikeRogue Attack 17\nFirst you set them up, and then you knock them down.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature\nAttack: Dexterity vs. Fortitude\nHit: 3[W] + Dexterity modifier damage. If the target hits or misses you with an attack before the start of your next turn, you can repeat the attack against it as an immediate interrupt, dealing 2[W] + Dexterity modifier damage on a hit.\nBrutal Scoundrel: You gain a bonus to the attack roll of the immediate interrupt. The bonus equals your Strength modifier.\nUpdate (10/3/2011)\nUpdated in Class Compendium.\nPublished in Player's Handbook, page(s) 124, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage. If the target hits or misses you with an attack before the start of your next turn, you can repeat the attack against it as an immediate interrupt, dealing 2[W] + Dexterity damage on a hit."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Brutal Scoundrel",
+              "text": "You gain a bonus to the attack roll of the immediate interrupt. The bonus equals your Strength."
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power2513",
+      "title": "Escape Artist's Gambit",
+      "description": "You take a parting shot as you wriggle free and scramble away.",
+      "flavor": "You take a parting shot as you wriggle free and scramble away.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 17
+          },
+          {
+            "type": "proficiency",
+            "skill": "ACROBATICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2513",
+        "publication": "Published in Martial Power, page(s) 82.",
+        "rulesText": "Escape Artist's GambitRogue Attack 17\nYou take a parting shot as you wriggle free and scramble away.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nPrerequisite: You must be trained in Acrobatics.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage, and you can shift 1 square. If you are immobilized, slowed, or both, those conditions end before you shift, and you automatically escape if you are grabbed.\nArtful Dodger: You can instead shift a number of squares equal to 1 + your Dexterity modifier.\nAddition (1/21/2009)\nAdd “Target: One creature” above the Attack line.\nPublished in Martial Power, page(s) 82."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage, and you can shift 1 square. If you are immobilized, slowed, or both, those conditions end before you shift, and you automatically escape if you are grabbed."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Artful Dodger",
+              "text": "You can instead shift a number of squares equal to 1 + your Dexterity."
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10793",
+      "title": "Excruciating Reminder",
+      "description": "You strike your foe, leaving a painful reminder that if it attacks you or an ally again, it will pay the price.",
+      "flavor": "You strike your foe, leaving a painful reminder that if it attacks you or an ally again, it will pay the price.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10793",
+        "publication": "Published in Martial Power 2, page(s) 67.",
+        "rulesText": "Excruciating ReminderRogue Attack 17\nYou strike your foe, leaving a painful reminder that if it attacks you or an ally again, it will pay the price.\nEncounter   ✦     Martial, Rattling, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 3[W] + Dexterity modifier damage. If the target misses with an attack before the start of your next turn, you can make a ranged or a melee basic attack against the target with combat advantage as an opportunity action.\nRuthless Ruffian: If you hit with the basic attack, the target grants combat advantage to you until the end of your next turn.\nPublished in Martial Power 2, page(s) 67."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RATTLING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage. If the target misses with an attack before the start of your next turn, you can make a ranged or a melee basic attack against the target with combat advantage as an opportunity action."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Ruthless Ruffian",
+              "text": "If you hit with the basic attack, the target grants combat advantage to you until the end of your next turn."
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power2306",
+      "title": "Guerrilla Blitz",
+      "description": "The speed and accuracy displayed during your daring assault causes your enemies to momentarily overcompensate when attacking you.",
+      "flavor": "The speed and accuracy displayed during your daring assault causes your enemies to momentarily overcompensate when attacking you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2306",
+        "publication": "Published in Martial Power, page(s) 82.",
+        "rulesText": "Guerrilla BlitzRogue Attack 17\nThe speed and accuracy displayed during your daring assault causes your enemies to momentarily overcompensate when attacking you.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature\nEffect: Before the attack, you can move your speed.\nAttack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage.\nBrutal Scoundrel: The attack deals extra damage equal to your Strength modifier.\nEffect: Until the start of your next turn, you gain a +1 power bonus to AC and Reflex for every 2 squares you moved as part of this power.\nPublished in Martial Power, page(s) 82."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the attack, you can move your speed."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Brutal Scoundrel",
+              "text": "The attack deals extra damage equal to your Strength."
+            },
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the start of your next turn, you gain a +1 power bonus to AC and Reflex for every 2 squares you moved as part of this power."
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power1493",
+      "title": "Hounding Strike",
+      "description": "You deliver a ferocious strike that puts doubt into enemy of its chances of living.",
+      "flavor": "You deliver a ferocious strike that puts doubt into enemy of its chances of living.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1493",
+        "publication": "Published in Player's Handbook, page(s) 124, Class Compendium.",
+        "rulesText": "Hounding StrikeRogue Attack 17\nYou deliver a ferocious strike that puts doubt into enemy of its chances of living.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature\nAttack: Dexterity vs. Will\nHit: 3[W] + Dexterity modifier damage. Until the end of your next turn, you have combat advantage against the target and gain a +1 power bonus to all defenses against its attacks.\nArtful Dodger: The power bonus equals your Charisma modifier.\nUpdate (10/3/2011)\nUpdated in Class Compendium.\nPublished in Player's Handbook, page(s) 124, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Will",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage. Until the end of your next turn, you have combat advantage against the target and gain a +1 power bonus to all defenses against its attacks."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Artful Dodger",
+              "text": "The power bonus equals your Charisma."
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10794",
+      "title": "Leaping Dagger Kick",
+      "description": "You leap through the air, crashing into your foe and slashing at it.",
+      "flavor": "You leap through the air, crashing into your foe and slashing at it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10794",
+        "publication": "Published in Martial Power 2, page(s) 67.",
+        "rulesText": "Leaping Dagger KickRogue Attack 17\nYou leap through the air, crashing into your foe and slashing at it.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade.\nTarget: One creature\nAttack: Dexterity vs. Reflex\nEffect: You knock the target prone.\nHit: 3[W] + Dexterity modifier damage.\nArtful Dodger: If you charged the target, it is dazed until the end of your next turn.\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Martial Power 2, page(s) 67."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You knock the target prone."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Artful Dodger",
+              "text": "If you charged the target, it is dazed until the end of your next turn."
+            },
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "Special",
+              "text": "When charging, you can use this power in place of a melee basic attack."
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power2896",
+      "title": "No Escape",
+      "description": "Your enemy tries to escape, but you leave it lying in its tracks.",
+      "flavor": "Your enemy tries to escape, but you leave it lying in its tracks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2896",
+        "publication": "Published in Martial Power, page(s) 83.",
+        "rulesText": "No EscapeRogue Attack 17\nYour enemy tries to escape, but you leave it lying in its tracks.\nEncounter   ✦     Martial, Weapon\nImmediate Interrupt      Ranged weapon\nTrigger: An enemy leaves a square adjacent to you or enters a square where it has cover or concealment against you\nRequirement: You must be wielding a crossbow, a light thrown weapon, or a sling.\nTarget: The triggering enemy\nAttack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage, and you knock the target prone.\nPublished in Martial Power, page(s) 83."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage, and you knock the target prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "trigger": "An enemy leaves a square adjacent to you or enters a square where it has cover or concealment against you",
+          "requirement": "You must be wielding a crossbow, a light thrown weapon, or a sling.",
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10176",
+      "title": "Path of the Blade",
+      "description": "You slash at your enemies, forcing them to part before you as you rush your intended enemy.",
+      "flavor": "You slash at your enemies, forcing them to part before you as you rush your intended enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10176",
+        "publication": "Published in Dragon Magazine 381, page(s) 69.",
+        "rulesText": "Path of the BladeRogue Attack 17\nYou slash at your enemies, forcing them to part before you as you rush your intended enemy.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade.\nEffect: You can shift a number of squares equal to 2 + your Charisma modifier. Two times during this shift, you can use the Path of the Blade Attack power, each time against a different enemy adjacent to you.\nArtful Dodger: You instead shift 4 + your Charisma modifier squares.\nPath of the Blade Attack\nEncounter ✦     Martial, Weapon\nFree Action      Melee weapon\nRequirement: The power Path of the Blade must be active in order to use this power.\nPrimary Target: One enemy\nPrimary Attack: Dexterity vs. Will\nHit: 2[W] + Dexterity modifier damage and you slide the creature 1 square.\nSecondary Target: One enemy other than the primary target\nSecondary Attack: Dexterity vs. Will\nHit: 2[W] + Dexterity modifier damage, and you slide the creature 1 square.\nPublished in Dragon Magazine 381, page(s) 69."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can shift a number of squares equal to 2 + your Charisma. Two times during this shift, you can use the Path of the Blade Attack power, each time against a different enemy adjacent to you."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Artful Dodger",
+              "text": "You instead shift 4 + your Charisma squares."
+            },
+            {
+              "id": "grant-use-path-of-the-blade-attack",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Path of the Blade Attack",
+              "activationId": "use-path-of-the-blade-attack",
+              "duration": "As stated in the power's rules"
+            }
+          ],
+          "requirement": "You must be wielding a light blade."
+        },
+        {
+          "id": "use-path-of-the-blade-attack",
+          "availability": "GRANTED",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-8": {
+              "kind": "TARGET_SET",
+              "text": "One enemy"
+            },
+            "targets-11": {
+              "kind": "TARGET_SET",
+              "text": "One enemy other than the primary target"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-9",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Dexterity vs. Will",
+              "actor": "self",
+              "targets": "targets-8",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-10",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage and you slide the creature 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-11",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "One enemy other than the primary target"
+            },
+            {
+              "id": "row-12",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Dexterity vs. Will",
+              "actor": "self",
+              "targets": "targets-11",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-13",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage, and you slide the creature 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "title": "Path of the Blade Attack",
+          "requirement": "The power Path of the Blade must be active in order to use this power.",
+          "targets": "targets-8"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power1491",
+      "title": "Stab and Grab",
+      "description": "You grab your foe with one hand and deliver a quick, deadly jab with the other.",
+      "flavor": "You grab your foe with one hand and deliver a quick, deadly jab with the other.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1491",
+        "publication": "Published in Player's Handbook, page(s) 124, Class Compendium.",
+        "rulesText": "Stab and GrabRogue Attack 17\nYou grab your foe with one hand and deliver a quick, deadly jab with the other.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade and have a hand free.\nTarget: One creature\nAttack: Dexterity vs. Reflex\nHit: 3[W] + Dexterity modifier damage, and you grab the target until the end of your next turn. If you already have the target grabbed, it is restrained until the grab ends (it can still try to escape).\nSustain Minor: The grab persists until the end of your next turn.\nUpdate (10/4/2011)\nUpdated in Class Compendium.\nPublished in Player's Handbook, page(s) 124, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage, and you grab the target until the end of your next turn. If you already have the target grabbed, it is restrained until the grab ends (it can still try to escape)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The grab persists until the end of your next turn."
+            }
+          ],
+          "requirement": "You must be wielding a light blade and have a hand free.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power2307",
+      "title": "Stinging Squall",
+      "description": "Spooked by your flurry of jabs, nearby adversaries are unable to make anything but feeble retaliatory strikes against you.",
+      "flavor": "Spooked by your flurry of jabs, nearby adversaries are unable to make anything but feeble retaliatory strikes against you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2307",
+        "publication": "Published in Martial Power, page(s) 83.",
+        "rulesText": "Stinging SquallRogue Attack 17\nSpooked by your flurry of jabs, nearby adversaries are unable to make anything but feeble retaliatory strikes against you.\nEncounter   ✦     Martial, Rattling, Weapon\nStandard Action      Close burst 1\nRequirement: You must be wielding a light blade.\nTarget: Each enemy in the burst you can see\nAttack: Dexterity vs. AC\nHit: 1[W] + Dexterity modifier damage, and the target is weakened when making attacks against you until the end of your next turn.\nRuthless Ruffian: The attack deals extra damage equal to your Charisma modifier, and the target is weakened when making any attack (not just against you).\nPublished in Martial Power, page(s) 83."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RATTLING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Dexterity damage, and the target is weakened when making attacks against you until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Ruthless Ruffian",
+              "text": "The attack deals extra damage equal to your Charisma, and the target is weakened when making any attack (not just against you)."
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10795",
+      "title": "Surprising Assault",
+      "description": "You deliver a swift smash to your opponent's head, surprising the foe with the brutality of your attack.",
+      "flavor": "You deliver a swift smash to your opponent's head, surprising the foe with the brutality of your attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10795",
+        "publication": "Published in Martial Power 2, page(s) 67.",
+        "rulesText": "Surprising AssaultRogue Attack 17\nYou deliver a swift smash to your opponent's head, surprising the foe with the brutality of your attack.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage, and the target is dazed until the end of your next turn.\nCunning Sneak: The target is stunned instead of dazed if you were hidden from the target when you made the attack.\nPublished in Martial Power 2, page(s) 67."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage, and the target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Cunning Sneak",
+              "text": "The target is stunned instead of dazed if you were hidden from the target when you made the attack."
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10160",
+      "title": "Tumbling Strike",
+      "description": "With great agility, you cross harsh terrain and weave through foes just before making your enemy regret it ever confronted you in battle.",
+      "flavor": "With great agility, you cross harsh terrain and weave through foes just before making your enemy regret it ever confronted you in battle.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 17
+          },
+          {
+            "type": "proficiency",
+            "skill": "ACROBATICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10160",
+        "publication": "Published in Dragon Magazine 381, page(s) 80.",
+        "rulesText": "Tumbling StrikeRogue Attack 17\nWith great agility, you cross harsh terrain and weave through foes just before making your enemy regret it ever confronted you in battle.\nEncounter   ✦     Martial, Weapon\nMinor Action      Melee 1\nPrerequisite: You must be trained in Acrobatics.\nEffect: You shift your speed and make the following attack at any point during the shift. During this shift, you can shift through squares occupied by enemies and you ignore difficult terrain.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 3[W] + Dexterity modifier damage.\nPublished in Dragon Magazine 381, page(s) 80."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift your speed and make the following attack at any point during the shift. During this shift, you can shift through squares occupied by enemies and you ignore difficult terrain."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10796",
+      "title": "Unerring Shot",
+      "description": "From your hiding place, you deliver an attack. If you miss, you feel assured you' ll strike your target next time.",
+      "flavor": "From your hiding place, you deliver an attack. If you miss, you feel assured you' ll strike your target next time.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10796",
+        "publication": "Published in Martial Power 2, page(s) 67.",
+        "rulesText": "Unerring ShotRogue Attack 17\nFrom your hiding place, you deliver an attack. If you miss, you feel assured you' ll strike your target next time.\nEncounter   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 3[W] + Dexterity modifier damage.\nMiss: You do not expend this power if you were hidden from the target when you made the attack.\nPublished in Martial Power 2, page(s) 67."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "You do not expend this power if you were hidden from the target when you made the attack."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power4516",
+      "title": "Blood Squall",
+      "description": "Your blade flashes like lightning, and fountains of blood erupt from the foes around you.",
+      "flavor": "Your blade flashes like lightning, and fountains of blood erupt from the foes around you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4516",
+        "publication": "Published in Martial Power, page(s) 83.",
+        "rulesText": "Blood SquallRogue Attack 19\nYour blade flashes like lightning, and fountains of blood erupt from the foes around you.\nDaily   ✦     Martial, Weapon\nStandard Action      Close burst 1\nRequirement: You must be wielding a light blade.\nTarget: Each enemy in the burst you can see\nAttack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage, and ongoing 10 damage (save ends).\nMiss: Half damage, and no ongoing damage.\nPublished in Martial Power, page(s) 83."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage, and ongoing 10 damage (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and no ongoing damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power4515",
+      "title": "Bloodbath Attack",
+      "description": "Your vicious attack leaves the enemy lying in a pool of his own blood.",
+      "flavor": "Your vicious attack leaves the enemy lying in a pool of his own blood.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4515",
+        "publication": "Published in Martial Power, page(s) 83.",
+        "rulesText": "Bloodbath AttackRogue Attack 19\nYour vicious attack leaves the enemy lying in a pool of his own blood.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 3[W] + Dexterity modifier damage, you knock the target prone, and it takes ongoing damage equal to your Strength modifier (save ends).\nEffect: Until the end of the encounter, whenever you hit the target, the target takes ongoing damage equal to your Strength modifier (save ends).\nPublished in Martial Power, page(s) 83."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage, you knock the target prone, and it takes ongoing damage equal to your Strength (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever you hit the target, the target takes ongoing damage equal to your Strength (save ends)."
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10797",
+      "title": "Blurring Assault",
+      "description": "Your blades lash out to strike anyone you pass as you dart across the battlefield.",
+      "flavor": "Your blades lash out to strike anyone you pass as you dart across the battlefield.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10797",
+        "publication": "Published in Martial Power 2, page(s) 68.",
+        "rulesText": "Blurring AssaultRogue Attack 19\nYour blades lash out to strike anyone you pass as you dart across the battlefield.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade.\nEffect: You shift half your speed. Make the following attack against each enemy you move adjacent to. No enemy can be attacked more than once from a single use of this power.\nAttack: Dexterity vs. AC\nHit: 2[W] + Dexterity modifier damage, and you knock the target prone.\nMiss: Half damage.\nEffect: You slide the target 1 square.\nPublished in Martial Power 2, page(s) 68."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift half your speed. Make the following attack against each enemy you move adjacent to. No enemy can be attacked more than once from a single use of this power."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Attack",
+              "text": "Dexterity vs. AC"
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Hit",
+              "text": "2[W] + Dexterity damage, and you knock the target prone."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Miss",
+              "text": "Half damage."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You slide the target 1 square."
+            }
+          ],
+          "requirement": "You must be wielding a light blade."
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power4517",
+      "title": "Daunting Barrage",
+      "description": "A blistering volley of projectiles knocks your enemies for a loop.",
+      "flavor": "A blistering volley of projectiles knocks your enemies for a loop.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4517",
+        "publication": "Published in Martial Power, page(s) 83.",
+        "rulesText": "Daunting BarrageRogue Attack 19\nA blistering volley of projectiles knocks your enemies for a loop.\nDaily   ✦     Martial, Rattling, Weapon\nStandard Action      Close blast 5\nRequirement: You must be wielding a crossbow, a light thrown weapon, or a sling.\nTarget: Each enemy in the blast you can see\nAttack: Dexterity vs. AC\nHit: 3[W] + Dexterity modifier damage, and the target is dazed (save ends).\nMiss: Half damage, and the target is not dazed.\nPublished in Martial Power, page(s) 83."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RATTLING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage, and the target is dazed (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is not dazed."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light thrown weapon, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10798",
+      "title": "Demoralizing Shot",
+      "description": "Your shot strikes with such potency and accuracy that you daunt foes near the target of your attack.",
+      "flavor": "Your shot strikes with such potency and accuracy that you daunt foes near the target of your attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10798",
+        "publication": "Published in Martial Power 2, page(s) 68.",
+        "rulesText": "Demoralizing ShotRogue Attack 19\nYour shot strikes with such potency and accuracy that you daunt foes near the target of your attack.\nDaily   ✦     Martial, Rattling, Weapon\nStandard Action      Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 4[W] + Dexterity modifier damage.\nMiss: Half damage.\nEffect: Each enemy within 3 squares of the target grants combat advantage until the end of your next turn and is pushed 1 square away from the target.\nPublished in Martial Power 2, page(s) 68."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RATTLING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Dexterity damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each enemy within 3 squares of the target grants combat advantage until the end of your next turn and is pushed 1 square away from the target."
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power198",
+      "title": "Feinting Flurry",
+      "description": "A series of clever feints throws your foe off his game and makes it an easy target.",
+      "flavor": "A series of clever feints throws your foe off his game and makes it an easy target.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power198",
+        "publication": "Published in Player's Handbook, page(s) 124, Class Compendium.",
+        "rulesText": "Feinting FlurryRogue Attack 19\nA series of clever feints throws your foe off his game and makes it an easy target.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature\nAttack: Dexterity vs. Will\nHit: 5[W] + Dexterity modifier damage.\nEffect: Until the end of your next turn, the target takes a penalty to all defenses against your attacks. The penalty equals your Charisma modifier.\nSustain Minor: The penalty persists until the end of your next turn.\nUpdate (10/4/2011)\nUpdated in Class Compendium.\nPublished in Player's Handbook, page(s) 124, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Will",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, the target takes a penalty to all defenses against your attacks. The penalty equals your Charisma."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The penalty persists until the end of your next turn."
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power1031",
+      "title": "Flying Foe",
+      "description": "As soon as your foe is off-balance, you deliver a powerful strike, then easily shove it where you want it to go.",
+      "flavor": "As soon as your foe is off-balance, you deliver a powerful strike, then easily shove it where you want it to go.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1031",
+        "publication": "Published in Player's Handbook, page(s) 124, Class Compendium.",
+        "rulesText": "Flying FoeRogue Attack 19\nAs soon as your foe is off-balance, you deliver a powerful strike, then easily shove it where you want it to go.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade.\nTarget: One creature\nAttack: Dexterity vs. Fortitude\nHit: 4[W] + Dexterity modifier damage, and you slide the target a number of squares up to your Strength modifier. If you end the slide with the target adjacent to one or more objects or creatures, you can cause both the target and one of those objects or creatures to take 10 damage.\nMiss: Half damage, and you slide the target a number of squares up to your Strength modifier.\nUpdate (10/4/2011)\nUpdated in Class Compendium.\nPublished in Player's Handbook, page(s) 124, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Dexterity damage, and you slide the target a number of squares up to your Strength. If you end the slide with the target adjacent to one or more objects or creatures, you can cause both the target and one of those objects or creatures to take 10 damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you slide the target a number of squares up to your Strength."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10799",
+      "title": "Hilt Slam",
+      "description": "You brutally slam the blunt end of your weapon into your foe's head, sending the creature staggering.",
+      "flavor": "You brutally slam the blunt end of your weapon into your foe's head, sending the creature staggering.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10799",
+        "publication": "Published in Martial Power 2, page(s) 68.",
+        "rulesText": "Hilt SlamRogue Attack 19\nYou brutally slam the blunt end of your weapon into your foe's head, sending the creature staggering.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 3[W] + Dexterity modifier damage, and the target is stunned (save ends). You push the target 5 squares, and you grant combat advantage until the end of your next turn.\nMiss: Half damage, and the target is dazed (save ends). You push the target 3 squares.\nPublished in Martial Power 2, page(s) 68."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Dexterity damage, and the target is stunned (save ends). You push the target 5 squares, and you grant combat advantage until the end of your next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is dazed (save ends). You push the target 3 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10800",
+      "title": "Maiming Strike",
+      "description": "You deliver a crippling strike that promises to leave your opponent hampered for a while.",
+      "flavor": "You deliver a crippling strike that promises to leave your opponent hampered for a while.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10800",
+        "publication": "Published in Martial Power 2, page(s) 68.",
+        "rulesText": "Maiming StrikeRogue Attack 19\nYou deliver a crippling strike that promises to leave your opponent hampered for a while.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 4[W] + Dexterity modifier damage.\nEffect: You knock the target prone. The target is slowed, cannot shift, and cannot charge (save ends all).\nPublished in Martial Power 2, page(s) 68."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You knock the target prone. The target is slowed, cannot shift, and cannot charge (save ends all)."
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power4518",
+      "title": "Marked Beating",
+      "description": "Using the distraction caused by an ally, you brutalize your foe, leaving it off kilter.",
+      "flavor": "Using the distraction caused by an ally, you brutalize your foe, leaving it off kilter.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4518",
+        "publication": "Published in Martial Power, page(s) 83.",
+        "rulesText": "Marked BeatingRogue Attack 19\nUsing the distraction caused by an ally, you brutalize your foe, leaving it off kilter.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature marked by an ally\nAttack: Dexterity vs. Reflex\nHit: 5[W] + Dexterity modifier damage, and the target is dazed and takes a –2 penalty to all defenses (save ends both).\nMiss: Half damage, the target is dazed until the end of your next turn, and no penalty to defenses.\nPublished in Martial Power, page(s) 83."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature marked by an ally"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5[W] + Dexterity damage, and the target is dazed and takes a –2 penalty to all defenses (save ends both)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, the target is dazed until the end of your next turn, and no penalty to defenses."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power10801",
+      "title": "Merciless Cut",
+      "description": "You slip up behind your enemy and slash across its back.",
+      "flavor": "You slip up behind your enemy and slash across its back.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10801",
+        "publication": "Published in Martial Power 2, page(s) 68.",
+        "rulesText": "Merciless CutRogue Attack 19\nYou slip up behind your enemy and slash across its back.\nDaily   ✦     Martial, Reliable, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade.\nEffect: Before the attack, you shift your speed.\nTarget: One creature\nAttack: Dexterity vs. Reflex\nHit: 4[W] + Dexterity modifier damage, and ongoing 10 damage (save ends).\nPublished in Martial Power 2, page(s) 68."
+      },
+      "keywords": [
+        "MARTIAL",
+        "RELIABLE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the attack, you shift your speed."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Reflex",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Dexterity damage, and ongoing 10 damage (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power1500",
+      "title": "Snake's Retreat",
+      "description": "After striking boldly, you thwart your foe by shifting away just as it's about to attack you.",
+      "flavor": "After striking boldly, you thwart your foe by shifting away just as it's about to attack you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1500",
+        "publication": "Published in Player's Handbook, page(s) 124, Class Compendium.",
+        "rulesText": "Snake's RetreatRogue Attack 19\nAfter striking boldly, you thwart your foe by shifting away just as it's about to attack you.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee or Ranged weapon\nRequirement: You must be wielding a crossbow, a light blade, or a sling.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 6[W] + Dexterity modifier damage.\nEffect: The target is frustrated by you (save ends). Until this effect ends, you can shift 1 square as an immediate interrupt when the target makes a melee or a ranged attack against you.\nUpdate (10/4/2011)\nUpdated in Class Compendium.\nPublished in Player's Handbook, page(s) 124, Class Compendium."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee or Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee or Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "6[W] + Dexterity damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target is frustrated by you (save ends). Until this effect ends, you can shift 1 square as an immediate interrupt when the target makes a melee or a ranged attack against you."
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light blade, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power4519",
+      "title": "Stolen Vitality",
+      "description": "Your vicious assault leaves your enemy unable to move quickly, and you gain a burst of confidence from the deed.",
+      "flavor": "Your vicious assault leaves your enemy unable to move quickly, and you gain a burst of confidence from the deed.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4519",
+        "publication": "Published in Martial Power, page(s) 83.",
+        "rulesText": "Stolen VitalityRogue Attack 19\nYour vicious assault leaves your enemy unable to move quickly, and you gain a burst of confidence from the deed.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade.\nTarget: One creature\nAttack: Dexterity vs. AC\nHit: 4[W] + Dexterity modifier damage, and the target is slowed (save ends). You gain temporary hit points equal to 10 + your Charisma modifier.\nMiss: Half damage, the target is slowed until the end of your next turn, and no temporary hit points.\nPublished in Martial Power, page(s) 83."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Dexterity damage, and the target is slowed (save ends). You gain temporary hit points equal to 10 + your Charisma."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, the target is slowed until the end of your next turn, and no temporary hit points."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power2294",
+      "title": "Strong-Arm Loyalty",
+      "description": "You browbeat your wounded foe with a cruel attack, forcing compliance for a short time.",
+      "flavor": "You browbeat your wounded foe with a cruel attack, forcing compliance for a short time.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 19
+          },
+          {
+            "type": "proficiency",
+            "skill": "INTIMIDATE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2294",
+        "publication": "Published in Martial Power, page(s) 83.",
+        "rulesText": "Strong-Arm LoyaltyRogue Attack 19\nYou browbeat your wounded foe with a cruel attack, forcing compliance for a short time.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nPrerequisite: You must be trained in Intimidate.\nRequirement: You must be wielding a light blade.\nTarget: One bloodied creature\nAttack: Dexterity vs. Will\nHit: 2[W] + Dexterity modifier damage, and the target is dominated until the start of your next turn or until it is attacked.\nMiss: Half damage, and the target is immobilized until the start of your next turn or until it is attacked.\nPublished in Martial Power, page(s) 83."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "One bloodied creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. Will",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Dexterity damage, and the target is dominated until the start of your next turn or until it is attacked."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-6",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is immobilized until the start of your next turn or until it is attacked."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a light blade.",
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.rogue-power4521",
+      "title": "Uncanny Ricochet",
+      "description": "Your attack has such force that if it fails to hit one opponent, it might careen into another.",
+      "flavor": "Your attack has such force that if it fails to hit one opponent, it might careen into another.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4521",
+        "publication": "Published in Martial Power, page(s) 84.",
+        "rulesText": "Uncanny RicochetRogue Attack 19\nYour attack has such force that if it fails to hit one opponent, it might careen into another.\nDaily   ✦     Martial, Weapon\nStandard Action      Ranged weapon\nRequirement: You must be wielding a crossbow, a light thrown weapon, or a sling.\nPrimary Target: One creature\nPrimary Attack: Dexterity vs. Reflex\nHit: 4[W] + Dexterity modifier damage.\nMiss: Make a secondary attack with combat advantage.\nSecondary Target: One creature within 3 squares of the primary target\nSecondary Attack: Dexterity vs. Reflex\nHit: 4[W] + Dexterity modifier damage.\nMiss: Half damage.\nPublished in Martial Power, page(s) 84."
+      },
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            },
+            "targets-6": {
+              "kind": "TARGET_SET",
+              "text": "One creature within 3 squares of the primary target"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Dexterity vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Dexterity damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Make a secondary attack with combat advantage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "One creature within 3 squares of the primary target"
+            },
+            {
+              "id": "row-7",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Dexterity vs. Reflex",
+              "actor": "self",
+              "targets": "targets-6",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "One creature within 3 squares of the primary target"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Dexterity damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-9",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "You must be wielding a crossbow, a light thrown weapon, or a sling.",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Rogue Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

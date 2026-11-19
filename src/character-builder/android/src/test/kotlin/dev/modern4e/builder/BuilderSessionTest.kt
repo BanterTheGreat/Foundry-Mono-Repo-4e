@@ -277,7 +277,7 @@ class BuilderSessionTest {
         assertEquals(dwarfRows.map { it.metadata.metadata.id }, laterRows.map { it.metadata.metadata.id })
     }
 
-    @Test fun utilityPoolsTheScreenDoesNotOfferAreNotWarmedButEveryOtherEditStillWarms() = runBlocking {
+    @Test fun reachedUtilityPoolsAreDisplayedAndWarmedAlongsideAttackPowersAndFeats() = runBlocking {
         val model = openPoolSession()
         model.create()
         model.edit(BuilderEdit.Level(2))
@@ -285,12 +285,12 @@ class BuilderSessionTest {
         val state = model.current!!
         val utility = state.rules.choices.first { it.slot.choiceId == "modern4e.choice.class-utility-2" }
         assertFalse(Progression.isAttackPowerChoice(state, utility))
-        assertTrue("The screen lists no level 2 utility pool", Progression.levelChoices(state, 2).none { it.slot == utility.slot })
+        assertTrue("The screen lists its authored level 2 utility pool", Progression.levelChoices(state, 2).any { it.slot == utility.slot })
         val slot = model.emptyAttackSlots().first()
         model.edit(BuilderEdit.Identity(state.document.identity.copy(name = "Renamed")))
         model.awaitWarmup()
         assertTrue("A rename leaves the pools warm", model.firstRows(1, slot).all { it.checked })
-        assertTrue(model.firstRows(2, utility.slot).none { it.checked })
+        assertTrue(model.firstRows(2, utility.slot).let { it.isNotEmpty() && it.all { row -> row.checked } })
         // The level 2 feat slot is warmed once the character reaches level 2.
         val level2 = model.firstRows(2, ChoiceSlotId("advancement.2", "feat", 0), FeatGroup.CLASS)
         assertTrue(level2.isNotEmpty() && level2.all { it.checked })
@@ -611,20 +611,55 @@ class BuilderSessionTest {
         assertEquals(document, (store.load(document.id) as ContractResult.Available).value)
         assertTrue(document.packages.none { it.packageId.contains("proof") || it.packageId.startsWith("test.") })
     }
-    @Test fun laterProgressionRemainsPortableAndExplicitlyIncomplete() = runBlocking {
+    @Test fun laterProgressionUsesValidatedAdvancementAndReopens() = runBlocking {
         val document = sample().copy(id = "later-progression", level = 4)
         store.save(document, SaveMode.CREATE)
         val model = session()
         model.load(document.id)
         val advancement = AbilityAdvancement(ChoiceSlotId("advancement.4", "ability", 0), mapOf(Ability.WISDOM to 1))
-        model.edit(BuilderEdit.LaterDecisions(LevelDecisions(4, abilityAdvancements = listOf(advancement))))
+        model.edit(BuilderEdit.Advancement(4, advancement))
         assertTrue(model.errors.isEmpty())
-        assertTrue(model.current!!.rules.ability(Ability.WISDOM) is ContractResult.Unavailable)
-        assertTrue(model.current!!.rules.diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
+        assertEquals(1, model.current!!.rules.overviewAbilityTotals.getValue(Ability.WISDOM))
+        assertFalse(model.current!!.rules.diagnostics.any { it.code in setOf("engine.abilityAdvancement", "engine.missingAdvancement") })
         val reopened = session()
         reopened.load(document.id)
         assertEquals(advancement, reopened.current!!.document.levels.single { it.level == 4 }.abilityAdvancements.single())
         assertTrue(reopened.progressionOptions(4, ChoiceSlotId("advancement.4", "feat", 0)).isNotEmpty())
+    }
+
+    @Test fun reachingParagonEnablesBundledPathsWithoutChangingSavedSuppliersOrOverrideOrder() = runBlocking {
+        val base = sample()
+        val document = base.copy(id = "paths-existing", level = 10,
+            packages = base.packages.filterNot { it.packageId == "modern4e.paths" })
+        store.save(document, SaveMode.CREATE)
+        val model = session()
+        model.load(document.id)
+        model.edit(BuilderEdit.Level(11))
+        assertTrue(model.errors.isEmpty())
+        val updated = model.current!!.document
+        assertEquals(document.packages, updated.packages.filterNot { it.packageId == "modern4e.paths" })
+        assertEquals(document.levels.flatMap { it.entries }, updated.levels.flatMap { it.entries })
+        assertEquals(1, updated.packages.count { it.packageId == "modern4e.paths" })
+        assertTrue(model.progressionOptions(11, ChoiceSlotId("advancement.11", "paragon-path", 0)).isNotEmpty())
+        val reopened = session()
+        reopened.load(document.id)
+        assertEquals(updated.packages, reopened.current!!.document.packages)
+    }
+
+    @Test fun higherLevelFeatRowsUseSharedEligibilityAndWarmAllReachedFeatSlots() = runBlocking {
+        val document = sample().copy(id = "later-feats", level = 19)
+        store.save(document, SaveMode.CREATE)
+        val model = session().also { it.warmupSettleMillis = 60_000 }
+        model.load(document.id)
+        var rows = emptyList<BuilderOptionRow>()
+        model.progressionOptionRows(18, ChoiceSlotId("advancement.18", "feat", 0), FeatGroup.GENERAL) { rows = it }
+        assertTrue(rows.isNotEmpty())
+        assertTrue(rows.all { it.checked })
+        assertTrue(rows.none { row -> row.diagnostics.any { it.code == "android.progression" } })
+        val targets = model.warmTargets(model.current!!)
+        val featLevels = targets.filter { it.slot.choiceId == "feat" }.map { it.level }.toSet()
+        assertEquals((1..19).filter { Progression.level(it).feat }.toSet(), featLevels)
+        assertTrue(targets.none { it.level > 19 })
     }
 
     @Test fun levelDialogChangesLevelOnConfirmAndHonorsBothBounds() = runBlocking {
@@ -901,11 +936,14 @@ class BuilderSessionTest {
         assertEquals("Medium", model.current!!.sizeDisplay())
         val derivedLanguages = model.current!!.languageDisplay()
         assertTrue(derivedLanguages.contains("Dwarven"))
-        model.edit(BuilderEdit.Identity(initial.identity.copy(languages = "Legacy text")))
+        model.edit(BuilderEdit.Identity(initial.identity.copy(languages = "Legacy text", size = "Large")))
         model.beginEdit("Languages")
         assertNull(model.dialog)
+        model.beginEdit("Size")
+        assertNull(model.dialog)
+        assertEquals("Medium", model.current!!.sizeDisplay())
         val details = mapOf("Gender" to "Woman", "Age" to "28", "Deity" to "Erathis",
-            "Size" to "Large", "Notes" to "  First line.\nSecond line.")
+            "Notes" to "  First line.\nSecond line.")
         for ((field, value) in details) {
             model.beginEdit(field)
             model.draft = "Discard this"
@@ -926,7 +964,10 @@ class BuilderSessionTest {
         assertEquals(initial.levels, reopened.current!!.document.levels)
         assertEquals("Legacy text", reopened.current!!.document.identity.languages)
         assertEquals(derivedLanguages, reopened.current!!.languageDisplay())
-        assertEquals("Large", reopened.current!!.sizeDisplay())
+        assertEquals("Large", reopened.current!!.document.identity.size)
+        assertEquals("Medium", reopened.current!!.sizeDisplay())
+        reopened.beginEdit("Size")
+        assertNull(reopened.dialog)
         reopened.beginEdit("Deity")
         reopened.draft = ""
         reopened.saveIdentityDraft()
@@ -1163,7 +1204,7 @@ class BuilderSessionTest {
         model.create("modern4e.class.wizard")
         val rules = model.current!!.rules
 
-        assertEquals("14", rules.defenseDisplay(Statistic.AC))
+        assertEquals("15", rules.defenseDisplay(Statistic.AC))
         assertEquals("12", rules.defenseDisplay(Statistic.FORTITUDE))
         assertEquals("16", rules.defenseDisplay(Statistic.REFLEX))
         assertEquals("14", rules.defenseDisplay(Statistic.WILL))

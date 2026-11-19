@@ -15402,6 +15402,3748 @@
       "subtitle": "Druid Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power14522",
+      "title": "Bloodthirsty Vines",
+      "description": "Rope-like vines spring from the ground, sinking their thorns into your foes.",
+      "flavor": "Rope-like vines spring from the ground, sinking their thorns into your foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14522",
+        "publication": "Published in Heroes of the Feywild, page(s) 82.",
+        "rulesText": "Bloodthirsty VinesDruid Attack 17\nRope-like vines spring from the ground, sinking their thorns into your foes.\nEncounter   ✦     Implement, Primal\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 3d10 + Wisdom modifier damage.\nEffect: You pull the target up to a number of squares equal to 2 + your Constitution or Dexterity modifier.\nPublished in Heroes of the Feywild, page(s) 82."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You pull the target up to a number of squares equal to 2 + your Constitution or Dexterity."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power14523",
+      "title": "Center of the Vortex",
+      "description": "A spiraling storm forms at your command, drawing your enemies toward its center even as you slip away.",
+      "flavor": "A spiraling storm forms at your command, drawing your enemies toward its center even as you slip away.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14523",
+        "publication": "Published in Heroes of the Feywild, page(s) 83.",
+        "rulesText": "Center of the VortexDruid Attack 17\nA spiraling storm forms at your command, drawing your enemies toward its center even as you slip away.\nEncounter   ✦     Implement, Lightning, Primal, Teleportation, Thunder\nStandard Action      Close burst 3\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Fortitude\nHit: 3d6 + Wisdom modifier lightning and thunder damage, and you pull the target up to 2 squares.\nEffect: You teleport up to 4 squares to a square outside the burst.\nPublished in Heroes of the Feywild, page(s) 83."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "LIGHTNING",
+        "PRIMAL",
+        "TELEPORTATION",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom lightning and thunder damage, and you pull the target up to 2 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport up to 4 squares to a square outside the burst."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power10035",
+      "title": "Cloud of Sparrows",
+      "description": "Sparrows swirl around you, a storm of tiny talons and beaks that rends your foes and then whisks you away.",
+      "flavor": "Sparrows swirl around you, a storm of tiny talons and beaks that rends your foes and then whisks you away.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10035",
+        "publication": "Published in Primal Power, page(s) 47.",
+        "rulesText": "Cloud of SparrowsDruid Attack 17\nSparrows swirl around you, a storm of tiny talons and beaks that rends your foes and then whisks you away.\nEncounter   ✦     Implement, Primal, Teleportation\nStandard Action      Close burst 2\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Fortitude\nHit: 3d6 + Wisdom modifier damage.\nEffect: You teleport 5 squares, and you gain concealment until the start of your next turn.\nPublished in Primal Power, page(s) 47."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "TELEPORTATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 2"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport 5 squares, and you gain concealment until the start of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power10036",
+      "title": "Devouring Swarm",
+      "description": "You dispatch pieces of your swarm form to drain blood from your foes to give yourself resilience.",
+      "flavor": "You dispatch pieces of your swarm form to drain blood from your foes to give yourself resilience.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10036",
+        "publication": "Published in Primal Power, page(s) 47.",
+        "rulesText": "Devouring SwarmDruid Attack 17\nYou dispatch pieces of your swarm form to drain blood from your foes to give yourself resilience.\nEncounter   ✦     Beast Form, Implement, Primal\nStandard Action      Close blast 5\nTarget: Each creature in the blast\nAttack: Wisdom vs. Fortitude\nHit: 3d8 + Wisdom modifier damage.\nEffect: If you hit at least one target, you gain 10 temporary hit points.\nPrimal Swarm: Add your Constitution modifier to the temporary hit points.\nPublished in Primal Power, page(s) 47."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "If you hit at least one target, you gain 10 temporary hit points."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Primal Swarm",
+              "text": "Add your Constitution to the temporary hit points."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power10037",
+      "title": "Hungry for the Kill",
+      "description": "As you shake your enemy's life loose, you avoid a doom waiting for you.",
+      "flavor": "As you shake your enemy's life loose, you avoid a doom waiting for you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10037",
+        "publication": "Published in Primal Power, page(s) 47.",
+        "rulesText": "Hungry for the KillDruid Attack 17\nAs you shake your enemy's life loose, you avoid a doom waiting for you.\nEncounter   ✦     Beast Form, Healing, Implement, Primal\nStandard Action      Melee touch\nEffect: Before the attack, you shift 2 squares.\nPrimal Predator: The number of squares you shift equals your Dexterity modifier.\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 2d12 + Wisdom modifier damage. If either you or the target is bloodied or at 0 hit points or fewer, you can spend a healing surge, make a saving throw, or both.\nPublished in Primal Power, page(s) 47."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "HEALING",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-3": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the attack, you shift 2 squares."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Primal Predator",
+              "text": "The number of squares you shift equals your Dexterity."
+            },
+            {
+              "id": "row-4",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-3",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee touch"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d12 + Wisdom damage. If either you or the target is bloodied or at 0 hit points or fewer, you can spend a healing surge, make a saving throw, or both."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-3"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power9686",
+      "title": "Inexorable Smash",
+      "description": "You bash your foe, staggering it for a moment.",
+      "flavor": "You bash your foe, staggering it for a moment.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9686",
+        "publication": "Published in Primal Power, page(s) 48.",
+        "rulesText": "Inexorable SmashDruid Attack 17\nYou bash your foe, staggering it for a moment.\nEncounter   ✦     Beast Form, Implement, Primal\nStandard Action      Melee touch\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 2d10 + Wisdom modifier damage, and you slide the target 1 square. The target is dazed until the end of your next turn.\nPrimal Guardian: The number of squares you slide the target equals your Constitution modifier.\nPublished in Primal Power, page(s) 48."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee touch"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom damage, and you slide the target 1 square. The target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Primal Guardian",
+              "text": "The number of squares you slide the target equals your Constitution."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power12841",
+      "title": "Infiltrating Drone",
+      "description": "You fiercely blast out at your foes in a torrent of attacks, which disguises special beasts that crawl into your opponent's ear and place that opponent under your control.",
+      "flavor": "You fiercely blast out at your foes in a torrent of attacks, which disguises special beasts that crawl into your opponent's ear and place that opponent under your control.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12841",
+        "publication": "Published in Dragon Magazine 389.",
+        "rulesText": "Infiltrating DroneDruid Attack 17\nYou fiercely blast out at your foes in a torrent of attacks, which disguises special beasts that crawl into your opponent's ear and place that opponent under your control.\nEncounter   ✦     Beast Form, Charm, Implement, Primal\nStandard Action      Close blast 3\nPrimary Target: Each creature in the blast\nPrimary Attack: Wisdom vs. Reflex\nHit: 2d6 + Wisdom modifier damage.\nEffect: Make a secondary attack.\nSecondary Target: One creature in the blast\nSecondary Attack: Wisdom vs. Fortitude\nHit: The secondary target is dominated until the end of your next turn.\nPublished in Dragon Magazine 389."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "CHARM",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            },
+            "targets-5": {
+              "kind": "TARGET_SET",
+              "text": "One creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a secondary attack."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "One creature in the blast"
+            },
+            {
+              "id": "row-6",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-5",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "One creature in the blast"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The secondary target is dominated until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power2686",
+      "title": "Lightning Cascade",
+      "description": "Lightning shoots from your fingertips to electrify one enemy and then a second.",
+      "flavor": "Lightning shoots from your fingertips to electrify one enemy and then a second.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2686",
+        "publication": "Published in Player's Handbook 2, page(s) 91.",
+        "rulesText": "Lightning CascadeDruid Attack 17\nLightning shoots from your fingertips to electrify one enemy and then a second.\nEncounter   ✦     Implement, Lightning, Primal\nStandard Action      Ranged 10\nPrimary Target: One creature\nPrimary Attack: Wisdom vs. Reflex\nHit: 2d8 + Wisdom modifier lightning damage, and the primary target is slowed until the end of your next turn.\nEffect: Make a secondary attack that is an area burst 5 centered on the primary target.\nSecondary Target: One creature other than the primary target in the burst\nSecondary Attack: Wisdom vs. Reflex\nHit: 1d8 + Wisdom modifier lightning damage to the primary and secondary targets, and the secondary target is slowed until the end of your next turn.\nPublished in Player's Handbook 2, page(s) 91."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "LIGHTNING",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            },
+            "targets-5": {
+              "kind": "TARGET_SET",
+              "text": "One creature other than the primary target in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom lightning damage, and the primary target is slowed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a secondary attack that is an area burst 5 centered on the primary target."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "One creature other than the primary target in the burst"
+            },
+            {
+              "id": "row-6",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-5",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "One creature other than the primary target in the burst"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-7",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d8 + Wisdom lightning damage to the primary and secondary targets, and the secondary target is slowed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power14524",
+      "title": "Rolling Earth",
+      "description": "You strike the ground with your open palm, causing it to shift and roll like the waves of an ocean storm.",
+      "flavor": "You strike the ground with your open palm, causing it to shift and roll like the waves of an ocean storm.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14524",
+        "publication": "Published in Heroes of the Feywild, page(s) 83.",
+        "rulesText": "Rolling EarthDruid Attack 17\nYou strike the ground with your open palm, causing it to shift and roll like the waves of an ocean storm.\nEncounter   ✦     Implement, Primal\nStandard Action      Close blast 5\nTarget: Each creature in the blast\nAttack: Wisdom vs. Reflex\nHit: 3d6 + Wisdom modifier damage, and you push the target up to 5 squares.\nEffect: Choose up to 5 contiguous, unoccupied squares in the blast that are on a solid surface. Until the end of your next turn, those squares are blocking terrain that is up to 2 squares high.\nPublished in Heroes of the Feywild, page(s) 83."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom damage, and you push the target up to 5 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose up to 5 contiguous, unoccupied squares in the blast that are on a solid surface. Until the end of your next turn, those squares are blocking terrain that is up to 2 squares high."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power2684",
+      "title": "Scavenger's Prize",
+      "description": "Your foe is trapped in your grasp as you drag it off.",
+      "flavor": "Your foe is trapped in your grasp as you drag it off.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2684",
+        "publication": "Published in Player's Handbook 2, page(s) 91.",
+        "rulesText": "Scavenger's PrizeDruid Attack 17\nYour foe is trapped in your grasp as you drag it off.\nEncounter   ✦     Beast Form, Implement, Primal\nStandard Action      Melee touch\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 3d10 + Wisdom modifier damage, and you grab the target.\nPrimal Predator: You can also shift a number of squares equal to your Dexterity modifier and pull the target with you.\nPublished in Player's Handbook 2, page(s) 91."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee touch"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Wisdom damage, and you grab the target."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Primal Predator",
+              "text": "You can also shift a number of squares equal to your Dexterity and pull the target with you."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power14525",
+      "title": "Searing Winds",
+      "description": "Drawing power from the storms of the deepest deserts, you hammer your enemies with a pulse of blistering heat.",
+      "flavor": "Drawing power from the storms of the deepest deserts, you hammer your enemies with a pulse of blistering heat.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14525",
+        "publication": "Published in Heroes of the Feywild, page(s) 83.",
+        "rulesText": "Searing WindsDruid Attack 17\nDrawing power from the storms of the deepest deserts, you hammer your enemies with a pulse of blistering heat.\nEncounter   ✦     Fire, Force, Implement, Primal\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Wisdom vs. Fortitude\nHit: 2d6 + Wisdom modifier fire and force damage.\nEffect: The target is weakened until the end of your next turn.\nPublished in Heroes of the Feywild, page(s) 83."
+      },
+      "keywords": [
+        "FIRE",
+        "FORCE",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Wisdom fire and force damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target is weakened until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power2683",
+      "title": "Shifting Rake",
+      "description": "You easily duck under your foe's defenses to deliver a crippling attack.",
+      "flavor": "You easily duck under your foe's defenses to deliver a crippling attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2683",
+        "publication": "Published in Player's Handbook 2, page(s) 92.",
+        "rulesText": "Shifting RakeDruid Attack 17\nYou easily duck under your foe's defenses to deliver a crippling attack.\nEncounter   ✦     Beast Form, Implement, Primal\nStandard Action      Melee touch\nEffect: Before and after the attack, you shift 2 squares.\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 2d10 + Wisdom modifier damage, and the target cannot shift until the end of your next turn.\nPublished in Player's Handbook 2, page(s) 92."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before and after the attack, you shift 2 squares."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee touch"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom damage, and the target cannot shift until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power12838",
+      "title": "Slashing Dash",
+      "description": "Invoking the cheetah's speed, you dash across the battlefield to rend your foes. Your bloody assault awakens primal instincts, invigorating you.",
+      "flavor": "Invoking the cheetah's speed, you dash across the battlefield to rend your foes. Your bloody assault awakens primal instincts, invigorating you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12838",
+        "publication": "Published in Dragon Magazine 389.",
+        "rulesText": "Slashing DashDruid Attack 17\nInvoking the cheetah's speed, you dash across the battlefield to rend your foes. Your bloody assault awakens primal instincts, invigorating you.\nEncounter   ✦     Beast Form, Implement, Primal\nStandard Action      Melee touch\nTarget: One, two, or three creatures\nEffect: You shift 2 squares between each attack.\nAttack: Wisdom vs. Reflex\nHit: 2d8 + Wisdom modifier damage. If all three attacks hit, you can spend a healing surge.\nPublished in Dragon Magazine 389."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One, two, or three creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift 2 squares between each attack."
+            },
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee touch"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom damage. If all three attacks hit, you can spend a healing surge."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power9687",
+      "title": "Torrential Storm",
+      "description": "Dark clouds gather at your command. Lightning and rain fall to damage your foes and keep them away from you.",
+      "flavor": "Dark clouds gather at your command. Lightning and rain fall to damage your foes and keep them away from you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9687",
+        "publication": "Published in Primal Power, page(s) 48.",
+        "rulesText": "Torrential StormDruid Attack 17\nDark clouds gather at your command. Lightning and rain fall to damage your foes and keep them away from you.\nEncounter   ✦     Implement, Lightning, Primal, Zone\nStandard Action      Close blast 5\nTarget: Each creature in the blast\nAttack: Wisdom vs. Fortitude\nHit: 3d6 + Wisdom modifier lightning damage, and you slide the target 3 squares.\nEffect: The blast creates a stormy zone that lasts until the end of your next turn. A creature hit by this attack that enters the zone on its turn takes 10 lightning damage.\nPublished in Primal Power, page(s) 48."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "LIGHTNING",
+        "PRIMAL",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom lightning damage, and you slide the target 3 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The blast creates a stormy zone that lasts until the end of your next turn. A creature hit by this attack that enters the zone on its turn takes 10 lightning damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power5064",
+      "title": "Windstorm",
+      "description": "A brief but mighty cyclone batters creatures and carries them away.",
+      "flavor": "A brief but mighty cyclone batters creatures and carries them away.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5064",
+        "publication": "Published in Player's Handbook 2, page(s) 91.",
+        "rulesText": "WindstormDruid Attack 17\nA brief but mighty cyclone batters creatures and carries them away.\nEncounter   ✦     Implement, Primal\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Wisdom vs. Fortitude\nHit: 3d6 + Wisdom modifier damage, and you slide the target 2 squares.\nPrimal Guardian: The number of squares you slide the target equals 1 + your Constitution modifier.\nPublished in Player's Handbook 2, page(s) 91."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Wisdom damage, and you slide the target 2 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Primal Guardian",
+              "text": "The number of squares you slide the target equals 1 + your Constitution."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power13543",
+      "title": "Diligent Reaping",
+      "description": "You have come for the harvest. The more you reap, the greater your reward.",
+      "flavor": "You have come for the harvest. The more you reap, the greater your reward.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13543",
+        "publication": "Published in Heroes of the Forgotten Kingdoms.",
+        "rulesText": "Diligent ReapingDruid Attack 19\nYou have come for the harvest. The more you reap, the greater your reward.\nDaily   ✦     Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 4[W] + Wisdom modifier damage.\nMiss: Half damage.\nEffect: If the attack reduces the target to 0 hit points, you gain an extra standard action during your current turn.\nPublished in Heroes of the Forgotten Kingdoms."
+      },
+      "keywords": [
+        "PRIMAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Wisdom damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "If the attack reduces the target to 0 hit points, you gain an extra standard action during your current turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power2705",
+      "title": "Entangling Thorns",
+      "description": "Thorny vines burst from the ground to entangle creatures. Ripping free of the thorns causes even greater pain.",
+      "flavor": "Thorny vines burst from the ground to entangle creatures. Ripping free of the thorns causes even greater pain.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2705",
+        "publication": "Published in Player's Handbook 2, page(s) 92.",
+        "rulesText": "Entangling ThornsDruid Attack 19\nThorny vines burst from the ground to entangle creatures. Ripping free of the thorns causes even greater pain.\nDaily   ✦     Implement, Primal\nStandard Action      Area burst 2 within 10 squares\nTarget: Each creature in the burst\nAttack: Wisdom vs. Reflex\nHit: The target is immobilized and takes ongoing 5 damage (save ends both).\nAftereffect: 2d6 + Wisdom modifier damage.\nMiss: 1d6 + Wisdom modifier damage, and the target is immobilized until the end of your next turn.\nPublished in Player's Handbook 2, page(s) 92."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target is immobilized and takes ongoing 5 damage (save ends both)."
+                      },
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Aftereffect",
+                        "text": "2d6 + Wisdom damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "1d6 + Wisdom damage, and the target is immobilized until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power12836",
+      "title": "Form of the Night Owl",
+      "description": "Your flesh flakes into feathers as you assume the form of an owl, and each beat of your wings stirs life into the winds. The power of this gale later calms to soothe the injured.",
+      "flavor": "Your flesh flakes into feathers as you assume the form of an owl, and each beat of your wings stirs life into the winds. The power of this gale later calms to soothe the injured.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12836",
+        "publication": "Published in Dragon Magazine 389.",
+        "rulesText": "Form of the Night OwlDruid Attack 19\nYour flesh flakes into feathers as you assume the form of an owl, and each beat of your wings stirs life into the winds. The power of this gale later calms to soothe the injured.\nDaily   ✦     Implement, Polymorph, Primal\nMinor Action      Personal\nEffect: You assume the form of a Large owl until the end of the encounter or until you use the wild shape power again. While you are in this form, you gain a flight speed equal to your speed (you must land at the end of your movement) and a +5 bonus to Perception checks. Once, before the end of the encounter, you can use the night owl attack power.\nNight Owl Attack\nChaotic winds assail and confuse your enemy.\nEncounter ✦     Implement, Polymorph, Primal\nStandard Action      Melee touch\nRequirement: The power form of the night owl must be active to use this power.\nEffect: You shift your speed. At any point during this movement, make the following attack once.\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 1d12 + Wisdom modifier damage.\nEffect: The target is slowed, and the first ally to make a successful attack against the target before the end of your next turn regains hit points equal to 5 + your Constitution modifier.\nPublished in Dragon Magazine 389."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "POLYMORPH",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Personal"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You assume the form of a Large owl until the end of the encounter or until you use the wild shape power again. While you are in this form, you gain a flight speed equal to your speed (you must land at the end of your movement) and a +5 bonus to Perception checks. Once, before the end of the encounter, you can use the night owl attack power."
+            },
+            {
+              "id": "grant-use-night-owl-attack",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Night Owl Attack",
+              "activationId": "use-night-owl-attack",
+              "duration": "As stated in the power's rules"
+            }
+          ]
+        },
+        {
+          "id": "use-night-owl-attack",
+          "availability": "GRANTED",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-8": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift your speed. At any point during this movement, make the following attack once."
+            },
+            {
+              "id": "row-9",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-8",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee touch"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-10",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d12 + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-11",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target is slowed, and the first ally to make a successful attack against the target before the end of your next turn regains hit points equal to 5 + your Constitution."
+            }
+          ],
+          "title": "Night Owl Attack",
+          "requirement": "The power form of the night owl must be active to use this power.",
+          "targets": "targets-8"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power2712",
+      "title": "Lunge and Vanish",
+      "description": "You disappear after mauling your enemy.",
+      "flavor": "You disappear after mauling your enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2712",
+        "publication": "Published in Player's Handbook 2, page(s) 92.",
+        "rulesText": "Lunge and VanishDruid Attack 19\nYou disappear after mauling your enemy.\nDaily   ✦     Beast Form, Implement, Primal\nStandard Action      Melee touch\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 4d10 + Wisdom modifier damage.\nEffect: You become invisible and then shift 5 squares. You remain invisible until the end of your next turn.\nPublished in Player's Handbook 2, page(s) 92."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee touch"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d10 + Wisdom damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You become invisible and then shift 5 squares. You remain invisible until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power5065",
+      "title": "Primal Bear",
+      "description": "You transform into a dire bear, grabbing your foes and squeezing the life from their bodies.",
+      "flavor": "You transform into a dire bear, grabbing your foes and squeezing the life from their bodies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5065",
+        "publication": "Published in Player's Handbook 2, page(s) 92.",
+        "rulesText": "Primal BearDruid Attack 19\nYou transform into a dire bear, grabbing your foes and squeezing the life from their bodies.\nDaily   ✦     Beast Form, Implement, Primal\nStandard Action      Melee touch\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 3d10 + Wisdom modifier damage, and you grab the target. Until the grab ends, the target takes 10 damage at the start of your turn.\nMiss: Half damage, and you grab the target.\nEffect: Until the end of the encounter, while you are in beast form, you gain a +2 bonus to AC and Fortitude.\nDeletion (10/13/2009)\nDelete the “Healing” keyword.\nPublished in Player's Handbook 2, page(s) 92."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee touch"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Wisdom damage, and you grab the target. Until the grab ends, the target takes 10 damage at the start of your turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you grab the target."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, while you are in beast form, you gain a +2 bonus to AC and Fortitude."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power10376",
+      "title": "Primal Lion",
+      "description": "Your beast form becomes that of a dire lion, inspiring awe in your allies and fear in your enemies as you roar ferociously.",
+      "flavor": "Your beast form becomes that of a dire lion, inspiring awe in your allies and fear in your enemies as you roar ferociously.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10376",
+        "publication": "Published in Dragon Magazine 382, page(s) 55.",
+        "rulesText": "Primal LionDruid Attack 19\nYour beast form becomes that of a dire lion, inspiring awe in your allies and fear in your enemies as you roar ferociously.\nDaily   ✦     Beast Form, Fear, Implement, Primal\nStandard Action      Close burst 5\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Will\nHit: 3d8 + Wisdom modifier damage, and you push the target 1 square. The target is dazed (save ends).\nEffect: All allies in the burst gain temporary hit points equal to your 5 + your Constitution modifier. Until the end of the encounter, while in beast form, whenever you hit an enemy adjacent to you with a melee attack, the target grants combat advantage until the end of your next turn.\nPublished in Dragon Magazine 382, page(s) 55."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "FEAR",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Wisdom damage, and you push the target 1 square. The target is dazed (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "All allies in the burst gain temporary hit points equal to your 5 + your Constitution. Until the end of the encounter, while in beast form, whenever you hit an enemy adjacent to you with a melee attack, the target grants combat advantage until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power4899",
+      "title": "Pummeling Hail",
+      "description": "Chunks of ice fall from the sky, battering your foes.",
+      "flavor": "Chunks of ice fall from the sky, battering your foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4899",
+        "publication": "Published in Primal Power, page(s) 48.",
+        "rulesText": "Pummeling HailDruid Attack 19\nChunks of ice fall from the sky, battering your foes.\nDaily   ✦     Cold, Implement, Primal\nStandard Action      Area burst 2 within 20 squares\nTarget: Each creature in the burst\nAttack: Wisdom vs. Fortitude\nHit: 5d6 + Wisdom modifier cold damage.\nEffect: The burst creates a zone of hail that lasts until the end of your next turn. Any creature that enters the zone or starts its turn there takes 5 + your Constitution modifier cold damage. A creature can take this damage only once per turn.\nPrimal Swarm: You aren't affected by the zone while you are in beast form.\nSustain Minor: The zone persists.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Primal Power, page(s) 48."
+      },
+      "keywords": [
+        "COLD",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 20 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 20 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "5d6 + Wisdom cold damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone of hail that lasts until the end of your next turn. Any creature that enters the zone or starts its turn there takes 5 + your Constitution cold damage. A creature can take this damage only once per turn."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Primal Swarm",
+              "text": "You aren't affected by the zone while you are in beast form."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power13542",
+      "title": "Rapid Growth",
+      "description": "You call forth the plants from the earth, beseeching them to hold your enemy in place.",
+      "flavor": "You call forth the plants from the earth, beseeching them to hold your enemy in place.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13542",
+        "publication": "Published in Heroes of the Forgotten Kingdoms.",
+        "rulesText": "Rapid GrowthDruid Attack 19\nYou call forth the plants from the earth, beseeching them to hold your enemy in place.\nDaily   ✦     Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage, and the target is restrained (save ends)\nMiss: Half damage, and the target is restrained until the end of your next turn.\nPublished in Heroes of the Forgotten Kingdoms."
+      },
+      "keywords": [
+        "PRIMAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom damage, and the target is restrained (save ends)"
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is restrained until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power16126",
+      "title": "Ravaging Lightning",
+      "description": "Lightning envelops your claws as your strike marks an opponent for the reprisals of the primal storm spirits.",
+      "flavor": "Lightning envelops your claws as your strike marks an opponent for the reprisals of the primal storm spirits.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power16126",
+        "publication": "Published in Heroes of the Elemental Chaos, page(s) 65.",
+        "rulesText": "Ravaging LightningDruid Attack 19\nLightning envelops your claws as your strike marks an opponent for the reprisals of the primal storm spirits.\nDaily   ✦     Beast Form, Elemental, Implement, Lightning, Primal\nStandard Action      Melee 1\nTarget: One or two creatures\nAttack: Wisdom vs. Reflex\nHit: 4d8 + Wisdom modifier lightning damage.\nMiss: Half damage.\nEffect: The target is subjected to ravaging lightning (save ends). If the target makes an attack, it cannot make saving throws against this effect until the start of its next turn. When the target misses with an attack, it grants combat advantage until the start of its next turn and takes lightning damage equal to your Wisdom modifier.\nPublished in Heroes of the Elemental Chaos, page(s) 65."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "ELEMENTAL",
+        "IMPLEMENT",
+        "LIGHTNING",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d8 + Wisdom lightning damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target is subjected to ravaging lightning (save ends). If the target makes an attack, it cannot make saving throws against this effect until the start of its next turn. When the target misses with an attack, it grants combat advantage until the start of its next turn and takes lightning damage equal to your Wisdom."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power13544",
+      "title": "Seeds of Destruction",
+      "description": "As you slash at your enemies, you plant destructive primal magic in them.",
+      "flavor": "As you slash at your enemies, you plant destructive primal magic in them.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13544",
+        "publication": "Published in Heroes of the Forgotten Kingdoms.",
+        "rulesText": "Seeds of DestructionDruid Attack 19\nAs you slash at your enemies, you plant destructive primal magic in them.\nDaily   ✦     Necrotic, Primal, Weapon\nStandard Action      Close burst 1\nTarget: Each enemy in the burst\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage.\nMiss: Half damage.\nEffect: A target takes 10 necrotic damage the next time you or one of your allies hits and damages it before the end of the encounter.\nPublished in Heroes of the Forgotten Kingdoms."
+      },
+      "keywords": [
+        "NECROTIC",
+        "PRIMAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Wisdom damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "A target takes 10 necrotic damage the next time you or one of your allies hits and damages it before the end of the encounter."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power5381",
+      "title": "Summon Guardian Briar",
+      "description": "You summon spirits that coalesce into a mighty creature of thorns and brambles that protects you and your friends.",
+      "flavor": "You summon spirits that coalesce into a mighty creature of thorns and brambles that protects you and your friends.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5381",
+        "publication": "Published in Primal Power, page(s) 48.",
+        "rulesText": "Summon Guardian BriarDruid Attack 19\nYou summon spirits that coalesce into a mighty creature of thorns and brambles that protects you and your friends.\nDaily   ✦     Implement, Primal, Summoning\nStandard Action      Ranged 5\nEffect: You summon a Large guardian briar in an unoccupied space within range. The guardian briar has speed 5 and ignores difficult terrain. You and your allies gain a +2 power bonus to AC while within 2 squares of the guardian briar. You can give the guardian briar the following\nspecial command. On the turn you summon the guardian briar, you give that command as part of using this power.\nStandard Action: Melee 2; targets one creature; Wisdom vs. Reflex; 2d8 + Wisdom modifier damage.\nInstinctive Effect: If you haven't given the guardian briar any commands by the end of your turn, it attacks an enemy within 2 squares of it if it can. Otherwise, it moves its speed to a square where it is within 2 squares of as many allies as possible.\nPublished in Primal Power, page(s) 48."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You summon a Large guardian briar in an unoccupied space within range. The guardian briar has speed 5 and ignores difficult terrain. You and your allies gain a +2 power bonus to AC while within 2 squares of the guardian briar. You can give the guardian briar the following"
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Rule",
+              "text": "special command. On the turn you summon the guardian briar, you give that command as part of using this power."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Standard Action",
+              "text": "Melee 2; targets one creature; Wisdom vs. Reflex; 2d8 + Wisdom damage."
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Instinctive Effect",
+              "text": "If you haven't given the guardian briar any commands by the end of your turn, it attacks an enemy within 2 squares of it if it can. Otherwise, it moves its speed to a square where it is within 2 squares of as many allies as possible."
+            }
+          ]
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power5382",
+      "title": "Summon Swamp Behemoth",
+      "description": "A primeval swamp spirit assumes solid form at your summons and thrashes over the battlefield.",
+      "flavor": "A primeval swamp spirit assumes solid form at your summons and thrashes over the battlefield.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5382",
+        "publication": "Published in Primal Power, page(s) 48.",
+        "rulesText": "Summon Swamp BehemothDruid Attack 19\nA primeval swamp spirit assumes solid form at your summons and thrashes over the battlefield.\nDaily   ✦     Implement, Primal, Summoning\nStandard Action      Ranged 5\nEffect: You summon a Large behemoth in an unoccupied space within range. The behemoth has speed 8 and ignores difficult terrain. You can give the behemoth the following special commands. On the turn you summon the behemoth, you give the first command as part of using\nthis power.\nStandard Action: Melee 2; targets one creature; Wisdom vs. Reflex; 2d8 + Wisdom modifier damage.\nStandard Action: The behemoth moves its speed. During this movement, it can move through enemies' spaces. When it enters an enemy's space, it attacks that enemy: Wisdom vs. Reflex; 1d8 + Wisdom modifier damage. It can't attack a creature in this way more than once per round.\nInstinctive Effect: If you haven't given the behemoth any commands by the end of your turn, it uses its second attack against as many enemies as possible.\nPublished in Primal Power, page(s) 48."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You summon a Large behemoth in an unoccupied space within range. The behemoth has speed 8 and ignores difficult terrain. You can give the behemoth the following special commands. On the turn you summon the behemoth, you give the first command as part of using"
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Rule",
+              "text": "this power."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Standard Action",
+              "text": "Melee 2; targets one creature; Wisdom vs. Reflex; 2d8 + Wisdom damage."
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Standard Action",
+              "text": "The behemoth moves its speed. During this movement, it can move through enemies' spaces. When it enters an enemy's space, it attacks that enemy: Wisdom vs. Reflex; 1d8 + Wisdom damage. It can't attack a creature in this way more than once per round."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Instinctive Effect",
+              "text": "If you haven't given the behemoth any commands by the end of your turn, it uses its second attack against as many enemies as possible."
+            }
+          ]
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power5387",
+      "title": "Summon Thunder Bison",
+      "description": "Thunder rumbles in the distance, drawing closer and closer until a bison trundles out of the spirit world to appear by your side.",
+      "flavor": "Thunder rumbles in the distance, drawing closer and closer until a bison trundles out of the spirit world to appear by your side.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5387",
+        "publication": "Published in Primal Power, page(s) 48.",
+        "rulesText": "Summon Thunder BisonDruid Attack 19\nThunder rumbles in the distance, drawing closer and closer until a bison trundles out of the spirit world to appear by your side.\nDaily   ✦     Implement, Primal, Summoning\nStandard Action      Ranged 5\nEffect: You summon a Large bison in an unoccupied space within range. The bison has speed 7 and a +2 bonus to AC. You can give the bison the following special command. On the turn you summon the bison, you give that command as part of using this power.\nStandard Action: Melee 1; targets one creature; Wisdom vs. Reflex; 2d10 + Wisdom modifier thunder damage.\nInstinctive Effect: If you haven't given the bison any commands by the end of your turn, it attacks an adjacent enemy if it can. Otherwise, it moves its speed to a square adjacent to an enemy.\nPublished in Primal Power, page(s) 48."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You summon a Large bison in an unoccupied space within range. The bison has speed 7 and a +2 bonus to AC. You can give the bison the following special command. On the turn you summon the bison, you give that command as part of using this power."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Standard Action",
+              "text": "Melee 1; targets one creature; Wisdom vs. Reflex; 2d10 + Wisdom thunder damage."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Instinctive Effect",
+              "text": "If you haven't given the bison any commands by the end of your turn, it attacks an adjacent enemy if it can. Otherwise, it moves its speed to a square adjacent to an enemy."
+            }
+          ]
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power12842",
+      "title": "Swarming Bulwark",
+      "description": "Your swarm expands in a burst of fury. The sky momentarily blackens as you partition yourself in two, forming a living wall.",
+      "flavor": "Your swarm expands in a burst of fury. The sky momentarily blackens as you partition yourself in two, forming a living wall.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12842",
+        "publication": "Published in Dragon Magazine 389.",
+        "rulesText": "Swarming BulwarkDruid Attack 19\nYour swarm expands in a burst of fury. The sky momentarily blackens as you partition yourself in two, forming a living wall.\nDaily   ✦     Beast Form, Implement, Primal\nStandard Action      Area wall 8 within 10 squares\nEffect: You split part of your swarm into a living wall. The wall can be up to 5 squares high and lasts until the end of your next turn. The wall provides cover to those on the other side and counts as difficult terrain. Any creature that enters the wall takes 1d12 damage. A creature can take this damage only once per turn. Any creature that starts its turn in the wall takes 2d6 damage. Any creature that enters the wall or starts its turn there is subject to the gripping swarm attack power.\nSustain Move: The wall persists.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nGripping Swarm\nYou swarm your foe to hold it in place.\nAt-Will ✦     Beast Form, Implement, Primal\nImmediate Reaction      Melee touch\nRequirement: The swarming bulwark power must be active to use this power.\nAttack: Wisdom vs. Fortitude\nHit: You grab the target.\nPublished in Dragon Magazine 389."
+      },
+      "keywords": [
+        "BEAST_FORM",
+        "IMPLEMENT",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area wall 8 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You split part of your swarm into a living wall. The wall can be up to 5 squares high and lasts until the end of your next turn. The wall provides cover to those on the other side and counts as difficult terrain. Any creature that enters the wall takes 1d12 damage. A creature can take this damage only once per turn. Any creature that starts its turn in the wall takes 2d6 damage. Any creature that enters the wall or starts its turn there is subject to the gripping swarm attack power."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Sustain Move",
+              "text": "The wall persists."
+            },
+            {
+              "id": "grant-use-gripping-swarm",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Gripping Swarm",
+              "activationId": "use-gripping-swarm",
+              "duration": "As stated in the power's rules"
+            }
+          ]
+        },
+        {
+          "id": "use-gripping-swarm",
+          "availability": "GRANTED",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "blocks": [
+            {
+              "id": "row-8",
+              "type": "effect",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude"
+            },
+            {
+              "id": "row-9",
+              "type": "effect",
+              "label": "Hit",
+              "text": "You grab the target."
+            }
+          ],
+          "title": "Gripping Swarm",
+          "requirement": "The swarming bulwark power must be active to use this power."
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power12329",
+      "title": "Thorns of the Hinterlands",
+      "description": "All across the field of battle, thickets and brambles rise up to entrap your foes.",
+      "flavor": "All across the field of battle, thickets and brambles rise up to entrap your foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12329",
+        "publication": "Published in Dragon Magazine 386, page(s) 36, Heroes of the Feywild, page(s) 83.",
+        "rulesText": "Thorns of the HinterlandsDruid Attack 19\nAll across the field of battle, thickets and brambles rise up to entrap your foes.\nDaily   ✦     Acid, Conjuration, Implement, Poison, Primal\nStandard Action      Area wall 12 within 20 squares\nEffect: You conjure two walls of thorny, writhing vines, which cannot have any squares adjacent to each other. Each wall contains 6 of the power's 12 squares and can be up to 4 squares high. The walls must be on a solid surface, and they last until the end of your next turn. Each wall provides cover and blocks line of sight.\nEntering a wall square costs 2 extra squares of movement. If a creature enters the wall's space or starts its turn there, that creature takes 1d10 + your Wisdom modifier acid and poison damage (a creature can take this damage only once per turn), and it takes ongoing 5 acid and poison damage (save ends).\nSustain Minor: The walls persist until the end of your next turn.\nUpdate (10/18/2011)\nUpdated in Heroes of the Feywild.\nPublished in Dragon Magazine 386, page(s) 36, Heroes of the Feywild, page(s) 83."
+      },
+      "keywords": [
+        "ACID",
+        "CONJURATION",
+        "IMPLEMENT",
+        "POISON",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area wall 12 within 20 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You conjure two walls of thorny, writhing vines, which cannot have any squares adjacent to each other. Each wall contains 6 of the power's 12 squares and can be up to 4 squares high. The walls must be on a solid surface, and they last until the end of your next turn. Each wall provides cover and blocks line of sight."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Rule",
+              "text": "Entering a wall square costs 2 extra squares of movement. If a creature enters the wall's space or starts its turn there, that creature takes 1d10 + your Wisdom acid and poison damage (a creature can take this damage only once per turn), and it takes ongoing 5 acid and poison damage (save ends)."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The walls persist until the end of your next turn."
+            }
+          ]
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power9689",
+      "title": "Tremors",
+      "description": "You command the earth, causing tremors to topple your foes.",
+      "flavor": "You command the earth, causing tremors to topple your foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9689",
+        "publication": "Published in Primal Power, page(s) 48.",
+        "rulesText": "TremorsDruid Attack 19\nYou command the earth, causing tremors to topple your foes.\nDaily   ✦     Implement, Primal, Zone\nStandard Action      Area burst 2 within 10 squares\nPrimary Target: Each creature in the burst\nPrimary Attack: Wisdom vs. Reflex\nHit: 4d6 + Wisdom modifier damage, and the primary target is knocked prone.\nMiss: Half damage.\nEffect: The burst creates a quaking zone that lasts until the end of the encounter. The zone is difficult terrain. While the zone persists, you can make the following secondary attack as a minor action once per round.\nSecondary Target: Each creature within the zone\nSecondary Attack: Wisdom vs. Reflex\nHit: 1d10 damage, and the secondary target is knocked prone.\nPublished in Primal Power, page(s) 48."
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            },
+            "targets-6": {
+              "kind": "TARGET_SET",
+              "text": "Each creature within the zone"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d6 + Wisdom damage, and the primary target is knocked prone."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a quaking zone that lasts until the end of the encounter. The zone is difficult terrain. While the zone persists, you can make the following secondary attack as a minor action once per round."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Secondary Target",
+              "text": "Each creature within the zone"
+            },
+            {
+              "id": "row-7",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets-6",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Each creature within the zone"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-8",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d10 damage, and the secondary target is knocked prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.druid-power5066",
+      "title": "Winter Hailstorm",
+      "description": "A blizzard appears, growing to encompass an ever-wider area.",
+      "flavor": "A blizzard appears, growing to encompass an ever-wider area.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5066",
+        "publication": "Published in Player's Handbook 2, page(s) 92.",
+        "rulesText": "Winter HailstormDruid Attack 19\nA blizzard appears, growing to encompass an ever-wider area.\nDaily   ✦     Cold, Implement, Zone\nStandard Action      Area burst 2 within 20 squares\nTarget: Each creature in the burst\nAttack: Wisdom vs. Fortitude\nHit: 4d6 + Wisdom modifier cold damage.\nMiss: Half damage.\nEffect: The burst creates a zone of wind and hail that lasts until the end of your next turn. Any creature that enters the zone or starts its turn there is slowed until the end of your next turn and takes 5 cold damage. A creature can take this damage only once per turn. You can end the zone as a minor action.\nSustain Minor: The zone persists, and you can increase its size by 1 to a maximum of burst 5.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Player's Handbook 2, page(s) 92."
+      },
+      "keywords": [
+        "COLD",
+        "IMPLEMENT",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 20 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 20 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d6 + Wisdom cold damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone of wind and hail that lasts until the end of your next turn. Any creature that enters the zone or starts its turn there is slowed until the end of your next turn and takes 5 cold damage. A creature can take this damage only once per turn. You can end the zone as a minor action."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists, and you can increase its size by 1 to a maximum of burst 5."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Druid Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

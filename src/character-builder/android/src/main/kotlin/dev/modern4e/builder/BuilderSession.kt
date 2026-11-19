@@ -482,7 +482,8 @@ class BuilderSession(
     /**
      * Load the character and select [initialPage] after the session has been initialized.
      */
-    private suspend fun open(document: CharacterDocument, initialPage: String) {
+    private suspend fun open(savedDocument: CharacterDocument, initialPage: String) {
+        val document = withBundledPaths(savedDocument)
         clearOptionListings()
         val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", document.packages) }
         if (result is ContractResult.Unavailable && result.diagnostics.any { it.kind == DiagnosticKind.IO_FAILURE }) {
@@ -493,7 +494,7 @@ class BuilderSession(
         catalog = (result as? ContractResult.Available)?.value
         operations = catalog?.let { BuilderOperations(it) }
         current = evaluate(document, (result as? ContractResult.Unavailable)?.diagnostics.orEmpty()).withEquipmentValidation()
-        committed = document
+        committed = savedDocument
         pending = null
         page = initialPage
         levelTarget = null
@@ -510,12 +511,30 @@ class BuilderSession(
                 })))
         }
 
+    /** Add the newly bundled path catalog before overrides, keeping every saved supplier and revision intact. */
+    private suspend fun withBundledPaths(document: CharacterDocument, targetLevel: Int = document.level): CharacterDocument {
+        if (targetLevel < 11 || document.packages.any { it.packageId == "modern4e.paths" }) {
+            return document
+        }
+        val listed = withContext(Dispatchers.IO) { source.listPackages() } as? ContractResult.Available ?: return document
+        val paths = listed.value.firstOrNull { it.id == "modern4e.paths" } ?: return document
+        val packages = document.packages.toMutableList()
+        val standard = packages.indexOfFirst { it.packageId == "modern4e.classes" }
+        packages.add(if (standard < 0) 0 else standard + 1, PackageRevision(paths.id, paths.revision))
+        return document.copy(packages = packages)
+    }
+
     /** Commit is visible only after durable storage. A failed candidate cannot be published by the error flow. */
     suspend fun edit(edit: BuilderEdit) {
-        val document = current!!.document
+        val document = withBundledPaths(current!!.document, (edit as? BuilderEdit.Level)?.value ?: current!!.document.level)
+        val expandedCatalog = if (document.packages != current!!.document.packages) {
+            (withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", document.packages) }
+                as? ContractResult.Available)?.value
+        } else null
+        val editingOperations = expandedCatalog?.let { BuilderOperations(it) } ?: operations
         val result = withContext(Dispatchers.IO) {
             heavyWork.withLock {
-                operations?.apply(document, edit) ?: if (edit is BuilderEdit.Identity) {
+                editingOperations?.apply(document, edit) ?: if (edit is BuilderEdit.Identity) {
                     BuilderResult(evaluate(document.copy(identity = edit.value)), true)
                 } else {
                     BuilderResult(current!!, false, listOf(Diagnostic("android.content", DiagnosticKind.UNRESOLVED_CONTENT,
@@ -527,7 +546,7 @@ class BuilderSession(
             errors = result.diagnostics
             return
         }
-        commitPending(result.state)
+        commitPending(result.state, expandedCatalog)
     }
 
     /** Persist the calculated state; savedAt is storage metadata and cannot change its rules. */
@@ -643,16 +662,7 @@ class BuilderSession(
     /** Catalog options and draft calculations use the same shared coordinator as committed edits. */
     suspend fun progressionOptions(level: Int, slot: ChoiceSlotId): List<BuilderOption> =
         withContext(Dispatchers.IO) { heavyWork.withLock {
-            if (level <= 2) {
-                operations?.options(current!!.document, level, slot, true).orEmpty()
-            } else {
-                val category = if (slot.choiceId == "feat") EntryCategory.FEAT else EntryCategory.POWER
-                catalog?.search(category = category, classIds = current?.document?.classEntryIds()).orEmpty().mapNotNull { metadata ->
-                    val resolved = (catalog?.lookup(metadata.metadata.id) as? ContractResult.Available)?.value ?: return@mapNotNull null
-                    BuilderOption(resolved, Eligibility.INCOMPLETE, listOf(Diagnostic("android.progression", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                        "Later-level eligibility is not evaluated by the proof engine.")))
-                }
-            }
+            operations?.options(current!!.document, level, slot, true).orEmpty()
         } }
 
     /**
@@ -665,58 +675,28 @@ class BuilderSession(
         val state = current ?: return
         val original = state.document
         val originalCatalog = catalog
-        if (level > 2) {
-            // Higher-level editing retains its explicit incomplete-automation policy.
-            val metadata = originalCatalog?.search(category = if (slot.choiceId == "feat") EntryCategory.FEAT else EntryCategory.POWER,
-                classIds = original.classEntryIds())
-                .orEmpty().filter { featGroup == null || it.metadata.featGroup == null || it.metadata.featGroup == featGroup }
-                .let { entries ->
-                    val ancestries = state.featAncestries()
-                    val matching = entries.filter { it.metadata.matchesFeatAncestries(ancestries) }
-                    if (featGroup == FeatGroup.CLASS) {
-                        val classes = state.featClasses()
-                        matching.filter { it.metadata.matchesFeatClasses(classes) }
-                    } else {
-                        matching
-                    }
-                }
-            var rows = metadata.map { BuilderOptionRow(it) }
-            onUpdate(rows)
-            for (batch in metadata.chunked(OPTION_BATCH_SIZE)) {
-                currentCoroutineContext().ensureActive()
-                if (current?.document != original || catalog !== originalCatalog) {
-                    return
-                }
-                val checked = withContext(Dispatchers.IO) { heavyWork.withLock {
-                    batch.associate { entry ->
-                        val loaded = originalCatalog?.lookup(entry.metadata.id)
-                        val resolved = (loaded as? ContractResult.Available)?.value
-                        val diagnostics = (loaded as? ContractResult.Unavailable)?.diagnostics ?: listOf(Diagnostic(
-                            "android.progression", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                            "Later-level eligibility is not evaluated by the proof engine."))
-                        entry.metadata.id to BuilderOptionRow(entry, resolved?.let { BuilderOption(it, Eligibility.INCOMPLETE, diagnostics) }, true, diagnostics)
-                    }
-                } }
-                if (current?.document != original || catalog !== originalCatalog) {
-                    return
-                }
-                rows = rows.map { checked[it.metadata.metadata.id] ?: it }
-                onUpdate(rows)
-            }
-            return
-        }
         val failures = browseOptionRows(original, originalCatalog, level, slot, featGroup, onUpdate)
         if (failures.isNotEmpty()) {
             errors = failures
         }
     }
 
+    /** Replacement candidates are checked against the selected acquisition at the replacement level. */
+    suspend fun progressionReplacementRows(level: Int, target: ChoiceSlotId): List<BuilderOptionRow> =
+        withContext(Dispatchers.IO) { heavyWork.withLock {
+            val document = current?.document ?: return@withLock emptyList()
+            val metadata = catalog?.search(category = EntryCategory.POWER).orEmpty().associateBy { it.metadata.id }
+            operations?.replacementOptions(document, level, target).orEmpty().mapNotNull { option ->
+                metadata[option.entry.entry.id]?.let { BuilderOptionRow(it, option, true, option.diagnostics) }
+            }
+        } }
+
     /** New selections save the same occurrence ID the picker used to check its candidates. */
     internal fun progressionEntryInstance(level: Int, slot: ChoiceSlotId): String =
         synchronized(optionListings) { optionListings[level to slot]?.newInstanceId } ?: UUID.randomUUID().toString()
 
     /**
-     * Fill the retained listing for a level 1-2 slot, publishing after each checked batch. The picker and
+     * Fill the retained listing for an active slot, publishing after each checked batch. The picker and
      * the background warm-up both run this, so a warmed list opens already checked. Returns content read
      * failures for the caller to handle; nothing here is published as a blocking error.
      */
@@ -785,11 +765,14 @@ class BuilderSession(
     internal fun powerEntryIds(): Set<String> =
         catalog?.search(category = EntryCategory.POWER).orEmpty().mapTo(mutableSetOf()) { it.metadata.id }
 
-    /** Class and ancestry titles for rendering feat access without loading definitions. */
-    internal fun featAccessTitles(): Map<String, String> =
-        listOf(EntryCategory.CLASS, EntryCategory.ANCESTRY)
-            .flatMap { catalog?.search(category = it).orEmpty() }
+    /** Catalog titles for readable prerequisites without loading candidate definitions. */
+    internal fun requirementTitles(): Map<String, String> =
+        catalog?.search().orEmpty()
             .associate { it.metadata.id to it.metadata.title }
+
+    /** Identify class access leaves without guessing from entry IDs or loading definitions. */
+    internal fun requirementClassIds(): Set<String> =
+        catalog?.search(category = EntryCategory.CLASS).orEmpty().mapTo(mutableSetOf()) { it.metadata.id }
 
     /** Feat access can come from a class entry or a multiclass feat. Include qualification facts conservatively. */
     private fun BuilderState.featClasses(): Set<String> = buildSet {
@@ -880,10 +863,9 @@ class BuilderSession(
     }
 
     /**
-     * Check every list the picker can open at levels 1-2, so each one opens already filled in. Order is the
+     * Check every list the picker can open at supported levels, so each one opens already filled in. Order is the
      * unfilled ancestry power choices, then Class Feature choices, other power pools, feat tabs, and the
-     * remaining catalog pickers. The Class and Ancestry rows are normally ready from Home. Later levels keep
-     * their incomplete-automation listing and are not warmed. A character with no class or ancestry simply has
+     * remaining catalog pickers. The Class and Ancestry rows are normally ready from Home. A character with no class or ancestry simply has
      * rows without eligibility to show; a failed read leaves the rest to the picker.
      *
      * This runs after every committed edit, but lists that are still valid (see [stillValid]) are reused, so
@@ -916,7 +898,7 @@ class BuilderSession(
     internal fun warmTargets(state: BuilderState): List<WarmTarget> {
         val document = state.document
         val filled = document.levels.flatMap { it.entries }.map { it.slot }.toSet()
-        val offered = (1..minOf(document.level, 2)).flatMap { level ->
+        val offered = (1..minOf(document.level, 19)).flatMap { level ->
             Progression.levelChoices(state, level).filter { it.abilities.isEmpty() && it.entries.isNotEmpty() }.map { level to it }
         }
         val ancestryPowerSlots = Progression.ancestryPowerChoices(state, powerEntryIds()).mapTo(mutableSetOf()) { it.slot }
@@ -926,8 +908,9 @@ class BuilderSession(
         val (powers, other) = otherChoices.partition { (_, choice) -> Progression.isPowerPool(state, choice) }
         val (features, remaining) = other.partition { (_, choice) -> Progression.isClassFeatureChoice(state, choice) }
         val (empty, taken) = powers.partition { (_, choice) -> choice.slot !in filled }
-        val featSlots = listOf(1 to ChoiceSlotId("creation", "feat", 0)) +
-            if (document.level >= 2) listOf(2 to ChoiceSlotId("advancement.2", "feat", 0)) else emptyList()
+        val featSlots = (1..minOf(document.level, 19)).filter { Progression.level(it).feat }.map { level ->
+            level to ChoiceSlotId(if (level == 1) "creation" else "advancement.$level", "feat", 0)
+        }
         val roots = listOf("class", "ancestry", "theme").map { ChoiceSlotId("creation", it, 0) }
             .filter { preloadedRootRows(document, 1, it) == null }
         return (ancestryPowers + features + empty + taken).map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
@@ -990,7 +973,6 @@ class BuilderSession(
             "Gender" -> identity.gender
             "Age" -> identity.age
             "Deity" -> identity.deity
-            "Size" -> identity.size
             else -> return
         }
         dialog = field
@@ -1007,7 +989,6 @@ class BuilderSession(
             "Gender" -> identity.copy(gender = value)
             "Age" -> identity.copy(age = value)
             "Deity" -> identity.copy(deity = value)
-            "Size" -> identity.copy(size = value)
             else -> return
         }
         edit(BuilderEdit.Identity(next))

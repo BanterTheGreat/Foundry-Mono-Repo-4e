@@ -222,7 +222,7 @@ class RulesEngineTest {
     }
 
     @Test
-    fun levelTwoProgressionAddsSlotsAndDoesNotInjectHalfLevel() {
+    fun levelTwoProgressionAddsSlotsAndHalfLevelOnlyToArmorClass() {
         val utility = entry("utility", EntryCategory.POWER)
         val parent = fighter.copy(mechanics = fighter.mechanics.copy(progression = listOf(ClassProgression(2,
             choices = listOf(ChoiceDefinition.Entries("utility", 1, listOf("utility"))),
@@ -233,7 +233,7 @@ class RulesEngineTest {
         assertEquals(6, total(result.skill(Skill.MEDICINE)))
         assertEquals(30, total(result.statistics.getValue(ModifierTarget(Statistic.HIT_POINTS)).value))
         assertEquals(2, result.entries.size)
-        assertEquals(12, total(result.statistics.getValue(ModifierTarget(Statistic.AC)).value))
+        assertEquals(14, total(result.statistics.getValue(ModifierTarget(Statistic.AC)).value))
     }
 
     @Test

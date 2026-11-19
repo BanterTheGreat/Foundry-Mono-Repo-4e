@@ -22,6 +22,14 @@ import dev.modern4e.builder.ui.components.*
 /** Equipment proficiency groups shown on the About tab; shields are listed with armor. */
 internal enum class EquipmentCategory(val title: String) { ARMOR("Armor"), WEAPONS("Weapons"), IMPLEMENTS("Implements") }
 
+/** Explain the same known calculation used by the defense tile, including class and equipment terms. */
+internal fun EngineResult.defenseBreakdown(defense: Statistic): String {
+    val calculation = displayedDefense(defense) as? ContractResult.Available ?: return "—"
+    return calculation.value.contributors.filter { it.value != 0 }.joinToString(", ") {
+        "${it.label} ${if (it.value >= 0) "+" else ""}${it.value}"
+    }
+}
+
 private val ArmorIds = setOf("CLOTH", "LEATHER", "LIGHT", "HIDE", "CHAINMAIL", "SCALE", "HEAVY", "PLATE")
 private val ImplementIds = setOf("ROD", "WAND", "STAFF", "ORB", "TOME", "HOLY_SYMBOL", "TOTEM", "LIGHT_BLADE", "HEAVY_BLADE")
 
@@ -84,6 +92,7 @@ internal fun EngineResult.equipmentByCategory(): Map<EquipmentCategory, List<Str
 /** Displays vitals, the equipment-adjusted defenses, and the equipped item fields. */
 @Composable
 internal fun Stats(state: BuilderState, model: BuilderSession) {
+    var showDefenseBreakdown by remember(state.document.id) { mutableStateOf(false) }
     val configuration = LocalConfiguration.current
     val narrow = configuration.screenWidthDp < 320 || configuration.fontScale > 1.2f
     Column(
@@ -99,9 +108,16 @@ internal fun Stats(state: BuilderState, model: BuilderSession) {
         StatTiles(defenses.map { (defense, label) ->
             label to state.rules.defenseDisplay(defense)
         }, columns = if (narrow) 2 else 4)
+        TextButton(onClick = { showDefenseBreakdown = !showDefenseBreakdown }) {
+            Text(if (showDefenseBreakdown) "Hide defense breakdown" else "Show defense breakdown")
+        }
+        if (showDefenseBreakdown) {
+            defenses.forEach { (defense, label) ->
+                Text("$label: ${state.rules.defenseBreakdown(defense)}", color = Dim, fontSize = 12.sp)
+            }
+        }
         CompactHeading("Equipment")
         EquippedItems(state, model)
-        Text("This screen does not calculate feat bonuses for defenses.", color = Dim, fontSize = 12.sp)
     }
 }
 

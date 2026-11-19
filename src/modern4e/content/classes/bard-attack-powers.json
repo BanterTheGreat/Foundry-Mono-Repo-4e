@@ -12422,6 +12422,2789 @@
       "subtitle": "Bard Attack 15",
       "level": 15,
       "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power2961",
+      "title": "Balance of Fortune",
+      "description": "You disrupt fortune's weave, shifting it to give your allies a little more luck at the expense of one of your foes.",
+      "flavor": "You disrupt fortune's weave, shifting it to give your allies a little more luck at the expense of one of your foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2961",
+        "publication": "Published in Arcane Power, page(s) 13.",
+        "rulesText": "Balance of FortuneBard Attack 17\nYou disrupt fortune's weave, shifting it to give your allies a little more luck at the expense of one of your foes.\nEncounter   ✦     Arcane, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Charisma vs. Will\nHit: 2[W] + Charisma modifier damage. Until the end of your next turn, whenever the target makes an attack roll, you roll a d4 and subtract your roll from the target's attack roll. Until the end of your next turn, whenever an ally makes an attack roll against the target, you roll a d4 and add your roll to your ally's attack roll.\nVirtue of Prescience: You roll a d6 instead of a d4 when modifying attack rolls.\nPublished in Arcane Power, page(s) 13."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Charisma damage. Until the end of your next turn, whenever the target makes an attack roll, you roll a d4 and subtract your roll from the target's attack roll. Until the end of your next turn, whenever an ally makes an attack roll against the target, you roll a d4 and add your roll to your ally's attack roll."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Virtue of Prescience",
+              "text": "You roll a d6 instead of a d4 when modifying attack rolls."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power11114",
+      "title": "Dissonant Imbuement",
+      "description": "Your strike creates a tone that resonates within your opponent, disrupting its defenses.",
+      "flavor": "Your strike creates a tone that resonates within your opponent, disrupting its defenses.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11114",
+        "publication": "Published in Dragon Magazine 383, page(s) 55.",
+        "rulesText": "Dissonant ImbuementBard Attack 17\nYour strike creates a tone that resonates within your opponent, disrupting its defenses.\nEncounter   ✦     Arcane, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 3[W] + Charisma modifier damage. Until the end of your next turn, the target takes a penalty to AC and Reflex equal to your Intelligence modifier.\nPublished in Dragon Magazine 383, page(s) 55."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Charisma damage. Until the end of your next turn, the target takes a penalty to AC and Reflex equal to your Intelligence."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power14480",
+      "title": "Greater Chilled Blade",
+      "description": "You touch a weapon and lay your enchantment upon it, sheathing the weapon in a thin layer of jagged ice.",
+      "flavor": "You touch a weapon and lay your enchantment upon it, sheathing the weapon in a thin layer of jagged ice.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14480",
+        "publication": "Published in Heroes of the Feywild, page(s) 65.",
+        "rulesText": "Greater Chilled BladeBard Attack 17\nYou touch a weapon and lay your enchantment upon it, sheathing the weapon in a thin layer of jagged ice.\nEncounter   ✦     Arcane, Cold\nMinor Action      Melee 1\nTarget: One weapon\nEffect: The next weapon attack made with the target weapon before the end of your next turn slows the attack's first target until the end of its next turn. On a hit, that target also takes 2d10 extra cold damage.\nPublished in Heroes of the Feywild, page(s) 65."
+      },
+      "keywords": [
+        "ARCANE",
+        "COLD"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One weapon"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The next weapon attack made with the target weapon before the end of your next turn slows the attack's first target until the end of its next turn. On a hit, that target also takes 2d10 extra cold damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power14481",
+      "title": "Greater Echoing Weapon",
+      "description": "Your touch causes vibrations to shoot from one end of the weapon to the other, filling the air with a low rumble.",
+      "flavor": "Your touch causes vibrations to shoot from one end of the weapon to the other, filling the air with a low rumble.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14481",
+        "publication": "Published in Heroes of the Feywild, page(s) 65.",
+        "rulesText": "Greater Echoing WeaponBard Attack 17\nYour touch causes vibrations to shoot from one end of the weapon to the other, filling the air with a low rumble.\nEncounter   ✦     Arcane, Thunder\nMinor Action      Melee 1\nTarget: One weapon\nEffect: Until the end of your next turn, the next weapon attack made with the target weapon deals 3d6 thunder damage to one target of the attack, whether the attack hits or misses.\nPublished in Heroes of the Feywild, page(s) 65."
+      },
+      "keywords": [
+        "ARCANE",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One weapon"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, the next weapon attack made with the target weapon deals 3d6 thunder damage to one target of the attack, whether the attack hits or misses."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power14482",
+      "title": "Greater Seek Weakness",
+      "description": "After you place your hand upon a weapon and enchant it, the weapon seems to point to your enemy's weak spots.",
+      "flavor": "After you place your hand upon a weapon and enchant it, the weapon seems to point to your enemy's weak spots.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14482",
+        "publication": "Published in Heroes of the Feywild, page(s) 66.",
+        "rulesText": "Greater Seek WeaknessBard Attack 17\nAfter you place your hand upon a weapon and enchant it, the weapon seems to point to your enemy's weak spots.\nEncounter   ✦     Arcane\nMinor Action      Melee 1\nTarget: One weapon\nEffect: Until the end of your next turn, weapon attacks made with the target weapon have combat advantage and gain a +4 power bonus to damage rolls.\nPublished in Heroes of the Feywild, page(s) 66."
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One weapon"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, weapon attacks made with the target weapon have combat advantage and gain a +4 power bonus to damage rolls."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power6611",
+      "title": "Inescapable Fate",
+      "description": "Like a well-rehearsed troupe, your allies circle around your foe as you strike.",
+      "flavor": "Like a well-rehearsed troupe, your allies circle around your foe as you strike.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6611",
+        "publication": "Published in Arcane Power, page(s) 13.",
+        "rulesText": "Inescapable FateBard Attack 17\nLike a well-rehearsed troupe, your allies circle around your foe as you strike.\nEncounter   ✦     Arcane, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 3[W] + Charisma modifier damage. Until the end of your next turn, when the target is hit by an attack, the attacker rerolls the attack's damage roll and uses the higher result.\nPublished in Arcane Power, page(s) 13."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Charisma damage. Until the end of your next turn, when the target is hit by an attack, the attacker rerolls the attack's damage roll and uses the higher result."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power2410",
+      "title": "Masks of Menace",
+      "description": "You warp your enemy's perception so that it perceives your allies as frightful beasts. Only one ally retains a normal appearance.",
+      "flavor": "You warp your enemy's perception so that it perceives your allies as frightful beasts. Only one ally retains a normal appearance.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2410",
+        "publication": "Published in Player's Handbook 2, page(s) 74.",
+        "rulesText": "Masks of MenaceBard Attack 17\nYou warp your enemy's perception so that it perceives your allies as frightful beasts. Only one ally retains a normal appearance.\nEncounter   ✦     Arcane, Fear, Implement, Psychic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Will\nHit: 3d6 + Charisma modifier psychic damage. Choose an ally within 5 squares of you. Until the end of your next turn, the target takes a -5 penalty to attack rolls for any attack that doesn't include that ally as a target.\nPublished in Player's Handbook 2, page(s) 74."
+      },
+      "keywords": [
+        "ARCANE",
+        "FEAR",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Charisma psychic damage. Choose an ally within 5 squares of you. Until the end of your next turn, the target takes a -5 penalty to attack rolls for any attack that doesn't include that ally as a target."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power5705",
+      "title": "Resounding War Cry",
+      "description": "Your war cry echoes among your foes, knocking them off balance and leaving them open to your allies' attacks.",
+      "flavor": "Your war cry echoes among your foes, knocking them off balance and leaving them open to your allies' attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5705",
+        "publication": "Published in Arcane Power, page(s) 13.",
+        "rulesText": "Resounding War CryBard Attack 17\nYour war cry echoes among your foes, knocking them off balance and leaving them open to your allies' attacks.\nEncounter   ✦     Arcane, Implement, Thunder\nStandard Action      Close blast 5\nTarget: Each enemy in the blast\nAttack: Charisma vs. Fortitude\nHit: 2d6 + Charisma modifier thunder damage. If an ally hits the target with an attack before the end of your next turn, the target is dazed until the end of your next turn.\nPublished in Arcane Power, page(s) 13."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Charisma thunder damage. If an ally hits the target with an attack before the end of your next turn, the target is dazed until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power5008",
+      "title": "Shout of Evasion",
+      "description": "Your shout batters your foe with arcane thunder and spurs you and your allies into motion.",
+      "flavor": "Your shout batters your foe with arcane thunder and spurs you and your allies into motion.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5008",
+        "publication": "Published in Player's Handbook 2, page(s) 75.",
+        "rulesText": "Shout of EvasionBard Attack 17\nYour shout batters your foe with arcane thunder and spurs you and your allies into motion.\nEncounter   ✦     Arcane, Implement, Thunder\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Reflex\nHit: 2d8 + Charisma modifier thunder damage, and you and each ally within 10 squares of you can shift 2 squares as a free action.\nVirtue of Cunning: The number of squares you and your allies can shift equals 1 + your Intelligence modifier.\nPublished in Player's Handbook 2, page(s) 75."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "THUNDER"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Charisma thunder damage, and you and each ally within 10 squares of you can shift 2 squares as a free action."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Virtue of Cunning",
+              "text": "The number of squares you and your allies can shift equals 1 + your Intelligence."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power5009",
+      "title": "Song of Summons",
+      "description": "As you strike your foe with your weapon, you call an ally to lend aid to your attack.",
+      "flavor": "As you strike your foe with your weapon, you call an ally to lend aid to your attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5009",
+        "publication": "Published in Player's Handbook 2, page(s) 75.",
+        "rulesText": "Song of SummonsBard Attack 17\nAs you strike your foe with your weapon, you call an ally to lend aid to your attack.\nEncounter   ✦     Arcane, Teleportation, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 2[W] + Charisma modifier damage, and you teleport an ally within 10 squares of you to a space adjacent to you.\nVirtue of Valor: Until the end of your next turn, the ally also gains a power bonus to attack rolls against the target equal to your Constitution modifier.\nPublished in Player's Handbook 2, page(s) 75."
+      },
+      "keywords": [
+        "ARCANE",
+        "TELEPORTATION",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Charisma damage, and you teleport an ally within 10 squares of you to a space adjacent to you."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Virtue of Valor",
+              "text": "Until the end of your next turn, the ally also gains a power bonus to attack rolls against the target equal to your Constitution."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power13791",
+      "title": "Spectral Vanguard",
+      "description": "As you swing your blade, you shout lines from an ancient saga, summoning forth its heroes to lend their aid.",
+      "flavor": "As you swing your blade, you shout lines from an ancient saga, summoning forth its heroes to lend their aid.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13791",
+        "publication": "Published in Dragon Magazine 396.",
+        "rulesText": "Spectral VanguardBard Attack 17\nAs you swing your blade, you shout lines from an ancient saga, summoning forth its heroes to lend their aid.\nEncounter   ✦     Arcane, Aura, Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 3[W] + Charisma modifier damage.\nEffect: You activate an aura 3 that lasts until the end of your next turn. While in the aura, you and your allies have a +2 power bonus to all defenses. In addition, whenever any enemy ends its turn in the aura, you can slide it up to 2 squares.\nPublished in Dragon Magazine 396."
+      },
+      "keywords": [
+        "ARCANE",
+        "AURA",
+        "PRIMAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Charisma damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You activate an aura 3 that lasts until the end of your next turn. While in the aura, you and your allies have a +2 power bonus to all defenses. In addition, whenever any enemy ends its turn in the aura, you can slide it up to 2 squares."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power2960",
+      "title": "Strings of Fate",
+      "description": "As you make an appeal to the fates of battle, your arrows streak toward your enemies, bypassing their armor to bind their doom.",
+      "flavor": "As you make an appeal to the fates of battle, your arrows streak toward your enemies, bypassing their armor to bind their doom.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2960",
+        "publication": "Published in Arcane Power, page(s) 14.",
+        "rulesText": "Strings of FateBard Attack 17\nAs you make an appeal to the fates of battle, your arrows streak toward your enemies, bypassing their armor to bind their doom.\nEncounter   ✦     Arcane, Weapon\nStandard Action      Ranged weapon\nTarget: One, two, or three creatures\nAttack: Charisma vs. Reflex\nHit: 1[W] + Charisma modifier damage. Until the end of your next turn, attacks against the target's AC instead target its Reflex.\nPublished in Arcane Power, page(s) 14."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One, two, or three creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Charisma damage. Until the end of your next turn, attacks against the target's AC instead target its Reflex."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power3102",
+      "title": "Turning the Tide",
+      "description": "You call upon the legends of great heroes' perseverance to inspire your allies in their hour of need.",
+      "flavor": "You call upon the legends of great heroes' perseverance to inspire your allies in their hour of need.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3102",
+        "publication": "Published in Arcane Power, page(s) 14.",
+        "rulesText": "Turning the TideBard Attack 17\nYou call upon the legends of great heroes' perseverance to inspire your allies in their hour of need.\nEncounter   ✦     Arcane, Healing, Implement\nStandard Action      Close blast 3\nTarget: Each enemy in the blast\nAttack: Charisma vs. Reflex\nHit: 2d8 + Charisma modifier damage. Until the end of your next turn, each ally who hits the target can spend a healing surge. An ally can spend only one healing surge in this way.\nPublished in Arcane Power, page(s) 14."
+      },
+      "keywords": [
+        "ARCANE",
+        "HEALING",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Charisma damage. Until the end of your next turn, each ally who hits the target can spend a healing surge. An ally can spend only one healing surge in this way."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power5010",
+      "title": "Word of Vulnerability",
+      "description": "You speak a word of power as you strike your foe, and the foe becomes vulnerable to your allies' attacks.",
+      "flavor": "You speak a word of power as you strike your foe, and the foe becomes vulnerable to your allies' attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 17
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5010",
+        "publication": "Published in Player's Handbook 2, page(s) 75.",
+        "rulesText": "Word of VulnerabilityBard Attack 17\nYou speak a word of power as you strike your foe, and the foe becomes vulnerable to your allies' attacks.\nEncounter   ✦     Arcane, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 3[W] + Charisma modifier damage. Until the end of your next turn, each ally who hits the target and has combat advantage against it deals extra damage equal to your Charisma modifier.\nPublished in Player's Handbook 2, page(s) 75."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Charisma damage. Until the end of your next turn, each ally who hits the target and has combat advantage against it deals extra damage equal to your Charisma."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 17",
+      "level": 17,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power6939",
+      "title": "All Soul's Ball",
+      "description": "A haunting tune fills the air, drawing the souls of the dying to dance among their killers.",
+      "flavor": "A haunting tune fills the air, drawing the souls of the dying to dance among their killers.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6939",
+        "publication": "Published in Dragon Magazine 372, page(s) 21.",
+        "rulesText": "All Soul's BallBard Attack 19\nA haunting tune fills the air, drawing the souls of the dying to dance among their killers.\nDaily   ✦     Arcane, Implement, Necrotic, Zone\nStandard Action      Area burst 2 within 10\nTarget: Each enemy in the burst\nAttack: Charisma vs. Will\nHit: 3d8 + Charisma modifier necrotic damage, and the target is immobilized until the end of its next turn.\nMiss: Half damage.\nEffect: The burst creates a zone that lasts until the end of the encounter. When an enemy within the zone is reduced to 0 hit points or fewer, allies adjacent to the enemy may immediately spend a healing surge as a free action, and enemies adjacent to the dying enemy grant combat advantage until the end of their next turn.\nPublished in Dragon Magazine 372, page(s) 21."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "NECROTIC",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Charisma necrotic damage, and the target is immobilized until the end of its next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone that lasts until the end of the encounter. When an enemy within the zone is reduced to 0 hit points or fewer, allies adjacent to the enemy may immediately spend a healing surge as a free action, and enemies adjacent to the dying enemy grant combat advantage until the end of their next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power5706",
+      "title": "Corralling Song",
+      "description": "Beguiling words entice your foes to cluster together, exposing them to devastating area attacks.",
+      "flavor": "Beguiling words entice your foes to cluster together, exposing them to devastating area attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5706",
+        "publication": "Published in Arcane Power, page(s) 14.",
+        "rulesText": "Corralling SongBard Attack 19\nBeguiling words entice your foes to cluster together, exposing them to devastating area attacks.\nDaily   ✦     Arcane, Implement, Psychic\nStandard Action      Area burst 2 within 10 squares\nTarget: Each enemy in the burst\nAttack: Charisma vs. Will\nHit: 2d6 + Charisma modifier psychic damage. If the target is not adjacent to an enemy, you can slide the target 3 squares to a space that must be adjacent to an enemy.\nMiss: Half damage. If the target is not adjacent to an enemy, you can slide it 1 square to a space that must be adjacent to an enemy.\nEffect: Each target that is adjacent to an enemy after this attack is resolved takes 10 psychic damage at the end of its turn if it is not adjacent to an enemy at that time (save ends).\nPublished in Arcane Power, page(s) 14."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Charisma psychic damage. If the target is not adjacent to an enemy, you can slide the target 3 squares to a space that must be adjacent to an enemy."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage. If the target is not adjacent to an enemy, you can slide it 1 square to a space that must be adjacent to an enemy."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each target that is adjacent to an enemy after this attack is resolved takes 10 psychic damage at the end of its turn if it is not adjacent to an enemy at that time (save ends)."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power11115",
+      "title": "Craven Chorus",
+      "description": "As they flee before you, your enemies add their cries of dismay to your daunting dirge.",
+      "flavor": "As they flee before you, your enemies add their cries of dismay to your daunting dirge.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11115",
+        "publication": "Published in Dragon Magazine 383, page(s) 55.",
+        "rulesText": "Craven ChorusBard Attack 19\nAs they flee before you, your enemies add their cries of dismay to your daunting dirge.\nDaily   ✦     Arcane, Fear, Implement, Psychic\nStandard Action      Close burst 1\nTarget: Each enemy in the burst you can see\nAttack: Charisma vs. Will\nHit: 4d10 + Charisma modifier psychic damage, and you push the target its speed.\nMiss: Half damage and you push the target 2 squares.\nPublished in Dragon Magazine 383, page(s) 55."
+      },
+      "keywords": [
+        "ARCANE",
+        "FEAR",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d10 + Charisma psychic damage, and you push the target its speed."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage and you push the target 2 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power5011",
+      "title": "Encircling Dance",
+      "description": "As dazzling light bursts around your foes, you and your allies can move to better positions.",
+      "flavor": "As dazzling light bursts around your foes, you and your allies can move to better positions.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5011",
+        "publication": "Published in Player's Handbook 2, page(s) 75.",
+        "rulesText": "Encircling DanceBard Attack 19\nAs dazzling light bursts around your foes, you and your allies can move to better positions.\nDaily   ✦     Arcane, Implement, Radiant\nStandard Action      Ranged 10\nTarget: One or two creatures\nAttack: Charisma vs. Reflex\nHit: 3d8 + Charisma modifier radiant damage.\nMiss: Half damage.\nEffect: You and each ally within 10 squares of you can shift 5 squares as a free action.\nPublished in Player's Handbook 2, page(s) 75."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Charisma radiant damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and each ally within 10 squares of you can shift 5 squares as a free action."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power14483",
+      "title": "Fable of Focus",
+      "description": "You weave a tale that forces your allies to concentrate on the task before them, ensuring that every attack counts.",
+      "flavor": "You weave a tale that forces your allies to concentrate on the task before them, ensuring that every attack counts.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14483",
+        "publication": "Published in Heroes of the Feywild, page(s) 66.",
+        "rulesText": "Fable of FocusBard Attack 19\nYou weave a tale that forces your allies to concentrate on the task before them, ensuring that every attack counts.\nDaily   ✦     Martial\nMinor Action      Personal\nEffect: Until the end of the encounter, your skald's aura gains the following effect: You and each ally in the aura can reroll any result of 1 or 2 on any damage die, keeping the second result for each die rolled.\nPublished in Heroes of the Feywild, page(s) 66."
+      },
+      "keywords": [
+        "MARTIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Personal"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, your skald's aura gains the following effect: You and each ally in the aura can reroll any result of 1 or 2 on any damage die, keeping the second result for each die rolled."
+            }
+          ]
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power2782",
+      "title": "Increasing the Tempo",
+      "description": "Your ally attacks with incredible speed, becoming a blur of motion.",
+      "flavor": "Your ally attacks with incredible speed, becoming a blur of motion.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2782",
+        "publication": "Published in Player's Handbook 2, page(s) 75.",
+        "rulesText": "Increasing the TempoBard Attack 19\nYour ally attacks with incredible speed, becoming a blur of motion.\nDaily   ✦     Arcane\nStandard Action      Ranged 10\nTarget: One ally\nEffect: The target makes four basic attacks as a free action. No more than two of the attacks can be against a single target.\nUpdate (6/14/2010)\nAt the end of the Effect entry, add “No more than two of the attacks can be against a single target.”\nPublished in Player's Handbook 2, page(s) 75."
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One ally"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target makes four basic attacks as a free action. No more than two of the attacks can be against a single target."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power5012",
+      "title": "Irresistible Dance",
+      "description": "An eerie piping fills an area, forcing the creatures there into an idiot dance that sends them careening around at your command.",
+      "flavor": "An eerie piping fills an area, forcing the creatures there into an idiot dance that sends them careening around at your command.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5012",
+        "publication": "Published in Player's Handbook 2, page(s) 75.",
+        "rulesText": "Irresistible DanceBard Attack 19\nAn eerie piping fills an area, forcing the creatures there into an idiot dance that sends them careening around at your command.\nDaily   ✦     Arcane, Charm, Implement, Psychic\nStandard Action      Area burst 1 within 10 squares\nTarget: Each creature in the burst\nAttack: Charisma vs. Will\nHit: 3d6 + Charisma modifier psychic damage, and the target grants combat advantage to you and your allies (save ends).\nMiss: Half damage.\nEffect: You slide each target a number of squares equal to your Charisma modifier.\nPublished in Player's Handbook 2, page(s) 75."
+      },
+      "keywords": [
+        "ARCANE",
+        "CHARM",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Charisma psychic damage, and the target grants combat advantage to you and your allies (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You slide each target a number of squares equal to your Charisma."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power2984",
+      "title": "Linked Fortunes",
+      "description": "Your magic grants your friends superior luck, but the wheel of fate gives luck to your enemies in equal measure.",
+      "flavor": "Your magic grants your friends superior luck, but the wheel of fate gives luck to your enemies in equal measure.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2984",
+        "publication": "Published in Arcane Power, page(s) 14.",
+        "rulesText": "Linked FortunesBard Attack 19\nYour magic grants your friends superior luck, but the wheel of fate gives luck to your enemies in equal measure.\nDaily   ✦     Arcane, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Charisma vs. AC\nHit: 4[W] + Charisma modifier damage.\nMiss: Half damage.\nEffect: The target is affected by linked fortunes (save ends). While it is affected by linked fortunes, as an immediate interrupt, when the target is missed by an ally's attack, you can roll a d20 and replace the ally's attack roll with yours. Whenever you do so, the target can roll a d20 once during its next turn and replace its attack roll with that roll.\nPublished in Arcane Power, page(s) 14."
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4[W] + Charisma damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target is affected by linked fortunes (save ends). While it is affected by linked fortunes, as an immediate interrupt, when the target is missed by an ally's attack, you can roll a d20 and replace the ally's attack roll with yours. Whenever you do so, the target can roll a d20 once during its next turn and replace its attack roll with that roll."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power5707",
+      "title": "Mocking Epigram",
+      "description": "Your vicious lampoon enrages your foe, causing it to swing blindly and harm its allies.",
+      "flavor": "Your vicious lampoon enrages your foe, causing it to swing blindly and harm its allies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5707",
+        "publication": "Published in Arcane Power, page(s) 14.",
+        "rulesText": "Mocking EpigramBard Attack 19\nYour vicious lampoon enrages your foe, causing it to swing blindly and harm its allies.\nDaily   ✦     Arcane, Charm, Implement\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Will\nHit: 3d8 + Charisma modifier damage, and the target is affected by your mocking epigram (save ends). While affected by the mocking epigram, the target is weakened, and whenever it hits an ally with an attack, that attack also hits one enemy of your choice within range of that attack, including the target itself. The target cannot hit a given enemy more than once with a single attack.\nMiss: Half damage. Until the end of your next turn, the target is weakened, and whenever it hits an ally with an attack, that attack also hits one enemy of your choice within range of that attack, including the target itself. The target cannot hit a given enemy more than once with a single attack.\nPublished in Arcane Power, page(s) 14."
+      },
+      "keywords": [
+        "ARCANE",
+        "CHARM",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Charisma damage, and the target is affected by your mocking epigram (save ends). While affected by the mocking epigram, the target is weakened, and whenever it hits an ally with an attack, that attack also hits one enemy of your choice within range of that attack, including the target itself. The target cannot hit a given enemy more than once with a single attack."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage. Until the end of your next turn, the target is weakened, and whenever it hits an ally with an attack, that attack also hits one enemy of your choice within range of that attack, including the target itself. The target cannot hit a given enemy more than once with a single attack."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power5708",
+      "title": "Saga of the Harrying Foe",
+      "description": "You declaim a tale of glorious single combat, compelling your enemy to seek out and do battle with your ally.",
+      "flavor": "You declaim a tale of glorious single combat, compelling your enemy to seek out and do battle with your ally.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5708",
+        "publication": "Published in Arcane Power, page(s) 14.",
+        "rulesText": "Saga of the Harrying FoeBard Attack 19\nYou declaim a tale of glorious single combat, compelling your enemy to seek out and do battle with your ally.\nDaily   ✦     Arcane, Psychic, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Charisma vs. Will\nHit: 2[W] + Charisma modifier damage, and you slide the target 5 squares to a space that must be adjacent to an ally. That ally gains a +2 power bonus to attack rolls against the target until the end of the encounter. In addition, the target takes 10 psychic damage at the end of its turn if it is not adjacent to that ally (save ends).\nMiss: Half damage, and you slide the target 5 squares to a space that must be adjacent to an ally. That ally gains a +1 power bonus to attack rolls against the target until the end of the encounter. In addition, the target takes 5 psychic damage at the end of its turn if it is not adjacent to that ally (save ends).\nPublished in Arcane Power, page(s) 14."
+      },
+      "keywords": [
+        "ARCANE",
+        "PSYCHIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Charisma damage, and you slide the target 5 squares to a space that must be adjacent to an ally. That ally gains a +2 power bonus to attack rolls against the target until the end of the encounter. In addition, the target takes 10 psychic damage at the end of its turn if it is not adjacent to that ally (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you slide the target 5 squares to a space that must be adjacent to an ally. That ally gains a +1 power bonus to attack rolls against the target until the end of the encounter. In addition, the target takes 5 psychic damage at the end of its turn if it is not adjacent to that ally (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power2416",
+      "title": "Satire of Prowess",
+      "description": "Your verse mocks your foe's attacks and forces it to conform to your description of its ineptitude.",
+      "flavor": "Your verse mocks your foe's attacks and forces it to conform to your description of its ineptitude.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2416",
+        "publication": "Published in Player's Handbook 2, page(s) 75.",
+        "rulesText": "Satire of ProwessBard Attack 19\nYour verse mocks your foe's attacks and forces it to conform to your description of its ineptitude.\nDaily   ✦     Arcane, Charm, Implement, Psychic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Will\nHit: 4d6 + Charisma modifier psychic damage, and the target is affected by your satire of prowess (save ends). While the target is affected by the satire, the target rolls twice when it makes an attack roll and must use the lower roll, and any attacker rolls twice when it makes an attack roll against the target and must use the higher roll.\nMiss: Half damage. Until the end of your next turn, the target rolls twice when it makes an attack roll and must use the lower roll, and any attacker rolls twice when it makes an attack roll against the target and must use the higher roll.\nPublished in Player's Handbook 2, page(s) 75."
+      },
+      "keywords": [
+        "ARCANE",
+        "CHARM",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d6 + Charisma psychic damage, and the target is affected by your satire of prowess (save ends). While the target is affected by the satire, the target rolls twice when it makes an attack roll and must use the lower roll, and any attacker rolls twice when it makes an attack roll against the target and must use the higher roll."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage. Until the end of your next turn, the target rolls twice when it makes an attack roll and must use the lower roll, and any attacker rolls twice when it makes an attack roll against the target and must use the higher roll."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power14484",
+      "title": "Song of Flagging Strength",
+      "description": "Your song seems to sap the spirit of your enemies, taking some of the zest of battle out of them.",
+      "flavor": "Your song seems to sap the spirit of your enemies, taking some of the zest of battle out of them.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14484",
+        "publication": "Published in Heroes of the Feywild, page(s) 66.",
+        "rulesText": "Song of Flagging StrengthBard Attack 19\nYour song seems to sap the spirit of your enemies, taking some of the zest of battle out of them.\nDaily   ✦     Arcane, Psychic\nMinor Action      Personal\nEffect: Until the end of the encounter, your skald's aura gains the following effect: Twice before the end of the encounter, when you or one of your allies hits an enemy in the aura with an attack, that enemy is weakened and takes ongoing 10 psychic damage (save ends both).\nPublished in Heroes of the Feywild, page(s) 66."
+      },
+      "keywords": [
+        "ARCANE",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Personal"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, your skald's aura gains the following effect: Twice before the end of the encounter, when you or one of your allies hits an enemy in the aura with an attack, that enemy is weakened and takes ongoing 10 psychic damage (save ends both)."
+            }
+          ]
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.bard-power2985",
+      "title": "Spring to Action",
+      "description": "Intoning a melody of the planes, you thin the boundaries between realities so that your allies travel far in one step.",
+      "flavor": "Intoning a melody of the planes, you thin the boundaries between realities so that your allies travel far in one step.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 19
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2985",
+        "publication": "Published in Arcane Power, page(s) 14.",
+        "rulesText": "Spring to ActionBard Attack 19\nIntoning a melody of the planes, you thin the boundaries between realities so that your allies travel far in one step.\nDaily   ✦     Arcane, Implement, Teleportation, Zone\nStandard Action      Area burst 1 with 20 squares\nTarget: Each creature in the burst\nAttack: Charisma vs. Reflex\nHit: 4d6 + Charisma modifier damage.\nMiss: Half damage.\nEffect: The burst creates a zone of warped space that lasts until the end of your next turn. While the zone persists, you and any allies within 20 squares of you can use a move action to teleport to an unoccupied space within the zone.\nSustain Minor: The zone persists.\nPublished in Arcane Power, page(s) 14."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "TELEPORTATION",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 with 20 squares"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 with 20 squares"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d6 + Charisma damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone of warped space that lasts until the end of your next turn. While the zone persists, you and any allies within 20 squares of you can use a move action to teleport to an unoccupied space within the zone."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Bard Attack 19",
+      "level": 19,
+      "powerKind": "ATTACK"
     }
   ]
 }

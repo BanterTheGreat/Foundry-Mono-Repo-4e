@@ -195,6 +195,64 @@ class PowerSelectionTest {
     }
 
     @Test
+    fun replacementMilestonesCanChangeTargetAndEarlierEditsCannotBorrowLaterHistory() {
+        var completed: Result<Unit>? = null
+        suspend {
+            val oldA = power("old-a", usage = "DAILY")
+            val oldB = power("old-b", usage = "DAILY")
+            val nine = power("nine", usage = "DAILY", level = 9)
+            val alternative = power("alternative", usage = "DAILY", level = 9)
+            val nineteen = power("nineteen", usage = "DAILY", level = 19)
+            val requiresLaterAbility = power("requires-later", usage = "DAILY", level = 9).let {
+                it.copy(mechanics = it.mechanics.copy(prerequisites = listOf(Prerequisite.AbilityPoints(Ability.STRENGTH, 4))))
+            }
+            val root = root(listOf(query(daily, 2, "DAILY")))
+            val definitions = listOf(root, oldA, oldB, nine, alternative, nineteen, requiresLaterAbility)
+            val source = object : ContentSource {
+                override suspend fun listPackages() = ContractResult.Available(listOf(PackageManifest(formatVersion = 2,
+                    id = supplier.packageId, revision = supplier.revision, title = "Power tests", indexes = listOf("index"), chunks = listOf("entries"))))
+                override suspend fun loadIndex(packageId: String, indexId: String) = ContractResult.Available(ContentIndex(
+                    definitions.map { EntryMetadata(it.id, it.category, it.presentation.title, "entries") }))
+                override suspend fun loadChunk(packageId: String, chunkId: String) = ContractResult.Available(EntryChunk("entries", definitions))
+            }
+            val catalog = assertIs<ContractResult.Available<ContentCatalog>>(ContentCatalog.open(source, supplier.packageId, emptyList())).value
+            val operations = BuilderOperations(catalog)
+            val first = decision(oldA, ChoiceSlotId("class", daily, 0))
+            val second = decision(oldB, ChoiceSlotId("class", daily, 1))
+            val initial = character(root, listOf(first, second), 19)
+            val lateHistory = Replacement(first.slot, decision(nineteen, first.slot), ReplacementKind.PROGRESSION)
+            val document = initial.copy(levels = initial.levels + listOf(
+                LevelDecisions(4, abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.STRENGTH to 1)))),
+                LevelDecisions(9, replacements = listOf(Replacement(first.slot, decision(nine, first.slot), ReplacementKind.PROGRESSION))),
+                LevelDecisions(12, abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(12), mapOf(Ability.STRENGTH to 1)))),
+                LevelDecisions(19, replacements = listOf(lateHistory))))
+            val importedInvalid = document.copy(levels = document.levels.map { row ->
+                if (row.level == 9) row.copy(replacements = listOf(Replacement(first.slot, decision(nineteen, first.slot), ReplacementKind.PROGRESSION))) else row
+            })
+            assertTrue(evaluate(importedInvalid, definitions).diagnostics.any { it.code == "engine.replacementAcquisition" })
+            val options = operations.replacementOptions(document, 9, first.slot)
+            assertFalse(options.any { it.entry.entry.id == nineteen.id })
+            assertEquals(Eligibility.INELIGIBLE, options.single { it.entry.entry.id == requiresLaterAbility.id }.eligibility)
+            assertFalse(operations.apply(document, BuilderEdit.ReplacePower(9, first.slot, nineteen.id, ReplacementKind.PROGRESSION, true)).applied)
+            assertFalse(operations.apply(document, BuilderEdit.ReplacePower(9, first.slot, requiresLaterAbility.id, ReplacementKind.PROGRESSION)).applied)
+            assertTrue(operations.replacementOptions(document, 9, second.slot).any { it.entry.entry.id == alternative.id && it.eligibility == Eligibility.ELIGIBLE })
+            val changed = operations.apply(document, BuilderEdit.ReplacePower(9, second.slot, alternative.id, ReplacementKind.PROGRESSION))
+            assertTrue(changed.applied, changed.diagnostics.toString())
+            assertEquals(second.slot, changed.state.document.levels.single { it.level == 9 }.replacements.single().replaces)
+            assertEquals(listOf(lateHistory), changed.state.document.levels.single { it.level == 19 }.replacements)
+            assertEquals(nineteen.id, changed.state.rules.entries.single { it.slot == first.slot }.definition.entry.id)
+            val cleared = operations.apply(changed.state.document, BuilderEdit.RemoveReplacement(9, second.slot))
+            assertTrue(cleared.applied)
+            assertTrue(cleared.state.document.levels.single { it.level == 9 }.replacements.isEmpty())
+            assertEquals(listOf(lateHistory), cleared.state.document.levels.single { it.level == 19 }.replacements)
+        }.startCoroutine(object : Continuation<Unit> {
+            override val context = EmptyCoroutineContext
+            override fun resumeWith(result: Result<Unit>) { completed = result }
+        })
+        checkNotNull(completed).getOrThrow()
+    }
+
+    @Test
     fun oneEvaluationReadsEachChunkOnceAndNextEvaluationObservesUpdates() {
         var completed: Result<Unit>? = null
         suspend {
@@ -242,8 +300,20 @@ class PowerSelectionTest {
         assertEquals("late", result.entries.single { it.slot == first.slot }.definition.entry.id)
         assertTrue(result.choices.single { it.slot == first.slot }.entries.any { it.entryId == "late" })
         assertFalse(result.choices.single { it.slot == second.slot }.entries.any { it.entryId == "late" })
-        assertTrue(result.diagnostics.any { it.code == "engine.replacementTiming" })
+        assertFalse(result.diagnostics.any { it.code == "engine.replacementTiming" })
         assertFalse(result.diagnostics.any { it.code == "engine.choiceOption" && it.slot == first.slot })
+        for (atLevel in AdvancementRules.dailyReplacementLevels) {
+            val valid = doc.copy(level = atLevel, levels = doc.levels + LevelDecisions(atLevel, replacements = listOf(
+                Replacement(first.slot, decision(powers[1], first.slot), ReplacementKind.PROGRESSION))))
+            assertFalse(evaluate(valid, powers + root).diagnostics.any { it.code == "engine.replacementTiming" })
+            val doubled = valid.copy(levels = valid.levels.map { row ->
+                if (row.level == atLevel) row.copy(replacements = row.replacements +
+                    Replacement(second.slot, decision(powers[1], second.slot), ReplacementKind.PROGRESSION)) else row
+            })
+            assertTrue(evaluate(doubled, powers + root).diagnostics.any {
+                it.code == "engine.replacementTiming" && it.kind == DiagnosticKind.INVALID_SELECTION
+            })
+        }
     }
 
 }

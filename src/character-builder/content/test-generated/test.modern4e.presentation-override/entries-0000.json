@@ -127,6 +127,43 @@
               "powerKind": "UTILITY"
             },
             "type": "entries"
+          },
+          {
+            "atLevel": 13,
+            "count": 1,
+            "distinct": true,
+            "id": "modern4e.choice.class-attack-encounter-13",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 13,
+              "powerKind": "ATTACK",
+              "usage": "ENCOUNTER"
+            },
+            "type": "entries"
+          },
+          {
+            "atLevel": 17,
+            "count": 1,
+            "distinct": true,
+            "id": "modern4e.choice.class-utility-17",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 17,
+              "powerKind": "UTILITY"
+            },
+            "type": "entries"
+          },
+          {
+            "atLevel": 17,
+            "count": 1,
+            "distinct": true,
+            "id": "modern4e.choice.class-encounter-17",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 17,
+              "usage": "ENCOUNTER"
+            },
+            "type": "entries"
           }
         ],
         "classProfile": {
@@ -324,7 +361,7 @@
         ],
         "runtimeAdvancementCoverage": {
           "limitations": [
-            "Shared power acquisition is defined through level 10. Levels 11-30 and general progression/retraining allowances remain unverified (#20). Utility usage/access requires an explicitly adapted candidate profile; unadapted published powers are excluded."
+            "Class power acquisitions through level 19 follow the local advancement schedule. Level 17 encounter kind is unspecified, so its pool is usage-only. Levels 20-30 remain unverified."
           ],
           "status": "PARTIAL"
         },

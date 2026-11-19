@@ -1,5 +1,30 @@
 # Running tests yourself
 
+Power badges, advancement requirements and ancestry combinations: from `src/character-builder`, run `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. `PowerReaderOptionsTest` checks utility levels with nested prerequisites; `PowerRequirementsTest` checks omitted power class/level routing and missing Theme/Path/Destiny conditions. `AncestryComboFeatTest` verifies production Ancestry-tab placement, class eligibility and ancestry scoping.
+
+Feat tier ceilings and power requirements: run `.\gradlew.bat :android:testDebugUnitTest :android:assembleDebug` from `src/character-builder`. `ProgressionOptionsTest` covers tier boundaries, earlier-slot levels and conservative missing-definition behavior; `PowerRequirementsTest` covers readable skill/class/level/ability requirements, grouped alternatives, unmet conditions and suppression of unrelated coverage diagnostics.
+
+Always-visible picker options: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest :android:assembleDebug`. `ProgressionOptionsTest`, `PowerReaderOptionsTest` and `ClassPickerOptionsTest` verify tier/level/name ordering within eligibility groups, ineligible rows last in ordinary pickers, search across ineligible rows, and inline class sections, and preserved pending/unavailable/explicit-selection safeguards. Device UI tests remain opt-in.
+
+Ancestry size and defense corrections: from `src/character-builder`, run `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. `DefenseRulesTest` verifies light/unarmored Int/Dex selection, heavy armor, odd/even half-level AC and tier bonuses on all defenses. Shared class tests verify explicit class bonus contributors. Android overview/session tests cover read-only ancestry size and retained legacy fields; `StatsDisplayTest` covers the defense breakdown.
+
+Armor order and Ability Increase previews: run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder`. `EquipmentOptionsTest` checks numeric AC order, ties, unknown bonuses and existing category/proficiency grouping. `ProgressionTest` checks fresh and saved +1 previews, moving/clearing drafts, invalid saved choices and preservation of other ability totals.
+
+Feat tier and power level sorting: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest`. `ProgressionOptionsTest` verifies Epic/Paragon/Heroic feat order, descending power levels, alphabetical ties, missing power profiles and the existing eligibility/loading groups.
+
+Paragon Path class scoping uses the shared JVM/JS commands below. `PathScopedLoadingTest` counting-source regressions verify that metadata excludes unrelated class paths before any path chunk read or eligibility evaluation, retains shared-class and unscoped/legacy paths, and honors multiclass acquisition timing. The content `test_path_runtime.py` suite checks index scopes and class-separated chunks; regenerate/check production assets with `python -X utf8 content/build.py --check` from `src/character-builder`.
+
+Character Builder advancement through level 19 (from `src/character-builder`, with JDK 21 and the Android SDK configured):
+
+```powershell
+.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug
+python -X utf8 content/build.py --check
+python -X utf8 content/samples.py --check
+python -X utf8 -m unittest discover -s content -p 'test_*.py'
+```
+
+`AdvancementRulesTest` covers ability milestones and invalid or missing advancement choices. `Level19AcceptanceTest` exercises production Fighter level-17 acquisition, level-19 daily replacement, invalid replacement timing, portable reopen, level reduction and path grants at 11/12/16. `PowerSelectionTest` covers replacement target changes and historical eligibility when later replacements exist. Android `ProgressionTest` and `BuilderSessionTest` cover later-level shared editing and persistence. Content tests cover the added acquisition slots, attacks through 19 and paragon path grants and summary-only limitations. UI/instrumentation tests remain opt-in.
+
 Character Builder install command routing and failure propagation: `node --test scripts/test/builder-install.test.mjs`. This uses a stub process runner; a real device install is a separate manual check with `npm run builder:install` (or `make builder-install`).
 
 Ordered power authoring (16 published-reference fixtures plus all 19 local class
