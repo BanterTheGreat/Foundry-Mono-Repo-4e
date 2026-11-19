@@ -1,5 +1,32 @@
 package dev.modern4e.builder
 
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
+
+/** Combine named class or ancestry access with the feat's canonical prerequisite text. */
+internal fun ContentEntry.featPrerequisiteText(accessTitles: Map<String, String>): String? {
+    val requirement = (sharedData?.get("runtimeRequirementText") as? JsonPrimitive)?.contentOrNull
+        ?.takeIf { it.isNotBlank() }
+    val access = mechanics.access?.featAccessText(accessTitles, nested = requirement != null)
+    return listOfNotNull(access, requirement).joinToString(", ").ifBlank { null }
+}
+
+/** Preserve grouped access alternatives when displaying them alongside other prerequisites. */
+private fun Prerequisite.featAccessText(titles: Map<String, String>, nested: Boolean): String? {
+    val group = when (this) {
+        is Prerequisite.Entry -> return titles[entryId] ?: entryId
+        is Prerequisite.Unavailable -> return text
+        is Prerequisite.Unresolved -> return text
+        is Prerequisite.AllOf -> conditions.mapNotNull { it.featAccessText(titles, true) }.joinToString(" and ")
+        is Prerequisite.AnyOf -> conditions.mapNotNull { it.featAccessText(titles, true) }.joinToString(" or ")
+        else -> return null
+    }
+    if (group.isBlank()) {
+        return null
+    }
+    return if (nested) "($group)" else group
+}
+
 /** Only checked options with usable eligibility and no duplicate selection can be picked. */
 internal fun BuilderOptionRow.pickerSelectable(taken: Set<String>): Boolean = checked &&
     metadata.metadata.id !in taken && option?.eligibility?.let {

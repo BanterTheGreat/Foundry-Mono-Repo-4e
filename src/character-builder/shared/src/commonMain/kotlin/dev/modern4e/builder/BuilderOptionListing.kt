@@ -3,7 +3,7 @@ package dev.modern4e.builder
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonPrimitive
 
-/** Checked rows carry the definitions needed to preview ancestry and advancement entries. */
+/** Checked rows carry the definitions needed for split-reader previews. */
 data class BuilderOptionRow(
     val metadata: CatalogEntry,
     val option: BuilderOption? = null,
@@ -67,7 +67,7 @@ class BuilderOptionListing internal constructor(
                 }
                 val entry = option?.entry?.entry
                 val advancementDefinitions = when (entry?.category) {
-                    EntryCategory.ANCESTRY -> ancestryPreviewDefinitions(entry)
+                    EntryCategory.ANCESTRY, EntryCategory.FEATURE -> previewDefinitions(entry)
                     EntryCategory.THEME, EntryCategory.PARAGON_PATH, EntryCategory.EPIC_DESTINY -> {
                         val references = entry.mechanics.grants.filterIsInstance<Grant.Entry>().map { it.entryId } +
                             entry.advancementModificationIds()
@@ -90,10 +90,10 @@ class BuilderOptionListing internal constructor(
         return result
     }
 
-    /** Load ancestry grants and explicitly offered alternatives for the detail reader. */
-    private suspend fun ancestryPreviewDefinitions(ancestry: ContentEntry): Map<String, ContentEntry> {
+    /** Load nested grants and explicitly offered alternatives for the detail reader. */
+    private suspend fun previewDefinitions(root: ContentEntry): Map<String, ContentEntry> {
         val entries = linkedMapOf<String, ContentEntry>()
-        val seen = mutableSetOf(ancestry.id)
+        val seen = mutableSetOf(root.id)
         suspend fun visit(entry: ContentEntry) {
             val mechanics = entry.mechanics
             val grants = mechanics.grants + mechanics.progression.flatMap { it.grants }
@@ -108,7 +108,7 @@ class BuilderOptionListing internal constructor(
                 }
             }
         }
-        visit(ancestry)
+        visit(root)
         return entries
     }
 

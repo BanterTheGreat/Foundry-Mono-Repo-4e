@@ -19,6 +19,21 @@ class PowerReaderOptionsTest {
         assertTrue(usesPowerReader(listOf(row("power"))))
     }
 
+    @Test fun classOwnedFeaturesUseTheSplitReaderThroughNestedChoices() {
+        val classEntry = EngineEntry("class", ChoiceSlotId("creation", "class", 0),
+            requireNotNull(row("sorcerer", category = EntryCategory.CLASS).option).entry, granted = false)
+        val featureEntry = EngineEntry("feature", ChoiceSlotId("class", "granted-feature", 0),
+            requireNotNull(row("spell-source", category = EntryCategory.FEATURE).option).entry, granted = true)
+        val nestedChoice = ChoiceSlotId("feature", "spell-source-choice", 0)
+        val features = listOf(row("dragon-magic", category = EntryCategory.FEATURE))
+        val entries = listOf(classEntry, featureEntry)
+
+        assertTrue(usesClassFeatureReader(features, nestedChoice, entries))
+        assertTrue(usesClassFeatureReader(features + row("power"), nestedChoice, entries))
+        assertFalse(usesClassFeatureReader(features + row("feat", category = EntryCategory.FEAT), nestedChoice, entries))
+        assertFalse(usesClassFeatureReader(features, nestedChoice, listOf(featureEntry)))
+    }
+
     @Test fun lastEligibleTapDraftsThePower() {
         val first = row("first")
         val last = row("last")

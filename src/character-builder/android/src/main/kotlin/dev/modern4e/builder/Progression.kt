@@ -101,9 +101,15 @@ object Progression {
         if (state.rules.choices.none { it.slot == slot }) {
             return null
         }
-        return state.rules.entries.firstOrNull { it.instanceId == slot.sourceInstanceId }?.definition?.entry
+        val description = state.rules.entries.firstOrNull { it.instanceId == slot.sourceInstanceId }?.definition?.entry
             ?.presentation?.takeIf { it.grantDisplay == GrantDisplay.CHOICE_INTRODUCTION }
-            ?.description?.takeIf { it.isNotBlank() }
+            ?.description ?: return null
+        val introduction = when (slot.choiceId) {
+            "modern4e.choice.sorcerer-spell-source" -> description.substringBefore("Choose either").trimEnd()
+            "modern4e.choice.warlock-eldritch-pact" -> description.substringBefore("Choose one pact").trimEnd()
+            else -> description
+        }
+        return introduction.takeIf { it.isNotBlank() }
     }
 
     /** Finds granted features and powers whose entire source chain is automatic beneath a selected advancement entry. */

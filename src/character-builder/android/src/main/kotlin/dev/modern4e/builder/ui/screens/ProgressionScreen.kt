@@ -288,7 +288,7 @@ private fun CreationChoicePair(content: @Composable RowScope.() -> Unit) {
         content = content)
 }
 
-/** Separates grant sources within Level 0. */
+/** Separates grant sources within Base. */
 @Composable
 private fun StartingGrantDivider(title: String) {
     Row(
@@ -308,8 +308,10 @@ private fun StartingGrantDivider(title: String) {
 private fun ProgressionLevelHeading(level: Int) {
     Surface(Modifier.fillMaxWidth().padding(top = 16.dp), color = Wash) {
         Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            Text("LEVEL  ", color = Dim, letterSpacing = 2.sp, fontSize = 12.sp)
-            Text(level.toString(), fontFamily = FontFamily.Serif, fontSize = 28.sp)
+            if (level > 0) {
+                Text("LEVEL  ", color = Dim, letterSpacing = 2.sp, fontSize = 12.sp)
+            }
+            Text(if (level == 0) "Base" else level.toString(), fontFamily = FontFamily.Serif, fontSize = 28.sp)
         }
     }
 }
@@ -427,6 +429,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
     var optionLoadFinished by remember(request, featTab, state.document) { mutableStateOf(false) }
     var replacementTarget by remember(request) { mutableStateOf<ChoiceSlotId?>(null) }
     val catalogPicker = request.kind in listOf("entry", "feat", "replacement")
+    val featAccessTitles = remember(model, document.packages) { model.featAccessTitles() }
     LaunchedEffect(request, if (request.kind == "feat") featTab else null, document) {
         if (catalogPicker) {
             optionRows = null
@@ -444,7 +447,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
         if (catalogPicker) {
             key(request, featTab) {
                 CatalogChoiceList(request, state, optionRows, optionLoadFinished, selected, expanded, featTab, showIneligible,
-                    replacementTarget, Modifier.weight(1f),
+                    replacementTarget, featAccessTitles, Modifier.weight(1f),
                     changeTab = { featTab = it }, toggleIneligible = { showIneligible = !showIneligible },
                     changeTarget = { replacementTarget = it; edit = null; selected = null; expanded = null }, choose = { option ->
                         val entry = option.entry.entry
@@ -619,7 +622,7 @@ internal fun pickerSheetHeight(screenHeightDp: Int): Dp = minOf(PickerSheetMaxHe
 @Composable
 private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, rows: List<BuilderOptionRow>?, loadFinished: Boolean,
     selected: String?, expanded: String?, featTab: String, showIneligible: Boolean, replacementTarget: ChoiceSlotId?,
-    modifier: Modifier, changeTab: (String) -> Unit, toggleIneligible: () -> Unit,
+    featAccessTitles: Map<String, String>, modifier: Modifier, changeTab: (String) -> Unit, toggleIneligible: () -> Unit,
     changeTarget: (ChoiceSlotId) -> Unit, choose: (BuilderOption) -> Unit) {
     val taken = remember(state.document, request.slot) {
         state.document.levels.flatMap { it.entries }.filter { it.slot != request.slot }.map { it.selection.entryId }.toSet()
@@ -642,7 +645,9 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
     }
     val advancementRoot = request.slot == ChoiceSlotId("creation", "theme", 0) ||
         request.slot == ChoiceSlotId("creation", "ancestry", 0)
-    if (advancementRoot && options is PickerOptions.Ready) {
+    if (options is PickerOptions.Ready &&
+        (advancementRoot || usesClassFeatureReader(rows, request.slot, state.rules.entries))
+    ) {
         AdvancementChoiceReader(options, taken, selected, showIneligible, modifier, toggleIneligible, choose)
         return
     }
@@ -665,18 +670,24 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
                 compact = true, titleColor = if (eligible) titleColor else MaterialTheme.colorScheme.error) {
                 if (entry == null) {
                     Text(row.diagnostics.joinToString { it.message }.ifBlank { "Definition is unavailable." }, fontSize = 12.sp, color = Dim)
-                } else if (!eligible) {
-                    val reason = if (entry.id in taken) "Already chosen"
-                        else option.diagnostics.joinToString { it.message }.ifBlank { "Ineligible" }
-                    Text(reason,
-                        fontSize = 12.sp, lineHeight = 15.sp, color = Dim)
                 } else {
-                    when {
-                        entry.category == EntryCategory.POWER -> PowerBlock(entry, showTitle = false)
-                        else -> ControlledDescription(entry.presentation.description, compact = true)
+                    if (entry.category == EntryCategory.FEAT) {
+                        entry.featPrerequisiteText(featAccessTitles)?.let {
+                            Text("Prerequisites: $it", fontSize = 12.sp, lineHeight = 15.sp, color = Ink)
+                        }
                     }
-                    if (entry.mechanics.prerequisites.any { it is Prerequisite.Unadapted }) {
-                        Text("Prerequisite not adapted", fontSize = 12.sp, color = Accent)
+                    if (!eligible) {
+                        val reason = if (entry.id in taken) "Already chosen"
+                            else option.diagnostics.joinToString { it.message }.ifBlank { "Ineligible" }
+                        Text(reason, fontSize = 12.sp, lineHeight = 15.sp, color = Dim)
+                    } else {
+                        when {
+                            entry.category == EntryCategory.POWER -> PowerBlock(entry, showTitle = false)
+                            else -> ControlledDescription(entry.presentation.description, compact = true)
+                        }
+                        if (entry.mechanics.prerequisites.any { it is Prerequisite.Unadapted }) {
+                            Text("Prerequisite not adapted", fontSize = 12.sp, color = Accent)
+                        }
                     }
                 }
             }
@@ -847,15 +858,27 @@ private fun CatalogReaderPanes(
     detail: @Composable () -> Unit,
 ) {
     val listScroll = rememberLazyListState()
-    Column(modifier.fillMaxWidth()) {
-        LazyColumn(Modifier.weight(if (entryId == null) 1f else 0.4f).fillMaxWidth().folioScroll(listScroll),
-            state = listScroll, verticalArrangement = Arrangement.spacedBy(4.dp), content = list)
-        if (entryId != null) {
-            HorizontalDivider(color = Line, modifier = Modifier.padding(vertical = 8.dp))
-            key(entryId) {
-                Column(Modifier.weight(0.6f).fillMaxWidth().folioScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    detail()
+    BoxWithConstraints(modifier.fillMaxWidth()) {
+        val dividerPadding = 8.dp
+        val dividerThickness = 1.dp
+        val listHeight = if (entryId == null) {
+            Modifier.fillMaxHeight()
+        } else {
+            val paneHeight = (maxHeight - dividerPadding * 2 - dividerThickness).coerceAtLeast(0.dp)
+            Modifier.heightIn(max = paneHeight * 0.4f)
+        }
+        Column(Modifier.fillMaxSize()) {
+            LazyColumn(listHeight.fillMaxWidth().folioScroll(listScroll),
+                state = listScroll, verticalArrangement = Arrangement.spacedBy(4.dp), content = list)
+            if (entryId != null) {
+                HorizontalDivider(
+                    color = Line, thickness = dividerThickness, modifier = Modifier.padding(vertical = dividerPadding),
+                )
+                key(entryId) {
+                    Column(Modifier.weight(1f).fillMaxWidth().folioScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        detail()
+                    }
                 }
             }
         }
@@ -910,11 +933,13 @@ private fun AdvancementChoiceReader(
             if (!row.pickerSelectable(taken)) {
                 Text(readerIneligibility(row, taken), fontSize = 12.sp, color = Dim)
             }
-            if (entry != null) {
+            if (entry?.category == EntryCategory.POWER) {
+                PowerBlock(entry, showTitle = false)
+            } else if (entry != null) {
                 val details = remember(entry, row.advancementDefinitions) {
                     advancementDetail(entry, row.advancementDefinitions)
                 }
-                AdvancementDetails(details)
+                AdvancementDetails(details, inlineStartingGrants = entry.category == EntryCategory.FEATURE)
             }
         }
     }

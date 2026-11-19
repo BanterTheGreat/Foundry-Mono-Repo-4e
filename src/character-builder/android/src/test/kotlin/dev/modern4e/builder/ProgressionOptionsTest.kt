@@ -1,5 +1,7 @@
 package dev.modern4e.builder
 
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -30,6 +32,22 @@ class ProgressionOptionsTest {
             val row = row(status)
             assertTrue(row.pickerSelectable(emptySet()))
             assertFalse(row.pickerSelectable(setOf("feat")))
+        }
+    }
+
+    @Test fun featDetailsUseTheSameAuthoredPrerequisitesForEligibleAndIneligibleRows() {
+        val titles = mapOf("ranger" to "Ranger", "rogue" to "Rogue")
+        for (status in listOf(Eligibility.ELIGIBLE, Eligibility.INELIGIBLE)) {
+            val option = checkNotNull(row(status).option)
+            val entry = option.entry.entry.copy(
+                mechanics = Mechanics(access = Prerequisite.AnyOf(listOf(
+                    Prerequisite.Entry("ranger"), Prerequisite.Entry("rogue"),
+                ))),
+                sharedData = buildJsonObject { put("runtimeRequirementText", "11th level") },
+            )
+            assertEquals("(Ranger or Rogue), 11th level", entry.featPrerequisiteText(titles))
+            assertEquals("Ranger or Rogue", entry.copy(sharedData = null).featPrerequisiteText(titles))
+            assertNull(option.entry.entry.featPrerequisiteText(titles))
         }
     }
 

@@ -11,6 +11,31 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class AdvancementDetailTest {
+    @Test fun classFeaturePreviewShowsFullSpellSourceRulesAndGrantedPowerCards() {
+        val directory = File("../content/production-generated/modern4e.classes")
+        val index = ContractCodec.json.decodeFromString<ContentIndex>(File(directory, "index.json").readText())
+        val selectedIds = listOf("dragon-magic", "warlock-eldritch-blast", "warlock-eldritch-strike",
+            "fey-pact", "stalker-spirit", "shaman-air-spirit", "rageblood-vigor", "cleric-turn-undead",
+            "paladin-divine-strength", "swordmage-aegis-of-shielding").map { "modern4e.feature.$it" }
+        val featureChunks = index.entries.filter { it.id in selectedIds }.map { it.chunkId }.distinct()
+        fun load(chunk: String): List<ContentEntry> = ContractCodec.json.decodeFromString<EntryChunk>(
+            File(directory, "$chunk.json").readText()
+        ).entries
+        val features = featureChunks.flatMap(::load).filter { it.id in selectedIds }.associateBy { it.id }
+        val dragonMagic = advancementDetail(features.getValue(selectedIds.first()), emptyMap())
+        assertTrue(dragonMagic.introduction.contains("Draconic Power"))
+        assertTrue(dragonMagic.introduction.contains("11th level"))
+        selectedIds.drop(1).forEach { id ->
+            val feature = features.getValue(id)
+            val grants = feature.mechanics.grants.filterIsInstance<Grant.Entry>().map { it.entryId }
+            val definitions = index.entries.filter { it.id in grants }.map { it.chunkId }.distinct()
+                .flatMap(::load).associateBy { it.id }
+            val powers = advancementDetail(feature, definitions).levels.flatMap { it.powers }
+            assertTrue(id, powers.isNotEmpty())
+            assertTrue(id, powers.all { powerBlockText(it) != null })
+        }
+    }
+
     @Test fun everyBundledThemeShowsAllProseFeaturesAndPowers() {
         val entries = ContractCodec.json.decodeFromString<EntryChunk>(
             File("../content/production-generated/modern4e.themes/entries-0000.json").readText(Charsets.UTF_8)

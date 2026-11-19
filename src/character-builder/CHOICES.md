@@ -1,6 +1,6 @@
 # Character Builder choices
 
-Use the full list with collapsible rows for new Android catalog choices. Class Feature is the reference implementation. Feat uses the same layout. Class and Equipment use sectioned lists. Ancestry and Theme use split readers. Use one of the other layouts only when the choice fits the cases listed below.
+Use the full list with collapsible rows by default for new Android catalog choices. Feat is the reference implementation. Class and Equipment use sectioned lists. Ancestry, Theme, class feature choices and power choices use split readers as listed below.
 
 Keep tab fields and sheet rows consistent. Use the compact `Field` for saved or empty choices on a tab. The tab label already names the page. In the sheet, reuse `ChoicePickerSheet`, `CollapsibleChoiceList`, compact `ChoiceCard` rows, and `ChoicePickerActions`. These components set the sheet height, gutter, row spacing, folio scrollbar, and footer. Put option details inside the expanded row at compact size. Use `PlainChoiceDescription` for plain text and `ControlledDescription` for authored HTML.
 
@@ -8,10 +8,11 @@ Keep tab fields and sheet rows consistent. Use the compact `Field` for saved or 
 
 | Choice | Default layout |
 | --- | --- |
-| Class Feature, Feat, and other catalog choices | **Full list with collapsible rows (default).** Use the Class Feature picker in `CatalogChoiceList` as the reference. A new pick expands its card and replaces the draft. Tapping the selected row toggles its detail. |
+| Feat and other catalog choices | **Full list with collapsible rows (default).** Use the Feat picker in `CatalogChoiceList` as the reference. A new pick expands its card and replaces the draft. Tapping the selected row toggles its detail. |
 | Class | **Sectioned list with collapsible rows.** Reuse `ClassPicker` in new character creation and Progression. It groups classes by role, sorts names within each group, and shows fixed-width power-source badges. Revealed ineligible classes stay in their role group. `SectionedChoiceList` accepts ordered sections and caller-supplied rows. |
 | Equipment | **Sectioned list with collapsible rows.** Use the Class picker’s `SectionedChoiceList`. Group weapons by authored proficiency tier and armor by Light or Heavy. Show ineligible items in red within their own section and let players inspect them. |
 | Power-only catalog, including attack, utility, and power replacement | **Split reader.** Reuse `PowerChoiceReader` and `CatalogReaderPanes`. Put compact rows above an independently scrollable `PowerBlock`. Power search acts on the current pool and matches names and authored rules. Pick the earlier slot before staging a replacement. |
+| Class-owned catalog choices with feature options | **Split reader.** Use the compact list and independently scrolling detail pane to show the option's full authored rules, granted features and power cards. |
 | Ancestry or Theme | **Split reader.** Reuse `AdvancementChoiceReader` and the independently scrolling details pane for flavor, attributes, grants, powers, and choices or modifications where available. |
 | Environment or Upbringing | **Full list with collapsible rows.** Show the origin description and offered skills inline. Use `backgroundEdit` to save the origin and clear any stale skill together. |
 | Structured values, proficiencies, or ability edits | **Full sheet with direct controls.** Use compact rows for values and skills, and steppers for allocation. The free proficiency editor stages exactly two picks. |

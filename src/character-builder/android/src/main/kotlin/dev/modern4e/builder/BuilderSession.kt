@@ -785,6 +785,12 @@ class BuilderSession(
     internal fun powerEntryIds(): Set<String> =
         catalog?.search(category = EntryCategory.POWER).orEmpty().mapTo(mutableSetOf()) { it.metadata.id }
 
+    /** Class and ancestry titles for rendering feat access without loading definitions. */
+    internal fun featAccessTitles(): Map<String, String> =
+        listOf(EntryCategory.CLASS, EntryCategory.ANCESTRY)
+            .flatMap { catalog?.search(category = it).orEmpty() }
+            .associate { it.metadata.id to it.metadata.title }
+
     /** Feat access can come from a class entry or a multiclass feat. Include qualification facts conservatively. */
     private fun BuilderState.featClasses(): Set<String> = buildSet {
         addAll(document.classEntryIds())

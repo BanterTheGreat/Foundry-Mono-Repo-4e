@@ -8,6 +8,7 @@ import dev.modern4e.builder.Grant
 import dev.modern4e.builder.Statistic
 import dev.modern4e.builder.advancementModificationIds
 import dev.modern4e.builder.readable
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
@@ -45,7 +46,7 @@ internal fun advancementDetail(entry: ContentEntry, definitions: Map<String, Con
                     visit(target, targetLevel, path + target.id)
                 }
             }
-            if (ancestry) {
+            if (ancestry || entry.category == EntryCategory.FEATURE) {
                 choices.filterIsInstance<ChoiceDefinition.Entries>().forEach { choice ->
                     val powers = choice.entryIds.mapNotNull(definitions::get).filter { it.category == EntryCategory.POWER }
                     if (powers.isNotEmpty()) {
@@ -85,12 +86,30 @@ internal fun advancementDetail(entry: ContentEntry, definitions: Map<String, Con
     }.sortedBy { it.first }
     val (intro, conclusion) = sections.partition { (index, _) -> index in 1..2 }
     return AdvancementDetail(
-        introduction = intro.joinToString("\n\n") { it.second }.ifBlank { entry.presentation.description },
+        introduction = intro.joinToString("\n\n") { it.second }.ifBlank {
+            if (entry.category == EntryCategory.FEATURE) featureProse(entry) else entry.presentation.description
+        },
         levels = levels,
         modifications = modifications,
         conclusion = conclusion.joinToString("\n\n") { it.second },
         attributes = if (ancestry) ancestryAttributes(entry) else emptyList(),
     )
+}
+
+/** Preserve every authored feature heading and paragraph in reading order. */
+internal fun featureProse(entry: ContentEntry): String {
+    fun JsonObject.text(key: String): String? =
+        (get(key) as? JsonPrimitive)?.takeIf { it.isString }?.content?.takeIf { it.isNotBlank() }
+
+    val sections = entry.sharedData?.get("sections") as? JsonArray
+    return sections.orEmpty().mapNotNull { section ->
+        val fields = section as? JsonObject ?: return@mapNotNull null
+        when (fields.text("type")) {
+            "heading" -> fields.text("title")?.let { "*$it*" }
+            "text" -> fields.text("text")
+            else -> null
+        }
+    }.joinToString("\n\n").ifBlank { entry.presentation.description }
 }
 
 

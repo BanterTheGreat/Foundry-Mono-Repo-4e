@@ -22,19 +22,24 @@ import dev.modern4e.builder.ui.theme.Line
 
 /** Render the authored prose and advancement benefits for the entry being inspected. */
 @Composable
-internal fun AdvancementDetails(details: AdvancementDetail) {
+internal fun AdvancementDetails(details: AdvancementDetail, inlineStartingGrants: Boolean = false) {
     if (details.introduction.isNotBlank()) {
         AdvancementProse(details.introduction)
     }
     details.attributes.forEach { (label, value) -> AdvancementProse("*$label* $value") }
     details.levels.forEach { level ->
-        AdvancementSection("Level ${level.level}") {
+        val content: @Composable () -> Unit = {
             level.features.forEach { AdvancementFeature(it) }
             level.powers.forEach { PowerBlock(it) }
             level.powerChoices.forEach { choice ->
                 Text("Choose ${choice.count} ${if (choice.count == 1) "power" else "powers"}", color = Accent, fontSize = 12.sp)
                 choice.powers.forEach { PowerBlock(it) }
             }
+        }
+        if (inlineStartingGrants && level.level == 1) {
+            content()
+        } else {
+            AdvancementSection(if (level.level == 0) "Base" else "Level ${level.level}", content)
         }
     }
     if (details.modifications.isNotEmpty()) {
@@ -61,7 +66,7 @@ private fun AdvancementSection(title: String, content: @Composable () -> Unit) {
 private fun AdvancementFeature(entry: ContentEntry) {
     Column {
         Text(entry.presentation.title, fontFamily = FontFamily.Serif, fontSize = 14.sp, color = Ink)
-        AdvancementProse(entry.presentation.description)
+        AdvancementProse(featureProse(entry))
     }
 }
 

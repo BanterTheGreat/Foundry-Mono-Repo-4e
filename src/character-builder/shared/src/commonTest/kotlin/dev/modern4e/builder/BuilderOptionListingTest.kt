@@ -148,6 +148,27 @@ class BuilderOptionListingTest {
         assertEquals(reads, source.reads)
     }
 
+    @Test fun classFeatureReaderResolvesPowerGrantsThroughAnotherFeature() = run {
+        val playerClass = feat("class").copy(category = EntryCategory.CLASS, mechanics = Mechanics(
+            choices = listOf(ChoiceDefinition.Entries("specialization", 1, listOf("specialization"))),
+        ))
+        val specialization = feat("specialization").copy(category = EntryCategory.FEATURE, mechanics = Mechanics(
+            grants = listOf(Grant.Entry("benefit", "benefit"), Grant.Entry("missing", "missing")),
+        ))
+        val benefit = feat("benefit").copy(category = EntryCategory.FEATURE, mechanics = Mechanics(
+            grants = listOf(Grant.Entry("power", "power")),
+        ))
+        val power = feat("power").copy(category = EntryCategory.POWER)
+        val source = Source(listOf(playerClass, specialization, benefit, power).associateBy { it.id }.toMutableMap())
+        val selection = EntryChoice("chosen-class", ChoiceSlotId("creation", "class", 0),
+            SavedSelection(playerClass.id, playerClass.presentation.title, "standard", "fingerprint"))
+        val character = document().copy(levels = listOf(LevelDecisions(1, entries = listOf(selection))))
+        val listing = operations(source).optionListing(character, 1, ChoiceSlotId("chosen-class", "specialization", 0))
+        assertEquals(specialization.id, listing.rows().single().metadata.metadata.id)
+        val row = listing.check(listOf(specialization.id)).single()
+        assertEquals(listOf(benefit, power).associateBy { it.id }, row.advancementDefinitions)
+    }
+
     @Test fun productionMetadataAndFirstBatchDoNotWaitForTheWholeFeatCatalog() = run {
         var reads = 0
         val source = object : ContentSource by CurrentDataFixtures {

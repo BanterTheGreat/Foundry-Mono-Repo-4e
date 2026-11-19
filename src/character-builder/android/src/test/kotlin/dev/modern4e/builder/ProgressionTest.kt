@@ -147,6 +147,32 @@ class ProgressionTest {
         assertNull(Progression.choiceIntroduction(state, introSlot.copy(choiceId = "unowned")))
     }
 
+    @Test fun spellSourceAndPactIntroductionsStopBeforeChoiceInstructions() {
+        val examples = mapOf(
+            "modern4e.choice.sorcerer-spell-source" to "Choose either Dragon Magic or Wild Magic.",
+            "modern4e.choice.warlock-eldritch-pact" to "Choose one pact. The options include Fey Pact.",
+        )
+        val option = entry("option", EntryCategory.FEATURE)
+        for ((choiceId, instructions) in examples) {
+            val choice = ChoiceDefinition.Entries(choiceId, 1, listOf(option.id))
+            val introduction = entry("introduction", EntryCategory.FEATURE, Mechanics(choices = listOf(choice))).copy(
+                presentation = Presentation(
+                    "Introduction", "You gain arcane powers. $instructions", grantDisplay = GrantDisplay.CHOICE_INTRODUCTION,
+                ),
+            )
+            val classEntry = entry("class", EntryCategory.CLASS, Mechanics(grants = listOf(
+                Grant.Entry("introduction", introduction.id),
+            )))
+            val state = evaluated(
+                level = 1,
+                selections = listOf(entryChoice(classEntry, ChoiceSlotId("creation", "class", 0))),
+                definitions = listOf(classEntry, introduction, option),
+            )
+            val slot = Progression.levelChoices(state, 1).single { it.slot.choiceId == choiceId }.slot
+            assertEquals("You gain arcane powers.", Progression.choiceIntroduction(state, slot))
+        }
+    }
+
     @Test fun scheduleMatchesPrintedMilestones() {
         assertEquals(mapOf("At-will" to 2, "Encounter" to 1, "Daily" to 2), Progression.tally(1))
         assertEquals(mapOf("At-will" to 2, "Encounter" to 6, "Daily" to 4, "Utility" to 5), Progression.tally(20))
