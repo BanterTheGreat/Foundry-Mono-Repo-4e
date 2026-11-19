@@ -55,6 +55,16 @@ object Progression {
         }
     }
 
+    /** Separates Level 1 power slots from the regular rows while preserving engine order. */
+    fun partitionLevelChoices(
+        level: Int,
+        choices: List<EngineChoice>,
+        powerEntryIds: Set<String>,
+    ): Pair<List<EngineChoice>, List<EngineChoice>> =
+        choices.filter { it.abilities.isEmpty() }.partition { choice ->
+            level == 1 && choice.entries.isNotEmpty() && choice.entries.all { it.entryId in powerEntryIds }
+        }
+
     private val PowerPoolLabels = Regex("class-attack-(at-will|encounter|daily)(?:-\\d+)?")
     private val UtilityPoolLabel = Regex("class-utility(?:-\\d+)?")
     private val PossessiveWords = mapOf("hunters" to "Hunter's", "vindicators" to "Vindicator's")
@@ -147,6 +157,21 @@ object Progression {
         return allocation.points[allocation.mainAbility] == 4 && values.sum() == 5 &&
             (values.all { it in 0..2 } || (values.count { it == -1 } == 1 && values.count { it == 3 } == 1 && values.all { it in -1..3 }))
     }
+
+    /** Rules failures for saved selections and engine-defined slots, including unresolved content. */
+    fun invalidChoiceSlots(rules: EngineResult): Set<ChoiceSlotId> = buildSet {
+        rules.diagnostics.filter { diagnostic ->
+            diagnostic.kind in setOf(DiagnosticKind.INVALID_SELECTION, DiagnosticKind.UNRESOLVED_CONTENT) ||
+                diagnostic.code == "engine.duplicateProficiency"
+        }.mapNotNullTo(this) { it.slot }
+        rules.entries.filter { entry ->
+            rules.entryEligibility[entry.instanceId]?.status in setOf(Eligibility.INELIGIBLE, Eligibility.UNRESOLVED)
+        }.mapTo(this) { it.slot }
+    }
+
+    /** Future slots and empty optional slots are allowed. An illegal saved choice still needs attention. */
+    fun choiceNeedsAttention(reached: Boolean, optional: Boolean, filled: Boolean, invalid: Boolean): Boolean =
+        reached && (if (filled) invalid else !optional)
 
     fun missing(state: BuilderState): Int {
         val doc = state.document

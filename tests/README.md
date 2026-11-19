@@ -481,8 +481,8 @@ Summon automation Node coverage includes separate square selection, per-power ma
 ## Character Builder shared core and content production
 
 Android character navigation order, Levels missing-choice counts, picker eligibility progress and
-ordering, same-slot picker reuse and sibling invalidation, ready ancestry details, utility picker
-color mapping, bundled Zeitgeist theme descriptions, and the current-power list
+ordering, same-slot picker reuse and sibling invalidation, ready ancestry and new-character class details,
+main-only starting ability scores, utility picker color mapping, bundled Zeitgeist theme descriptions, and the current-power list helper
 are covered by `gradlew.bat :android:testDebugUnitTest` from `src/character-builder` on Windows
 (`./gradlew :android:testDebugUnitTest` on Unix).
 
@@ -807,7 +807,7 @@ references/levels/blocks, deterministic export and literal Typst rendering
 pages in `src/modern4e/inDev.pdf` after compiling. See
 [path authoring](../src/modern4e/content/paths/README.md).
 
-Android Progression presentation helpers: `ProgressionTest` covers remaining allocation points (fixed main, unassigned abilities, tradeoffs and overspending) and compact skill source labels. Stepper regression coverage verifies single-negative/single-3 limits, the required -1 before raising to 3, removing the tradeoff in order, fixed main ability and min/max bounds. Run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder/`.
+Android Progression presentation helpers: `ProgressionTest` covers remaining allocation points (fixed main, unassigned abilities, tradeoffs and overspending) and compact skill source labels. It also verifies Level 1 power tiles preserve slot order and that non-power choices and later levels stay in regular rows. It checks which missing or invalid choices receive attention styling, including optional and future slots. Stepper regression coverage verifies single-negative/single-3 limits, the required -1 before raising to 3, removing the tradeoff in order, fixed main ability and min/max bounds. Run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder/`.
 ### Modern 4e creation and advancement authoring
 
 ```sh
@@ -926,4 +926,6 @@ before eligibility completes; pending rows stay disabled and saved selections pe
 
 From `src/character-builder/`, run `.\gradlew.bat :android:testDebugUnitTest` for the Android unit suite. Device UI/instrumentation execution remains opt-in.
 
-Manual device check: open an attack or utility power choice and confirm the compact list sits above a separately scrollable reading pane, with no Power Choice heading, level subtitle or available-power count. Browsing changes only the preview; Choose power changes the draft, Save commits it, and Cancel preserves the saved choice. Reopen to verify the saved selection. Check long power rules, utility usage colors, ineligible options and the unchanged inline expansion of feat/ancestry pickers.
+`PowerBlockTest` checks labeled rule order, Lightning Strider’s three attack stages, repeated attack labels, Malicious Shadow’s granted at-will power, and headerless and legacy descriptions.
+
+Manual device check: open an attack or utility power choice and confirm the compact list sits above a separately scrollable reading pane, with no Power Choice heading, level subtitle or available-power count. Tap two eligible powers and verify the latest tap becomes the draft. Save commits that power, and Cancel preserves the saved choice. Opening the pane, changing the search, or previewing an ineligible power does not change the draft. For a replacement, choose the replacement target before tapping a power. Reopen to verify the saved selection. Check the Classic Block’s usage header and labeled rows, then scroll through Lightning Strider’s primary, secondary, and tertiary attacks. Check utility usage colors, ineligible options and the unchanged inline expansion of feat/ancestry pickers.

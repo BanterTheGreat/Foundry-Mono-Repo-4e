@@ -12,12 +12,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,11 +35,23 @@ private data class ProgressionEditor(val kind: String, val level: Int = 1, val s
 @Composable
 internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     var editor by remember(state.document.id) { mutableStateOf<ProgressionEditor?>(null) }
-    var showPowers by remember(state.document.id) { mutableStateOf(false) }
     var upcoming by remember { mutableStateOf(false) }
+    val powerEntryIds = remember(model, state) { model.powerEntryIds() }
     val document = state.document
     val entries = document.levels.flatMap { it.entries }
     val skills = document.levels.flatMap { it.proficiencies }
+    val values = document.levels.flatMap { it.values }
+    val invalidSlots = remember(state.rules) { Progression.invalidChoiceSlots(state.rules) }
+    val filledSlots = remember(state) {
+        buildSet {
+            entries.mapTo(this) { it.slot }
+            skills.mapTo(this) { it.slot }
+            values.mapTo(this) { it.slot }
+            state.rules.entries.filter { it.granted }.mapTo(this) { it.slot }
+        }
+    }
+    fun needsAttention(slot: ChoiceSlotId, level: Int = 1, optional: Boolean = false) =
+        Progression.choiceNeedsAttention(level <= document.level, optional, slot in filledSlots, slot in invalidSlots)
     fun selected(slot: ChoiceSlotId) = entries.firstOrNull { it.slot == slot }?.selection?.savedTitle
         ?: state.rules.entries.firstOrNull { it.slot == slot && it.granted }?.definition?.entry?.presentation?.title ?: "Choose…"
     fun selectedPowerUsage(slot: ChoiceSlotId) = state.rules.entries.firstOrNull { it.slot == slot }
@@ -44,8 +59,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     fun open(kind: String, level: Int = 1, slot: ChoiceSlotId? = null) { editor = ProgressionEditor(kind, level, slot) }
     Column(Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Row(
-            Modifier.fillMaxWidth().clickable(role = Role.Button) { showPowers = true }
-                .semantics { contentDescription = "View current powers" },
+            Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             val tally = Progression.tally(document.level)
@@ -61,10 +75,17 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
         }
         listOf("ancestry", "class", "environment", "upbringing", "theme").forEach { kind ->
             val background = kind == "environment" || kind == "upbringing"
-            val value = if (background) Progression.background(document, kind).ifBlank { "Choose…" }.readable()
-                else selected(ChoiceSlotId("creation", kind, 0))
-            LevelChoice(kind.readable() + if (kind == "theme") " (optional)" else "", value, enabled = !model.busy) {
-                open(if (background) kind else "entry", slot = if (background) null else ChoiceSlotId("creation", kind, 0))
+            val slot = ChoiceSlotId("creation", kind, 0)
+            val optional = kind == "theme"
+            val selection = if (background) Progression.background(document, kind) else selected(slot)
+            val backgroundOptions = if (kind == "environment") ModernCreation.environments else ModernCreation.upbringings
+            val invalid = if (background) selection !in backgroundOptions else needsAttention(slot, optional = optional)
+            LevelChoice(
+                kind.readable() + if (optional) " (optional)" else "",
+                if (background) selection.ifBlank { "Choose…" }.readable() else selection,
+                enabled = !model.busy, invalid = invalid,
+            ) {
+                open(if (background) kind else "entry", slot = if (background) null else slot)
             }
         }
         if (document.level > 2) {
@@ -85,26 +106,35 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             if (level == 1) {
                 val tiles = listOf("Ability Scores", "Environment skill", "Upbringing skill", "Free skills")
                 tiles.chunked(2).forEach { row ->
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(
+                        Modifier.fillMaxWidth().height(IntrinsicSize.Min),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
                         row.forEach { label ->
                             val kind = when (label) { "Ability Scores" -> "allocation"; "Free skills" -> "free";
                                 "Environment skill" -> "environment-skill"; else -> "upbringing-skill" }
                             val backgroundKind = kind.removeSuffix("-skill").takeIf { it != kind }
                             val background = backgroundKind?.let { Progression.background(document, it) }
                             val available = background == null || background.isNotBlank()
+                            val freeSlots = (0..1).map { ChoiceSlotId("creation", "free-skill", it) }
+                            val freeCount = freeSlots.count { it in filledSlots }
                             val chosen = when (kind) {
-                                "allocation" -> Progression.validAllocation(document.abilities)
-                                "free" -> skills.count { it.slot.sourceInstanceId == "creation" && it.slot.choiceId == "free-skill" } == 2
-                                else -> available && skills.any { it.slot.sourceInstanceId == "background.$backgroundKind.$background" }
+                                "allocation" -> Progression.validAllocation(document.abilities) &&
+                                    document.abilities.source !in invalidSlots
+                                "free" -> freeSlots.none { needsAttention(it) }
+                                else -> available && !needsAttention(ChoiceSlotId("background.$backgroundKind.$background", "skill", 0))
                             }
-                            val freeCount = skills.count { it.slot.sourceInstanceId == "creation" && it.slot.choiceId == "free-skill" }
                             val value = when {
                                 !available -> "Choose ${backgroundKind.orEmpty().readable()} first"
                                 chosen -> "✓"
-                                kind == "free" -> "${2 - freeCount} left"
+                                kind == "free" && freeCount < 2 -> "${2 - freeCount} LEFT"
                                 else -> "✗"
                             }
-                            LevelChoice(label, value, Modifier.weight(1f), enabled = available && !model.busy) { open(kind) }
+                            LevelChoice(
+                                label, value, Modifier.weight(1f).fillMaxHeight(),
+                                enabled = available && !model.busy, valueIsHint = !available || (kind == "free" && freeCount < 2),
+                                invalid = !chosen,
+                            ) { open(kind) }
                         }
                     }
                 }
@@ -113,16 +143,18 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             val levelChoices = Progression.levelChoices(state, level)
             val className = state.rules.entries.firstOrNull { it.definition.entry.category == EntryCategory.CLASS }
                 ?.definition?.entry?.presentation?.title
-            levelChoices.filter { choice -> choice.abilities.isEmpty() }.forEach { choice ->
+            val (powerSlots, regularChoices) = Progression.partitionLevelChoices(level, levelChoices, powerEntryIds)
+            regularChoices.forEach { choice ->
                 val sourceTitle = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }
                     ?.definition?.entry?.presentation?.title.orEmpty()
+                val invalid = needsAttention(choice.slot, level, choice.optional)
                 if (choice.entries.isNotEmpty()) {
                     val label = if (choice.optional) "$sourceTitle (optional substitution)" else Progression.choiceLabel(choice.slot.choiceId, className)
-                    LevelChoice(label, selected(choice.slot), enabled = !model.busy && !future, powerUsage = selectedPowerUsage(choice.slot) ?: label) {
+                    LevelChoice(label, selected(choice.slot), enabled = !model.busy && !future, powerUsage = selectedPowerUsage(choice.slot) ?: label, invalid = invalid) {
                         open("entry", level, choice.slot)
                     }
                 } else if (choice.valueKind != null) {
-                    val pick = document.levels.flatMap { it.values }.firstOrNull { it.slot == choice.slot }
+                    val pick = values.firstOrNull { it.slot == choice.slot }
                     val label = when (requireNotNull(choice.valueKind)) {
                         FactKind.LANGUAGE -> "language ${choice.slot.ordinal + 1}"
                         FactKind.EQUIPMENT_PROFICIENCY -> "weapon proficiency"
@@ -131,9 +163,9 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                         FactKind.SKILL_BONUS -> "bonus skill"
                     }
                     LevelChoice("$sourceTitle: $label", choice.values.firstOrNull { it.id == pick?.value }?.title ?: pick?.value ?: "Choose...",
-                        enabled = !model.busy && !future) { open("value", level, choice.slot) }
+                        enabled = !model.busy && !future, invalid = invalid) { open("value", level, choice.slot) }
                 } else if (choice.skills.isNotEmpty()) {
-                    LevelChoice(Progression.choiceLabel(choice.slot.choiceId, className), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: "Choose…", enabled = !model.busy && !future) {
+                    LevelChoice(Progression.choiceLabel(choice.slot.choiceId, className), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: "Choose…", enabled = !model.busy && !future, invalid = invalid) {
                         open("skill", level, choice.slot)
                     }
                 }
@@ -144,14 +176,21 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             }
             if (schedule.ability != null) {
                 if (schedule.ability == "non-main") {
-                    LevelChoice("Ability increase", document.levels.firstOrNull { it.level == level }?.abilityAdvancements?.firstOrNull()?.increases?.keys?.firstOrNull()?.name?.readable() ?: "Choose…",
-                        enabled = !future && !model.busy) { open("advancement", level) }
+                    val advancements = document.levels.firstOrNull { it.level == level }?.abilityAdvancements.orEmpty()
+                    val slot = ChoiceSlotId("advancement.$level", "ability", 0)
+                    val increase = advancements.singleOrNull()?.takeIf { it.slot == slot }?.increases?.entries?.singleOrNull()
+                    LevelChoice("Ability increase", increase?.key?.name?.readable() ?: "Choose…",
+                        enabled = !future && !model.busy,
+                        invalid = !future && (increase?.value != 1 || increase.key == document.abilities.mainAbility)) {
+                        open("advancement", level)
+                    }
                 } else { Text("+1 to ${schedule.ability} abilities arrives automatically", color = Dim) }
             }
             if (future || level > 2) {
                 schedule.powers.forEachIndexed { ordinal, power ->
                     val slot = ChoiceSlotId("advancement.$level", "power", ordinal)
-                    LevelChoice("$power power", selected(slot), enabled = !future && !model.busy, powerUsage = selectedPowerUsage(slot) ?: power) {
+                    LevelChoice("$power power", selected(slot), enabled = !future && !model.busy, powerUsage = selectedPowerUsage(slot) ?: power,
+                        invalid = needsAttention(slot, level)) {
                         open("entry", level, slot)
                     }
                 }
@@ -160,24 +199,78 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             }
             if (schedule.feat) {
                 val slot = ChoiceSlotId(if (level == 1) "creation" else "advancement.$level", "feat", 0)
-                LevelChoice("Feat", selected(slot), enabled = !future && !model.busy) { open("feat", level, slot) }
+                LevelChoice("Feat", selected(slot), enabled = !future && !model.busy, invalid = needsAttention(slot, level)) { open("feat", level, slot) }
             }
             schedule.replacement?.let {
-                LevelChoice("Replace a $it attack power (optional)", "Choose…", enabled = !future && !model.busy, powerUsage = it) {
+                val replacements = document.levels.firstOrNull { decisions -> decisions.level == level }?.replacements.orEmpty()
+                val invalid = !future && replacements.any { change ->
+                    change.replaces in invalidSlots || change.replacement.slot in invalidSlots
+                }
+                LevelChoice("Replace a $it attack power (optional)", "Choose…", enabled = !future && !model.busy,
+                    powerUsage = it, invalid = invalid) {
                     open("replacement", level, ChoiceSlotId("advancement.$level", "replacement", 0))
                 }
             }
             schedule.automatic.forEach { Text("$it arrives automatically", color = Dim) }
+            if (powerSlots.isNotEmpty()) {
+                val gap = 4.dp
+                Row(
+                    Modifier.fillMaxWidth().height(IntrinsicSize.Min),
+                    horizontalArrangement = Arrangement.spacedBy(gap),
+                ) {
+                    powerSlots.forEach { choice ->
+                        val sourceTitle = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }
+                            ?.definition?.entry?.presentation?.title.orEmpty()
+                        val label = if (choice.optional) sourceTitle else Progression.choiceLabel(choice.slot.choiceId, className)
+                        val compactLabel = label.removeSuffix(" attack power").removeSuffix(" power")
+                        LevelOnePowerTile(
+                            compactLabel, selected(choice.slot), selectedPowerUsage(choice.slot) ?: label,
+                            Modifier.weight(1f).heightIn(min = 48.dp).fillMaxHeight(), enabled = !model.busy,
+                            invalid = needsAttention(choice.slot, level, choice.optional),
+                        ) { open("entry", level, choice.slot) }
+                    }
+                }
+            }
         }
         if (document.level < 30) {
             TextButton({ upcoming = !upcoming }) { Text(if (upcoming) "Hide upcoming levels" else "Show upcoming levels ${document.level + 1}–30") }
         }
     }
-    if (showPowers) {
-        CurrentPowersSheet(state, model) { showPowers = false }
-    }
     editor?.let { request ->
         ProgressionSheet(request, state, model) { editor = null }
+    }
+}
+
+/** A compact power slot with the same edit action and frequency color as a Levels field. */
+@Composable
+private fun LevelOnePowerTile(
+    label: String,
+    title: String,
+    usage: String,
+    modifier: Modifier,
+    enabled: Boolean,
+    invalid: Boolean,
+    action: () -> Unit,
+) {
+    val errorColor = MaterialTheme.colorScheme.error
+    val accent = if (invalid) errorColor else powerChoiceColor(usage)
+    Surface(
+        modifier.clickable(enabled = enabled, role = Role.Button, onClick = action)
+            .semantics { if (invalid) { stateDescription = "Needs attention" } },
+        color = if (invalid) errorColor.copy(alpha = 0.10f).compositeOver(Paper) else Paper,
+        border = BorderStroke(1.dp, accent ?: Line),
+    ) {
+        Column(
+            Modifier.padding(3.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(label, color = accent ?: Dim, fontSize = 10.sp, lineHeight = 11.sp,
+                maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
+            Text(title, color = if (invalid) errorColor else Ink,
+                fontFamily = FontFamily.Serif, fontSize = 11.sp, lineHeight = 12.sp,
+                maxLines = 2, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
+        }
     }
 }
 
@@ -189,9 +282,14 @@ private fun LevelChoice(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     powerUsage: String? = null,
+    valueIsHint: Boolean = false,
+    invalid: Boolean = false,
     action: () -> Unit,
 ) {
-    Field(label, value, modifier, enabled, compact = true, accent = powerUsage?.let(::powerChoiceColor), action = action)
+    Field(
+        label, value, modifier, enabled, compact = true, accent = powerUsage?.let(::powerChoiceColor),
+        valueIsHint = valueIsHint, invalid = invalid, action = action,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -424,6 +522,12 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
         items(options, key = { "option:${it.metadata.metadata.id}" }) { row ->
             val option = row.option
             val entry = option?.entry?.entry
+            if (entry?.category == EntryCategory.CLASS && selectable) {
+                ClassChoiceCard(entry, row.metadata.metadata.title, selected == entry.id, expanded == entry.id, true) {
+                    choose(option)
+                }
+                return@items
+            }
             val level = entry?.mechanics?.prerequisites?.filterIsInstance<Prerequisite.Level>()?.maxOfOrNull { it.minimum }
                 ?: entry?.presentation?.description?.let { Regex("(?:Attack|Utility) (\\d+)").find(it)?.groupValues?.get(1)?.toIntOrNull() }
             val titleColor = entry?.takeIf { utilityPicker && it.category == EntryCategory.POWER }
@@ -441,7 +545,7 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
                 } else {
                     val themeFlavor = zeitgeistThemeDescription(entry)
                     when {
-                        entry.category == EntryCategory.POWER -> PowerPresentation(entry, titleColor)
+                        entry.category == EntryCategory.POWER -> PowerBlock(entry, showTitle = false)
                         themeFlavor != null -> PlainChoiceDescription(themeFlavor)
                         else -> ControlledDescription(entry.presentation.description, compact = true)
                     }
@@ -517,7 +621,7 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
     }
 }
 
-/** Compact browsing stays above an independently scrolling power description and explicit draft action. */
+/** Compact browsing stays above an independently scrolling power description with eligible row taps drafting the selection. */
 @Composable
 private fun PowerChoiceReader(
     options: PickerOptions.Ready, taken: Set<String>, selected: String?, utilityPicker: Boolean,
@@ -528,13 +632,13 @@ private fun PowerChoiceReader(
     var inspected by remember { mutableStateOf<String?>(null) }
     var query by remember { mutableStateOf("") }
     val visible = visibleReaderPowers(options, showIneligible, query)
-    val page = powerReaderPage(options, inspected, selected, taken, showIneligible, query)
+    val page = powerReaderPage(visible, inspected, selected)
     val listScroll = rememberLazyListState()
     Column(modifier.fillMaxWidth()) {
         if (incompleteAutomation) {
             Text("Incomplete automation: later-level eligibility and totals are unavailable.", color = Accent)
         }
-        OutlinedTextField(query, { query = it }, placeholder = { Text("Search powers") }, singleLine = true,
+        OutlinedTextField(query, { query = it }, placeholder = { Text("Search powers", fontSize = 14.sp) }, singleLine = true,
             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp))
         LazyColumn(Modifier.weight(0.4f).fillMaxWidth().folioScroll(listScroll), state = listScroll,
             verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -555,8 +659,11 @@ private fun PowerChoiceReader(
                     if (utilityPicker) entry?.let(::powerChoiceUsage)?.let(::powerChoiceColor) ?: Ink else Ink
                 }
                 ChoiceCard(row.metadata.metadata.title, selected == row.metadata.metadata.id, false, true, level,
-                    { inspected = row.metadata.metadata.id }, compact = true, titleColor = color,
-                    viewed = page?.row?.metadata?.metadata?.id == row.metadata.metadata.id) { }
+                    {
+                        inspected = row.metadata.metadata.id
+                        row.powerDraftOnTap(taken, selected, !requiresReplacementTarget || replacementTarget != null)?.let(choose)
+                    }, compact = true, titleColor = color,
+                    viewed = page?.metadata?.metadata?.id == row.metadata.metadata.id) { }
             }
             if (options.ineligible.isNotEmpty()) {
                 item("toggle") {
@@ -567,19 +674,18 @@ private fun PowerChoiceReader(
             }
         }
         HorizontalDivider(color = Line, modifier = Modifier.padding(vertical = 8.dp))
-        page?.let { reading ->
-            val row = reading.row
+        page?.let { row ->
             val entry = row.option?.entry?.entry
-            val color = if (utilityPicker) entry?.let(::powerChoiceUsage)?.let(::powerChoiceColor) ?: Ink else Ink
             key(row.metadata.metadata.id) {
                 val detailScroll = rememberScrollState()
                 Column(Modifier.weight(0.6f).fillMaxWidth().folioScroll(detailScroll), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(row.metadata.metadata.title, fontFamily = FontFamily.Serif, fontSize = 18.sp, color = color)
                     if (entry != null) {
-                        PowerPresentation(entry, color)
+                        PowerBlock(entry)
                         if (entry.mechanics.prerequisites.any { it is Prerequisite.Unadapted }) {
                             Text("Prerequisite not adapted", fontSize = 12.sp, color = Accent)
                         }
+                    } else {
+                        Text(row.metadata.metadata.title, fontFamily = FontFamily.Serif, fontSize = 18.sp, color = Ink)
                     }
                     if (!row.pickerSelectable(taken)) {
                         Text(if (row.metadata.metadata.id in taken) "Already chosen" else
@@ -589,25 +695,6 @@ private fun PowerChoiceReader(
                     }
                 }
             }
-            TextButton(enabled = reading.canChoose && (!requiresReplacementTarget || replacementTarget != null),
-                onClick = { row.option?.let(choose) }, modifier = Modifier.fillMaxWidth()) {
-                Text(if (selected == row.metadata.metadata.id) "Chosen" else "Choose power")
-            }
         }
     }
 }
-
-/** Preserve the catalog's labelled source rows rather than converting published combat math. */
-@Composable
-private fun PowerPresentation(entry: ContentEntry, color: androidx.compose.ui.graphics.Color) {
-    val html = entry.presentation.description
-    val usage = powerChoiceUsage(entry)
-    Surface(Modifier.fillMaxWidth(), color = if (color == Ink) Wash else color) {
-        val keywords = Regex("<p class=powerstat>(.*?)<br>", RegexOption.DOT_MATCHES_ALL).find(html)?.groupValues?.get(1)
-            ?.let { android.text.Html.fromHtml(it, android.text.Html.FROM_HTML_MODE_COMPACT).toString() } ?: usage ?: "Power"
-        Text(keywords, color = if (color == Ink) Ink else androidx.compose.ui.graphics.Color.White,
-            fontSize = 12.sp, lineHeight = 15.sp, modifier = Modifier.padding(8.dp))
-    }
-    ControlledDescription(html, compact = true)
-}
-

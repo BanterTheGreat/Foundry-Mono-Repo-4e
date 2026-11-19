@@ -1,8 +1,5 @@
 package dev.modern4e.builder
 
-/** A reading target is separate from the draft choice; only eligible new choices enable Choose. */
-internal data class PowerReaderPage(val row: BuilderOptionRow, val canChoose: Boolean)
-
 /** Mixed catalog choices retain their normal expandable list. */
 internal fun usesPowerReader(rows: List<BuilderOptionRow>?): Boolean =
     !rows.isNullOrEmpty() && rows.all { it.metadata.metadata.category == EntryCategory.POWER }
@@ -17,18 +14,13 @@ internal fun visibleReaderPowers(options: PickerOptions.Ready, showIneligible: B
     }
 }
 
-/** Resolve browsing against the current visible results, so hidden or removed entries cannot be chosen. */
-internal fun powerReaderPage(
-    options: PickerOptions, inspected: String?, selected: String?, taken: Set<String>, showIneligible: Boolean,
-    query: String = "",
-): PowerReaderPage? {
-    if (options !is PickerOptions.Ready) {
-        return null
-    }
-    val visible = visibleReaderPowers(options, showIneligible, query)
-    val row = visible.firstOrNull { it.metadata.metadata.id == inspected }
+/** Resolve the preview against the current visible results. */
+internal fun powerReaderPage(visible: List<BuilderOptionRow>, inspected: String?, selected: String?): BuilderOptionRow? =
+    visible.firstOrNull { it.metadata.metadata.id == inspected }
         ?: visible.firstOrNull { it.metadata.metadata.id == selected }
         ?: visible.firstOrNull()
-        ?: return null
-    return PowerReaderPage(row, row.pickerSelectable(taken) && row.metadata.metadata.id != selected)
-}
+
+/** An explicit row tap can draft an eligible power after any required replacement target is set. */
+internal fun BuilderOptionRow.powerDraftOnTap(
+    taken: Set<String>, selected: String?, replacementReady: Boolean,
+): BuilderOption? = option.takeIf { replacementReady && metadata.metadata.id != selected && pickerSelectable(taken) }

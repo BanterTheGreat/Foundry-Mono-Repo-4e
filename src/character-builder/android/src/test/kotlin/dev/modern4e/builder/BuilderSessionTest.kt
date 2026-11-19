@@ -910,9 +910,9 @@ class BuilderSessionTest {
         val menu = model.classMenu!!
         assertTrue(model.errors.isEmpty())
         assertTrue(menu.size >= 19)
-        assertTrue(menu.all { it.metadata.category == EntryCategory.CLASS })
-        assertTrue(menu.any { it.metadata.id == "modern4e.class.wizard" })
-        val titles = menu.map { it.metadata.title }
+        assertTrue(menu.all { it.metadata.metadata.category == EntryCategory.CLASS })
+        assertTrue(menu.any { it.metadata.metadata.id == "modern4e.class.wizard" })
+        val titles = menu.map { it.metadata.metadata.title }
         assertEquals("Classes are listed alphabetically, like the prototype's class list", titles.sortedBy { it.lowercase() }, titles)
         assertEquals("The menu only opens; nothing is created yet", "home", model.page)
         model.cancelCreate()
@@ -922,14 +922,17 @@ class BuilderSessionTest {
         assertNull(model.current)
     }
 
-    @Test fun classMenuCardsReadTheirDescriptionOnDemand() = runBlocking {
+    @Test fun classMenuOpensWithTheSameCheckedDescriptionsAsProgression() = runBlocking {
         val model = session()
-        assertNull("Nothing is offered before the menu opens", model.classDescription("modern4e.class.wizard"))
+        assertNull(model.classMenu)
         model.beginCreate()
-        for (entry in model.classMenu!!) {
-            assertFalse("${entry.metadata.id} has a description", model.classDescription(entry.metadata.id).isNullOrBlank())
-        }
-        assertNull(model.classDescription("modern4e.class.nonexistent"))
+        val menu = model.classMenu!!
+        assertTrue(menu.all { it.checked && !it.option?.entry?.entry?.presentation?.description.isNullOrBlank() })
+
+        model.create("modern4e.class.wizard")
+        var progression = emptyList<BuilderOptionRow>()
+        model.progressionOptionRows(1, ChoiceSlotId("creation", "class", 0)) { progression = it }
+        assertEquals(progression, menu)
     }
 
     @Test fun confirmingAClassCreatesAndPersistsACharacterOfThatClass() = runBlocking {
@@ -946,19 +949,24 @@ class BuilderSessionTest {
         assertEquals(listOf(document.id), model.characters.map { it.id })
         val reloaded = session().also { it.load(document.id) }
         assertEquals(document.levels, reloaded.current!!.document.levels)
+        assertEquals(document.abilities, reloaded.current!!.document.abilities)
     }
 
-    @Test fun everyClassStartsWithALegalAbilityAllocationAndOnlyItsOwnClass() = runBlocking {
+    @Test fun everyClassStartsWithOnlyItsMainAbilityAtFour() = runBlocking {
         val model = session()
         model.beginCreate()
         for (entry in model.classMenu!!) {
-            model.create(entry.metadata.id)
-            assertTrue("${entry.metadata.id}: ${model.errors}", model.errors.isEmpty())
+            model.create(entry.metadata.metadata.id)
+            assertTrue("${entry.metadata.metadata.id}: ${model.errors}", model.errors.isEmpty())
             val state = model.current!!
             val classes = state.rules.entries.filter { it.definition.entry.category == EntryCategory.CLASS }
-            assertEquals(entry.metadata.id, classes.single().definition.entry.id)
-            val allocation = state.rules.diagnostics.filter { it.code.endsWith("mainAbility") || it.code.endsWith("abilityAllocation") }
-            assertTrue("${entry.metadata.id}: $allocation", allocation.isEmpty())
+            assertEquals(entry.metadata.metadata.id, classes.single().definition.entry.id)
+            val allocation = state.document.abilities
+            val classEntry = classes.single().definition.entry
+            assertEquals(classEntry.mechanics.classProfile!!.mainAbilities.first(), allocation.mainAbility)
+            assertEquals(Ability.entries.associateWith { if (it == allocation.mainAbility) 4 else 0 }, allocation.points)
+            assertEquals(5, Progression.remainingPoints(allocation))
+            assertFalse(Progression.validAllocation(allocation))
         }
     }
 

@@ -19,47 +19,37 @@ class PowerReaderOptionsTest {
         assertTrue(usesPowerReader(listOf(row("power"))))
     }
 
-    @Test fun browsingAnotherPowerLeavesTheDraftIndependent() {
-        val a = row("chosen")
-        val b = row("reading")
-        val options = PickerOptions.Ready(listOf(a, b), emptyList())
-        assertEquals(PowerReaderPage(a, false), powerReaderPage(options, null, "chosen", emptySet(), false))
-        assertEquals(PowerReaderPage(b, true), powerReaderPage(options, "reading", "chosen", emptySet(), false))
-        assertEquals(PowerReaderPage(a, false), powerReaderPage(options, null, "chosen", emptySet(), false))
-        // Once explicitly drafted, the same power remains readable but cannot be chosen again.
-        assertEquals(PowerReaderPage(b, false), powerReaderPage(options, "reading", "reading", emptySet(), false))
+    @Test fun lastEligibleTapDraftsThePower() {
+        val first = row("first")
+        val last = row("last")
+        val initial = first.powerDraftOnTap(emptySet(), null, replacementReady = true)
+        val draft = last.powerDraftOnTap(emptySet(), initial?.entry?.entry?.id, replacementReady = true)
+        assertEquals(first.option, initial)
+        assertEquals(last.option, draft)
+        assertNull(last.powerDraftOnTap(emptySet(), "last", replacementReady = true))
     }
 
-    @Test fun hiddenOrRemovedReadingTargetsFallBackToTheCurrentDraftThenFirstOption() {
-        val a = row("first")
-        val b = row("draft")
+    @Test fun previewFallsBackToDraftThenFirstWithoutChangingTheDraft() {
+        val first = row("first")
+        val draft = row("draft")
         val blocked = row("blocked", Eligibility.INELIGIBLE)
-        val options = PickerOptions.Ready(listOf(a, b), listOf(blocked))
-        assertEquals(PowerReaderPage(blocked, false), powerReaderPage(options, "blocked", "draft", emptySet(), true))
-        assertEquals(PowerReaderPage(b, false), powerReaderPage(options, "blocked", "draft", emptySet(), false))
-        assertEquals(PowerReaderPage(a, true), powerReaderPage(options, "removed", "removed", emptySet(), false))
+        assertEquals(blocked, powerReaderPage(listOf(first, draft, blocked), "blocked", "draft"))
+        assertEquals(draft, powerReaderPage(listOf(first, draft), "blocked", "draft"))
+        assertEquals(first, powerReaderPage(listOf(first, draft), "removed", "removed"))
+        assertNull(powerReaderPage(emptyList(), "old", "old"))
     }
 
-    @Test fun duplicatesAndUnresolvedDefinitionsCannotBeChosenFromTheReader() {
+    @Test fun blockedTapsAndMissingReplacementTargetsCannotChangeDraft() {
         val duplicate = row("duplicate")
         val unresolved = row("unresolved", Eligibility.UNRESOLVED)
         val missing = BuilderOptionRow(row("missing").metadata, checked = true)
-        val options = PickerOptions.Ready(emptyList(), listOf(duplicate, unresolved, missing))
-        for (entry in options.ineligible) {
-            assertFalse(requireNotNull(powerReaderPage(options, entry.metadata.metadata.id, null, setOf("duplicate"), true)).canChoose)
+        val blocked = row("blocked", Eligibility.INELIGIBLE)
+        for (entry in listOf(duplicate, unresolved, missing, blocked)) {
+            assertNull(entry.powerDraftOnTap(setOf("duplicate"), "draft", replacementReady = true))
         }
-        assertNull(powerReaderPage(options, "missing", null, emptySet(), false))
-    }
-
-    @Test fun incompleteButSelectablePowersRemainAvailable() {
         val incomplete = row("incomplete", Eligibility.INCOMPLETE)
-        assertEquals(PowerReaderPage(incomplete, true), powerReaderPage(
-            PickerOptions.Ready(listOf(incomplete), emptyList()), null, null, emptySet(), false))
-    }
-
-    @Test fun loadingAndEmptyListsHaveNoStaleReaderAction() {
-        assertNull(powerReaderPage(PickerOptions.Loading(1, 2, 1), "old", "old", emptySet(), true))
-        assertNull(powerReaderPage(PickerOptions.Ready(emptyList(), emptyList()), "old", "old", emptySet(), true))
+        assertNull(incomplete.powerDraftOnTap(emptySet(), "draft", replacementReady = false))
+        assertEquals(incomplete.option, incomplete.powerDraftOnTap(emptySet(), "draft", replacementReady = true))
     }
 
     @Test fun searchIsCaseInsensitiveAndCannotLeaveAFilteredOutPowerSelectable() {
@@ -68,8 +58,8 @@ class PowerReaderOptionsTest {
         val blocked = row("Blocked Strike", Eligibility.INELIGIBLE)
         val options = PickerOptions.Ready(listOf(first, other), listOf(blocked))
         assertEquals(listOf(other), visibleReaderPowers(options, false, "  STRIKE  "))
-        assertEquals(PowerReaderPage(other, true), powerReaderPage(options, "Cleave", "Cleave", emptySet(), false, "strike"))
-        assertNull(powerReaderPage(options, "Cleave", "Cleave", emptySet(), false, "no match"))
+        assertEquals(other, powerReaderPage(visibleReaderPowers(options, false, "strike"), "Cleave", "Cleave"))
+        assertNull(powerReaderPage(visibleReaderPowers(options, false, "no match"), "Cleave", "Cleave"))
         assertEquals(listOf(other, blocked), visibleReaderPowers(options, true, "strike"))
         val definition = requireNotNull(other.option)
         val described = other.copy(option = definition.copy(entry = definition.entry.copy(

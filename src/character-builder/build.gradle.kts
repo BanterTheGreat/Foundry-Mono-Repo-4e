@@ -16,5 +16,7 @@ plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
 // Authoring validation and stale-byte detection precede platform publication.
 tasks.register<Exec>("validateProductionContent") {
     workingDir(rootDir)
-    commandLine("python", "-X", "utf8", "content/build.py", "--check")
+    val defaultPython = if (System.getProperty("os.name").startsWith("Windows")) "python" else "python3"
+    val python = providers.environmentVariable("PYTHON").orElse(defaultPython)
+    commandLine(python.get(), "-X", "utf8", "content/build.py", "--check")
 }

@@ -49,9 +49,8 @@ class BuilderSession(
     var dialog by mutableStateOf<String?>(null)
     /** Level the open level dialog would raise the character to; null when it is closed. */
     var levelTarget by mutableStateOf<Int?>(null)
-    /** Classes offered while the new-character menu is open; null when it is closed. */
-    var classMenu by mutableStateOf<List<CatalogEntry>?>(null)
-    @Volatile private var classMenuCatalog: ContentCatalog? = null
+    /** Checked class rows offered while the new-character menu is open; null when it is closed. */
+    var classMenu by mutableStateOf<List<BuilderOptionRow>?>(null)
     var draft by mutableStateOf("")
     private var committed: CharacterDocument? = null
     private var operations: BuilderOperations? = null
@@ -193,31 +192,25 @@ class BuilderSession(
 
     /** Open the new-character class menu. Nothing is created or stored until a class is confirmed. */
     suspend fun beginCreate() {
-        val packages = withContext(Dispatchers.IO) { sample() }.packages
-        when (val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", packages) }) {
+        val base = withContext(Dispatchers.IO) { sample() }
+        when (val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", base.packages) }) {
             is ContractResult.Unavailable -> errors = result.diagnostics
             is ContractResult.Available -> {
-                val classes = result.value.search(category = EntryCategory.CLASS)
-                if (classes.isEmpty()) {
+                val classes = withContext(Dispatchers.IO) {
+                    val listing = BuilderOperations(result.value).optionListing(base, 1, ChoiceSlotId("creation", "class", 0))
+                    listing.check(listing.rows().map { it.metadata.metadata.id })
+                }
+                val readFailures = classes.flatMap { it.diagnostics }.filter { it.kind == DiagnosticKind.IO_FAILURE }
+                val available = classes.filter { it.option?.eligibility == Eligibility.ELIGIBLE }
+                if (readFailures.isNotEmpty()) {
+                    errors = readFailures.distinct()
+                } else if (available.isEmpty()) {
                     errors = listOf(Diagnostic("android.create", DiagnosticKind.UNRESOLVED_CONTENT, "No classes are available."))
                 } else {
-                    classMenuCatalog = result.value
-                    classMenu = classes.sortedBy { it.metadata.title.lowercase() }
+                    classMenu = available
                 }
             }
         }
-    }
-
-    /**
-     * The description a class card shows when expanded, read on demand so opening the menu stays index-only.
-     *
-     * @param classId the catalog id of a class listed in [classMenu].
-     * @return the class's HTML description, or null when it cannot be read.
-     */
-    suspend fun classDescription(classId: String): String? {
-        val catalog = classMenuCatalog ?: return null
-        val resolved = withContext(Dispatchers.IO) { catalog.lookup(classId) }
-        return (resolved as? ContractResult.Available)?.value?.entry?.presentation?.description
     }
 
     fun cancelCreate() {
@@ -226,8 +219,7 @@ class BuilderSession(
 
     /**
      * Create and open a character. With a [classId] the character starts as that class, with its first
-     * main ability at 4 and the class's secondary abilities favoured for the remaining points; without
-     * one it starts as the bundled sample.
+     * main ability at 4 and the remaining scores at 0. Without a class ID, use the bundled sample.
      */
     suspend fun create(classId: String? = null) {
         var base = withContext(Dispatchers.IO) { sample() }
@@ -246,7 +238,8 @@ class BuilderSession(
 
     /** Swap the sample's class for [classId]; a missing class is reported rather than silently replaced. */
     private suspend fun startingClass(base: CharacterDocument, classId: String): CharacterDocument? {
-        val resolved = withContext(Dispatchers.IO) {
+        val prepared = classMenu?.firstOrNull { it.metadata.metadata.id == classId }?.option?.entry
+        val resolved = prepared ?: withContext(Dispatchers.IO) {
             (ContentCatalog.open(source, "modern4e.classes", base.packages) as? ContractResult.Available)
                 ?.value?.lookup(classId) as? ContractResult.Available
         }?.value
@@ -256,8 +249,7 @@ class BuilderSession(
         }
         val profile = resolved.entry.mechanics.classProfile
         val main = profile?.mainAbilities?.first() ?: base.abilities.mainAbility
-        val others = (profile?.secondaryAbilities.orEmpty() + Ability.entries).distinct().filter { it != main }
-        val points = mapOf(main to 4) + others.zip(listOf(2, 2, 1, 0, 0)).toMap()
+        val points = Ability.entries.associateWith { ability -> if (ability == main) 4 else 0 }
         val instanceId = classId.substringAfterLast('.')
         val slot = ChoiceSlotId("creation", "class", 0)
         val selection = SavedSelection(resolved.entry.id, resolved.entry.presentation.title,
@@ -542,6 +534,10 @@ class BuilderSession(
     }
 
     internal data class WarmTarget(val level: Int, val slot: ChoiceSlotId, val group: FeatGroup?)
+
+    /** Indexed power IDs for classifying entry slots without loading their picker options. */
+    internal fun powerEntryIds(): Set<String> =
+        catalog?.search(category = EntryCategory.POWER).orEmpty().mapTo(mutableSetOf()) { it.metadata.id }
 
     /** The Class and Ancestry pickers list the whole catalog and never depend on the rest of the character. */
     private fun isRootList(level: Int, slot: ChoiceSlotId) =

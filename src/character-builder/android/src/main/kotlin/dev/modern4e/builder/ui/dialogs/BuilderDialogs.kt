@@ -2,7 +2,9 @@ package dev.modern4e.builder.ui.dialogs
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -91,18 +93,21 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ClassMenu(model: BuilderSession, classes: List<CatalogEntry>, task: (suspend BuilderSession.() -> Unit) -> Unit) {
+private fun ClassMenu(model: BuilderSession, classes: List<BuilderOptionRow>, task: (suspend BuilderSession.() -> Unit) -> Unit) {
     var selected by remember(classes) { mutableStateOf<String?>(null) }
     var expanded by remember(classes) { mutableStateOf<String?>(null) }
+    val scroll = rememberLazyListState()
     ModalBottomSheet(onDismissRequest = { if (!model.busy) model.cancelCreate() }, containerColor = Paper,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
         Column(Modifier.fillMaxWidth().height(pickerSheetHeight(LocalConfiguration.current.screenHeightDp)).padding(horizontal = 20.dp)) {
-            Column(Modifier.weight(1f).folioScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                classes.forEach { entry ->
-                    val id = entry.metadata.id
-                    ChoiceCard(entry.metadata.title, selected == id, expanded == id, true, null, {
+            LazyColumn(Modifier.weight(1f).fillMaxWidth().folioScroll(scroll), state = scroll,
+                verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                items(classes, key = { it.metadata.metadata.id }) { row ->
+                    val entry = row.option?.entry?.entry ?: return@items
+                    val id = entry.id
+                    ClassChoiceCard(entry, row.metadata.metadata.title, selected == id, expanded == id, true) {
                         if (model.busy) {
-                            return@ChoiceCard
+                            return@ClassChoiceCard
                         }
                         if (selected == id) {
                             expanded = if (expanded == id) null else id
@@ -110,9 +115,6 @@ private fun ClassMenu(model: BuilderSession, classes: List<CatalogEntry>, task: 
                             selected = id
                             expanded = id
                         }
-                    }) {
-                        val description by produceState<String?>(null, id) { value = model.classDescription(id) }
-                        description?.let { ControlledDescription(it, compact = true) } ?: Text("Loading…", color = Dim)
                     }
                 }
             }

@@ -13,7 +13,17 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+import dev.modern4e.builder.ContentEntry
 import dev.modern4e.builder.ui.theme.*
+
+/** Shows a checked class row using the compact Progression card and its already-loaded description. */
+@Composable
+internal fun ClassChoiceCard(entry: ContentEntry, title: String, chosen: Boolean, expanded: Boolean, enabled: Boolean,
+    choose: () -> Unit) {
+    ChoiceCard(title, chosen, expanded, enabled, null, choose, compact = true) {
+        ControlledDescription(entry.presentation.description, compact = true)
+    }
+}
 
 /**
  * A choice card: tapping selects it, ticks and frames it, and expands its content, so no radio buttons are needed.

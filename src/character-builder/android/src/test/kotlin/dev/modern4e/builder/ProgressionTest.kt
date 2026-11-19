@@ -16,6 +16,50 @@ class ProgressionTest {
         assertEquals(listOf(9, 15, 19, 23, 25, 29), (1..30).filter { Progression.level(it).replacement != null })
     }
 
+    @Test fun levelOneMovesEveryPowerSlotInOrderAndLeavesOtherChoicesInRows() {
+        fun choice(id: String, ordinal: Int, vararg options: String) = EngineChoice(
+            ChoiceSlotId("fighter", id, ordinal),
+            entries = options.map { EntryEligibility(it, Eligibility.ELIGIBLE, emptyList()) },
+        )
+        val atWill = choice("at-will", 0, "cleave")
+        val secondAtWill = choice("at-will", 1, "cleave")
+        val encounter = choice("encounter", 0, "passing-attack")
+        val daily = choice("daily", 0, "brute-strike")
+        val secondDaily = choice("daily", 1, "brute-strike")
+        val feature = choice("feature", 0, "combat-superiority")
+        val mixed = choice("mixed", 0, "cleave", "combat-superiority")
+        val empty = choice("empty", 0)
+        val slots = listOf(atWill, feature, secondAtWill, encounter, mixed, daily, secondDaily, empty)
+        val powerIds = setOf("cleave", "passing-attack", "brute-strike")
+
+        assertEquals(
+            listOf(atWill, secondAtWill, encounter, daily, secondDaily) to listOf(feature, mixed, empty),
+            Progression.partitionLevelChoices(1, slots, powerIds),
+        )
+        assertEquals(emptyList<EngineChoice>() to slots, Progression.partitionLevelChoices(2, slots, powerIds))
+    }
+
+    @Test fun onlyCurrentMissingRequiredOrIllegalSavedChoicesNeedAttention() {
+        assertTrue(Progression.choiceNeedsAttention(reached = true, optional = false, filled = false, invalid = false))
+        assertTrue(Progression.choiceNeedsAttention(reached = true, optional = true, filled = true, invalid = true))
+        assertFalse(Progression.choiceNeedsAttention(reached = true, optional = true, filled = false, invalid = false))
+        assertFalse(Progression.choiceNeedsAttention(reached = true, optional = false, filled = true, invalid = false))
+        assertFalse(Progression.choiceNeedsAttention(reached = false, optional = false, filled = false, invalid = false))
+    }
+
+    @Test fun invalidChoiceSlotsUseScopedRulesFailuresAndDuplicateSkills() {
+        val power = ChoiceSlotId("fighter", "power", 0)
+        val skill = ChoiceSlotId("creation", "free-skill", 0)
+        val unimplemented = ChoiceSlotId("advancement.3", "power", 0)
+        val rules = EngineResult(emptyMap(), emptyList(), emptyList(), emptyMap(), emptyMap(), listOf(
+            Diagnostic("engine.choiceOption", DiagnosticKind.INVALID_SELECTION, "Illegal power", power),
+            Diagnostic("engine.duplicateProficiency", DiagnosticKind.INCOMPLETE_AUTOMATION, "Duplicate skill", skill),
+            Diagnostic("engine.replacementTiming", DiagnosticKind.INCOMPLETE_AUTOMATION, "Unverified timing", unimplemented),
+        ))
+
+        assertEquals(setOf(power, skill), Progression.invalidChoiceSlots(rules))
+    }
+
     @Test fun allocationRequiresBudgetAndSingleTradeoff() {
         val base = AbilityAllocation(ChoiceSlotId("fighter", "main", 0), Ability.STRENGTH,
             mapOf(Ability.STRENGTH to 4, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.WISDOM to 1))

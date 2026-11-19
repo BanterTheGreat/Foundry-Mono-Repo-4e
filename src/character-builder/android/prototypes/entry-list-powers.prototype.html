@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entry List power rendering prototype</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; font: 14px system-ui, sans-serif; }
+.demo { max-width: 420px; margin: 4px auto; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: default; opacity: .48; }
+button:focus-visible, input:focus-visible, #reader:focus-visible { outline: 2px solid #863f36; outline-offset: -2px; }
+.sheet {
+  --ink: #322b25; --paper: #f3eddf; --wash: #e8ddcb; --line: #c9bda7;
+  --accent: #863f36; --dim: #71675c; --green: #57534e;
+  height: 650px; display: flex; flex-direction: column; color: var(--ink);
+  background: var(--paper); border-radius: 22px 22px 7px 7px; padding: 0 20px;
+}
+.handle { width: 32px; height: 4px; margin: 17px auto; border-radius: 4px; background: #96897a; flex: none; }
+#search { width: 100%; min-height: 49px; background: transparent; border: 1px solid #8e8070; border-radius: 5px; padding: 0 13px; }
+#list { flex: 4 1 0; min-height: 0; overflow: auto; margin-top: 8px; }
+.entry {
+  display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 7px 13px;
+  margin-bottom: 4px; border: 1px solid var(--line); border-radius: 0; background: transparent;
+  text-align: left; font: 15px/18px Georgia, serif;
+}
+.entry[aria-pressed="true"] { background: var(--wash); border-color: var(--accent); }
+.entry[data-chosen="true"] { box-shadow: inset 0 0 0 1px var(--accent); border-color: var(--accent); }
+.level { background: var(--ink); color: var(--paper); font: 11px/16px system-ui; padding: 0 5px; }
+#reader { flex: 6 1 0; min-height: 0; overflow: auto; border-top: 1px solid var(--line); margin-top: 6px; padding-top: 8px; scrollbar-color: #a79780 transparent; }
+#reader[hidden] { display: none; }
+h2 { font: 21px/1.15 Georgia, serif; margin: 0; }
+p { margin: 0; }
+.flavor { font: italic 14px/1.4 Georgia, serif; color: var(--dim); }
+.facts { display: flex; flex-wrap: wrap; gap: 5px 12px; align-items: center; font-size: 12px; }
+.usage { font-weight: 700; }
+.stat { font-size: 13px; line-height: 1.45; }
+.classic { border: 1px solid #b7aea1; }
+.classic header { background: var(--green); color: #fffaf1; padding: 9px 11px; }
+.classic h2 { margin-bottom: 4px; }
+.classic .flavor { padding: 8px 11px; }
+.classic .stat { padding: 5px 11px; }
+.classic .stat:nth-child(odd) { background: #e7e2d8; }
+.reference h2, .outcome h2 { margin: 0 0 7px; }
+.reference .usage, .outcome .usage { color: var(--green); }
+.reference .facts { padding-bottom: 7px; border-bottom: 1px solid var(--line); }
+.reference dl { display: grid; grid-template-columns: max-content 1fr; gap: 0 11px; margin: 0; }
+.reference dt, .reference dd { padding: 5px 0; border-bottom: 1px solid var(--line); }
+.reference dt { font-weight: 650; }
+.reference dd { margin: 0; }
+.reference .flavor { margin-top: 8px; }
+.phase { margin: 0; padding: 7px 0 4px; font: 600 14px Georgia, serif; }
+.classic .phase { background: #d9d0c1; padding: 6px 11px; }
+.outcome .sequence { padding-left: 10px; border-left: 2px solid var(--line); }
+.outcome .results { margin: 8px 0; }
+.outcome .result { margin-bottom: 4px; padding: 6px 9px; background: #e7e2d8; border-left: 3px solid var(--green); }
+.outcome .result[data-label="Miss"] { background: var(--wash); border-color: #8c7158; }
+.outcome .setup .stat { padding: 4px 0; }
+.outcome details { margin-top: 7px; color: var(--dim); }
+.outcome summary { cursor: pointer; }
+.actions { display: flex; justify-content: space-between; border-top: 1px solid var(--line); }
+.action { color: var(--accent); min-height: 42px; background: none; border: 0; font-weight: 600; padding: 0 10px; }
+#choose { flex: none; }
+#status { flex: none; min-height: 18px; font-size: 11px; color: var(--dim); text-align: center; }
+.switcher { position: sticky; bottom: 5px; width: max-content; max-width: 100%; margin: 10px auto 5px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--border, #928677); border-radius: 30px; background: var(--card, #282420); color: var(--card-foreground, #fff5e7); padding: 3px 5px; }
+.switcher button { border: 0; border-radius: 50%; background: transparent; width: 34px; height: 34px; }
+#variant { text-align: center; min-width: 160px; font-size: 12px; }
+</style>
+<!-- Throwaway browser reconstruction of the Android Levels power reader. -->
+<div class="demo">
+  <section class="sheet" aria-label="Level 9 Swordmage daily power picker">
+    <div class="handle" aria-hidden="true"></div>
+    <input id="search" type="search" placeholder="Search powers" aria-label="Search powers">
+    <div id="list" aria-label="Power options"></div>
+    <section id="reader" tabindex="0" aria-label="Power rules"></section>
+    <button class="action" id="choose">Choose power</button>
+    <div id="status" role="status"></div>
+    <footer class="actions">
+      <button class="action" id="cancel">Cancel</button>
+      <button class="action" id="clear">Clear</button>
+      <button class="action" id="save">Save</button>
+    </footer>
+  </section>
+  <nav class="switcher" aria-label="Prototype layouts">
+    <button id="prev" aria-label="Previous layout">←</button>
+    <span id="variant" aria-live="polite"></span>
+    <button id="next" aria-label="Next layout">→</button>
+  </nav>
+</div>
+<script>
+// Level 9 Swordmage daily powers from the builder’s generated catalog.
+const powers = [
+  {
+    "name": "Beacon Blade",
+    "flavor": "As you slash at your foe, your sword glows with a blinding light, banishing the gloom around you.",
+    "usage": "Daily",
+    "action": "Standard action",
+    "reach": "Melee weapon",
+    "rules": [
+      [
+        "Target",
+        "One creature"
+      ],
+      [
+        "Attack",
+        "Intelligence vs. AC"
+      ],
+      [
+        "Hit",
+        "1[W] + Intelligence damage, and the target is blinded (save ends)."
+      ],
+      [
+        "Effect",
+        "The target is illuminated untl the end of the encounter, shedding bright light within 10 squares around it. Even if it turns invisible, its location can be pinpointed automatically, though the normal -5 penalty to the attack roll still applies."
+      ]
+    ],
+    "groups": null
+  },
+  {
+    "name": "Blade Bolt",
+    "flavor": "Throwing your sword, you transform the weapon into a bolt of lightning that cripples your foe.",
+    "usage": "Daily",
+    "action": "Standard action",
+    "reach": "Ranged 5",
+    "rules": [
+      [
+        "Requirement",
+        "You must throw your melee weapon at the target."
+      ],
+      [
+        "Target",
+        "One creature"
+      ],
+      [
+        "Attack",
+        "Intelligence vs. Fortitude"
+      ],
+      [
+        "Hit",
+        "2[W] + Intelligence lightning damage, and the target is slowed (save ends). Also, the target is marked by your Swordmage Aegis power. Marking the target does not remove the mark on another target already affected by your Swordmage Aegis."
+      ],
+      [
+        "Miss",
+        "Half damage, and the target is slowed until the end of your next turn."
+      ],
+      [
+        "Effect",
+        "Your weapon returns to your hand."
+      ]
+    ],
+    "groups": null
+  },
+  {
+    "name": "Dimensional Echoes",
+    "flavor": "As you strike, you create an arcane bond between yourself and your foe, allowing you to slip either of you between narrow gaps between the worlds.",
+    "usage": "Daily",
+    "action": "Standard action",
+    "reach": "Melee weapon",
+    "rules": [
+      [
+        "Target",
+        "One creature"
+      ],
+      [
+        "Attack",
+        "Intelligence vs. Fortitude"
+      ],
+      [
+        "Hit",
+        "2[W] + Intelligence force damage."
+      ],
+      [
+        "Miss",
+        "Half damage."
+      ],
+      [
+        "Effect",
+        "Until the end of the encounter, you can teleport yourself or the target of this power 1 square as a move action."
+      ]
+    ],
+    "groups": null
+  },
+  {
+    "name": "Lightning Strider",
+    "flavor": "Your body becomes like a bolt of lightning as you shoot from enemy to enemy, launching attack after attack.",
+    "usage": "Daily",
+    "action": "Standard action",
+    "reach": "Melee weapon",
+    "rules": [
+      [
+        "Target",
+        "One creature"
+      ],
+      [
+        "Effect",
+        "Teleport 4 squares"
+      ],
+      [
+        "Primary Attack",
+        "Intelligence vs. AC"
+      ],
+      [
+        "Hit",
+        "1[W] + Strength lightning damage."
+      ],
+      [
+        "Effect",
+        "You can teleport 3 squares, and then make a secondary attack."
+      ],
+      [
+        "Secondary Target",
+        "One creature other than the primary target."
+      ],
+      [
+        "Secondary Attack",
+        "Intelligence vs. AC"
+      ],
+      [
+        "Hit",
+        "1[W] lightning damage."
+      ],
+      [
+        "Effect",
+        "You can teleport 2 squares, and then make a tertiary attack."
+      ],
+      [
+        "Tertiary Target",
+        "One creature other than the primary and secondary targets."
+      ],
+      [
+        "Tertiary Attack",
+        "Intelligence vs. AC"
+      ],
+      [
+        "Hit",
+        "1[W] lightning damage."
+      ]
+    ],
+    "groups": [
+      {
+        "title": "Primary attack",
+        "rows": [
+          [
+            "Target",
+            "One creature"
+          ],
+          [
+            "Effect",
+            "Teleport 4 squares"
+          ],
+          [
+            "Primary Attack",
+            "Intelligence vs. AC"
+          ],
+          [
+            "Hit",
+            "1[W] + Strength lightning damage."
+          ]
+        ]
+      },
+      {
+        "title": "Secondary attack",
+        "rows": [
+          [
+            "Effect",
+            "You can teleport 3 squares, and then make a secondary attack."
+          ],
+          [
+            "Secondary Target",
+            "One creature other than the primary target."
+          ],
+          [
+            "Secondary Attack",
+            "Intelligence vs. AC"
+          ],
+          [
+            "Hit",
+            "1[W] lightning damage."
+          ]
+        ]
+      },
+      {
+        "title": "Tertiary attack",
+        "rows": [
+          [
+            "Effect",
+            "You can teleport 2 squares, and then make a tertiary attack."
+          ],
+          [
+            "Tertiary Target",
+            "One creature other than the primary and secondary targets."
+          ],
+          [
+            "Tertiary Attack",
+            "Intelligence vs. AC"
+          ],
+          [
+            "Hit",
+            "1[W] lightning damage."
+          ]
+        ]
+      }
+    ]
+  }
+];
+const variants = ['Classic block', 'Rules ledger', 'Outcome first'];
+let variant = Math.max(0, ['A', 'B', 'C'].indexOf(new URLSearchParams(location.search).get('variant')));
+let inspected = 'Lightning Strider';
+let chosen = null;
+let saved = null;
+
+const search = document.querySelector('#search');
+const list = document.querySelector('#list');
+const reader = document.querySelector('#reader');
+const choose = document.querySelector('#choose');
+const status = document.querySelector('#status');
+const clear = document.querySelector('#clear');
+const save = document.querySelector('#save');
+
+function render() {
+  const visible = powers.filter(power => power.name.toLowerCase().includes(search.value.trim().toLowerCase()));
+  const power = visible.find(power => power.name === inspected) || visible[0];
+  list.innerHTML = visible.map(({name}) => `
+    <button class="entry" aria-pressed="${power.name === name}" data-chosen="${chosen === name}" data-name="${name}">
+      <span>${chosen === name ? '✓ ' : ''}${name}</span><span class="level" aria-label="Level 9">9</span>
+    </button>`).join('') || '<p>No powers match your search.</p>';
+
+  reader.hidden = choose.hidden = !power;
+  clear.hidden = chosen === null;
+  save.disabled = chosen === saved;
+  document.querySelector('#variant').textContent = `${'ABC'[variant]} · ${variants[variant]}`;
+  if (!power) return;
+
+  choose.textContent = chosen === power.name ? 'Chosen' : 'Choose power';
+  choose.disabled = chosen === power.name;
+  const title = `<h2>${power.name}</h2>`;
+  const facts = `<div class="facts"><span class="usage">${power.usage}</span><span>${power.action}</span><span>${power.reach}</span></div>`;
+  const flavor = `<p class="flavor">${power.flavor}</p>`;
+  const stat = ([label, value]) => `<p class="stat"><strong>${label}</strong> ${value}</p>`;
+  const phases = (renderRows) => power.groups
+    ? power.groups.map(({title, rows}) => `<section><h3 class="phase">${title}</h3>${renderRows(rows)}</section>`).join('')
+    : renderRows(power.rules);
+  if (variant === 0) {
+    reader.innerHTML = `<article class="classic"><header>${title}${facts}</header>${flavor}<div>${phases(rows => rows.map(stat).join(''))}</div></article>`;
+  } else if (variant === 1) {
+    const ledger = rows => `<dl class="stat">${rows.map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`).join('')}</dl>`;
+    reader.innerHTML = `<article class="reference">${title}${facts}${phases(ledger)}${flavor}</article>`;
+  } else if (power.groups) {
+    const timeline = rows => rows.map(row => row[0] === 'Hit'
+      ? `<div class="result">${stat(row)}</div>` : stat(row)).join('');
+    reader.innerHTML = `<article class="outcome">${title}${facts}
+      <div class="sequence setup">${phases(timeline)}</div>
+      <details><summary>Flavor text</summary>${flavor}</details></article>`;
+  } else {
+    const outcomeLabels = ['Hit', 'Miss', 'Effect'];
+    const outcomes = power.rules.filter(([label]) => outcomeLabels.includes(label));
+    const requirements = power.rules.filter(([label]) => label === 'Requirement');
+    const setup = power.rules.filter(([label]) => !outcomeLabels.includes(label) && label !== 'Requirement');
+    const results = outcomes.map(row => `<div class="result" data-label="${row[0]}">${stat(row)}</div>`).join('');
+    reader.innerHTML = `<article class="outcome">${title}${facts}<div class="setup">${requirements.map(stat).join('')}</div>
+      <div class="results">${results}</div><div class="setup">${setup.map(stat).join('')}</div>
+      <details><summary>Flavor text</summary>${flavor}</details></article>`;
+  }
+  reader.scrollTop = 0;
+}
+
+list.addEventListener('click', event => {
+  const row = event.target.closest('[data-name]');
+  if (!row) return;
+  inspected = row.dataset.name;
+  render();
+  list.querySelector('[aria-pressed="true"]')?.focus({preventScroll: true});
+});
+search.addEventListener('input', render);
+choose.onclick = () => {
+  chosen = list.querySelector('[aria-pressed="true"]').dataset.name;
+  status.textContent = `${chosen} selected`;
+  render();
+};
+clear.onclick = () => {
+  chosen = null;
+  status.textContent = 'Draft cleared';
+  render();
+};
+save.onclick = () => {
+  saved = chosen;
+  status.textContent = saved ? `${saved} saved in this demo` : 'Power cleared in this demo';
+  render();
+};
+document.querySelector('#cancel').onclick = () => {
+  chosen = saved;
+  status.textContent = 'Draft discarded';
+  render();
+};
+function cycle(direction) {
+  variant = (variant + direction + variants.length) % variants.length;
+  try { history.replaceState(null, '', '?variant=' + 'ABC'[variant]); } catch {}
+  render();
+}
+document.querySelector('#prev').onclick = () => cycle(-1);
+document.querySelector('#next').onclick = () => cycle(1);
+document.addEventListener('keydown', event => {
+  if (event.target.closest('input, textarea, [contenteditable]')) return;
+  if (event.key === 'ArrowLeft') cycle(-1);
+  if (event.key === 'ArrowRight') cycle(1);
+});
+render();
+</script>
+</html>
