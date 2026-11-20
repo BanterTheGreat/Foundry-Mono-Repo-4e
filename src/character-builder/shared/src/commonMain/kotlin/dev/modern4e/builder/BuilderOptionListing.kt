@@ -52,7 +52,7 @@ class BuilderOptionListing internal constructor(
             val entry = row.option?.entry?.entry ?: continue
             retained[id] = if (row.checked && retainEligibility(entry)) row else row.copy(
                 checked = false,
-                option = row.option.copy(eligibility = Eligibility.UNRESOLVED, diagnostics = emptyList()),
+                option = row.option.copy(eligibility = Eligibility.UNRESOLVED, diagnostics = emptyList(), unmet = emptyList()),
                 diagnostics = emptyList(),
             )
         }

@@ -140,4 +140,18 @@ class ValueChoicesTest {
         assertEquals(Eligibility.INELIGIBLE, evaluate(doc, listOf(weapon, dependent)).entryEligibility.getValue("first").status)
     }
 
+    @Test fun slotIssuesTypeValueTimingInvalidOptionsAndOrphans() {
+        val repeated = listOf("COMMON", "A", "A").mapIndexed { index, value -> ValueChoice(slot("first", "languages", index), value) }
+        val invalid = evaluate(document(listOf(LevelDecisions(1, listOf(choose(ancestry, "origin", id = "ancestry"),
+            choose(linguist, "first")), values = repeated))), listOf(ancestry, linguist))
+        assertEquals(mapOf(slot("first", "languages", 0) to listOf<SlotIssue>(SlotIssue.InvalidOption("COMMON")),
+            slot("first", "languages", 2) to listOf(SlotIssue.InvalidOption("A"))), invalid.slotIssues)
+
+        val late = ValueChoice(slot("first", "languages"), "A")
+        val doc = document(listOf(LevelDecisions(1, listOf(choose(linguist, "first"))), LevelDecisions(2, values = listOf(late))))
+        assertEquals(mapOf(late.slot to listOf<SlotIssue>(SlotIssue.Timing)), evaluate(doc, listOf(linguist)).slotIssues)
+        val orphaned = doc.copy(levels = listOf(doc.levels[0].copy(entries = emptyList()), doc.levels[1]))
+        assertEquals(mapOf(late.slot to listOf<SlotIssue>(SlotIssue.Orphan)), evaluate(orphaned, listOf(linguist)).slotIssues)
+    }
+
 }

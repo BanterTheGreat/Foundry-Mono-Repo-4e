@@ -7,34 +7,25 @@ internal data class PowerRequirementPreview(val requirements: String?, val unmet
 internal fun powerRequirementPreview(row: BuilderOptionRow, titles: Map<String, String>,
     classIds: Set<String> = emptySet()): PowerRequirementPreview = entryRequirementPreview(row, titles, classIds)
 
-/** Explain checked historical requirements; power class and level are already represented by their picker. */
+/**
+ * Explain checked historical requirements from the engine's typed unmet conditions, never from diagnostic wording.
+ * Power class and level are already represented by their picker.
+ */
 internal fun entryRequirementPreview(row: BuilderOptionRow, titles: Map<String, String>,
     classIds: Set<String> = emptySet()): PowerRequirementPreview {
     val option = row.option ?: return PowerRequirementPreview(null, emptyList())
     val entry = option.entry.entry
     val conditions = listOfNotNull(entry.mechanics.access) + entry.mechanics.prerequisites
-    val leaves = conditions.flatMap { it.requirementLeaves() }
     val omit: (Prerequisite) -> Boolean = { condition -> entry.category == EntryCategory.POWER &&
         (condition is Prerequisite.Level || condition is Prerequisite.Entry && condition.entryId in classIds) }
     val authored = conditions.mapNotNull { it.requirementText(titles, omit) }
-    val diagnostics = (option.diagnostics + row.diagnostics).distinct()
-    val unmet = diagnostics.mapNotNull { diagnostic ->
-        when (diagnostic.code) {
-            "engine.prerequisite" -> leaves.firstOrNull {
-                diagnostic.message == "Unsatisfied prerequisite: $it"
-            }?.takeUnless(omit)?.requirementText(titles, omit)
-            "engine.unavailableCondition" -> leaves.filterIsInstance<Prerequisite.Unavailable>().firstOrNull {
-                diagnostic.message == "${it.text}: ${it.reason}"
-            }?.text?.let { "Unavailable: $it" }
-            "engine.unresolvedCondition" -> leaves.filterIsInstance<Prerequisite.Unresolved>().firstOrNull {
-                diagnostic.message == "${it.text}: ${it.reason}"
-            }?.text?.let { "Not confirmed: $it" }
-            "engine.unadaptedPrerequisite" -> leaves.filterIsInstance<Prerequisite.Unadapted>().firstOrNull {
-                diagnostic.message == "Prerequisite needs adaptation: ${it.sourceText}"
-            }?.sourceText?.let { "Not confirmed: $it" }
-            "engine.prerequisiteUnavailable", "engine.classFactsUnavailable", "engine.sizeFactsUnavailable",
-            "engine.selectedFactsUnavailable", "engine.prerequisiteDependency" -> "Some requirements could not be checked."
-            else -> null
+    val unmet = option.unmet.mapNotNull { condition ->
+        when (condition) {
+            is UnmetCondition.Failed -> condition.leaf.takeUnless(omit)?.requirementText(titles, omit)
+            is UnmetCondition.Unavailable -> "Unavailable: ${condition.leaf.text}"
+            is UnmetCondition.Unresolved -> "Not confirmed: ${condition.leaf.text}"
+            is UnmetCondition.Unadapted -> "Not confirmed: ${condition.leaf.sourceText}"
+            is UnmetCondition.Unchecked -> "Some requirements could not be checked."
         }
     }.distinct()
     return PowerRequirementPreview(authored.distinct().joinToString("; ").ifBlank { null }, unmet)
@@ -75,13 +66,6 @@ private fun Prerequisite.requirementText(titles: Map<String, String>, omit: (Pre
             }
         }
     }
-}
-
-/** Enumerate the authored leaves so engine failures can be matched without parsing data-class strings. */
-private fun Prerequisite.requirementLeaves(): List<Prerequisite> = when (this) {
-    is Prerequisite.AllOf -> conditions.flatMap { it.requirementLeaves() }
-    is Prerequisite.AnyOf -> conditions.flatMap { it.requirementLeaves() }
-    else -> listOf(this)
 }
 
 /** Nested empty/always conjunctions cannot make the other side of an alternative mandatory. */

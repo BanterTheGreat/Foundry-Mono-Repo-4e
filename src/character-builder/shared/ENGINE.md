@@ -200,6 +200,21 @@ occurs. Platform confirmation/persistence UI and additional reviewed ID plans ar
 to [#38](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/38) and do not
 block #29; the existing shared API remains available.
 
+## Unmet conditions and slot issues
+
+Callers decide from typed verdicts, never from diagnostic codes or wording.
+`EntryEligibility.unmet` lists the candidate's unmet conditions: `Failed`,
+`Unavailable`, `Unresolved` and `Unadapted` carry their authored leaf, and
+`Unchecked` names why facts were missing (definitions, class, size or
+selected-power facts, or a self/historical dependency). It follows the same
+alternative filtering as the diagnostics, is filled by full evaluation,
+selection-time snapshots and both prepared fast paths, reaches
+`BuilderOption.unmet`, and is not serialized. `EngineResult.slotIssues` keys
+`Timing`, `InvalidOption`, `Orphan` and `Remaining` by slot; editors reject
+mistimed replacements, invalid value decisions and violated selection sets from
+them. Every verdict still emits its diagnostic with an unchanged code and
+message: diagnostics are the presentation surface only.
+
 ## Structured feat and ancestry choices (#29)
 
 `ChoiceDefinition.Values` exposes finite `ValueOption` identities and labels.

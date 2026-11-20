@@ -330,4 +330,28 @@ class PowerSelectionTest {
         }
     }
 
+    @Test
+    fun slotIssuesTypeReplacementTimingAndRemainingSelections() {
+        val powers = listOf(power("old", usage = "DAILY"), power("late", usage = "DAILY", level = 9))
+        val root = root(listOf(query(daily, 2, "DAILY")))
+        val first = decision(powers[0], ChoiceSlotId("class", daily, 0))
+        val second = decision(powers[0], ChoiceSlotId("class", daily, 1))
+        val doc = character(root, listOf(first, second)).copy(level = 9)
+        fun replaced(vararg slots: ChoiceSlotId) = doc.copy(levels = doc.levels + LevelDecisions(9, replacements = slots.map {
+            Replacement(it, decision(powers[1], it), ReplacementKind.PROGRESSION)
+        }))
+        assertTrue(evaluate(replaced(first.slot), powers + root).slotIssues.isEmpty())
+        val doubled = evaluate(replaced(first.slot, second.slot), powers + root)
+        assertEquals(listOf<SlotIssue>(SlotIssue.Timing), doubled.slotIssues[first.slot])
+        assertEquals(listOf<SlotIssue>(SlotIssue.Timing), doubled.slotIssues[second.slot])
+        val retraining = doc.copy(levels = doc.levels + LevelDecisions(9, replacements = listOf(
+            Replacement(first.slot, decision(powers[1], first.slot), ReplacementKind.RETRAINING))))
+        assertNull(evaluate(retraining, powers + root).slotIssues[first.slot], "Unspecified retraining is incomplete, not mistimed")
+
+        val pool = root(listOf(query(atWill, 3)))
+        val partial = evaluate(character(pool, listOf(decision(power("human1"), ChoiceSlotId("class", atWill, 0)))),
+            listOf(pool, power("human1")))
+        assertEquals(mapOf(ChoiceSlotId("class", atWill, 0) to listOf<SlotIssue>(SlotIssue.Remaining(2))), partial.slotIssues)
+    }
+
 }

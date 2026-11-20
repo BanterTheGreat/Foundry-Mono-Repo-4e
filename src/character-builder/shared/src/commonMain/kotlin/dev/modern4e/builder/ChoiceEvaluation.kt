@@ -226,7 +226,7 @@ internal class ChoiceEvaluation(
                 RulesEngine.preparePowerChoices(document, level, slot).let { it to prepare(it.baseline) }
             }
             checker.check(definition, catalog.resolve(saved), content, instance)?.let {
-                return BuilderOption(definition, it.eligibility.status, it.diagnostics)
+                return BuilderOption(definition, it.eligibility.status, it.diagnostics, it.eligibility.unmet)
             }
         }
         val levels = if (document.levels.any { it.level == level }) document.levels else document.levels + LevelDecisions(level)
@@ -242,7 +242,7 @@ internal class ChoiceEvaluation(
             val content = candidateContent(key, checker, candidate, saved)
             val checked = checker.check(definition, content, instance)
             if (checked != null) {
-                return BuilderOption(definition, checked.eligibility.status, checked.diagnostics)
+                return BuilderOption(definition, checked.eligibility.status, checked.diagnostics, checked.eligibility.unmet)
             }
             RulesEngine.evaluateChoice(candidate, content, instance)
         } else {
@@ -257,7 +257,7 @@ internal class ChoiceEvaluation(
             diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION } -> Eligibility.INCOMPLETE
             else -> Eligibility.ELIGIBLE
         }
-        return BuilderOption(definition, status, diagnostics)
+        return BuilderOption(definition, status, diagnostics, rules.entryEligibility[instance]?.unmet.orEmpty())
     }
 
     /**

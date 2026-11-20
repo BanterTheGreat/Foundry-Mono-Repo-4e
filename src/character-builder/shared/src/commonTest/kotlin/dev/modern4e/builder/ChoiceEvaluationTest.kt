@@ -62,6 +62,9 @@ class ChoiceEvaluationTest {
             val candidate = document().copy(levels = listOf(LevelDecisions(1, entries = listOf(entry))))
             val full = RulesEngine.evaluate(candidate, preparation.load(candidate))
             assertEquals(full.entryEligibility.getValue("chosen").status, option.eligibility)
+            assertEquals(full.entryEligibility.getValue("chosen").unmet, option.unmet)
+            assertEquals(option.entry.entry.mechanics.prerequisites.filter { option.eligibility == Eligibility.INELIGIBLE }
+                .map { UnmetCondition.Failed(it) }, option.unmet)
             assertEquals(full.diagnostics.filter { it.slot == slot && it.entryId == definition.entry.id }, option.diagnostics)
         }
         assertEquals(feats.size / 2, choices.options(document(), 1, slot, false).size)

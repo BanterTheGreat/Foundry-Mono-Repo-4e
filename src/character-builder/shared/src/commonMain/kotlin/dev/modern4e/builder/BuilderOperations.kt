@@ -30,7 +30,9 @@ enum class BackgroundKind { ENVIRONMENT, UPBRINGING }
 
 data class BuilderState(val document: CharacterDocument, val rules: EngineResult)
 data class BuilderResult(val state: BuilderState, val applied: Boolean, val diagnostics: List<Diagnostic> = emptyList())
-data class BuilderOption(val entry: ResolvedEntry, val eligibility: Eligibility, val diagnostics: List<Diagnostic>)
+/** [unmet] carries the typed conditions behind [eligibility]; [diagnostics] only present them. */
+data class BuilderOption(val entry: ResolvedEntry, val eligibility: Eligibility, val diagnostics: List<Diagnostic>,
+    val unmet: List<UnmetCondition> = emptyList())
 
 /** Shared editing coordinator. Catalog reads are its only dependency; it never saves or exports. */
 class BuilderOperations private constructor(private val catalog: ContentCatalog, private val operation: Boolean) {
@@ -118,11 +120,11 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 if (row.level == level) row.copy(replacements = row.replacements.filterNot { it.replaces == slot } + replacement) else row
             })
             val rules = RulesEngine.evaluateChoice(candidateDocument, preparation.load(candidateDocument), current.instanceId)
-            if (rules.diagnostics.any { it.slot == slot && it.code == "engine.replacementTiming" && it.kind == DiagnosticKind.INVALID_SELECTION }) {
+            if (rules.slotIssues[slot].orEmpty().any { it is SlotIssue.Timing }) {
                 return@mapNotNull null
             }
             val eligibility = rules.entryEligibility[current.instanceId] ?: return@mapNotNull null
-            BuilderOption(definition, eligibility.status, eligibility.diagnostics)
+            BuilderOption(definition, eligibility.status, eligibility.diagnostics, eligibility.unmet)
         }
     }
 
@@ -276,11 +278,10 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 if (evaluated.rules.choices.singleOrNull { it.slot == edit.slot }?.entries?.none { it.entryId == edit.entryId } != false) {
                     return reject("Replacement must belong to the source pool at its replacement level.")
                 }
-                if (evaluated.rules.diagnostics.any { it.slot == edit.slot && it.code == "engine.replacementTiming" && it.kind == DiagnosticKind.INVALID_SELECTION }) {
+                if (evaluated.rules.slotIssues[edit.slot].orEmpty().any { it is SlotIssue.Timing }) {
                     return reject("Progression replaces one earlier class daily attack at levels 9, 15 and 19.")
                 }
-                val invalid = evaluated.rules.selectionSets.filter { it.sourceInstanceId == edit.slot.sourceInstanceId && it.choiceId == edit.slot.choiceId }
-                    .flatMap { it.diagnostics }.any { it.code != "engine.selectionRemaining" && it.kind == DiagnosticKind.INVALID_SELECTION }
+                val invalid = evaluated.rules.violatesSelectionSet(edit.slot)
                 val eligibility = evaluated.rules.entryEligibility[current.instanceId]?.status
                 if (!edit.acceptIneligible && (invalid || eligibility != Eligibility.ELIGIBLE)) {
                     return reject("Replacement violates eligibility or selection-set requirements; explicitly accept to preserve it with diagnostics.")
@@ -303,8 +304,8 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 }
                 next = document.copy(levels = levels(document, edit.level).map { level -> level.copy(values =
                     level.values.filterNot { it.slot == edit.value.slot } + if (level.level == edit.level) listOf(edit.value) else emptyList()) })
-                if (evaluate(next.forChoiceAt(edit.level)).rules.diagnostics.any {
-                    it.slot == edit.value.slot && it.code in setOf("engine.valueTiming", "engine.valueOption", "engine.orphanValue")
+                if (evaluate(next.forChoiceAt(edit.level)).rules.slotIssues[edit.value.slot].orEmpty().any {
+                    it is SlotIssue.Timing || it is SlotIssue.InvalidOption || it is SlotIssue.Orphan
                 }) {
                     return reject("Decision must be valid at its source acquisition level.")
                 }
@@ -374,4 +375,15 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
         levels = levels(document, level).map { decisions -> decisions.copy(entries = decisions.entries.filterNot { it.slot == entry.slot } +
             if (decisions.level == level) listOf(entry) else emptyList()) })
 
+}
+
+/**
+ * Whether the choice set holding [slot] reports an invalid selection beyond its unmade picks. An unfinished set is
+ * not a violation: its single remaining-selections report is matched by its [SlotIssue.Remaining] issue.
+ */
+private fun EngineResult.violatesSelectionSet(slot: ChoiceSlotId): Boolean {
+    val remaining = slotIssues[ChoiceSlotId(slot.sourceInstanceId, slot.choiceId, 0)].orEmpty().count { it is SlotIssue.Remaining }
+    val invalid = selectionSets.filter { it.sourceInstanceId == slot.sourceInstanceId && it.choiceId == slot.choiceId }
+        .sumOf { set -> set.diagnostics.count { it.kind == DiagnosticKind.INVALID_SELECTION } }
+    return invalid > remaining
 }

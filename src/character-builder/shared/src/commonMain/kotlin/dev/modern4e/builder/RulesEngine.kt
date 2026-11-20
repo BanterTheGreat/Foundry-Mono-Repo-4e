@@ -2,8 +2,60 @@ package dev.modern4e.builder
 
 enum class Eligibility { ELIGIBLE, INELIGIBLE, INCOMPLETE, UNRESOLVED }
 
+/** Why a condition could not be checked; the candidate stays unproven rather than failed. */
+enum class UncheckedReason {
+    /** A required definition or calculation is unavailable (`engine.prerequisiteUnavailable`). */
+    DEFINITIONS_UNAVAILABLE,
+    /** A legacy class has no shared source/proficiency facts (`engine.classFactsUnavailable`). */
+    CLASS_FACTS_UNAVAILABLE,
+    /** Ancestry size is missing or ambiguous (`engine.sizeFactsUnavailable`). */
+    SIZE_FACTS_UNAVAILABLE,
+    /** A selected power has no structured profile (`engine.selectedFactsUnavailable`). */
+    SELECTED_FACTS_UNAVAILABLE,
+    /** The condition depends on the candidate itself or on unavailable history (`engine.prerequisiteDependency`). */
+    DEPENDENCY,
+}
+
+/**
+ * One prerequisite or access condition a candidate fails, could not be checked against, or that awaits adaptation.
+ * Callers decide and explain from these; the matching diagnostics are only for presentation.
+ */
+sealed class UnmetCondition {
+    /** A supported leaf is provably false (`engine.prerequisite`). */
+    data class Failed(val leaf: Prerequisite) : UnmetCondition()
+    /** A campaign condition denies access (`engine.unavailableCondition`). */
+    data class Unavailable(val leaf: Prerequisite.Unavailable) : UnmetCondition()
+    /** An authored condition is known but not decidable by the engine (`engine.unresolvedCondition`). */
+    data class Unresolved(val leaf: Prerequisite.Unresolved) : UnmetCondition()
+    /** Imported prerequisite text still needs adaptation (`engine.unadaptedPrerequisite`). */
+    data class Unadapted(val leaf: Prerequisite.Unadapted) : UnmetCondition()
+    /** The facts needed for a condition could not be established. */
+    data class Unchecked(val reason: UncheckedReason) : UnmetCondition()
+}
+
+/**
+ * A reason a saved decision does not fit its slot. [EngineResult.slotIssues] carries these for editors to decide
+ * rejection; the matching diagnostics stay the presentation surface.
+ */
+sealed class SlotIssue {
+    /** The decision is recorded at the wrong level (`engine.replacementTiming` as invalid, `engine.valueTiming`). */
+    data object Timing : SlotIssue()
+    /** The saved [value] is no longer offered, is already known, or repeats (`engine.valueOption`). */
+    data class InvalidOption(val value: String) : SlotIssue()
+    /** The saved decision has no active granting source or slot (`engine.orphanValue`). */
+    data object Orphan : SlotIssue()
+    /** [count] selections remain unmade in this choice set (`engine.selectionRemaining`). */
+    data class Remaining(val count: Int) : SlotIssue()
+}
+
+/** [unmet] is the typed account of the conditions behind [status]; it is not serialized. */
 @kotlinx.serialization.Serializable
-data class EntryEligibility(val entryId: String, val status: Eligibility, val diagnostics: List<Diagnostic>)
+data class EntryEligibility(
+    val entryId: String,
+    val status: Eligibility,
+    val diagnostics: List<Diagnostic>,
+    @kotlinx.serialization.Transient val unmet: List<UnmetCondition> = emptyList(),
+)
 
 /** Options include ineligible/unknown entries; interfaces filter ELIGIBLE by default. */
 @kotlinx.serialization.Serializable
@@ -35,6 +87,8 @@ data class EngineResult(
     val equipmentProficiencies: Map<String, List<ChoiceSlotId>> = emptyMap(),
     val facts: List<StructuredFact> = emptyList(),
     internal val overviewStatistics: Map<Statistic, ContractResult<CalculatedValue>> = emptyMap(),
+    /** Typed reasons saved decisions do not fit their slots, keyed by the slot their diagnostics name. */
+    val slotIssues: Map<ChoiceSlotId, List<SlotIssue>> = emptyMap(),
 ) {
     fun ability(ability: Ability) = statistics.getValue(ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)).value
     fun skill(skill: Skill) = statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = skill)).value
@@ -189,8 +243,7 @@ internal class PreparedFeatChoices(
         }
         val diagnostics = resolved.diagnostics.map { it.copy(slot = slot, entryId = entry.id) }.toMutableList()
         if (entry.coverage.status != CoverageStatus.SUPPORTED) {
-            diagnostics += diagnostic("coverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                "${entry.presentation.title}: ${entry.coverage.status}. ${entry.coverage.limitations.joinToString()}", slot, entry.id)
+            diagnostics += coverageDiagnostic(entry, slot)
         }
         diagnostics += mechanics.unsupported.map { diagnostic("unsupportedMechanic", DiagnosticKind.INCOMPLETE_AUTOMATION,
             it, slot, entry.id) }
@@ -240,8 +293,7 @@ internal class PreparedPowerChoices(
         val eligibility = facts.passivePowerEligibility(entry, slot, level)
         val diagnostics = (resolution as ContractResult.Available).diagnostics.map { it.copy(slot = slot, entryId = entry.id) }.toMutableList()
         if (entry.coverage.status != CoverageStatus.SUPPORTED) {
-            diagnostics += diagnostic("coverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                "${entry.presentation.title}: ${entry.coverage.status}. ${entry.coverage.limitations.joinToString()}", slot, entry.id)
+            diagnostics += coverageDiagnostic(entry, slot)
         }
         diagnostics += entry.mechanics.unsupported.map { diagnostic("unsupportedMechanic", DiagnosticKind.INCOMPLETE_AUTOMATION,
             it, slot, entry.id) }
@@ -284,6 +336,12 @@ private class Evaluation(
     }
     private val diagnostics = content.diagnostics.toMutableList()
     private val blockers = content.diagnostics.filter { it.kind == DiagnosticKind.UNRESOLVED_CONTENT }.toMutableList()
+    /** Blockers that only mark an unfilled entry slot; they hide unknown effects from totals but not from known facts. */
+    private val unfilledChoiceBlockers = mutableSetOf<Diagnostic>()
+    /** Choice sets (source occurrence, choice ID) whose active overrides disagree, so no candidate can be proven. */
+    private val overrideConflicts = mutableSetOf<Pair<String, String>>()
+    /** Typed slot issues recorded beside their diagnostics, published as [EngineResult.slotIssues]. */
+    private val slotIssues = linkedMapOf<ChoiceSlotId, MutableList<SlotIssue>>()
     private val entries = mutableListOf<EngineEntry>()
     private val instances = mutableSetOf<String>()
     private val choices = linkedMapOf<ChoiceSlotId, ChoiceDefinition>()
@@ -342,6 +400,7 @@ private class Evaluation(
                         level.replacements.count { it.kind == ReplacementKind.PROGRESSION } > 1) {
                         invalid("replacementTiming", "Replace one earlier class daily attack at levels 9, 15 and 19.",
                             change.replaces, change.replacement.selection.entryId)
+                        issue(change.replaces, SlotIssue.Timing)
                     }
                 }
             }
@@ -474,7 +533,8 @@ private class Evaluation(
         calculateAbilities()
         if (factsOnly) {
             return EngineResult(emptyMap(), entries.toList(), emptyList(), proficiencies.mapValues { it.value.toList() },
-                entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct())
+                entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct(),
+                slotIssues = slotIssues.mapValues { it.value.toList() })
         }
         val entryIds = entries.map { it.definition.entry.id }.toSet()
         val selectedEligibility = entries.filter { (!it.granted || it.slot in grantReplacementSlots) &&
@@ -487,7 +547,8 @@ private class Evaluation(
                 entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct(),
                 entryEligibility = selectedEligibility, selectionSets = sets.toList(),
                 overviewAbilityTotals = overviewAbilityTotals.toMap(),
-                equipmentProficiencies = equipmentProficiencies.mapValues { it.value.toList() }, facts = facts.toList())
+                equipmentProficiencies = equipmentProficiencies.mapValues { it.value.toList() }, facts = facts.toList(),
+                slotIssues = slotIssues.mapValues { it.value.toList() })
         }
         val offered = choices.map { (slot, definition) ->
             when (definition) {
@@ -521,7 +582,7 @@ private class Evaluation(
         }
         val defenseEquipment = DefenseEquipment(entries, equipmentProficiencies.keys)
         val overviewStatistics = linkedMapOf<Statistic, ContractResult<CalculatedValue>>()
-        val mayPreview = blockers.all { it.code == "engine.missingChoice" }
+        val mayPreview = blockers.all { it in unfilledChoiceBlockers }
         for (statistic in Statistic.entries.filter { it != Statistic.ABILITY_POINTS && it != Statistic.SKILL_CHECK }) {
             val target = ModifierTarget(statistic)
             val isDefense = statistic in defenseStatistics
@@ -550,7 +611,7 @@ private class Evaluation(
             entries.flatMap { occurrence -> occurrence.definition.entry.mechanics.conditionalModifiers.map {
                 ConditionalContribution(occurrence.instanceId, occurrence.slot, it)
             } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap(), equipmentProficiencies.mapValues { it.value.toList() }, facts.toList(),
-            overviewStatistics)
+            overviewStatistics, slotIssues.mapValues { it.value.toList() })
     }
 
     /** Resolve finite fact decisions in acquisition order, preserving rejected decisions for diagnostics. */
@@ -628,11 +689,13 @@ private class Evaluation(
                         val storedAt = document.levels.single { decision in it.values }.level
                         if (storedAt != level) {
                             invalid("valueTiming", "Decision must belong to its source acquisition level; later choices cannot rewrite earlier facts.", slot, owner.definition.entry.id)
+                            issue(slot, SlotIssue.Timing)
                             continue
                         }
                         val option = available.singleOrNull { it.id == decision.value }
                         if (option == null) {
                             invalid("valueOption", "Saved ${choice.kind} decision is unavailable, already known, or repeated.", slot, owner.definition.entry.id)
+                            issue(slot, SlotIssue.InvalidOption(decision.value))
                             continue
                         }
                         prior += option.id
@@ -655,6 +718,7 @@ private class Evaluation(
         }
         for (decision in valueDecisions.filter { it !in used }) {
             invalid("orphanValue", "Saved decision has no active granting source or slot.", decision.slot)
+            issue(decision.slot, SlotIssue.Orphan)
         }
     }
 
@@ -795,8 +859,7 @@ private class Evaluation(
         }
         entries += EngineEntry(instance, slot, resolved, granted)
         if (entry.coverage.status != CoverageStatus.SUPPORTED) {
-            diagnostics += diagnostic("coverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                "${entry.presentation.title}: ${entry.coverage.status}. ${entry.coverage.limitations.joinToString()}", slot, entry.id)
+            diagnostics += coverageDiagnostic(entry, slot)
         }
         val progression = entry.mechanics.progression.filter { it.level <= document.level }
         if (entry.mechanics.version !in 1..2) {
@@ -894,6 +957,7 @@ private class Evaluation(
             if (changes.map { it.count }.distinct().size > 1 || changes.mapNotNull { it.collection }.distinct().size > 1) {
                 diagnostics += diagnostic("selectionOverrideConflict", DiagnosticKind.INCOMPLETE_AUTOMATION,
                     "Active features disagree about count or collection for $id.", ChoiceSlotId(instance, id, 0))
+                overrideConflicts += instance to id
             } else {
                 choice = choice.copy(count = changes.firstOrNull()?.count ?: choice.countByLevel
                     .filter { it.atLevel <= document.level }.maxByOrNull { it.atLevel }?.count ?: choice.count,
@@ -953,6 +1017,7 @@ private class Evaluation(
                 if (decisions.size != 1) {
                     invalid("missingChoice", "Select exactly one entry for this slot.", slot, owner.definition.entry.id)
                     blockers += diagnostics.last()
+                    unfilledChoiceBlockers += diagnostics.last()
                     continue
                 }
                 val decision = decisions.single()
@@ -1038,6 +1103,7 @@ private class Evaluation(
             if (selected.size < choice.count) {
                 errors += diagnostic("selectionRemaining", DiagnosticKind.INVALID_SELECTION,
                     "${choice.count - selected.size} selections remain for this choice set.", slot)
+                issue(slot, SlotIssue.Remaining(choice.count - selected.size))
             }
             diagnostics += errors
             sets += SelectionSetResult(owner.instanceId, choice.id, choice.count, selected.size,
@@ -1171,7 +1237,7 @@ private class Evaluation(
             abilityValues[ability] = ModifierCalculator.calculate(base, contributions)
             // An unfilled feature choice cannot erase an independently validated allocation.
             // Unavailable definitions/cycles still block facts because their effects are unknown.
-            val factBlockers = blockers.filter { it.code != "engine.missingChoice" }
+            val factBlockers = blockers.filter { it !in unfilledChoiceBlockers }
             val facts = if (!legal || errors.isNotEmpty() || factBlockers.isNotEmpty()) {
                 ContractResult.Unavailable((errors + factBlockers).distinct())
             } else {
@@ -1209,16 +1275,17 @@ private class Evaluation(
                 any -> Eligibility.INELIGIBLE
                 else -> Eligibility.ELIGIBLE
             }
-            return EntryEligibility(entry.id, status, if (status == Eligibility.ELIGIBLE) emptyList() else results
+            // A satisfied alternative hides its failed siblings; the typed conditions follow the diagnostics exactly.
+            val reported = if (status == Eligibility.ELIGIBLE) emptyList() else results
                 .filter { !any || it.status != Eligibility.INELIGIBLE || status == Eligibility.INELIGIBLE }
-                .flatMap { it.diagnostics })
+            return EntryEligibility(entry.id, status, reported.flatMap { it.diagnostics }, reported.flatMap { it.unmet })
         }
         val sourceChoice = choices[slot] as? ChoiceDefinition.Entries
         if (sourceChoice != null && entry.id !in sourceChoice.entryIds) {
             return EntryEligibility(entry.id, Eligibility.INELIGIBLE, listOf(diagnostic("choiceOption",
                 DiagnosticKind.INVALID_SELECTION, "Entry does not belong to this acquisition pool.", slot, entry.id)))
         }
-        if (diagnostics.any { it.code == "engine.selectionOverrideConflict" && it.slot?.sourceInstanceId == slot.sourceInstanceId && it.slot.choiceId == slot.choiceId }) {
+        if ((slot.sourceInstanceId to slot.choiceId) in overrideConflicts) {
             return EntryEligibility(entry.id, Eligibility.INCOMPLETE, listOf(diagnostic("selectionOverrideConflict",
                 DiagnosticKind.INCOMPLETE_AUTOMATION, "Conflicting active overrides prevent establishing selection eligibility.", slot, entry.id)))
         }
@@ -1281,8 +1348,7 @@ private class Evaluation(
         }
         val result = evaluate(Prerequisite.AllOf(listOfNotNull(entry.mechanics.access) + entry.mechanics.prerequisites + Prerequisite.Always))
         if (entry.mechanics.version == 1 && entry.coverage.status != CoverageStatus.SUPPORTED) {
-            val notice = diagnostic("coverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                "${entry.presentation.title}: ${entry.coverage.status}. ${entry.coverage.limitations.joinToString()}", slot, entry.id)
+            val notice = coverageDiagnostic(entry, slot)
             return result.copy(status = if (result.status == Eligibility.ELIGIBLE) Eligibility.INCOMPLETE else result.status,
                 diagnostics = result.diagnostics + notice)
         }
@@ -1291,7 +1357,8 @@ private class Evaluation(
 
     private fun leafEligibility(entry: ContentEntry, slot: ChoiceSlotId, selected: Set<String>, prerequisite: Prerequisite): EntryEligibility {
         val errors = mutableListOf<Diagnostic>()
-        val factBlockers = if (factsOnly) blockers.filter { it.code != "engine.missingChoice" } else blockers
+        val unmet = mutableListOf<UnmetCondition>()
+        val factBlockers = if (factsOnly) blockers.filter { it !in unfilledChoiceBlockers } else blockers
         var unresolved = false
         var incomplete = false
         var invalid = false
@@ -1306,7 +1373,7 @@ private class Evaluation(
             incomplete = true
             errors += diagnostic("prerequisiteDependency", DiagnosticKind.INCOMPLETE_AUTOMATION,
                 "Eligibility needs independent or historical prerequisite evaluation; this proof cannot establish it from current benefits.", slot, entry.id)
-            return EntryEligibility(entry.id, Eligibility.INCOMPLETE, errors)
+            return EntryEligibility(entry.id, Eligibility.INCOMPLETE, errors, listOf(UnmetCondition.Unchecked(UncheckedReason.DEPENDENCY)))
         }
         val satisfied: Boolean? = when (prerequisite) {
             is Prerequisite.Always -> true
@@ -1331,6 +1398,7 @@ private class Evaluation(
                         incomplete = true
                         errors += diagnostic("classFactsUnavailable", DiagnosticKind.INCOMPLETE_AUTOMATION,
                             "A legacy class has no shared source/proficiency facts.", slot, entry.id)
+                        unmet += UnmetCondition.Unchecked(UncheckedReason.CLASS_FACTS_UNAVAILABLE)
                         null
                     }
                     else -> false
@@ -1345,6 +1413,7 @@ private class Evaluation(
                         incomplete = true
                         errors += diagnostic("sizeFactsUnavailable", DiagnosticKind.INCOMPLETE_AUTOMATION,
                             "Size requires one unambiguous structured ancestry size.", slot, entry.id)
+                        unmet += UnmetCondition.Unchecked(UncheckedReason.SIZE_FACTS_UNAVAILABLE)
                         null
                     }
                     else -> sizes.single() == prerequisite.size
@@ -1367,6 +1436,7 @@ private class Evaluation(
                         incomplete = true
                         errors += diagnostic("selectedFactsUnavailable", DiagnosticKind.INCOMPLETE_AUTOMATION,
                             "A selected power has no structured level/usage profile.", slot, entry.id)
+                        unmet += UnmetCondition.Unchecked(UncheckedReason.SELECTED_FACTS_UNAVAILABLE)
                         null
                     }
                     else -> false
@@ -1375,12 +1445,14 @@ private class Evaluation(
             is Prerequisite.Unavailable -> {
                 errors += diagnostic("unavailableCondition", DiagnosticKind.INVALID_SELECTION,
                     "${prerequisite.text}: ${prerequisite.reason}", slot, entry.id)
+                unmet += UnmetCondition.Unavailable(prerequisite)
                 false
             }
             is Prerequisite.Unresolved -> {
                 incomplete = true
                 errors += diagnostic("unresolvedCondition", DiagnosticKind.INCOMPLETE_AUTOMATION,
                     "${prerequisite.text}: ${prerequisite.reason}", slot, entry.id)
+                unmet += UnmetCondition.Unresolved(prerequisite)
                 null
             }
             is Prerequisite.Level -> (selectionLevel ?: document.level) >= prerequisite.minimum
@@ -1419,6 +1491,7 @@ private class Evaluation(
                 incomplete = true
                 errors += diagnostic("unadaptedPrerequisite", DiagnosticKind.INCOMPLETE_AUTOMATION,
                     "Prerequisite needs adaptation: ${prerequisite.sourceText}", slot, entry.id)
+                unmet += UnmetCondition.Unadapted(prerequisite)
                 null
             }
         }
@@ -1426,17 +1499,19 @@ private class Evaluation(
             invalid = true
             errors += diagnostic("prerequisite", DiagnosticKind.INVALID_SELECTION,
                 "Unsatisfied prerequisite: $prerequisite", slot, entry.id)
+            unmet += UnmetCondition.Failed(prerequisite)
         }
         if (unresolved) {
             errors += diagnostic("prerequisiteUnavailable", DiagnosticKind.UNRESOLVED_CONTENT,
                 "Prerequisites depend on unavailable definitions or calculations.", slot, entry.id)
+            unmet += UnmetCondition.Unchecked(UncheckedReason.DEFINITIONS_UNAVAILABLE)
         }
         return EntryEligibility(entry.id, when {
             invalid -> Eligibility.INELIGIBLE
             unresolved -> Eligibility.UNRESOLVED
             incomplete -> Eligibility.INCOMPLETE
             else -> Eligibility.ELIGIBLE
-        }, errors)
+        }, errors, unmet)
     }
 
     /** Preserve the legacy dependency check while sharing the selection-time implementation. */
@@ -1446,6 +1521,11 @@ private class Evaluation(
     private fun invalid(code: String, message: String, slot: ChoiceSlotId, entryId: String? = null) {
         diagnostics += diagnostic(code, DiagnosticKind.INVALID_SELECTION, message, slot, entryId)
     }
+
+    /** Record a typed slot issue beside the diagnostic that presents it; editors decide from the issue. */
+    private fun issue(slot: ChoiceSlotId, issue: SlotIssue) {
+        slotIssues.getOrPut(slot) { mutableListOf() } += issue
+    }
 }
 
 private fun diagnostic(code: String, kind: DiagnosticKind, message: String, slot: ChoiceSlotId? = null, entryId: String? = null) =
@@ -1453,3 +1533,7 @@ private fun diagnostic(code: String, kind: DiagnosticKind, message: String, slot
 
 private fun missing(message: String, slot: ChoiceSlotId? = null, entryId: String? = null) = ContractResult.Unavailable(
     listOf(diagnostic("missingDefinition", DiagnosticKind.UNRESOLVED_CONTENT, message, slot, entryId)))
+
+/** The coverage notice for an entry whose automation is not fully supported, wherever it is activated or checked. */
+private fun coverageDiagnostic(entry: ContentEntry, slot: ChoiceSlotId) = diagnostic("coverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
+    "${entry.presentation.title}: ${entry.coverage.status}. ${entry.coverage.limitations.joinToString()}", slot, entry.id)
