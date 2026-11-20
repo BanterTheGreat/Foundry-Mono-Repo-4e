@@ -19,7 +19,7 @@
         "status": "UNIMPLEMENTED",
         "limitations": [
           "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
-          "Power acquisition through level 10 and daily/utility preparation capacities are structured. Technique choices remain unresolved until the magic-technique catalog is adapted; no arbitrary technique becomes eligible. Page costs, levels 11-30 acquisitions and extended-rest execution remain incomplete."
+          "Power acquisition through level 10 and daily/utility preparation capacities are structured. Record spellbook rituals in Stats. Spellbook ritual choice limits, page costs, levels 11-30 power acquisitions and extended-rest execution remain manual."
         ]
       },
       "sections": [
@@ -37,11 +37,11 @@
         },
         {
           "type": "heading",
-          "title": "Techniques"
+          "title": "Rituals"
         },
         {
           "type": "text",
-          "text": "Your book also contains three 1st-level magic Techniques of your choice that you have mastered. At 5th level, and again at 11th, 15th, 21st, and 25th level, you master two more Techniques of your choice and add them to your spellbook. When you choose the Techniques , they must be your level or lower."
+          "text": "Your book also contains three 1st-level magic rituals of your choice that you have mastered. At 5th level, and again at 11th, 15th, 21st, and 25th level, you master two more rituals of your choice and add them to your spellbook. When you choose the rituals, they must be your level or lower."
         },
         {
           "type": "heading",
@@ -49,7 +49,7 @@
         },
         {
           "type": "text",
-          "text": "A typical spellbook has 128 pages. Each power takes up 1 page. A Techniques takes up a number of pages equal to its level."
+          "text": "A typical spellbook has 128 pages. Each power takes up 1 page. A ritual takes up a number of pages equal to its level."
         },
         {
           "type": "table",
@@ -293,7 +293,7 @@
         },
         {
           "id": "modern4e.choice.wizard-techniques-1",
-          "title": "Level 1 spellbook techniques",
+          "title": "Level 1 spellbook rituals",
           "kind": "ENTRY",
           "atLevel": 1,
           "count": 3,
@@ -313,7 +313,7 @@
         },
         {
           "id": "modern4e.choice.wizard-techniques-5",
-          "title": "Level 5 spellbook techniques",
+          "title": "Level 5 spellbook rituals",
           "kind": "ENTRY",
           "atLevel": 5,
           "count": 2,
@@ -333,7 +333,7 @@
         },
         {
           "id": "modern4e.choice.wizard-techniques-11",
-          "title": "Level 11 spellbook techniques",
+          "title": "Level 11 spellbook rituals",
           "kind": "ENTRY",
           "atLevel": 11,
           "count": 2,
@@ -353,7 +353,7 @@
         },
         {
           "id": "modern4e.choice.wizard-techniques-15",
-          "title": "Level 15 spellbook techniques",
+          "title": "Level 15 spellbook rituals",
           "kind": "ENTRY",
           "atLevel": 15,
           "count": 2,
@@ -373,7 +373,7 @@
         },
         {
           "id": "modern4e.choice.wizard-techniques-21",
-          "title": "Level 21 spellbook techniques",
+          "title": "Level 21 spellbook rituals",
           "kind": "ENTRY",
           "atLevel": 21,
           "count": 2,
@@ -393,7 +393,7 @@
         },
         {
           "id": "modern4e.choice.wizard-techniques-25",
-          "title": "Level 25 spellbook techniques",
+          "title": "Level 25 spellbook rituals",
           "kind": "ENTRY",
           "atLevel": 25,
           "count": 2,
@@ -610,7 +610,7 @@
         "status": "UNIMPLEMENTED",
         "limitations": [
           "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
-          "Stored encounter selection, distinctness from known powers and replacement levels through level 10 are structured. Combat substitution, later acquisition and technique mastery remain incomplete."
+          "Stored encounter selection, distinctness from known powers and replacement levels through level 10 are structured. Combat substitution and later acquisition remain incomplete."
         ]
       },
       "sections": [
@@ -1089,8 +1089,8 @@
     },
     {
       "id": "modern4e.feature.wizard-arcane-techniques",
-      "title": "Arcane Techniques",
-      "description": "You gain the Technique Master feat for Arcane Techniques.",
+      "title": "Arcane Rituals",
+      "description": "You gain the Ritual Master feat for Arcane Rituals.",
       "access": {
         "type": "always"
       },
@@ -1104,13 +1104,13 @@
       "coverage": {
         "status": "PARTIAL",
         "limitations": [
-          "Technique Master is explicitly granted, with the authored optional Alchemist substitution. Technique mastery, formulas and combat/session effects remain manual."
+          "Ritual Master is explicitly granted, with the optional Alchemist substitution. Known rituals and formulas are tracked in Stats."
         ]
       },
       "sections": [
         {
           "type": "text",
-          "text": "You gain the Technique Master feat for Arcane Techniques."
+          "text": "You gain the Ritual Master feat for Arcane Rituals."
         },
         {
           "type": "grant",

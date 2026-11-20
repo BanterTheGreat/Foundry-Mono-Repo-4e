@@ -34,7 +34,7 @@ data class EngineResult(
     val overviewAbilityTotals: Map<Ability, Int> = emptyMap(),
     val equipmentProficiencies: Map<String, List<ChoiceSlotId>> = emptyMap(),
     val facts: List<StructuredFact> = emptyList(),
-    internal val overviewDefenses: Map<Statistic, ContractResult<CalculatedValue>> = emptyMap(),
+    internal val overviewStatistics: Map<Statistic, ContractResult<CalculatedValue>> = emptyMap(),
 ) {
     fun ability(ability: Ability) = statistics.getValue(ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)).value
     fun skill(skill: Skill) = statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = skill)).value
@@ -42,10 +42,14 @@ data class EngineResult(
     /** Show known defense totals while the character has unfinished choices. */
     fun displayedDefense(statistic: Statistic): ContractResult<CalculatedValue> {
         require(statistic in defenseStatistics)
-        return overviewDefenses[statistic] ?: statistics[ModifierTarget(statistic)]?.value
+        return displayedStatistic(statistic)
+    }
+
+    /** Show totals from known inputs while choices elsewhere on the sheet are unfinished. */
+    fun displayedStatistic(statistic: Statistic): ContractResult<CalculatedValue> =
+        overviewStatistics[statistic] ?: statistics[ModifierTarget(statistic)]?.value
             ?: ContractResult.Unavailable(listOf(diagnostic("missingBase", DiagnosticKind.INCOMPLETE_AUTOMATION,
                 "$statistic has no calculation.")))
-    }
 
     /** Calculate the displayed modifier using committed proficiency or the picker’s draft source. */
     fun displayedSkill(skill: Skill, proficiencySource: ChoiceSlotId? = proficiencies[skill]?.firstOrNull()): ContractResult<CalculatedValue> {
@@ -57,6 +61,8 @@ data class EngineResult(
         return ModifierCalculator.calculate(base, skillProficiency(skill, proficiencySource) + known).value
     }
 }
+
+private val partialStatistics = setOf(Statistic.SPEED, Statistic.HIT_POINTS, Statistic.HEALING_SURGES)
 
 private fun skillProficiency(skill: Skill, source: ChoiceSlotId?): List<ModifierContribution> =
     if (source == null) emptyList() else listOf(ModifierContribution(
@@ -513,7 +519,7 @@ private class Evaluation(
             statistics[target] = ModifierCalculator.calculate(ability, contributions)
         }
         val defenseEquipment = DefenseEquipment(entries, equipmentProficiencies.keys)
-        val overviewDefenses = linkedMapOf<Statistic, ContractResult<CalculatedValue>>()
+        val overviewStatistics = linkedMapOf<Statistic, ContractResult<CalculatedValue>>()
         val mayPreview = blockers.all { it.code == "engine.missingChoice" }
         for (statistic in Statistic.entries.filter { it != Statistic.ABILITY_POINTS && it != Statistic.SKILL_CHECK }) {
             val target = ModifierTarget(statistic)
@@ -530,9 +536,9 @@ private class Evaluation(
             }
             val calculation = ModifierCalculator.calculate(base, contributions)
             statistics[target] = calculation
-            if (isDefense && mayPreview && calculation.value is ContractResult.Unavailable) {
+            if ((isDefense || statistic in partialStatistics) && mayPreview && calculation.value is ContractResult.Unavailable) {
                 val preview = statisticBase(statistic, defenseEquipment) { overviewAbilityValues.getValue(it) }
-                overviewDefenses[statistic] = ModifierCalculator.calculate(preview, contributions).value
+                overviewStatistics[statistic] = ModifierCalculator.calculate(preview, contributions).value
             }
         }
         diagnostics += statistics.values.flatMap { calculation ->
@@ -543,7 +549,7 @@ private class Evaluation(
             entries.flatMap { occurrence -> occurrence.definition.entry.mechanics.conditionalModifiers.map {
                 ConditionalContribution(occurrence.instanceId, occurrence.slot, it)
             } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap(), equipmentProficiencies.mapValues { it.value.toList() }, facts.toList(),
-            overviewDefenses)
+            overviewStatistics)
     }
 
     /** Resolve finite fact decisions in acquisition order, preserving rejected decisions for diagnostics. */

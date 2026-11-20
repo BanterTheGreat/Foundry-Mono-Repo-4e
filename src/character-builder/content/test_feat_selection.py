@@ -76,7 +76,7 @@ class FeatSelectionTest(unittest.TestCase):
     def test_granted_slot_replacement_and_benefit_conditions_remain_separate(self):
         alchemist = self.entries["Alchemist"]
         self.assertEqual(1, alchemist["selection"]["maximum"])
-        self.assertIn("instead of the Technique Master", alchemist["description"])
+        self.assertIn("instead of the Ritual Master", alchemist["description"])
         shield = self.entries["Distracting Shield"]
         self.assertEqual([], shield["selection"]["constraints"])
         self.assertIn("shield equipped", shield["description"])

@@ -107,6 +107,48 @@ class EquipmentOptionsTest {
         assertTrue(options.ineligible.isEmpty())
     }
 
+    @Test fun implementSelectionLinksTheSpecificWeaponAndCanSwitchToAStandaloneImplement() = runBlocking {
+        val model = session()
+        model.create("modern4e.class.wizard")
+        val implementSlot = EquipmentSlot.IMPLEMENT
+        val weaponSlot = EquipmentSlot.WEAPON_TWO
+        val weapon = model.equipmentOptions(weaponSlot).eligible.single { it.entry.id == "modern4e.weapon.quarterstaff" }
+        model.selectEquipment(weaponSlot, weapon)
+        val link = model.equipmentOptions(implementSlot).linkedWeapons.single()
+        assertEquals(weaponSlot, link.slot)
+        model.selectEquipment(implementSlot, link.definition, link.selection.instanceId)
+
+        val reopened = session()
+        reopened.load(model.current!!.document.id)
+        assertEquals(1, reopened.current!!.document.equipment.size)
+        assertEquals(weaponSlot.instanceId, reopened.equipmentOptions(implementSlot).selected!!.instanceId)
+        assertEquals(weapon.entry.id, reopened.equipmentOptions(weaponSlot).selected!!.selection.entryId)
+
+        val orb = reopened.equipmentOptions(implementSlot).eligible.single { it.entry.id == "modern4e.implement.orb" }
+        reopened.selectEquipment(implementSlot, orb)
+        assertFalse(reopened.equipmentOptions(weaponSlot).selected!!.isLinkedImplement)
+        assertEquals(orb.entry.id, reopened.equipmentOptions(implementSlot).selected!!.selection.entryId)
+        reopened.selectEquipment(implementSlot, null)
+        assertNull(reopened.equipmentOptions(implementSlot).selected)
+        assertEquals(weapon.entry.id, reopened.equipmentOptions(weaponSlot).selected!!.selection.entryId)
+
+        reopened.selectEquipment(implementSlot, link.definition, link.selection.instanceId)
+        reopened.selectEquipment(implementSlot, null)
+        assertFalse(reopened.equipmentOptions(weaponSlot).selected!!.isLinkedImplement)
+        reopened.selectEquipment(implementSlot, link.definition, link.selection.instanceId)
+        reopened.selectEquipment(weaponSlot, null)
+        assertNull(reopened.equipmentOptions(implementSlot).selected)
+    }
+
+    @Test fun bladeImplementProficiencyUsesTheClassImplementList() = runBlocking {
+        val model = session()
+        model.create("modern4e.class.rogue")
+        val dagger = model.equipmentOptions(EquipmentSlot.WEAPON_ONE).eligible.single { it.entry.id == "modern4e.weapon.dagger" }
+        assertFalse(dagger.entry.canUseWeaponAsImplement(model.current!!.rules))
+        model.create("modern4e.class.sorcerer")
+        assertTrue(dagger.entry.canUseWeaponAsImplement(model.current!!.rules))
+    }
+
     @Test fun armorSectionsSortByAcBeforeNameRegardlessOfEligibility() {
         fun armor(id: String, title: String, bonus: Int?, category: String = "LIGHT") = ResolvedEntry(
             ContentEntry(id, EntryCategory.ITEM, Presentation(title), Mechanics(), Coverage(CoverageStatus.SUPPORTED),

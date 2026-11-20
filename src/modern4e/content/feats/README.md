@@ -125,7 +125,7 @@ runtime package. Grouped prerequisites, historical independent facts, explicit
 class/source qualification and ZEITGEIST availability are evaluated by shared Kotlin.
 Occurrence limits, armor advancement, Skill Training, Weapon Proficiency, Linguist
 and Adaptable Breath build-time choices are enforced. Explicit class-feature
-Technique Master grants allow the authored Alchemist substitution in the same
+Ritual Master grants allow the authored Alchemist substitution in the same
 stable grant slot. Other unspecified benefits remain manual. In particular, “must have a shield equipped to
 benefit” must not be converted into a selection prerequisite.
 

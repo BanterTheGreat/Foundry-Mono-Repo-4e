@@ -33,19 +33,27 @@ class EquipmentRuntimeTest(unittest.TestCase):
 
     def test_package_shape_count_ids_and_categories(self):
         manifest = self.assets[f"{PACKAGE}/manifest.json"]
-        self.assertEqual({"formatVersion": 2, "id": PACKAGE, "revision": "1",
+        self.assertEqual({"formatVersion": 2, "id": PACKAGE, "revision": "2",
                           "title": "Modern 4e shared equipment", "indexes": ["index"], "chunks": ["entries-0000"]}, manifest)
         authored = self.catalog["entries"]
         self.assertEqual(53, len(authored))
-        self.assertEqual(53, len(runtime_common.entries_of(self.assets)))
-        self.assertEqual(sorted(entry["id"] for entry in authored), sorted(self.entries))
+        self.assertEqual(60, len(runtime_common.entries_of(self.assets)))
+        self.assertEqual({entry["id"] for entry in authored}, {key for key in self.entries if ".implement." not in key})
         self.assertTrue(all(entry["category"] == "ITEM" for entry in self.entries.values()))
         index = self.assets[f"{PACKAGE}/index.json"]["entries"]
         self.assertEqual(sorted(self.entries), [row["id"] for row in index])
         self.assertTrue(all(row["category"] == "ITEM" and row["chunkId"] == "entries-0000" for row in index))
         counts = {kind: sum(e["sharedData"]["equipment"]["kind"] == kind for e in self.entries.values())
-                  for kind in ("WEAPON", "ARMOR", "SHIELD")}
-        self.assertEqual({"WEAPON": 45, "ARMOR": 6, "SHIELD": 2}, counts)
+                  for kind in ("WEAPON", "ARMOR", "SHIELD", "IMPLEMENT")}
+        self.assertEqual({"WEAPON": 45, "ARMOR": 6, "SHIELD": 2, "IMPLEMENT": 7}, counts)
+
+    def test_basic_implements_have_proficiencies_and_no_armor_rules(self):
+        implements = [entry for entry in self.entries.values() if ".implement." in entry["id"]]
+        self.assertEqual(set(equipment_runtime.BASIC_IMPLEMENT_TYPES),
+                         {entry["sharedData"]["equipment"]["proficiencyKey"] for entry in implements})
+        for entry in implements:
+            self.assertNotIn("armorRules", entry["sharedData"])
+            self.assertIn("Implement. Proficiency:", entry["presentation"]["description"])
 
     def test_output_is_deterministic_and_has_no_local_paths(self):
         again = equipment_runtime.build()
@@ -66,7 +74,7 @@ class EquipmentRuntimeTest(unittest.TestCase):
                 authored = [text for text in entry["sharedData"]["coverage"]["limitations"]
                             if not text.startswith(runtime_common.OUT_OF_SCOPE_LIMITATIONS)]
                 self.assertEqual(authored, entry["coverage"]["limitations"])
-            else:
+            elif kind != "IMPLEMENT":
                 self.assertIn("contribute to", entry["coverage"]["limitations"][0])
                 self.assertIn("remain descriptive", entry["coverage"]["limitations"][0])
 

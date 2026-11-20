@@ -22,6 +22,12 @@ class Level19AcceptanceTest {
         assertTrue(owns("modern4e.power.path-one-upmanship"))
         assertFalse(owns("modern4e.power.path-summon-audience"))
         assertFalse(owns("modern4e.feature.notorious-celebrity-crowd-effect"))
+        val upcoming = catalog.upcomingGrants(state).associate { it.occurrence.definition.entry.id to it.level }
+        assertFalse("modern4e.power.path-one-upmanship" in upcoming)
+        assertEquals(12, upcoming["modern4e.power.path-summon-audience"])
+        assertEquals(16, upcoming["modern4e.feature.notorious-celebrity-crowd-effect"])
+        assertEquals(20, upcoming["modern4e.power.path-shock-and-awe"])
+        assertFalse(owns("modern4e.power.path-summon-audience"))
         val early = operations.apply(state.document, BuilderEdit.Entry(10, pathSlot,
             "modern4e.path.notorious-celebrity", "celebrity"))
         assertFalse(early.applied)

@@ -138,7 +138,7 @@
 
       == Before negotiation
 
-      Research, contacts, observation, and relevant techniques or utility powers can reveal motivations and pitfalls. Use ordinary skill checks and the effects of those abilities. Society might uncover political loyalties, Religion might identify obligations, and Insight might reveal a personal concern.
+      Research, contacts, observation, and relevant rituals or utility powers can reveal motivations and pitfalls. Use ordinary skill checks and the effects of those abilities. Society might uncover political loyalties, Religion might identify obligations, and Insight might reveal a personal concern.
 
       Give concrete information: _She fears another attack on the docks_ is more useful than simply naming _Protection_. Research does not spend a motivation or reduce the NPC's Patience unless its consequences actually affect the later meeting.
 

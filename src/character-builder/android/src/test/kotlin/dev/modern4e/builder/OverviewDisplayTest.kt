@@ -3,6 +3,9 @@ package dev.modern4e.builder
 import dev.modern4e.builder.ui.screens.languageNames
 import dev.modern4e.builder.ui.screens.speedDisplay
 import dev.modern4e.builder.ui.screens.sizeDisplay
+import dev.modern4e.builder.ui.screens.visionNames
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -59,6 +62,18 @@ class OverviewDisplayTest {
 
     @Test fun noLanguageFactsListNothing() {
         assertEquals(emptyList<String>(), rules().languageNames())
+    }
+
+    @Test fun visionListsDistinctAuthoredModesAndIsEmptyWithoutASource() {
+        fun withVision(id: String, vision: String): EngineEntry {
+            val occurrence = ancestry(id, CreatureSize.MEDIUM)
+            val data = buildJsonObject { put("attributes", buildJsonObject { put("vision", vision) }) }
+            return occurrence.copy(definition = occurrence.definition.copy(entry = occurrence.definition.entry.copy(sharedData = data)))
+        }
+        val current = rules().copy(entries = listOf(withVision("one", "LOW_LIGHT"), withVision("two", "Darkvision"),
+            withVision("three", "Low-Light"), ancestry("no-vision", null)))
+        assertEquals(listOf("Low-Light", "Darkvision"), current.visionNames())
+        assertEquals(emptyList<String>(), rules().visionNames())
     }
 
     @Test fun speedShowsTheAncestryBaseAndADashWithoutOne() {

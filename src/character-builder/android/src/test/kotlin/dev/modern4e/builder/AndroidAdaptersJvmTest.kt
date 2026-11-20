@@ -96,7 +96,8 @@ class AndroidAdaptersJvmTest {
         val source = AndroidContentSource(context.assets)
         val manifests = value(source.listPackages())
         assertEquals(setOf("modern4e.classes", "modern4e.ancestries",
-            "modern4e.themes", "modern4e.feats", "modern4e.utilities", "modern4e.equipment", "modern4e.paths"), manifests.map { it.id }.toSet())
+            "modern4e.themes", "modern4e.feats", "modern4e.utilities", "modern4e.equipment", "modern4e.paths",
+            "modern4e.rituals", "modern4e.formulas"), manifests.map { it.id }.toSet())
         for (manifest in manifests) {
             for (index in manifest.indexes) {
                 assertTrue(value(source.loadIndex(manifest.id, index)).entries.isNotEmpty())

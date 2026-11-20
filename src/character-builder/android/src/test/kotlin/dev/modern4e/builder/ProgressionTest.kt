@@ -259,9 +259,9 @@ class ProgressionTest {
     }
 
     @Test fun scheduleMatchesPrintedMilestones() {
-        assertEquals(mapOf("At-will" to 2, "Encounter" to 1, "Daily" to 2), Progression.tally(1))
-        assertEquals(mapOf("At-will" to 2, "Encounter" to 6, "Daily" to 4, "Utility" to 5), Progression.tally(20))
-        assertEquals(mapOf("At-will" to 2, "Encounter" to 7, "Daily" to 4, "Utility" to 7), Progression.tally(30))
+        assertEquals(listOf("At-will", "At-will", "Encounter", "Daily", "Daily"), Progression.level(1).powers)
+        assertEquals(listOf("Paragon daily"), Progression.level(20).powers)
+        assertEquals(20, (1..30).sumOf { Progression.level(it).powers.size })
         assertEquals(19, (1..30).count { Progression.level(it).feat })
         assertEquals(listOf(9, 15, 19, 23, 25, 29), (1..30).filter { Progression.level(it).replacement != null })
     }

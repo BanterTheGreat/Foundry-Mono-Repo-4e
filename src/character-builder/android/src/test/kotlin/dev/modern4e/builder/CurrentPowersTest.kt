@@ -1,11 +1,35 @@
 package dev.modern4e.builder
 
 import dev.modern4e.builder.ui.screens.currentPowers
+import dev.modern4e.builder.ui.screens.byUsage
+import dev.modern4e.builder.ui.screens.CurrentPowerUsage
 import dev.modern4e.builder.ui.screens.laterPowerSelections
 import org.junit.Assert.*
 import org.junit.Test
 
 class CurrentPowersTest {
+    @Test fun usageGroupsIncludeUtilityAndAllAcquiredSourcePowers() {
+        fun power(title: String, source: EngineEntry, usage: String?, kind: String = "ATTACK"): EngineEntry {
+            val occurrence = engineEntry(title, EntryCategory.POWER, ChoiceSlotId(source.instanceId, "power", 0), granted = true)
+            val definition = occurrence.definition
+            val profile = usage?.let { PowerProfile(1, it, kind) }
+            return occurrence.copy(definition = definition.copy(entry = definition.entry.copy(
+                mechanics = Mechanics(powerProfile = profile))))
+        }
+        val ancestry = engineEntry("Ancestry", EntryCategory.ANCESTRY, ChoiceSlotId("creation", "ancestry", 0))
+        val feature = engineEntry("Feature", EntryCategory.FEATURE, ChoiceSlotId("class", "feature", 0), granted = true)
+        val theme = engineEntry("Theme", EntryCategory.THEME, ChoiceSlotId("creation", "theme", 0))
+        val path = engineEntry("Path", EntryCategory.PARAGON_PATH, ChoiceSlotId("advancement.11", "paragon-path", 0))
+        val state = state(listOf(LevelDecisions(1), LevelDecisions(11)), listOf(ancestry, feature, theme, path,
+            power("Ancestry Power", ancestry, "AT_WILL"), power("Feature Power", feature, "ENCOUNTER", "UTILITY"),
+            power("Theme Power", theme, null), power("Path Power", path, "DAILY")))
+
+        val groups = currentPowers(state, null).byUsage().mapValues { (_, powers) -> powers.map { it.title } }
+        assertEquals(mapOf(CurrentPowerUsage.AT_WILL to listOf("Ancestry Power"),
+            CurrentPowerUsage.ENCOUNTER to listOf("Feature Power"), CurrentPowerUsage.DAILY to listOf("Path Power"),
+            CurrentPowerUsage.UNSPECIFIED to listOf("Theme Power")), groups)
+    }
+
     @Test fun currentPowersIncludeSelectionsAndGrantsFromActiveSources() {
         val ancestry = engineEntry("Ancestry", EntryCategory.ANCESTRY, ChoiceSlotId("creation", "ancestry", 0))
         val classPower = engineEntry("Class Power", EntryCategory.POWER, ChoiceSlotId("class", "attack", 0))

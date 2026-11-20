@@ -93,8 +93,14 @@ python -X utf8 src/character-builder/content/samples.py --check
 python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_*.py' -v
 ```
 
-The production build contains only the six authoritative Modern 4e packages.
-It never reads `proof.json` or imports legacy compendium entries as fallback content.
+The production build uses the authoritative Modern 4e packages. The ritual package
+reads the same 83 entries as the Typst rulebook from
+`src/modern4e/content/rituals/rituals.json`. The formula package reads the published
+alchemical items from the offline compendium as an explicit catalog source.
+Both packages provide reference cards and use the `ITEM` category without
+equipment profiles. Each named formula retains its level and reagent cost variants.
+Formula acquisition cost and time appear when available in the source.
+Production never reads `proof.json` or imports compendium entries as fallback content.
 `--check` validates input and exact UTF-8 bytes, rejects extra stale chunks, and
 never publishes partial validation results. Output has no machine paths or timestamps.
 
@@ -177,7 +183,7 @@ cross-package reference check. The sample new-character template enables all of 
   the package so its ID resolves but have no profile. `sharedData.utilitySection` keeps section kind/availability and COMBAT/NON_COMBAT
   pick kinds. The advancement pool queries do not carry the authored `access: CHARACTER` filter, so pools list
   other classes' utilities; selection still requires eligible access and prerequisites.
-- `modern4e.equipment` (`equipment_runtime.py`): 53 ITEM entries (45 weapons, 6 armor, 2 shields). Descriptions
+- `modern4e.equipment` (`equipment_runtime.py`): 60 ITEM entries (45 weapons, 6 armor, 2 shields, 7 implements). Descriptions
   render deterministically from structured fields only. The defense engine reads armor and shield profiles from
   `sharedData`, which also keeps the property definitions and armor rules. Speed, skill penalties, weapon attack
   and damage remain descriptive. The authoring export

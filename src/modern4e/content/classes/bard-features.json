@@ -177,8 +177,8 @@
     },
     {
       "id": "modern4e.feature.bard-techniques",
-      "title": "Techniques",
-      "description": "You master two level 1 techniques, one of these must have the bard trait.",
+      "title": "Rituals",
+      "description": "You master two level 1 rituals, one of these must have the bard trait.",
       "access": {
         "type": "always"
       },
@@ -193,13 +193,13 @@
         "status": "UNIMPLEMENTED",
         "limitations": [
           "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
-          "Technique acquisition remains literal rules text pending the technique catalog; no technique choices or mastery are automatically applied."
+          "Record the Bard's chosen rituals in Stats. The catalog has no Bard trait tags to enforce this choice restriction."
         ]
       },
       "sections": [
         {
           "type": "text",
-          "text": "You master two level 1 techniques, one of these must have the bard trait."
+          "text": "You master two level 1 rituals, one of these must have the bard trait."
         }
       ]
     }

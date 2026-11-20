@@ -331,6 +331,7 @@ def production(content=None, snapshot=SNAPSHOT, campaign=None):
     import equipment_runtime
     import feat_runtime
     import path_runtime
+    import ritual_runtime
     import runtime_common
     import theme_runtime
     import utility_runtime
@@ -340,6 +341,7 @@ def production(content=None, snapshot=SNAPSHOT, campaign=None):
         package = compiler.build()
         require(not modern.keys() & package.keys(), "production", "duplicate package assets")
         modern |= package
+    modern |= ritual_runtime.build(snapshot)
     # Grants, finite choices and entry conditions may cross authored packages, never dangle.
     runtime_common.validate_references(modern)
     return campaign_profiles.apply(modern, campaign)

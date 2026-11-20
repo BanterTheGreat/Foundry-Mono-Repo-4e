@@ -120,11 +120,7 @@ private fun ancestryAttributes(entry: ContentEntry): List<Pair<String, String>> 
     mechanics.modifiers.firstOrNull { it.target.statistic == Statistic.SPEED }?.let {
         add("Speed" to "${it.value} squares")
     }
-    val attributes = entry.sharedData?.get("attributes") as? JsonObject
-    val vision = (attributes?.get("vision") as? JsonPrimitive)?.takeIf { it.isString }?.content
-    if (!vision.isNullOrBlank()) {
-        add("Vision" to vision.readable())
-    }
+    entry.visionName()?.let { add("Vision" to it) }
     val languages = mechanics.facts.filter { it.kind == FactKind.LANGUAGE }.flatMap { it.values }.map { it.readable() }
     val languageCount = mechanics.choices.filterIsInstance<ChoiceDefinition.Values>()
         .filter { it.kind == FactKind.LANGUAGE }.sumOf { it.count }
@@ -133,4 +129,12 @@ private fun ancestryAttributes(entry: ContentEntry): List<Pair<String, String>> 
     if (displayedLanguages.isNotEmpty()) {
         add("Languages" to displayedLanguages.joinToString(", "))
     }
+}
+
+/** Vision is currently authored in entry attributes. */
+internal fun ContentEntry.visionName(): String? {
+    val attributes = sharedData?.get("attributes") as? JsonObject
+    val vision = attributes?.get("vision") as? JsonPrimitive
+    return vision?.takeIf { it.isString && it.content.isNotBlank() }?.content
+        ?.split('-', '_')?.joinToString("-") { it.readable() }
 }

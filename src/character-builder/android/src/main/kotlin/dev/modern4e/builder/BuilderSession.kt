@@ -395,7 +395,9 @@ class BuilderSession(
                 is ContractResult.Unavailable -> opened
                 is ContractResult.Available -> {
                     val diagnostics = mutableListOf<Diagnostic>()
-                    val entries = opened.value.search(category = EntryCategory.ITEM).mapNotNull { row ->
+                    val entries = opened.value.search(category = EntryCategory.ITEM).filterNot { row ->
+                        CraftKnowledgeKind.entries.any { it.matches(row.metadata.id) }
+                    }.mapNotNull { row ->
                         when (val loaded = opened.value.lookup(row.metadata.id)) {
                             is ContractResult.Unavailable -> {
                                 diagnostics += loaded.diagnostics
@@ -422,7 +424,7 @@ class BuilderSession(
     internal suspend fun equipmentOptions(slot: EquipmentSlot): EquipmentOptions {
         val state = current ?: return EquipmentOptions()
         return withContext(Dispatchers.IO) {
-            val selected = state.document.equipment.firstOrNull { it.instanceId == slot.instanceId }
+            val selected = state.document.equipment.savedEquipment(slot)
             try {
                 when (val loaded = loadEquipmentCatalog(state.document, sample())) {
                     is ContractResult.Available -> equipmentOptions(state, slot, loaded.value)
@@ -443,20 +445,45 @@ class BuilderSession(
             val resolved = prepared.catalog.resolve(selection) as? ContractResult.Available
             resolved?.value?.let { selection to it }
         }.toMap()
-        val selected = equipmentSlots(equipment, definitions)[slot]
+        val positions = equipmentSlots(equipment, definitions)
+        val selected = positions[slot] ?: if (slot == EquipmentSlot.IMPLEMENT) equipment.savedEquipment(slot) else null
         val (eligible, ineligible) = prepared.entries
             .filter { it.entry.equipmentProfile?.equipmentString("kind") == slot.kind }
             .partition { it.entry.meetsEquipmentProficiencyRequirement(state.rules.equipmentProficiencies.keys) }
-        return EquipmentOptions(selected, selected?.let { definitions[it.selection] }, eligible, ineligible, prepared.diagnostics)
+        val linkedWeapons = if (slot == EquipmentSlot.IMPLEMENT) {
+            WeaponSlots.mapNotNull { weaponSlot ->
+                val equipped = positions[weaponSlot]?.takeIf { it.equipped } ?: return@mapNotNull null
+                val definition = definitions[equipped.selection] ?: return@mapNotNull null
+                val eligibleWeapon = definition.entry.canUseWeaponAsImplement(state.rules)
+                EquippedImplementWeapon(weaponSlot, equipped, definition, eligibleWeapon)
+                    .takeIf { eligibleWeapon || equipped.isLinkedImplement }
+            }
+        } else {
+            emptyList()
+        }
+        return EquipmentOptions(selected, selected?.let { definitions[it.selection] }, eligible, ineligible, prepared.diagnostics,
+            linkedWeapons)
     }
 
     /** Save or remove one position through the same durable commit path as other choices. */
-    internal suspend fun selectEquipment(slot: EquipmentSlot, entry: ResolvedEntry?) {
+    internal suspend fun selectEquipment(slot: EquipmentSlot, entry: ResolvedEntry?, linkedWeaponId: String? = null) {
         val state = current ?: return
         if (entry == null) {
             val selected = equipmentOptions(slot).selected ?: return
             if (current === state) {
-                edit(BuilderEdit.RemoveEquipment(selected.instanceId))
+                val change = if (slot == EquipmentSlot.IMPLEMENT) {
+                    BuilderEdit.Batch(buildList {
+                        state.document.equipment.filter { it.isLinkedImplement }.forEach {
+                            add(BuilderEdit.Equipment(it.withImplementLink(false)))
+                        }
+                        if (!selected.isLinkedImplement) {
+                            add(BuilderEdit.RemoveEquipment(selected.instanceId))
+                        }
+                    })
+                } else {
+                    BuilderEdit.RemoveEquipment(selected.instanceId)
+                }
+                edit(change)
             }
             return
         }
@@ -466,22 +493,36 @@ class BuilderSession(
                 is ContractResult.Available -> loaded.value
             }
             val options = equipmentOptions(state, slot, prepared)
-            val eligible = options.eligible.firstOrNull {
+            val linked = options.linkedWeapons.firstOrNull { it.selection.instanceId == linkedWeaponId && it.eligible }
+            val candidates = if (linkedWeaponId == null) options.eligible else listOfNotNull(linked?.definition)
+            val eligible = candidates.firstOrNull {
                 it.entry.id == entry.entry.id && it.supplier == entry.supplier && it.fingerprint == entry.fingerprint
             } ?: return@withContext ContractResult.Unavailable(listOf(
                 Diagnostic("android.equipment.proficiency", DiagnosticKind.INVALID_SELECTION,
                     "This item is no longer available for this position or requires proficiency.")))
+            val previous = options.selected?.takeUnless { slot == EquipmentSlot.IMPLEMENT && it.isLinkedImplement }
             val instanceId = if (state.document.levels.any { level -> level.entries.any { it.instanceId == slot.instanceId } }) {
-                options.selected?.instanceId ?: UUID.randomUUID().toString()
+                previous?.instanceId ?: UUID.randomUUID().toString()
             } else {
                 slot.instanceId
             }
             // Remove the imported occurrence when assigning its position a stable Android identity.
             val edits = buildList {
-                options.selected?.takeIf { it.instanceId != instanceId }?.let { add(BuilderEdit.RemoveEquipment(it.instanceId)) }
-                val selection = SavedSelection(eligible.entry.id, eligible.entry.presentation.title, eligible.supplier.packageId,
-                    eligible.fingerprint)
-                add(BuilderEdit.Equipment(EquipmentSelection(instanceId, selection, equipped = true)))
+                if (slot == EquipmentSlot.IMPLEMENT) {
+                    state.document.equipment.filter { it.isLinkedImplement && it.instanceId != linkedWeaponId }.forEach {
+                        add(BuilderEdit.Equipment(it.withImplementLink(false)))
+                    }
+                }
+                if (previous != null && (linked != null || previous.instanceId != instanceId)) {
+                    add(BuilderEdit.RemoveEquipment(previous.instanceId))
+                }
+                if (linked != null) {
+                    add(BuilderEdit.Equipment(linked.selection.withImplementLink(true)))
+                } else {
+                    val selection = SavedSelection(eligible.entry.id, eligible.entry.presentation.title, eligible.supplier.packageId,
+                        eligible.fingerprint)
+                    add(BuilderEdit.Equipment(EquipmentSelection(instanceId, selection, equipped = true)))
+                }
             }
             val document = state.document.copy(packages = prepared.packages)
             val updatedCatalog = prepared.catalog.takeIf { document.packages != state.document.packages }
@@ -606,7 +647,7 @@ class BuilderSession(
      * Load the character and select [initialPage] after the session has been initialized.
      */
     private suspend fun open(savedDocument: CharacterDocument, initialPage: String) {
-        val document = withBundledPaths(savedDocument)
+        val document = withBundledCraftKnowledge(withBundledPaths(savedDocument))
         clearOptionListings()
         val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", document.packages) }
         if (result is ContractResult.Unavailable && result.diagnostics.any { it.kind == DiagnosticKind.IO_FAILURE }) {
@@ -633,6 +674,24 @@ class BuilderSession(
                     listOf(Diagnostic("android.content", DiagnosticKind.UNRESOLVED_CONTENT, "Required content is unavailable"))
                 })))
         }
+
+    /** Add the bundled catalogs to older characters while preserving custom package precedence. */
+    private suspend fun withBundledCraftKnowledge(document: CharacterDocument): CharacterDocument {
+        val missing = CraftKnowledgeKind.entries.map { it.packageId }.toSet() - document.packages.map { it.packageId }.toSet()
+        if (missing.isEmpty()) {
+            return document
+        }
+        val listed = withContext(Dispatchers.IO) { source.listPackages() } as? ContractResult.Available ?: return document
+        val additions = listed.value.filter { it.id in missing }.map { PackageRevision(it.id, it.revision) }
+        val afterCore = document.packages.indexOfFirst { it.packageId == "modern4e.classes" } + 1
+        val packages = document.packages.toMutableList().apply { addAll(afterCore, additions) }
+        return document.copy(packages = packages)
+    }
+
+    /** Read a whole knowledge catalog using one decode session. */
+    internal suspend fun craftKnowledgeEntries(): List<ContentEntry> = withContext(Dispatchers.IO) {
+        catalog?.craftKnowledgeEntries().orEmpty()
+    }
 
     /** Add the newly bundled path catalog before overrides, keeping every saved supplier and revision intact. */
     private suspend fun withBundledPaths(document: CharacterDocument, targetLevel: Int = document.level): CharacterDocument {
@@ -850,6 +909,14 @@ class BuilderSession(
         val installed = operations ?: return emptyMap()
         return withContext(Dispatchers.IO) {
             installed.resolveSelections(selections)
+        }
+    }
+
+    /** Loads read-only future automatic grants without changing the active character. */
+    internal suspend fun upcomingGrants(state: BuilderState): List<ProgressionGrant> {
+        val installed = catalog ?: return emptyList()
+        return withContext(Dispatchers.IO) {
+            installed.upcomingGrants(state).map { ProgressionGrant(it.occurrence, it.level, it.sourceCategory) }
         }
     }
 

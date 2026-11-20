@@ -2,7 +2,7 @@
 
 Android and the shared engine support the local advancement schedule through level 19: earned feat slots, class power acquisition, level-11 paragon paths, non-main ability choices at 4 and 12, automatic main/all increases at 8 and 16, and daily replacements at 9, 15 and 19. Later choices use the shared editor and eligibility checks and retain portable occurrence identities. Equipment Choices omits its former Stats button.
 
-Production includes class attacks through level 19, the structured Zeitgeist paths and the older class path summaries. Summary-only paths explicitly lack automated feature/power grants. Combat execution, technique pools, unspecified retraining allowances and levels 20–30 remain incomplete. Historical milestone notes below describe earlier scope.
+Production includes class attacks through level 19, structured Zeitgeist paths, and older class path summaries. Summary-only paths have limited grant coverage. Levels previews authored future grants from selected sources. About counts the powers already acquired, and Stats tracks known rituals and alchemical formulas. Combat execution, unspecified retraining allowances, and levels 20–30 remain incomplete. Historical milestone notes below describe earlier scope.
 
 Validate from this directory with `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. Device UI tests are opt-in. See [test commands](../../tests/README.md) and [choice contracts](CHOICES.md).
 
@@ -16,7 +16,7 @@ and reviewed Fighter ID migration previews are implemented in shared Kotlin.
 
 Weapon Proficiency, Linguist, Adaptable Breath and structured ancestry choices use
 persisted value decisions, scoped facts and shared Android/web editing operations.
-Alchemist can deliberately replace the authored Wizard/Artificer Technique Master
+Alchemist can deliberately replace the authored Wizard/Artificer Ritual Master
 grant without changing its source slot or occurrence identity. Missing sources and
 invalid choices remain saved and diagnosed. Combat/session effects remain manual;
 Revenant Past Life grants qualification only and does not activate ancestry traits.

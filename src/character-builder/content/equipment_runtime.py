@@ -1,7 +1,7 @@
 """Compile validated shared equipment authoring into the mechanics-v2 runtime contract.
 
-The package lets the builder store, display and equip the authored weapons, armor and
-shields. The defense engine reads armor and shield data directly from the authored
+The package lets the builder store, display and equip the authored weapons, armor,
+shields and basic implement types. The defense engine reads armor and shield data directly from the authored
 profiles in ``sharedData``, alongside the matching property definitions and armor rules.
 Descriptions are rendered only from those structured fields; no prose is parsed.
 """
@@ -17,13 +17,15 @@ SPEC.loader.exec_module(authoring)
 
 PACKAGE = "modern4e.equipment"
 TITLE = "Modern 4e shared equipment"
-KIND_LABELS = {"WEAPON": "Weapon", "ARMOR": "Armor", "SHIELD": "Shield"}
+KIND_LABELS = {"WEAPON": "Weapon", "ARMOR": "Armor", "SHIELD": "Shield", "IMPLEMENT": "Implement"}
+BASIC_IMPLEMENT_TYPES = ("HOLY_SYMBOL", "ORB", "ROD", "STAFF", "TOME", "TOTEM", "WAND")
 ACTIONS = {"FREE": "free action", "MINOR": "minor action", "STANDARD": "standard action"}
 LIMITATIONS = {
     "WEAPON": ["Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; "
                "they do not change attack, damage or defense totals and no proficiency is granted by equipping."],
     "ARMOR": ["Armor and proficiency contribute to defense totals. Speed and skill penalties remain descriptive."],
     "SHIELD": ["Proficient shields contribute to AC and Reflex. Hand occupancy, speed and skill penalties remain descriptive."],
+    "IMPLEMENT": ["Records the equipped implement type. Attack and damage calculations remain descriptive."],
 }
 
 
@@ -81,6 +83,8 @@ def describe(entry, definitions, rules):
                     lines += ["    " + row if row else "" for row in text.split("\n")]
         else:
             lines.append("Properties: none.")
+    elif kind == "IMPLEMENT":
+        lines.append(f"{KIND_LABELS[kind]}. Proficiency: {label(profile['proficiencyKey'])}.")
     else:
         lines.append(f"{KIND_LABELS[kind]}. Proficiency: {label(profile['proficiencyKey'])}.")
         if kind == "ARMOR":
@@ -108,7 +112,7 @@ def compile_entry(entry, definitions, rules):
             raise ValueError(f"{entry['id']}: missing property definition {prop['id']}")
         used.append(definitions[prop["id"]])
     shared = {**entry, "propertyDefinitions": used}
-    if kind != "WEAPON":
+    if kind in ("ARMOR", "SHIELD"):
         shared["armorRules"] = rules
     limitations = LIMITATIONS[kind]
     if kind == "WEAPON":
@@ -127,4 +131,9 @@ def build(content=None):
     catalog = authoring.catalog(content or authoring.CONTENT)
     definitions = {prop["id"]: prop for prop in catalog["properties"]}
     entries = [compile_entry(entry, definitions, catalog["armorRules"]) for entry in catalog["entries"]]
-    return runtime_common.package(PACKAGE, TITLE, entries, revision="1")
+    # These basic choices represent class implement proficiency types without adding magic item rules.
+    for key in BASIC_IMPLEMENT_TYPES:
+        implement = {"id": "modern4e.implement." + key.lower().replace("_", "-"), "category": "ITEM",
+                     "presentation": {"title": label(key)}, "equipment": {"kind": "IMPLEMENT", "proficiencyKey": key}}
+        entries.append(compile_entry(implement, definitions, catalog["armorRules"]))
+    return runtime_common.package(PACKAGE, TITLE, entries, revision="2")

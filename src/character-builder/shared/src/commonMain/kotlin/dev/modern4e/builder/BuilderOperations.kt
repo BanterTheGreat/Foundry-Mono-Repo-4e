@@ -21,6 +21,7 @@ sealed class BuilderEdit {
     data class Background(val kind: BackgroundKind, val name: String, val skill: Skill? = null) : BuilderEdit()
     data class Equipment(val value: EquipmentSelection) : BuilderEdit()
     data class RemoveEquipment(val instanceId: String) : BuilderEdit()
+    data class CraftKnowledge(val kind: CraftKnowledgeKind, val entryIds: Set<String>) : BuilderEdit()
     data class Adjustment(val value: ManualAdjustment) : BuilderEdit()
     data class RemoveAdjustment(val id: String) : BuilderEdit()
 }
@@ -187,6 +188,21 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 it.copy(proficiencies = it.proficiencies.filterNot { choice -> choice.slot in edit.slots })
             })
             is BuilderEdit.Identity -> next = document.copy(identity = edit.value)
+            is BuilderEdit.CraftKnowledge -> {
+                val access = evaluate(document).craftKnowledgeAccess()
+                val existing = document.craftKnowledge.filter { edit.kind.matches(it.entryId) }.associateBy { it.entryId }
+                val reading = catalog.readSession()
+                val selections = edit.entryIds.map { id ->
+                    if (!edit.kind.matches(id)) {
+                        return reject("That entry does not belong to this list.")
+                    }
+                    val entry = (reading.lookup(id) as? ContractResult.Available)?.value
+                    val eligible = entry != null && access.canLearn(edit.kind, entry.entry)
+                    existing[id] ?: if (eligible) saved(entry)
+                        else return reject("This character cannot learn ${entry?.entry?.presentation?.title ?: "that entry"}.")
+                }
+                next = document.copy(craftKnowledge = document.craftKnowledge.filterNot { edit.kind.matches(it.entryId) } + selections)
+            }
             is BuilderEdit.Allocation -> next = document.copy(abilities = edit.value.copy(points = edit.value.points.toMap()))
             is BuilderEdit.Advancement -> {
                 if (edit.level !in AdvancementRules.nonMainLevels || edit.level > document.level ||
@@ -320,7 +336,12 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 if (edit.value.instanceId.isBlank() || document.levels.flatMap { it.entries }.any { it.instanceId == edit.value.instanceId }) {
                     return reject("Equipment needs a unique nonblank occurrence ID.")
                 }
-                next = document.copy(equipment = document.equipment.filterNot { it.instanceId == edit.value.instanceId } + edit.value)
+                val equipment = if (document.equipment.any { it.instanceId == edit.value.instanceId }) {
+                    document.equipment.map { if (it.instanceId == edit.value.instanceId) edit.value else it }
+                } else {
+                    document.equipment + edit.value
+                }
+                next = document.copy(equipment = equipment)
             }
             is BuilderEdit.RemoveEquipment -> next = document.copy(equipment = document.equipment.filterNot { it.instanceId == edit.instanceId })
             is BuilderEdit.Adjustment -> next = document.copy(manualAdjustments = document.manualAdjustments.filterNot { it.id == edit.value.id } + edit.value)

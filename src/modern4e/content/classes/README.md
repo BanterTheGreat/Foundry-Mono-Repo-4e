@@ -12,7 +12,7 @@ record the original migrations. Production reads only the authored JSON.
 
 Wizard's universal spellbook learning rule covers the new level-17 utility slot;
 Tome of Readiness permits its authored encounter-acquisition replacements at
-levels 13 and 17 too. Combat execution and magic-technique pools remain manual.
+levels 13 and 17 too. Spellbook ritual choices are recorded in the Builder's Rituals list.
 
 # Shared class authoring (catalog/export schema v2)
 
@@ -183,9 +183,9 @@ owned collection and grants a distinct preparation choice of two (three from
 level 5). Storage, preparation and replacement remain separate decisions. Later daily
 and utility acquisitions through level 10 each learn two powers; daily and
 utility preparation have independent capacities and require owned spellbook
-entries. Additional technique choice occurrences are authored at 1, 5, 11, 15,
-21 and 25, but their query pools remain explicitly incomplete until an adapted
-magic-technique catalog exists. Page accounting remains incomplete. Cantrips choose four of nine options. Effect-only
+entries. Spellbook ritual choices are authored at 1, 5, 11, 15, 21 and 25.
+The Builder tracks known rituals in Stats. Spellbook choice limits and page accounting
+remain manual. Cantrips choose four of nine options. Effect-only
 Invoker cards that specify Intelligence without a defense are retained without
 inventing an attack roll.
 
@@ -218,8 +218,8 @@ The renderer receives page-splitting and breakability choices from Typst rather
 than storing page geometry in content definitions.
 
 Cleric Healing Word's level-16 wording and Warlord's flavor/main-ability mismatch
-remain explicit coverage limitations. Technique acquisition remains prose pending
-the technique catalog. Shared healing pools, usage scaling and Channel Divinity
+remain explicit coverage limitations. Record the Cleric's chosen Divine Ritual in Stats.
+Shared healing pools, usage scaling and Channel Divinity
 limits are structured where the local source is unambiguous. No combat effects
 or proficiency benefits described in feature prose are inferred as automation.
 
@@ -313,14 +313,14 @@ SHARED identifies a definition supplied by another authoritative runtime package
 Production validation must resolve that reference, including grant alternatives.
 The existing feat reference registry is left untouched by this migration.
 
-The Wizard Arcane Techniques and Artificer Techniques features explicitly grant
-Technique Master. Their grant records carry `replacementEntryIds` containing only
+The Wizard Arcane Rituals and Artificer Rituals features explicitly grant
+Ritual Master. Their grant records carry `replacementEntryIds` containing only
 Alchemist, matching that feat's authored class-feature substitution. Grant IDs
 remain scoped to the source feature occurrence. Choosing an alternative changes
 the granted definition, not its slot or deterministic occurrence identity. No
-other source receives that allowance. Technique mastery/formula effects remain
-manual; a FEAT grant uses its existing feature prose rather than rendering a
-duplicate external feat card in the class chapter.
+other source receives that allowance. The Builder tracks rituals and formulas in Stats,
+and performing them is handled during play. A FEAT grant uses its existing feature
+prose rather than rendering a duplicate external feat card in the class chapter.
 
 ## Runtime query and diagnostic contract
 

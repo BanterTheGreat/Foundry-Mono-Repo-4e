@@ -19,11 +19,15 @@ data class CharacterDocument(
     val manualAdjustments: List<ManualAdjustment> = emptyList(),
     @OptIn(ExperimentalSerializationApi::class)
     @EncodeDefault(EncodeDefault.Mode.NEVER) val contentMigrations: List<ContentMigrationRecord> = emptyList(),
+    @OptIn(ExperimentalSerializationApi::class)
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val craftKnowledge: List<SavedSelection> = emptyList(),
 ) {
     init {
         require(level in 1..30)
         require(levels.all { it.level <= level })
         require(levels.map { it.level }.distinct().size == levels.size)
+        require(craftKnowledge.map { it.entryId }.distinct().size == craftKnowledge.size)
+        require(craftKnowledge.all { saved -> CraftKnowledgeKind.entries.any { it.matches(saved.entryId) } })
     }
 
     /** The class definitions this character chose; power pools are scoped to them. */

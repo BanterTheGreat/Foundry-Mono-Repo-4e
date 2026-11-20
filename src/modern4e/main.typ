@@ -14,7 +14,7 @@
 #import "glossary/creation_&_advancement.typ" as creationAndAdvancement;
 #import "glossary/skill_checks.typ" as skillChecks;
 #import "glossary/negotiation.typ" as negotiation;
-#import "glossary/techniques.typ" as techniques;
+#import "glossary/rituals.typ" as rituals;
 #import "glossary/balance_changes.typ" as balanceChanges;
 #import "glossary/background.typ" as background;
 #import "glossary/quick_rules.typ" as rules;
@@ -124,7 +124,7 @@
     ..if config.isZeitgeistBuild { (zeitgeistPaths.zeitgeistPathsPage(),) } else { () },
     feats.featsPage(),
     utility.utilityPage(),
-    techniques.techniquesPage(),
+    rituals.ritualsPage(),
     skillChecks.skillChecksPage(),
     negotiation.negotiationPage(),
     balanceChanges.balanceChangesPage(),

@@ -73,7 +73,8 @@ class ContentReconciliation(private val source: ContentSource, private val stand
         val occurrences = document.levels.flatMap { level ->
             level.entries.map { it.instanceId to it.selection } +
                 level.replacements.map { it.replacement.instanceId to it.replacement.selection }
-        } + document.equipment.map { it.instanceId to it.selection }
+        } + document.equipment.map { it.instanceId to it.selection } +
+            document.craftKnowledge.map { "craft-knowledge.${it.entryId}" to it }
         return occurrences.map { (id, saved) -> SelectionResolution(id, saved, catalog.resolve(saved, deliberate)) }
     }
 
@@ -86,7 +87,8 @@ class ContentReconciliation(private val source: ContentSource, private val stand
         return document.copy(levels = document.levels.map { level -> level.copy(
             entries = level.entries.map { it.copy(selection = update(it.selection)) },
             replacements = level.replacements.map { it.copy(replacement = it.replacement.copy(selection = update(it.replacement.selection))) }) },
-            equipment = document.equipment.map { it.copy(selection = update(it.selection)) })
+            equipment = document.equipment.map { it.copy(selection = update(it.selection)) },
+            craftKnowledge = document.craftKnowledge.map(::update))
     }
 
     private fun revisions(requested: List<PackageRevision>, catalog: ContentCatalog): List<PackageRevision> = requested.map { saved ->

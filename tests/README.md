@@ -1,5 +1,7 @@
 # Running tests yourself
 
+Character Builder overview, equipment, future grants, rituals, and formulas: from `src/character-builder`, run `./gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. Shared tests cover portable knowledge selections, eligibility, saving multiple rituals beyond the Bard's class allotment, and future grant previews. Android unit tests cover displayed stats and powers, implement links, and equipment edits.
+
 Power badges, advancement requirements and ancestry combinations: from `src/character-builder`, run `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. `PowerReaderOptionsTest` checks utility levels with nested prerequisites; `PowerRequirementsTest` checks omitted power class/level routing and missing Theme/Path/Destiny conditions. `AncestryComboFeatTest` verifies production Ancestry-tab placement, class eligibility and ancestry scoping.
 
 Feat tier ceilings and power requirements: run `.\gradlew.bat :android:testDebugUnitTest :android:assembleDebug` from `src/character-builder`. `ProgressionOptionsTest` covers tier boundaries, earlier-slot levels and conservative missing-definition behavior; `PowerRequirementsTest` covers readable skill/class/level/ability requirements, grouped alternatives, unmet conditions and suppression of unrelated coverage diagnostics.

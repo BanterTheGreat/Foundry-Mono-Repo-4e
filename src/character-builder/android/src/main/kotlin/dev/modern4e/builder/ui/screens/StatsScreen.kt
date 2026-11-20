@@ -35,11 +35,11 @@ private val ImplementIds = setOf("ROD", "WAND", "STAFF", "ORB", "TOME", "HOLY_SY
 
 /** Shows the class hit point total, or a dash while the total is unavailable. */
 internal fun EngineResult.maxHpDisplay(): String =
-    statistics[ModifierTarget(Statistic.HIT_POINTS)]?.value.scoreDisplay()
+    displayedStatistic(Statistic.HIT_POINTS).scoreDisplay()
 
 /** Shows the maximum healing surges, or a dash while the total is unavailable. */
 internal fun EngineResult.maxSurgesDisplay(): String =
-    statistics[ModifierTarget(Statistic.HEALING_SURGES)]?.value.scoreDisplay()
+    displayedStatistic(Statistic.HEALING_SURGES).scoreDisplay()
 
 /** Shows the known defense total, or a dash if its base cannot be resolved. */
 internal fun EngineResult.defenseDisplay(defense: Statistic): String =
@@ -118,6 +118,7 @@ internal fun Stats(state: BuilderState, model: BuilderSession) {
         }
         CompactHeading("Equipment")
         EquippedItems(state, model)
+        CraftKnowledgeSection(state, model)
     }
 }
 
@@ -143,7 +144,7 @@ private fun Vital(label: String, value: String, modifier: Modifier) {
 
 /** Shows ability totals and known proficiencies below languages on About. */
 @Composable
-internal fun AboutProficiencies(state: BuilderState) {
+internal fun AboutProficiencies(state: BuilderState, model: BuilderSession) {
     val equipment = state.rules.equipmentByCategory()
     val configuration = LocalConfiguration.current
     val narrow = configuration.screenWidthDp < 320 || configuration.fontScale > 1.2f
@@ -153,6 +154,7 @@ internal fun AboutProficiencies(state: BuilderState) {
             ability.name.readable() to state.rules.overviewAbilityTotals.getValue(ability).toString()
         }, columns = if (narrow) 3 else 6, abbreviate = true)
     }
+    CurrentPowerTally(state, model, columns = if (narrow) 2 else 4)
     ProficiencyRow(
         "Skills",
         state.rules.proficiencies.keys.map { skill ->
@@ -165,7 +167,6 @@ internal fun AboutProficiencies(state: BuilderState) {
     if (showingSkills) {
         val skills = remember(state.rules) { state.rules.skillOverviewRows() }
         ChoicePickerSheet(busy = false, dismiss = { showingSkills = false }) {
-            CompactHeading("Skills")
             CollapsibleChoiceList(Modifier.weight(1f)) {
                 items(skills, key = { it.skill.name }) { row ->
                     SkillRow(row.skill, row.modifier, chosen = row.proficient)

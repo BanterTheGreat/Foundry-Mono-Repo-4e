@@ -49,7 +49,14 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     val values = document.levels.flatMap { it.values }
     val ancestryLanguages = remember(state) { Progression.ancestryLanguageChoices(state) }
     val ancestryPowers = remember(state, powerEntryIds) { Progression.ancestryPowerChoices(state, powerEntryIds) }
-    val grantsByLevel = remember(state) { Progression.automaticGrants(state).groupBy { it.level } }
+    val activeGrants = remember(state) { Progression.automaticGrants(state) }
+    val futureGrants by produceState<List<ProgressionGrant>>(emptyList(), model, state, upcoming) {
+        value = emptyList()
+        if (upcoming) {
+            value = model.upcomingGrants(state)
+        }
+    }
+    val grantsByLevel = remember(activeGrants, futureGrants) { (activeGrants + futureGrants).groupBy { it.level } }
     val invalidSlots = remember(state.rules) { Progression.invalidChoiceSlots(state.rules) }
     val filledSlots = remember(state) {
         buildSet {
@@ -90,21 +97,6 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
         }
     }
     Column(Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-        ) {
-            val tally = Progression.tally(document.level)
-            listOf("At-will", "Encounter", "Daily", "Utility").forEach { label ->
-                val color = powerChoiceColor(label)
-                Surface(Modifier.weight(1f), color = Wash, border = BorderStroke(1.dp, color ?: Line)) {
-                    Column(Modifier.padding(vertical = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text((tally[label] ?: 0).toString(), fontFamily = FontFamily.Serif, fontSize = 22.sp, lineHeight = 24.sp, color = color ?: Accent)
-                        Text(label, fontSize = 10.sp, lineHeight = 13.sp, color = color ?: Dim)
-                    }
-                }
-            }
-        }
         ProgressionLevelHeading(0)
         val firstLanguage = ancestryLanguages.firstOrNull()
         if (firstLanguage == null) {
@@ -234,6 +226,10 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             }
             if (future || level > 19) {
                 schedule.powers.forEachIndexed { ordinal, power ->
+                    if ((power.startsWith("Paragon ") && otherPowers.any { it.sourceCategory == EntryCategory.PARAGON_PATH }) ||
+                        (power.startsWith("Epic ") && otherPowers.any { it.sourceCategory == EntryCategory.EPIC_DESTINY })) {
+                        return@forEachIndexed
+                    }
                     val slot = ChoiceSlotId("advancement.$level", "power", ordinal)
                     LevelChoice("$power power", selected(slot), enabled = !future && !model.busy, powerUsage = selectedPowerUsage(slot) ?: power,
                         invalid = needsAttention(slot, level)) {
@@ -261,7 +257,10 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 }
             }
             if (future || level > 19) {
-                schedule.automatic.forEach { Text("$it arrives automatically", color = Dim) }
+                schedule.automatic.filterNot { label ->
+                    (label.startsWith("Paragon ") && otherFeatures.any { it.sourceCategory == EntryCategory.PARAGON_PATH }) ||
+                        (label.startsWith("Epic ") && otherFeatures.any { it.sourceCategory == EntryCategory.EPIC_DESTINY })
+                }.forEach { Text("$it arrives automatically", color = Dim) }
             }
             if (powerSlots.isNotEmpty()) {
                 val gap = 4.dp

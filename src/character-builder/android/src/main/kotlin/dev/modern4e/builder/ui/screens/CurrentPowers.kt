@@ -12,6 +12,16 @@ import dev.modern4e.builder.SavedSelection
 
 internal data class CurrentPower(val slot: ChoiceSlotId, val title: String, val entry: ContentEntry?, val note: String?)
 
+internal enum class CurrentPowerUsage(val label: String) {
+    AT_WILL("At-will"), ENCOUNTER("Encounter"), DAILY("Daily"), UNSPECIFIED("Unspecified")
+}
+
+/** Powers are grouped by frequency, including utility powers and entries without a known frequency. */
+internal fun List<CurrentPower>.byUsage(): Map<CurrentPowerUsage, List<CurrentPower>> = groupBy { power ->
+    val label = power.entry?.let(::powerChoiceUsage)
+    CurrentPowerUsage.entries.firstOrNull { it.label == label } ?: CurrentPowerUsage.UNSPECIFIED
+}
+
 /** Saved powers from the Android editor's explicit later-level slots. */
 internal fun laterPowerSelections(document: CharacterDocument): Set<SavedSelection> =
     document.levels.filter { it.level in 3..document.level }.flatMap { level ->

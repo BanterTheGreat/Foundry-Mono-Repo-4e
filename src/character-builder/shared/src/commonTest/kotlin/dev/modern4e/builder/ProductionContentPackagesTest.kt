@@ -40,6 +40,51 @@ class ProductionContentPackagesTest {
     }
 
     @Test
+    fun knownRitualsAndFormulasUseActiveAccessAndRoundTripPortableSelections() = run {
+        val (sample, catalog, operations) = openTemplate()
+        val ritual = "modern4e.ritual.brew-potion"
+        assertFalse(operations.apply(sample, BuilderEdit.CraftKnowledge(CraftKnowledgeKind.RITUAL, setOf(ritual))).applied)
+        fun feat(id: String) = BuilderEdit.Entry(1, ChoiceSlotId("creation", "feat", 0), id, "knowledge-feat")
+        val ritualist = operations.apply(sample, feat("modern4e.feat.technique-master")).also { assertTrue(it.applied) }.state
+        val learner = operations.apply(ritualist.document, BuilderEdit.CraftKnowledge(CraftKnowledgeKind.RITUAL, setOf(ritual)))
+        assertTrue(learner.applied)
+        assertEquals("Brew Potion", learner.state.document.craftKnowledge.single().savedTitle)
+        val alchemist = operations.apply(sample, feat("modern4e.feat.alchemist")).also { assertTrue(it.applied) }.state
+        val access = alchemist.craftKnowledgeAccess()
+        assertTrue("modern4e.ritual.alchemical-creation" in access.grantedRituals)
+        val formula = catalog.search(category = EntryCategory.ITEM)
+            .filter { CraftKnowledgeKind.FORMULA.matches(it.metadata.id) }
+            .first { candidate ->
+                val entry = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup(candidate.metadata.id)).value!!
+                access.canLearn(CraftKnowledgeKind.FORMULA, entry.entry)
+            }.metadata.id
+        assertFalse(operations.apply(ritualist.document, BuilderEdit.CraftKnowledge(CraftKnowledgeKind.FORMULA, setOf(formula))).applied)
+        val trained = operations.apply(alchemist.document, BuilderEdit.CraftKnowledge(CraftKnowledgeKind.FORMULA, setOf(formula)))
+        assertTrue(trained.applied)
+        val reopened = assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(trained.state.document))).value
+        assertEquals(listOf(formula), reopened.craftKnowledge.map { it.entryId })
+        assertTrue(operations.apply(reopened, BuilderEdit.CraftKnowledge(CraftKnowledgeKind.FORMULA, emptySet()))
+            .state.document.craftKnowledge.isEmpty())
+    }
+
+    @Test
+    fun bardCanSaveSeveralEligibleRitualsWithoutAClassPickQuota() = run {
+        val (sample, catalog, operations) = openTemplate()
+        val bard = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup("modern4e.class.bard")).value!!
+        val document = sample.copy(levels = sample.levels.map { level -> level.copy(entries = level.entries.map {
+            if (it.slot == ChoiceSlotId("creation", "class", 0)) {
+                it.copy(selection = SavedSelection(bard.entry.id, bard.entry.presentation.title, bard.supplier.packageId, bard.fingerprint))
+            } else {
+                it
+            }
+        }) })
+        val ids = setOf("modern4e.ritual.brew-potion", "modern4e.ritual.make-whole", "modern4e.ritual.temporary-patch")
+        val result = operations.apply(document, BuilderEdit.CraftKnowledge(CraftKnowledgeKind.RITUAL, ids))
+        assertTrue(result.applied, result.diagnostics.joinToString())
+        assertEquals(ids, result.state.document.craftKnowledge.map { it.entryId }.toSet())
+    }
+
+    @Test
     fun campaignExclusionsStayIneligibleWhenEvaluatedAndExistingSavedSelectionsRemainPortable() = run {
         val (sample, catalog, operations) = openTemplate()
         val slot = ChoiceSlotId("creation", "ancestry", 0)
@@ -73,14 +118,17 @@ class ProductionContentPackagesTest {
     fun templateEnablesEveryProductionPackageAndCatalogIsComplete() = run {
         val (sample, catalog, _) = openTemplate()
         assertEquals(listOf("modern4e.classes", "modern4e.ancestries", "modern4e.themes", "modern4e.feats",
-            "modern4e.utilities", "modern4e.equipment", "modern4e.paths"), sample.packages.map { it.packageId })
+            "modern4e.utilities", "modern4e.equipment", "modern4e.paths", "modern4e.rituals", "modern4e.formulas"),
+            sample.packages.map { it.packageId })
         assertTrue(catalog.diagnostics.none { it.code == "catalog.packageUnavailable" })
         assertEquals(19, catalog.search(category = EntryCategory.CLASS).size)
         assertEquals(13, catalog.search(category = EntryCategory.ANCESTRY).count { it.supplier.packageId == "modern4e.ancestries" })
         assertEquals(9, catalog.search(category = EntryCategory.THEME).count { it.supplier.packageId == "modern4e.themes" })
         assertEquals(798, catalog.search(category = EntryCategory.FEAT).count { it.supplier.packageId == "modern4e.feats" })
-        assertEquals(53, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.equipment" })
+        assertEquals(60, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.equipment" })
         assertEquals(1046, catalog.search(category = EntryCategory.POWER).count { it.supplier.packageId == "modern4e.utilities" })
+        assertEquals(83, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.rituals" })
+        assertEquals(79, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.formulas" })
     }
 
     @Test
@@ -88,7 +136,8 @@ class ProductionContentPackagesTest {
         val (_, catalog, _) = openTemplate()
         for (category in listOf(EntryCategory.ANCESTRY, EntryCategory.THEME, EntryCategory.FEAT, EntryCategory.ITEM)) {
             for (candidate in catalog.search(category = category)) {
-                if (candidate.supplier.packageId !in setOf("modern4e.ancestries", "modern4e.themes", "modern4e.feats", "modern4e.equipment")) {
+                if (candidate.supplier.packageId !in setOf("modern4e.ancestries", "modern4e.themes", "modern4e.feats",
+                        "modern4e.equipment", "modern4e.rituals", "modern4e.formulas")) {
                     continue
                 }
                 val loaded = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup(candidate.metadata.id)).value!!

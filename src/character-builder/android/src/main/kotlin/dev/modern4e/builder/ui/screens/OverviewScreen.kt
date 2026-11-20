@@ -87,7 +87,10 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
         Surface(Modifier.fillMaxWidth().heightIn(min = 48.dp), color = Paper, border = BorderStroke(1.dp, Line)) {
             FolioFieldContent("Languages", state.languageDisplay(), compact = true)
         }
-        AboutProficiencies(state)
+        Surface(Modifier.fillMaxWidth().heightIn(min = 48.dp), color = Paper, border = BorderStroke(1.dp, Line)) {
+            FolioFieldContent("Vision Types", state.rules.visionNames().joinToString(", ").ifBlank { "—" }, compact = true)
+        }
+        AboutProficiencies(state, model)
         Field(
             "Notes",
             identity.notes.ifBlank { "Your story, connections, reminders…" },
@@ -116,7 +119,11 @@ internal fun BuilderState.sizeDisplay(): String {
  * @return the computed speed, or a dash while it has no source.
  */
 internal fun EngineResult.speedDisplay(): String =
-    (statistics[ModifierTarget(Statistic.SPEED)]?.value as? ContractResult.Available)?.value?.total?.toString() ?: "—"
+    (displayedStatistic(Statistic.SPEED) as? ContractResult.Available)?.value?.total?.toString() ?: "—"
+
+/** The vision modes authored by active entries, in acquisition order. */
+internal fun EngineResult.visionNames(): List<String> =
+    entries.mapNotNull { it.definition.entry.visionName() }.distinct()
 
 /**
  * Character-wide languages learned from ancestry grants and language decisions, in acquisition order.

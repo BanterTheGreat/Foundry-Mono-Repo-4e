@@ -70,6 +70,43 @@ class RulesEngineTest {
     }
 
     @Test
+    fun displayedVitalsAndSpeedUseCurrentInputsWithUnfilledChoices() {
+        val constitution = mapOf(Ability.CONSTITUTION to 1)
+        val profile = ClassProfile("DEFENDER", listOf("MARTIAL"), listOf(Ability.STRENGTH), emptyList(),
+            listOf("armor", "shields", "weapons", "implements").associateWith { emptyList() },
+            mapOf(Statistic.HIT_POINTS to ClassFormula(10, 6, constitution),
+                Statistic.HEALING_SURGES to ClassFormula(9, abilities = constitution),
+                Statistic.FORTITUDE to ClassFormula(10), Statistic.REFLEX to ClassFormula(10), Statistic.WILL to ClassFormula(10)))
+        val warrior = entry("warrior", EntryCategory.CLASS, Mechanics(classProfile = profile,
+            choices = listOf(ChoiceDefinition.Entries("feature", 1, listOf("pending-feature"))),
+            progression = listOf(ClassProgression(2, modifiers = listOf(
+                TypedModifier(ModifierTarget(Statistic.HIT_POINTS), ModifierOperation.ADD, 4))))))
+        val ancestry = entry("ancestry", EntryCategory.ANCESTRY, Mechanics(modifiers = listOf(
+            TypedModifier(ModifierTarget(Statistic.SPEED), ModifierOperation.SET, 6))))
+        val selected = listOf(choice(warrior, slot = slot("creation", "class")), choice(ancestry, slot = slot("creation", "ancestry")))
+        val initial = character()
+        val document = initial.copy(abilities = initial.abilities.copy(source = slot(warrior.id, "main")),
+            levels = listOf(initial.levels.single().copy(entries = selected)))
+        val result = evaluate(document, warrior, ancestry)
+        assertIs<ContractResult.Unavailable>(result.statistics.getValue(ModifierTarget(Statistic.HIT_POINTS)).value)
+        assertEquals(18, total(result.displayedStatistic(Statistic.HIT_POINTS)))
+        assertEquals(11, total(result.displayedStatistic(Statistic.HEALING_SURGES)))
+        assertEquals(6, total(result.displayedStatistic(Statistic.SPEED)))
+
+        val classOnly = evaluate(document.copy(levels = listOf(document.levels.single().copy(entries = selected.take(1)))),
+            warrior, ancestry)
+        assertEquals(18, total(classOnly.displayedStatistic(Statistic.HIT_POINTS)))
+        assertIs<ContractResult.Unavailable>(classOnly.displayedStatistic(Statistic.SPEED))
+        val ancestryOnly = evaluate(document.copy(levels = listOf(document.levels.single().copy(entries = selected.drop(1)))),
+            warrior, ancestry)
+        assertEquals(6, total(ancestryOnly.displayedStatistic(Statistic.SPEED)))
+        assertIs<ContractResult.Unavailable>(ancestryOnly.displayedStatistic(Statistic.HIT_POINTS))
+
+        val raised = evaluate(document.copy(level = 2, levels = document.levels + LevelDecisions(2)), warrior, ancestry)
+        assertEquals(28, total(raised.displayedStatistic(Statistic.HIT_POINTS)))
+    }
+
+    @Test
     fun modernAbilityAndSkillGoldenHasExplainedProficiencyWithoutHalfLevel() {
         val result = evaluate()
         assertEquals(4, total(result.ability(Ability.STRENGTH)))

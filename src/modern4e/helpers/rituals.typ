@@ -1,17 +1,27 @@
 #import "theme.typ" as theme;
 
-#let techniqueEntry(
-  level: int,
-  category: str,
-  title: str,
-  time: str,
-  duration: str,
-  marketPrice: str,
-  cost: str,
-  focus: none,
-  keywords: str,
-  description: content,
-) = {
+#let ritualRule(rule) = {
+  if "text" in rule {
+    par(text(rule.text))
+  } else if "bullets" in rule {
+    list(..rule.bullets.map(text))
+  } else {
+    let rows = rule.table
+    table(
+      columns: rows.first().len(),
+      stroke: 0.5pt + theme.tableDivider,
+      fill: theme.defaultTableStyle(),
+      inset: 4pt,
+      ..rows.first().map(cell => strong(text(cell))),
+      ..rows.slice(1).flatten().map(text),
+    )
+  }
+}
+
+#let ritualEntry(ritual) = {
+  let (level, category, title, time, duration, marketPrice, cost, keywords, rules) = ritual
+  let focus = ritual.at("focus", default: none)
+  let description = rules.map(ritualRule).join()
   return block(
     [#text(
       table(

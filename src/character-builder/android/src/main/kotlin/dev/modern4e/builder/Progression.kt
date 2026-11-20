@@ -48,10 +48,6 @@ object Progression {
                 21, 24, 30 -> listOf("Epic destiny feature"); else -> emptyList() })
     }
 
-    fun tally(level: Int) = (1..level).flatMap { level(it).powers }.groupingBy {
-        it.substringAfterLast(' ').replaceFirstChar { c -> c.uppercase() }
-    }.eachCount()
-
     /** Level at which an engine entry arrived: its own decision level, else its source chain's grant/progression level. */
     fun acquiredAt(state: BuilderState, source: EngineEntry, seen: Set<String> = emptySet()): Int {
         state.document.levels.firstOrNull { level -> level.entries.any { it.instanceId == source.instanceId } }?.let { return it.level }
