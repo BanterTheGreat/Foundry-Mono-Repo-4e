@@ -102,18 +102,40 @@ internal class ChoiceEvaluation(
         if (offered?.optional == true && offered.acquisitionLevel != level) {
             return null
         }
+        val existing = document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
         val ids = if (category != null) {
             val classes = if (category == EntryCategory.PARAGON_PATH) pathAccessClasses(document, level) else null
             catalog.search(category = category).filter {
                 classes == null || it.metadata.matchesPathClasses(classes)
             }.map { it.metadata.id }
         } else {
-            offered?.entries?.map { it.entryId }.orEmpty()
+            withoutForeignClassPowers(document, level, offered?.entries?.map { it.entryId }.orEmpty(), existing?.selection?.entryId)
         }
-        val existing = document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
         val instance = if (offered?.optional == true) ModernCreation.grantInstance(slot.sourceInstanceId, slot.choiceId)
             else existing?.instanceId
         return Selection(ids, instance).also { selections[key] = it }
+    }
+
+    /** The class a power is reserved for, by index row; powers any class can take are absent. */
+    private val powerClasses by lazy {
+        indexed.filter { it.metadata.category == EntryCategory.POWER }
+            .mapNotNull { row -> row.metadata.classId?.let { row.metadata.id to it } }.toMap()
+    }
+
+    /**
+     * Drop powers reserved for a class the character does not have at [level], so a pool never lists another class's powers.
+     * The engine can offer them when a saved power names its class as a prerequisite, which is how a character who changed
+     * class still carries an old class's powers. The power already saved in the slot stays, so a leftover wrong-class
+     * choice remains visible and replaceable. Classes include multiclass feats; unresolved definitions or no class at all
+     * leave the pool as offered, since nothing can then be ruled out.
+     *
+     * @param ids the entries the engine offers for the slot.
+     * @param saved the entry already saved in the slot, if any.
+     */
+    private suspend fun withoutForeignClassPowers(document: CharacterDocument, level: Int, ids: List<String>,
+        saved: String?): List<String> {
+        val classes = pathAccessClasses(document, level)?.takeIf { it.isNotEmpty() } ?: return ids
+        return ids.filter { id -> id == saved || powerClasses[id]?.let { it in classes } != false }
     }
 
     /**

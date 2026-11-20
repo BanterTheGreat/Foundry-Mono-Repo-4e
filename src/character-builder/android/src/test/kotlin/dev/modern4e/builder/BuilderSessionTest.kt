@@ -59,7 +59,7 @@ class BuilderSessionTest {
                 updates++
                 if (updates == 1) {
                     assertTrue(rows.isNotEmpty())
-                    assertTrue(rows.all { !it.checked && it.option == null })
+                    assertTrue(rows.all { !it.checked && it.option != null })
                     assertEquals(0, reads)
                 } else {
                     assertEquals(minOf(BuilderSession.OPTION_BATCH_SIZE, rows.size), rows.count { it.checked })
@@ -299,6 +299,36 @@ class BuilderSessionTest {
         assertTrue(level2.isNotEmpty() && level2.all { it.checked })
     }
 
+    @Test fun upcomingUtilityCanBePickedAndKeptWhenLoweringLevel() = runBlocking {
+        val model = openPoolSession()
+        model.create()
+        val active = model.current!!
+        val preview = model.progressionPreview(active, BuilderSession.MAX_LEVEL)
+        val utility = Progression.levelChoices(preview, 2).single { it.slot.choiceId == "modern4e.choice.class-utility-2" }
+        assertEquals(active, model.current)
+        assertTrue(Progression.levelChoices(active, 2).none { it.slot == utility.slot })
+
+        var rows = emptyList<BuilderOptionRow>()
+        model.progressionOptionRows(2, utility.slot) { rows = it }
+        val option = rows.first { it.option?.eligibility == Eligibility.ELIGIBLE }
+        model.edit(BuilderEdit.Entry(2, utility.slot, option.metadata.metadata.id, model.progressionEntryInstance(2, utility.slot)))
+        assertTrue(model.errors.isEmpty())
+        val planned = model.current!!.document.levels.single { it.level == 2 }.entries.single { it.slot == utility.slot }
+        assertEquals(active.rules, model.current!!.rules)
+
+        model.beginLevelChange()
+        model.adjustLevelTarget(2)
+        model.confirmLevelChange()
+        assertTrue(model.current!!.rules.entries.any { it.instanceId == planned.instanceId })
+
+        model.beginLevelChange()
+        model.adjustLevelTarget(1)
+        model.confirmLevelChange()
+        assertTrue(model.errors.isEmpty())
+        assertEquals(active.rules, model.current!!.rules)
+        assertEquals(planned, model.current!!.document.levels.single { it.level == 2 }.entries.single { it.slot == utility.slot })
+    }
+
     @Test fun everyEditWarmsEveryListAgainWithoutFurtherContentReads() = runBlocking {
         var reads = 0
         val real = AndroidContentSource(context.assets)
@@ -463,25 +493,92 @@ class BuilderSessionTest {
         assertTrue("Chunks are decoded once per session, not once per slot: ${worst.key} x${worst.value.get()}", worst.value.get() <= 4)
     }
 
-    @Test fun warmupPrioritizesClassFeaturesThenPowersThenOtherPickersThenFilledFeatTabs() = runBlocking {
-        val model = session()
+    @Test fun warmupQueuesUnmadeChoicesByLevelThenOpenedPickersThenIdleMadeChoices() = runBlocking {
+        val model = openPoolSession()
         model.preloadHomePickers()
         model.create()
-        val state = model.current!!
-        val targets = model.warmTargets(state)
-        val features = targets.takeWhile { it.slot.choiceId.startsWith("modern4e.choice.fighter-") }
-        assertTrue(features.any { it.slot.choiceId == "modern4e.choice.fighter-reactivity" })
-        val powers = targets.drop(features.size).takeWhile { it.slot.choiceId.startsWith("modern4e.choice.class-attack-") }
-        assertEquals(5, powers.size)
-        val remainder = targets.drop(features.size + powers.size)
-        // The sample's level 1 feat slot already holds Skill Training, so its three tabs are the very last targets.
-        val featSlot = ChoiceSlotId("creation", "feat", 0)
-        assertTrue(state.document.levels.flatMap { it.entries }.any { it.slot == featSlot })
-        assertEquals(listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL), remainder.takeLast(3).map { it.group })
-        assertTrue(remainder.takeLast(3).all { it.slot == featSlot })
-        assertTrue(remainder.dropLast(3).none { it.slot.choiceId == "feat" })
-        assertEquals(ChoiceSlotId("creation", "theme", 0), remainder.dropLast(3).last().slot)
+        model.edit(BuilderEdit.Level(4))
+        assertTrue(model.errors.isEmpty())
         model.awaitWarmup()
+        val state = model.current!!
+        val filled = state.document.levels.flatMap { it.entries }.map { it.slot }.toSet()
+        val targets = model.warmTargets(state)
+
+        // Everything still unmade comes first, nearest level first: the five open attack pools, then the level 2 and 4 feats.
+        val unmade = targets.takeWhile { !it.idle }
+        assertTrue(unmade.none { it.slot in filled })
+        assertEquals(unmade.map { it.level }, unmade.map { it.level }.sorted())
+        assertEquals(5, unmade.count { it.level == 1 && it.slot.choiceId.startsWith("modern4e.choice.class-attack-") })
+        for (level in listOf(2, 4)) {
+            assertEquals(listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL),
+                unmade.filter { it.slot == ChoiceSlotId("advancement.$level", "feat", 0) }.map { it.group })
+        }
+        assertTrue("A level 1 pool precedes a level 2 feat", unmade.indexOfFirst { it.level == 1 } < unmade.indexOfFirst { it.level == 2 })
+
+        // The rest are choices already made, which only run when idle; their feat tabs are the very last targets.
+        val idle = targets.drop(unmade.size)
+        assertTrue(idle.isNotEmpty() && idle.all { it.idle && it.slot in filled })
+        val featSlot = ChoiceSlotId("creation", "feat", 0)
+        assertEquals(listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL), idle.takeLast(3).map { it.group })
+        assertTrue(idle.takeLast(3).all { it.slot == featSlot })
+        assertTrue(idle.dropLast(3).none { it.slot.choiceId == "feat" })
+        assertTrue(idle.dropLast(3).any { it.slot.choiceId == "modern4e.choice.fighter-reactivity" })
+    }
+
+    @Test fun anOpenedMadeChoiceIsRecheckedAheadOfIdleOnes() = runBlocking {
+        val model = session()
+        model.create()
+        model.awaitWarmup()
+        model.warmupSettleMillis = 60_000
+        val before = model.warmTargets(model.current!!)
+        val unmade = before.takeWhile { !it.idle }
+        val lastIdle = before.last { it.idle && it.slot.choiceId != "feat" && it.slot.sourceInstanceId != "creation" }
+        assertEquals("No opened pickers yet, so every made choice is idle", before.size - unmade.size, before.count { it.idle })
+
+        model.firstRows(lastIdle.level, lastIdle.slot)
+        val after = model.warmTargets(model.current!!)
+        assertEquals(unmade.size + 1, after.takeWhile { !it.idle }.size)
+        assertEquals("The opened picker is queued right behind the unmade choices", lastIdle.copy(idle = false), after[unmade.size])
+        assertEquals(before.size, after.size)
+        assertEquals(before.filter { it != lastIdle }, after.filter { it.slot != lastIdle.slot })
+    }
+
+    @Test fun anOpenPickerPausesBackgroundWarmingUntilItIsDone() = runBlocking {
+        val model = session()
+        model.create()
+        model.awaitWarmup()
+        // A rules change leaves every list with eligibility to recheck, and warming starts at once.
+        model.touchRules()
+        var duringPicker = -1
+        try {
+            model.progressionOptionRows(1, ChoiceSlotId("creation", "feat", 0), FeatGroup.GENERAL) {
+                val before = model.warmBatchCount
+                // The picker holds no lock here, so any batch in this window can only be background warming.
+                delay(400)
+                duringPicker = model.warmBatchCount - before
+                throw kotlinx.coroutines.CancellationException("Only hold the picker open")
+            }
+        } catch (_: kotlinx.coroutines.CancellationException) { }
+        assertEquals("Background warming waits while a picker is open", 0, duringPicker)
+        val afterPicker = model.warmBatchCount
+        model.awaitWarmup()
+        assertTrue("Warming resumes once the picker is closed", model.warmBatchCount > afterPicker)
+        model.assertEveryLevel1ListIsWarm("After the picker closed")
+    }
+
+    @Test fun warmingTheWorkingSetStaysBoundedAndNeverLeavesAnUnmadeChoiceCold() = runBlocking {
+        val model = session()
+        model.create()
+        model.edit(BuilderEdit.Level(19))
+        assertTrue(model.errors.isEmpty())
+        model.awaitWarmup()
+        assertTrue("${model.retainedListingCount()} listings", model.retainedListingCount() <= BuilderSession.OPTION_LISTING_LIMIT)
+        val unmade = model.warmTargets(model.current!!).takeWhile { !it.idle }
+        assertTrue(unmade.isNotEmpty())
+        for (target in unmade) {
+            val rows = model.firstRows(target.level, target.slot, target.group)
+            assertTrue("${target.slot.sourceInstanceId} ${target.slot.choiceId} ${target.group} opens checked", rows.isEmpty() || rows.all { it.checked })
+        }
     }
 
     @Test fun filledFeatSlotsWarmLastAndEveryFeatSlotStillWarmsOncePerTab() = runBlocking {
@@ -516,17 +613,24 @@ class BuilderSessionTest {
         val filledFeats = targets.filter { it.slot.choiceId == "feat" && it.slot in filled }
         assertEquals((slots.size - filledSlots.size) * tabs.size, emptyFeats.size)
         assertEquals(filledSlots.size * tabs.size, filledFeats.size)
-        // Filled feat slots are the tail of the list, after every other target.
-        assertEquals(filledFeats, targets.takeLast(filledFeats.size))
-        assertTrue(targets.dropLast(filledFeats.size).none { it.slot in filledSlots })
-        // Unfilled feat tabs keep their place: after the class feature and power phases, before the root pickers.
-        val firstEmptyFeat = targets.indexOf(emptyFeats.first())
-        val lastEmptyFeat = targets.indexOf(emptyFeats.last())
-        assertEquals(emptyFeats, targets.subList(firstEmptyFeat, lastEmptyFeat + 1).filter { it.slot.choiceId == "feat" })
-        assertTrue(targets.take(firstEmptyFeat).any { it.slot.choiceId == "modern4e.choice.fighter-reactivity" })
+        // The level 2 feat was opened above, so it is rechecked ahead of speculative work; level 1's feat tabs are the idle tail.
+        val openedFeats = filledFeats.filter { it.slot == level2Feat }
+        val idleFeats = filledFeats - openedFeats.toSet()
+        assertEquals(tabs.size, openedFeats.size)
+        assertTrue(openedFeats.none { it.idle })
+        assertTrue(idleFeats.all { it.idle })
+        assertEquals(idleFeats, targets.takeLast(idleFeats.size))
+        assertTrue(targets.dropLast(idleFeats.size).none { it.slot == ChoiceSlotId("creation", "feat", 0) })
+        // Unfilled feat tabs run in level order, ahead of every choice that is already made.
+        assertTrue(emptyFeats.none { it.idle })
+        assertEquals(emptyFeats.map { it.level }, emptyFeats.map { it.level }.sorted())
+        val firstIdle = targets.indexOfFirst { it.idle }
+        assertTrue(targets.take(firstIdle).all { it.slot !in filled || it.slot == level2Feat })
+        assertTrue(targets.drop(firstIdle).all { it.idle })
+        assertTrue(targets.drop(firstIdle).any { it.slot.choiceId == "modern4e.choice.fighter-reactivity" })
         val roots = targets.filter { it.slot.sourceInstanceId == "creation" && it.slot.choiceId in setOf("class", "ancestry", "theme") }
         assertTrue(roots.isNotEmpty())
-        assertTrue(roots.all { targets.indexOf(it) > lastEmptyFeat })
+        assertTrue(roots.all { it.idle == (it.slot in filled) })
         // Everything is still warmed eventually: no list the picker can open is left cold.
         model.awaitWarmup()
         for (slot in slots) {
@@ -550,8 +654,8 @@ class BuilderSessionTest {
         val choice = Progression.ancestryPowerChoices(state, model.powerEntryIds()).single()
         val targets = model.warmTargets(state)
         assertEquals(choice.slot, targets.first().slot)
+        assertFalse("The new choice is unmade, so it is not speculative", targets.first().idle)
         assertEquals(1, targets.count { it.slot == choice.slot })
-        assertTrue(targets.drop(1).first().slot.choiceId.startsWith("modern4e.choice.fighter-"))
 
         model.awaitWarmup()
         val rows = model.firstRows(1, choice.slot)
@@ -647,6 +751,9 @@ class BuilderSessionTest {
         }
         assertEquals(1, updates)
         failReads = true
+        model.progressionOptionRows(1, slot, FeatGroup.GENERAL) { }
+        assertTrue("An edit reuses its catalog snapshot without rereading failed storage", model.errors.isEmpty())
+        model.load(model.current!!.document.id)
         model.progressionOptionRows(1, slot, FeatGroup.GENERAL) { }
         assertTrue(model.errors.any { it.kind == DiagnosticKind.IO_FAILURE })
     }
@@ -806,7 +913,7 @@ class BuilderSessionTest {
         assertTrue(model.errors.isEmpty())
         reopened.load(document.id)
         assertEquals(1, reopened.current!!.document.level)
-        assertEquals(before.levels.filter { it.level == 1 }, reopened.current!!.document.levels)
+        assertEquals(beforeLowering.levels, reopened.current!!.document.levels)
         val history = (store.listRecovery(document.id) as ContractResult.Available).value
         val previousHighLevel = history.single { it.character.level == BuilderSession.MAX_LEVEL }
         assertEquals(beforeLowering, (store.loadRecovery(previousHighLevel.recoveryId) as ContractResult.Available).value)
@@ -1095,6 +1202,88 @@ class BuilderSessionTest {
         assertNull(model.pendingSelection(slot))
         assertNull(model.pendingSelection(ChoiceSlotId("creation", "theme", 0)))
         assertEquals("The dialog belongs to its own edit", "Notes", model.dialog)
+    }
+
+    @Test fun aFieldStaysMarkedSavingUntilItsLastQueuedEditCommits() = runBlocking {
+        val storage = GatedStore()
+        val model = session(storage)
+        model.create()
+        model.awaitWarmup()
+        val field = "field-a"
+        assertFalse(model.isSaving(field))
+        storage.blocking = true
+        model.submitEdit(bonus("first"), field = field)
+        assertTrue(model.isSaving(field))
+        assertFalse("Other fields are untouched", model.isSaving("field-b"))
+        storage.entered.await()
+        model.submitEdit(bonus("second"), field = field)
+        model.submitEdit(bonus("elsewhere"))
+        storage.gate.complete(Unit)
+        model.awaitSaved()
+        assertFalse("The mark clears once every edit for the field has committed", model.isSaving(field))
+        assertEquals(listOf("first", "second", "elsewhere"), model.current!!.document.manualAdjustments.map { it.id })
+    }
+
+    @Test fun aFieldIsNoLongerSavingWhenItsEditIsRejectedOrDropped() = runBlocking {
+        val storage = GatedStore()
+        val model = session(storage)
+        model.create()
+        model.awaitWarmup()
+        storage.failing = { document -> document.manualAdjustments.any { it.id == "bad" } }
+        storage.blocking = true
+        model.submitEdit(bonus("bad"), field = "failed")
+        model.submitEdit(bonus("after"), field = "dropped")
+        assertTrue(model.isSaving("failed"))
+        assertTrue(model.isSaving("dropped"))
+        storage.gate.complete(Unit)
+        model.awaitSaved()
+        assertTrue(model.errors.any { it.code == "test.full" })
+        assertFalse(model.isSaving("failed"))
+        assertFalse(model.isSaving("dropped"))
+        model.submitEdit(bonus("blocked"), field = "blocked")
+        assertFalse("Nothing is queued behind an error", model.isSaving("blocked"))
+    }
+
+    @Test fun theFullLengthPreviewIsRememberedForTheCharacterUntilTheSessionLeavesIt() = runBlocking {
+        val document = sample().copy(id = "preview-cache")
+        store.save(document, SaveMode.CREATE)
+        val model = session()
+        model.load(document.id)
+        val state = model.current!!
+        assertNull("Nothing is remembered before the first preview", model.cachedFuturePreview(document.id))
+
+        model.progressionPreview(state, 5)
+        assertNull("Only the full-length preview is the one Levels shows for upcoming levels", model.cachedFuturePreview(document.id))
+        val preview = model.progressionPreview(state, BuilderSession.MAX_LEVEL)
+        assertEquals(BuilderSession.MAX_LEVEL, preview.document.level)
+        assertSame(preview, model.cachedFuturePreview(document.id))
+        assertNull("Another character never sees it", model.cachedFuturePreview("someone-else"))
+
+        model.returnHomeAfterError()
+        assertNull(model.cachedFuturePreview(document.id))
+    }
+
+    @Test fun levelDialogCanOpenOnAnyUpcomingLevelWithinTheSupportedRange() = runBlocking {
+        val document = sample().copy(id = "level-dialog-target")
+        store.save(document, SaveMode.CREATE)
+        val model = session()
+        model.load(document.id)
+        val before = model.current!!.document.level
+
+        model.beginLevelChange(before + 3)
+        assertEquals(before + 3, model.levelTarget)
+        model.beginLevelChange(BuilderSession.MAX_LEVEL + 5)
+        assertEquals(BuilderSession.MAX_LEVEL, model.levelTarget)
+        model.beginLevelChange(0)
+        assertEquals(1, model.levelTarget)
+        model.cancelLevelChange()
+        assertEquals("The current level is unchanged until confirmed", before, model.current!!.document.level)
+
+        model.beginLevelChange(before + 2)
+        model.confirmLevelChange()
+        assertTrue(model.errors.isEmpty())
+        assertEquals(before + 2, model.current!!.document.level)
+        assertEquals(before + 2, (store.load(document.id) as ContractResult.Available).value.level)
     }
 
     @Test fun aRejectedQueuedEditClearsItsPendingChoiceAndReportsTheRejection() = runBlocking {

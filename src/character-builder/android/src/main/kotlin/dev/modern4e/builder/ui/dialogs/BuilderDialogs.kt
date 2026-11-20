@@ -188,10 +188,7 @@ private fun LevelDialog(model: BuilderSession, target: Int, task: (suspend Build
                 contentPadding = PaddingValues(0.dp)) { Text("+", fontSize = 24.sp) }
         }
         if (target < level) {
-            Text("Choices above level $target will be removed. The previous save is kept in recovery.", color = Accent)
-        }
-        if (target > 2) {
-            Text("Incomplete automation: progression above level 2 is not evaluated. Calculated totals are unavailable.", color = Accent)
+            Text("Choices above level $target stay saved and take effect when you reach their level.", color = Dim)
         }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             TextButton(enabled = !model.busy, onClick = { model.cancelLevelChange() }) { Text("Cancel") }

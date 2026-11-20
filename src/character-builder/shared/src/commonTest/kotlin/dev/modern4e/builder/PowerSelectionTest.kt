@@ -236,6 +236,20 @@ class PowerSelectionTest {
             assertFalse(operations.apply(document, BuilderEdit.ReplacePower(9, first.slot, nineteen.id, ReplacementKind.PROGRESSION, true)).applied)
             assertFalse(operations.apply(document, BuilderEdit.ReplacePower(9, first.slot, requiresLaterAbility.id, ReplacementKind.PROGRESSION)).applied)
             assertTrue(operations.replacementOptions(document, 9, second.slot).any { it.entry.entry.id == alternative.id && it.eligibility == Eligibility.ELIGIBLE })
+            val lowered = operations.apply(document, BuilderEdit.Level(1)).state
+            assertEquals(document.levels, lowered.document.levels)
+            assertEquals(oldA.id, lowered.rules.entries.single { it.slot == first.slot }.definition.entry.id)
+            assertTrue(operations.replacementOptions(lowered.document, 9, second.slot).any {
+                it.entry.entry.id == alternative.id && it.eligibility == Eligibility.ELIGIBLE
+            })
+            val planned = operations.apply(lowered.document,
+                BuilderEdit.ReplacePower(9, second.slot, alternative.id, ReplacementKind.PROGRESSION))
+            assertTrue(planned.applied, planned.diagnostics.toString())
+            assertEquals(lowered.rules, planned.state.rules)
+            val advanced = operations.apply(planned.state.document, BuilderEdit.Level(9)).state
+            assertEquals(oldA.id, advanced.rules.entries.single { it.slot == first.slot }.definition.entry.id)
+            assertEquals(alternative.id, advanced.rules.entries.single { it.slot == second.slot }.definition.entry.id)
+
             val changed = operations.apply(document, BuilderEdit.ReplacePower(9, second.slot, alternative.id, ReplacementKind.PROGRESSION))
             assertTrue(changed.applied, changed.diagnostics.toString())
             assertEquals(second.slot, changed.state.document.levels.single { it.level == 9 }.replacements.single().replaces)

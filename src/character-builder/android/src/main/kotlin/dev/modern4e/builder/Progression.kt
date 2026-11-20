@@ -179,7 +179,7 @@ object Progression {
             level == 1 && choice.isPowerChoice(powerEntryIds)
         }
 
-    private fun EngineChoice.isPowerChoice(powerEntryIds: Set<String>): Boolean =
+    internal fun EngineChoice.isPowerChoice(powerEntryIds: Set<String>): Boolean =
         entries.isNotEmpty() && entries.all { it.entryId in powerEntryIds }
 
     private val PowerPoolLabels = Regex("class-attack-(at-will|encounter|daily)(?:-\\d+)?")
@@ -245,7 +245,7 @@ object Progression {
     internal fun isPowerPool(state: BuilderState, choice: EngineChoice): Boolean =
         powerQuery(state, choice)?.category == EntryCategory.POWER
 
-    private fun powerQuery(state: BuilderState, choice: EngineChoice): PowerQuery? {
+    internal fun powerQuery(state: BuilderState, choice: EngineChoice): PowerQuery? {
         if (choice.optional || choice.abilities.isNotEmpty() || choice.entries.isEmpty()) {
             return null
         }
@@ -272,7 +272,7 @@ object Progression {
 
     fun background(document: CharacterDocument, kind: String): String =
         (if (kind == "environment") document.identity.environment else document.identity.upbringing).ifBlank {
-            document.levels.flatMap { it.proficiencies }.firstOrNull {
+            document.levels.filter { it.level <= document.level }.flatMap { it.proficiencies }.firstOrNull {
                 it.slot.sourceInstanceId.startsWith("background.$kind.")
             }?.slot?.sourceInstanceId?.removePrefix("background.$kind.").orEmpty()
         }
@@ -338,13 +338,14 @@ object Progression {
 
     fun missing(state: BuilderState): Int {
         val doc = state.document
-        val entries = doc.levels.flatMap { it.entries }.map { it.slot }.toSet()
-        val skills = doc.levels.flatMap { it.proficiencies }.map { it.slot }.toSet()
-        val values = doc.levels.flatMap { it.values }.map { it.slot }.toSet()
+        val reached = doc.levels.filter { it.level <= doc.level }
+        val entries = reached.flatMap { it.entries }.map { it.slot }.toSet()
+        val skills = reached.flatMap { it.proficiencies }.map { it.slot }.toSet()
+        val values = reached.flatMap { it.values }.map { it.slot }.toSet()
         val slots = state.rules.choices.filter { it.abilities.isEmpty() && !it.optional }.map { it.slot }.toMutableSet()
         ModernCreation.requiredEntryKinds.forEach { slots += ChoiceSlotId("creation", it, 0) }
-        (2..doc.level).forEach { level ->
-            if (level(level).feat) { slots += ChoiceSlotId("advancement.$level", "feat", 0) }
+        AdvancementRules.featLevels.filter { it <= doc.level }.forEach { level ->
+            slots += ChoiceSlotId("advancement.$level", "feat", 0)
         }
         if (doc.level >= 11) { slots += ChoiceSlotId("advancement.11", "paragon-path", 0) }
         val missingAdvancements = listOf(4, 12).count { level ->

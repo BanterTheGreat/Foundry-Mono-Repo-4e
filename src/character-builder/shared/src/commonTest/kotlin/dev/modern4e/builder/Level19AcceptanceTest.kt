@@ -92,7 +92,7 @@ class Level19AcceptanceTest {
         assertEquals(state.rules.overviewAbilityTotals, reevaluated.rules.overviewAbilityTotals)
         assertEquals(daily.entry.id, reevaluated.rules.entries.single { it.slot == target.slot }.definition.entry.id)
         val lowered = operations.apply(reopened, BuilderEdit.Level(10)).also { assertTrue(it.applied) }.state
-        assertTrue(lowered.document.levels.all { it.level <= 10 })
+        assertEquals(reopened.levels, lowered.document.levels)
         assertEquals(target.definition.entry.id, lowered.rules.entries.single { it.slot == target.slot }.definition.entry.id)
         assertEquals(5, lowered.rules.overviewAbilityTotals.getValue(Ability.STRENGTH))
         assertEquals(3, lowered.rules.overviewAbilityTotals.getValue(Ability.CONSTITUTION))

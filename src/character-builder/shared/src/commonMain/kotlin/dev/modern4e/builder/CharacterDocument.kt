@@ -24,18 +24,24 @@ data class CharacterDocument(
 ) {
     init {
         require(level in 1..30)
-        require(levels.all { it.level <= level })
         require(levels.map { it.level }.distinct().size == levels.size)
         require(craftKnowledge.map { it.entryId }.distinct().size == craftKnowledge.size)
         require(craftKnowledge.all { saved -> CraftKnowledgeKind.entries.any { it.matches(saved.entryId) } })
     }
 
+    internal val activeLevels: List<LevelDecisions> get() = levels.filter { it.level <= level }
+
+    /** Scope evaluation to decisions the character has reached. */
+    internal fun atLevel(level: Int): CharacterDocument =
+        if (this.level == level && levels.none { it.level > level }) this
+        else copy(level = level, levels = levels.filter { it.level <= level })
+
     /** The class definitions this character chose; power pools are scoped to them. */
-    fun classEntryIds(): Set<String> = levels.flatMap { it.entries }
+    fun classEntryIds(): Set<String> = activeLevels.flatMap { it.entries }
         .filter { it.slot == ChoiceSlotId("creation", "class", 0) }.map { it.selection.entryId }.toSet()
 
     /** The ancestry chosen at character creation. */
-    fun ancestryEntryIds(): Set<String> = levels.flatMap { it.entries }
+    fun ancestryEntryIds(): Set<String> = activeLevels.flatMap { it.entries }
         .filter { it.slot == ChoiceSlotId("creation", "ancestry", 0) }.map { it.selection.entryId }.toSet()
 }
 

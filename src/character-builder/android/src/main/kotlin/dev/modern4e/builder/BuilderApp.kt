@@ -113,7 +113,10 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                             }
                             HorizontalDivider(color = Line)
                         }
-                        if (model.busy || model.saving) { LinearProgressIndicator(Modifier.fillMaxWidth()) }
+                        // The slot is always reserved, so the content below never shifts when the bar appears or goes away.
+                        Box(Modifier.fillMaxWidth().height(4.dp)) {
+                            if (model.busy || model.saving) { LinearProgressIndicator(Modifier.fillMaxWidth()) }
+                        }
                         AnimatedContent(if (model.page in CharacterTabs) "character" else model.page, modifier = Modifier.weight(1f), label = "Screen transition", transitionSpec = {
                             val order = listOf("home", "library", "import", "character")
                             val forward = order.indexOf(targetState) > order.indexOf(initialState)

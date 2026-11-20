@@ -36,7 +36,7 @@ object ContractCodec {
                 ContractResult.Available(json.decodeFromJsonElement<CharacterDocument>(tree))
             }
         } catch (error: IllegalArgumentException) {
-            ContractResult.Unavailable(listOf(Diagnostic("character.malformed", DiagnosticKind.INCOMPATIBLE_FORMAT, "Malformed character document: check JSON syntax, levels (1–30, unique and no higher than the character), nonnegative slot ordinals, positive equipment quantities and modifier qualifiers. ${error.message.orEmpty()}")))
+            ContractResult.Unavailable(listOf(Diagnostic("character.malformed", DiagnosticKind.INCOMPATIBLE_FORMAT, "Malformed character document: check JSON syntax, levels (1–30, with unique decision levels), nonnegative slot ordinals, positive equipment quantities and modifier qualifiers. ${error.message.orEmpty()}")))
         }
     }
 

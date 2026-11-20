@@ -8,7 +8,11 @@ class BuilderOperationsTest {
     private val fighter = ContentEntry("fighter", EntryCategory.CLASS, Presentation("Fighter"), Mechanics(
         choices = listOf(ChoiceDefinition.MainAbility("main", listOf(Ability.STRENGTH)),
             ChoiceDefinition.Entries("powers", 2, listOf("power"))),
-        progression = listOf(ClassProgression(2, choices = listOf(ChoiceDefinition.Entries("utility", 1, listOf("power")))))),
+        progression = listOf(
+            ClassProgression(2, choices = listOf(ChoiceDefinition.Entries("utility", 1, listOf("power")))),
+            ClassProgression(4, choices = listOf(
+                ChoiceDefinition.Proficiencies("skill", 1, listOf(Skill.ACROBATICS)),
+                ChoiceDefinition.Values("language", 1, FactKind.LANGUAGE, listOf(ValueOption("elven", "Elven"))))))),
         Coverage(CoverageStatus.SUPPORTED))
     private val power = ContentEntry("power", EntryCategory.POWER, Presentation("Power"), Mechanics(), Coverage(CoverageStatus.SUPPORTED))
     private val feat = ContentEntry("feat", EntryCategory.FEAT, Presentation("Feat"),
@@ -80,10 +84,45 @@ class BuilderOperationsTest {
         assertEquals("power-0", edited.levels.first().entries.single { it.slot == slot }.instanceId)
         val lowered = ops.apply(progressed, BuilderEdit.Level(1))
         assertTrue(lowered.applied)
-        assertEquals(progressed.levels.filter { it.level == 1 }, lowered.state.document.levels)
+        assertEquals(progressed.levels, lowered.state.document.levels)
         assertEquals(2, lowered.state.rules.entries.count { it.definition.entry.id == "power" })
         val raisedAgain = ops.apply(lowered.state.document, BuilderEdit.Level(2))
-        assertEquals(LevelDecisions(2), raisedAgain.state.document.levels.single { it.level == 2 })
+        assertEquals(progressed, raisedAgain.state.document)
+        assertEquals(3, raisedAgain.state.rules.entries.count { it.definition.entry.id == "power" })
+    }
+
+    @Test fun futureChoicesUseTheirAcquisitionLevelAndWaitToAffectRules() = run {
+        val ops = operations()
+        val doc = select(ops, create(ops), 1, ChoiceSlotId("creation", "class", 0), "fighter", "fighter")
+        val currentRules = ops.evaluate(doc).rules
+        val featSlot = ChoiceSlotId("advancement.2", "feat", 0)
+        val utilitySlot = ChoiceSlotId("fighter", "utility", 0)
+        assertTrue(ops.options(doc, 2, featSlot).any { it.entry.entry.id == feat.id })
+        assertTrue(ops.options(doc, 2, utilitySlot).any { it.entry.entry.id == power.id })
+        val plannedFeat = select(ops, doc, 2, featSlot, feat.id, "level-2-feat")
+        val plannedPower = select(ops, plannedFeat, 2, utilitySlot, power.id, "utility")
+        val training = ProficiencyChoice(ChoiceSlotId("fighter", "skill", 0), Skill.ACROBATICS)
+        val language = ValueChoice(ChoiceSlotId("fighter", "language", 0), "elven")
+        val increase = AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.DEXTERITY to 1))
+        val planned = ops.apply(plannedPower, BuilderEdit.Batch(listOf(
+            BuilderEdit.Proficiency(4, training), BuilderEdit.Value(4, language), BuilderEdit.Advancement(4, increase))))
+        assertTrue(planned.applied, planned.diagnostics.toString())
+        assertEquals(1, planned.state.document.level)
+        assertEquals(currentRules, planned.state.rules)
+        assertFalse(ops.apply(plannedPower, BuilderEdit.Value(3, language)).applied)
+
+        val reopened = assertIs<ContractResult.Available<CharacterDocument>>(
+            ContractCodec.decode(ContractCodec.encode(planned.state.document))).value
+        assertEquals(planned.state.document, reopened)
+        val levelTwo = ops.apply(reopened, BuilderEdit.Level(2))
+        assertTrue(levelTwo.state.rules.entries.any { it.slot == utilitySlot })
+        assertTrue(levelTwo.state.rules.entries.any { it.slot == featSlot })
+        assertFalse(Skill.ACROBATICS in levelTwo.state.rules.proficiencies)
+        val levelFour = ops.apply(reopened, BuilderEdit.Level(4))
+        assertTrue(Skill.ACROBATICS in levelFour.state.rules.proficiencies)
+        assertTrue(levelFour.state.rules.facts.any { it.kind == FactKind.LANGUAGE && it.value == "elven" })
+        assertEquals(currentRules.overviewAbilityTotals.getValue(Ability.DEXTERITY) + 1,
+            levelFour.state.rules.overviewAbilityTotals.getValue(Ability.DEXTERITY))
     }
 
     @Test fun proficiencyEditsKeepTheirAcquisitionLevelAfterAdvancing() = run {

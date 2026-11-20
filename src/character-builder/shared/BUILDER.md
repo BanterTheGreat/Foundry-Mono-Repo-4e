@@ -20,6 +20,15 @@ Android Save persists the calculated state with a new `savedAt`, then publishes 
 only after durable storage succeeds. The timestamp triggers no additional rules
 calculation. Failed saves leave the prior visible state intact.
 
+Explicit browsing sessions are the exception to operation-local catalog reads.
+`nextBrowsingSession()` starts fresh character preparation while preserving the
+unchanged catalog snapshot's decoded content. `BuilderOptionListing.inheritFrom`
+retains definitions and preview content and copies checked eligibility only for
+rows proven independent of the edit. Other rows become unchecked with unresolved
+eligibility and no stale diagnostics. Candidate metadata is regenerated before
+inherited rows are exposed. Character/catalog reloads discard this snapshot;
+ordinary direct evaluate/apply calls continue to read fresh content.
+
 Shared class v2 definitions expose their main ability at `(class instance,
 "main", 0)` and feature-owned choices under deterministic grant instances.
 Options use shared occurrence eligibility separately from combat coverage;

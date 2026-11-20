@@ -187,11 +187,13 @@ class CharacterCodecTest {
         for (source in listOf("{", "[]", "null", "true", "", golden.toString() + " trailing")) {
             assertIs<ContractResult.Unavailable>(ContractCodec.decode(source))
         }
-        for (level in listOf(0, 31, 2)) {
+        for (level in listOf(0, 31)) {
             reject(JsonObject(golden + ("level" to JsonPrimitive(level))))
         }
         val levels = golden.getValue("levels").jsonArray
         reject(JsonObject(golden + ("levels" to JsonArray(listOf(levels.first(), levels.first())))))
+        reject(JsonObject(golden + ("levels" to JsonArray(listOf(JsonObject(levels.first().jsonObject +
+            ("level" to JsonPrimitive(31))))))))
         val item = golden.getValue("equipment").jsonArray.first().jsonObject
         reject(JsonObject(golden + ("equipment" to JsonArray(listOf(JsonObject(item + ("quantity" to JsonPrimitive(0))))))))
     }

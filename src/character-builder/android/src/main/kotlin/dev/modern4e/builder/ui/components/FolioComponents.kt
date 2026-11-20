@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.Modifier
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,7 +40,21 @@ internal fun CompactHeading(text: String) {
     )
 }
 
-/** Renders an editable folio field, with a compact layout for the Levels screen. */
+/** How much of a field's text shows while its edit is being saved. */
+private const val SavingContentAlpha = 0.55f
+
+/** The small spinner shown at a field's right edge while its edit is being saved. */
+@Composable
+internal fun SavingSpinner(modifier: Modifier = Modifier, size: Dp = 16.dp) {
+    CircularProgressIndicator(modifier.size(size), color = Dim, strokeWidth = 2.dp)
+}
+
+/**
+ * Renders an editable folio field, with a compact layout for the Levels screen.
+ *
+ * @param saving whether an edit for this field is being stored; it grays the field, shows a spinner at its right edge and
+ *   replaces the needs-attention styling, which only the stored result can justify.
+ */
 @Composable
 internal fun Field(
     label: String,
@@ -49,23 +65,32 @@ internal fun Field(
     leftAccent: Color? = null,
     valueIsHint: Boolean = false,
     invalid: Boolean = false,
+    saving: Boolean = false,
     action: () -> Unit,
 ) {
     val errorColor = MaterialTheme.colorScheme.error
+    val flagged = invalid && !saving
     Surface(
         modifier.fillMaxWidth().clickable(enabled = enabled, onClick = action).semantics {
             contentDescription = "Edit $label"
-            if (invalid) {
+            if (saving) {
+                stateDescription = "Saving"
+            } else if (invalid) {
                 stateDescription = "Needs attention"
             }
         },
-        color = if (invalid) errorColor.copy(alpha = 0.10f).compositeOver(Paper) else Paper,
-        border = BorderStroke(1.dp, if (invalid) errorColor else Line),
+        color = if (flagged) errorColor.copy(alpha = 0.10f).compositeOver(Paper) else if (saving) Wash else Paper,
+        border = BorderStroke(1.dp, if (flagged) errorColor else Line),
     ) {
-        Box(Modifier.leftEdgeAccent(leftAccent.takeUnless { invalid })) {
-            FolioFieldContent(label, value, compact, labelColor = if (invalid) errorColor else Dim,
-                valueColor = if (invalid) errorColor else LocalContentColor.current,
-                hintColor = if (invalid) errorColor else Dim, valueIsHint = valueIsHint)
+        Box(Modifier.leftEdgeAccent(leftAccent.takeUnless { flagged })) {
+            Box(Modifier.alpha(if (saving) SavingContentAlpha else 1f)) {
+                FolioFieldContent(label, value, compact, labelColor = if (flagged) errorColor else Dim,
+                    valueColor = if (flagged) errorColor else LocalContentColor.current,
+                    hintColor = if (flagged) errorColor else Dim, valueIsHint = valueIsHint)
+            }
+            if (saving) {
+                SavingSpinner(Modifier.align(Alignment.CenterEnd).padding(end = 12.dp))
+            }
         }
     }
 }

@@ -25,7 +25,7 @@ internal class RulesContentPreparation(catalog: ContentCatalog) {
     private var powers: List<CatalogEntry>? = null
 
     suspend fun load(document: CharacterDocument): RulesContent {
-        val saved = document.levels.flatMap { level ->
+        val saved = document.activeLevels.flatMap { level ->
             level.entries.map { it.selection } + level.replacements.map { it.replacement.selection }
         } + document.equipment.filter { it.equipped }.map { it.selection }
         val selections = linkedMapOf<SavedSelection, ContractResult<ResolvedEntry>>()

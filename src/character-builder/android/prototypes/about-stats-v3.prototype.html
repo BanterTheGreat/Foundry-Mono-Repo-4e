@@ -1,0 +1,721 @@
+<!doctype html>
+<!-- THROWAWAY PROTOTYPE, ROUND 3: the round-2 metaphors, re-packed so each screen FITS ONE PHONE SCREEN (no scrolling) at normal text size.
+     The bar shows a live fit meter: "fits ✓ used/available" or "scrolls +Npx". Large text (Aa) is expected to scroll.
+       About  D Frontispiece - banner + giant level, radar beside stacked power cards, two-column skill bars, 3 training lines, 2-line notes
+              E Margin rail  - left rail of numbers, reading column right, ruled notes
+              F Crest        - roundel + identity column, orbs, skill cloud, training, notes
+       Stats  D Paper doll   - vitals, short doll with gear at the body, shields, collapsed Rituals | Formulas strip
+              E Equations    - vitals chips, gear pills, four worked sums (gear terms tappable), collapsed strip
+              F Combat HUD   - pinned ink band, horizontal gear cards, page carousels for rituals/formulas
+     Rituals and formulas live behind a one-line strip (D, E) or a short carousel (F) because they are the only unbounded content.
+     Bar: [‹ ›] variant (or ← →), [About|Stats], [character], [Aa] large text, [✦] additions. All sheets work. Mock data only.
+     Open: src/character-builder/android/prototypes/about-stats-v3.prototype.html  (?screen=about|stats &variant=A|B|C &c=0..3 &large=1) -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Modern 4e · About and Stats prototype (round 3: one screen)</title>
+<style>
+:root{--ink:#322b25;--paper:#f3eddf;--dim:#71675c;--line:#c9bda7;--accent:#863f36;--wash:#e8ddcb;--ok:#386327;--enc:#923d32;--day:#354ba4;--util:#655283;--err:#b3261e;--sans:Calibri,'Segoe UI',sans-serif;--serif:Georgia,serif}
+*{box-sizing:border-box}body{margin:0;padding:0 0 96px;font-family:var(--sans);color:var(--ink);background:#d9d2c3}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0;text-align:left;touch-action:manipulation}
+.note{max-width:430px;margin:12px auto;font-size:12px;line-height:1.5;color:var(--dim);padding:0 8px}.note b{letter-spacing:.1em;font-size:10px}
+.wrap{display:flex;gap:22px;justify-content:center;align-items:flex-start;flex-wrap:wrap;padding:0 12px}
+.phone{position:relative;width:410px;height:820px;background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 35px #0002;display:flex;flex-direction:column;flex:none}
+.top{height:62px;flex:none;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line);font:24px var(--serif)}
+.page{flex:1;overflow:auto;padding:14px 20px 24px;display:flex;flex-direction:column;gap:6px;scrollbar-width:thin;scrollbar-color:var(--accent) var(--wash)}
+.nav{height:58px;flex:none;display:flex;border-top:1px solid var(--line)}.nav button{flex:1;text-align:center;font-size:12px;color:var(--dim);padding-top:10px}.nav button.on{color:var(--accent);box-shadow:inset 0 -3px var(--accent)}.nav .off{opacity:.45;cursor:default}
+.large .page,.large .sheet .body{zoom:1.3}
+.row{display:flex;gap:6px;min-width:0}.col{display:flex;flex-direction:column;min-width:0}.grow{flex:1;min-width:0}
+.label{font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--dim)}
+h2{font:normal 16px/20px var(--serif);margin:8px 0 0}
+.sec{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:6px}.sec h2{margin:0}.sec .aside{font-size:11px;color:var(--accent)}
+.panel{border:1px solid var(--line);background:var(--wash);border-radius:3px;min-width:0}
+.paper{border:1px solid var(--line);background:var(--paper);border-radius:2px;min-width:0}
+.field{display:block;width:100%;border:1px solid var(--line);border-radius:3px;padding:6px 12px;background:var(--paper);min-height:48px}.field .v{font:16px/20px var(--serif);display:block}.field.hint .v{font:11px var(--sans);color:var(--dim);padding:4px 0}
+.field.invalid{border-color:var(--err);background:#b3261e1a}.field.invalid .label{color:var(--err)}.field.accent{box-shadow:inset 3px 0 var(--accent)}
+.lvl{font:22px/24px var(--serif);color:var(--accent)}.big{font:34px/36px var(--serif);color:var(--accent)}
+.val{font:22px/24px var(--serif);color:var(--accent)}
+.hint2{font-size:10px;color:var(--dim)}
+.portrait{display:grid;place-items:center;text-align:center;border:1px solid var(--line);background:var(--wash);border-radius:3px;color:var(--dim);font-size:28px;line-height:1;overflow:hidden;flex:none}.portrait small{display:block;font-size:9px;letter-spacing:1px;margin-top:2px}.portrait img{width:100%;height:100%;object-fit:cover}
+.chips{display:flex;flex-wrap:wrap;gap:4px}.chip{background:var(--wash);padding:2px 6px;font-size:12px;line-height:15px;border-radius:2px}.chip b{font-weight:400;color:var(--accent)}.chip.lined{background:none;border:1px solid var(--line)}
+.none{font-size:12px;color:var(--dim)}
+.tiles{display:grid;gap:6px}.tile{border:1px solid var(--line);background:var(--paper);border-radius:2px;text-align:center;padding:4px 2px;display:block;width:100%}.tile .s{font:22px/24px var(--serif);color:var(--accent);display:block}.tile small{font-size:10px;color:var(--dim);line-height:13px;display:block}.tile .m{font-size:10px;color:var(--ink)}
+.tile.wash{background:var(--wash)}
+.tag{font-size:8px;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--accent);border-radius:8px;padding:1px 5px;vertical-align:middle;margin-left:4px}
+.noadds .tag{display:none}
+.prof{padding:6px 12px;display:block;width:100%}
+.ledger>div{display:grid;grid-template-columns:82px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}.ledger>div:first-child{border-top:1px solid var(--line)}
+.rowline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);width:100%;min-height:48px}.rowline .v{font:16px var(--serif)}.rowline .v.hint{font:12px var(--sans);color:var(--dim)}
+.seg{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--paper)}.seg button{flex:1;text-align:center;padding:9px 2px;font-size:12px;color:var(--dim);border-right:1px solid var(--line);min-height:40px}.seg button:last-child{border-right:0}.seg button.on{background:var(--accent);color:var(--paper)}.seg .n{font-size:10px;opacity:.8;margin-left:3px}
+.bar{display:flex;height:10px;border-radius:2px;overflow:hidden;gap:2px}
+.skillrow{display:flex;align-items:center;gap:8px;padding:7px 10px;border-bottom:1px solid var(--line);font-size:14px}.skillrow .dot{width:9px;height:9px;border-radius:50%;border:1px solid var(--line);flex:none}.skillrow.tr .dot{background:var(--accent);border-color:var(--accent)}.skillrow .ab{font-size:10px;color:var(--dim);width:30px}.skillrow .m{margin-left:auto;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}.skillrow:not(.tr) .m{color:var(--dim);font-weight:400}
+.statblock{font:14px/1.75 var(--serif)}.statblock .rule{border-top:1px solid var(--line);padding:6px 0}.statblock .rh{font:700 10px var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-right:6px}.statblock .tok{display:inline;border-bottom:1px dotted var(--dim);cursor:pointer}.statblock .tok:hover{color:var(--accent)}
+.statblock .prose{font:italic 14px/1.7 var(--serif);color:var(--dim)}
+.defmat{width:100%;border-collapse:collapse;font-size:12px}.defmat th{font:700 10px var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--dim);text-align:center;padding:4px 0;border-bottom:1px solid var(--line)}.defmat td{text-align:center;padding:6px 0;border-bottom:1px dotted var(--line);font-variant-numeric:tabular-nums}.defmat td:first-child{text-align:left;color:var(--dim)}.defmat tr.tot td{border-bottom:0;font:24px var(--serif);color:var(--accent);padding:8px 0 4px}.defmat tr.tot td:first-child{font:700 10px var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--dim)}.defmat .z{color:#c9bda7}
+.slot{border:1px solid var(--line);background:var(--paper);border-radius:3px;padding:6px 10px;min-height:56px;display:block;width:100%}.slot .v{font:15px/18px var(--serif);display:block;margin-top:2px}.slot.empty .v{font:11px var(--sans);color:var(--dim);padding-top:3px}.slot.invalid{border-color:var(--err);background:#b3261e1a}.slot.invalid .label{color:var(--err)}.slot .bd{font-size:10px;color:var(--accent);float:right}
+.reqnote{font-size:12px;color:var(--err);margin-top:2px}
+.sl{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;border-bottom:1px solid var(--line);padding:8px 0;width:100%;min-height:56px}.sl .ic{font:20px var(--serif);color:var(--accent);text-align:center}.sl .t{font:15px/18px var(--serif)}.sl .t.empty{font:12px var(--sans);color:var(--dim)}.sl.invalid .t,.sl.invalid .label{color:var(--err)}
+.card{border:1px solid var(--line);background:var(--paper);border-radius:2px;width:100%;display:block;padding:8px 12px}.card .hd{display:flex;justify-content:space-between;gap:10px;align-items:center}.card .tt{font:15px var(--serif)}.card .badge{font-size:10px;background:var(--wash);padding:1px 6px;border-radius:2px;color:var(--dim)}.card .detail{margin-top:6px;font-size:12px;line-height:1.5;color:var(--dim)}.card .detail b{color:var(--ink);font-weight:600}
+.defline{font-size:12px;color:var(--dim);line-height:1.5;padding:0 2px}
+.defline b{color:var(--ink)}
+.scrim{position:absolute;inset:0;background:#322b2566;z-index:5}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:82%;background:var(--paper);border-top:1px solid var(--line);border-radius:6px 6px 0 0;z-index:6;display:flex;flex-direction:column;box-shadow:0 -8px 24px #0003}
+.sheet .grab{width:36px;height:4px;border-radius:2px;background:var(--line);margin:8px auto 0}
+.sheet .body{padding:10px 16px 16px;overflow:auto;display:flex;flex-direction:column;gap:6px}
+.sheet h3{margin:0 0 4px;font:20px var(--serif)}
+.sheet input[type=text],.sheet textarea{width:100%;font:16px var(--serif);padding:10px;border:1px solid var(--line);background:#fff8;border-radius:3px;color:var(--ink)}.sheet textarea{min-height:140px;resize:vertical}
+.acts{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+.btn{border:1px solid var(--accent);color:var(--accent);padding:10px 16px;border-radius:3px;min-height:48px;text-align:center}.btn.pri{background:var(--accent);color:var(--paper)}.btn.grow{flex:1}.btn[disabled]{opacity:.4}
+.stepper{display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 0}.stepper .btn{width:64px;font-size:24px}.stepper .big{font-size:38px;min-width:130px;text-align:center}
+.sechd{font:700 10px var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin:8px 0 2px}
+.pw{border:1px solid var(--line);background:var(--paper);padding:7px 13px;width:100%;display:block}.pw .t{font:15px var(--serif)}.pw .n{font-size:12px;color:var(--dim)}.pw .d{font-size:12px;line-height:1.5;margin-top:6px}
+.chosen{box-shadow:inset 3px 0 var(--accent);background:var(--wash)}
+.chk{color:var(--accent);float:right}
+/* below the phone */
+.side{width:420px;max-width:100%;font-size:12px;line-height:1.45}
+.side h4{margin:0 0 4px;font:700 10px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.side table{width:100%;border-collapse:collapse;background:#f3eddf99;border:1px solid var(--line)}.side th,.side td{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top}.side th{font-size:10px;color:var(--dim)}.side td.cur,.side th.cur{background:#863f3615;font-weight:600}
+.side .adds{background:#f3eddf99;border:1px solid var(--line);padding:8px 10px;margin:10px 0}.side .adds li{margin:2px 0}
+pre.state{max-height:230px;overflow:auto;padding:10px;font-size:10.5px;line-height:1.4;background:#282d35;color:#d7dbe0;border-radius:8px;white-space:pre-wrap;margin:10px 0 0}
+.switcher{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:7px 9px;background:#282d35;color:#fff;border-radius:34px;box-shadow:0 4px 18px #0005;font:12px system-ui,sans-serif;z-index:20;max-width:calc(100vw - 16px);flex-wrap:wrap;justify-content:center}
+.switcher button{border:0;background:#444b56;color:#fff;min-width:38px;height:38px;border-radius:19px;font-size:15px;text-align:center;padding:0 10px}.switcher button.on{background:var(--accent)}.switcher .mid{min-width:170px;text-align:center}.switcher small{display:block;font-size:10px;color:#c6ccd4;margin-top:2px}.switcher .t{font-size:11px}
+/* ===== v2 ===== */
+.idtag{flex:1;min-width:0;border-bottom:2px solid var(--line);padding:4px 6px 4px;min-height:48px;display:block}.idtag .v{font:16px/20px var(--serif);display:block}.idtags,.plate{display:flex;gap:10px;flex-wrap:wrap}.large .idtags,.large .plate{flex-direction:column}
+.ruled{display:block;width:100%;border:1px solid var(--line);border-radius:2px;padding:8px 14px 8px 40px;background:repeating-linear-gradient(transparent 0 25px,#c9bda788 25px 26px),var(--paper);background-position:0 24px;position:relative;margin-top:4px}.ruled:before{content:'';position:absolute;left:30px;top:0;bottom:0;border-left:1px solid #863f3688}.ruled .txt{display:block;font:italic 15px/26px var(--serif)}.ruled .txt.ph{color:var(--dim)}.ruled .label{display:block;line-height:18px}
+.kit{display:grid;grid-template-columns:78px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}.kit .label{padding-top:3px}
+/* D frontispiece */
+.front{position:relative;height:178px;margin:-14px -20px 4px;background:linear-gradient(180deg,#e8ddcb,#d8c9ae);background-size:cover;background-position:center top;border-bottom:3px double var(--accent);overflow:hidden}
+.front:before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,#863f360d 0 8px,transparent 8px 16px)}.front[style*="url"]:before{display:none}
+.fbtn{position:absolute;inset:0;display:grid;place-items:center}.fbtn .ph{display:block;text-align:center;font-size:44px;color:#71675c99;margin-top:-22px}.fbtn .ph small{display:block;font-size:9px;letter-spacing:1.5px}
+.numeral{position:absolute;left:14px;bottom:2px;font:700 84px/84px var(--serif);color:var(--accent);text-shadow:0 0 0 #f3eddf,2px 2px 0 #f3eddf,-2px -2px 0 #f3eddf,2px -2px 0 #f3eddf,-2px 2px 0 #f3eddf}.numeral small{position:absolute;left:4px;top:2px;font:700 10px var(--sans);letter-spacing:2px;color:var(--ink);text-shadow:none}.numeral em{position:absolute;left:100%;bottom:10px;margin-left:6px;font:10px var(--sans);color:var(--dim);white-space:nowrap;font-style:normal;text-shadow:none}
+.caption{position:absolute;right:0;bottom:12px;background:var(--paper);border:1px solid var(--line);border-right:0;padding:4px 10px;font-size:11px}
+.ribbon{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--accent);color:var(--paper);padding:8px 26px;margin:6px -6px 0;clip-path:polygon(0 0,100% 0,calc(100% - 14px) 50%,100% 100%,0 100%,14px 50%);font:14px var(--serif)}
+.fan{display:flex;justify-content:center;padding:10px 0 4px}.pcard{width:96px;height:124px;border:2px solid var(--col);background:var(--paper);border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 -10px;box-shadow:0 3px 8px #0002;text-align:center;position:relative}.pcard:before{content:'';position:absolute;inset:4px;border:1px solid var(--col);opacity:.35;border-radius:3px}.pcard .n{font:44px/44px var(--serif);color:var(--col)}.pcard .l{font-size:11px;color:var(--col);margin-top:4px}
+.bars{display:block;width:100%;padding:2px 0}.bars .br{display:grid;grid-template-columns:96px 1fr 34px;gap:8px;align-items:center;padding:4px 0}.bars .nm{font-size:13px}.bars .tr{height:10px;background:var(--wash);border-radius:2px;overflow:hidden}.bars .tr i{display:block;height:100%;background:var(--accent)}.bars b{font:600 13px var(--sans);color:var(--accent);text-align:right}.bars .more,.more2{display:block;font-size:11px;color:var(--accent);margin-top:2px;min-height:32px;padding-top:8px}
+/* E margin rail */
+.railwrap{display:grid;grid-template-columns:112px 1fr;gap:12px;margin:-4px 0 0}.rail{display:flex;flex-direction:column;gap:8px;border-right:1px solid var(--line);padding-right:10px}.rail-large{margin-bottom:6px}.rail-large .rail{display:grid;grid-template-columns:1fr 1fr;border:0;padding:0}
+.rlevel{border:1px solid var(--line);background:var(--wash);border-radius:3px;padding:4px 8px;min-height:48px;display:flex;justify-content:space-between;align-items:center}.rlevel small{font-size:9px;letter-spacing:1px;color:var(--dim)}.rlevel span{font:34px/36px var(--serif);color:var(--accent)}
+.rfacts{font-size:12px;line-height:1.7;border-bottom:1px solid var(--line);padding-bottom:6px}.rfacts .label{display:inline-block;width:42px;font-size:8.5px}
+.rabs>div{display:grid;grid-template-columns:30px 1fr auto;align-items:baseline;border-bottom:1px dotted var(--line);padding:3px 0}.rabs b{font:20px var(--serif);color:var(--accent)}.rabs .m{font-size:11px}
+.rpow{display:grid;gap:5px}.rpow button{display:flex;align-items:baseline;gap:6px;border:1px solid var(--col);border-radius:2px;padding:4px 8px;min-height:40px;background:var(--wash)}.rpow b{font:22px var(--serif);color:var(--col)}.rpow small{font-size:11px;color:var(--col)}
+.rmain{min-width:0}
+/* F crest */
+.crest{position:relative;height:300px;margin:0 auto;width:100%}.ringline{position:absolute;left:50%;top:50%;width:236px;height:236px;margin:-118px 0 0 -118px;border:1px dashed var(--line);border-radius:50%}
+.cportrait{position:absolute;left:50%;top:50%;width:132px;height:132px;margin:-66px 0 0 -66px;border-radius:50%;border:3px double var(--accent);background:var(--wash);overflow:hidden;display:grid;place-items:center;text-align:center}.cportrait img{width:100%;height:100%;object-fit:cover}.cportrait .ph{display:block;font-size:34px;color:var(--dim)}.cportrait .ph small{display:block;font-size:9px;letter-spacing:1px}
+.node{position:absolute;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:var(--paper);border:1px solid var(--line);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}.node b{font:19px var(--serif);color:var(--accent)}.node small{font-size:8px;letter-spacing:1px;color:var(--dim);margin-top:1px}.node span{position:absolute;right:-6px;bottom:-4px;font-size:10px;background:var(--ink);color:var(--paper);border-radius:8px;padding:0 4px}
+.medal{position:absolute;left:50%;top:50%;margin:34px 0 0 -30px;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--paper);font:24px/22px var(--serif);display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--accent)}.medal small{font:700 7px var(--sans);letter-spacing:1px}
+.plate{justify-content:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:4px 0;text-align:center}.plate .idtag{border:0;text-align:center}
+.vline{text-align:center;font-size:12px;color:var(--dim);line-height:1.6}
+.orbs{display:flex;justify-content:center;align-items:center;gap:6px 8px;flex-wrap:wrap;margin:10px 0 2px}.orb{width:60px;height:60px;border-radius:50%;border:2px solid var(--col);background:var(--wash);display:grid;place-items:center}.orb b{font:26px var(--serif);color:var(--col)}.ol{font-size:11px;margin-right:6px;margin-left:-3px}
+.cloud{display:flex;flex-wrap:wrap;gap:2px 14px;align-items:baseline;justify-content:center;padding:6px 0;font-family:var(--serif)}.cloud button{color:var(--accent);min-height:36px}.cloud sup{font:11px var(--sans);color:var(--dim);margin-left:2px}.more2{text-align:center;width:100%}
+/* D doll */
+.vit{display:grid;gap:8px}.hpbar{position:relative;height:56px;border:1px solid var(--line);background:var(--paper);overflow:hidden;cursor:pointer}.hpbar i{position:absolute;inset:0;background:linear-gradient(90deg,#863f36,#a95a4a)}.hpbar span{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 14px;color:var(--paper)}.hpbar small{font-size:10px;letter-spacing:1.5px}.hpbar b{font:34px var(--serif)}
+.surges{display:flex;align-items:center;gap:10px;border:1px solid var(--line);padding:6px 12px;min-height:48px}.surges small{font-size:9.5px;letter-spacing:1px;color:var(--dim);width:64px;flex:none}.surges .pips{display:flex;flex-wrap:wrap;gap:4px;flex:1}.pips i{width:12px;height:16px;background:var(--day);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;opacity:.85}.surges b{font:22px var(--serif);color:var(--accent)}
+.doll{position:relative;aspect-ratio:370/300;width:100%}.doll svg{position:absolute;inset:0;width:100%;height:100%}.dslot{position:absolute;background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:3px 7px;text-align:left;overflow:hidden;z-index:1}.dslot .v{display:block;font:13px/16px var(--serif)}.dslot .label{font-size:8.5px}.dslot.empty .v{font:11px var(--sans);color:var(--dim)}.dslot .bd{float:right;font-size:9px;color:var(--accent)}.dslot.invalid{border-color:var(--err);background:#f4e0dc}.dslot em{display:block;font:10px var(--sans);color:var(--err);font-style:normal}
+.shields{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.shield{text-align:center;display:block;min-height:48px}.shield svg{width:100%;display:block}.shield small{display:block;font-size:10px;color:var(--dim)}
+/* E equations */
+.pills{display:flex;flex-wrap:wrap;gap:6px}.pill{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--paper);border-radius:3px;padding:4px 10px 4px 8px;min-height:48px;flex:1 1 150px;font:14px/16px var(--serif)}.pill small{font:9px var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--dim)}.pill .ic{font-size:18px;color:var(--accent)}.pill em{font:10px var(--sans);color:var(--err);font-style:normal;margin-left:auto}.pill.invalid{border-color:var(--err);background:#f4e0dc}
+.vrow{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}.vrow .paper{padding:6px 12px}.vrow .val{display:block;font:30px/34px var(--serif);color:var(--accent)}
+.eqn{display:grid;grid-template-columns:64px 1fr;gap:10px;align-items:center;border-top:1px solid var(--line);padding:8px 0}.eqn .tot{text-align:center;border-right:1px solid var(--line);padding-right:10px}.eqn .tot b{display:block;font:36px/38px var(--serif);color:var(--accent)}.eqn .tot small{font-size:10px;color:var(--dim)}.eqn .sum{display:flex;flex-wrap:wrap;gap:4px 5px;align-items:center}.eqs{color:var(--dim);font:16px var(--serif)}.term{background:var(--wash);border-radius:2px;padding:3px 7px;font-size:12px;min-height:26px;display:inline-flex;gap:4px;align-items:baseline}.term b{font:16px var(--serif);color:var(--accent)}.term.gear{border:1px solid var(--accent);background:var(--paper);min-height:36px;align-items:center}
+/* F hud */
+.hud{position:sticky;top:-14px;margin:-14px -20px 8px;background:var(--ink);color:var(--paper);padding:10px 12px 6px;z-index:3;box-shadow:0 3px 8px #0003}.hud .tiles button{text-align:center;padding:6px 0 4px;border-radius:3px;display:block;min-height:48px}.hud .tiles button.on{background:#f3eddf22;box-shadow:inset 0 -3px #d9a08f}.hud .s{font:26px/28px var(--serif);display:block}.hud small{font-size:9.5px;letter-spacing:1px;color:#c9bda7;text-transform:uppercase}.hud .hd{font-size:11.5px;color:#d9d0bf;line-height:1.5;padding:6px 2px 0}.hud .hd b{color:#fff}.hud .hd button{color:#e8b3a3;font-size:11.5px;display:inline;min-height:32px}
+.talls{display:grid;grid-template-columns:1fr 1fr;gap:6px}.large .talls{grid-template-columns:1fr}.tall{border:1px solid var(--line);background:var(--paper);border-radius:3px;padding:8px 10px;min-height:104px;display:flex;flex-direction:column;position:relative}.tall .ic{font:26px/30px var(--serif);color:var(--accent)}.tall .v{font:15px/18px var(--serif);margin-top:2px}.tall.empty .v{font:12px var(--sans);color:var(--dim)}.tall .bd{position:absolute;right:8px;top:8px;font-size:10px;background:var(--wash);padding:1px 5px;border-radius:2px;color:var(--accent)}.tall em{font:10.5px var(--sans);color:var(--err);font-style:normal;margin-top:auto}.tall.invalid{border-color:var(--err);background:#f4e0dc}.tall.invalid .label{color:var(--err)}
+.car{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--accent) var(--wash)}.gpage{flex:none;width:138px;height:110px;scroll-snap-align:start;border:1px solid var(--line);background:var(--paper);border-radius:2px 6px 6px 2px;box-shadow:inset 6px 0 0 var(--wash),2px 2px 0 var(--line);padding:10px 10px 8px 16px;display:flex;flex-direction:column;position:relative}.gpage .t{font:16px/19px var(--serif)}.gpage .cat{font-size:10.5px;color:var(--dim);margin-top:auto}.gpage .badge{position:absolute;right:6px;top:6px;font-size:10px;background:var(--wash);padding:1px 6px;border-radius:2px;color:var(--dim)}.gpage.on{border-color:var(--accent);box-shadow:inset 6px 0 0 var(--accent),2px 2px 0 var(--accent)}.gpage.add{align-items:center;justify-content:center;border-style:dashed;box-shadow:none;background:transparent;color:var(--accent)}.gpage.add .t{font-size:30px}.gpage.add .cat{margin:0;color:var(--accent)}
+.page>*{flex-shrink:0}
+.medal{margin:44px 0 0 -46px;width:92px;height:26px;border-radius:3px;flex-direction:row;gap:6px;font:20px/22px var(--serif);border-width:2px}.medal small{font-size:8px}
+/* ===== v3 single-screen overrides ===== */
+.page{gap:5px;padding-top:10px;padding-bottom:12px}
+.idtags.nowrap{flex-wrap:nowrap;gap:8px}.large .idtags.nowrap{flex-direction:column}
+.front.compact{height:112px;margin:-10px -20px 2px}.front.compact .numeral{font-size:64px;line-height:64px}.front.compact .numeral small{font-size:9px}.front.compact .fbtn .ph{font-size:30px;margin-top:-14px}
+.ribbon{padding:6px 24px;font-size:13px}
+.mid{display:grid;grid-template-columns:190px 1fr;gap:10px;align-items:center}.rbox{min-width:0}.large .mid{grid-template-columns:1fr}
+.pstack{display:flex;flex-direction:column;gap:5px}.pcard2{display:flex;align-items:center;justify-content:space-between;border:2px solid var(--col);background:var(--paper);border-radius:4px;padding:0 12px;min-height:44px;box-shadow:2px 2px 0 var(--col);position:relative}.pcard2 .n{font:26px/28px var(--serif);color:var(--col)}.pcard2 .l{font-size:12px;color:var(--col)}.pcard2:nth-child(even){margin-left:10px;margin-right:-10px}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px 16px;width:100%;padding:2px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.sgrid .sh{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;min-height:24px}.sgrid .more{font-size:11px;color:var(--accent)}.sgrid .br{display:grid;grid-template-columns:74px 1fr 28px;gap:6px;align-items:center;padding:3px 0;min-height:24px}.sgrid .nm{font-size:12px}.sgrid .tr{height:8px;background:var(--wash);border-radius:2px;overflow:hidden}.sgrid .tr i{display:block;height:100%;background:var(--accent)}.sgrid b{font:600 12px var(--sans);color:var(--accent);text-align:right}.large .sgrid{grid-template-columns:1fr}
+.kit1{border:1px solid var(--line);background:var(--paper);padding:2px 10px}.kit1>div{display:grid;grid-template-columns:76px 1fr;gap:6px;font-size:12px;line-height:18px;padding:2px 0}.kit1 .label{line-height:18px}.kit1>div+div{border-top:1px dotted var(--line)}
+.ruled.sm{min-height:56px;margin-top:0;padding:4px 12px 4px 40px;background:repeating-linear-gradient(transparent 0 19px,#c9bda788 19px 20px),var(--paper);background-position:0 20px}.ruled.sm .txt{font:italic 14px/20px var(--serif);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.ruled.sm .label{line-height:16px;display:block}
+.railwrap{margin:-2px 0 0}.rail{gap:6px}.rail .portrait{font-size:22px}.rabs>div{padding:2px 0}
+.crow{display:grid;grid-template-columns:220px 1fr;gap:8px;align-items:center}.large .crow{grid-template-columns:1fr}.cside{display:flex;flex-direction:column;gap:3px;min-width:0}.cside .idtag{flex:none;min-height:40px;padding:2px 4px}.cside .idtag .v{font-size:15px;line-height:18px}.cside .vline{font-size:11.5px;line-height:1.4}
+.crest.sm{width:220px;height:220px;margin:0}.crest.sm .ringline{width:168px;height:168px;margin:-84px 0 0 -84px}.crest.sm .cportrait{width:92px;height:92px;margin:-46px 0 0 -46px}.crest.sm .node{width:46px;height:46px;margin:-23px 0 0 -23px}.crest.sm .node b{font-size:17px}.crest.sm .medal{margin:34px 0 0 -38px;width:76px;height:22px;font-size:17px;line-height:18px}
+.orbs.sm{margin:2px 0;gap:4px 14px}.orbs.sm .ob{display:flex;align-items:center;gap:6px}.orbs.sm .orb{width:46px;height:46px}.orbs.sm .orb b{font-size:21px}.orbs.sm .ol{margin:0}
+.cloud.sm{padding:2px 0;gap:0 12px}.cloud.sm button{min-height:30px}
+.vit2{display:grid;grid-template-columns:1fr 1.3fr;gap:6px}.large .vit2{grid-template-columns:1fr}.hpbar.sm{height:44px}.hpbar.sm b{font-size:28px}.surges.sm{padding:4px 10px;min-height:44px}.surges.sm small{width:auto}.surges.sm .pips{gap:3px}.surges.sm .pips i{width:9px;height:13px}.surges.sm b{font-size:20px}
+.doll.sm{aspect-ratio:370/250}
+.shields.sm{gap:2px;padding:0 20px}.shields.sm .shield small{font-size:10px}.shields.sm .shield{min-height:0}.large .shields.sm{padding:0}
+.cstrip{display:grid;gap:6px;margin-top:2px}.cstrip .field{min-height:44px;padding:4px 12px}.cstrip .field .v{font-size:15px}
+.vrow.sm{margin-top:0}.vrow.sm .paper{padding:4px 12px;display:flex;justify-content:space-between;align-items:center;min-height:44px;width:100%}.vrow.sm .val{font-size:26px;line-height:28px}
+.pills2{display:grid;grid-template-columns:1fr 1fr;gap:5px}.large .pills2{grid-template-columns:1fr}.large .pills2 .pill{grid-column:auto!important}.pill.sm{min-height:42px;padding:2px 8px;flex:none}.pill.sm em{margin-left:auto}
+.eqn.sm{padding:5px 0;grid-template-columns:58px 1fr;gap:8px}.eqn.sm .tot b{font-size:30px;line-height:32px}.eqn.sm .term{min-height:24px;padding:2px 6px}.eqn.sm .term.gear{min-height:30px}
+.talls{gap:5px}.tall.sm{min-height:52px;padding:4px 8px;flex-direction:row;align-items:center;gap:8px}.tall.sm .ic{font-size:22px;width:24px;text-align:center}.tall.sm .tx{display:flex;flex-direction:column;min-width:0}.tall.sm .v{margin-top:0;font-size:14px;line-height:17px}.tall.sm .bd{top:4px;right:6px}.tall.sm em{margin-top:0}
+.car.sm{padding:2px 2px 4px}.car.sm .gpage{height:78px;width:128px;padding:8px 8px 6px 14px}.car.sm .gpage .t{font-size:15px;line-height:17px}
+.hud{top:-10px;margin:-10px -20px 4px;padding:8px 12px 4px}.hud .tiles button{min-height:44px;padding:3px 0}.hud .s{font-size:24px;line-height:26px}.hud .hd{padding:4px 2px 0}
+</style></head><body>
+<div class="note"><b>PROTOTYPE · NOT PRODUCTION</b><br>Question: what should <em>About</em> and <em>Stats</em> look like? Rule: <em>no function lost</em>. Every current control survives (parity table beside the phone); new things are tagged <span class="tag" style="display:inline">NEW</span>. Tap everything: level, fields, portrait, power tallies, skills, equipment slots, rituals and formulas all open working sheets. Switch with the bar below (← → keys cycle variants).</div>
+<div class="wrap"><div class="phone" id="phone"></div><div class="side" id="side"></div></div>
+<input type="file" id="file" accept="image/*" hidden>
+<div class="switcher"><button id="prev" aria-label="Previous variant">‹</button><div class="mid"><div id="vlabel"></div><small id="vname"></small></div><button id="next" aria-label="Next variant">›</button>
+<button id="scr" class="t"></button><button id="char" class="t"></button><button id="large" class="t" title="Simulates fontScale 1.3, which makes the app reflow like a narrow screen">Aa</button><button id="adds" class="t" title="Highlight additions">✦</button></div>
+<script>
+/* ============================== mock data (mirrors what the app shows) ============================== */
+const ABN = { STR:'Strength', CON:'Constitution', DEX:'Dexterity', INT:'Intelligence', WIS:'Wisdom', CHA:'Charisma' };
+const SK = { Acrobatics:'DEX',Arcana:'INT',Athletics:'STR',Bluff:'CHA',Diplomacy:'CHA',Dungeoneering:'WIS',Endurance:'CON',Heal:'WIS',History:'INT',Insight:'WIS',Intimidate:'CHA',Nature:'WIS',Perception:'WIS',Religion:'INT',Stealth:'DEX',Streetwise:'CHA',Thievery:'DEX' };
+const SLOTS = ['WEAPON_ONE','WEAPON_TWO','ARMOR','SHIELD','IMPLEMENT'];
+const SLOT = { WEAPON_ONE:'Weapon 1', WEAPON_TWO:'Weapon 2', ARMOR:'Armor', SHIELD:'Shield', IMPLEMENT:'Implement' };
+const SLOT_ICON = { WEAPON_ONE:'⚔', WEAPON_TWO:'⚔', ARMOR:'▣', SHIELD:'⛨', IMPLEMENT:'✦' };
+const W = (t, sec, req, blade) => ({ t, sec, req, blade });
+const CAT = {
+  WEAPON: [W('Dagger','Simple',['Simple melee','Dagger']), W('Club','Simple',['Simple melee']), W('Hand crossbow','Simple',['Simple ranged','Hand crossbow']), W('Sling','Simple',['Simple ranged','Sling']),
+    W('Longsword','Military',['Military melee'],'heavy'), W('Short sword','Military',['Military melee','Short sword'],'light'), W('Battleaxe','Military',['Military melee']), W('Longbow','Military',['Military ranged']),
+    W('Rapier','Superior',['Superior melee'],'light'), W('Bastard sword','Superior',['Superior melee'],'heavy')],
+  ARMOR: [{t:'Cloth',sec:'Light armor',req:['Cloth'],ac:0,light:true},{t:'Leather',sec:'Light armor',req:['Leather'],ac:2,light:true},{t:'Hide',sec:'Light armor',req:['Hide'],ac:3,light:true},
+    {t:'Chainmail',sec:'Heavy armor',req:['Chainmail'],ac:6},{t:'Scale',sec:'Heavy armor',req:['Scale'],ac:7},{t:'Plate',sec:'Heavy armor',req:['Plate'],ac:8}],
+  SHIELD: [{t:'Light shield',sec:'Shields',req:['Light shield'],ac:1},{t:'Heavy shield',sec:'Shields',req:['Heavy shield'],ac:2}],
+  IMPLEMENT: ['Orb','Rod','Staff','Tome','Wand','Holy symbol','Totem'].map(t => ({ t, sec:'Implements', req:[t] })),
+};
+CAT.WEAPON_ONE = CAT.WEAPON_TWO = CAT.WEAPON;
+const P = (t, note, d) => ({ t, note, d });
+const RIT = [
+  { id:'r-comprehend', t:'Comprehend Language', lvl:1, cat:'Exploration', kw:'', time:'10 minutes', dur:'1 hour', focus:'—', price:'50 gp', cost:'—', d:'You understand the spoken and written words of one language you touch.' },
+  { id:'r-disk', t:"Tenser's Floating Disk", lvl:1, cat:'Travel', kw:'Conjuration', time:'10 minutes', dur:'8 hours', focus:'—', price:'50 gp', cost:'20 gp reagent', d:'A disk of force carries up to 500 pounds and follows you.' },
+  { id:'r-whole', t:'Make Whole', lvl:1, cat:'Restoration', kw:'', time:'10 minutes', dur:'Instant', focus:'—', price:'50 gp', cost:'10 gp reagent', d:'Repair a broken object as long as the pieces are present.' },
+  { id:'r-sending', t:'Sending', lvl:4, cat:'Communication', kw:'Divination', time:'10 minutes', dur:'Instant', focus:'—', price:'200 gp', cost:'60 gp reagent', d:'Send a short message to someone you know, at any range.' },
+  { id:'r-portal', t:'Linked Portal', lvl:8, cat:'Travel', kw:'Teleportation', time:'8 hours', dur:'Permanent', focus:'—', price:'1,000 gp', cost:'500 gp', d:'Link two permanent teleportation circles.' },
+];
+const FORM = [
+  { id:'f-fire', t:"Alchemist's Fire", lvl:1, cat:'Alchemical', kw:'Fire', time:'1 hour', dur:'Instant', focus:'—', price:'50 gp', cost:'Level 1 · 20 gp', d:'Throw to deal fire damage to an adjacent target.' },
+  { id:'f-acid', t:'Acid Flask', lvl:1, cat:'Alchemical', kw:'Acid', time:'1 hour', dur:'Instant', focus:'—', price:'50 gp', cost:'Level 1 · 20 gp', d:'Hurl a flask of corrosive acid.' },
+  { id:'f-smoke', t:'Smokestick', lvl:2, cat:'Alchemical', kw:'', time:'1 hour', dur:'Instant', focus:'—', price:'100 gp', cost:'Level 2 · 25 gp', d:'Creates a 1-square cloud of obscuring smoke.' },
+  { id:'f-tangle', t:'Tanglefoot Bag', lvl:3, cat:'Alchemical', kw:'', time:'1 hour', dur:'Instant', focus:'—', price:'150 gp', cost:'Level 3 · 40 gp', d:'The target is slowed until it frees itself.' },
+];
+const CHARS = [
+  { name:'Brannoch Vale', cls:'Fighter', level:3, size:'Medium', speed:5, gender:'Male', age:'34', deity:'Moradin', langs:['Common','Dwarven'], vision:['Low-light'], notes:'Mercenary captain turned reluctant guardian of the Ashford road.',
+    ab:{STR:17,CON:14,DEX:11,INT:9,WIS:12,CHA:10}, trained:['Athletics','Endurance'], hp:{base:15,per:6}, surgeBase:9, cb:{FORT:2},
+    profs:{ armor:['Cloth','Leather','Hide','Chainmail','Scale','Light shield','Heavy shield'], weapons:['Simple melee','Simple ranged','Military melee','Military ranged'], implements:[] },
+    equip:{ WEAPON_ONE:'Longsword', WEAPON_TWO:null, ARMOR:'Scale', SHIELD:'Heavy shield', IMPLEMENT:null },
+    powers:{ 'At-will':[P('Cleave','Level 1','Hit an enemy, then deal damage to an adjacent one.'),P('Reaping Strike','Level 1','Deal damage even on a miss.')], 'Encounter':[P('Passing Attack','Level 1','Move and attack two enemies.'),P('Covering Attack','Level 3','Shift an ally after you hit.')], 'Daily':[P('Brute Strike','Level 1','A single massive blow.')], 'Unspecified':[] },
+    access:[], rituals:[], formulas:[], granted:[] },
+  { name:'Ysolde Marr', cls:'Wizard', level:5, size:'Medium', speed:6, gender:'Female', age:'27', deity:'', langs:['Common','Elven','Draconic'], vision:['Low-light'], notes:'',
+    ab:{STR:8,CON:12,DEX:13,INT:19,WIS:14,CHA:10}, trained:['Arcana','History','Insight'], hp:{base:10,per:4}, surgeBase:6, cb:{WILL:2},
+    profs:{ armor:['Cloth','Leather'], weapons:['Dagger','Simple melee'], implements:['Orb','Staff','Wand','Tome'] },
+    equip:{ WEAPON_ONE:'Dagger', WEAPON_TWO:null, ARMOR:'Scale', SHIELD:null, IMPLEMENT:'Orb' },
+    powers:{ 'At-will':[P('Magic Missile','Level 1','Force damage at range.'),P('Cantrip','Level 1','Minor magical effects.')], 'Encounter':[P('Burning Hands','Level 1','Close blast, fire.'),P('Icy Terrain','Level 3','Zone of ice.')], 'Daily':[P('Sleep','Level 1','Close burst, sleep.'),P('Fireball','Level 5','Area burst, fire.')], 'Unspecified':[] },
+    access:['RITUAL'], rituals:['r-disk'], formulas:[], granted:['r-comprehend'] },
+  { name:'Pip Thistledown', cls:'Rogue', level:2, size:'Small', speed:6, gender:'', age:'19', deity:'Avandra', langs:['Common','Halfling'], vision:[], notes:'Never trust a locked door.',
+    ab:{STR:10,CON:12,DEX:18,INT:13,WIS:11,CHA:14}, trained:['Stealth','Thievery','Bluff','Acrobatics'], hp:{base:12,per:5}, surgeBase:6, cb:{REF:2},
+    profs:{ armor:['Cloth','Leather','Light shield'], weapons:['Dagger','Hand crossbow','Short sword','Sling'], implements:[] },
+    equip:{ WEAPON_ONE:'Dagger', WEAPON_TWO:'Hand crossbow', ARMOR:'Leather', SHIELD:null, IMPLEMENT:null },
+    powers:{ 'At-will':[P('Piercing Strike','Level 1','Reflex attack.'),P('Sly Flourish','Level 1','Damage with Cha bonus.')], 'Encounter':[P('Positioning Strike','Level 1','Slide the target.')], 'Daily':[], 'Unspecified':[] },
+    access:['FORMULA'], rituals:[], formulas:['f-fire'], granted:[] },
+  { name:'Corvane Ashe', cls:'Swordmage', level:4, size:'Medium', speed:6, gender:'Non-binary', age:'41', deity:'Bahamut', langs:['Common','Draconic'], vision:['Low-light','Darkvision'], notes:'Sworn to a blade that is not yet forged.',
+    ab:{STR:12,CON:14,DEX:11,INT:18,WIS:10,CHA:13}, trained:['Arcana','Diplomacy'], hp:{base:12,per:5}, surgeBase:7, cb:{WILL:1,REF:1},
+    profs:{ armor:['Cloth','Leather'], weapons:['Simple melee','Military melee'], implements:['Light blade','Heavy blade'] },
+    equip:{ WEAPON_ONE:'Longsword', WEAPON_TWO:null, ARMOR:'Leather', SHIELD:null, IMPLEMENT:'link:WEAPON_ONE' },
+    powers:{ 'At-will':[P('Sword Burst','Level 1','Close burst, thunder.'),P('Lightning Clash','Level 1','Immediate reaction.')], 'Encounter':[P('Aegis of Shielding','Level 1','Mark and shield an ally.')], 'Daily':[P('Blade Storm','Level 1','Charge into the fray.')], 'Unspecified':[P('Eldritch Ward','Utility','Unclassified frequency in the data.')] },
+    access:['RITUAL','FORMULA'], rituals:['r-whole'], formulas:['f-acid'], granted:[] },
+];
+const clone = o => JSON.parse(JSON.stringify(o));
+const MODE = { RITUAL:{ title:'Rituals', cat:RIT }, FORMULA:{ title:'Formulas', cat:FORM } };
+
+/* ============================== derived values (same facts the app computes) ============================== */
+const mod = s => Math.floor((s - 10) / 2);
+const sg = n => n >= 0 ? '+' + n : String(n);
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[ch]));
+const skillMod = (c, s) => mod(c.ab[SK[s]]) + Math.floor(c.level / 2) + (c.trained.includes(s) ? 5 : 0);
+const maxHp = c => c.hp.base + c.hp.per * (c.level - 1) + c.ab.CON;
+const maxSurges = c => c.surgeBase + mod(c.ab.CON);
+const hpBreak = c => `${c.cls} base ${c.hp.base}, ${c.level - 1} × ${c.hp.per} per level above 1, Constitution ${c.ab.CON}`;
+const itemOf = (c, slot) => { const n = c.equip[slot]; return n && !n.startsWith('link:') ? CAT[slot].find(i => i.t === n) : null; };
+function eligible(c, slot, it) {
+  const have = slot === 'ARMOR' || slot === 'SHIELD' ? c.profs.armor : slot === 'IMPLEMENT' ? c.profs.implements : c.profs.weapons;
+  return it.req.some(r => have.includes(r));
+}
+function slotInfo(c, slot) {
+  const v = c.equip[slot];
+  if (!v) { return { value: null, invalid: false }; }
+  if (v.startsWith('link:')) {
+    const ws = v.slice(5), w = itemOf(c, ws);
+    const ok = w && w.blade && c.profs.implements.includes(w.blade === 'light' ? 'Light blade' : 'Heavy blade');
+    return { value: w ? `${w.t} (${SLOT[ws]})` : 'Weapon removed', invalid: !ok, linked: true };
+  }
+  const it = CAT[slot].find(i => i.t === v);
+  return { value: v, item: it, invalid: it ? !eligible(c, slot, it) : false };
+}
+function defenseTable(c) {
+  const half = Math.floor(c.level / 2), armor = itemOf(c, 'ARMOR'), shield = itemOf(c, 'SHIELD');
+  const mx = (a, b) => Math.max(mod(c.ab[a]), mod(c.ab[b]));
+  const rows = [
+    ['Base', { AC:10, FORT:10, REF:10, WILL:10 }],
+    ['Half level', { AC:half, FORT:half, REF:half, WILL:half }],
+    ['Ability', { AC: armor && !armor.light ? 0 : mx('DEX','INT'), FORT:mx('STR','CON'), REF:mx('DEX','INT'), WILL:mx('WIS','CHA') }],
+    ['Class', { AC:0, FORT:c.cb.FORT || 0, REF:c.cb.REF || 0, WILL:c.cb.WILL || 0 }],
+    ['Armor', { AC: armor ? armor.ac : 0, FORT:0, REF:0, WILL:0 }],
+    ['Shield', { AC: shield ? shield.ac : 0, FORT:0, REF: shield ? shield.ac : 0, WILL:0 }],
+  ];
+  const total = k => rows.reduce((s, r) => s + r[1][k], 0);
+  return { rows, total: { AC: total('AC'), FORT: total('FORT'), REF: total('REF'), WILL: total('WILL') } };
+}
+const DEF = [['AC','AC'],['FORT','Fortitude'],['REF','Reflex'],['WILL','Will']];
+const defText = (c, k) => defenseTable(c).rows.filter(r => r[1][k] !== 0).map(r => `${r[0]} ${sg(r[1][k])}`).join(', ');
+const POWER_COLOR = { 'At-will':'var(--ok)', 'Encounter':'var(--enc)', 'Daily':'var(--day)' };
+const powerUsages = c => ['At-will','Encounter','Daily','Unspecified'].filter(u => u !== 'Unspecified' || c.powers[u].length);
+const powerTotal = c => powerUsages(c).reduce((s, u) => s + c.powers[u].length, 0);
+const equipSummary = c => ({
+  Armor: [...c.profs.armor], Weapons: [...c.profs.weapons], Implements: [...c.profs.implements],
+});
+
+/* ============================== state ============================== */
+const params = new URLSearchParams(location.search);
+const S = {
+  screen: params.get('screen') === 'stats' ? 'stats' : 'about',
+  v: Math.max(0, 'ABC'.indexOf((params.get('variant') || 'A').toUpperCase())),
+  ci: Math.min(CHARS.length - 1, Math.max(0, +params.get('c') || 0)),
+  large: params.get('large') === '1', adds: params.get('adds') !== '0',
+  chars: CHARS.map(clone),
+  ui: { aboutSeg:'identity', skillAll:true, defOpen:null, defAll:false, hpOpen:false, statsSeg:'equipment', craftOpen:{}, grim:{}, cs:{} },
+  sheet: null,
+};
+const cur = () => S.chars[S.ci];
+
+/* ============================== shared builders ============================== */
+const tag = '<span class="tag">NEW</span>';
+const chip = (t, x = '') => `<span class="chip ${x}">${esc(t)}</span>`;
+const chips = (arr, empty = 'None') => arr.length ? `<div class="chips">${arr.map(t => chip(t)).join('')}</div>` : `<div class="none">${empty}</div>`;
+const sec = (t, aside = '') => `<div class="sec"><h2>${t}</h2><span class="aside">${aside}</span></div>`;
+const portrait = (c, style) => `<button class="portrait" style="${style}" data-act="portrait" aria-label="Character portrait">${c.portrait ? `<img src="${c.portrait}" alt="">` : '<div>♙<small>PORTRAIT</small></div>'}</button>`;
+const levelBtn = (c, cls = 'panel') => `<button class="${cls}" data-act="level" aria-label="Change level, currently ${c.level}" style="padding:6px 12px;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%"><span class="lvl">Level ${c.level}</span><span class="hint2">tap to change</span></button>`;
+const editField = (c, key, ph) => { const v = c[key.toLowerCase()]; return `<button class="field ${v ? '' : 'hint'}" data-act="edit:${key}" aria-label="Edit ${key}"><span class="label">${key}</span><span class="v">${esc(v || ph || '—')}</span></button>`; };
+const abilityTiles = (c, mods = true) => `<div class="tiles" style="grid-template-columns:repeat(${S.large ? 3 : 6},1fr)">${Object.keys(ABN).map(k => `<div class="tile"><span class="s">${c.ab[k]}</span><small>${k}</small>${mods ? `<span class="m">${sg(mod(c.ab[k]))}${S.adds ? '' : ''}</span>` : ''}</div>`).join('')}</div>`;
+const powerTiles = c => `<div class="tiles" style="grid-template-columns:repeat(${S.large ? 2 : 4},1fr)">${powerUsages(c).map(u => { const col = POWER_COLOR[u]; return `<button class="tile wash" style="border-color:${col || 'var(--line)'}" data-act="powers:${u}"><span class="s" style="color:${col || 'var(--accent)'}">${c.powers[u].length}</span><small style="color:${col || 'var(--dim)'}">${u}</small></button>`; }).join('')}</div>`;
+const powerBar = c => { const t = powerTotal(c) || 1; return `<div class="bar" aria-hidden="true">${powerUsages(c).filter(u => c.powers[u].length).map(u => `<i style="flex:${c.powers[u].length / t};background:${POWER_COLOR[u] || 'var(--dim)'}"></i>`).join('')}</div>`; };
+const skillChips = c => c.trained.length ? `<div class="chips">${c.trained.map(s => `<span class="chip">${s} <b>${sg(skillMod(c, s))}</b></span>`).join('')}</div>` : '<div class="none">None</div>';
+const profRows = c => { const p = equipSummary(c); return Object.entries(p).map(([k, v]) => [k, v]); };
+const notesField = c => `<button class="field ${c.notes ? '' : 'hint'}" data-act="edit:Notes" aria-label="Edit Notes" style="margin-top:4px"><span class="label">Notes</span><span class="v">${esc(c.notes || 'Your story, connections, reminders…')}</span></button>`;
+
+/* ----- shared Stats bits ----- */
+function equipRowsList(c) {
+  return SLOTS.map(slot => {
+    const i = slotInfo(c, slot);
+    const ac = i.item && i.item.ac ? `<span class="chip lined">+${i.item.ac} AC</span>${tag}` : '';
+    return `<button class="sl ${i.invalid ? 'invalid' : ''}" data-act="equip:${slot}" aria-label="Edit ${SLOT[slot]}"><span class="ic">${SLOT_ICON[slot]}</span><span><span class="label">${SLOT[slot]}</span><br><span class="t ${i.value ? '' : 'empty'}">${esc(i.value || 'Choose…')}</span>${i.invalid ? '<div class="reqnote">Requires proficiency</div>' : ''}</span><span>${ac}</span></button>`;
+  }).join('');
+}
+function craftBlock(c) {
+  const kinds = ['RITUAL', 'FORMULA'].filter(k => c.access.includes(k) || (k === 'RITUAL' ? c.rituals : c.formulas).length);
+  return kinds.map(k => craftKind(c, k)).join('');
+}
+function craftKind(c, k) {
+  const m = MODE[k], saved = k === 'RITUAL' ? c.rituals : c.formulas, granted = k === 'RITUAL' ? c.granted : [];
+  const known = [...new Set([...saved, ...granted])];
+  const cards = m.cat.filter(e => known.includes(e.id)).map(e => {
+    const open = S.ui.craftOpen[e.id];
+    return `<button class="card" data-act="crc:${e.id}"><div class="hd"><span class="tt">${esc(e.t)}</span><span class="badge">L${e.lvl}</span></div>${open ? craftDetail(e, granted.includes(e.id)) : ''}</button>`;
+  }).join('');
+  return `<div class="col" style="gap:4px;margin-top:8px"><button class="field accent" data-act="craft:${k}"><span class="label">${m.title}</span><span class="v">${known.length ? known.length + ' known · Edit ›' : 'Edit ›'}</span></button>${cards}</div>`;
+}
+function craftDetail(e, isGranted) {
+  const f = (l, v) => v && v !== '—' ? `<div><b>${l}</b> ${esc(v)}</div>` : '';
+  return `<div class="detail"><div class="chips" style="margin-bottom:6px">${chip(e.cat, 'lined')}${e.kw ? chip(e.kw) : ''}</div>${f('Time', e.time)}${f('Duration', e.dur)}${f('Market price', e.price)}${f('Cost', e.cost)}<div style="margin-top:4px;color:var(--ink)">${esc(e.d)}</div>${isGranted ? '<div style="margin-top:4px">Granted</div>' : ''}</div>`;
+}
+const defTile = (c, k, label, extra = '') => { const t = defenseTable(c).total[k]; return `<button class="tile" data-act="${extra || 'def:' + k}" aria-label="${label}: ${t}"><span class="s">${t}</span><small>${label}</small></button>`; };
+
+/* ============================== v2 helpers ============================== */
+const AB_ORDER = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
+const nameTok = (c, k) => esc(c[k.toLowerCase()] || '—');
+const idTags = c => ['Gender', 'Age', 'Deity'].map(k => `<button class="idtag" data-act="edit:${k}" aria-label="Edit ${k}"><span class="label">${k}</span><span class="v">${nameTok(c, k)}</span></button>`).join('');
+const lined = (c, big) => `<button class="ruled" data-act="edit:Notes" aria-label="Edit Notes" style="min-height:${big ? 150 : 84}px"><span class="label">Notes</span><span class="txt ${c.notes ? '' : 'ph'}">${esc(c.notes || 'Your story, connections, reminders…')}</span></button>`;
+const kitRows = c => profRows(c).map(([k, v]) => `<div class="kit"><span class="label">${k}</span>${chips(v)}</div>`).join('');
+
+/** Six-axis radar of the ability scores; vertices carry the score and, as an addition, the modifier. */
+function radar(c) {
+  const cx = 150, cy = 128, pt = (i, r) => { const a = (-90 + i * 60) * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
+  const rad = s => 18 + Math.min(1, Math.max(0, (s - 6) / 14)) * 54;
+  const ring = s => AB_ORDER.map((_, i) => pt(i, rad(s)).map(n => n.toFixed(1)).join(',')).join(' ');
+  const poly = AB_ORDER.map((k, i) => pt(i, rad(c.ab[k])).map(n => n.toFixed(1)).join(',')).join(' ');
+  const labels = AB_ORDER.map((k, i) => { const [x, y] = pt(i, 100); return `<text text-anchor="middle" x="${x.toFixed(1)}"><tspan x="${x.toFixed(1)}" y="${(y - 8).toFixed(1)}" font-size="10" fill="#71675c" letter-spacing="1">${k}</tspan><tspan x="${x.toFixed(1)}" y="${(y + 8).toFixed(1)}" font-size="20" font-family="Georgia,serif" fill="#863f36">${c.ab[k]}</tspan><tspan x="${x.toFixed(1)}" y="${(y + 21).toFixed(1)}" font-size="11" fill="#322b25">${sg(mod(c.ab[k]))}</tspan></text>`; }).join('');
+  return `<svg viewBox="0 0 300 256" style="width:100%;display:block" role="img" aria-label="Ability scores: ${AB_ORDER.map(k => k + ' ' + c.ab[k]).join(', ')}">
+    ${[10, 14, 18].map(s => `<polygon points="${ring(s)}" fill="none" stroke="#c9bda7" stroke-dasharray="${s === 10 ? '' : '2 3'}"/>`).join('')}
+    ${AB_ORDER.map((_, i) => { const [x, y] = pt(i, 72); return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#c9bda7"/>`; }).join('')}
+    <polygon points="${poly}" fill="#863f3640" stroke="#863f36" stroke-width="2" stroke-linejoin="round"/>${labels}</svg>`;
+}
+/** Overlapping, slightly rotated power cards, coloured by usage; each opens its usage sheet. */
+function cardFan(c) {
+  const us = powerUsages(c), tilt = us.length === 1 ? [0] : us.length === 2 ? [-4, 4] : us.length === 3 ? [-7, 0, 7] : [-9, -3, 3, 9];
+  return `<div class="fan">${us.map((u, i) => { const col = POWER_COLOR[u] || 'var(--dim)'; return `<button class="pcard" data-act="powers:${u}" style="--col:${col};transform:rotate(${tilt[i]}deg) translateY(${Math.abs(tilt[i]) * .8}px)" aria-label="${u}: ${c.powers[u].length}"><span class="n">${c.powers[u].length}</span><span class="l">${u}</span></button>`; }).join('')}</div>`;
+}
+function skillBars(c) {
+  const m = Math.max(12, ...c.trained.map(s => skillMod(c, s)));
+  return c.trained.length ? `<button class="bars" data-act="skills" aria-label="Skills">${c.trained.map(s => `<span class="br"><span class="nm">${s}</span><span class="tr"><i style="width:${Math.max(8, skillMod(c, s) / m * 100)}%"></i></span><b>${sg(skillMod(c, s))}</b></span>`).join('')}<span class="more">All 17 skills ›</span></button>` : '<button class="bars" data-act="skills"><span class="none">None</span><span class="more">All 17 skills ›</span></button>';
+}
+function skillCloud(c) {
+  return c.trained.length ? `<div class="cloud">${c.trained.map(s => { const v = skillMod(c, s); return `<button data-act="skills" style="font-size:${Math.round(13 + Math.max(0, v) * 1.5)}px" aria-label="${s} ${sg(v)}">${s}<sup>${sg(v)}</sup></button>`; }).join('')}</div><button class="more2" data-act="skills">All 17 skills ›</button>` : '<button class="more2" data-act="skills">None · all 17 skills ›</button>';
+}
+
+/* ============================== ABOUT v2 ============================== */
+/** D · Frontispiece: a book plate. Portrait is the banner, level an oversized numeral, abilities a radar, powers a hand of cards. */
+function aboutD(c) {
+  const bg = c.portrait ? `background-image:url(${c.portrait})` : '';
+  return `<div class="front" style="${bg}"><button class="fbtn" data-act="portrait" aria-label="Character portrait">${c.portrait ? '' : '<span class="ph">♙<small>TAP TO ADD PORTRAIT</small></span>'}</button>
+      <button class="numeral" data-act="level" aria-label="Change level, currently ${c.level}"><small>LEVEL</small>${c.level}<em>tap to change</em></button>
+      <div class="caption">${c.size} · Speed ${c.speed} · ${esc(c.vision.join(', ') || 'No special vision')}</div></div>
+    <div class="idtags">${idTags(c)}</div>
+    <div class="ribbon" aria-label="Languages"><span class="label" style="color:#f3eddf99">Languages</span><span>${esc(c.langs.join(' · ') || '—')}</span></div>
+    ${radar(c)}
+    ${sec('Powers', powerTotal(c) + ' known ' + tag)}${cardFan(c)}
+    ${sec('Skills', 'bars = modifier ' + tag)}${skillBars(c)}
+    ${sec('Training')}${kitRows(c)}
+    ${lined(c, true)}`;
+}
+/** E · Margin rail: a permanent left rail of numbers, a reading column on the right, notes on ruled paper. */
+function aboutE(c) {
+  const rail = `<div class="rail">${portrait(c, 'width:100%;height:118px')}
+      <button class="rlevel" data-act="level" aria-label="Change level, currently ${c.level}"><small>LEVEL</small><span>${c.level}</span></button>
+      <div class="rfacts"><div><span class="label">Speed</span> ${c.speed}</div><div><span class="label">Size</span> ${c.size}</div><div><span class="label">Vision</span> ${esc(c.vision.join(', ') || '—')}</div></div>
+      <div class="rabs">${AB_ORDER.map(k => `<div><span class="label">${k}</span><b>${c.ab[k]}</b><span class="m">${sg(mod(c.ab[k]))}</span></div>`).join('')}</div>
+      <div class="rpow">${powerUsages(c).map(u => `<button data-act="powers:${u}" style="--col:${POWER_COLOR[u] || 'var(--dim)'}" aria-label="${u}: ${c.powers[u].length}"><b>${c.powers[u].length}</b><small>${u}</small></button>`).join('')}</div></div>`;
+  const main = `<div class="rmain">
+      ${['Gender', 'Age', 'Deity'].map(k => `<button class="rowline" data-act="edit:${k}" aria-label="Edit ${k}"><span class="label">${k}</span><span class="v">${nameTok(c, k)}</span></button>`).join('')}
+      <div class="rowline" style="display:block"><span class="label">Languages</span><div style="margin-top:3px">${chips(c.langs, '—')}</div></div>
+      ${sec('Skills', 'tap for all 17')}<button class="paper prof" data-act="skills" aria-label="Skills">${skillChips(c)}</button>
+      ${kitRows(c)}${lined(c, true)}</div>`;
+  return S.large ? `<div class="rail-large">${rail}</div>${main}` : `<div class="railwrap">${rail}${main}</div>`;
+}
+/** F · Crest: a heraldic roundel. Portrait at the centre, abilities on a ring, level as a medallion, skills as a typographic cloud. */
+function aboutF(c) {
+  const R = 118, pos = i => { const a = (-90 + i * 60) * Math.PI / 180; return [50 + R * Math.cos(a) / 3.7, 50 + R * Math.sin(a) / 3.0]; };
+  const img = c.portrait ? `<img src="${c.portrait}" alt="">` : '<span class="ph">♙<small>PORTRAIT</small></span>';
+  return `<div class="crest"><div class="ringline"></div>
+      <button class="cportrait" data-act="portrait" aria-label="Character portrait">${img}</button>
+      ${AB_ORDER.map((k, i) => { const [x, y] = pos(i); return `<div class="node" style="left:${x}%;top:${y}%"><b>${c.ab[k]}</b><small>${k}</small><span>${sg(mod(c.ab[k]))}</span></div>`; }).join('')}
+      <button class="medal" data-act="level" aria-label="Change level, currently ${c.level}"><small>LEVEL</small>${c.level}</button></div>
+    <div class="plate">${idTags(c)}</div>
+    <div class="vline">${c.size} · Speed ${c.speed} · ${esc(c.vision.join(', ') || '—')}</div>
+    <div class="vline" style="color:var(--ink)"><span class="label">Languages</span> ${esc(c.langs.join(', ') || '—')}</div>
+    <div class="orbs">${powerUsages(c).map(u => `<button class="orb" data-act="powers:${u}" style="--col:${POWER_COLOR[u] || 'var(--dim)'}" aria-label="${u}: ${c.powers[u].length}"><b>${c.powers[u].length}</b></button><span class="ol" style="color:${POWER_COLOR[u] || 'var(--dim)'}">${u}</span>`).join('')}</div>
+    ${sec('Skills', 'larger = better ' + tag)}${skillCloud(c)}
+    ${sec('Training')}${kitRows(c)}${lined(c, false)}`;
+}
+
+/* ============================== STATS v2 ============================== */
+const shieldSvg = (n, on) => `<svg viewBox="0 0 60 70" aria-hidden="true"><path d="M30 3 L56 11 V35 C56 52 43 63 30 67 C17 63 4 52 4 35 V11 Z" fill="${on ? '#e8ddcb' : '#f3eddf'}" stroke="${on ? '#863f36' : '#c9bda7'}" stroke-width="${on ? 3 : 2}"/><path d="M30 9 L50 15 V35 C50 48 40 57 30 61 C20 57 10 48 10 35 V15 Z" fill="none" stroke="#c9bda7" stroke-width="1"/><text x="30" y="43" text-anchor="middle" font-family="Georgia,serif" font-size="24" fill="#863f36">${n}</text></svg>`;
+/** D · Paper doll: equipment sits where it is worn; HP is a bar, surges are pips, defenses are heraldic shields that flip to their breakdown. */
+function statsD(c) {
+  const open = S.ui.defAll ? DEF.map(d => d[0]) : S.ui.defOpen ? [S.ui.defOpen] : [];
+  const ac = armorTint(c);
+  const card = (slot, x, y, w) => { const i = slotInfo(c, slot), bonus = i.item && i.item.ac ? `<span class="bd">+${i.item.ac} AC</span>` : ''; return `<button class="dslot ${i.value ? '' : 'empty'} ${i.invalid ? 'invalid' : ''}" data-act="equip:${slot}" style="left:${x / 3.7}%;top:${y / 3}%;width:${w / 3.7}%" aria-label="Edit ${SLOT[slot]}"><span class="label">${SLOT[slot]}</span>${bonus}<span class="v">${esc(i.value || 'Choose…')}</span>${i.invalid ? '<em>Requires proficiency</em>' : ''}</button>`; };
+  const doll = S.large ? `<div>${equipRowsList(c)}</div>` : `<div class="doll"><svg viewBox="0 0 370 300" aria-hidden="true">
+      <g stroke="#c9bda7" stroke-width="1.5" stroke-dasharray="3 3" fill="none"><path d="M112 72 L140 132"/><path d="M112 182 L172 175"/><path d="M258 72 L230 132"/><path d="M258 182 L198 175"/><path d="M185 238 L185 100"/></g>
+      <g fill="#e8ddcb" stroke="#c9bda7" stroke-width="2" stroke-linecap="round"><circle cx="185" cy="38" r="16"/><path d="M158 66 Q185 58 212 66 L208 150 Q185 158 162 150 Z" fill="${ac}"/><path d="M158 70 L140 128 M212 70 L230 128 M172 150 L168 222 M198 150 L202 222" fill="none" stroke-width="13"/></g>
+      <g fill="#863f36"><circle cx="140" cy="132" r="4"/><circle cx="230" cy="132" r="4"/><circle cx="185" cy="100" r="4"/><circle cx="172" cy="175" r="3"/><circle cx="198" cy="175" r="3"/></g></svg>
+      ${card('WEAPON_ONE', 0, 40, 112)}${card('WEAPON_TWO', 0, 150, 112)}${card('SHIELD', 258, 40, 112)}${card('IMPLEMENT', 258, 150, 112)}${card('ARMOR', 90, 238, 190)}</div>`;
+  return `<div class="vit"><div class="hpbar" data-act="hp" role="button" aria-label="Max HP: ${maxHp(c)}"><i></i><span><small>MAX HP</small><b>${maxHp(c)}</b></span></div>
+      <div class="surges" aria-label="Max Surges: ${maxSurges(c)}"><small>MAX SURGES</small><div class="pips">${Array.from({ length: maxSurges(c) }, () => '<i></i>').join('')}</div><b>${maxSurges(c)}</b></div></div>
+    ${S.ui.hpOpen ? `<div class="defline"><b>Max HP</b> = ${hpBreak(c)} ${tag}</div>` : ''}
+    ${sec('Equipment', 'worn where it is worn ' + tag)}${doll}
+    ${sec('Defenses', 'tap a shield')}
+    <div class="shields">${DEF.map(([k, l]) => `<button class="shield" data-act="def:${k}" aria-label="${l}: ${defenseTable(c).total[k]}">${shieldSvg(defenseTable(c).total[k], open.includes(k))}<small>${l}</small></button>`).join('')}</div>
+    ${open.map(k => `<div class="defline"><b>${DEF.find(d => d[0] === k)[1]}</b>: ${defText(c, k)}</div>`).join('')}
+    <button style="color:var(--accent);padding:8px 0;min-height:40px;font-size:14px" data-act="defall">${S.ui.defAll ? 'Hide defense breakdown' : 'Show defense breakdown'}</button>
+    ${craftBlock(c)}`;
+}
+const armorTint = c => c.equip.ARMOR ? '#863f3630' : '#e8ddcb';
+
+/** Each defense as a worked sum. Armor and shield terms are buttons that jump to that slot's picker. */
+function eqnParts(c, k) {
+  const best = ([a, b]) => mod(c.ab[a]) >= mod(c.ab[b]) ? a : b;
+  const abil = { AC: ['DEX', 'INT'], FORT: ['STR', 'CON'], REF: ['DEX', 'INT'], WILL: ['WIS', 'CHA'] }[k];
+  return defenseTable(c).rows.filter(r => r[1][k] !== 0).map(([lab, v]) => {
+    const o = { val: v[k], label: lab };
+    if (lab === 'Half level') { o.label = '½ level'; }
+    if (lab === 'Ability') { o.label = best(abil)[0] + best(abil).slice(1).toLowerCase(); }
+    if (lab === 'Armor') { o.label = c.equip.ARMOR; o.act = 'equip:ARMOR'; }
+    if (lab === 'Shield') { o.label = c.equip.SHIELD; o.act = 'equip:SHIELD'; }
+    return o;
+  });
+}
+/** E · Equations: every number is a sum you can read, and the terms that come from gear are buttons into the gear. */
+function statsE(c) {
+  const pill = slot => { const i = slotInfo(c, slot); return `<button class="pill ${i.invalid ? 'invalid' : ''}" data-act="equip:${slot}" aria-label="Edit ${SLOT[slot]}"><span class="ic">${SLOT_ICON[slot]}</span><span><small>${SLOT[slot]}</small><br>${esc(i.value || 'Choose…')}</span>${i.invalid ? '<em>Requires proficiency</em>' : ''}</button>`; };
+  const dt = defenseTable(c);
+  return `${sec('Equipment')}<div class="pills">${SLOTS.map(pill).join('')}</div>
+    <div class="vrow"><div class="paper" aria-label="Max HP: ${maxHp(c)}"><span class="label">Max HP</span><span class="val">${maxHp(c)}</span><div class="hint2">${hpBreak(c)} ${tag}</div></div><div class="paper" aria-label="Max Surges: ${maxSurges(c)}"><span class="label">Max Surges</span><span class="val">${maxSurges(c)}</span></div></div>
+    ${sec('Defenses', 'gear terms are tappable ' + tag)}
+    ${DEF.map(([k, l]) => `<div class="eqn"><div class="tot" aria-label="${l}: ${dt.total[k]}"><b>${dt.total[k]}</b><small>${l}</small></div><div class="sum"><span class="eqs">=</span>${eqnParts(c, k).map((p, i) => `${i ? '<span class="eqs">' + (p.val < 0 ? '−' : '+') + '</span>' : ''}${p.act ? `<button class="term gear" data-act="${p.act}">` : '<span class="term">'}<b>${i ? Math.abs(p.val) : p.val}</b> ${esc(p.label)}${p.act ? '</button>' : '</span>'}`).join('')}</div></div>`).join('')}
+    ${craftBlock(c)}`;
+}
+/** F · Combat HUD + grimoire: a pinned ink band that never scrolls away, gear as tall slot cards, rituals and formulas as a swipeable carousel of pages. */
+function statsF(c) {
+  const cells = [['HP', 'Max HP', maxHp(c), 'hp'], ['SUR', 'Surges', maxSurges(c), 'nop']].concat(DEF.map(([k, l]) => [k.length > 3 ? k.slice(0, 4) : k, l, defenseTable(c).total[k], 'def:' + k]));
+  const sel = S.ui.hpOpen ? 'hp' : S.ui.defOpen ? 'def:' + S.ui.defOpen : '';
+  const detail = S.ui.hpOpen ? `<b>Max HP</b> = ${hpBreak(c)}` : S.ui.defOpen ? `<b>${DEF.find(d => d[0] === S.ui.defOpen)[1]}</b>: ${defText(c, S.ui.defOpen)}` : S.ui.defAll ? DEF.map(([k, l]) => `<b>${l}</b>: ${defText(c, k)}`).join('<br>') : 'Tap a number to see how it is built.';
+  const slotCard = slot => { const i = slotInfo(c, slot), ac = i.item && i.item.ac ? `<span class="bd">+${i.item.ac} AC</span>` : ''; return `<button class="tall ${i.value ? '' : 'empty'} ${i.invalid ? 'invalid' : ''}" data-act="equip:${slot}" aria-label="Edit ${SLOT[slot]}"><span class="ic">${SLOT_ICON[slot]}</span><span class="label">${SLOT[slot]}</span><span class="v">${esc(i.value || 'Choose…')}</span>${ac}${i.invalid ? '<em>Requires proficiency</em>' : ''}</button>`; };
+  const grim = k => {
+    const m = MODE[k], saved = k === 'RITUAL' ? c.rituals : c.formulas, granted = k === 'RITUAL' ? c.granted : [], known = [...new Set([...saved, ...granted])];
+    const list = m.cat.filter(e => known.includes(e.id)), picked = list.find(e => e.id === S.ui.grim[k]);
+    return `<div class="sec" style="margin-top:10px"><h2>${m.title}</h2><button class="aside" data-act="craft:${k}" style="min-height:40px">${known.length ? known.length + ' known · ' : ''}Edit ›</button></div>
+      <div class="car">${list.map(e => `<button class="gpage ${picked && picked.id === e.id ? 'on' : ''}" data-act="grim:${k}:${e.id}"><span class="badge">L${e.lvl}</span><span class="t">${esc(e.t)}</span><span class="cat">${esc(e.cat)}</span></button>`).join('')}<button class="gpage add" data-act="craft:${k}"><span class="t">＋</span><span class="cat">Learn</span></button></div>
+      ${picked ? `<div class="paper" style="padding:8px 12px">${craftDetail(picked, granted.includes(picked.id))}</div>` : ''}`;
+  };
+  const kinds = ['RITUAL', 'FORMULA'].filter(k => c.access.includes(k) || (k === 'RITUAL' ? c.rituals : c.formulas).length);
+  return `<div class="hud"><div class="tiles" style="grid-template-columns:repeat(${S.large ? 3 : 6},1fr);gap:2px">${cells.map(([a, l, v, act]) => `<button class="${act === sel ? 'on' : ''}" data-act="${act}" aria-label="${l}: ${v}"><span class="s">${v}</span><small>${S.large ? l : a}</small></button>`).join('')}</div>
+      <div class="hd">${detail} <button data-act="defall">${S.ui.defAll ? 'Hide defense breakdown' : 'Show defense breakdown'}</button></div></div>
+    ${sec('Equipment')}<div class="talls">${SLOTS.map(slotCard).join('')}</div>${kinds.map(grim).join('')}`;
+}
+
+/* ============================== v3: single-screen repack (these later declarations override the v2 ones) ============================== */
+function fitMeter() {
+  const pg = document.getElementById('pg'), over = pg.scrollHeight - pg.clientHeight, el = document.getElementById('vname');
+  el.textContent += over > 2 ? ` · scrolls +${over}px` : ` · fits ✓ ${pg.scrollHeight}/${pg.clientHeight}`;
+  el.style.color = over > 2 ? '#f0b3a6' : '#b9e0a8';
+}
+const ABV = k => k;
+/** Compact six-axis radar (about 160 px tall at 190 px wide). */
+function radar2(c) {
+  const cx = 125, cy = 104, pt = (i, r) => { const a = (-90 + i * 60) * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
+  const rad = s => 12 + Math.min(1, Math.max(0, (s - 6) / 14)) * 46, f = n => n.toFixed(1);
+  const ring = s => AB_ORDER.map((_, i) => pt(i, rad(s)).map(f).join(',')).join(' ');
+  const poly = AB_ORDER.map((k, i) => pt(i, rad(c.ab[k])).map(f).join(',')).join(' ');
+  const labels = AB_ORDER.map((k, i) => { const [x, y] = pt(i, 82); return `<text text-anchor="middle"><tspan x="${f(x)}" y="${f(y - 7)}" font-size="9" fill="#71675c" letter-spacing="1">${k}</tspan><tspan x="${f(x)}" y="${f(y + 8)}" font-size="19" font-family="Georgia,serif" fill="#863f36">${c.ab[k]}</tspan><tspan x="${f(x)}" y="${f(y + 20)}" font-size="10" fill="#322b25">${sg(mod(c.ab[k]))}</tspan></text>`; }).join('');
+  return `<svg viewBox="0 0 250 212" style="width:100%;display:block" role="img" aria-label="Ability scores: ${AB_ORDER.map(k => k + ' ' + c.ab[k]).join(', ')}">
+    ${[10, 14, 18].map(s => `<polygon points="${ring(s)}" fill="none" stroke="#c9bda7" stroke-dasharray="${s === 10 ? '' : '2 3'}"/>`).join('')}
+    ${AB_ORDER.map((_, i) => { const [x, y] = pt(i, 58); return `<line x1="${cx}" y1="${cy}" x2="${f(x)}" y2="${f(y)}" stroke="#c9bda7"/>`; }).join('')}
+    <polygon points="${poly}" fill="#863f3640" stroke="#863f36" stroke-width="2" stroke-linejoin="round"/>${labels}</svg>`;
+}
+const ruledSmall = c => `<button class="ruled sm" data-act="edit:Notes" aria-label="Edit Notes"><span class="label">Notes</span><span class="txt ${c.notes ? '' : 'ph'}">${esc(c.notes || 'Your story, connections, reminders…')}</span></button>`;
+const kit1 = c => `<div class="kit1">${profRows(c).map(([k, v]) => `<div><span class="label">${k}</span><span>${esc(v.join(', ') || 'None')}</span></div>`).join('')}</div>`;
+const skillGrid = c => c.trained.length ? `<button class="sgrid" data-act="skills" aria-label="Skills"><span class="sh"><span class="label">Skills</span><span class="more">All 17 ›</span></span>${c.trained.map(s => `<span class="br"><span class="nm">${s}</span><span class="tr"><i style="width:${Math.max(10, skillMod(c, s) / 14 * 100)}%"></i></span><b>${sg(skillMod(c, s))}</b></span>`).join('')}</button>` : '<button class="sgrid" data-act="skills"><span class="sh"><span class="label">Skills</span><span class="more">None · All 17 ›</span></span></button>';
+
+/** Collapsed one-line strip for rituals and formulas; tapping a half expands its known cards (and Edit ›) in place. */
+function craftStrip(c) {
+  const kinds = ['RITUAL', 'FORMULA'].filter(k => c.access.includes(k) || (k === 'RITUAL' ? c.rituals : c.formulas).length);
+  if (!kinds.length) { return ''; }
+  const count = k => new Set([...(k === 'RITUAL' ? c.rituals : c.formulas), ...(k === 'RITUAL' ? c.granted : [])]).size;
+  return `<div class="cstrip" style="grid-template-columns:repeat(${kinds.length},1fr)">${kinds.map(k => `<button class="field accent" data-act="cs:${k}" aria-expanded="${!!S.ui.cs[k]}"><span class="label">${MODE[k].title}</span><span class="v">${count(k) ? count(k) + ' known' : 'None yet'} ${S.ui.cs[k] ? '▴' : '▾'}</span></button>`).join('')}</div>${kinds.filter(k => S.ui.cs[k]).map(k => craftKind(c, k)).join('')}`;
+}
+
+/* ============================== ABOUT ============================== */
+/** D · Frontispiece, packed: banner, tags, ribbon, a radar beside stacked power cards, two-column skill bars, three training lines, two-line notes. */
+function aboutD(c) {
+  const bg = c.portrait ? `background-image:url(${c.portrait})` : '';
+  const stack = `<div class="pstack">${powerUsages(c).map(u => { const col = POWER_COLOR[u] || 'var(--dim)'; return `<button class="pcard2" data-act="powers:${u}" style="--col:${col}" aria-label="${u}: ${c.powers[u].length}"><span class="n">${c.powers[u].length}</span><span class="l">${u}</span></button>`; }).join('')}</div>`;
+  const body = `<div class="mid"><div class="rbox">${radar2(c)}</div>${stack}</div>`;
+  return `<div class="front compact" style="${bg}"><button class="fbtn" data-act="portrait" aria-label="Character portrait">${c.portrait ? '' : '<span class="ph">♙<small>TAP TO ADD PORTRAIT</small></span>'}</button>
+      <button class="numeral" data-act="level" aria-label="Change level, currently ${c.level}"><small>LEVEL</small>${c.level}<em>tap to change</em></button>
+      <div class="caption">${c.size} · Speed ${c.speed} · ${esc(c.vision.join(', ') || 'No special vision')}</div></div>
+    <div class="idtags nowrap">${idTags(c)}</div>
+    <div class="ribbon" aria-label="Languages"><span class="label" style="color:#f3eddf99">Languages</span><span>${esc(c.langs.join(' · ') || '—')}</span></div>
+    ${body}${skillGrid(c)}${kit1(c)}${ruledSmall(c)}`;
+}
+/** E · Margin rail, tightened. */
+function aboutE(c) {
+  const rail = `<div class="rail">${portrait(c, 'width:100%;height:96px')}
+      <button class="rlevel" data-act="level" aria-label="Change level, currently ${c.level}"><small>LEVEL</small><span>${c.level}</span></button>
+      <div class="rfacts"><div><span class="label">Speed</span> ${c.speed}</div><div><span class="label">Size</span> ${c.size}</div><div><span class="label">Vision</span> ${esc(c.vision.join(', ') || '—')}</div></div>
+      <div class="rabs">${AB_ORDER.map(k => `<div><span class="label">${k}</span><b>${c.ab[k]}</b><span class="m">${sg(mod(c.ab[k]))}</span></div>`).join('')}</div>
+      <div class="rpow">${powerUsages(c).map(u => `<button data-act="powers:${u}" style="--col:${POWER_COLOR[u] || 'var(--dim)'}" aria-label="${u}: ${c.powers[u].length}"><b>${c.powers[u].length}</b><small>${u}</small></button>`).join('')}</div></div>`;
+  const main = `<div class="rmain">
+      ${['Gender', 'Age', 'Deity'].map(k => `<button class="rowline" style="min-height:42px;padding:6px 0" data-act="edit:${k}" aria-label="Edit ${k}"><span class="label">${k}</span><span class="v">${nameTok(c, k)}</span></button>`).join('')}
+      <div class="rowline" style="display:block;padding:6px 0"><span class="label">Languages</span><div style="margin-top:3px">${chips(c.langs, '—')}</div></div>
+      <button class="paper prof" data-act="skills" aria-label="Skills" style="margin-top:6px"><span class="label">Skills · tap for all 17</span><div style="margin-top:3px">${skillChips(c)}</div></button>
+      ${kit1(c)}${ruledSmall(c)}</div>`;
+  return S.large ? `<div class="rail-large">${rail}</div>${main}` : `<div class="railwrap">${rail}${main}</div>`;
+}
+/** F · Crest, packed: roundel on the left, identity column on the right, then orbs, skill cloud, training, notes. */
+function aboutF(c) {
+  const R = 84, W = 220, pos = i => { const a = (-90 + i * 60) * Math.PI / 180; return [50 + R * Math.cos(a) / (W / 100), 50 + R * Math.sin(a) / (W / 100)]; };
+  const img = c.portrait ? `<img src="${c.portrait}" alt="">` : '<span class="ph">♙<small>PORTRAIT</small></span>';
+  const crest = `<div class="crest sm"><div class="ringline"></div><button class="cportrait" data-act="portrait" aria-label="Character portrait">${img}</button>
+      ${AB_ORDER.map((k, i) => { const [x, y] = pos(i); return `<div class="node" style="left:${x}%;top:${y}%"><b>${c.ab[k]}</b><small>${k}</small><span>${sg(mod(c.ab[k]))}</span></div>`; }).join('')}
+      <button class="medal" data-act="level" aria-label="Change level, currently ${c.level}"><small>LEVEL</small>${c.level}</button></div>`;
+  const side = `<div class="cside">${idTags(c)}<div class="vline" style="text-align:left">${c.size} · Speed ${c.speed}<br>${esc(c.vision.join(', ') || '—')}</div><div class="vline" style="text-align:left;color:var(--ink)"><span class="label">Languages</span><br>${esc(c.langs.join(', ') || '—')}</div></div>`;
+  return `<div class="crow">${crest}${side}</div>
+    <div class="orbs sm">${powerUsages(c).map(u => `<span class="ob"><button class="orb" data-act="powers:${u}" style="--col:${POWER_COLOR[u] || 'var(--dim)'}" aria-label="${u}: ${c.powers[u].length}"><b>${c.powers[u].length}</b></button><span class="ol" style="color:${POWER_COLOR[u] || 'var(--dim)'}">${u}</span></span>`).join('')}</div>
+    ${skillCloud(c)}${kit1(c)}${ruledSmall(c)}`;
+}
+function skillCloud(c) {
+  return c.trained.length ? `<div class="cloud sm">${c.trained.map(s => { const v = skillMod(c, s); return `<button data-act="skills" style="font-size:${Math.round(12 + Math.max(0, v) * 1.0)}px" aria-label="${s} ${sg(v)}">${s}<sup>${sg(v)}</sup></button>`; }).join('')}<button class="more2" data-act="skills" style="min-height:28px;padding:0;font-size:11px">All 17 skills ›</button></div>` : '<button class="more2" data-act="skills">None · all 17 skills ›</button>';
+}
+
+/* ============================== STATS ============================== */
+/** D · Paper doll, packed: vitals, a short doll, shields, and a collapsed craft strip. */
+function statsD(c) {
+  const open = S.ui.defAll ? DEF.map(d => d[0]) : S.ui.defOpen ? [S.ui.defOpen] : [];
+  const card = (slot, x, y, w) => { const i = slotInfo(c, slot), bonus = i.item && i.item.ac ? `<span class="bd">+${i.item.ac} AC</span>` : ''; return `<button class="dslot ${i.value ? '' : 'empty'} ${i.invalid ? 'invalid' : ''}" data-act="equip:${slot}" style="left:${x / 3.7}%;top:${y / 2.5}%;width:${w / 3.7}%" aria-label="Edit ${SLOT[slot]}"><span class="label">${SLOT[slot]}</span>${bonus}<span class="v">${esc(i.value || 'Choose…')}</span>${i.invalid ? '<em>Requires proficiency</em>' : ''}</button>`; };
+  const doll = S.large ? `<div>${equipRowsList(c)}</div>` : `<div class="doll sm"><svg viewBox="0 0 370 250" aria-hidden="true">
+      <g stroke="#c9bda7" stroke-width="1.5" stroke-dasharray="3 3" fill="none"><path d="M120 46 L146 108"/><path d="M120 154 L174 150"/><path d="M250 46 L224 108"/><path d="M250 154 L196 150"/><path d="M185 196 L185 80"/></g>
+      <g fill="#e8ddcb" stroke="#c9bda7" stroke-width="2" stroke-linecap="round"><circle cx="185" cy="30" r="13"/><path d="M162 52 Q185 46 208 52 L205 120 Q185 126 165 120 Z" fill="${armorTint(c)}"/><path d="M162 56 L146 104 M208 56 L224 104 M175 120 L172 186 M195 120 L198 186" fill="none" stroke-width="11"/></g>
+      <g fill="#863f36"><circle cx="146" cy="108" r="4"/><circle cx="224" cy="108" r="4"/><circle cx="185" cy="80" r="4"/><circle cx="174" cy="150" r="3"/><circle cx="196" cy="150" r="3"/></g></svg>
+      ${card('WEAPON_ONE', 0, 20, 120)}${card('WEAPON_TWO', 0, 128, 120)}${card('SHIELD', 250, 20, 120)}${card('IMPLEMENT', 250, 128, 120)}${card('ARMOR', 100, 196, 170)}</div>`;
+  return `<div class="vit2"><div class="hpbar sm" data-act="hp" role="button" aria-label="Max HP: ${maxHp(c)}"><i></i><span><small>MAX HP</small><b>${maxHp(c)}</b></span></div>
+      <div class="surges sm" aria-label="Max Surges: ${maxSurges(c)}"><small>SURGES</small><div class="pips">${Array.from({ length: maxSurges(c) }, () => '<i></i>').join('')}</div><b>${maxSurges(c)}</b></div></div>
+    ${S.ui.hpOpen ? `<div class="defline"><b>Max HP</b> = ${hpBreak(c)} ${tag}</div>` : ''}
+    ${doll}
+    <div class="sec" style="margin-top:2px"><span class="label">Defenses · tap a shield ${tag}</span><button class="aside" style="min-height:32px" data-act="defall">${S.ui.defAll ? 'Hide defense breakdown' : 'Show defense breakdown'}</button></div>
+    <div class="shields sm">${DEF.map(([k, l]) => `<button class="shield" data-act="def:${k}" aria-label="${l}: ${defenseTable(c).total[k]}">${shieldSvg(defenseTable(c).total[k], open.includes(k))}<small>${l}</small></button>`).join('')}</div>
+    ${open.map(k => `<div class="defline"><b>${DEF.find(d => d[0] === k)[1]}</b>: ${defText(c, k)}</div>`).join('')}
+    ${craftStrip(c)}`;
+}
+/** E · Equations, packed: header chips, two-column gear pills, four sums, collapsed craft strip. */
+function statsE(c) {
+  const pill = (slot, wide) => { const i = slotInfo(c, slot); return `<button class="pill sm ${i.invalid ? 'invalid' : ''}" style="${wide ? 'grid-column:span 2' : ''}" data-act="equip:${slot}" aria-label="Edit ${SLOT[slot]}"><span class="ic">${SLOT_ICON[slot]}</span><span><small>${SLOT[slot]}</small><br>${esc(i.value || 'Choose…')}</span>${i.invalid ? '<em>Requires proficiency</em>' : ''}</span></button>`.replace('</span></button>', '</button>'); };
+  const dt = defenseTable(c);
+  return `<div class="vrow sm"><button class="paper" data-act="hp" aria-label="Max HP: ${maxHp(c)}"><span class="label">Max HP</span><span class="val">${maxHp(c)}</span></button><div class="paper" aria-label="Max Surges: ${maxSurges(c)}"><span class="label">Max Surges</span><span class="val">${maxSurges(c)}</span></div></div>
+    ${S.ui.hpOpen ? `<div class="defline"><b>Max HP</b> = ${hpBreak(c)} ${tag}</div>` : ''}
+    <div class="pills2">${['WEAPON_ONE', 'WEAPON_TWO', 'ARMOR', 'SHIELD'].map(s => pill(s)).join('')}${pill('IMPLEMENT', true)}</div>
+    <div class="sec" style="margin-top:4px"><span class="label">Defenses · gear terms are tappable ${tag}</span></div>
+    ${DEF.map(([k, l]) => `<div class="eqn sm"><div class="tot" aria-label="${l}: ${dt.total[k]}"><b>${dt.total[k]}</b><small>${l}</small></div><div class="sum"><span class="eqs">=</span>${eqnParts(c, k).map((p, i) => `${i ? '<span class="eqs">' + (p.val < 0 ? '−' : '+') + '</span>' : ''}${p.act ? `<button class="term gear" data-act="${p.act}">` : '<span class="term">'}<b>${i ? Math.abs(p.val) : p.val}</b> ${esc(p.label)}${p.act ? '</button>' : '</span>'}`).join('')}</div></div>`).join('')}
+    ${craftStrip(c)}`;
+}
+/** F · Combat HUD, packed: sticky ink band, horizontal gear cards, shorter grimoire pages. */
+function statsF(c) {
+  const cells = [['HP', 'Max HP', maxHp(c), 'hp'], ['SUR', 'Surges', maxSurges(c), 'nop']].concat(DEF.map(([k, l]) => [k.length > 3 ? k.slice(0, 4) : k, l, defenseTable(c).total[k], 'def:' + k]));
+  const sel = S.ui.hpOpen ? 'hp' : S.ui.defOpen ? 'def:' + S.ui.defOpen : '';
+  const detail = S.ui.hpOpen ? `<b>Max HP</b> = ${hpBreak(c)}` : S.ui.defOpen ? `<b>${DEF.find(d => d[0] === S.ui.defOpen)[1]}</b>: ${defText(c, S.ui.defOpen)}` : S.ui.defAll ? DEF.map(([k, l]) => `<b>${l}</b>: ${defText(c, k)}`).join('<br>') : 'Tap a number to see how it is built.';
+  const slotCard = (slot, wide) => { const i = slotInfo(c, slot), ac = i.item && i.item.ac ? `<span class="bd">+${i.item.ac} AC</span>` : ''; return `<button class="tall sm ${i.value ? '' : 'empty'} ${i.invalid ? 'invalid' : ''}" style="${wide ? 'grid-column:span 2' : ''}" data-act="equip:${slot}" aria-label="Edit ${SLOT[slot]}"><span class="ic">${SLOT_ICON[slot]}</span><span class="tx"><span class="label">${SLOT[slot]}</span><span class="v">${esc(i.value || 'Choose…')}</span>${i.invalid ? '<em>Requires proficiency</em>' : ''}</span>${ac}</button>`; };
+  const grim = k => {
+    const m = MODE[k], saved = k === 'RITUAL' ? c.rituals : c.formulas, granted = k === 'RITUAL' ? c.granted : [], known = [...new Set([...saved, ...granted])];
+    const list = m.cat.filter(e => known.includes(e.id)), picked = list.find(e => e.id === S.ui.grim[k]);
+    return `<div class="sec" style="margin-top:4px"><span class="label">${m.title}${known.length ? ' · ' + known.length + ' known' : ''}</span><button class="aside" data-act="craft:${k}" style="min-height:32px">Edit ›</button></div>
+      <div class="car sm">${list.map(e => `<button class="gpage ${picked && picked.id === e.id ? 'on' : ''}" data-act="grim:${k}:${e.id}"><span class="badge">L${e.lvl}</span><span class="t">${esc(e.t)}</span><span class="cat">${esc(e.cat)}</span></button>`).join('')}<button class="gpage add" data-act="craft:${k}"><span class="t">＋</span><span class="cat">Learn</span></button></div>
+      ${picked ? `<div class="paper" style="padding:8px 12px">${craftDetail(picked, granted.includes(picked.id))}</div>` : ''}`;
+  };
+  const kinds = ['RITUAL', 'FORMULA'].filter(k => c.access.includes(k) || (k === 'RITUAL' ? c.rituals : c.formulas).length);
+  return `<div class="hud"><div class="tiles" style="grid-template-columns:repeat(${S.large ? 3 : 6},1fr);gap:2px">${cells.map(([a, l, v, act]) => `<button class="${act === sel ? 'on' : ''}" data-act="${act}" aria-label="${l}: ${v}"><span class="s">${v}</span><small>${S.large ? l : a}</small></button>`).join('')}</div>
+      <div class="hd">${detail} <button data-act="defall">${S.ui.defAll ? 'Hide defense breakdown' : 'Show defense breakdown'}</button></div></div>
+    <div class="talls">${['WEAPON_ONE', 'WEAPON_TWO', 'ARMOR', 'SHIELD'].map(s => slotCard(s)).join('')}${slotCard('IMPLEMENT', true)}</div>${kinds.map(grim).join('')}`;
+}
+
+/* ============================== sheets (shared by every variant: same functions in the app) ============================== */
+function sheetHtml(c) {
+  const sh = S.sheet; if (!sh) { return ''; }
+  let inner = '';
+  if (sh.t === 'level') {
+    inner = `<h3>Change level</h3><div class="stepper"><button class="btn" data-act="lv:-1" aria-label="Decrease level">−</button><span class="big">${sh.v}</span><button class="btn" data-act="lv:1" aria-label="Increase level">+</button></div>${sh.v > 2 ? '<div class="hint2" style="color:var(--accent);text-align:center">Automation above level 2 is incomplete.</div>' : ''}<div class="acts"><button class="btn" data-act="close">Cancel</button><button class="btn pri grow" data-act="save">Apply level</button></div>`;
+  } else if (sh.t === 'edit') {
+    const long = sh.key === 'Notes', val = c[sh.key.toLowerCase()] || '';
+    inner = `<h3>${sh.key}</h3>${long ? `<textarea id="inp">${esc(val)}</textarea>` : `<input type="text" id="inp" value="${esc(val)}">`}<div class="acts"><button class="btn" data-act="close">Cancel</button><button class="btn pri grow" data-act="save">Save</button></div>`;
+  } else if (sh.t === 'powers') {
+    const list = c.powers[sh.usage];
+    inner = `<h3 style="color:${POWER_COLOR[sh.usage] || 'var(--ink)'}">${sh.usage} powers</h3>${list.map((p, i) => `<button class="pw" data-act="pw:${i}"><span class="t">${esc(p.t)}</span><div class="n">${esc(p.note)}</div>${sh.open === i ? `<div class="d">${esc(p.d)}</div>` : ''}</button>`).join('') || '<div class="none">No current powers in this group.</div>'}<div class="acts"><button class="btn" data-act="close">Close</button></div>`;
+  } else if (sh.t === 'skills') {
+    inner = `<h3>Skills</h3><div class="paper">${Object.keys(SK).map(s => `<div class="skillrow ${c.trained.includes(s) ? 'tr' : ''}"><span class="dot"></span><span>${s}</span><span class="ab">${SK[s]}</span><span class="m">${sg(skillMod(c, s))}</span></div>`).join('')}</div><div class="acts"><button class="btn" data-act="close">Close</button></div>`;
+  } else if (sh.t === 'equip') {
+    const groups = {}; CAT[sh.slot].forEach(it => (groups[it.sec] = groups[it.sec] || []).push(it));
+    const links = (sh.slot === 'IMPLEMENT' ? ['WEAPON_ONE', 'WEAPON_TWO'].map(ws => ({ ws, w: itemOf(c, ws) })).filter(x => x.w && x.w.blade) : []);
+    const row = (key, title, ok) => `<button class="pw ${sh.draft === key ? 'chosen' : ''}" data-act="eqpick:${esc(key)}"><span class="t" style="${ok ? '' : 'color:var(--err)'}">${esc(title)}</span>${sh.draft === key ? '<span class="chk">✓</span>' : ''}${ok ? '' : '<div class="n" style="color:var(--err)">Requires proficiency</div>'}</button>`;
+    inner = `<h3>${SLOT[sh.slot]}</h3>${links.length ? `<div class="sechd">Equipped weapons</div>${links.map(x => row('link:' + x.ws, `${x.w.t} (${SLOT[x.ws]})`, c.profs.implements.includes(x.w.blade === 'light' ? 'Light blade' : 'Heavy blade'))).join('')}` : ''}${Object.entries(groups).map(([g, its]) => `<div class="sechd">${g}</div>${its.map(it => row(it.t, it.t + (it.ac ? ` · +${it.ac} AC` : ''), eligible(c, sh.slot, it))).join('')}`).join('')}<div class="acts"><button class="btn" data-act="eqpick:">Clear</button><button class="btn" data-act="close">Cancel</button><button class="btn pri grow" data-act="save">Save</button></div>`;
+  } else if (sh.t === 'craft') {
+    const m = MODE[sh.kind], granted = sh.kind === 'RITUAL' ? c.granted : [];
+    const shown = m.cat.filter(e => e.lvl <= c.level && e.t.toLowerCase().includes(sh.q.trim().toLowerCase()));
+    inner = `<h3>${m.title}</h3><input type="text" id="q" placeholder="Search ${m.title.toLowerCase()}" value="${esc(sh.q)}">${shown.map(e => { const fixed = granted.includes(e.id), on = sh.draft.includes(e.id) || fixed; return `<div class="pw ${on ? 'chosen' : ''}"><button style="width:100%" data-act="cro:${e.id}"><span class="t">${esc(e.t)}</span> <span class="n">· L${e.lvl}</span>${on ? '<span class="chk">✓</span>' : ''}</button>${sh.open === e.id ? `<div class="d">${craftDetail(e, fixed).replace('class="detail"', '')}${fixed ? '' : `<button class="btn" style="width:100%;margin-top:6px" data-act="crl:${e.id}">${on ? 'Remove' : 'Learn'}</button>`}</div>` : ''}</div>`; }).join('') || '<div class="none">No matching entries</div>'}<div class="acts"><button class="btn" data-act="close">Cancel</button><button class="btn pri grow" data-act="save">Save</button></div>`;
+  }
+  return `<div class="scrim" data-act="close"></div><div class="sheet" role="dialog"><div class="grab"></div><div class="body">${inner}</div></div>`;
+}
+function saveSheet() {
+  const c = cur(), sh = S.sheet;
+  if (sh.t === 'level') { c.level = sh.v; }
+  if (sh.t === 'edit') { c[sh.key.toLowerCase()] = document.getElementById('inp').value; }
+  if (sh.t === 'equip') { c.equip[sh.slot] = sh.draft || null; }
+  if (sh.t === 'craft') { c[sh.kind === 'RITUAL' ? 'rituals' : 'formulas'] = sh.draft.filter(id => !(sh.kind === 'RITUAL' && c.granted.includes(id))); }
+  S.sheet = null;
+}
+
+/* ============================== parity + additions panels ============================== */
+const PARITY = {
+  about: { cols: ['Today', 'D · Frontispiece', 'E · Margin rail', 'F · Crest'], rows: [
+    ['Tap Level → change level dialog', 'Giant numeral', 'Rail panel', 'Medallion'],
+    ['Tap portrait → image picker', 'Banner', 'Rail top', 'Centre roundel'],
+    ['Speed · Size', 'Banner caption', 'Rail list', 'Line under crest'],
+    ['Vision types (read-only)', 'Banner caption', 'Rail list', 'Line under crest'],
+    ['Gender / Age / Deity edit', 'Three tags', 'Rows in reading column', 'Engraved plate'],
+    ['Languages (read-only)', 'Ribbon', 'Chips', 'Centred line'],
+    ['Ability totals', 'Radar vertices', 'Rail list', 'Ring nodes'],
+    ['Power tallies → usage sheet (incl. Unspecified)', 'Stacked cards', 'Rail buttons', 'Orbs'],
+    ['Skills row → all-skills sheet', 'Bars, tap opens sheet', 'Chips, tap opens sheet', 'Cloud, tap opens sheet'],
+    ['Armor / Weapons / Implements, "None" state', 'Kit rows', 'Kit rows', 'Kit rows'],
+    ['Notes edit + hint text', 'Ruled paper', 'Ruled paper', 'Ruled paper'],
+    ['Large-font / narrow reflow', 'Tags stack', 'Rail becomes a 2-col block above', 'Tags stack'],
+  ], adds: { A: ['Ability modifiers on the radar', 'Skill bars show relative strength', 'Power total'], B: ['Ability modifiers in the rail', 'Whole identity visible with no tab or scroll at the top'], C: ['Ability modifiers on the ring', 'Skill size = modifier'] } },
+  stats: { cols: ['Today', 'D · Paper doll', 'E · Equations', 'F · Combat HUD'], rows: [
+    ['Max HP', 'Bar (tap: breakdown)', 'Header chip (tap: formula)', 'HUD cell (tap: breakdown)'],
+    ['Max Surges', 'Pips + number', 'Header chip', 'HUD cell'],
+    ['Four defense totals', 'Shields', 'Big number per equation', 'HUD cells'],
+    ['Show / hide defense breakdown (all four)', 'Link, plus tap one shield', 'Always visible as sums', 'Link in HUD, plus tap one cell'],
+    ['Five equipment slots → picker', 'Cards at body parts', 'Pills (and gear terms)', 'Tall cards'],
+    ['"Requires proficiency" error state', 'Red card', 'Red pill', 'Red card'],
+    ['Linked implement weapon', 'Same text', 'Same text', 'Same text'],
+    ['Ritual / Formula sections (only if access or known)', 'Collapsed strip, tap to expand', 'Collapsed strip, tap to expand', 'Page carousel'],
+    ['Known cards expand; level badge; Granted note', 'Tap the strip, then a card', 'Tap the strip, then a card', 'Tap a page to open it below'],
+    ['Edit › pickers (search, Learn / Remove, granted)', 'Edit › inside the expanded strip', 'Edit › inside the expanded strip', 'Edit › and a Learn page'],
+    ['Large-font / narrow reflow', 'Doll becomes a slot list', 'Sums wrap', 'HUD 6 → 3 columns'],
+  ], adds: { A: ['Surge count drawn as pips', 'Per-defense breakdown on tap', 'Max HP formula', '+AC on armor and shield'], B: ['Every term of every defense visible at once', 'Gear terms jump to the picker (new shortcut)', 'Max HP formula'], C: ['HUD stays visible while scrolling gear', 'Tap any number for its breakdown', 'Rituals and formulas swipe like pages'] } },
+};
+function sidePanel(c) {
+  const p = PARITY[S.screen], col = S.v + 1, vname = 'ABC'[S.v];
+  document.getElementById('side').innerHTML = `<h4>Parity: nothing removed</h4><table><tr>${p.cols.map((h, i) => `<th class="${i === col ? 'cur' : ''}">${h}</th>`).join('')}</tr>${p.rows.map(r => `<tr>${r.map((x, i) => `<td class="${i === col ? 'cur' : ''}">${x}</td>`).join('')}</tr>`).join('')}</table>
+  <div class="adds"><h4>New in ${vname}</h4><ul style="margin:0;padding-left:16px">${p.adds[vname].map(a => `<li>${a}</li>`).join('')}</ul></div>
+  <pre class="state">${esc(JSON.stringify({ screen: S.screen, variant: vname, character: `${c.cls} L${c.level}`, maxHp: maxHp(c), maxSurges: maxSurges(c), defenses: Object.fromEntries(DEF.map(([k]) => [k, defenseTable(c).total[k]])), equip: Object.fromEntries(SLOTS.map(s => [s, slotInfo(c, s).value])), trained: c.trained.length, powers: powerTotal(c), rituals: c.rituals.length + c.granted.length, formulas: c.formulas.length, sheet: S.sheet && S.sheet.t }, null, 2))}</pre>`;
+}
+
+/* ============================== render + wiring ============================== */
+const VARIANTS = { about: [['A', 'D · Frontispiece', aboutD], ['B', 'E · Margin rail', aboutE], ['C', 'F · Crest', aboutF]], stats: [['A', 'D · Paper doll', statsD], ['B', 'E · Equations', statsE], ['C', 'F · Combat HUD', statsF]] };
+function render() {
+  const c = cur(), v = VARIANTS[S.screen][S.v];
+  const phone = document.getElementById('phone'), old = phone.querySelector('.page'), top = old ? old.scrollTop : 0;
+  phone.className = 'phone' + (S.large ? ' large' : '') + (S.adds ? '' : ' noadds');
+  phone.innerHTML = `<div class="top">${esc(c.name)}</div><div class="page" id="pg">${v[2](c)}</div><div class="nav"><button class="${S.screen === 'about' ? 'on' : ''}" data-act="nav:about">About</button><button class="off" title="Not part of this prototype">Levels</button><button class="${S.screen === 'stats' ? 'on' : ''}" data-act="nav:stats">Stats</button></div>${sheetHtml(c)}`;
+  document.getElementById('pg').scrollTop = top;
+  document.getElementById('vlabel').textContent = `${v[0]} (${v[1]})`;
+  document.getElementById('vname').textContent = `${S.screen === 'about' ? 'About' : 'Stats'} · ${S.v + 1} / 3`;
+  document.getElementById('scr').textContent = S.screen === 'about' ? 'Screen: About ⇄' : 'Screen: Stats ⇄';
+  document.getElementById('char').textContent = `${c.cls} ${c.level} ⟳`;
+  document.getElementById('large').className = 't' + (S.large ? ' on' : '');
+  document.getElementById('adds').className = 't' + (S.adds ? ' on' : '');
+  if (S.sheet && S.sheet.t === 'craft' && S.sheet.focusQ) { const q = document.getElementById('q'); q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
+  sidePanel(c);
+  fitMeter();
+  const p = new URLSearchParams(); p.set('screen', S.screen); p.set('variant', v[0]); p.set('c', S.ci); if (S.large) { p.set('large', '1'); }
+  try { history.replaceState(null, '', '?' + p); } catch (e) { /* file:// */ }
+}
+const step = d => { S.v = (S.v + d + 3) % 3; S.sheet = null; render(); };
+document.getElementById('prev').onclick = () => step(-1);
+document.getElementById('next').onclick = () => step(1);
+document.getElementById('scr').onclick = () => { S.screen = S.screen === 'about' ? 'stats' : 'about'; S.sheet = null; render(); };
+document.getElementById('char').onclick = () => { S.ci = (S.ci + 1) % S.chars.length; S.sheet = null; render(); };
+document.getElementById('large').onclick = () => { S.large = !S.large; render(); };
+document.getElementById('adds').onclick = () => { S.adds = !S.adds; render(); };
+document.getElementById('file').onchange = e => { const f = e.target.files[0]; if (f) { const r = new FileReader(); r.onload = () => { cur().portrait = r.result; render(); }; r.readAsDataURL(f); } e.target.value = ''; };
+addEventListener('keydown', e => {
+  if (/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName) || document.activeElement.isContentEditable) { return; }
+  if (e.key === 'ArrowLeft') { step(-1); } else if (e.key === 'ArrowRight') { step(1); } else if (e.key === 'Escape' && S.sheet) { S.sheet = null; render(); }
+});
+document.getElementById('phone').addEventListener('input', e => {
+  if (e.target.id === 'q' && S.sheet) { S.sheet.q = e.target.value; S.sheet.focusQ = true; render(); }
+});
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el) { return; }
+  const [a, arg] = [el.dataset.act.split(':')[0], el.dataset.act.split(':').slice(1).join(':')], c = cur(), sh = S.sheet;
+  if (a === 'level') { S.sheet = { t:'level', v:c.level }; }
+  else if (a === 'lv') { sh.v = Math.min(30, Math.max(1, sh.v + +arg)); }
+  else if (a === 'edit') { S.sheet = { t:'edit', key:arg }; }
+  else if (a === 'portrait') { document.getElementById('file').click(); return; }
+  else if (a === 'powers') { S.sheet = { t:'powers', usage:arg, open:null }; }
+  else if (a === 'pw') { sh.open = sh.open === +arg ? null : +arg; }
+  else if (a === 'skills') { S.sheet = { t:'skills' }; }
+  else if (a === 'equip') { S.sheet = { t:'equip', slot:arg, draft:c.equip[arg] }; }
+  else if (a === 'eqpick') { sh.draft = arg || null; }
+  else if (a === 'craft') { const saved = arg === 'RITUAL' ? c.rituals : c.formulas; S.sheet = { t:'craft', kind:arg, draft:[...saved], q:'', open:null }; }
+  else if (a === 'cro') { sh.open = sh.open === arg ? null : arg; sh.focusQ = false; }
+  else if (a === 'crl') { sh.draft = sh.draft.includes(arg) ? sh.draft.filter(x => x !== arg) : [...sh.draft, arg]; sh.focusQ = false; }
+  else if (a === 'grim') { const [k, id] = arg.split(':'); S.ui.grim[k] = S.ui.grim[k] === id ? null : id; }
+  else if (a === 'cs') { S.ui.cs[arg] = !S.ui.cs[arg]; }
+  else if (a === 'crc') { S.ui.craftOpen[arg] = !S.ui.craftOpen[arg]; }
+  else if (a === 'close') { S.sheet = null; }
+  else if (a === 'save') { saveSheet(); }
+  else if (a === 'nav') { S.screen = arg; S.v = Math.min(S.v, 2); S.sheet = null; }
+  else if (a === 'aseg') { S.ui.aboutSeg = arg; }
+  else if (a === 'sseg') { S.ui.statsSeg = arg; }
+  else if (a === 'skillfilter') { S.ui.skillAll = arg === 'all'; }
+  else if (a === 'def') { S.ui.defOpen = S.ui.defOpen === arg ? null : arg; S.ui.hpOpen = false; S.ui.defAll = false; }
+  else if (a === 'defall') { S.ui.defAll = !S.ui.defAll; S.ui.defOpen = null; S.ui.hpOpen = false; }
+  else if (a === 'hp') { S.ui.hpOpen = !S.ui.hpOpen; S.ui.defOpen = null; S.ui.defAll = false; }
+  else if (a === 'nop') { return; }
+  render();
+});
+render();
+</script></body></html>

@@ -61,6 +61,57 @@ class BuilderOptionListingTest {
         assertTrue(listing.rows(FeatGroup.CLASS).all { !it.checked })
     }
 
+    @Test fun aTabIsCompleteOnlyOnceListedAndEveryRowIsChecked() = run {
+        val source = Source(definitions.associateBy { it.id }.toMutableMap())
+        val session = operations(source).browsingSession()
+        val original = session.optionListing(document(), 1, slot)
+        assertFalse(original.isComplete(FeatGroup.GENERAL), "An unlisted tab still has its rows to list")
+        original.rows(FeatGroup.GENERAL)
+        assertFalse(original.isComplete(FeatGroup.GENERAL))
+        original.check(listOf("general-1"))
+        assertFalse(original.isComplete(FeatGroup.GENERAL), "One row is still unchecked")
+        original.check(listOf("general-2"))
+        assertTrue(original.isComplete(FeatGroup.GENERAL))
+        assertFalse(original.isComplete(FeatGroup.CLASS), "Tabs complete independently")
+
+        val refreshed = session.nextBrowsingSession().optionListing(document(), 1, slot)
+        refreshed.inheritFrom(original) { true }
+        assertFalse(refreshed.isComplete(FeatGroup.GENERAL), "A rebased listing lists its rows again first")
+        refreshed.rows(FeatGroup.GENERAL)
+        assertTrue(refreshed.isComplete(FeatGroup.GENERAL), "Retained results leave nothing to check")
+
+        val partial = session.nextBrowsingSession().optionListing(document(), 1, slot)
+        partial.inheritFrom(refreshed) { it.id == "general-1" }
+        partial.rows(FeatGroup.GENERAL)
+        assertFalse(partial.isComplete(FeatGroup.GENERAL), "Only the affected row remains to check")
+        partial.check(listOf("general-2"))
+        assertTrue(partial.isComplete(FeatGroup.GENERAL))
+    }
+
+    @Test fun rebasingRetainsDefinitionsWithoutMoreChunkReadsAndNeverRevivesPendingEligibility() = run {
+        val source = Source(definitions.associateBy { it.id }.toMutableMap())
+        val session = operations(source).browsingSession()
+        val original = session.optionListing(document(), 1, slot)
+        val ids = original.rows(FeatGroup.GENERAL).map { it.metadata.metadata.id }
+        val checked = original.check(ids).associateBy { it.metadata.metadata.id }
+        val reads = source.reads.toList()
+
+        val nextSession = session.nextBrowsingSession()
+        val refreshed = nextSession.optionListing(document(), 1, slot)
+        refreshed.inheritFrom(original) { it.id == "general-1" }
+        val first = refreshed.rows(FeatGroup.GENERAL).associateBy { it.metadata.metadata.id }
+        assertEquals(checked.getValue("general-1"), first.getValue("general-1"))
+        assertFalse(first.getValue("general-2").checked)
+        assertEquals(checked.getValue("general-2").option?.entry, first.getValue("general-2").option?.entry)
+        assertEquals(Eligibility.UNRESOLVED, first.getValue("general-2").option?.eligibility)
+
+        val cancelledRefresh = nextSession.nextBrowsingSession().optionListing(document(), 1, slot)
+        cancelledRefresh.inheritFrom(refreshed) { true }
+        assertFalse(cancelledRefresh.rows(FeatGroup.GENERAL).single { it.metadata.metadata.id == "general-2" }.checked)
+        assertEquals(checked.values.toList(), refreshed.check(ids))
+        assertEquals(reads, source.reads, "Neither rebasing nor rechecking decodes the catalog again")
+    }
+
     @Test fun ancestryFeatsAreScopedBeforeDefinitionReads() = run {
         val access = mapOf("elf-feat" to listOf("elf"), "dwarf-feat" to listOf("dwarf"),
             "shared-feat" to listOf("elf", "dwarf"), "legacy-feat" to emptyList())

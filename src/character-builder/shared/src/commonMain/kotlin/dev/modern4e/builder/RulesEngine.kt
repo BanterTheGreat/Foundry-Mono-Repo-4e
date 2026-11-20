@@ -95,19 +95,20 @@ object ModernCreation {
 
 /** Pure proof engine. No IO, clocks, ID generators, scripts, or vanilla score conversion. */
 object RulesEngine {
-    fun evaluate(document: CharacterDocument, content: RulesContent): EngineResult = Evaluation(document, content).run()
+    fun evaluate(document: CharacterDocument, content: RulesContent): EngineResult =
+        Evaluation(document.atLevel(document.level), content).run()
 
     /** Candidate validation activates the same mechanics without evaluating unrelated offered choices or totals. */
     internal fun evaluateChoice(document: CharacterDocument, content: RulesContent, instanceId: String): EngineResult =
-        Evaluation(document, content, targetInstance = instanceId).run()
+        Evaluation(document.atLevel(document.level), content, targetInstance = instanceId).run()
 
     /** A picker may reuse activation and selection-time facts for mechanically passive root feats. */
     internal fun prepareFeatChoices(document: CharacterDocument, level: Int, slot: ChoiceSlotId) =
-        PreparedFeatChoices(document, level, slot)
+        PreparedFeatChoices(document.atLevel(document.level), level, slot)
 
     /** A picker may judge plain class powers against one activation of the character with the slot empty. */
     internal fun preparePowerChoices(document: CharacterDocument, level: Int, slot: ChoiceSlotId) =
-        PreparedPowerChoices(document, level, slot)
+        PreparedPowerChoices(document.atLevel(document.level), level, slot)
 }
 
 internal data class PreparedFeatChoice(val eligibility: EntryEligibility, val diagnostics: List<Diagnostic>)
@@ -580,16 +581,20 @@ private class Evaluation(
         val used = mutableSetOf<ValueChoice>()
         val ordered = entries.sortedWith(compareBy<EngineEntry> { acquisitionLevel(it) }
             .thenBy { if (it.definition.entry.category == EntryCategory.FEAT) 1 else 0 })
-        for ((_, acquired) in ordered.groupBy { acquisitionLevel(it) }) {
+        val acquiredEntries = ordered.groupBy { acquisitionLevel(it) }
+        val valueChoices = choices.entries.mapNotNull { (slot, choice) ->
+            (choice as? ChoiceDefinition.Values)?.takeIf { slot.ordinal == 0 }?.let { slot to it }
+        }.groupBy { (slot, _) -> choiceAcquisitionLevels.getValue(slot) }
+        for (level in (acquiredEntries.keys + valueChoices.keys).sorted()) {
             // Independent explicit grants at the same acquisition level are already present before decisions.
-            for (owner in acquired) {
+            for (owner in acquiredEntries[level].orEmpty()) {
                 for (fact in owner.definition.entry.mechanics.facts) {
                     for (value in fact.values) { grant(fact.kind, value, fact.targetId, owner.slot) }
                 }
             }
-            for (owner in acquired) {
-                val definitions = choices.filterKeys { it.sourceInstanceId == owner.instanceId }.values
-                    .filterIsInstance<ChoiceDefinition.Values>().distinctBy { it.id }
+            val byOwner = valueChoices[level].orEmpty().groupBy({ it.first.sourceInstanceId }, { it.second })
+            for (owner in ordered) {
+                val definitions = byOwner[owner.instanceId].orEmpty()
                 for (choice in definitions) {
                     val prior = facts.filter { fact -> fact.kind == choice.kind && when (choice.distinctScope) {
                         FactScope.NONE -> false
@@ -621,7 +626,7 @@ private class Evaluation(
                             continue
                         }
                         val storedAt = document.levels.single { decision in it.values }.level
-                        if (storedAt != acquisitionLevel(owner)) {
+                        if (storedAt != level) {
                             invalid("valueTiming", "Decision must belong to its source acquisition level; later choices cannot rewrite earlier facts.", slot, owner.definition.entry.id)
                             continue
                         }

@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -41,7 +42,6 @@ private data class ProgressionEditor(val kind: String, val level: Int = 1, val s
 @Composable
 internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     var editor by remember(state.document.id) { mutableStateOf<ProgressionEditor?>(null) }
-    var upcoming by remember { mutableStateOf(false) }
     val powerEntryIds = remember(model, state) { model.powerEntryIds() }
     val document = state.document
     val entries = document.levels.flatMap { it.entries }
@@ -50,11 +50,19 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     val ancestryLanguages = remember(state) { Progression.ancestryLanguageChoices(state) }
     val ancestryPowers = remember(state, powerEntryIds) { Progression.ancestryPowerChoices(state, powerEntryIds) }
     val activeGrants = remember(state) { Progression.automaticGrants(state) }
-    val futureGrants by produceState<List<ProgressionGrant>>(emptyList(), model, state, upcoming) {
-        value = emptyList()
-        if (upcoming) {
-            value = model.upcomingGrants(state)
+    // The last preview stays up while the next is computed, so upcoming levels never collapse and reflow after a save, and
+    // a returning tab starts from the session's remembered one instead of an empty screen.
+    val futureState by key(document.id) {
+        produceState(model.cachedFuturePreview(document.id), state, model) {
+            value = if (document.level < BuilderSession.MAX_LEVEL) {
+                model.progressionPreview(state, BuilderSession.MAX_LEVEL)
+            } else {
+                null
+            }
         }
+    }
+    val futureGrants = remember(futureState, document.level) {
+        futureState?.let(Progression::automaticGrants).orEmpty().filter { it.level > document.level }
     }
     val grantsByLevel = remember(activeGrants, futureGrants) { (activeGrants + futureGrants).groupBy { it.level } }
     val invalidSlots = remember(state.rules) { Progression.invalidChoiceSlots(state.rules) }
@@ -68,12 +76,13 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     }
     fun needsAttention(slot: ChoiceSlotId, level: Int = 1, optional: Boolean = false) = Progression.choiceNeedsAttention(
         level <= document.level, optional, model.pendingSelection(slot)?.let { it.title != null } ?: (slot in filledSlots), slot in invalidSlots)
-    fun selected(slot: ChoiceSlotId) = model.pendingSelection(slot)?.let { it.title ?: "Choose…" }
+    fun selected(slot: ChoiceSlotId, displayState: BuilderState = state) = model.pendingSelection(slot)?.let { it.title ?: "Choose…" }
         ?: entries.firstOrNull { it.slot == slot }?.selection?.savedTitle
-        ?: state.rules.entries.firstOrNull { it.slot == slot && it.granted }?.definition?.entry?.presentation?.title ?: "Choose…"
-    fun selectedPowerUsage(slot: ChoiceSlotId) = state.rules.entries.firstOrNull { it.slot == slot }
+        ?: displayState.rules.entries.firstOrNull { it.slot == slot && it.granted }?.definition?.entry?.presentation?.title ?: "Choose…"
+    fun selectedPowerUsage(slot: ChoiceSlotId, displayState: BuilderState = state) = displayState.rules.entries.firstOrNull { it.slot == slot }
         ?.definition?.entry?.let(::powerChoiceUsage)
     fun open(kind: String, level: Int = 1, slot: ChoiceSlotId? = null) { editor = ProgressionEditor(kind, level, slot) }
+    fun saving(kind: String, level: Int = 1, slot: ChoiceSlotId? = null) = model.isSaving(ProgressionEditor(kind, level, slot))
     @Composable
     fun CreationChoice(kind: String, modifier: Modifier = Modifier) {
         val background = kind == "environment" || kind == "upbringing"
@@ -85,6 +94,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             kind.readable(),
             if (background) selection.ifBlank { "Choose…" }.readable() else selection,
             modifier, enabled = !model.busy, invalid = invalid,
+            saving = if (background) saving(kind) else saving("entry", slot = slot),
         ) {
             open(if (background) kind else "entry", slot = if (background) null else slot)
         }
@@ -92,7 +102,8 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     @Composable
     fun AncestryLanguage(choice: EngineChoice, modifier: Modifier = Modifier) {
         LevelValueChoice(choice, "Ancestry Language", values.firstOrNull { it.slot == choice.slot }?.value,
-            enabled = !model.busy, invalid = needsAttention(choice.slot, optional = choice.optional), modifier = modifier) {
+            enabled = !model.busy, invalid = needsAttention(choice.slot, optional = choice.optional), modifier = modifier,
+            saving = saving("value", slot = choice.slot)) {
             open("value", level = 1, slot = choice.slot)
         }
     }
@@ -109,7 +120,8 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
         }
         ancestryPowers.forEach { choice ->
             LevelChoice("Ancestry Power Choice", selected(choice.slot), enabled = !model.busy,
-                powerUsage = selectedPowerUsage(choice.slot), invalid = needsAttention(choice.slot, optional = choice.optional)) {
+                powerUsage = selectedPowerUsage(choice.slot), invalid = needsAttention(choice.slot, optional = choice.optional),
+                saving = saving("entry", slot = choice.slot)) {
                 open("entry", level = 1, slot = choice.slot)
             }
         }
@@ -130,15 +142,17 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             }
         }
         if (document.level > 19) {
-            Text("Incomplete automation: progression above level 19 is not evaluated. Calculated totals are unavailable.", color = Accent)
+            Text("Some progression choices above level 19 still need rules or catalog content.", color = Dim)
         }
-        (1..if (upcoming) 30 else document.level).forEach { level ->
+        (1..BuilderSession.MAX_LEVEL).forEach { level ->
             val schedule = Progression.level(level)
             val future = level > document.level
-            ProgressionLevelHeading(level)
-            if (future) {
-                Text("Reached at level $level", color = Dim)
-            }
+            val levelState = if (future) futureState ?: state else state
+            ProgressionLevelHeading(level, future, onClick = if (future && !model.busy) {
+                { model.beginLevelChange(level) }
+            } else {
+                null
+            })
             if (level == 1) {
                 val tiles = listOf("Ability Scores", "Environment skill", "Upbringing skill", "Free skills")
                 tiles.chunked(2).forEach { row ->
@@ -169,7 +183,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                             LevelChoice(
                                 label, value, Modifier.weight(1f).fillMaxHeight(),
                                 enabled = available && !model.busy, valueIsHint = !available || (kind == "free" && freeCount < 2),
-                                invalid = !chosen,
+                                invalid = !chosen, saving = saving(kind),
                             ) { open(kind) }
                         }
                     }
@@ -179,25 +193,30 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             val (otherPowers, otherFeatures) = otherGrants.partition { it.isPower }
             classGrants.forEach { grant -> AutomaticGrantCard(document.id, grant) }
 
-            val levelChoices = Progression.levelChoices(state, level).filterNot { it in ancestryLanguages || it in ancestryPowers }
+            val levelChoices = Progression.levelChoices(levelState, level).filterNot { it in ancestryLanguages || it in ancestryPowers }
             val className = state.rules.entries.firstOrNull { it.definition.entry.category == EntryCategory.CLASS }
                 ?.definition?.entry?.presentation?.title
             val (powerSlots, regularChoices) = Progression.partitionLevelChoices(level, levelChoices, powerEntryIds)
             regularChoices.forEach { choice ->
-                val source = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }?.definition?.entry
+                val source = levelState.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }?.definition?.entry
                 val sourceTitle = source?.presentation?.title.orEmpty()
                 val invalid = needsAttention(choice.slot, level, choice.optional)
                 if (choice.entries.isNotEmpty()) {
                     val label = if (choice.optional) "$sourceTitle (optional substitution)" else Progression.choiceLabel(choice.slot.choiceId, className)
-                    LevelChoice(label, selected(choice.slot), enabled = !model.busy && !future, powerUsage = selectedPowerUsage(choice.slot) ?: label, invalid = invalid) {
+                    LevelChoice(label, selected(choice.slot, levelState), enabled = !model.busy,
+                        powerUsage = selectedPowerUsage(choice.slot, levelState) ?: label, invalid = invalid,
+                        saving = saving("entry", level, choice.slot)) {
                         open("entry", level, choice.slot)
                     }
                 } else if (choice.valueKind != null) {
                     val label = Progression.valueChoiceLabel(requireNotNull(choice.valueKind), choice.slot.ordinal, sourceTitle, source?.category)
                     LevelValueChoice(choice, label, values.firstOrNull { it.slot == choice.slot }?.value,
-                        enabled = !model.busy && !future, invalid = invalid) { open("value", level, choice.slot) }
+                        enabled = !model.busy, invalid = invalid, saving = saving("value", level, choice.slot)) {
+                        open("value", level, choice.slot)
+                    }
                 } else if (choice.skills.isNotEmpty()) {
-                    LevelChoice(Progression.choiceLabel(choice.slot.choiceId, className), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: "Choose…", enabled = !model.busy && !future, invalid = invalid) {
+                    LevelChoice(Progression.choiceLabel(choice.slot.choiceId, className), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: "Choose…", enabled = !model.busy, invalid = invalid,
+                        saving = saving("skill", level, choice.slot)) {
                         open("skill", level, choice.slot)
                     }
                 }
@@ -209,32 +228,30 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             }
             if (level == 11) {
                 val slot = ChoiceSlotId("advancement.11", "paragon-path", 0)
-                LevelChoice("Paragon path", selected(slot), enabled = !future && !model.busy,
-                    invalid = needsAttention(slot, level)) { open("entry", level, slot) }
+                LevelChoice("Paragon path", selected(slot), enabled = !model.busy,
+                    invalid = needsAttention(slot, level), saving = saving("entry", level, slot)) { open("entry", level, slot) }
             }
             if (schedule.ability != null) {
                 if (schedule.ability == "non-main") {
+                    val supported = level in AdvancementRules.nonMainLevels
                     val advancements = document.levels.firstOrNull { it.level == level }?.abilityAdvancements.orEmpty()
                     val slot = ChoiceSlotId("advancement.$level", "ability", 0)
                     val increase = advancements.singleOrNull()?.takeIf { it.slot == slot }?.increases?.entries?.singleOrNull()
-                    LevelChoice("Ability increase", increase?.key?.name?.readable() ?: "Choose…",
-                        enabled = !future && !model.busy,
-                        invalid = !future && (increase?.value != 1 || increase.key == document.abilities.mainAbility)) {
+                    LevelChoice("Ability increase", increase?.key?.name?.readable() ?: if (supported) "Choose…" else "Unavailable",
+                        enabled = supported && !model.busy,
+                        invalid = supported && !future && (increase?.value != 1 || increase.key == document.abilities.mainAbility),
+                        saving = saving("advancement", level)) {
                         open("advancement", level)
                     }
                 } else { Text("+1 to ${schedule.ability} abilities arrives automatically", color = Dim) }
             }
-            if (future || level > 19) {
-                schedule.powers.forEachIndexed { ordinal, power ->
+            if (level > 19 && levelChoices.none { with(Progression) { it.isPowerChoice(powerEntryIds) } }) {
+                schedule.powers.forEach { power ->
                     if ((power.startsWith("Paragon ") && otherPowers.any { it.sourceCategory == EntryCategory.PARAGON_PATH }) ||
                         (power.startsWith("Epic ") && otherPowers.any { it.sourceCategory == EntryCategory.EPIC_DESTINY })) {
-                        return@forEachIndexed
+                        return@forEach
                     }
-                    val slot = ChoiceSlotId("advancement.$level", "power", ordinal)
-                    LevelChoice("$power power", selected(slot), enabled = !future && !model.busy, powerUsage = selectedPowerUsage(slot) ?: power,
-                        invalid = needsAttention(slot, level)) {
-                        open("entry", level, slot)
-                    }
+                    LevelChoice("$power power", "Unavailable", enabled = false, powerUsage = power) {}
                 }
             } else if (schedule.powers.isNotEmpty() && document.classEntryIds().isEmpty() &&
                 levelChoices.none { it.entries.isNotEmpty() }) {
@@ -242,17 +259,24 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             }
             if (schedule.feat) {
                 val slot = ChoiceSlotId(if (level == 1) "creation" else "advancement.$level", "feat", 0)
-                LevelChoice("Feat", selected(slot), enabled = !future && !model.busy, invalid = needsAttention(slot, level)) { open("feat", level, slot) }
+                val supported = level == 1 || level in AdvancementRules.featLevels
+                LevelChoice("Feat", if (supported) selected(slot) else "Unavailable", enabled = supported && !model.busy,
+                    invalid = supported && needsAttention(slot, level), saving = saving("feat", level, slot)) {
+                    open("feat", level, slot)
+                }
             }
             otherPowers.forEach { grant -> AutomaticGrantCard(document.id, grant) }
             schedule.replacement?.let {
+                val supported = level in AdvancementRules.dailyReplacementLevels
                 val replacements = document.levels.firstOrNull { decisions -> decisions.level == level }?.replacements.orEmpty()
-                val invalid = !future && (replacements.none { it.kind == ReplacementKind.PROGRESSION } || replacements.any { change ->
+                val invalid = supported && !future && (replacements.none { it.kind == ReplacementKind.PROGRESSION } || replacements.any { change ->
                     change.replaces in invalidSlots || change.replacement.slot in invalidSlots
                 })
                 val savedTitle = replacements.singleOrNull()?.replacement?.selection?.savedTitle
-                LevelChoice("Replace a $it attack power", savedTitle ?: "Choose\u2026", enabled = !future && !model.busy,
-                    powerUsage = it, invalid = invalid) {
+                LevelChoice("Replace a $it attack power", savedTitle ?: if (supported) "Choose…" else "Unavailable",
+                    enabled = supported && !model.busy,
+                    powerUsage = it, invalid = invalid,
+                    saving = saving("replacement", level, ChoiceSlotId("advancement.$level", "replacement", 0))) {
                     open("replacement", level, ChoiceSlotId("advancement.$level", "replacement", 0))
                 }
             }
@@ -277,17 +301,22 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                             compactLabel, selected(choice.slot), selectedPowerUsage(choice.slot) ?: label,
                             Modifier.weight(1f).heightIn(min = 48.dp).fillMaxHeight(), enabled = !model.busy,
                             invalid = needsAttention(choice.slot, level, choice.optional),
+                            saving = saving("entry", level, choice.slot),
                         ) { open("entry", level, choice.slot) }
                     }
                 }
             }
         }
-        if (document.level < 30) {
-            TextButton({ upcoming = !upcoming }) { Text(if (upcoming) "Hide upcoming levels" else "Show upcoming levels ${document.level + 1}–30") }
-        }
     }
     editor?.let { request ->
-        ProgressionSheet(request, state, model) { editor = null }
+        val editorState by key(request, state) {
+            produceState(state.takeIf { request.level <= document.level }, model) {
+                if (request.level > document.level) {
+                    value = model.progressionPreview(state, request.level)
+                }
+            }
+        }
+        editorState?.let { ProgressionSheet(request, it, model) { editor = null } }
     }
 }
 
@@ -313,15 +342,34 @@ private fun StartingGrantDivider(title: String) {
     }
 }
 
-/** Labels the choices made at creation and the rows gained at each character level. */
+/**
+ * Labels the choices made at creation and the rows gained at each character level.
+ *
+ * @param onClick what tapping the heading does, or null when it is only a label; an upcoming level uses it to offer the level-up.
+ */
 @Composable
-private fun ProgressionLevelHeading(level: Int) {
-    Surface(Modifier.fillMaxWidth().padding(top = 16.dp), color = Wash) {
-        Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+private fun ProgressionLevelHeading(level: Int, future: Boolean = false, onClick: (() -> Unit)? = null) {
+    Surface(
+        Modifier.fillMaxWidth().padding(top = 16.dp).semantics { heading() }.then(
+            if (onClick != null) {
+                Modifier.clickable(onClickLabel = "Level up to level $level", role = Role.Button, onClick = onClick)
+            } else {
+                Modifier
+            }),
+        color = Wash,
+    ) {
+        Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically) {
             if (level > 0) {
-                Text("LEVEL  ", color = Dim, letterSpacing = 2.sp, fontSize = 12.sp)
+                Text("LEVEL", color = Dim, letterSpacing = 2.sp, fontSize = 12.sp)
             }
             Text(if (level == 0) "Base" else level.toString(), fontFamily = FontFamily.Serif, fontSize = 28.sp)
+            if (future) {
+                Surface(shape = RoundedCornerShape(50), color = Accent.copy(alpha = 0.12f)) {
+                    Text("Upcoming", Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+                        color = Accent, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                }
+            }
         }
     }
 }
@@ -359,9 +407,9 @@ private fun AutomaticGrantCard(documentId: String, grant: ProgressionGrant) {
 /** Displays a committed value and opens its editor with the original engine slot. */
 @Composable
 private fun LevelValueChoice(choice: EngineChoice, label: String, value: String?, enabled: Boolean, invalid: Boolean,
-    modifier: Modifier = Modifier, edit: () -> Unit) {
+    modifier: Modifier = Modifier, saving: Boolean = false, edit: () -> Unit) {
     val title = choice.values.firstOrNull { it.id == value }?.title ?: value ?: "Choose…"
-    LevelChoice(label, title, modifier, enabled = enabled, invalid = invalid, action = edit)
+    LevelChoice(label, title, modifier, enabled = enabled, invalid = invalid, saving = saving, action = edit)
 }
 
 /** A compact power slot with the same edit action and frequency color as a Levels field. */
@@ -373,26 +421,39 @@ private fun LevelOnePowerTile(
     modifier: Modifier,
     enabled: Boolean,
     invalid: Boolean,
+    saving: Boolean = false,
     action: () -> Unit,
 ) {
     val errorColor = MaterialTheme.colorScheme.error
-    val accent = powerChoiceColor(usage).takeUnless { invalid }
+    val flagged = invalid && !saving
+    val accent = powerChoiceColor(usage).takeUnless { flagged }
     Surface(
         modifier.clickable(enabled = enabled, role = Role.Button, onClick = action)
-            .semantics { if (invalid) { stateDescription = "Needs attention" } },
-        color = if (invalid) errorColor.copy(alpha = 0.10f).compositeOver(Paper) else Paper,
-        border = BorderStroke(1.dp, if (invalid) errorColor else Line),
+            .semantics {
+                if (saving) {
+                    stateDescription = "Saving"
+                } else if (invalid) {
+                    stateDescription = "Needs attention"
+                }
+            },
+        color = if (flagged) errorColor.copy(alpha = 0.10f).compositeOver(Paper) else if (saving) Wash else Paper,
+        border = BorderStroke(1.dp, if (flagged) errorColor else Line),
     ) {
-        Column(
-            Modifier.leftEdgeAccent(accent).padding(horizontal = 4.dp, vertical = 3.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(label, color = if (invalid) errorColor else Dim, fontSize = 10.sp, lineHeight = 11.sp,
-                maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
-            Text(title, color = if (invalid) errorColor else Ink,
-                fontFamily = FontFamily.Serif, fontSize = 11.sp, lineHeight = 12.sp,
-                maxLines = 2, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
+        Box(Modifier.leftEdgeAccent(accent)) {
+            Column(
+                Modifier.fillMaxWidth().alpha(if (saving) 0.55f else 1f).padding(horizontal = 4.dp, vertical = 3.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(label, color = if (flagged) errorColor else Dim, fontSize = 10.sp, lineHeight = 11.sp,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
+                Text(title, color = if (flagged) errorColor else Ink,
+                    fontFamily = FontFamily.Serif, fontSize = 11.sp, lineHeight = 12.sp,
+                    maxLines = 2, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
+            }
+            if (saving) {
+                SavingSpinner(Modifier.align(Alignment.CenterEnd).padding(end = 4.dp), size = 12.dp)
+            }
         }
     }
 }
@@ -407,11 +468,12 @@ private fun LevelChoice(
     powerUsage: String? = null,
     valueIsHint: Boolean = false,
     invalid: Boolean = false,
+    saving: Boolean = false,
     action: () -> Unit,
 ) {
     Field(
         label, value, modifier, enabled, compact = true, leftAccent = powerUsage?.let(::powerChoiceColor),
-        valueIsHint = valueIsHint, invalid = invalid, action = action,
+        valueIsHint = valueIsHint, invalid = invalid, saving = saving, action = action,
     )
 }
 
@@ -623,7 +685,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
         ChoicePickerActions(model.busy, valid, dismiss, clear) {
             val command = edit ?: return@ChoicePickerActions
             // The session applies and stores it in the background, so the sheet closes at once and the next edit can start.
-            model.submitEdit(command, selectedTitle)
+            model.submitEdit(command, selectedTitle, request)
             dismiss()
         }
     }
