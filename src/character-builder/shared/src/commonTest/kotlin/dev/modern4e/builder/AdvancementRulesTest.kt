@@ -17,7 +17,7 @@ class AdvancementRulesTest {
             Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.INTELLIGENCE to 1)),
         levels = (1..level).map { n -> LevelDecisions(n,
             entries = if (n == 1) listOf(EntryChoice("class-instance", ChoiceSlotId("creation", "class", 0), saved)) else emptyList(),
-            abilityAdvancements = if (n in AdvancementRules.nonMainLevels) listOf(
+            abilityAdvancements = if (AdvancementRules.choosesNonMainIncrease(n)) listOf(
                 AbilityAdvancement(AdvancementRules.abilitySlot(n), mapOf(nonMain to 1))) else emptyList()) })
 
     private fun evaluate(document: CharacterDocument) = RulesEngine.evaluate(document,
@@ -70,7 +70,7 @@ class AdvancementRulesTest {
     fun rootsMatchTheLocalTableAndRejectOtherLevelsAndOrdinals() {
         for (level in 2..19) {
             val slot = ChoiceSlotId("advancement.$level", "feat", 0)
-            assertEquals(if (level in AdvancementRules.featLevels) EntryCategory.FEAT else null,
+            assertEquals(if (AdvancementRules.level(level).feat) EntryCategory.FEAT else null,
                 AdvancementRules.rootCategory(level, slot))
             assertNull(AdvancementRules.rootCategory(level, slot.copy(ordinal = 1)))
         }

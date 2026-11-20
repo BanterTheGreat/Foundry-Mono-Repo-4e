@@ -58,7 +58,9 @@ class SharedClassTest {
         assertEquals(Ability.CONSTITUTION, feature("melee-weapon-mastery").mechanics.weaponAbilities[WeaponGroup.AXE])
         assertIs<ContractResult.Unavailable>(result.statistics.getValue(ModifierTarget(Statistic.ATTACK)).value)
         assertFalse(result.diagnostics.any { it.code == "engine.coverage" })
-        assertFalse(result.diagnostics.any { it.kind == DiagnosticKind.INVALID_SELECTION || it.kind == DiagnosticKind.UNRESOLVED_CONTENT }, result.diagnostics.toString())
+        val (missingRoots, other) = result.diagnostics.partition { it.code == "engine.missingRootChoice" }
+        assertEquals(listOf("ancestry", "theme", "feat"), missingRoots.map { it.slot?.choiceId })
+        assertFalse(other.any { it.kind == DiagnosticKind.INVALID_SELECTION || it.kind == DiagnosticKind.UNRESOLVED_CONTENT }, other.toString())
     }
 
     @Test
@@ -70,7 +72,7 @@ class SharedClassTest {
                 ManualAdjustment("fortitude-$amount", TypedModifier(target, ModifierOperation.ADD, amount, BonusType.ITEM))
             }
             val progressed = doc.copy(level = level, levels = doc.levels +
-                AdvancementRules.nonMainLevels.filter { it <= level }.map { at -> LevelDecisions(at,
+                (1..level).filter(AdvancementRules::choosesNonMainIncrease).map { at -> LevelDecisions(at,
                     abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(at), mapOf(Ability.WISDOM to 1)))) },
                 manualAdjustments = adjustments)
             val result = evaluate(progressed)

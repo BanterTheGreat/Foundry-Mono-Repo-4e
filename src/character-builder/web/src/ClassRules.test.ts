@@ -33,7 +33,20 @@ describe("compiled shared class engine boundary", () => {
     ]);
     expect(result.value.selectionSets.every((set: { remaining: number }) => set.remaining === 0)).toBe(true);
     expect(result.value.conditionalModifiers[0].benefit.condition).toBe("ONE_HANDED_WEAPON");
-    expect(result.value.diagnostics.some((diagnostic: { code: string }) => diagnostic.code === "engine.coverage")).toBe(true);
+    // The fixture's content is fully supported now, so no coverage notice is expected; coverage stays reported per occurrence.
+    expect(result.value.coverage.fighter.status).toBe("SUPPORTED");
+    // The class-only Fighter has not chosen its other root slots; web evaluation reports them like Android.
+    const missing = result.value.diagnostics.filter((diagnostic: { code: string }) => diagnostic.code === "engine.missingRootChoice");
+    expect(missing.map((diagnostic: { slot: { choiceId: string } }) => diagnostic.slot.choiceId)).toEqual(["ancestry", "theme", "feat"]);
+    expect(missing.map((diagnostic: { message: string }) => diagnostic.message)).toEqual([
+      "Select an entry for this starting or advancement slot.", "Choose a Theme.", "Select an entry for this starting or advancement slot.",
+    ]);
+    expect(missing.every((diagnostic: { kind: string }) => diagnostic.kind === "INVALID_SELECTION")).toBe(true);
+    // Root offers are reported only through diagnostics; the choices JSON keeps its inline offers and fields.
+    expect(result.value.choices.some((choice: { slot: { sourceInstanceId: string; choiceId: string } }) => choice.slot.sourceInstanceId === "creation"
+      && ["class", "ancestry", "theme", "feat"].includes(choice.slot.choiceId))).toBe(false);
+    expect(result.value.choices.every((choice: object) => !("category" in choice) && !("required" in choice)
+      && !("listing" in choice) && !("filled" in choice))).toBe(true);
     expect(JSON.parse(await catalog.evaluate('{"formatVersion":99}')).type).toBe("unavailable");
   });
 });

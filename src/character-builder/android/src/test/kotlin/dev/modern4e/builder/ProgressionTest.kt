@@ -242,20 +242,19 @@ class ProgressionTest {
     }
 
     @Test fun missingBadgeCountsEnginePowerSlotsWithoutInventingLaterPowerDuplicates() {
+        val power = entry("power", EntryCategory.POWER)
+        val fighter = entry("fighter", EntryCategory.CLASS, Mechanics(choices = listOf(
+            ChoiceDefinition.Entries("modern4e.choice.class-attack-encounter-3", 1, listOf(power.id), atLevel = 3))))
         val slot = ChoiceSlotId("fighter", "modern4e.choice.class-attack-encounter-3", 0)
-        val doc = CharacterDocument(id = "badge-later", savedAt = "2026-11-19T12:00:00Z",
-            identity = CharacterIdentity("Badge", environment = "urban", upbringing = "academic"),
-            packages = emptyList(), level = 3,
-            abilities = AbilityAllocation(ChoiceSlotId("fighter", "main", 0), Ability.STRENGTH,
-                mapOf(Ability.STRENGTH to 4, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.WISDOM to 1)),
-            levels = listOf(LevelDecisions(1, entries = ModernCreation.requiredEntryKinds.map { kind ->
-                entryChoice(entry(kind, if (kind == "feat") EntryCategory.FEAT else EntryCategory.FEATURE), ChoiceSlotId("creation", kind, 0))
-            }), LevelDecisions(2, entries = listOf(entryChoice(entry("feat2", EntryCategory.FEAT), ChoiceSlotId("advancement.2", "feat", 0))))),
-        )
-        val rules = EngineResult(emptyMap(), emptyList(), listOf(EngineChoice(slot, acquisitionLevel = 3)), emptyMap(), emptyMap(), emptyList())
-        assertEquals(1, Progression.missing(BuilderState(doc, rules)))
-        val filled = doc.copy(levels = doc.levels + LevelDecisions(3, entries = listOf(entryChoice(entry("power", EntryCategory.POWER), slot))))
-        assertEquals(0, Progression.missing(BuilderState(filled, rules)))
+        val roots = listOf(fighter, entry("ancestry", EntryCategory.ANCESTRY), entry("theme", EntryCategory.THEME),
+            entry("feat", EntryCategory.FEAT)).map { it to AdvancementRules.rootSlot(1, it.category)!! }
+        val feat2 = entry("feat2", EntryCategory.FEAT)
+        val doc = badgeDocument(3, listOf(LevelDecisions(1, entries = roots.map { (entry, slot) -> entryChoice(entry, slot) }),
+            LevelDecisions(2, entries = listOf(entryChoice(feat2, AdvancementRules.rootSlot(2, EntryCategory.FEAT)!!)))))
+        val definitions = roots.map { it.first } + feat2 + power
+        assertEquals(1, Progression.unfinished(engineState(doc, definitions)))
+        val filled = doc.copy(levels = doc.levels + LevelDecisions(3, entries = listOf(entryChoice(power, slot))))
+        assertEquals(0, Progression.unfinished(engineState(filled, definitions)))
     }
 
     @Test fun scheduleMatchesPrintedMilestones() {
@@ -264,6 +263,26 @@ class ProgressionTest {
         assertEquals(20, (1..30).sumOf { Progression.level(it).powers.size })
         assertEquals(19, (1..30).count { Progression.level(it).feat })
         assertEquals(listOf(9, 15, 19, 23, 25, 29), (1..30).filter { Progression.level(it).replacement != null })
+        // The display strings for every level match the printed table the screen used before the shared schedule.
+        for (n in 1..30) {
+            val powers = when (n) {
+                1 -> listOf("At-will", "At-will", "Encounter", "Daily", "Daily")
+                2, 6, 10, 17, 22 -> listOf("Utility") + if (n == 17) listOf("Encounter") else emptyList()
+                3, 7, 13, 27 -> listOf("Encounter")
+                5 -> listOf("Daily")
+                11 -> listOf("Paragon encounter")
+                12 -> listOf("Paragon utility")
+                20 -> listOf("Paragon daily")
+                26 -> listOf("Epic utility")
+                else -> emptyList()
+            }
+            val printed = ProgressionLevel(n, powers, n in setOf(1, 2, 4, 6, 8, 10, 11, 12, 14, 16, 17, 18, 20, 21, 22, 24, 26, 28, 30),
+                when (n) { 4, 12, 24 -> "non-main"; 8, 20, 28 -> "main"; 16 -> "all"; else -> null },
+                when (n) { 9, 15, 19, 25, 29 -> "daily"; 23 -> "encounter"; else -> null },
+                when (n) { 11 -> listOf("Paragon path features"); 16 -> listOf("Paragon path feature");
+                    21, 24, 30 -> listOf("Epic destiny feature"); else -> emptyList() })
+            assertEquals("level $n", printed, Progression.level(n))
+        }
     }
 
     @Test fun levelOneMovesEveryPowerSlotInOrderAndLeavesOtherChoicesInRows() {
@@ -372,38 +391,66 @@ class ProgressionTest {
         assertTrue(Progression.canAdjustAbility(base, Ability.WISDOM, 1))
     }
     @Test fun filledStructuredChoicesReduceRequiredBadgeAndOptionalGrantsDoNotAddRequirements() {
+        val technique = entry("technique", EntryCategory.FEATURE)
+        val alternative = entry("alternative", EntryCategory.FEATURE)
+        val linguist = entry("linguist", EntryCategory.FEAT, Mechanics(
+            choices = listOf(ChoiceDefinition.Values("language", 1, FactKind.LANGUAGE, listOf(ValueOption("ELVEN", "Elven")))),
+            grants = listOf(Grant.Entry("technique", technique.id, replacementEntryIds = listOf(alternative.id)))))
         val slot = ChoiceSlotId("linguist", "language", 0)
-        val optional = ChoiceSlotId("feature", "technique", 0)
-        val doc = CharacterDocument(id = "badge", savedAt = "2026-11-18T12:00:00Z", identity = CharacterIdentity("Badge"),
-            packages = emptyList(), level = 1, abilities = AbilityAllocation(ChoiceSlotId("class", "main", 0), Ability.STRENGTH,
-                mapOf(Ability.STRENGTH to 4, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.WISDOM to 1)),
-            levels = listOf(LevelDecisions(1)))
-        val rules = EngineResult(emptyMap(), emptyList(), listOf(EngineChoice(slot, values = listOf(ValueOption("ELVEN", "Elven")), valueKind = FactKind.LANGUAGE)),
-            emptyMap(), emptyMap(), emptyList())
-        val missing = Progression.missing(BuilderState(doc, rules))
-        val filled = doc.copy(levels = listOf(LevelDecisions(1, values = listOf(ValueChoice(slot, "ELVEN")))))
-        assertEquals(missing - 1, Progression.missing(BuilderState(filled, rules)))
-        assertEquals(missing - 1, Progression.missing(BuilderState(filled, rules.copy(choices = rules.choices + EngineChoice(optional, optional = true)))))
+        val selected = entryChoice(linguist, AdvancementRules.rootSlot(1, EntryCategory.FEAT)!!)
+        val doc = badgeDocument(1, listOf(LevelDecisions(1, entries = listOf(selected))))
+        val definitions = listOf(linguist, technique, alternative)
+        val state = engineState(doc, definitions)
+        val optional = state.rules.choices.single { it.optional }
+        assertFalse("An optional substitution is offered but never required", optional.required)
+        val missing = Progression.unfinished(state)
+        val filled = doc.copy(levels = doc.levels.map { it.copy(values = listOf(ValueChoice(slot, "ELVEN"))) })
+        assertEquals(missing - 1, Progression.unfinished(engineState(filled, definitions)))
     }
 
     @Test fun completingRequiredLevelOneChoicesClearsTheBadgeOnlyAfterChoosingATheme() {
-        val origins = listOf("ancestry", "class", "feat").map { kind ->
-            EntryChoice(kind, ChoiceSlotId("creation", kind, 0), SavedSelection(kind, kind, "proof", "fingerprint"))
+        val definitions = listOf(entry("ancestry", EntryCategory.ANCESTRY), entry("class", EntryCategory.CLASS),
+            entry("feat", EntryCategory.FEAT))
+        val origins = definitions.map { entryChoice(it, AdvancementRules.rootSlot(1, it.category)!!) }
+        val doc = badgeDocument(1, listOf(LevelDecisions(1, entries = origins)))
+        assertEquals(1, Progression.unfinished(engineState(doc, definitions)))
+        val theme = entry("theme", EntryCategory.THEME)
+        val complete = engineState(doc.copy(levels = doc.levels.map { it.copy(entries = origins +
+            entryChoice(theme, AdvancementRules.rootSlot(1, EntryCategory.THEME)!!)) }), definitions + theme)
+        assertEquals(0, Progression.unfinished(complete))
+        // Root offers have their own rows; the level's inline choice rows never repeat them.
+        assertEquals(4, complete.rules.choices.count { it.listing == SlotListing.DEFERRED })
+        assertTrue(Progression.levelChoices(complete, 1).none { it.listing == SlotListing.DEFERRED })
+        // An unchosen environment is no slot: neither its name nor its skill's source is saved.
+        val noEnvironment = complete.document.copy(identity = doc.identity.copy(environment = ""), levels = complete.document.levels.map { row ->
+            row.copy(proficiencies = row.proficiencies.filterNot { it.slot.sourceInstanceId.startsWith("background.environment.") })
+        })
+        assertEquals(1, Progression.unfinished(complete.copy(document = noEnvironment)))
+    }
+
+    /** A document with both origins and a valid allocation and level 1 skills, so only the remaining engine slot offers decide the badge. */
+    private fun badgeDocument(level: Int, levels: List<LevelDecisions>) = CharacterDocument(
+        id = "badge", savedAt = "2026-11-18T12:00:00Z",
+        identity = CharacterIdentity("Badge", environment = "urban", upbringing = "academic"),
+        packages = emptyList(), level = level,
+        abilities = AbilityAllocation(ChoiceSlotId("class", "main", 0), Ability.STRENGTH,
+            mapOf(Ability.STRENGTH to 4, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.WISDOM to 1)),
+        levels = levels.map { row ->
+            if (row.level != 1) row else row.copy(proficiencies = listOf(
+                ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 0), Skill.ATHLETICS),
+                ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 1), Skill.STEALTH),
+                ProficiencyChoice(ChoiceSlotId("background.environment.urban", "skill", 0), Skill.BLUFF),
+                ProficiencyChoice(ChoiceSlotId("background.upbringing.academic", "skill", 0), Skill.ARCANA)))
+        },
+    )
+
+    /** Evaluate [document] with the engine against [definitions], as the session does. */
+    private fun engineState(document: CharacterDocument, definitions: List<ContentEntry>): BuilderState {
+        val entries = definitions.associate { entry ->
+            entry.id to ContractResult.Available(ResolvedEntry(entry, PackageRevision("proof", "1"), ContractCodec.fingerprint(entry)))
         }
-        val doc = CharacterDocument(
-            id = "badge", savedAt = "2026-11-18T12:00:00Z",
-            identity = CharacterIdentity("Badge", environment = "urban", upbringing = "academic"),
-            packages = emptyList(), level = 1,
-            abilities = AbilityAllocation(ChoiceSlotId("class", "main", 0), Ability.STRENGTH,
-                mapOf(Ability.STRENGTH to 4, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.WISDOM to 1)),
-            levels = listOf(LevelDecisions(1, entries = origins)),
-        )
-        val rules = EngineResult(emptyMap(), emptyList(), emptyList(), emptyMap(), emptyMap(), emptyList())
-        assertEquals(1, Progression.missing(BuilderState(doc, rules)))
-        val theme = entryChoice(entry("theme", EntryCategory.THEME), ChoiceSlotId("creation", "theme", 0))
-        val complete = BuilderState(doc.copy(levels = listOf(LevelDecisions(1, entries = origins + theme))), rules)
-        assertEquals(0, Progression.missing(complete))
-        assertEquals(1, Progression.missing(complete.copy(document = complete.document.copy(identity = doc.identity.copy(environment = "")))))
+        val selections = document.levels.flatMap { it.entries }.associate { it.selection to entries.getValue(it.selection.entryId) }
+        return BuilderState(document, RulesEngine.evaluate(document, RulesContent(entries, selections)))
     }
 
     private fun entry(id: String, category: EntryCategory, mechanics: Mechanics = Mechanics()) =

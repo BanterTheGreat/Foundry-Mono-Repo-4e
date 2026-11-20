@@ -144,7 +144,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                                         when (page) {
                                             "character" -> Text("About", color = color)
                                             "progression" -> {
-                                                val missing = model.current?.let { Progression.missing(it) } ?: 0
+                                                val missing = model.current?.let { Progression.unfinished(it) } ?: 0
                                                 Row(
                                                     horizontalArrangement = Arrangement.spacedBy(3.dp),
                                                     verticalAlignment = Alignment.CenterVertically,

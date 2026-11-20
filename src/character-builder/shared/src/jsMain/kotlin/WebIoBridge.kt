@@ -169,12 +169,16 @@ class WebContentCatalog(private val call: (String, String) -> Promise<String>) {
         }
     }
 
-    /** Shared calculations only; browser code receives explanations, eligibility and coverage. */
+    /**
+     * Shared calculations only; browser code receives explanations, eligibility, coverage and the same completeness
+     * diagnostics as Android, including missing root and advancement choices. `choices` keeps its inline offers only:
+     * root offers are reported through their diagnostics and add no JSON fields.
+     */
     fun evaluate(characterJson: String): Promise<String> = asyncJson {
         when (val document = ContractCodec.decode(characterJson)) {
             is ContractResult.Unavailable -> resultJson<JsonElement>(document)
             is ContractResult.Available -> {
-                val rules = RulesEngine.evaluate(document.value, RulesContent.load(document.value, requireNotNull(catalog)))
+                val rules = BuilderOperations(requireNotNull(catalog)).evaluate(document.value).rules
                 resultJson(ContractResult.Available(buildJsonObject {
                     put("statistics", JsonArray(rules.statistics.map { (target, calculation) -> buildJsonObject {
                         put("target", ContractCodec.json.encodeToJsonElement(target))
@@ -184,7 +188,7 @@ class WebContentCatalog(private val call: (String, String) -> Promise<String>) {
                         })
                     } }))
                     put("entries", ContractCodec.json.encodeToJsonElement(rules.entries))
-                    put("choices", ContractCodec.json.encodeToJsonElement(rules.choices))
+                    put("choices", ContractCodec.json.encodeToJsonElement(rules.choices.filter { it.listing == SlotListing.INLINE }))
                     put("proficiencies", ContractCodec.json.encodeToJsonElement(rules.proficiencies))
                     put("equipmentProficiencies", ContractCodec.json.encodeToJsonElement(rules.equipmentProficiencies))
                     put("facts", ContractCodec.json.encodeToJsonElement(rules.facts))

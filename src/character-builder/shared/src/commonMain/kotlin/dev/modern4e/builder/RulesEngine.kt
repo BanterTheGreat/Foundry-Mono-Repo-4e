@@ -57,7 +57,21 @@ data class EntryEligibility(
     @kotlinx.serialization.Transient val unmet: List<UnmetCondition> = emptyList(),
 )
 
-/** Options include ineligible/unknown entries; interfaces filter ELIGIBLE by default. */
+/** How a slot offer's candidate entries are produced. */
+enum class SlotListing {
+    /** The engine evaluates the candidates into [EngineChoice.entries] on every evaluation. */
+    INLINE,
+    /** Candidates come from the catalog only when asked for, through [BuilderOptionListing]; `entries` stays empty. */
+    DEFERRED,
+}
+
+/**
+ * A slot offer: a slot the rules present for a decision. Inner offers (opened by an entry) list their options
+ * inline; root offers (opened by the advancement schedule) carry a [category] and a deferred listing.
+ * Options include ineligible/unknown entries; interfaces filter ELIGIBLE by default.
+ *
+ * [category], [required], [filled] and [listing] are not serialized, so the web JSON keeps its shape.
+ */
 @kotlinx.serialization.Serializable
 data class EngineChoice(
     val slot: ChoiceSlotId,
@@ -68,7 +82,17 @@ data class EngineChoice(
     val acquisitionLevel: Int? = null,
     val values: List<ValueOption> = emptyList(),
     val valueKind: FactKind? = null,
-)
+    /** What a root offer decides; null for inner offers. */
+    @kotlinx.serialization.Transient val category: SlotCategory? = null,
+    /** Whether the character is incomplete until this slot holds a decision. */
+    @kotlinx.serialization.Transient val required: Boolean = false,
+    /** Whether the slot holds a saved decision; an ability increase counts only when it is a valid non-main increase. */
+    @kotlinx.serialization.Transient val filled: Boolean = false,
+    @kotlinx.serialization.Transient val listing: SlotListing = SlotListing.INLINE,
+) {
+    /** A required slot still waiting for its decision. */
+    val missing: Boolean get() = required && !filled
+}
 
 @kotlinx.serialization.Serializable
 data class EngineEntry(val instanceId: String, val slot: ChoiceSlotId, val definition: ResolvedEntry, val granted: Boolean)
@@ -125,8 +149,6 @@ private fun skillProficiency(skill: Skill, source: ChoiceSlotId?): List<Modifier
 
 /** Shared baseline choice identities match the portable v1 fixtures. */
 object ModernCreation {
-    val requiredEntryKinds = listOf("class", "ancestry", "theme", "feat")
-
     val environments = linkedMapOf(
         "nomadic" to listOf(Skill.DIPLOMACY, Skill.ACROBATICS, Skill.MEDICINE, Skill.NATURE),
         "rural" to listOf(Skill.CRAFTING, Skill.RELIGION, Skill.DIPLOMACY, Skill.PERCEPTION),
@@ -383,9 +405,9 @@ private class Evaluation(
                 val acquired = retirement.firstChosenAt
                 val profile = retirement.retiredDefinition.entry.mechanics.powerProfile
                 val classInstances = document.levels.flatMap { it.entries }.filter {
-                    it.slot == ChoiceSlotId("creation", "class", 0)
+                    it.slot == AdvancementRules.classSlot
                 }.map { it.instanceId }
-                if (row.level !in AdvancementRules.dailyReplacementLevels || acquired == null || acquired >= row.level ||
+                if (!AdvancementRules.replacesDailyAttack(row.level) || acquired == null || acquired >= row.level ||
                     change.replaces.sourceInstanceId !in classInstances || profile?.powerKind != "ATTACK" || profile.usage != "DAILY" ||
                     row.replacements.count { it.kind == ReplacementKind.PROGRESSION } > 1) {
                     invalid("replacementTiming", "Replace one earlier class daily attack at levels 9, 15 and 19.",
@@ -498,9 +520,13 @@ private class Evaluation(
                 equipmentProficiencies = equipmentProficiencies.mapValues { it.value.toList() }, facts = facts.toList(),
                 slotIssues = slotIssues.mapValues { it.value.toList() })
         }
+        val decided = document.levels.flatMapTo(mutableSetOf()) { level ->
+            level.entries.map { it.slot } + level.proficiencies.map { it.slot } + level.values.map { it.slot }
+        }
         val offered = choices.map { (slot, definition) ->
             when (definition) {
                 is ChoiceDefinition.Entries -> EngineChoice(slot, optional = slot in grantReplacementSlots,
+                    required = slot !in grantReplacementSlots, filled = slot in decided,
                     acquisitionLevel = if (slot in grantReplacementSlots) decisionLevels[slot] else choiceAcquisitionLevels[slot] ?: definition.atLevel, entries = definition.entryIds.map { id ->
                     val resolved = content.entries[id]
                     if (resolved is ContractResult.Available) {
@@ -512,11 +538,15 @@ private class Evaluation(
                             }.map { it.copy(slot = slot, entryId = id) })
                     }
                 })
-                is ChoiceDefinition.Proficiencies -> EngineChoice(slot, skills = proficiencySelectionRules.skills(slot, definition), acquisitionLevel = choiceAcquisitionLevels[slot])
+                is ChoiceDefinition.Proficiencies -> EngineChoice(slot, skills = proficiencySelectionRules.skills(slot, definition),
+                    acquisitionLevel = choiceAcquisitionLevels[slot], required = true, filled = slot in decided)
+                // The allocation fills the main-ability slot; its validity is reported with the allocation.
                 is ChoiceDefinition.MainAbility -> EngineChoice(slot, abilities = definition.abilities)
-                is ChoiceDefinition.Values -> EngineChoice(slot, values = valueOptions[slot].orEmpty(), valueKind = definition.kind, acquisitionLevel = choiceAcquisitionLevels[slot])
+                is ChoiceDefinition.Values -> EngineChoice(slot, values = valueOptions[slot].orEmpty(), valueKind = definition.kind,
+                    acquisitionLevel = choiceAcquisitionLevels[slot], required = true, filled = slot in decided)
             }
         }
+        val roots = rootOffers(decided)
         val statistics = linkedMapOf<ModifierTarget, StatisticCalculation>()
         for ((ability, value) in abilityValues) {
             statistics[ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)] = value
@@ -554,12 +584,50 @@ private class Evaluation(
         diagnostics += statistics.values.flatMap { calculation ->
             (calculation.value as? ContractResult.Unavailable)?.diagnostics.orEmpty().filter { it.code != "engine.missingBase" }
         }
-        return EngineResult(statistics, entries.toList(), offered, proficiencies.mapValues { it.value.toList() },
+        reportMissingRoots(roots)
+        return EngineResult(statistics, entries.toList(), offered + roots, proficiencies.mapValues { it.value.toList() },
             entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct(),
             entries.flatMap { occurrence -> occurrence.definition.entry.mechanics.conditionalModifiers.map {
                 ConditionalContribution(occurrence.instanceId, occurrence.slot, it)
             } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap(), equipmentProficiencies.mapValues { it.value.toList() }, facts.toList(),
             overviewStatistics, slotIssues.mapValues { it.value.toList() })
+    }
+
+    /**
+     * Offer every root slot the advancement schedule opens by the character's level. Root listings are deferred: their
+     * candidates come from the catalog through [BuilderOptionListing] and are never evaluated here. [decided] holds
+     * the slots with a saved decision; an ability increase is filled only by a valid non-main increase, a
+     * replacement milestone by any progression replacement recorded at its level.
+     */
+    private fun rootOffers(decided: Set<ChoiceSlotId>): List<EngineChoice> =
+        (1..minOf(document.level, AdvancementRules.LAST_ENFORCED_LEVEL)).flatMap(AdvancementRules::rootSlots).map { root ->
+            val row = document.levels.firstOrNull { it.level == root.level }
+            val filled = when (root.category) {
+                is SlotCategory.Entry -> root.slot in decided
+                SlotCategory.AbilityIncrease -> row?.abilityAdvancements.orEmpty().any {
+                    AdvancementRules.validAdvancement(root.level, it, document.abilities.mainAbility)
+                }
+                is SlotCategory.Replacement -> row?.replacements.orEmpty().any { it.kind == ReplacementKind.PROGRESSION }
+            }
+            EngineChoice(root.slot, acquisitionLevel = root.level, category = root.category, required = true, filled = filled,
+                listing = SlotListing.DEFERRED)
+        }
+
+    /**
+     * Report unfilled required root slots: entry roots (paths after feats), then replacement milestones. A missing
+     * ability increase is already reported by the allocation as `engine.missingAdvancement`.
+     */
+    private fun reportMissingRoots(roots: List<EngineChoice>) {
+        val missing = roots.filter { it.missing }
+        val entryRoots = missing.mapNotNull { offer -> (offer.category as? SlotCategory.Entry)?.let { offer to it.category } }
+        for ((offer, category) in entryRoots.sortedBy { (_, category) -> if (category == EntryCategory.PARAGON_PATH) 1 else 0 }) {
+            invalid("missingRootChoice", if (category == EntryCategory.THEME) "Choose a Theme."
+                else "Select an entry for this starting or advancement slot.", offer.slot)
+        }
+        for (offer in missing) {
+            val replacement = offer.category as? SlotCategory.Replacement ?: continue
+            invalid("missingRootChoice", "Replace an earlier class ${replacement.usage.name.lowercase()} attack power.", offer.slot)
+        }
     }
 
     /**
@@ -1009,19 +1077,17 @@ private class Evaluation(
                 }
             }
         }
-        for (level in AdvancementRules.nonMainLevels.filter { it <= document.level }) {
+        for (level in (1..document.level).filter(AdvancementRules::choosesNonMainIncrease)) {
             if (document.levels.singleOrNull { it.level == level }?.abilityAdvancements.isNullOrEmpty()) {
                 errors += diagnostic("missingAdvancement", DiagnosticKind.INVALID_SELECTION,
                     "Choose a non-main ability to increase by 1.", AdvancementRules.abilitySlot(level))
             }
         }
-        if (document.level >= 8) {
-            advancementPoints[allocation.mainAbility] = advancementPoints.getValue(allocation.mainAbility) + 1
-        }
-        if (document.level >= 16) {
-            for (ability in Ability.entries) {
-                advancementPoints[ability] = advancementPoints.getValue(ability) + 1
-            }
+        advancementPoints[allocation.mainAbility] = advancementPoints.getValue(allocation.mainAbility) +
+            AdvancementRules.automaticIncreases(document.level, AbilityIncreaseKind.MAIN)
+        val allIncreases = AdvancementRules.automaticIncreases(document.level, AbilityIncreaseKind.ALL)
+        for (ability in Ability.entries) {
+            advancementPoints[ability] = advancementPoints.getValue(ability) + allIncreases
         }
         diagnostics += errors.filter { it !in diagnostics }
         for (ability in Ability.entries) {

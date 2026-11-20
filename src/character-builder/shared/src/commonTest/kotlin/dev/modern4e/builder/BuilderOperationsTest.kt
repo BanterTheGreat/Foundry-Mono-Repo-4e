@@ -173,8 +173,8 @@ class BuilderOperationsTest {
         val cleared = ops.apply(changed.state.document, BuilderEdit.Advancement(4, null))
         assertTrue(cleared.applied)
         assertTrue(cleared.state.rules.diagnostics.any { it.code == "engine.missingAdvancement" && it.slot == increase.slot })
-        for (at in AdvancementRules.dailyReplacementLevels) {
-            assertTrue(cleared.state.rules.diagnostics.any { it.code == "builder.missingChoice" && it.slot == ChoiceSlotId("advancement.$at", "replacement", 0) })
+        for (at in (1..19).filter(AdvancementRules::replacesDailyAttack)) {
+            assertTrue(cleared.state.rules.diagnostics.any { it.code == "engine.missingRootChoice" && it.slot == ChoiceSlotId("advancement.$at", "replacement", 0) })
         }
         assertTrue(ops.options(document, 12, ChoiceSlotId("advancement.11", "paragon-path", 0), true).isEmpty())
     }
@@ -248,7 +248,7 @@ class BuilderOperationsTest {
         val removed = ops.apply(doc, BuilderEdit.RemoveEntry(ChoiceSlotId("creation", "class", 0)))
         assertTrue(removed.state.document.levels.first().entries.any { it.instanceId == "power-0" })
         assertTrue(removed.state.rules.diagnostics.any { it.code == "engine.orphanEntry" })
-        assertTrue(removed.state.rules.diagnostics.any { it.code == "builder.missingChoice" })
+        assertTrue(removed.state.rules.diagnostics.any { it.code == "engine.missingRootChoice" })
     }
 
     @Test fun changedSkillInvalidatesFeatWithoutDeletingItAndIncompleteNeedsExplicitAcceptance() = run {

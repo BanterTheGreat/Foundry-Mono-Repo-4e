@@ -46,9 +46,9 @@ data class CharacterSummary(
 /** Build a list summary from the saved choices without opening the character's content packages. */
 fun CharacterDocument.summary(): CharacterSummary {
     val choices = levels.firstOrNull { it.level == 1 }?.entries.orEmpty()
-    fun title(choice: String) = choices.firstOrNull { it.slot == ChoiceSlotId("creation", choice, 0) }
+    fun title(slot: ChoiceSlotId) = choices.firstOrNull { it.slot == slot }
         ?.selection?.savedTitle.orEmpty()
-    return CharacterSummary(id, identity.name, savedAt, level, title("ancestry"), title("class"))
+    return CharacterSummary(id, identity.name, savedAt, level, title(AdvancementRules.ancestrySlot), title(AdvancementRules.classSlot))
 }
 
 /** References are logical bundled asset IDs, never interpreted as executable code. */

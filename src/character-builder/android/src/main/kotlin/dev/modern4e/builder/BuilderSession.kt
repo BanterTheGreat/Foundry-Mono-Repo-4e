@@ -424,7 +424,7 @@ class BuilderSession(
                     homePickerWork.withLock {
                         val prepared = homePickers?.takeIf { it.packages == base.packages } ?: return@withLock
                         if (prepared.ancestries == null) {
-                            val rows = readRootRows(base, prepared.catalog, "ancestry")
+                            val rows = readRootRows(base, prepared.catalog, EntryCategory.ANCESTRY)
                             if (rootReadFailures(rows).isEmpty()) {
                                 homePickers = prepared.copy(ancestries = rows)
                             }
@@ -611,7 +611,7 @@ class BuilderSession(
             when (val result = ContentCatalog.open(source, "modern4e.classes", base.packages)) {
                 is ContractResult.Unavailable -> result
                 is ContractResult.Available -> {
-                    val classes = readRootRows(base, result.value, "class")
+                    val classes = readRootRows(base, result.value, EntryCategory.CLASS)
                     val failures = rootReadFailures(classes)
                     if (failures.isNotEmpty()) {
                         ContractResult.Unavailable(failures)
@@ -625,8 +625,8 @@ class BuilderSession(
         }
     }
 
-    private suspend fun readRootRows(base: CharacterDocument, catalog: ContentCatalog, choiceId: String): List<BuilderOptionRow> {
-        val listing = BuilderOperations(catalog).optionListing(base, 1, ChoiceSlotId("creation", choiceId, 0))
+    private suspend fun readRootRows(base: CharacterDocument, catalog: ContentCatalog, category: EntryCategory): List<BuilderOptionRow> {
+        val listing = BuilderOperations(catalog).optionListing(base, 1, requireNotNull(AdvancementRules.rootSlot(1, category)))
         return listing.check(listing.rows().map { it.metadata.metadata.id })
     }
 
@@ -687,7 +687,7 @@ class BuilderSession(
         val main = profile?.mainAbilities?.first() ?: base.abilities.mainAbility
         val points = Ability.entries.associateWith { ability -> if (ability == main) 4 else 0 }
         val instanceId = classId.substringAfterLast('.')
-        val slot = ChoiceSlotId("creation", "class", 0)
+        val slot = AdvancementRules.classSlot
         val selection = SavedSelection(resolved.entry.id, resolved.entry.presentation.title,
             resolved.supplier.packageId, resolved.fingerprint)
         return base.copy(
@@ -1264,7 +1264,7 @@ class BuilderSession(
 
     /** The Class and Ancestry pickers list the whole catalog and never depend on the rest of the character. */
     private fun isRootList(level: Int, slot: ChoiceSlotId) =
-        level == 1 && slot.ordinal == 0 && slot.sourceInstanceId == "creation" && slot.choiceId in setOf("class", "ancestry")
+        AdvancementRules.rootCategory(level, slot).let { it == EntryCategory.CLASS || it == EntryCategory.ANCESTRY }
 
     private fun preloadedRootRows(document: CharacterDocument, level: Int, slot: ChoiceSlotId): List<BuilderOptionRow>? {
         if (!isRootList(level, slot)) {
@@ -1299,19 +1299,23 @@ class BuilderSession(
             return false
         }
         // Root Theme and Feat listings use the installed category, independent of the effective choice.
-        val catalogRoot = (level == 1 && slot in listOf(ChoiceSlotId("creation", "theme", 0), ChoiceSlotId("creation", "feat", 0))) ||
-            (level == 2 && slot == ChoiceSlotId("advancement.2", "feat", 0))
+        val rootCategory = AdvancementRules.rootCategory(level, slot)
+        val catalogRoot = (level == 1 && (rootCategory == EntryCategory.THEME || rootCategory == EntryCategory.FEAT)) ||
+            (level == 2 && rootCategory == EntryCategory.FEAT)
         if (catalogRoot) {
             return true
         }
         return sameChoicePool(before, after, slot)
     }
 
-    /** Pool changes always discard results, even when the triggering edit belongs to another family. */
+    /**
+     * Pool changes always discard results, even when the triggering edit belongs to another family. Only inline offers
+     * carry a pool; a root offer's deferred listing comes from its fixed catalog category.
+     */
     private fun sameChoicePool(before: BuilderState, after: BuilderState, slot: ChoiceSlotId): Boolean {
         fun EngineChoice.membership() = Triple(optional, acquisitionLevel, entries.map { it.entryId })
-        return before.rules.choices.singleOrNull { it.slot == slot }?.membership() ==
-            after.rules.choices.singleOrNull { it.slot == slot }?.membership()
+        fun BuilderState.pool() = rules.choices.singleOrNull { it.slot == slot && it.listing == SlotListing.INLINE }
+        return before.pool()?.membership() == after.pool()?.membership()
     }
 
     /** Utility is one family; attack powers are separate families for each usage. */
@@ -1470,11 +1474,12 @@ class BuilderSession(
             Progression.levelChoices(state, level).filter { it.abilities.isEmpty() && it.entries.isNotEmpty() }.map { level to it }
         }
         val ancestryPowerSlots = Progression.ancestryPowerChoices(state, powerEntryIds()).mapTo(mutableSetOf()) { it.slot }
-        val featSlots = (1..minOf(document.level, 19)).filter { Progression.level(it).feat }.map { level ->
-            level to ChoiceSlotId(if (level == 1) "creation" else "advancement.$level", "feat", 0)
-        }
-        val roots = listOf("class", "ancestry", "theme").map { ChoiceSlotId("creation", it, 0) }
-            .filter { preloadedRootRows(document, 1, it) == null }
+        val rootOffers = state.rules.choices.filter { it.listing == SlotListing.DEFERRED }
+        fun SlotCategory?.isEntry(category: EntryCategory) = this == SlotCategory.Entry(category)
+        val featSlots = rootOffers.filter { it.category.isEntry(EntryCategory.FEAT) }.map { requireNotNull(it.acquisitionLevel) to it.slot }
+        val roots = listOf(EntryCategory.CLASS, EntryCategory.ANCESTRY, EntryCategory.THEME).mapNotNull { category ->
+            rootOffers.firstOrNull { it.category.isEntry(category) }?.slot
+        }.filter { preloadedRootRows(document, 1, it) == null }
         // The rank breaks ties within a level; the declared order breaks ties within a rank.
         val candidates = offered.map { (level, choice) ->
             val rank = when {

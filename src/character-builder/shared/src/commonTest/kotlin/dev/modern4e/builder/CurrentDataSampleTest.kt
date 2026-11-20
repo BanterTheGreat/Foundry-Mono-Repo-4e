@@ -22,7 +22,11 @@ class CurrentDataSampleTest {
                 assertEquals(7, total(result.displayedSkill(Skill.ENDURANCE)))
                 assertEquals(setOf(Skill.SOCIETY, Skill.CRAFTING, Skill.MEDICINE, Skill.RELIGION, Skill.ATHLETICS, Skill.ENDURANCE), result.proficiencies.keys)
                 assertTrue(result.diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
-                assertFalse(result.diagnostics.any { it.kind == DiagnosticKind.UNRESOLVED_CONTENT || it.kind == DiagnosticKind.INVALID_SELECTION }, result.diagnostics.toString())
+                // The samples have no Theme or level 2 feat yet; the engine reports those root slots and nothing else invalid.
+                val (missingRoots, other) = result.diagnostics.partition { it.code == "engine.missingRootChoice" }
+                assertEquals(listOf(ChoiceSlotId("creation", "theme", 0)) + if (level == 2) listOf(ChoiceSlotId("advancement.2", "feat", 0)) else emptyList(),
+                    missingRoots.map { it.slot })
+                assertFalse(other.any { it.kind == DiagnosticKind.UNRESOLVED_CONTENT || it.kind == DiagnosticKind.INVALID_SELECTION }, other.toString())
                 // Equipment and vision stay descriptive; the ancestry's authored base speed is its only modifier.
                 assertTrue(result.diagnostics.any { it.entryId == "modern4e.ancestry.dwarf" && it.code == "engine.coverage" })
                 assertTrue(result.choices.any { it.slot.choiceId == "modern4e.choice.class-attack-at-will" })

@@ -1,6 +1,9 @@
 package dev.modern4e.builder
 
-/** Printed advancement schedule; totals describe grants, never calculated combat statistics. */
+/**
+ * Display strings for one row of the shared [AdvancementRules] schedule; totals describe grants, never calculated
+ * combat statistics.
+ */
 data class ProgressionLevel(val level: Int, val powers: List<String>, val feat: Boolean,
     val ability: String? = null, val replacement: String? = null, val automatic: List<String> = emptyList())
 
@@ -15,7 +18,7 @@ object Progression {
     /** Preview a replacement draft for this milestone without counting its saved increase twice. */
     internal fun advancementPreviewPoints(state: BuilderState, level: Int, selected: Ability?): Map<Ability, Int> {
         val current = state.rules.overviewAbilityTotals
-        if (level !in AdvancementRules.nonMainLevels || level > state.document.level) {
+        if (!AdvancementRules.choosesNonMainIncrease(level) || level > state.document.level) {
             return current
         }
         val saved = state.document.levels.firstOrNull { it.level == level }?.abilityAdvancements?.singleOrNull()
@@ -28,24 +31,35 @@ object Progression {
 
     private val grantSources = setOf(EntryCategory.ANCESTRY, EntryCategory.CLASS, EntryCategory.THEME, EntryCategory.PARAGON_PATH, EntryCategory.EPIC_DESTINY)
 
+    /** Level [n] of the shared schedule as display strings, such as "Paragon encounter" or "non-main". */
     fun level(n: Int): ProgressionLevel {
-        require(n in 1..30)
-        val powers = when (n) {
-            1 -> listOf("At-will", "At-will", "Encounter", "Daily", "Daily")
-            2, 6, 10, 17, 22 -> listOf("Utility") + if (n == 17) listOf("Encounter") else emptyList()
-            3, 7, 13, 27 -> listOf("Encounter")
-            5 -> listOf("Daily")
-            11 -> listOf("Paragon encounter")
-            12 -> listOf("Paragon utility")
-            20 -> listOf("Paragon daily")
-            26 -> listOf("Epic utility")
-            else -> emptyList()
+        val row = AdvancementRules.level(n)
+        val powers = row.powers.map { power ->
+            val kind = when (power.kind) {
+                ScheduledPowerKind.AT_WILL -> "at-will"
+                ScheduledPowerKind.ENCOUNTER -> "encounter"
+                ScheduledPowerKind.DAILY -> "daily"
+                ScheduledPowerKind.UTILITY -> "utility"
+            }
+            when (power.source) {
+                EntryCategory.PARAGON_PATH -> "Paragon $kind"
+                EntryCategory.EPIC_DESTINY -> "Epic $kind"
+                else -> kind.replaceFirstChar { it.titlecase() }
+            }
         }
-        return ProgressionLevel(n, powers, n in setOf(1, 2, 4, 6, 8, 10, 11, 12, 14, 16, 17, 18, 20, 21, 22, 24, 26, 28, 30),
-            when (n) { 4, 12, 24 -> "non-main"; 8, 20, 28 -> "main"; 16 -> "all"; else -> null },
-            when (n) { 9, 15, 19, 25, 29 -> "daily"; 23 -> "encounter"; else -> null },
-            when (n) { 11 -> listOf("Paragon path features"); 16 -> listOf("Paragon path feature");
-                21, 24, 30 -> listOf("Epic destiny feature"); else -> emptyList() })
+        val ability = when (row.abilityIncrease) {
+            AbilityIncreaseKind.NON_MAIN -> "non-main"
+            AbilityIncreaseKind.MAIN -> "main"
+            AbilityIncreaseKind.ALL -> "all"
+            null -> null
+        }
+        val features = row.features?.let { features ->
+            when (features.source) {
+                EntryCategory.PARAGON_PATH -> if (features.several) "Paragon path features" else "Paragon path feature"
+                else -> "Epic destiny feature"
+            }
+        }
+        return ProgressionLevel(n, powers, row.feat, ability, row.replacement?.name?.lowercase(), listOfNotNull(features))
     }
 
     /** Level at which an engine entry arrived: its own decision level, else its source chain's grant/progression level. */
@@ -62,9 +76,12 @@ object Progression {
         return maxOf(grant?.atLevel ?: 1, progressedAt, acquiredAt(state, parent, seen + source.instanceId))
     }
 
-    /** Only the engine can declare real class choices; this is the set the Progression screen shows at a level. */
+    /**
+     * Only the engine can declare real class choices; this is the set of inline offers the Progression screen shows
+     * at a level. Root offers have their own rows, found through [AdvancementRules.rootSlot].
+     */
     fun levelChoices(state: BuilderState, level: Int): List<EngineChoice> = state.rules.choices.filter { choice ->
-        (choice.acquisitionLevel ?: state.rules.entries.firstOrNull {
+        choice.listing == SlotListing.INLINE && (choice.acquisitionLevel ?: state.rules.entries.firstOrNull {
             it.instanceId == choice.slot.sourceInstanceId
         }?.let { source ->
             maxOf(acquiredAt(state, source), source.definition.entry.mechanics.progression.filter { progression ->
@@ -336,30 +353,13 @@ object Progression {
     fun choiceNeedsAttention(reached: Boolean, optional: Boolean, filled: Boolean, invalid: Boolean): Boolean =
         reached && (if (filled) invalid else !optional)
 
-    fun missing(state: BuilderState): Int {
+    /**
+     * Decisions the character still needs: the engine's required slot offers that are unfilled, plus the two
+     * background origins and an invalid allocation, which are not slots.
+     */
+    fun unfinished(state: BuilderState): Int {
         val doc = state.document
-        val reached = doc.levels.filter { it.level <= doc.level }
-        val entries = reached.flatMap { it.entries }.map { it.slot }.toSet()
-        val skills = reached.flatMap { it.proficiencies }.map { it.slot }.toSet()
-        val values = reached.flatMap { it.values }.map { it.slot }.toSet()
-        val slots = state.rules.choices.filter { it.abilities.isEmpty() && !it.optional }.map { it.slot }.toMutableSet()
-        ModernCreation.requiredEntryKinds.forEach { slots += ChoiceSlotId("creation", it, 0) }
-        AdvancementRules.featLevels.filter { it <= doc.level }.forEach { level ->
-            slots += ChoiceSlotId("advancement.$level", "feat", 0)
-        }
-        if (doc.level >= 11) { slots += ChoiceSlotId("advancement.11", "paragon-path", 0) }
-        val missingAdvancements = listOf(4, 12).count { level ->
-            level <= doc.level && doc.levels.firstOrNull { it.level == level }?.abilityAdvancements.orEmpty().none {
-                it.slot == ChoiceSlotId("advancement.$level", "ability", 0) && it.increases.size == 1 &&
-                    it.increases.values.single() == 1 && it.increases.keys.single() != doc.abilities.mainAbility
-            }
-        }
-        val missingReplacements = listOf(9, 15, 19).count { level ->
-            level <= doc.level && doc.levels.firstOrNull { it.level == level }?.replacements.orEmpty().none {
-                it.kind == ReplacementKind.PROGRESSION
-            }
-        }
-        return missingAdvancements + missingReplacements + slots.count { it !in entries && it !in skills && it !in values } +
+        return state.rules.choices.count { it.missing } +
             listOf("environment", "upbringing").count { background(doc, it).isEmpty() } +
             if (validAllocation(doc.abilities)) 0 else 1
     }

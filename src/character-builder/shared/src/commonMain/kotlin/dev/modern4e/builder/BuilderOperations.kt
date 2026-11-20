@@ -59,29 +59,12 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
             return operation().evaluate(document)
         }
         evaluated[document]?.let { return it }
-        return calculate(document).also {
+        return BuilderState(document, RulesEngine.evaluate(document, preparation.load(document))).also {
             evaluated[document] = it
             if (evaluated.size > 2) {
                 evaluated.remove(evaluated.keys.first())
             }
         }
-    }
-
-    private suspend fun calculate(document: CharacterDocument): BuilderState {
-        val rules = RulesEngine.evaluate(document, preparation.load(document))
-        val required = ModernCreation.requiredEntryKinds.map { ChoiceSlotId("creation", it, 0) } +
-            AdvancementRules.featLevels.filter { it <= document.level }.map { ChoiceSlotId("advancement.$it", "feat", 0) } +
-            if (document.level >= 11) listOf(ChoiceSlotId("advancement.11", "paragon-path", 0)) else emptyList()
-        val selected = document.activeLevels.flatMap { it.entries }.map { it.slot }.toSet()
-        val missing = required.filter { it !in selected }.map { slot ->
-            val message = if (slot.choiceId == "theme") "Choose a Theme." else "Select an entry for this starting or advancement slot."
-            Diagnostic("builder.missingChoice", DiagnosticKind.INVALID_SELECTION, message, slot)
-        }
-        val missingReplacements = AdvancementRules.dailyReplacementLevels.filter { it <= document.level }.filter { at ->
-            document.levels.singleOrNull { it.level == at }?.replacements.orEmpty().none { it.kind == ReplacementKind.PROGRESSION }
-        }.map { at -> Diagnostic("builder.missingChoice", DiagnosticKind.INVALID_SELECTION,
-            "Replace an earlier class daily attack power.", ChoiceSlotId("advancement.$at", "replacement", 0)) }
-        return BuilderState(document, rules.copy(diagnostics = rules.diagnostics + missing + missingReplacements))
     }
 
     /** Root and child entry options share engine eligibility. Unknown/ineligible options require explicit opt-in. */
@@ -211,7 +194,7 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
             }
             is BuilderEdit.Allocation -> next = document.copy(abilities = edit.value.copy(points = edit.value.points.toMap()))
             is BuilderEdit.Advancement -> {
-                if (edit.level !in AdvancementRules.nonMainLevels ||
+                if (!AdvancementRules.choosesNonMainIncrease(edit.level) ||
                     edit.value?.let { !AdvancementRules.validAdvancement(edit.level, it, document.abilities.mainAbility) } == true) {
                     return reject("Choose one non-main ability to increase at level 4 or 12.")
                 }

@@ -59,10 +59,12 @@ and Battlerager's temporary-HP/session effects stay explicit limitations. No pow
 execution is claimed. `weaponAbilities` preserves the shared mastery table.
 
 Android calls `RulesEngine` / `BuilderOperations` directly. The compiled web
-`WebContentCatalog.evaluate(characterJson)` uses its opened shared catalog and
+`WebContentCatalog.evaluate(characterJson)` evaluates through `BuilderOperations`
+on its opened shared catalog, so it reports the same diagnostics as Android, and
 returns JSON with statistic/calculation pairs, contributors/modifier explanations,
-entries, choices, proficiency sources, coverage, diagnostics, conditional benefits
-and occurrence eligibility. No platform math is required.
+entries, inline choices, proficiency sources, coverage, diagnostics, conditional
+benefits and occurrence eligibility. Root offers and the offers' category,
+required, filled and listing fields are not serialized. No platform math is required.
 
 Modern 4e progression is evaluated through level 19. Starting allocation stays
 separate from earned increases: levels 4 and 12 require one non-main +1 decision,
@@ -70,9 +72,9 @@ level 8 automatically increases the main ability by 1, and level 16 automaticall
 increases all abilities by 1. Invalid or missing non-main decisions stay saved and
 make dependent totals unavailable; known previews still show earned valid points.
 Historical prerequisite snapshots include only increases earned by that level.
-Character feat roots follow the local table, including levels 11 and 17; the
+Character feat roots follow the advancement schedule, including levels 11 and 17; the
 paragon-path root is `advancement.11/paragon-path/0`. Authored path grants and
-choices activate at their declared acquisition levels. Levels 20?30 remain unsupported.
+choices activate at their declared acquisition levels. Levels 20–30 are preview only.
 
 `SharedClassTest` consumes the exact compiled Fighter golden on JVM/JS; the web
 boundary test consumes the same content. It covers all six independent build
@@ -128,8 +130,8 @@ Initial root entry slots are `creation/{class,ancestry,theme,feat}/0` at level 1
 Later feats use `advancement.N/feat/0` at each local feat level, and the level-11
 path uses `advancement.11/paragon-path/0`. Root categories and active levels are
 checked. Class/content grants, choices and authored progression through level 19
-are evaluated. The engine reports missing declared choices and orphan decisions;
-root-selection and advancement workflows belong to issue #10. Equipped items
+are evaluated. The engine reports missing declared choices, unfilled root slots
+(see Slot offers below) and orphan decisions. Equipped items
 apply their declarative mechanics once per occurrence (inventory quantities do
 not multiply bonuses). Configuration-specific mechanics remain diagnosed as
 incomplete; the engine does not interpret arbitrary configuration strings.
@@ -229,6 +231,38 @@ slot or offering choice is active; missing content stays saved, activates nothin
 remains a blocker. The engine reports the timeline's walk and judges substitution and
 replacement validity; it never re-derives activation. Equipment has no dated history
 and is acquired at the current level.
+
+## Advancement schedule and slot offers
+
+`AdvancementRules.schedule` is the one advancement schedule for levels 1–30. Each
+`AdvancementLevel` holds the powers offered (kind and class, path or destiny source),
+whether a feat is gained, the ability increase (non-main, main or all), the
+replacement (daily or encounter), the path or destiny selected and the path or
+destiny features granted. Levels 20–30 are `previewOnly`: shown for planning, never
+enforced, and they open no root slots. The engine reads automatic main/all increases,
+non-main decision levels, daily replacement levels and root categories from it, and
+`AdvancementRules.rootSlots(level)` gives the root slot identities and categories of
+each enforced level (`classSlot`/`ancestrySlot` serve document readers).
+
+`EngineResult.choices` holds every slot offer. Inner offers, opened by entries, keep
+their `INLINE` listing and evaluated `entries` unchanged. Root offers follow them:
+class, ancestry, theme and the creation feat, then by level the non-main increase,
+feat, paragon path and daily replacement up to the character's level (at most 19).
+Each carries its `category` (`SlotCategory.Entry`, `AbilityIncrease` or
+`Replacement`), acquisition level, `required = true` and a `DEFERRED` listing: its
+candidates are never evaluated during `evaluate` and come only from
+`BuilderOptionListing` when asked for, so the prepared feat fast path and progressive
+feat listing are untouched. `filled` is true when the slot holds a saved decision;
+an ability increase counts only when it is a valid non-main increase, a replacement
+milestone when a progression replacement is recorded at its level. Inner entry,
+proficiency and value offers are required unless optional; the main-ability offer is
+filled by the allocation and is not required. An unfilled root entry or replacement
+slot also emits `engine.missingRootChoice` (INVALID_SELECTION; "Choose a Theme.",
+"Select an entry for this starting or advancement slot." or "Replace an earlier class
+daily attack power."); a missing increase keeps `engine.missingAdvancement`. These
+diagnostics are not blockers and change no totals. Callers count `missing` offers
+instead of rebuilding the schedule; Android's Levels screen and missing-choice count
+read them.
 
 ## Structured feat and ancestry choices (#29)
 

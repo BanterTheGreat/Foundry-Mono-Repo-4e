@@ -38,11 +38,11 @@ data class CharacterDocument(
 
     /** The class definitions this character chose; power pools are scoped to them. */
     fun classEntryIds(): Set<String> = activeLevels.flatMap { it.entries }
-        .filter { it.slot == ChoiceSlotId("creation", "class", 0) }.map { it.selection.entryId }.toSet()
+        .filter { it.slot == AdvancementRules.classSlot }.map { it.selection.entryId }.toSet()
 
     /** The ancestry chosen at character creation. */
     fun ancestryEntryIds(): Set<String> = activeLevels.flatMap { it.entries }
-        .filter { it.slot == ChoiceSlotId("creation", "ancestry", 0) }.map { it.selection.entryId }.toSet()
+        .filter { it.slot == AdvancementRules.ancestrySlot }.map { it.selection.entryId }.toSet()
 }
 
 @Serializable

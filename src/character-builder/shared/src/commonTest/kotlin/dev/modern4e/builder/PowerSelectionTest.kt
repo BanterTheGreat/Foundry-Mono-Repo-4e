@@ -316,7 +316,7 @@ class PowerSelectionTest {
         assertFalse(result.choices.single { it.slot == second.slot }.entries.any { it.entryId == "late" })
         assertFalse(result.diagnostics.any { it.code == "engine.replacementTiming" })
         assertFalse(result.diagnostics.any { it.code == "engine.choiceOption" && it.slot == first.slot })
-        for (atLevel in AdvancementRules.dailyReplacementLevels) {
+        for (atLevel in (1..19).filter(AdvancementRules::replacesDailyAttack)) {
             val valid = doc.copy(level = atLevel, levels = doc.levels + LevelDecisions(atLevel, replacements = listOf(
                 Replacement(first.slot, decision(powers[1], first.slot), ReplacementKind.PROGRESSION))))
             assertFalse(evaluate(valid, powers + root).diagnostics.any { it.code == "engine.replacementTiming" })

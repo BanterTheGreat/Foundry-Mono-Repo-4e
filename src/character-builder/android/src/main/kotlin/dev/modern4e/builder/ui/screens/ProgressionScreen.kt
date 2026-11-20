@@ -86,10 +86,10 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     @Composable
     fun CreationChoice(kind: String, modifier: Modifier = Modifier) {
         val background = kind == "environment" || kind == "upbringing"
-        val slot = ChoiceSlotId("creation", kind, 0)
-        val selection = if (background) Progression.background(document, kind) else selected(slot)
+        val slot = if (background) null else AdvancementRules.rootSlot(1, EntryCategory.valueOf(kind.uppercase()))
+        val selection = if (slot == null) Progression.background(document, kind) else selected(slot)
         val backgroundOptions = if (kind == "environment") ModernCreation.environments else ModernCreation.upbringings
-        val invalid = if (background) selection !in backgroundOptions else needsAttention(slot)
+        val invalid = if (slot == null) selection !in backgroundOptions else needsAttention(slot)
         LevelChoice(
             kind.readable(),
             if (background) selection.ifBlank { "Choose…" }.readable() else selection,
@@ -226,16 +226,16 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 levelChoices.none { it.slot.choiceId.contains("react", ignoreCase = true) }) {
                 Text("Reactivity and Combat Superiority choices are not yet authored in the installed Fighter proof.", color = Dim)
             }
-            if (level == 11) {
-                val slot = ChoiceSlotId("advancement.11", "paragon-path", 0)
+            AdvancementRules.rootSlot(level, EntryCategory.PARAGON_PATH)?.let { slot ->
                 LevelChoice("Paragon path", selected(slot), enabled = !model.busy,
                     invalid = needsAttention(slot, level), saving = saving("entry", level, slot)) { open("entry", level, slot) }
             }
             if (schedule.ability != null) {
                 if (schedule.ability == "non-main") {
-                    val supported = level in AdvancementRules.nonMainLevels
+                    val rootSlot = AdvancementRules.rootSlot(level, SlotCategory.AbilityIncrease)
+                    val supported = rootSlot != null
                     val advancements = document.levels.firstOrNull { it.level == level }?.abilityAdvancements.orEmpty()
-                    val slot = ChoiceSlotId("advancement.$level", "ability", 0)
+                    val slot = rootSlot ?: AdvancementRules.abilitySlot(level)
                     val increase = advancements.singleOrNull()?.takeIf { it.slot == slot }?.increases?.entries?.singleOrNull()
                     LevelChoice("Ability increase", increase?.key?.name?.readable() ?: if (supported) "Choose…" else "Unavailable",
                         enabled = supported && !model.busy,
@@ -258,16 +258,18 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 Text("Choose a class to see its available powers.", color = Dim)
             }
             if (schedule.feat) {
-                val slot = ChoiceSlotId(if (level == 1) "creation" else "advancement.$level", "feat", 0)
-                val supported = level == 1 || level in AdvancementRules.featLevels
-                LevelChoice("Feat", if (supported) selected(slot) else "Unavailable", enabled = supported && !model.busy,
-                    invalid = supported && needsAttention(slot, level), saving = saving("feat", level, slot)) {
+                val slot = AdvancementRules.rootSlot(level, EntryCategory.FEAT)
+                LevelChoice("Feat", if (slot != null) selected(slot) else "Unavailable", enabled = slot != null && !model.busy,
+                    invalid = slot != null && needsAttention(slot, level), saving = saving("feat", level, slot)) {
                     open("feat", level, slot)
                 }
             }
             otherPowers.forEach { grant -> AutomaticGrantCard(document.id, grant) }
             schedule.replacement?.let {
-                val supported = level in AdvancementRules.dailyReplacementLevels
+                val replacementSlot = AdvancementRules.rootSlots(level).firstOrNull { root ->
+                    root.category is SlotCategory.Replacement
+                }?.slot
+                val supported = replacementSlot != null
                 val replacements = document.levels.firstOrNull { decisions -> decisions.level == level }?.replacements.orEmpty()
                 val invalid = supported && !future && (replacements.none { it.kind == ReplacementKind.PROGRESSION } || replacements.any { change ->
                     change.replaces in invalidSlots || change.replacement.slot in invalidSlots
@@ -276,8 +278,8 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 LevelChoice("Replace a $it attack power", savedTitle ?: if (supported) "Choose…" else "Unavailable",
                     enabled = supported && !model.busy,
                     powerUsage = it, invalid = invalid,
-                    saving = saving("replacement", level, ChoiceSlotId("advancement.$level", "replacement", 0))) {
-                    open("replacement", level, ChoiceSlotId("advancement.$level", "replacement", 0))
+                    saving = saving("replacement", level, replacementSlot)) {
+                    open("replacement", level, replacementSlot)
                 }
             }
             if (future || level > 19) {
@@ -561,7 +563,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                             ChoiceCard(ability.name.readable(), selected == ability.name, false, true, null, {
                                 selected = ability.name
                                 edit = BuilderEdit.Advancement(request.level,
-                                    AbilityAdvancement(ChoiceSlotId("advancement.${request.level}", "ability", 0), mapOf(ability to 1)))
+                                    AbilityAdvancement(AdvancementRules.abilitySlot(request.level), mapOf(ability to 1)))
                             }, compact = true, trailingValue = preview[ability]?.toString()) { }
                         }
                     }
@@ -731,9 +733,9 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
             modifier, request.kind == "replacement", requirementTitles, requirementClassIds, changeTarget, choose)
         return
     }
-    val advancementRoot = request.slot == ChoiceSlotId("advancement.11", "paragon-path", 0) ||
-        request.slot == ChoiceSlotId("creation", "theme", 0) ||
-        request.slot == ChoiceSlotId("creation", "ancestry", 0) ||
+    val rootCategory = request.slot?.let { AdvancementRules.rootCategory(request.level, it) }
+    val advancementRoot = rootCategory == EntryCategory.PARAGON_PATH || rootCategory == EntryCategory.THEME ||
+        rootCategory == EntryCategory.ANCESTRY ||
         rows.orEmpty().any { it.metadata.metadata.category == EntryCategory.EPIC_DESTINY }
     if (options is PickerOptions.Ready &&
         (advancementRoot || usesClassFeatureReader(rows, request.slot, state.rules.entries))
@@ -741,7 +743,7 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
         AdvancementChoiceReader(options, taken, selected, modifier, requirementTitles, requirementClassIds, choose)
         return
     }
-    if (request.slot == ChoiceSlotId("creation", "class", 0) && options is PickerOptions.Ready) {
+    if (rootCategory == EntryCategory.CLASS && options is PickerOptions.Ready) {
         ClassPicker(options, selected, expanded, modifier, taken = taken, choose = choose)
         return
     }

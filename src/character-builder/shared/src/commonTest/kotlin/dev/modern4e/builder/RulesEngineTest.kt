@@ -123,7 +123,9 @@ class RulesEngineTest {
         assertEquals(listOf(1, 5), medicine.contributors.map { it.value })
         assertEquals(slot("creation", "free-skill"), medicine.contributors.last().source)
         assertEquals(4, result.choices.count { it.skills.isNotEmpty() })
-        assertTrue(result.diagnostics.isEmpty(), result.diagnostics.toString())
+        val (missingRoots, other) = result.diagnostics.partition { it.code == "engine.missingRootChoice" }
+        assertEquals(listOf("ancestry", "theme", "feat"), missingRoots.map { it.slot?.choiceId })
+        assertTrue(other.isEmpty(), other.toString())
     }
 
     @Test
