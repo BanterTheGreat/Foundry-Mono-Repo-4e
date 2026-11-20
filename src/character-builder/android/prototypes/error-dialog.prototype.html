@@ -1,0 +1,98 @@
+<!doctype html>
+<!-- THROWAWAY: Selected layout A: the blocking "Something went wrong" dialog (BuilderDialogs.kt, model.errors).
+     Artwork banner, one big "Send this to Banter" button that opens the Android share sheet, Return to main menu.
+     The error and stack trace are never shown; they only travel in the shared text.
+     Open directly or npm run prototype:error. In-memory only. The sample exception is fake and the share sheet is a mock
+     (its Copy tile really writes the report to the clipboard). -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Modern 4e · Error dialog prototype</title><style>
+:root{--paper:#f3eddf;--ink:#322b25;--dim:#71675c;--line:#c9bda7;--oxblood:#863f36;--wash:#e8ddcb;--font-sans:Calibri,'Segoe UI',sans-serif}
+*{box-sizing:border-box}body{margin:0;padding:24px 12px;background:#d9d3c6;color:var(--ink);font-family:var(--font-sans)}
+button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible{outline:2px solid var(--oxblood);outline-offset:3px}
+h1,h2,p{margin:0}
+.phone{max-width:410px;margin:auto;background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;position:relative;height:820px;box-shadow:0 12px 35px #0002}
+.status{height:30px;padding:10px 22px 0;display:flex;justify-content:space-between;font-size:11px}
+.home{height:100%;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:0 24px 160px}
+.home h1{font:normal 52px/1.15 Georgia,serif;letter-spacing:-1px}.home p{margin-top:16px;letter-spacing:.13em;color:var(--dim)}
+.scrim{position:absolute;inset:0;background:#2b221c99;display:flex;align-items:center;justify-content:center;padding:18px}
+/* the real dialog: Paper surface, 6 dp corners, 24 dp padding, 12 dp gaps, max 620 dp, scrolls */
+.dialog{width:100%;max-height:620px;overflow:auto;background:var(--paper);border-radius:6px;box-shadow:0 8px 30px #0006}
+.pad{padding:24px;display:flex;flex-direction:column;gap:12px}
+.heading{font:normal 23px Georgia,serif}.body{font-size:14px;line-height:1.5}
+.art{display:block;width:100%;height:170px;object-fit:cover}
+.stripe{height:10px;background:repeating-linear-gradient(135deg,var(--oxblood) 0 12px,var(--paper) 12px 24px)}
+.btn{width:100%;min-height:40px;border:1px solid var(--oxblood);border-radius:3px;padding:6px 16px;font-size:14px;background:var(--oxblood);color:var(--paper);text-align:center}
+.btn.big{min-height:56px;font-size:17px}.btn.out{background:transparent;color:var(--oxblood)}
+/* the warning is the button: big, filled, raised, with a share glyph and a "tap" label */
+.send{width:100%;border:1px solid #5f2a23;border-radius:3px;background:var(--oxblood);color:var(--paper);padding:16px;display:flex;gap:14px;align-items:center;text-align:left;
+  box-shadow:0 3px 0 #5f2a23,0 6px 14px #863f3655;transition:transform .08s,box-shadow .08s}
+.send:active{transform:translateY(3px);box-shadow:0 0 0 #5f2a23}
+.send .tri{flex:none;width:44px;height:44px}.send .tri path{fill:var(--paper)}.send .tri text{fill:var(--oxblood);font:bold 20px Georgia,serif}
+.send strong{display:block;font:bold 20px/1.2 Georgia,serif;letter-spacing:.2px;text-transform:uppercase}
+.send .sub{display:block;font-size:14px;line-height:1.4;margin-top:4px}
+.send .go{flex:none;width:48px;height:48px;border-radius:50%;background:var(--paper);color:var(--oxblood);display:grid;place-items:center;animation:nudge 1.8s ease-in-out infinite}
+.send .go svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@keyframes nudge{0%,70%,100%{transform:scale(1)}85%{transform:scale(1.12)}}
+@media(prefers-reduced-motion:reduce){.send .go{animation:none}}
+/* Android share sheet mock */
+.sheetscrim{position:absolute;inset:0;background:#0006;display:flex;align-items:flex-end;z-index:5}
+.sheet{width:100%;background:#fff;color:#1f1f1f;border-radius:20px 20px 0 0;padding:10px 20px 28px;font-family:Roboto,system-ui,sans-serif;animation:rise .18s ease-out}
+@keyframes rise{from{transform:translateY(40px);opacity:.6}}
+.sheet .grip{width:36px;height:4px;border-radius:2px;background:#c4c7c5;margin:0 auto 14px}
+.sheet h3{margin:0;font-size:16px;font-weight:500}
+.sheet .preview{margin:10px 0 16px;padding:10px 12px;background:#f1f3f4;border-radius:12px;font-size:12px;line-height:1.4;color:#444746;max-height:58px;overflow:hidden}
+.sheet .row{display:flex;justify-content:space-between;gap:6px}
+.sheet .row button{flex:1;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:#1f1f1f;padding:4px 0}
+.sheet .row i{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#fff;font:bold 20px system-ui,sans-serif;font-style:normal}
+.note{max-width:410px;margin:14px auto;font-size:12px;line-height:1.5;color:#5b554b}
+.note button{border:1px solid #8a8272;background:transparent;border-radius:3px;padding:6px 10px;margin-right:6px}
+.toast{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);background:#282d35;color:#fff;border-radius:20px;padding:9px 16px;font-size:13px;opacity:0;transition:opacity .15s;pointer-events:none}
+.toast.on{opacity:1}
+</style></head><body>
+<div class="phone"><div class="status" aria-hidden="true"><span>9:41</span><span>▴ ▰</span></div>
+<div class="home" aria-hidden="true"><h1>Modern 4e</h1><p>Character Builder</p></div>
+<div class="scrim" id="scrim"></div><div id="sheetHost"></div><div class="toast" id="toast" role="status" style="z-index:9"></div></div>
+<p class="note" id="state"></p>
+<p class="note"><button id="replay">Re-open dialog</button></p>
+<script>
+const ERR={code:'android.workflow',kind:'IO_FAILURE',message:'Choice slot fighter.level2.feat has no eligible entries'};
+const TRACE=`kotlin.IllegalStateException: ${ERR.message}
+\tat dev.modern4e.builder.RulesEngine.resolveSlot(RulesEngine.kt:922)
+\tat dev.modern4e.builder.RulesEngine.resolveLevel(RulesEngine.kt:1050)
+\tat dev.modern4e.builder.BuilderSession.openLevel(BuilderSession.kt:247)
+\tat dev.modern4e.builder.BuilderSession$task$1.invokeSuspend(BuilderSession.kt:116)
+Caused by: java.util.NoSuchElementException: Collection contains no element matching the predicate.
+\tat dev.modern4e.builder.OptionListingCache.first(OptionListingCache.kt:61)
+\t... 9 more`;
+let open=true,sharing=false,lastShare=null;const $=id=>document.getElementById(id);
+const TARGETS=[['Messages','#1a73e8','✉'],['Discord','#5865f2','D'],['Gmail','#d93025','M'],['Drive','#188038','▲'],['Copy','#5f6368','⧉']];
+const SHARE='<svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="5.5" r="2.6"/><circle cx="18" cy="18.5" r="2.6"/><path d="m8.3 10.7 7.4-4M8.3 13.3l7.4 4"/></svg>';
+const report=()=>`SEND THIS TO BANTER - Modern 4e Character Builder error report
+App: Character Builder 0.9.3-dev (build 425d93c6) · Android 15 · Pixel 8
+Diagnostic: ${ERR.code} (${ERR.kind})
+
+${TRACE}`;
+const TRI='<svg class="tri" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3 47 44H1Z"/><text x="24" y="39" text-anchor="middle">!</text></svg>';
+const dialog=()=>`<div class="dialog" role="alertdialog" aria-label="Something went wrong"><img class="art" src="error-dialog-art.png" alt="An angry, face-painted gunslinger aims two pistols at a small green Android robot"><div class="stripe"></div><div class="pad"><h2 class="heading">Something went wrong</h2><p class="body">Return to the main menu before continuing. Unsaved changes in this session will be discarded.</p><button class="send" data-a="share" aria-label="Send this to Banter: share the error report">${TRI}<span style="flex:1"><strong>Send this to Banter</strong><span class="sub">Tap to share the error report</span></span><span class="go" aria-hidden="true">${SHARE}</span></button><div style="height:2px"></div><button class="btn big" data-a="home">Return to main menu</button></div></div>`;
+const sheet=()=>`<div class="sheetscrim" data-a="close"><div class="sheet" role="dialog" aria-label="Share error report" data-a="keep"><div class="grip"></div><h3>Share error report</h3><div class="preview">${esc(report())}</div><div class="row">${TARGETS.map(([n,c,l])=>`<button data-a="target" data-n="${n}"><i style="background:${c}">${l}</i>${n}</button>`).join('')}</div></div></div>`;
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function render(){
+  $('scrim').innerHTML=open?dialog():'';
+  $('sheetHost').innerHTML=sharing?sheet():'';
+  $('state').textContent=`Prototype · dialog ${open?'open':'closed (returned to menu)'} · share sheet ${sharing?'open':'closed'} · last share: ${lastShare??'none'}. All state is in memory.`;
+}
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1600);}
+async function copy(){
+  const text=report();
+  try{await navigator.clipboard.writeText(text);}catch{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();try{document.execCommand('copy');}catch{}t.remove();}
+}
+document.addEventListener('click',async e=>{
+  const el=e.target.closest('[data-a]');const a=el?.dataset.a;
+  if(a==='share'){sharing=true;render();}
+  else if(a==='close'&&e.target===el){sharing=false;render();}
+  else if(a==='target'){const n=el.dataset.n;if(n==='Copy'){await copy();}sharing=false;lastShare=n;toast(n==='Copy'?'Copied to clipboard':`Shared via ${n}`);render();}
+  else if(a==='home'){open=false;sharing=false;render();}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sharing){sharing=false;render();}});
+$('replay').onclick=()=>{open=true;sharing=false;lastShare=null;render();};
+render();
+</script></body></html>

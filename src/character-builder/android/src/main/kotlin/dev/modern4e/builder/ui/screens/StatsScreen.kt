@@ -108,8 +108,8 @@ internal fun Stats(state: BuilderState, model: BuilderSession) {
         StatTiles(defenses.map { (defense, label) ->
             label to state.rules.defenseDisplay(defense)
         }, columns = if (narrow) 2 else 4)
-        TextButton(onClick = { showDefenseBreakdown = !showDefenseBreakdown }) {
-            Text(if (showDefenseBreakdown) "Hide defense breakdown" else "Show defense breakdown")
+        FolioTextButton(if (showDefenseBreakdown) "Hide defense breakdown" else "Show defense breakdown") {
+            showDefenseBreakdown = !showDefenseBreakdown
         }
         if (showDefenseBreakdown) {
             defenses.forEach { (defense, label) ->
@@ -172,9 +172,7 @@ internal fun AboutProficiencies(state: BuilderState, model: BuilderSession) {
                     SkillRow(row.skill, row.modifier, chosen = row.proficient)
                 }
             }
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                TextButton(onClick = { showingSkills = false }) { Text("Close") }
-            }
+            FolioActions { FolioTextButton("Close") { showingSkills = false } }
         }
     }
 }

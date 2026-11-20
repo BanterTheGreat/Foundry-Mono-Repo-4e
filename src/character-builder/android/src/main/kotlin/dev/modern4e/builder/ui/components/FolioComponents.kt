@@ -1,13 +1,20 @@
 package dev.modern4e.builder.ui.components
 
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.Modifier
@@ -15,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -131,11 +139,130 @@ internal fun FolioFieldContent(
     }
 }
 
+/** The corner radius shared by every folio button and stepper. */
+private val ButtonShape = RoundedCornerShape(3.dp)
+
+/** The size every folio icon button and stepper is tapped at. */
+private val TouchTarget = 48.dp
+
+/**
+ * The one themed button: filled for a primary action, outlined for an alternative.
+ *
+ * @param compact a 40dp, 14sp button for dialogs, sheets and cards; the default is the 56dp, 17sp screen action.
+ * @param destructive colors the button as an error, for actions that delete data.
+ * @param fillWidth stretches the button across its parent; turn off in a row, where [modifier] sets the width.
+ */
 @Composable
-internal fun FolioButton(text: String, enabled: Boolean, outlined: Boolean = false, action: () -> Unit) {
+internal fun FolioButton(
+    text: String,
+    enabled: Boolean,
+    outlined: Boolean = false,
+    compact: Boolean = false,
+    destructive: Boolean = false,
+    fillWidth: Boolean = true,
+    modifier: Modifier = Modifier,
+    action: () -> Unit,
+) {
+    val tone = if (destructive) MaterialTheme.colorScheme.error else Accent
+    val size = modifier.then(if (fillWidth) Modifier.fillMaxWidth() else Modifier).heightIn(min = if (compact) 40.dp else 56.dp)
+    val fontSize = if (compact) 14.sp else 17.sp
+    val padding = if (compact) PaddingValues(horizontal = 16.dp, vertical = 6.dp) else ButtonDefaults.ContentPadding
     if (outlined) {
-        OutlinedButton(action, enabled = enabled, shape = RoundedCornerShape(3.dp), border = BorderStroke(1.dp, Accent), modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text(text, fontSize = 17.sp) }
+        OutlinedButton(action, enabled = enabled, shape = ButtonShape, border = BorderStroke(1.dp, tone),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = tone), contentPadding = padding, modifier = size) { Text(text, fontSize = fontSize) }
     } else {
-        Button(action, enabled = enabled, shape = RoundedCornerShape(3.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text(text, fontSize = 17.sp) }
+        Button(action, enabled = enabled, shape = ButtonShape, colors = ButtonDefaults.buttonColors(containerColor = tone),
+            contentPadding = padding, modifier = size) { Text(text, fontSize = fontSize) }
     }
+}
+
+/**
+ * A large, raised call to action for the one thing a player must not skip (sending an error report).
+ * Deliberately heavier than [FolioButton]: warning glyph, upper-case serif title, and a share glyph that pulses.
+ */
+@Composable
+internal fun FolioAlertButton(title: String, subtitle: String, enabled: Boolean = true, action: () -> Unit) {
+    val pulse by rememberInfiniteTransition(label = "share pulse").animateFloat(
+        initialValue = 1f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(keyframes {
+            durationMillis = 1800
+            1f at 1260
+            1.12f at 1530
+            1f at 1800
+        }),
+        label = "share scale",
+    )
+    Surface(
+        onClick = action,
+        enabled = enabled,
+        shape = ButtonShape,
+        color = Accent,
+        contentColor = Paper,
+        shadowElevation = 6.dp,
+        modifier = Modifier.fillMaxWidth().alpha(if (enabled) 1f else .38f).semantics {
+            role = Role.Button
+            contentDescription = "$title: $subtitle"
+        },
+    ) {
+        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+            WarningIcon()
+            Column(Modifier.weight(1f)) {
+                Text(title.uppercase(), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 20.sp, lineHeight = 24.sp)
+                Text(subtitle, fontSize = 14.sp)
+            }
+            Box(Modifier.size(TouchTarget).scale(pulse).background(Paper, CircleShape), contentAlignment = Alignment.Center) {
+                ShareIcon()
+            }
+        }
+    }
+}
+
+/** A quiet text-only button for dismissing or backing out (Cancel, Close) and for inline links. */
+@Composable
+internal fun FolioTextButton(text: String, enabled: Boolean = true, modifier: Modifier = Modifier, action: () -> Unit) {
+    TextButton(action, enabled = enabled, shape = ButtonShape, modifier = modifier) { Text(text, fontSize = 14.sp) }
+}
+
+/**
+ * Lays out the buttons that end a dialog or sheet, right-aligned with the primary action last.
+ *
+ * @param leading an optional button kept at the left edge, such as Clear.
+ */
+@Composable
+internal fun FolioActions(leading: (@Composable () -> Unit)? = null, content: @Composable RowScope.() -> Unit) {
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        leading?.invoke()
+        Spacer(Modifier.weight(1f))
+        content()
+    }
+}
+
+/** A square outlined +/− control; the symbol is decorative, so [description] names the action. */
+@Composable
+internal fun FolioStepper(symbol: String, description: String, enabled: Boolean, action: () -> Unit) {
+    OutlinedButton(action, enabled = enabled, shape = ButtonShape, border = BorderStroke(1.dp, Accent),
+        modifier = Modifier.size(TouchTarget).semantics { contentDescription = description }, contentPadding = PaddingValues(0.dp)) {
+        Text(symbol, fontSize = 24.sp)
+    }
+}
+
+/** An icon-only button with the shared touch target; [description] is what a screen reader announces. */
+@Composable
+internal fun FolioIconButton(description: String, enabled: Boolean = true, modifier: Modifier = Modifier, action: () -> Unit, icon: @Composable () -> Unit) {
+    IconButton(action, enabled = enabled, modifier = modifier.size(TouchTarget).semantics { contentDescription = description }, content = icon)
+}
+
+/**
+ * A tab in a row of equal tabs: [content] receives the selected/unselected color and the selected tab is underlined.
+ */
+@Composable
+internal fun FolioTab(selected: Boolean, enabled: Boolean, modifier: Modifier = Modifier, action: () -> Unit, content: @Composable (Color) -> Unit) {
+    val color = if (selected) Accent else Dim
+    TextButton(action, enabled = enabled, shape = ButtonShape, contentPadding = PaddingValues(horizontal = 4.dp),
+        modifier = modifier.drawBehind {
+            if (selected) {
+                drawRect(Accent, topLeft = androidx.compose.ui.geometry.Offset(0f, size.height - 2.dp.toPx()), size = Size(size.width, 2.dp.toPx()))
+            }
+        }.semantics { this.selected = selected; role = Role.Tab }) { content(color) }
 }

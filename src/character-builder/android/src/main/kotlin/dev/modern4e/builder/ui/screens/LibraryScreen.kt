@@ -42,8 +42,7 @@ internal fun LibraryScreen(model: BuilderSession, task: (suspend BuilderSession.
                         Text(formatCharacterDate(character.savedAt), color = Dim, fontSize = 11.sp,
                             lineHeight = 14.sp, textAlign = TextAlign.End,
                             modifier = Modifier.widthIn(max = 112.dp).padding(start = 8.dp))
-                        IconButton(enabled = !model.busy, onClick = { model.requestDeletion(character) },
-                            modifier = Modifier.size(48.dp).semantics { contentDescription = "Delete ${character.name}" }) {
+                        FolioIconButton("Delete ${character.name}", !model.busy, action = { model.requestDeletion(character) }) {
                             TrashIcon()
                         }
                     }

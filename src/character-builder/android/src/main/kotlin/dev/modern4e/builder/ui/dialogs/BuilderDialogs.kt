@@ -1,34 +1,71 @@
 package dev.modern4e.builder.ui.dialogs
 
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import dev.modern4e.builder.*
+import dev.modern4e.builder.R
 import dev.modern4e.builder.ui.theme.*
 import dev.modern4e.builder.ui.components.*
 import dev.modern4e.builder.ui.screens.PowerBlock
 import dev.modern4e.builder.ui.screens.pickerSheetHeight
 
-/** Presents workflow modals, prioritizing blocking operational errors. */
+/** Artwork and a hazard stripe across the top of the blocking error dialog. */
 @Composable
-internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession.() -> Unit) -> Unit, exports: ExportTargets? = null) {
+private fun ErrorBanner() {
+    Image(painterResource(R.drawable.error_banner), contentDescription = null, contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxWidth().height(170.dp))
+    Canvas(Modifier.fillMaxWidth().height(10.dp)) {
+        drawRect(Paper)
+        val slant = size.height
+        val pitch = 24.dp.toPx()
+        val band = 12.dp.toPx()
+        var x = -slant
+        while (x < size.width) {
+            drawPath(Path().apply {
+                moveTo(x + slant, 0f)
+                lineTo(x + slant + band, 0f)
+                lineTo(x + band, slant)
+                lineTo(x, slant)
+                close()
+            }, Accent)
+            x += pitch
+        }
+    }
+}
+
+/**
+ * Presents workflow modals, prioritizing blocking operational errors.
+ *
+ * The blocking error dialog never shows the error itself: its one call to action shares the report with Banter.
+ */
+@Composable
+internal fun BuilderDialogs(
+    model: BuilderSession,
+    task: (suspend BuilderSession.() -> Unit) -> Unit,
+    exports: ExportTargets? = null,
+    errorSharer: AndroidErrorReportSharer? = null,
+) {
     if (model.errors.isNotEmpty()) {
-        FolioDialog("Something went wrong", {}, dismissible = false) {
+        FolioDialog("Something went wrong", {}, dismissible = false, banner = { ErrorBanner() }) {
             Text("Return to the main menu before continuing. Unsaved changes in this session will be discarded.")
-            model.errors.forEach {
-                Text(it.message, color = Accent, modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
+            FolioAlertButton("Send this to Banter", "Tap to share the error report", enabled = errorSharer != null) {
+                errorSharer?.share(errorReportText(errorSharer.environment, model.errors, model.errorTrace))
             }
             FolioButton("Return to main menu", !model.busy) { model.returnHomeAfterError() }
         }
@@ -39,24 +76,24 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
         model.notice?.let { message ->
             FolioDialog("Portrait not changed", { model.notice = null }) {
                 Text(message)
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    TextButton(onClick = { model.notice = null }) { Text("OK") }
+                FolioActions {
+                    FolioButton("OK", true, compact = true, fillWidth = false) { model.notice = null }
                 }
             }
         }
         if (model.exportChoice && exports != null) {
             FolioDialog("Export character", { model.exportChoice = false }) {
                 Text("Save a copy of this character as a JSON file, or share it with a friend.", color = Dim)
-                TextButton(enabled = model.canExport, onClick = {
+                FolioButton("Save to device", model.canExport) {
                     model.exportChoice = false
                     task { export(exports.save) }
-                }) { Text("Save to device") }
-                TextButton(enabled = model.canExport, onClick = {
+                }
+                FolioButton("Share", model.canExport, outlined = true) {
                     model.exportChoice = false
                     task { export(exports.share) }
-                }) { Text("Share") }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    TextButton(onClick = { model.exportChoice = false }) { Text("Cancel") }
+                }
+                FolioActions {
+                    FolioTextButton("Cancel") { model.exportChoice = false }
                 }
             }
         }
@@ -64,8 +101,8 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
             FolioDialog("Export failed", { model.exportFailure = null }) {
                 Text("The character was not exported, and no file was kept.")
                 Text(reason, color = Accent, modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    TextButton(onClick = { model.exportFailure = null }) { Text("OK") }
+                FolioActions {
+                    FolioButton("OK", true, compact = true, fillWidth = false) { model.exportFailure = null }
                 }
             }
         }
@@ -73,19 +110,23 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
         model.deleting?.let { character ->
             FolioDialog("Delete character?", { if (!model.busy) model.cancelDeletion() }) {
                 Text("Delete ${character.name} from your character list?")
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    TextButton(enabled = !model.busy, onClick = { model.cancelDeletion() }) { Text("Cancel") }
-                    TextButton(enabled = !model.busy, onClick = { task { confirmDeletion() } }) { Text("Delete") }
+                FolioActions {
+                    FolioTextButton("Cancel", !model.busy) { model.cancelDeletion() }
+                    FolioButton("Delete", !model.busy, compact = true, destructive = true, fillWidth = false) { task { confirmDeletion() } }
                 }
             }
         }
         model.recoveries?.let { copies ->
             FolioDialog("Recovery copies", { model.recoveries = null }) {
                 if (copies.isEmpty()) { Text("No retained recovery copies.") }
-                copies.forEach { copy -> TextButton(enabled = !model.busy, onClick = { task { recover(copy.recoveryId) } }) {
-                    Text("${copy.character.name} · Level ${copy.character.level}\n${copy.character.savedAt}")
-                } }
-                TextButton(onClick = { model.recoveries = null }) { Text("Close") }
+                copies.forEach { copy ->
+                    FolioButton("${copy.character.name} · Level ${copy.character.level}\n${copy.character.savedAt}", !model.busy, outlined = true) {
+                        task { recover(copy.recoveryId) }
+                    }
+                }
+                FolioActions {
+                    FolioTextButton("Close") { model.recoveries = null }
+                }
             }
         }
         model.preview?.let { preview ->
@@ -96,9 +137,15 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
                     Text("On this device: ${existing.name} · Level ${existing.level}\nSaved ${existing.savedAt}")
                     Text("Replacement retains a recovery copy. No choices are merged.", color = Dim)
                 }
-                preview.actions.forEach { action -> TextButton(enabled = !model.busy, onClick = { task { import(action) } }) {
-                    Text(when (action) { ImportAction.REPLACE -> "Replace existing"; ImportAction.COPY -> "Import as copy"; ImportAction.IMPORT -> "Import"; ImportAction.CANCEL -> "Cancel" })
-                } }
+                preview.actions.filter { it != ImportAction.CANCEL }.forEachIndexed { index, action ->
+                    FolioButton(when (action) { ImportAction.REPLACE -> "Replace existing"; ImportAction.COPY -> "Import as copy"; ImportAction.IMPORT -> "Import"; ImportAction.CANCEL -> "Cancel" },
+                        !model.busy, outlined = index > 0) { task { import(action) } }
+                }
+                if (ImportAction.CANCEL in preview.actions) {
+                    FolioActions {
+                        FolioTextButton("Cancel", !model.busy) { task { import(ImportAction.CANCEL) } }
+                    }
+                }
             }
         }
         model.description?.let { entry ->
@@ -110,8 +157,10 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
                 }
                 Text("${entry.entry.coverage.status.name.readable()} automation", color = Dim)
                 entry.entry.coverage.limitations.forEach { Text(it, color = Dim) }
-                entry.entry.presentation.references.forEach { id -> TextButton(enabled = !model.busy, onClick = { task { reference(id) } }) { Text("Open reference: $id") } }
-                TextButton(onClick = { model.description = null }) { Text("Close") }
+                entry.entry.presentation.references.forEach { id -> FolioTextButton("Open reference: $id", !model.busy) { task { reference(id) } } }
+                FolioActions {
+                    FolioTextButton("Close") { model.description = null }
+                }
             }
         }
     }
@@ -138,9 +187,9 @@ private fun ClassMenu(model: BuilderSession, classes: List<BuilderOptionRow>, ta
                 expanded = choiceExpansionOnTap(id, selected, expanded)
                 selected = id
             }
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                TextButton(enabled = !model.busy, onClick = { model.cancelCreate() }) { Text("Cancel") }
-                TextButton(enabled = !model.busy && selected != null, onClick = { selected?.let { id -> task { create(id) } } }) { Text("Create") }
+            FolioActions {
+                FolioTextButton("Cancel", !model.busy) { model.cancelCreate() }
+                FolioButton("Create", !model.busy && selected != null, compact = true, fillWidth = false) { selected?.let { id -> task { create(id) } } }
             }
         }
     }
@@ -161,13 +210,13 @@ private fun Editor(model: BuilderSession, task: (suspend BuilderSession.() -> Un
             modifier = Modifier.fillMaxWidth().focusRequester(focus),
         )
         LaunchedEffect(field) { focus.requestFocus() }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            TextButton(enabled = !model.busy, onClick = { model.cancelEdit() }) { Text("Cancel") }
-            TextButton(enabled = !model.busy && (field != "Name" || model.draft.isNotBlank()), onClick = {
+        FolioActions {
+            FolioTextButton("Cancel", !model.busy) { model.cancelEdit() }
+            FolioButton("Save", !model.busy && (field != "Name" || model.draft.isNotBlank()), compact = true, fillWidth = false) {
                 task {
                     saveIdentityDraft()
                 }
-            }) { Text("Save") }
+            }
         }
     }
 }
@@ -186,9 +235,9 @@ private fun CopyDialog(model: BuilderSession, name: String, task: (suspend Build
             modifier = Modifier.fillMaxWidth().focusRequester(focus),
         )
         LaunchedEffect(Unit) { focus.requestFocus() }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            TextButton(enabled = !model.busy, onClick = { model.cancelCopy() }) { Text("Cancel") }
-            TextButton(enabled = !model.busy && name.isNotBlank(), onClick = { task { confirmCopy() } }) { Text("Save") }
+        FolioActions {
+            FolioTextButton("Cancel", !model.busy) { model.cancelCopy() }
+            FolioButton("Save", !model.busy && name.isNotBlank(), compact = true, fillWidth = false) { task { confirmCopy() } }
         }
     }
 }
@@ -200,22 +249,18 @@ private fun LevelDialog(model: BuilderSession, target: Int, task: (suspend Build
     FolioDialog("Change level", { if (!model.busy) model.cancelLevelChange() }) {
         Text("Current level $level.", color = Dim)
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-            OutlinedButton({ model.adjustLevelTarget(target - 1) }, enabled = !model.busy && target > 1, shape = RoundedCornerShape(3.dp),
-                border = BorderStroke(1.dp, Accent), modifier = Modifier.size(56.dp).semantics { contentDescription = "Lower target level" },
-                contentPadding = PaddingValues(0.dp)) { Text("−", fontSize = 24.sp) }
+            FolioStepper("−", "Lower target level", !model.busy && target > 1) { model.adjustLevelTarget(target - 1) }
             Text("Level $target", fontFamily = FontFamily.Serif, fontSize = 38.sp, color = Accent,
                 modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
-            OutlinedButton({ model.adjustLevelTarget(target + 1) }, enabled = !model.busy && target < BuilderSession.MAX_LEVEL, shape = RoundedCornerShape(3.dp),
-                border = BorderStroke(1.dp, Accent), modifier = Modifier.size(56.dp).semantics { contentDescription = "Raise target level" },
-                contentPadding = PaddingValues(0.dp)) { Text("+", fontSize = 24.sp) }
+            FolioStepper("+", "Raise target level", !model.busy && target < BuilderSession.MAX_LEVEL) { model.adjustLevelTarget(target + 1) }
         }
         if (target < level) {
             Text("Choices above level $target stay saved and take effect when you reach their level.", color = Dim)
         }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            TextButton(enabled = !model.busy, onClick = { model.cancelLevelChange() }) { Text("Cancel") }
-            TextButton(enabled = !model.busy && target != level, onClick = { task { confirmLevelChange() } },
-                modifier = Modifier.semantics { contentDescription = "Confirm level $target" }) { Text("Confirm") }
+        FolioActions {
+            FolioTextButton("Cancel", !model.busy) { model.cancelLevelChange() }
+            FolioButton("Confirm", !model.busy && target != level, compact = true, fillWidth = false,
+                modifier = Modifier.semantics { contentDescription = "Confirm level $target" }) { task { confirmLevelChange() } }
         }
     }
 }

@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
@@ -17,7 +19,7 @@ import dev.modern4e.builder.ui.theme.*
 /** Solid wrench silhouette avoids platform-dependent emoji rendering for Settings. */
 @Composable
 internal fun WrenchIcon() {
-    Canvas(Modifier.size(26.dp)) {
+    Canvas(Modifier.size(24.dp)) {
         val wrench = Path().apply {
             moveTo(14.7f, 6.3f)
             cubicTo(14.3f, 6.7f, 14.3f, 7.3f, 14.7f, 7.7f)
@@ -35,6 +37,39 @@ internal fun WrenchIcon() {
         scale(size.width / 24f, size.height / 24f, pivot = Offset.Zero) {
             drawPath(wrench, Accent)
         }
+    }
+}
+
+/** A solid Paper warning triangle with an Accent exclamation mark, for use on an Accent surface. */
+@Composable
+internal fun WarningIcon() {
+    Canvas(Modifier.size(44.dp)) {
+        val unit = size.width / 48f
+        val triangle = Path().apply {
+            moveTo(24f * unit, 5f * unit)
+            lineTo(45f * unit, 42f * unit)
+            lineTo(3f * unit, 42f * unit)
+            close()
+        }
+        drawPath(triangle, Paper)
+        drawPath(triangle, Paper, style = Stroke(width = 3f * unit, join = StrokeJoin.Round))
+        drawLine(Accent, Offset(24f * unit, 18f * unit), Offset(24f * unit, 30f * unit), strokeWidth = 4f * unit, cap = StrokeCap.Round)
+        drawCircle(Accent, radius = 2.3f * unit, center = Offset(24f * unit, 36f * unit))
+    }
+}
+
+/** The three-node share glyph, drawn in Accent for a Paper disc. */
+@Composable
+internal fun ShareIcon() {
+    Canvas(Modifier.size(26.dp)) {
+        val unit = size.width / 24f
+        val stroke = Stroke(width = 1.8f * unit, cap = StrokeCap.Round)
+        val left = Offset(6f * unit, 12f * unit)
+        val top = Offset(18f * unit, 5.5f * unit)
+        val bottom = Offset(18f * unit, 18.5f * unit)
+        drawLine(Accent, Offset(8.3f * unit, 10.7f * unit), Offset(15.7f * unit, 6.7f * unit), strokeWidth = stroke.width, cap = StrokeCap.Round)
+        drawLine(Accent, Offset(8.3f * unit, 13.3f * unit), Offset(15.7f * unit, 17.3f * unit), strokeWidth = stroke.width, cap = StrokeCap.Round)
+        listOf(left, top, bottom).forEach { drawCircle(Accent, radius = 2.6f * unit, center = it, style = stroke) }
     }
 }
 

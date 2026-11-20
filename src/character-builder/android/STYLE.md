@@ -46,14 +46,66 @@ modals. Dark mode and dynamic system colours are not implemented.
 ## Surfaces and controls
 
 - Prefer rectangular surfaces with subtle corners: generally 2–3 dp, with 6 dp
-  corners for dialogs.
+  corners for dialogs. Buttons, steppers and tabs are always 3 dp; the "Upcoming"
+  pill is the one deliberate fully rounded shape.
 - Use 1 dp Line borders and parchment dividers.
-- Primary action buttons are full width, at least 56 dp tall, with 17 sp text and
-  3 dp corners. Secondary outlined buttons use a 1 dp Accent border.
 - Reuse shared folio components for consistent fields, buttons, headings and
   dialogs.
 - Editable details and notes are directly tappable; do not add a separate Edit
   label to the overview.
+
+## Buttons
+
+Never use a stock Material `Button`, `OutlinedButton`, `TextButton`, `IconButton`,
+`FilterChip` or `AlertDialog` directly. Use the shared controls in
+`ui/components/FolioComponents.kt`, which fix the shape, colour and size. All button
+text is title case, a verb or short verb phrase ("Save", "Select Character"), not
+"OK" or "Yes", except OK on a notice that has nothing to confirm.
+
+| Role | Component | Look | Use |
+| --- | --- | --- | --- |
+| Screen action | `FolioButton` | Full width, 56 dp min, 17 sp, filled Accent | The main thing to do on a screen: Select Character, New, Choose a file |
+| Alternative screen action | `FolioButton(outlined = true)` | Same size, 1 dp Accent border | A second action beside the primary one (Import beside New); at most one filled button per screen |
+| Dialog / sheet / card action | `FolioButton(compact = true)` | 40 dp min, 14 sp | The primary action of a dialog, sheet or card (Save, Create, Confirm, Learn). Filled unless it is one of several alternatives, then outlined |
+| Destructive action | `FolioButton(destructive = true)` | Error colour instead of Accent | Anything that deletes data (Delete). Never style a destructive action like an ordinary one |
+| Dismiss / back out | `FolioTextButton` | Text only, 14 sp | Cancel and Close; also inline links such as "Show defense breakdown" |
+| Stepper | `FolioStepper` | 48 dp square, 1 dp Accent border, 24 sp symbol | − / + on a number (level, ability points). One size everywhere |
+| Icon-only | `FolioIconButton` | 48 dp touch target, hand-drawn 24 dp icon | Back, the character menu, Settings, delete. Always gives a content description |
+| Tab | `FolioTab` / the footer | Accent when selected, Dim otherwise, with a 2–3 dp Accent underline | Switching between sibling views. Selection is shown by colour and underline together, never colour alone |
+
+### Dialog, sheet and picker footers
+
+- Put footer buttons in `FolioActions`: right-aligned, 8 dp apart, **primary action
+  last**, with Cancel (a `FolioTextButton`) immediately before it. Do not spread
+  Cancel and the primary action to opposite edges.
+- A single-button footer is right-aligned too. Close is a `FolioTextButton`; an
+  acknowledgement (OK) is a filled compact button.
+- A secondary action that clears or resets (Clear) goes at the left edge via
+  `FolioActions(leading = …)`.
+- A dialog that offers several different outcomes (Export, Import review, Recovery
+  copies) lists them as full-width `FolioButton`s above the footer, the first filled
+  and the rest outlined. Cancel stays in the footer.
+- Keep the disabled state: a button that cannot act yet is disabled, not hidden.
+- Use `FolioDialog` for every dialog, including confirmations. The stock
+  `AlertDialog` is not used because its shape, padding and heading differ.
+
+### Choosing between options
+
+- A set of two or three exclusive options in a row (the main ability) is a row of
+  equal-width compact `FolioButton`s: filled for the current choice, outlined for
+  the others. Do not use `FilterChip`.
+- A longer list of options is a list of `ChoiceCard`s, where a tick, a 2 dp Accent
+  border and a Wash background mark the choice.
+
+### Tappable surfaces
+
+- Fields, choice cards, library rows, the Level box and the portrait panel are
+  tappable surfaces rather than buttons. Give them a content description that names
+  the action ("Edit Name", "Change level, currently 3") and `Role.Button` where the
+  tap does something other than select.
+- Open question: these surfaces do not yet look tappable beyond their framing. Do
+  not invent a one-off affordance on a single screen; any change should be applied
+  to all of them together.
 
 ## Navigation and motion
 
@@ -63,7 +115,7 @@ modals. Dark mode and dynamic system colours are not implemented.
   and stays reserved elsewhere so the title is centered.
 - The character footer is a 42 dp status strip (Wash background, 3 dp Accent left rule, Line when
   complete) above three text tabs with a 3 dp Accent underline that slides between them. The strip reports
-  required choices left and links to Levels, or to Validation once none remain.
+  required choices left and its Continue action opens Levels and scrolls the first open (red) row to just below the header; once none remain it links to Validation.
 - Selected footer tab labels use bold Accent; inactive labels use Dim.
 - Route transitions slide horizontally over 220 ms without a crossfade.
 - Overview, Progression and Validation support both tab taps and horizontal
@@ -82,18 +134,24 @@ modals. Dark mode and dynamic system colours are not implemented.
 - Overview's Level and Portrait panels have equal heights. Speed and right-aligned
   Size share a row.
 - Overview's Level panel opens the Change level dialog instead of navigating: 38 sp serif
-  Accent target level, 56 dp outlined − / + steppers with a 1 dp Accent border, and an
+  Accent target level, 48 dp outlined − / + steppers (`FolioStepper`) with a 1 dp Accent border, and an
   Accent incomplete-automation note above level 2.
 - The Portrait panel is tappable and opens the system image picker; the chosen image fills
   the panel (cropped to fit). Problems with a picked image use a small dismissible notice
   dialog, not the blocking error modal, since nothing in the session is at risk.
-- Character library rows are rectangular, with a right-aligned delete button.
+- Character library rows are rectangular, with a right-aligned delete icon button.
   Display dates as day month year.
 - Do not show status banners for successful create, save, import or delete actions,
   or for picker cancellation.
 - Operational failures use a blocking modal with a Return to main menu action.
   Back/outside dismissal and retry are unavailable. Rules diagnostics belong on
   Validation.
+- The blocking error modal has a full-bleed banner image (`error_banner`, 170 dp, cropped) with a
+  Accent/Paper hazard stripe, then the title, the unsaved-changes sentence, the
+  `FolioAlertButton` "Send this to Banter" and a full-width Return to main menu `FolioButton`.
+  It never shows the error message or stack trace; they travel only in the shared report
+  (Android share sheet, plain text). `FolioAlertButton` is the one raised, pulsing call to action
+  and is reserved for things a player must not skip; do not use it for ordinary actions.
 
 ## Sources
 

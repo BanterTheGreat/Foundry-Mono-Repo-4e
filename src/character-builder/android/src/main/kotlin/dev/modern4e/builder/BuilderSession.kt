@@ -58,9 +58,15 @@ class BuilderSession(
         private set
     var deleting by mutableStateOf<CharacterSummary?>(null)
     var errors by mutableStateOf(emptyList<Diagnostic>())
+    /** Stack trace of the exception behind [errors], or null when the failure was a diagnostic rather than a throw. */
+    var errorTrace by mutableStateOf<String?>(null)
+        private set
     var busy by mutableStateOf(false)
     /** True while submitted edits are still being applied and stored. Editing stays available; leaving and exporting do not. */
     var saving by mutableStateOf(false)
+        private set
+    /** Set by the footer's Continue; Levels scrolls to its first open choice and clears it. */
+    var openChoicePending by mutableStateOf(false)
         private set
     var libraryNeedsRefresh by mutableStateOf(false)
         private set
@@ -113,10 +119,16 @@ class BuilderSession(
             if (error is CancellationException) {
                 throw error
             }
-            errors = listOf(Diagnostic("android.workflow", DiagnosticKind.IO_FAILURE, error.message ?: "Operation failed"))
+            failWith(error)
         } finally {
             busy = false
         }
+    }
+
+    /** Blocks the session on [error], keeping its stack trace for the error report. */
+    private fun failWith(error: Exception) {
+        errorTrace = error.stackTraceToString()
+        errors = listOf(Diagnostic("android.workflow", DiagnosticKind.IO_FAILURE, error.message ?: "Operation failed"))
     }
 
     /** What a submitted edit shows in its slot until it commits; a null title is a cleared slot. */
@@ -146,6 +158,15 @@ class BuilderSession(
                 }
             }
         }
+    }
+
+    /** Ask Levels to bring its first open choice into view once it is on screen. */
+    fun requestFirstOpenChoice() {
+        openChoicePending = true
+    }
+
+    fun finishOpenChoiceRequest() {
+        openChoicePending = false
     }
 
     /** Whether the open character is fully stored and nothing is working on it, so a file leaves with every choice made. */
@@ -244,7 +265,7 @@ class BuilderSession(
             if (error is CancellationException) {
                 throw error
             }
-            errors = listOf(Diagnostic("android.workflow", DiagnosticKind.IO_FAILURE, error.message ?: "Operation failed"))
+            failWith(error)
         }
         if (errors.isNotEmpty()) {
             editEpoch++
@@ -302,6 +323,7 @@ class BuilderSession(
         characters = emptyList()
         libraryNeedsRefresh = true
         errors = emptyList()
+        errorTrace = null
     }
 
     suspend fun openLibrary() {

@@ -583,6 +583,19 @@ class BuilderSessionTest {
         assertEquals(original, model.current!!.document)
         assertTrue(model.errors.isEmpty())
     }
+    @Test fun anExceptionKeepsItsStackTraceForTheErrorReportUntilReturningHome() = runBlocking {
+        val model = quietSession()
+        assertNull(model.errorTrace)
+        model.run { throw IllegalStateException("boom", IllegalArgumentException("the cause")) }
+        assertEquals("boom", model.errors.single().message)
+        val trace = model.errorTrace!!
+        assertTrue(trace.startsWith("java.lang.IllegalStateException: boom"))
+        assertTrue(trace.contains("BuilderSessionTest"))
+        assertTrue(trace.contains("Caused by: java.lang.IllegalArgumentException: the cause"))
+        model.returnHomeAfterError()
+        assertTrue(model.errors.isEmpty())
+        assertNull(model.errorTrace)
+    }
     @Test fun successfulSavePublishesCalculatedStateWithoutReadingContentAgain() = runBlocking {
         val readsAfterSave = AtomicInteger()
         var saved = false

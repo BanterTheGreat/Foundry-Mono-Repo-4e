@@ -26,7 +26,13 @@ internal fun String.readable() = lowercase().replace('_', ' ').replaceFirstChar 
 
 /** App shell: initializes the session and coordinates navigation, chrome, and destinations. */
 @Composable
-fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: PortraitChooser? = null, exports: ExportTargets? = null) {
+fun BuilderApp(
+    model: BuilderSession,
+    exchange: FileExchange,
+    portraitChooser: PortraitChooser? = null,
+    exports: ExportTargets? = null,
+    errorSharer: AndroidErrorReportSharer? = null,
+) {
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
     LaunchedEffect(model.exportedMessage) {
@@ -67,7 +73,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                     Column(Modifier.fillMaxSize().systemBarsPadding()) {
                         if (model.page == "home") {
                             Row(Modifier.fillMaxWidth().height(62.dp).padding(end = 4.dp), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Top) {
-                                IconButton({}, enabled = false, modifier = Modifier.size(48.dp).semantics { contentDescription = "Settings, coming later" }) {
+                                FolioIconButton("Settings, coming later", enabled = false, action = {}) {
                                     WrenchIcon()
                                 }
                             }
@@ -82,8 +88,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                                 titleDescription = "Edit character name",
                                 menu = if (character) {
                                     {
-                                        IconButton(onClick = { scope.launch { drawerState.open() } }, enabled = !model.busy,
-                                            modifier = Modifier.semantics { contentDescription = "Character menu" }) {
+                                        FolioIconButton("Character menu", enabled = !model.busy, action = { scope.launch { drawerState.open() } }) {
                                             CogIcon()
                                         }
                                     }
@@ -111,7 +116,14 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                             }
                         }
                         if (model.page in CharacterTabs) {
-                            FolioFooter(model.page, footerStatus(model.current?.let { Progression.unfinished(it) } ?: 0), enabled = !model.busy) { model.page = it }
+                            FolioFooter(model.page, footerStatus(model.current?.let { Progression.unfinished(it) } ?: 0), enabled = !model.busy,
+                                onNavigate = { model.page = it },
+                                onStatusAction = { status ->
+                                    model.page = status.target
+                                    if (!status.complete) {
+                                        model.requestFirstOpenChoice()
+                                    }
+                                })
                         }
                     }
                     SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter).systemBarsPadding().padding(16.dp)) { data ->
@@ -121,14 +133,14 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
             }
         }
         if (model.confirmReturnToLibrary) {
-            AlertDialog(
-                onDismissRequest = { model.resolveBackConfirmation(leave = false) },
-                title = { Text("Return to the character list?") },
-                confirmButton = { TextButton(onClick = { model.resolveBackConfirmation(leave = true) }) { Text("Return") } },
-                dismissButton = { TextButton(onClick = { model.resolveBackConfirmation(leave = false) }) { Text("Cancel") } },
-            )
+            FolioDialog("Return to the character list?", { model.resolveBackConfirmation(leave = false) }) {
+                FolioActions {
+                    FolioTextButton("Cancel") { model.resolveBackConfirmation(leave = false) }
+                    FolioButton("Return", true, compact = true, fillWidth = false) { model.resolveBackConfirmation(leave = true) }
+                }
+            }
         }
-        BuilderDialogs(model, ::task, exports)
+        BuilderDialogs(model, ::task, exports, errorSharer)
     }
 }
 

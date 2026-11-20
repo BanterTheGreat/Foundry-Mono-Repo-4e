@@ -20,6 +20,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import dev.modern4e.builder.folioScroll
+import dev.modern4e.builder.ui.components.FolioActions
+import dev.modern4e.builder.ui.components.FolioButton
+import dev.modern4e.builder.ui.components.FolioTextButton
 import dev.modern4e.builder.ui.theme.Paper
 
 /** Keeps unused list and reader motion from reaching the sheet at a scroll boundary. */
@@ -69,11 +72,8 @@ internal fun CollapsibleChoiceList(modifier: Modifier, content: LazyListScope.()
 /** Places picker actions below the scrolling choices. Clear stages removal when supplied. */
 @Composable
 internal fun ChoicePickerActions(busy: Boolean, valid: Boolean, dismiss: () -> Unit, clear: (() -> Unit)?, save: () -> Unit) {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        TextButton(enabled = !busy, onClick = dismiss) { Text("Cancel") }
-        if (clear != null) {
-            TextButton(enabled = !busy, onClick = clear) { Text("Clear") }
-        }
-        TextButton(enabled = valid && !busy, onClick = save) { Text("Save") }
+    FolioActions(leading = clear?.let { { FolioTextButton("Clear", !busy, action = it) } }) {
+        FolioTextButton("Cancel", !busy, action = dismiss)
+        FolioButton("Save", valid && !busy, compact = true, fillWidth = false, action = save)
     }
 }

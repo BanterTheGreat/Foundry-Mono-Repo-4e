@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
                 } as T
             }
         })[BuilderSession::class.java]
-        setContent { BuilderApp(model, exchange, portraitChooser, exports = exports) }
+        val errorSharer = AndroidErrorReportSharer(this)
+        setContent { BuilderApp(model, exchange, portraitChooser, exports = exports, errorSharer = errorSharer) }
     }
 }

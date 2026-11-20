@@ -78,7 +78,7 @@ internal fun FolioHeader(
     menu: (@Composable () -> Unit)? = null,
 ) {
     Row(Modifier.fillMaxWidth().height(62.dp).padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-        IconButton(enabled = backEnabled, onClick = onBack, modifier = Modifier.size(48.dp).semantics { contentDescription = "Back" }) {
+        FolioIconButton("Back", enabled = backEnabled, action = onBack) {
             Canvas(Modifier.size(24.dp)) {
                 val chevron = Path().apply {
                     moveTo(size.width * .625f, size.height * .25f)
@@ -115,14 +115,20 @@ internal fun FolioHeader(
  * with an oxblood underline that slides to the selected one.
  */
 @Composable
-internal fun FolioFooter(page: String, status: FooterStatus, enabled: Boolean, onNavigate: (String) -> Unit) {
+internal fun FolioFooter(
+    page: String,
+    status: FooterStatus,
+    enabled: Boolean,
+    onNavigate: (String) -> Unit,
+    onStatusAction: (FooterStatus) -> Unit,
+) {
     Column(Modifier.fillMaxWidth()) {
         HorizontalDivider(color = Line)
         Row(Modifier.fillMaxWidth().height(42.dp).background(Wash), verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.width(3.dp).fillMaxHeight().background(if (status.complete) Line else Accent))
             Text(status.text, color = if (status.complete) Dim else Ink, fontSize = 13.sp, maxLines = 1,
                 modifier = Modifier.weight(1f).padding(start = 14.dp))
-            TextButton(enabled = enabled, onClick = { onNavigate(status.target) }, contentPadding = PaddingValues(horizontal = 14.dp)) {
+            TextButton(enabled = enabled, onClick = { onStatusAction(status) }, contentPadding = PaddingValues(horizontal = 14.dp)) {
                 Text(status.action, color = Accent, fontSize = 13.sp, fontWeight = FontWeight.Bold)
             }
         }

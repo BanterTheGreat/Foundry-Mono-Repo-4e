@@ -19,8 +19,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontFamily
@@ -107,7 +111,12 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             open("value", level = 1, slot = choice.slot)
         }
     }
-    Column(Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+    val scroll = rememberScrollState()
+    val openChoices = remember { OpenChoiceRegistry() }
+    var viewport by remember { mutableStateOf<LayoutCoordinates?>(null) }
+    ScrollToFirstOpenChoice(model, scroll, openChoices) { viewport?.takeIf { it.isAttached }?.positionInRoot()?.y }
+    CompositionLocalProvider(LocalOpenChoices provides openChoices) {
+    Column(Modifier.fillMaxSize().onGloballyPositioned { viewport = it }.folioScroll(scroll).padding(20.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         ProgressionLevelHeading(0)
         val firstLanguage = ancestryLanguages.firstOrNull()
         if (firstLanguage == null) {
@@ -310,6 +319,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             }
         }
     }
+    }
     editor?.let { request ->
         val editorState by key(request, state) {
             produceState(state.takeIf { request.level <= document.level }, model) {
@@ -430,7 +440,7 @@ private fun LevelOnePowerTile(
     val flagged = invalid && !saving
     val accent = powerChoiceColor(usage).takeUnless { flagged }
     Surface(
-        modifier.clickable(enabled = enabled, role = Role.Button, onClick = action)
+        modifier.openChoice(flagged).clickable(enabled = enabled, role = Role.Button, onClick = action)
             .semantics {
                 if (saving) {
                     stateDescription = "Saving"
@@ -474,7 +484,7 @@ private fun LevelChoice(
     action: () -> Unit,
 ) {
     Field(
-        label, value, modifier, enabled, compact = true, leftAccent = powerUsage?.let(::powerChoiceColor),
+        label, value, modifier.openChoice(invalid && !saving), enabled, compact = true, leftAccent = powerUsage?.let(::powerChoiceColor),
         valueIsHint = valueIsHint, invalid = invalid, saving = saving, action = action,
     )
 }
@@ -574,15 +584,12 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                             Text("Main ability", fontFamily = FontFamily.Serif)
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                 mainAbilities.forEach { ability ->
-                                    FilterChip(
-                                        selected = ability == allocation.mainAbility,
-                                        onClick = {
-                                            if (ability != allocation.mainAbility) {
-                                                edit = BuilderEdit.Allocation(Progression.changeMainAbility(allocation, ability))
-                                            }
-                                        },
-                                        label = { Text(ability.name.readable()) },
-                                    )
+                                    FolioButton(ability.name.readable(), true, outlined = ability != allocation.mainAbility, compact = true, fillWidth = false,
+                                        modifier = Modifier.weight(1f).semantics { this.selected = ability == allocation.mainAbility }) {
+                                        if (ability != allocation.mainAbility) {
+                                            edit = BuilderEdit.Allocation(Progression.changeMainAbility(allocation, ability))
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -599,17 +606,15 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                             Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Text(ability.name.readable(), Modifier.weight(1f), fontFamily = FontFamily.Serif)
                                 val value = allocation.points[ability] ?: 0
-                                OutlinedButton(enabled = Progression.canAdjustAbility(allocation, ability, -1), modifier = Modifier.size(48.dp),
-                                    shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
+                                FolioStepper("−", "Lower ${ability.name.readable()}", Progression.canAdjustAbility(allocation, ability, -1)) {
                                     edit = BuilderEdit.Allocation(allocation.copy(points = allocation.points + (ability to value - 1)))
-                                }) { Text("−", fontSize = 24.sp) }
+                                }
                                 Box(Modifier.width(48.dp), contentAlignment = Alignment.Center) {
                                     Text(value.toString(), color = Accent, fontFamily = FontFamily.Serif, fontSize = 24.sp)
                                 }
-                                OutlinedButton(enabled = Progression.canAdjustAbility(allocation, ability, 1), modifier = Modifier.size(48.dp),
-                                    shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
+                                FolioStepper("+", "Raise ${ability.name.readable()}", Progression.canAdjustAbility(allocation, ability, 1)) {
                                     edit = BuilderEdit.Allocation(allocation.copy(points = allocation.points + (ability to value + 1)))
-                                }) { Text("+", fontSize = 24.sp) }
+                                }
                             }
                         }
                         Text("Distribute 5 points: 0–2 each, or one −1 paired with one 3.", color = Dim)
@@ -780,9 +785,7 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
             item("tabs") {
                 Row {
                     listOf("General", "Ancestry", "Class").forEach { tab ->
-                        TextButton({ changeTab(tab) }, Modifier.weight(1f)) {
-                            Text(tab, color = if (featTab == tab) Accent else Dim)
-                        }
+                        FolioTab(featTab == tab, true, Modifier.weight(1f), action = { changeTab(tab) }) { Text(tab, color = it) }
                     }
                 }
             }

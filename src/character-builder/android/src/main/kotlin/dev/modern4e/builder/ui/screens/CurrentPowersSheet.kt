@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +24,8 @@ import dev.modern4e.builder.BuilderSession
 import dev.modern4e.builder.BuilderState
 import dev.modern4e.builder.ContentEntry
 import dev.modern4e.builder.SavedSelection
+import dev.modern4e.builder.ui.components.FolioActions
+import dev.modern4e.builder.ui.components.FolioTextButton
 import dev.modern4e.builder.ui.theme.Accent
 import dev.modern4e.builder.ui.theme.Dim
 import dev.modern4e.builder.ui.theme.Ink
@@ -93,8 +94,6 @@ private fun CurrentPowersSheet(usage: CurrentPowerUsage, powers: List<CurrentPow
                 item { Text("No current powers in this group.", color = Dim) }
             }
         }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            TextButton(onClick = dismiss) { Text("Close") }
-        }
+        FolioActions { FolioTextButton("Close", action = dismiss) }
     }
 }

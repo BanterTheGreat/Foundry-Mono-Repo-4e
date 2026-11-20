@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Levels tab redesign prototype</title>
+<!--
+  PROTOTYPE (throwaway). Question: the Levels (Progression) tab works but looks heavy: every level opens with a 70dp Wash banner,
+  every pick is a full boxed two-line Field, grants share the banner's Wash fill, fixed rules are loose dim sentences, and all
+  30 levels stack into one very long column with no sense of what is done. How could it look better and stay compact?
+  Round 1 (ledger, folded, pager, tiles) was rejected: spreadsheet-like, busy, or it broke the casual single scroll.
+  Round 2 keeps one smooth scroll. Variants (bottom bar, arrow keys, or ?variant=): current | refined | prose | path.
+  Mock Human Fighter. The level schedule mirrors AdvancementRules.schedule. In-memory only; nothing is saved.
+  The panel under the phone prints the scroll height of the page, so "compact" is measured, not guessed.
+-->
+<style>
+:root{--paper:#f3eddf;--ink:#322b25;--dim:#71675c;--line:#c9bda7;--accent:#863f36;--wash:#e8ddcb;--ok:#386327;--err:#b3261e;--pad:20px;--font-sans:Calibri,'Segoe UI',sans-serif;--serif:Georgia,serif}
+*{box-sizing:border-box}body{margin:0;padding:18px 0 90px;font-family:var(--font-sans);color:var(--ink);background:#d9d0bf}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;text-align:left}button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.intro,.panel{max-width:410px;margin:10px auto;font-size:12px;line-height:1.5;color:var(--dim)}.intro b{letter-spacing:.1em;font-size:10px}
+.panel{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.panel button{border:1px solid var(--line);background:var(--wash);border-radius:3px;padding:6px 10px;font-size:12px}
+.lvlctl{display:flex;align-items:center;gap:6px;width:100%}.lvlctl strong{font:normal 18px var(--serif);color:var(--accent);min-width:110px;text-align:center}.lvlctl button{width:32px;height:32px;border-radius:50%;padding:0;text-align:center}
+.metric{width:100%;font-size:12px;color:var(--ink)}
+.phone{position:relative;max-width:410px;margin:auto;background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 35px #0002}
+.topbar{height:62px;display:flex;flex-direction:column;justify-content:center;align-items:center;border-bottom:1px solid var(--line)}.topbar b{font:normal 22px var(--serif)}.topbar small{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.viewport{height:clamp(420px,calc(100vh - 290px),680px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent;position:relative}.page{padding:12px var(--pad) 28px}
+.footer{border-top:1px solid var(--line)}.strip{height:42px;display:flex;align-items:center;gap:8px;padding:0 16px;background:var(--wash);border-left:3px solid var(--accent);font-size:13px}.strip.ok{border-left-color:var(--line)}.strip u{margin-left:auto;color:var(--accent);text-decoration:none;font-weight:600}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);font-size:12px;color:var(--dim);text-align:center;padding:10px 0 12px}.tabs .on{color:var(--accent);font-weight:700;box-shadow:0 2px 0 var(--accent)}
+.tag{font-style:normal;font-size:9px;letter-spacing:.09em;font-weight:700;text-transform:uppercase}
+/* ---------- current ---------- */
+.cur .banner{margin-top:16px;background:var(--wash);padding:12px;display:flex;gap:8px;justify-content:center;align-items:center}.cur .banner span{font-size:12px;letter-spacing:.2em;color:var(--dim)}.cur .banner b{font:normal 28px var(--serif)}
+.cur .pill{font-size:11px;color:var(--accent);background:#863f3620;border-radius:99px;padding:3px 8px}
+.cur .stack{display:flex;flex-direction:column;gap:6px;margin-top:6px}.cur .f{display:block;width:100%;border:1px solid var(--line);background:var(--paper);padding:6px 12px;position:relative}.cur .f small{display:block;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--dim)}.cur .f strong{font:normal 16px/20px var(--serif)}
+.cur .f.need{border-color:var(--err);background:#b3261e1a}.cur .f.need small,.cur .f.need strong{color:var(--err)}.cur .f.pw{box-shadow:inset 3px 0 0 var(--c)}
+.cur .gc{background:var(--wash);border:1px solid var(--line);padding:6px 12px}.cur .gc small{display:flex;justify-content:space-between;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--dim)}.cur .gc strong{font:normal 16px/20px var(--serif)}.cur .gc p{margin:4px 0;font-size:12px}
+.cur .dim{font-size:13px;color:var(--dim);padding:2px 0}.cur .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cur .pair .f{height:100%}
+.cur .tiles{display:flex;gap:4px}.cur .tiles .f{flex:1;text-align:center;padding:3px 4px}.cur .tiles .f small{font-size:10px;letter-spacing:0;text-transform:none}.cur .tiles .f strong{font-size:11px;line-height:12px}
+/* ---------- shared bits ---------- */
+.ph{font-style:italic}
+/* ---------- refined cards ---------- */
+.rf .lh{display:flex;align-items:center;gap:10px;margin:24px 0 8px}.rf .lh:first-child{margin-top:4px}.rf .lh b{font:normal 30px/1 var(--serif)}.rf .lh.here b{color:var(--accent)}.rf .lh span{font-size:10px;letter-spacing:.16em;color:var(--dim)}.rf .lh hr{flex:1;border:0;border-top:1px solid var(--line);margin:0}
+.rf .lh em{font-style:normal;font-size:11px;color:var(--dim)}.rf .lh em.n{color:var(--accent);font-weight:700}.rf .lh em.ok{color:var(--ok);font-weight:700;font-size:14px}.rf .lh.fu b{color:var(--dim)}
+.rf .c,.rf .grp{display:block;width:100%;background:#faf6ec;border:1px solid var(--line);border-radius:3px;padding:7px 12px;margin-bottom:6px;position:relative}.rf .c.pw,.rf .grp{box-shadow:inset 3px 0 0 var(--c)}
+.rf .k{display:block;font-size:11px;color:var(--dim);line-height:14px}.rf .pw .k,.rf .grp .gh{color:var(--c);font-weight:600}.rf .v{display:block;font:normal 17px/22px var(--serif)}
+.rf .c.e,.rf .gi.e{background:transparent;border:1px dashed var(--accent);box-shadow:none;color:var(--accent);min-height:44px;display:flex;align-items:center;font-size:14px;font-weight:600}.rf .c.e.fu,.rf .gi.e.fu{border-color:var(--line);color:var(--dim);font-weight:400}.rf .c.fu .v{color:var(--dim)}
+.rf .grp{padding:6px 12px 2px}.rf .gh{font-size:11px;display:block;line-height:14px}.rf .gi{display:block;width:100%;border:0;border-top:1px solid #c9bda770;background:transparent;padding:6px 0;margin-top:5px}.rf .gi:first-of-type{border-top:0;margin-top:2px}.rf .gi.e{border:1px dashed var(--accent);padding:0 10px;margin:5px 0 6px;border-radius:3px;min-height:38px}.rf .gi .v{font-size:16px}
+.rf .g2{display:grid;grid-template-columns:1fr 1fr;gap:0 8px}.rf .g2 .c{margin-bottom:6px}
+.rf .feat{margin:2px 0 6px}.rf .feat .t{font-size:11px;color:var(--dim)}.rf .feat button{display:inline;border:0;background:none;padding:2px 0;margin-right:12px;font:normal 14px var(--serif);color:var(--ink)}.rf .feat button:before{content:'◆ ';color:var(--accent);font-size:9px}.rf .feat p{font-size:12px;margin:2px 0 6px}
+.rf .also{margin:0 0 4px;font-size:12px;color:var(--dim);font-style:italic}
+/* ---------- prose ---------- */
+.pr .lead{font-size:15px;line-height:2;margin:0 0 6px}.pr .pl{display:grid;grid-template-columns:44px 1fr;gap:6px;margin-top:20px}.pr .n{text-align:center;padding-top:2px}.pr .n b{display:block;font:normal 34px/1 var(--serif)}.pr .n small{display:block;font-size:10px;margin-top:4px;font-weight:700;letter-spacing:.04em;color:var(--ok)}.pr .n small.n2{color:var(--accent)}.pr .n small.f{color:var(--dim);font-weight:400}
+.pr .pl.here .n b{color:var(--accent)}.pr .pl.fu .n b{color:var(--dim)}.pr .s p{margin:0 0 3px;font-size:14.5px;line-height:2.05}.pr .s p.auto{font-size:13px;color:var(--dim);font-style:italic;line-height:1.6;margin-top:2px}
+.pr .ch{font:normal 15px var(--serif);background:var(--wash);border:0;border-bottom:2px solid var(--accent);border-radius:2px;padding:2px 8px;color:var(--ink);margin:0 1px;line-height:1.4}.pr .ch.e{background:transparent;border:1px dashed var(--accent);border-bottom:2px dashed var(--accent);color:var(--accent);font-style:italic}.pr .ch.e.fu{border-color:var(--line);color:var(--dim)}.pr .fu .ch:not(.e){border-bottom-color:var(--line)}
+.pr .gf{font:normal 15px var(--serif);border:0;background:none;padding:0 2px;margin:0 2px;color:var(--ink);border-bottom:1px dotted var(--accent)}.pr .gd{font-size:13px;margin:0 0 6px;padding-left:10px;border-left:2px solid var(--accent)}
+/* ---------- trail ---------- */
+.pt .l{position:relative;padding:0 0 12px 36px}.pt .l:before{content:'';position:absolute;left:11px;top:22px;bottom:-4px;border-left:2px solid var(--accent)}.pt .l.fu:before{border-left:2px dashed var(--line)}.pt .l:last-child:before{display:none}
+.pt .nd{position:absolute;left:1px;top:0;width:22px;height:22px;border-radius:50%;border:2px solid var(--accent);background:var(--paper);display:grid;place-items:center;font-size:11px;color:#fff;font-weight:700}.pt .l.done .nd{background:var(--ok);border-color:var(--ok)}.pt .l.fu .nd{border-color:var(--line)}.pt .l.here .nd{box-shadow:0 0 0 4px #863f3633}
+.pt .hd{display:flex;align-items:baseline;gap:8px;margin:0 0 7px;min-height:22px}.pt .hd b{font:normal 21px/1 var(--serif)}.pt .l.fu .hd b{color:var(--dim)}.pt .hd em{font-style:normal;font-size:11px;color:var(--dim)}.pt .hd em.n{color:var(--accent);font-weight:700}
+.pt .k{display:flex;align-items:center;gap:9px;width:100%;min-height:42px;background:#faf6ec;border:1px solid var(--line);border-radius:3px;padding:5px 10px;margin-bottom:5px}.pt .k:before{content:'';flex:none;width:8px;height:8px;border-radius:50%;background:var(--c,var(--dim))}.pt .k .v{flex:1;min-width:0;font:normal 15px/1.2 var(--serif);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pt .k .w{flex:none;font-size:11px;color:var(--dim)}
+.pt .k.e{background:transparent;border:1px dashed var(--accent)}.pt .k.e .v{color:var(--accent);font-style:italic}.pt .k.e.fu{border-color:var(--line)}.pt .k.e.fu .v{color:var(--dim)}.pt .l.fu .k:not(.e) .v{color:var(--dim)}
+.pt .gr{display:block;width:100%;border:0;background:none;padding:2px 0 3px;font:normal 14px var(--serif);color:var(--ink)}.pt .gr:before{content:'◆ ';color:var(--accent);font-size:9px}.pt .gt{font-size:12px;margin:0 0 5px 14px}.pt .also{font-size:12px;color:var(--dim);font-style:italic;margin:0 0 3px}
+/* ---------- sheet, switcher ---------- */
+.overlay{position:absolute;inset:0;z-index:5;background:#322b2566;display:flex;align-items:end}.sheet{width:100%;max-height:72%;display:flex;flex-direction:column;background:var(--paper);border-radius:6px 6px 0 0;padding:10px 20px 12px}.sheet .list{overflow-y:auto}.sheet .o{display:flex;justify-content:space-between;width:100%;border:1px solid var(--line);background:transparent;padding:10px 12px;margin-bottom:4px;font:normal 15px var(--serif)}.sheet .o.on{border:2px solid var(--accent);background:var(--wash)}.sheet .act{display:flex;justify-content:flex-end;gap:14px;padding-top:6px;border-top:1px solid var(--line)}.sheet .act button{border:0;background:none;color:var(--accent);font-weight:600;padding:10px}
+.switcher{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:6px;background:#1d1a17;color:#fff;border-radius:999px;padding:6px 8px;box-shadow:0 6px 24px #0006;font-size:13px}.switcher button{width:34px;height:34px;border-radius:50%;border:0;background:#ffffff22;color:#fff;font-size:18px;text-align:center;padding:0}.switcher span{min-width:230px;text-align:center}
+</style></head><body>
+<p class="intro"><b>MOBILE CHARACTER BUILDER · LEVELS TAB REDESIGN PROTOTYPE</b><br>Human Fighter. Same data and same tap-to-edit behaviour in every layout; only the structure changes. <em>Current</em> is a faithful copy of today's screen. Flip layouts with the bar at the bottom (or ← →). Raise or lower the character level to see how each layout copes with completed, in-progress and upcoming levels. Picks are shared in memory across variants; reload resets.</p>
+<div class="phone" id="phone"><header class="topbar"><b>Brannoch Veil</b><small id="sub"></small></header>
+<main class="viewport" id="screen"></main>
+<div class="footer"><div class="strip" id="strip"></div><nav class="tabs"><span>Overview</span><span class="on">Levels</span><span>Validation</span></nav></div><div id="layer"></div></div>
+<div class="panel">
+ <div class="lvlctl"><button data-act="lvl" data-d="-1" aria-label="Lower level">−</button><strong id="lvlnow"></strong><button data-act="lvl" data-d="1" aria-label="Raise level">+</button></div>
+ <button data-act="fill">Fill everything up to here</button><button data-act="reset">Reset</button>
+ <div class="metric" id="metric"></div></div>
+<div class="switcher"><button data-act="prev" aria-label="Previous variant">‹</button><span id="vlabel"></span><button data-act="next" aria-label="Next variant">›</button></div>
+<script>
+/* ---- mock data: schedule mirrors AdvancementRules.schedule ---- */
+const PW=(k,src)=>({k,src:src||'class'});
+const A=PW('at-will'),E=PW('encounter'),D=PW('daily'),U=PW('utility');
+const S=[
+ {p:[A,A,E,D,D],f:1},{p:[U],f:1},{p:[E]},{f:1,ab:'non'},{p:[D]},{p:[U],f:1},{p:[E]},{f:1,ab:'main'},{rep:'daily'},{p:[U],f:1},
+ {p:[PW('encounter','path')],f:1,path:'path',auto:['Paragon path features']},{p:[PW('utility','path')],f:1,ab:'non'},{p:[E]},{f:1},{rep:'daily'},{f:1,ab:'all',auto:['Paragon path feature']},
+ {p:[U,E],f:1},{f:1},{rep:'daily'},{p:[PW('daily','path')],f:1,ab:'main'},{f:1,path:'destiny',auto:['Epic destiny feature']},{p:[U],f:1},{rep:'encounter'},
+ {f:1,ab:'non',auto:['Epic destiny feature']},{rep:'daily'},{p:[PW('utility','destiny')],f:1},{p:[E]},{f:1,ab:'main'},{rep:'daily'},{f:1,auto:['Epic destiny feature']}];
+const GRANTS={1:[['Combat Challenge','Each time you attack an enemy, you can mark it until the end of your next turn. Marked enemies take a penalty to attacks that do not include you.'],['Combat Superiority','Add your Wisdom modifier to opportunity attacks, and an enemy you hit with one stops moving.'],['Weapon Talent','You gain a +1 bonus to attack rolls with a chosen weapon group.']]};
+const KIND={'at-will':['At-will','At-will','#386327'],encounter:['Encounter','Enc.','#923D32'],daily:['Daily','Daily','#354BA4'],utility:['Utility','Util.','#655283'],
+ feat:['Feat','Feat','#322b25'],ability:['Ability increase','Ability','#322b25'],swap:['Replace a power','Swap','#71675c'],path:['Path','Path','#863f36'],
+ origin:['','Origin','#863f36'],skill:['','Skill','#71675c']};
+const OPT={'at-will':['Cleave','Reaping Strike','Sure Strike','Tide of Iron'],encounter:['Passing Attack','Spinning Sweep','Comeback Strike','Covering Attack','Shield Bash'],
+ daily:['Brute Strike','Dizzying Blow','Rain of Steel',"Villain's Menace",'Crushing Blow'],utility:['Unstoppable','Shake It Off','Boundless Endurance','Lead the Attack','Bring It On'],
+ feat:['Toughness','Weapon Focus','Durable','Combat Reflexes','Improved Initiative','Power Attack','Hardy Athlete','Linguist','Armor Proficiency (Scale)','Defensive Mobility'],
+ ability:['Dexterity','Constitution','Intelligence','Wisdom','Charisma'],swap:['Cleave','Sure Strike','Brute Strike','Passing Attack','Tide of Iron'],
+ path:['Iron Vanguard','Pit Fighter','Tempest Warrior','Battlefield Archer'],
+ ancestry:['Human','Dwarf','Elf','Halfling','Tiefling'],class:['Fighter','Cleric','Rogue'],theme:['Soldier','Guardian','Outlander'],env:['Forest','Urban','Mountain','Seaside'],upb:['Soldier','Scholar','Nomad'],lang:['Elven','Dwarven','Draconic','Goblin'],
+ abil:['5 points assigned'],envsk:['Nature','Survival','Perception','Endurance'],upbsk:['Intimidate','History','Insight','Athletics'],free:['Acrobatics + Stealth','Arcana + History','Heal + Streetwise']};
+const BASE=[['ancestry','origin','Ancestry'],['lang','origin','Ancestry language'],['class','origin','Class'],['theme','origin','Theme'],['env','origin','Environment'],['upb','origin','Upbringing'],
+ ['abil','skill','Ability scores'],['envsk','skill','Environment skill'],['upbsk','skill','Upbringing skill'],['free','skill','Free skills']];
+const CLASSGRANT='Fighter';
+let picks,cur=4,variant='current',open={},grantOpen={},view=1,sheet=null;
+const VARS=[['current','Current'],['refined','Refined cards'],['prose','Story lines'],['path','Trail']];
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const seedBase=()=>({ancestry:'Human',class:'Fighter',theme:'Soldier',env:'Forest',upb:'Soldier',lang:'Elven',abil:'5 points assigned',envsk:'Survival',upbsk:'Intimidate'});
+/* choices of a level: [{id,k,long,src?,req}] */
+function choices(L){const s=S[L-1],o=[];
+ if(s.path)o.push({id:L+':path',k:'path',long:s.path==='path'?'Paragon path':'Epic destiny'});
+ if(s.ab==='non')o.push({id:L+':ab',k:'ability',long:'Ability increase'});
+ (s.p||[]).forEach((p,i)=>o.push({id:L+':p'+i,k:p.k,src:p.src,long:(p.src!=='class'?cap(p.src)+' ':'')+(p.k==='at-will'?'At-will attack power':p.k==='encounter'?'Encounter attack power':p.k==='daily'?'Daily attack power':'Utility power')}));
+ if(s.f)o.push({id:L+':feat',k:'feat',long:'Feat'});
+ if(s.rep)o.push({id:L+':rep',k:'swap',long:'Replace a '+s.rep+' attack power'});
+ return o}
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+function autos(L){const s=S[L-1],o=[];if(!s)return o;if(s.ab==='main')o.push('+1 to your main ability');if(s.ab==='all')o.push('+1 to all abilities');(s.auto||[]).forEach(a=>o.push(a));return o}
+function grants(L){return (L===0?GRANTS[1]:[]).map((g,i)=>({id:'g'+L+i,name:g[0],text:g[1]}))}
+const base=()=>BASE.map(([id,k,long])=>({id:'b:'+id,k,long}));
+const stat=L=>{const c=L===0?base():choices(L);const done=c.filter(x=>picks[x.id]).length;return{done,total:c.length,left:L<=cur?c.length-done:0}};
+function fill(L){(L===0?base():choices(L)).forEach(c=>{if(picks[c.id])return;const key=c.id.split(':')[1];const pool=OPT[c.k==='origin'||c.k==='skill'?key:c.k]||[];const used=Object.values(picks);const p=pool.find(x=>!used.includes(x)&&!(c.k==='swap'))||pool[0];if(p)picks[c.id]=p})}
+function reset(){picks={};Object.entries(seedBase()).forEach(([k,v])=>picks['b:'+k]=v);for(let L=1;L<cur;L++)fill(L);for(const c of choices(cur))if(c.k!=='feat'&&c.k!=='ability')fill(cur);open={};}
+const totalLeft=()=>{let n=0;for(let L=0;L<=cur;L++)n+=stat(L).left;return n};
+const firstLeft=()=>{for(let L=0;L<=cur;L++)if(stat(L).left)return L;return null};
+/* ---- shared row builders ---- */
+const val=id=>picks[id];
+function row(c,L){const [,short,col]=KIND[c.k];const v=val(c.id),need=L<=cur&&!v;
+ return `<button class="r${need?' need':''}${L>cur?' fut':''}" data-act="open" data-id="${c.id}" data-k="${c.k}" aria-label="Edit ${esc(c.long)}"><i class="tag" style="color:${col}">${short}</i><span class="v${v?'':' ph'}">${v?esc(v):'Choose…'}</span><b class="ch">›</b></button>`}
+const autoRow=t=>`<div class="a"><i class="tag">Auto</i><span>${esc(t)}</span></div>`;
+function grantRow(g){const o=grantOpen[g.id];return `<button class="g" data-act="grant" data-id="${g.id}"><i class="tag">Grant</i><span style="flex:1"><span class="nm">${esc(g.name)}</span>${o?`<p>${esc(g.text)}</p>`:''}</span><span class="ex">${o?'▴':'▾'}</span></button>`}
+const levelRows=L=>(L===0?base().map(c=>row(c,0)).join('')+grants(0).map(grantRow).join(''):choices(L).map(c=>row(c,L)).join('')+autos(L).map(autoRow).join(''));
+function badge(L,cls=''){const s=stat(L);if(L>cur)return `<small class="f">Upcoming</small>`;return s.left?`<small class="n">${s.left} left</small>`:`<small>✓</small>`}
+const names=L=>{const c=L===0?base().filter(x=>x.k==='origin'):choices(L);return c.map(x=>picks[x.id]).filter(Boolean).join(' · ')};
+/* ---- variants ---- */
+function vCurrent(){let h='<div class="cur">';
+ const f=(label,v,id,k,need,pw)=>`<button class="f${need?' need':''}${pw?' pw':''}"${pw?` style="--c:${pw}"`:''} data-act="open" data-id="${id}" data-k="${k}"><small>${esc(label)}</small><strong>${esc(v)}</strong></button>`;
+ const bf=(id,label)=>{const c=base().find(x=>x.id==='b:'+id);return f(label,val(c.id)||'Choose…',c.id,c.k==='origin'?id:id,!val(c.id))};
+ const banner=(t,fut)=>`<div class="banner">${t==='Base'?'':'<span>LEVEL</span>'}<b>${t}</b>${fut?'<span class="pill">Upcoming</span>':''}</div>`;
+ h+=banner('Base');h+='<div class="stack">'+`<div class="pair">${bf('ancestry','Ancestry')}${bf('lang','Ancestry Language')}</div><div class="pair">${bf('class','Class')}${bf('theme','Theme')}</div><div class="pair">${bf('env','Environment')}${bf('upb','Upbringing')}</div>`;
+ h+=`<div class="pair">${[['abil','Ability Scores'],['envsk','Environment skill'],['upbsk','Upbringing skill'],['free','Free skills']].map(([id,l])=>{const v=val('b:'+id);return f(l,v?'✓':id==='free'?'2 LEFT':'✗','b:'+id,'skill',!v)}).join('')}</div>`;
+ h+=GRANTS[1].map(g=>`<div class="gc" data-act="grant" data-id="gc${g[0]}"><small>Class feature <span>GRANTED ${grantOpen['gc'+g[0]]?'▴':'▾'}</span></small><strong>${g[0]}</strong>${grantOpen['gc'+g[0]]?`<p>${esc(g[1])}</p>`:''}</div>`).join('')+'</div>';
+ for(let L=1;L<=30;L++){const fut=L>cur;h+=banner(L,fut)+'<div class="stack">';const cs=choices(L);const pws=cs.filter(c=>KIND[c.k][2]&&['at-will','encounter','daily','utility'].includes(c.k));
+  const tileMode=pws.length>1;
+  cs.forEach(c=>{if(tileMode&&pws.includes(c))return;const v=val(c.id);h+=f(c.long,v||'Choose…',c.id,c.k,L<=cur&&!v,['at-will','encounter','daily','utility'].includes(c.k)?KIND[c.k][2]:null)});
+  if(tileMode)h+='<div class="tiles">'+pws.map(c=>{const v=val(c.id);const need=L<=cur&&!v;return `<button class="f${need?' need':''} pw" style="--c:${KIND[c.k][2]}" data-act="open" data-id="${c.id}" data-k="${c.k}"><small>${KIND[c.k][0]}</small><strong>${esc(v||'Choose…')}</strong></button>`}).join('')+'</div>';
+  autos(L).forEach(a=>h+=`<div class="dim">${esc(a)} arrives automatically</div>`);h+='</div>'}
+ return h+'</div>'}
+const POW=['at-will','encounter','daily','utility'];
+const art=w=>/^[aeiou]/i.test(w)?'an':'a';
+const PHR={'at-will':'an at-will power',encounter:'an encounter power',daily:'a daily power',utility:'a utility power',feat:'a feat',ability:'an ability to raise',swap:'a power to replace'};
+const phrase=c=>c.k==='origin'||c.k==='skill'?'Choose '+c.long.toLowerCase():c.k==='path'?'Choose '+art(c.long)+' '+c.long.toLowerCase():'Choose '+PHR[c.k];
+const kword=c=>c.k==='origin'||c.k==='skill'?c.long:c.k==='path'?c.long:c.k==='swap'?c.long:c.k==='ability'?'Ability increase':c.k==='feat'?'Feat':cap(c.k)+' power'+(c.src&&c.src!=='class'?' · '+c.src:'');
+const attrs=c=>`data-act="open" data-id="${c.id}" data-k="${c.k}" aria-label="Edit ${esc(c.long)}"`;
+const lstat=L=>{const s=stat(L);return L>cur?{t:'Upcoming',c:'f'}:s.left?{t:s.left+' to choose',c:'n'}:{t:'✓',c:'ok'}};
+const featLine=()=>{const g=grants(0);return `<div class="feat"><span class="t">Class features </span>${g.map(x=>`<button data-act="grant" data-id="${x.id}">${esc(x.name)}</button>`).join('')}${g.filter(x=>grantOpen[x.id]).map(x=>`<p><b>${esc(x.name)}.</b> ${esc(x.text)}</p>`).join('')}</div>`};
+const alsoLine=L=>{const a=autos(L);return a.length?`<p class="also">Also gained: ${a.map(esc).join(' · ')}</p>`:''};
+/* refined cards: slim heading, empty picks are dashed invitations, same-kind powers share one card */
+function vRefined(){let h='<div class="rf">';
+ const slot=(c,L)=>{const v=val(c.id),fu=L>cur,pw=POW.includes(c.k);
+  return v?`<button class="c${pw?' pw':''}${fu?' fu':''}" style="--c:${KIND[c.k][2]}" ${attrs(c)}><span class="k">${esc(kword(c))}</span><span class="v">${esc(v)}</span></button>`
+   :`<button class="c e${fu?' fu':''}" ${attrs(c)}>+ ${esc(phrase(c))}</button>`};
+ const grp=(cs,L)=>{const fu=L>cur;return `<div class="grp" style="--c:${KIND[cs[0].k][2]}"><span class="gh">${cap(cs[0].k)} powers</span>${cs.map(c=>{const v=val(c.id);return v?`<button class="gi" ${attrs(c)}><span class="v">${esc(v)}</span></button>`:`<button class="gi e${fu?' fu':''}" ${attrs(c)}>+ Choose</button>`}).join('')}</div>`};
+ const lh=(L,label)=>{const s=lstat(L);return `<div class="lh${L===cur?' here':''}${L>cur?' fu':''}">${L?`<b>${label}</b><span>LEVEL</span>`:`<b style="font-size:24px">${label}</b>`}<hr><em class="${s.c}">${s.t}</em></div>`};
+ h+=lh(0,'Base')+`<div class="g2">${base().map(c=>slot(c,0)).join('')}</div>`+featLine();
+ for(let L=1;L<=30;L++){h+=lh(L,L);const cs=choices(L);const done=new Set();
+  cs.forEach(c=>{if(done.has(c.id))return;const same=POW.includes(c.k)?cs.filter(x=>x.k===c.k&&x.src===c.src):[];if(same.length>1){same.forEach(x=>done.add(x.id));h+=grp(same,L)}else h+=slot(c,L)});h+=alsoLine(L)}
+ return h+'</div>'}
+/* prose: each level reads as short sentences; picks are inline fill-in-the-blank chips */
+function vProse(){let h='<div class="pr">';
+ const chip=id=>{const k=BASE.find(b=>'b:'+b[0]===id);const v=val(id);return `<button class="ch${v?'':' e'}" data-act="open" data-id="${id}" data-k="${k[1]}" aria-label="Edit ${k[2]}">${v?esc(v):'choose…'}</button>`};
+ h+=`<p class="lead">Your ancestry is ${chip('b:ancestry')}, your class ${chip('b:class')} and your theme ${chip('b:theme')}. You come from ${chip('b:env')} country and a ${chip('b:upb')} upbringing, and you speak ${chip('b:lang')}.</p>`;
+ h+=`<p class="lead">Assign your ${chip('b:abil')}. You are skilled in ${chip('b:envsk')}, ${chip('b:upbsk')} and two free picks: ${chip('b:free')}.</p>`;
+ const g=grants(0);h+=`<p class="lead" style="line-height:1.8">You start with ${g.map(x=>`<button class="gf" data-act="grant" data-id="${x.id}">${esc(x.name)}</button>`).join(', ')}.</p>`+g.filter(x=>grantOpen[x.id]).map(x=>`<p class="gd">${esc(x.text)}</p>`).join('');
+ const sent=(c,L)=>{const v=val(c.id),fu=L>cur;const chip=`<button class="ch${v?'':' e'}${fu&&!v?' fu':''}" ${attrs(c)}>${v?esc(v):'choose…'}</button>`;const w=c.k,col=KIND[c.k][2];
+  if(c.k==='path')return `Choose your ${c.long.toLowerCase()}: ${chip}.`;if(c.k==='ability')return `Raise a non-main ability: ${chip} +1.`;if(c.k==='feat')return `Take a feat: ${chip}.`;if(c.k==='swap')return `${c.long}: ${chip}.`;
+  return `Learn ${art(w)} <b style="color:${col}">${w}</b> power${c.src&&c.src!=='class'?' from your '+(c.src==='path'?'paragon path':'epic destiny'):''}: ${chip}.`};
+ for(let L=1;L<=30;L++){const s=lstat(L);const fu=L>cur;
+  h+=`<section class="pl${L===cur?' here':''}${fu?' fu':''}"><div class="n"><b>${L}</b><small class="${s.c==='n'?'n2':s.c==='f'?'f':''}">${s.c==='ok'?'✓':s.c==='f'?'soon':s.t.replace(' to choose',' left')}</small></div><div class="s">${choices(L).map(c=>`<p>${sent(c,L)}</p>`).join('')}${autos(L).length?`<p class="auto">You also gain ${autos(L).map(esc).join(' and ').toLowerCase()}.</p>`:''}${!choices(L).length&&!autos(L).length?'<p class="auto">Nothing to choose.</p>':''}</div></section>`}
+ return h+'</div>'}
+/* trail: a path of milestones; picks are soft single-line cards, empty ones dashed */
+function vPath(){let h='<div class="pt">';
+ const card=(c,L)=>{const v=val(c.id),fu=L>cur,col=KIND[c.k][2];const w=c.k==='origin'||c.k==='skill'?c.long.toLowerCase():POW.includes(c.k)?c.k:c.k==='swap'?'replace':c.k==='ability'?'ability':c.k==='path'?c.long.toLowerCase():c.k;
+  return `<button class="k${v?'':' e'}${fu?' fu':''}" style="--c:${col}" ${attrs(c)}><span class="v">${v?esc(v):'Choose…'}</span><span class="w">${esc(w)}</span></button>`};
+ const node=(L,label,rows)=>{const s=lstat(L);const cls=L>cur?'fu':s.c==='ok'?'done':'';return `<section class="l ${cls}${L===cur?' here':''}"><span class="nd">${s.c==='ok'?'✓':''}</span><div class="hd"><b>${label}</b><em class="${s.c==='n'?'n':''}">${s.c==='ok'?'':s.t}</em></div>${rows}</section>`};
+ const g=grants(0);
+ h+=node(0,'Base',base().map(c=>card(c,0)).join('')+g.map(x=>`<button class="gr" data-act="grant" data-id="${x.id}">${esc(x.name)}</button>${grantOpen[x.id]?`<p class="gt">${esc(x.text)}</p>`:''}`).join(''));
+ for(let L=1;L<=30;L++)h+=node(L,'Level '+L,choices(L).map(c=>card(c,L)).join('')+alsoLine(L));
+ return h+'</div>'}
+const RENDER={current:vCurrent,refined:vRefined,prose:vProse,path:vPath};
+/* ---- shell ---- */
+function render(keepScroll=true){const sc=$('#screen'),top=sc.scrollTop;
+ sc.innerHTML='<div class="page">'+RENDER[variant]()+'</div>';
+ if(keepScroll)sc.scrollTop=top;
+ const n=totalLeft();$('#sub').textContent='Level '+cur+' · Fighter';$('#lvlnow').textContent='Character level '+cur;
+ $('#strip').className='strip'+(n?'':' ok');$('#strip').innerHTML=n?`<b style="color:var(--accent)">${n}</b> required choice${n>1?'s':''} left<u>Levels ›</u>`:'All required choices made<u>Validation ›</u>';
+ $('#vlabel').textContent=VARS.map(v=>v[0]).indexOf(variant)+1+' / '+VARS.length+' · '+VARS.find(v=>v[0]===variant)[1];
+ const h=sc.scrollHeight;const vh=sc.clientHeight;
+ $('#metric').innerHTML=`<b>${VARS.find(v=>v[0]===variant)[1]}</b>: page is <b>${h}px</b> tall (≈ ${(h/vh).toFixed(1)} screens)`+` · average per level ≈ ${Math.round(h/31)}px`;
+ const u=new URL(location.href);u.searchParams.set('variant',variant);u.searchParams.set('level',cur);history.replaceState(null,'',u)}
+function showSheet(){const s=sheet;if(!s){$('#layer').innerHTML='';return}
+ const key=s.id.split(':')[1];const pool=OPT[s.k==='origin'||s.k==='skill'?key:s.k]||[];
+ $('#layer').innerHTML=`<div class="overlay" data-act="close"><div class="sheet" onclick="event.stopPropagation()"><div class="list">${pool.map(o=>`<button class="o${picks[s.id]===o?' on':''}" data-act="choose" data-v="${esc(o)}"><span>${esc(o)}</span><span>${picks[s.id]===o?'✓':''}</span></button>`).join('')}</div><div class="act">${picks[s.id]?'<button data-act="clear" style="margin-right:auto;color:var(--dim)">Clear</button>':''}<button data-act="close">Cancel</button></div></div></div>`}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
+ if(a==='open'){sheet={id:t.dataset.id,k:t.dataset.k};showSheet();return}
+ if(a==='close'){sheet=null;showSheet();return}
+ if(a==='choose'){picks[sheet.id]=t.dataset.v;sheet=null;showSheet();render();return}
+ if(a==='clear'){delete picks[sheet.id];sheet=null;showSheet();render();return}
+ if(a==='grant'){grantOpen[t.dataset.id]=!grantOpen[t.dataset.id];render();return}
+ if(a==='fold'){const L=+t.dataset.l;const s=stat(L);const cur0=open[L]!==undefined?open[L]:(L<=cur&&s.left>0||L===cur);open[L]=!cur0;render();return}
+ if(a==='jump'){const L=+t.dataset.l;open[L]=true;render();const el=$('#lv'+L);if(el)el.scrollIntoView({block:'start'});return}
+ if(a==='view'){view=Math.max(0,Math.min(30,+t.dataset.l));$('#screen').scrollTop=0;render(false);return}
+ if(a==='lvl'){cur=Math.max(1,Math.min(30,cur+ +t.dataset.d));reset();view=Math.min(view,30);render();return}
+ if(a==='fill'){for(let L=0;L<=cur;L++)fill(L);render();return}
+ if(a==='reset'){reset();render();return}
+ if(a==='prev'||a==='next'){const i=VARS.map(v=>v[0]).indexOf(variant);variant=VARS[(i+(a==='next'?1:VARS.length-1))%VARS.length][0];$('#screen').scrollTop=0;render(false)}});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')document.querySelector('[data-act=prev]').click();if(e.key==='ArrowRight')document.querySelector('[data-act=next]').click();if(e.key==='Escape'){sheet=null;showSheet()}});
+const q=new URLSearchParams(location.search);if(VARS.some(v=>v[0]===q.get('variant')))variant=q.get('variant');if(+q.get('level'))cur=Math.max(1,Math.min(30,+q.get('level')));
+view=cur;reset();render(false);
+</script></body></html>

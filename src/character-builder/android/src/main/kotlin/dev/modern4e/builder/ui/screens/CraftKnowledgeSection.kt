@@ -104,9 +104,8 @@ private fun CraftKnowledgePicker(
                     click = { inspected = if (inspected == entry.id) null else entry.id }, compact = true) {
                     CraftKnowledgeDetails(entry, level)
                     if (!fixed) {
-                        OutlinedButton(onClick = { draft = if (checked) draft - entry.id else draft + entry.id },
-                            modifier = Modifier.fillMaxWidth()) {
-                            Text(if (checked) "Remove" else "Learn")
+                        FolioButton(if (checked) "Remove" else "Learn", true, outlined = true, compact = true) {
+                            draft = if (checked) draft - entry.id else draft + entry.id
                         }
                     } else {
                         Text("Granted", color = Dim, fontSize = 12.sp)
@@ -115,7 +114,7 @@ private fun CraftKnowledgePicker(
             }
             items(selected.filter { id -> entries.none { it.id == id } }, key = { it }) { id ->
                 if (id in draft) {
-                    TextButton(onClick = { draft = draft - id }) { Text("Remove unavailable entry") }
+                    FolioTextButton("Remove unavailable entry") { draft = draft - id }
                 }
             }
         }
