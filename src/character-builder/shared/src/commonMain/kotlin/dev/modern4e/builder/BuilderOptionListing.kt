@@ -30,10 +30,12 @@ fun ContentEntry.advancementModificationIds(): List<String> {
 class BuilderOptionListing internal constructor(
     private val choices: ChoiceEvaluation,
     private val document: CharacterDocument,
-    private val level: Int,
-    private val slot: ChoiceSlotId,
+    /** The character level the slot is listed at. */
+    val level: Int,
+    val slot: ChoiceSlotId,
     private val catalog: ContentCatalog,
-    private val newInstanceId: String?,
+    /** The occurrence ID a new selection in this slot saves, when the caller supplied one. */
+    val newInstanceId: String?,
     private val featClasses: Set<String>?,
     private val featAncestries: Set<String>,
 ) {
@@ -43,11 +45,26 @@ class BuilderOptionListing internal constructor(
     private val retained = mutableMapOf<String, BuilderOptionRow>()
 
     /**
+     * This listing after an edit that produced [after], by its [ListingRetention] verdict: itself when kept, null when
+     * dropped, or a listing of the same slot for [after] made with [operations] that inherits this one's rows. A rebase
+     * without [operations] drops the listing.
+     */
+    fun retainedAfter(verdict: RetentionVerdict, after: BuilderState, operations: BuilderOperations?): BuilderOptionListing? =
+        when (verdict) {
+            RetentionVerdict.Drop -> null
+            RetentionVerdict.Keep -> this
+            is RetentionVerdict.Rebase -> operations?.optionListing(after.document, level, slot, newInstanceId,
+                if (slot.choiceId == "feat") after.featClasses() else null, after.featAncestries())?.also { rebased ->
+                rebased.inheritFrom(this) { !verdict.recheck(it) }
+            }
+        }
+
+    /**
      * Carry catalog content into a new character snapshot. Eligibility is copied only when the caller
      * can prove independence; otherwise the definition stays readable but the row must be checked again.
      * Metadata and membership are always obtained from the new snapshot before a retained row is exposed.
      */
-    fun inheritFrom(previous: BuilderOptionListing, retainEligibility: (ContentEntry) -> Boolean) {
+    internal fun inheritFrom(previous: BuilderOptionListing, retainEligibility: (ContentEntry) -> Boolean) {
         for ((id, row) in previous.retained + previous.checked) {
             val entry = row.option?.entry?.entry ?: continue
             retained[id] = if (row.checked && retainEligibility(entry)) row else row.copy(
@@ -135,38 +152,15 @@ class BuilderOptionListing internal constructor(
         checked.size == known.size && (slot.choiceId != "feat" || FeatGroup.entries.all { it in groups })
 
     /** Only complete, resolved snapshots can prove independence from another selection. */
-    private fun checkedEntries(): List<ContentEntry>? {
+    internal fun checkedEntries(): List<ContentEntry>? {
         if (known.isEmpty() || !fullyChecked()) {
             return null
         }
         return checked.values.map { it.option?.entry?.entry ?: return null }
     }
 
-    /** Check the authored dependencies of powers with extra requirements, such as skill utilities. */
-    fun canIgnoreFeatChange(feat: ContentEntry): Boolean {
-        val entries = checkedEntries() ?: return false
-        val profile = EffectProfile.of(feat)
-        val classes = catalog.search(category = EntryCategory.CLASS).map { it.metadata.id }.toSet()
-        return entries.all { entry ->
-            entry.category == EntryCategory.POWER && EffectProfile.of(entry).kind == EffectKind.PLAIN_POWER &&
-                (entry.mechanics.prerequisites + listOfNotNull(entry.mechanics.access)).flatMap { it.leaves() }.none { leaf ->
-                    // The pool already restricts a power list to the character's classes.
-                    !(leaf is Prerequisite.Entry && leaf.entryId in classes) && profile.canAffect(leaf)
-                }
-        }
-    }
-
-    /** A passive power still matters to lists that name it or ask for selected powers. */
-    fun canIgnorePowerChange(power: ContentEntry): Boolean {
-        val entries = checkedEntries() ?: return false
-        val profile = EffectProfile.of(power)
-        return entries.all { entry ->
-            entry.mechanics.version == 2 && entry.id != power.id &&
-                (entry.mechanics.prerequisites + listOfNotNull(entry.mechanics.access)).flatMap { it.leaves() }.none {
-                    profile.canAffect(it)
-                }
-        }
-    }
+    /** The installed category of every catalog entry, for requirement leaves that name an entry. */
+    internal fun categories(): Map<String, EntryCategory> = catalog.categories()
 
     /** Load nested grants and explicitly offered alternatives for the detail reader. */
     private suspend fun previewDefinitions(root: ContentEntry): Map<String, ContentEntry> {

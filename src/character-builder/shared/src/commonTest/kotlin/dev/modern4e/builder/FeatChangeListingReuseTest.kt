@@ -30,8 +30,8 @@ class FeatChangeListingReuseTest {
                 .any { it is Prerequisite.Proficiency }
         }
 
-        assertTrue(listing.canIgnoreFeatChange(plainFeat), "A passive feat cannot reach these utilities")
-        assertFalse(listing.canIgnoreFeatChange(classProfileFeat), "A class profile is an indirect effect")
+        assertTrue(ListingRetention.canIgnoreFeatChange(listing, plainFeat), "A passive feat cannot reach these utilities")
+        assertFalse(ListingRetention.canIgnoreFeatChange(listing, classProfileFeat), "A class profile is an indirect effect")
         val categories = catalog.search().associate { it.metadata.id to it.metadata.category }
         assertTrue(ChoiceCacheDependencies.canRetain(skillGated, listOf(plainFeat), categories))
         assertFalse(ChoiceCacheDependencies.canRetain(skillGated, listOf(classProfileFeat), categories),

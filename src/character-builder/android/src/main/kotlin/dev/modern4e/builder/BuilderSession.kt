@@ -103,9 +103,8 @@ class BuilderSession(
     private var warming: Job? = null
     /** How long a committed edit waits for further edits before background warming starts. */
     internal var warmupSettleMillis = 300L
-    private class RetainedListing(val listing: BuilderOptionListing, val newInstanceId: String)
     /** Access-ordered, so the listings dropped first when the working set is full are the least recently used. */
-    private val optionListings = LinkedHashMap<Pair<Int, ChoiceSlotId>, RetainedListing>(16, 0.75f, true)
+    private val optionListings = LinkedHashMap<Pair<Int, ChoiceSlotId>, BuilderOptionListing>(16, 0.75f, true)
     /** Pickers the user opened lately, oldest first, so their rows are rechecked ahead of speculative warming. Guarded by [optionListings]. */
     private val openedPickers = linkedSetOf<Pair<Int, ChoiceSlotId>>()
     /** Pickers currently filling their rows; background warming waits for this to reach zero between batches. */
@@ -853,28 +852,23 @@ class BuilderSession(
             val previous = current
             // Keep catalog reads across edits, but prepare rules against the new document.
             browsingOperations = browsingOperations?.nextBrowsingSession()
-            val categories = catalog?.search()?.associate { it.metadata.id to it.metadata.category }.orEmpty()
             for ((key, retained) in optionListings.toMap()) {
                 if (previous == null) {
                     optionListings.remove(key)
-                } else if (!stillValid(previous, updated, key.first, key.second, retained)) {
-                    val browsing = browsingOperations ?: operations?.browsingSession()?.also { browsingOperations = it }
-                    val listing = browsing?.optionListing(updated.document, key.first, key.second, retained.newInstanceId,
-                        if (key.second.choiceId == "feat") updated.featClasses() else null, updated.featAncestries())
-                    if (listing == null) {
-                        optionListings.remove(key)
-                    } else {
-                        val changes = cacheSelectionChanges(previous, updated, key.first)
-                        val samePool = sameChoicePool(previous, updated, key.second)
-                        fun BuilderState.occurrence() = document.levels.flatMap { it.entries }
-                            .firstOrNull { it.slot == key.second }?.instanceId ?: retained.newInstanceId
-                        val sameOccurrence = previous.occurrence() == updated.occurrence()
-                        listing.inheritFrom(retained.listing) { candidate ->
-                            samePool && sameOccurrence && changes != null &&
-                                ChoiceCacheDependencies.canRetain(candidate, changes, categories)
-                        }
-                        optionListings[key] = RetainedListing(listing, retained.newInstanceId)
-                    }
+                    continue
+                }
+                val verdict = ListingRetention.verdict(previous, updated, retained)
+                val browsing = if (verdict is RetentionVerdict.Rebase) {
+                    browsingOperations ?: operations?.browsingSession()?.also { browsingOperations = it }
+                } else {
+                    null
+                }
+                val listing = retained.retainedAfter(verdict, updated, browsing)
+                if (listing == null) {
+                    optionListings.remove(key)
+                } else if (listing !== retained) {
+                    // A kept listing is not touched, so it keeps its place in the least-recently-used order.
+                    optionListings[key] = listing
                 }
             }
             current = updated
@@ -1147,7 +1141,7 @@ class BuilderSession(
         if (state?.document != original || catalog !== originalCatalog) {
             return@withLock null
         }
-        val retained = synchronized(optionListings) { optionListings[level to slot]?.listing }
+        val retained = synchronized(optionListings) { optionListings[level to slot] }
         if (retained != null || !create) {
             return@withLock retained
         }
@@ -1162,12 +1156,12 @@ class BuilderSession(
                 return@synchronized null
             }
             val key = level to slot
-            optionListings[key]?.listing ?: run {
+            optionListings[key] ?: run {
                 val newInstanceId = original.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
                     ?.instanceId ?: UUID.randomUUID().toString()
                 val featClasses = if (slot.choiceId == "feat") featState.featClasses() else null
                 browsing?.optionListing(original, level, slot, newInstanceId, featClasses, featState.featAncestries())?.also {
-                    optionListings[key] = RetainedListing(it, newInstanceId)
+                    optionListings[key] = it
                     while (optionListings.size > OPTION_LISTING_LIMIT) {
                         optionListings.remove(optionListings.keys.first())
                     }
@@ -1241,185 +1235,12 @@ class BuilderSession(
     internal fun requirementClassIds(): Set<String> =
         catalog?.search(category = EntryCategory.CLASS).orEmpty().mapTo(mutableSetOf()) { it.metadata.id }
 
-    /** Feat access can come from a class entry or a multiclass feat. Include qualification facts conservatively. */
-    private fun BuilderState.featClasses(): Set<String> = buildSet {
-        addAll(document.classEntryIds())
-        for (occurrence in rules.entries) {
-            val entry = occurrence.definition.entry
-            if (entry.category == EntryCategory.CLASS) {
-                add(entry.id)
-            }
-            if (entry.category == EntryCategory.FEAT) {
-                entry.mechanics.multiclassFor?.let { add(it) }
-            }
-        }
-        rules.facts.filter { it.kind == FactKind.ANCESTRY_QUALIFICATION }.forEach { add(it.value) }
-    }
-
-    /** Past Life can qualify a character for another ancestry's feats. */
-    private fun BuilderState.featAncestries(): Set<String> = buildSet {
-        addAll(document.ancestryEntryIds())
-        rules.facts.filter { it.kind == FactKind.ANCESTRY_QUALIFICATION }.forEach { add(it.value) }
-    }
-
-    /** The Class and Ancestry pickers list the whole catalog and never depend on the rest of the character. */
-    private fun isRootList(level: Int, slot: ChoiceSlotId) =
-        AdvancementRules.rootCategory(level, slot).let { it == EntryCategory.CLASS || it == EntryCategory.ANCESTRY }
-
     private fun preloadedRootRows(document: CharacterDocument, level: Int, slot: ChoiceSlotId): List<BuilderOptionRow>? {
-        if (!isRootList(level, slot)) {
+        if (!ListingRetention.isRootList(level, slot)) {
             return null
         }
         val prepared = homePickers?.takeIf { it.packages == document.packages } ?: return null
         return if (slot.choiceId == "class") prepared.classes else prepared.ancestries
-    }
-
-    /**
-     * The candidate check replaces its own slot before evaluating rules. Saving a candidate there can
-     * reuse the listing when the same occurrence and candidate pool are still in use and other inputs
-     * at or below the slot level are unchanged.
-     */
-    private fun stillValid(before: BuilderState, after: BuilderState, level: Int, slot: ChoiceSlotId,
-        retained: RetainedListing): Boolean {
-        if (slot.choiceId == "feat" &&
-            (before.featClasses() != after.featClasses() || before.featAncestries() != after.featAncestries())) {
-            return false
-        }
-        if (isRootList(level, slot) || firstChangedLevel(before.document, after.document) > level) {
-            return true
-        }
-        val ignores = independentSelections(before, after, slot, retained.listing)
-        if (firstChangedLevel(before.document, after.document, ignoreEntry = ignores) > level) {
-            return sameChoicePool(before, after, slot)
-        }
-        val previous = before.document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
-        val selected = after.document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
-        if ((previous?.instanceId ?: retained.newInstanceId) != (selected?.instanceId ?: retained.newInstanceId) ||
-            firstChangedLevel(before.document, after.document, level to slot, ignores) <= level) {
-            return false
-        }
-        // Root Theme and Feat listings use the installed category, independent of the effective choice.
-        val rootCategory = AdvancementRules.rootCategory(level, slot)
-        val catalogRoot = (level == 1 && (rootCategory == EntryCategory.THEME || rootCategory == EntryCategory.FEAT)) ||
-            (level == 2 && rootCategory == EntryCategory.FEAT)
-        if (catalogRoot) {
-            return true
-        }
-        return sameChoicePool(before, after, slot)
-    }
-
-    /**
-     * Pool changes always discard results, even when the triggering edit belongs to another family. Only inline offers
-     * carry a pool; a root offer's deferred listing comes from its fixed catalog category.
-     */
-    private fun sameChoicePool(before: BuilderState, after: BuilderState, slot: ChoiceSlotId): Boolean {
-        fun EngineChoice.membership() = Triple(optional, acquisitionLevel, entries.map { it.entryId })
-        fun BuilderState.pool() = rules.choices.singleOrNull { it.slot == slot && it.listing == SlotListing.INLINE }
-        return before.pool()?.membership() == after.pool()?.membership()
-    }
-
-    /** Utility is one family; attack powers are separate families for each usage. */
-    private fun powerFamily(kind: String?, usage: String?): String? = when (kind) {
-        "UTILITY" -> "UTILITY"
-        "ATTACK" -> usage?.let { "ATTACK:$it" }
-        else -> null
-    }
-
-    /** Unknown or non-selection input changes require fresh eligibility, while definitions remain reusable. */
-    private fun cacheSelectionChanges(before: BuilderState, after: BuilderState, level: Int): List<ContentEntry>? {
-        if (firstChangedLevel(before.document, after.document, ignoreEntry = { true }) <= level ||
-            cachePoolRules(before) != cachePoolRules(after)) {
-            return null
-        }
-        fun CharacterDocument.selections() = levels.filter { it.level <= level }.flatMap {
-            it.entries + it.replacements.map { replacement -> replacement.replacement }
-        }.toSet()
-        val old = before.document.selections()
-        val new = after.document.selections()
-        val changed = ((old - new) + (new - old)).map { it.selection.entryId }.toMutableSet()
-        val replacements = (before.document.levels + after.document.levels).filter { it.level <= level }
-            .flatMap { it.replacements }.map { it.replaces }.toSet()
-        changed += (old + new).filter { it.slot in replacements }.map { it.selection.entryId }
-        val definitions = (before.rules.entries + after.rules.entries).associate { it.definition.entry.id to it.definition.entry }
-        return changed.map { definitions[it] ?: return null }
-    }
-
-    /** Active pool overrides and granted powers can change eligibility without changing offered entry IDs. */
-    private fun cachePoolRules(state: BuilderState) = state.rules.entries.filter {
-        val mechanics = it.definition.entry.mechanics
-        mechanics.selectionModifiers.isNotEmpty() || mechanics.collections.isNotEmpty() ||
-            it.definition.entry.category == EntryCategory.CLASS ||
-            it.granted && it.definition.entry.category == EntryCategory.POWER
-    }.map { Triple(it.instanceId, it.slot, it.definition.entry) }
-
-    /**
-     * Ignore only selections proven independent of this completed listing. Unknown definitions and
-     * mechanics that grant facts or change power pools retain the conservative level-based rule.
-     */
-    private fun independentSelections(before: BuilderState, after: BuilderState, slot: ChoiceSlotId,
-        listing: BuilderOptionListing): (EntryChoice) -> Boolean {
-        fun CharacterDocument.selections() = levels.flatMap { it.entries + it.replacements.map { change -> change.replacement } }.toSet()
-        val old = before.document.selections()
-        val new = after.document.selections()
-        val changedIds = ((old - new) + (new - old)).mapTo(mutableSetOf()) { it.selection.entryId }
-        val oldReplacements = before.document.levels.flatMap { it.replacements }.toSet()
-        val newReplacements = after.document.levels.flatMap { it.replacements }.toSet()
-        val replacedSlots = ((oldReplacements - newReplacements) + (newReplacements - oldReplacements)).map { it.replaces }.toSet()
-        changedIds += (old + new).filter { it.slot in replacedSlots }.map { it.selection.entryId }
-        if (changedIds.isEmpty()) {
-            return { false }
-        }
-        val choice = before.rules.choices.singleOrNull { it.slot == slot }
-        val query = choice?.let { Progression.powerQuery(before, it) }
-        val family = query?.let { powerFamily(it.powerKind, it.usage) }
-        val samePowerRules = family != null && cachePoolRules(before) == cachePoolRules(after)
-        val definitions = (before.rules.entries + after.rules.entries).map { it.definition.entry }
-            .filter { it.id in changedIds }.associateBy { it.id }
-        val ignored = definitions.values.filter { entry ->
-            val mechanics = entry.mechanics
-            when (entry.category) {
-                EntryCategory.POWER -> {
-                    val profile = mechanics.powerProfile
-                    val passive = EffectProfile.of(entry).kind == EffectKind.PLAIN_POWER
-                    passive &&(family == null || family != powerFamily(profile?.powerKind, profile?.usage)) &&
-                        listing.canIgnorePowerChange(entry)
-                }
-                EntryCategory.FEAT -> samePowerRules && mechanics.version == 2 &&
-                    listing.canIgnoreFeatChange(entry)
-                else -> false
-            }
-        }.mapTo(mutableSetOf()) { it.id }
-        return { it.selection.entryId in ignored }
-    }
-
-    /** Lowest level whose rules inputs differ between two documents; 1 for non-level inputs, Int.MAX_VALUE if none. */
-    private fun firstChangedLevel(old: CharacterDocument, new: CharacterDocument, ignored: Pair<Int, ChoiceSlotId>? = null,
-        ignoreEntry: (EntryChoice) -> Boolean = { false }): Int {
-        fun CharacterDocument.nonLevelInputs() = copy(savedAt = "", level = 1, levels = emptyList(),
-            identity = CharacterIdentity("-", environment = identity.environment, upbringing = identity.upbringing))
-        if (old.nonLevelInputs() != new.nonLevelInputs()) {
-            return 1
-        }
-        val top = maxOf(old.level, new.level, old.levels.maxOfOrNull { it.level } ?: 0, new.levels.maxOfOrNull { it.level } ?: 0)
-        val replacementInputs = (old.levels + new.levels).flatMap { decisions ->
-            decisions.entries + decisions.replacements.map { it.replacement }
-        }.groupBy { it.slot }
-        fun CharacterDocument.decisions(level: Int): LevelDecisions? {
-            val decisions = levels.firstOrNull { it.level == level }
-            return decisions?.copy(entries = decisions.entries.filterNot {
-                ignored?.first == level && it.slot == ignored.second || ignoreEntry(it)
-            }, replacements = decisions.replacements.filterNot { replacement ->
-                // A replacement also removes its predecessor; both sides must be independent.
-                val displaced = replacementInputs[replacement.replaces].orEmpty()
-                displaced.isNotEmpty() && displaced.all(ignoreEntry) && ignoreEntry(replacement.replacement)
-            })
-        }
-        for (level in 1..top) {
-            if (old.decisions(level) != new.decisions(level)) {
-                return level
-            }
-        }
-        return if (old.level != new.level) minOf(old.level, new.level) + 1 else Int.MAX_VALUE
     }
 
     /**
@@ -1430,7 +1251,7 @@ class BuilderSession(
      * from Home. A character with no class or ancestry simply has rows without eligibility to show; a failed read leaves
      * the rest to the picker.
      *
-     * Lists that are still valid (see [stillValid]) are reused across edits. [settle] holds the first batch back until
+     * Lists are reused across edits by their [ListingRetention] verdict. [settle] holds the first batch back until
      * edits stop arriving, so a burst of taps never queues behind background work, and every later batch yields to an
      * open picker or a pending edit.
      */

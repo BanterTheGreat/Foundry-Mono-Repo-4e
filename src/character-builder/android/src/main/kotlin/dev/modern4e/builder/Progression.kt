@@ -262,15 +262,7 @@ object Progression {
     internal fun isPowerPool(state: BuilderState, choice: EngineChoice): Boolean =
         powerQuery(state, choice)?.category == EntryCategory.POWER
 
-    internal fun powerQuery(state: BuilderState, choice: EngineChoice): PowerQuery? {
-        if (choice.optional || choice.abilities.isNotEmpty() || choice.entries.isEmpty()) {
-            return null
-        }
-        val source = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId } ?: return null
-        val mechanics = source.definition.entry.mechanics
-        return (mechanics.choices + mechanics.progression.flatMap { it.choices })
-            .filterIsInstance<ChoiceDefinition.Entries>().firstOrNull { it.id == choice.slot.choiceId }?.query
-    }
+    internal fun powerQuery(state: BuilderState, choice: EngineChoice): PowerQuery? = state.powerQuery(choice)
 
     /** Feature choices may be owned by the class itself or by one of the features it grants. */
     internal fun isClassFeatureChoice(state: BuilderState, choice: EngineChoice): Boolean {

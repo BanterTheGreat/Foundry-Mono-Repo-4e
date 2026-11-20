@@ -11,7 +11,10 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
-/** Checks retained picker results through real content, committed edits and the normal listing API. */
+/**
+ * Checks retained picker results through real content, committed edits and the normal listing API. The retention rules
+ * themselves are covered without a session by the shared `ListingRetentionTest`; these stay as integration checks.
+ */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class PowerChoiceCacheTest {
@@ -68,71 +71,6 @@ class PowerChoiceCacheTest {
         val id = candidates.first { it.option?.eligibility == Eligibility.ELIGIBLE }.metadata.metadata.id
         edit(BuilderEdit.Entry(level, slot, id, progressionEntryInstance(level, slot), true))
         assertTrue(errors.toString(), errors.isEmpty())
-    }
-
-    @Test fun dailyPickKeepsOtherUsageAndUtilityListsButRefreshesLaterDaily() = runBlocking {
-        val model = session()
-        val daily = model.pool(1, "class-attack-daily")
-        val laterDaily = model.pool(5, "class-attack-daily-5")
-        val independent = listOf(
-            1 to model.pool(1, "class-attack-at-will"),
-            1 to model.pool(1, "class-attack-encounter"),
-            3 to model.pool(3, "class-attack-encounter-3"),
-            2 to model.pool(2, "class-utility-2"),
-        ).associateWith { (level, slot) -> model.rows(level, slot) }
-        val own = model.rows(1, daily)
-        model.rows(5, laterDaily)
-
-        model.pick(1, daily, own)
-
-        assertEquals("The edited slot reuses its candidate checks", own, model.firstRows(1, daily))
-        for ((target, rows) in independent) {
-            assertEquals("Daily does not affect $target", rows, model.firstRows(target.first, target.second))
-        }
-        assertTrue("Later Daily must account for the newly known power", model.firstRows(5, laterDaily).none { it.checked })
-        val selected = model.current!!.document.levels.first().entries.single { it.slot == daily }.selection.entryId
-        assertEquals(Eligibility.INELIGIBLE, model.rows(5, laterDaily).first { it.metadata.metadata.id == selected }.option?.eligibility)
-    }
-
-    @Test fun utilityPickKeepsAttackListsAndRefreshesLaterUtility() = runBlocking {
-        val model = session()
-        val utility = model.pool(2, "class-utility-2")
-        val laterUtility = model.pool(6, "class-utility-6")
-        val attacks = listOf(
-            1 to model.pool(1, "class-attack-at-will"),
-            3 to model.pool(3, "class-attack-encounter-3"),
-            5 to model.pool(5, "class-attack-daily-5"),
-        ).associateWith { (level, slot) -> model.rows(level, slot) }
-        val own = model.rows(2, utility)
-        model.rows(6, laterUtility)
-
-        model.pick(2, utility, own)
-
-        assertEquals(own, model.firstRows(2, utility))
-        for ((target, rows) in attacks) {
-            assertEquals("Utility does not affect $target", rows, model.firstRows(target.first, target.second))
-        }
-        assertTrue(model.firstRows(6, laterUtility).none { it.checked })
-    }
-
-    @Test fun featChangeKeepsOrdinaryClassPowerLists() = runBlocking {
-        val model = session()
-        val feat = ChoiceSlotId("creation", "feat", 0)
-        model.edit(BuilderEdit.RemoveEntry(feat))
-        assertTrue(model.errors.toString(), model.errors.isEmpty())
-        val powers = listOf(
-            1 to model.pool(1, "class-attack-at-will"),
-            1 to model.pool(1, "class-attack-encounter"),
-            5 to model.pool(5, "class-attack-daily-5"),
-            2 to model.pool(2, "class-utility-2"),
-        ).associateWith { (level, slot) -> model.rows(level, slot) }
-        model.rows(1, feat, FeatGroup.GENERAL)
-        model.edit(BuilderEdit.Entry(1, feat, "modern4e.feat.improved-initiative", model.progressionEntryInstance(1, feat), true))
-        assertTrue(model.errors.toString(), model.errors.isEmpty())
-
-        for ((target, rows) in powers) {
-            assertEquals("Feat does not affect ordinary class power $target", rows, model.firstRows(target.first, target.second))
-        }
     }
 
     @Test fun removingSkillTrainingRefreshesUtilityPrerequisitesButKeepsOrdinaryAttackLists() = runBlocking {
@@ -288,44 +226,5 @@ class PowerChoiceCacheTest {
         assertEquals(1, model.current!!.rules.selectionSets.single {
             it.sourceInstanceId == atWill.sourceInstanceId && it.choiceId == choiceId
         }.required)
-    }
-
-    @Test fun clearingPowerRefreshesSameUsageSiblingsAndLaterChoices() = runBlocking {
-        val model = session()
-        val atWill = model.pool(1, "class-attack-at-will")
-        val sibling = model.pool(1, "class-attack-at-will", 1)
-        val daily = model.pool(1, "class-attack-daily")
-        val laterDaily = model.pool(5, "class-attack-daily-5")
-        model.rows(1, sibling)
-        model.pick(1, atWill, model.rows(1, atWill))
-        assertTrue("Same-level duplicate checks must refresh", model.firstRows(1, sibling).none { it.checked })
-        val dailyRows = model.rows(1, daily)
-        model.pick(1, daily, dailyRows)
-        val independent = model.rows(1, sibling)
-        model.rows(5, laterDaily)
-
-        model.edit(BuilderEdit.RemoveEntry(daily))
-        assertTrue(model.errors.toString(), model.errors.isEmpty())
-
-        assertEquals(independent, model.firstRows(1, sibling))
-        assertEquals("Clearing a slot retains its independent candidate checks", dailyRows, model.firstRows(1, daily))
-        assertTrue("Clearing Daily changes later duplicate eligibility", model.firstRows(5, laterDaily).none { it.checked })
-    }
-
-    @Test fun abilityAndClassChangesStillRefreshPowerLists() = runBlocking {
-        val model = session()
-        val daily = model.pool(1, "class-attack-daily")
-        model.rows(1, daily)
-        val allocation = model.current!!.document.abilities
-        model.edit(BuilderEdit.Allocation(allocation.copy(points = allocation.points + mapOf(Ability.DEXTERITY to 1, Ability.WISDOM to 1))))
-        assertTrue(model.errors.toString(), model.errors.isEmpty())
-        assertTrue("Ability changes keep conservative invalidation", model.firstRows(1, daily).none { it.checked })
-        val before = model.rows(1, daily).map { it.metadata.metadata.id }
-        model.edit(BuilderEdit.Entry(1, ChoiceSlotId("creation", "class", 0), "modern4e.class.wizard", "fighter", true))
-        assertTrue(model.errors.toString(), model.errors.isEmpty())
-        val wizardDaily = model.pool(1, "class-attack-daily")
-        val refreshed = model.firstRows(1, wizardDaily)
-        assertTrue("Class change refreshes retained pool", refreshed.none { it.checked })
-        assertNotEquals("Class change offers its own powers", before, refreshed.map { it.metadata.metadata.id })
     }
 }

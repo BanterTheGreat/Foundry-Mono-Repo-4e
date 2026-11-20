@@ -264,6 +264,23 @@ diagnostics are not blockers and change no totals. Callers count `missing` offer
 instead of rebuilding the schedule; Android's Levels screen and missing-choice count
 read them.
 
+## Listing retention
+
+`EffectProfile.of(entry)` classifies an entry's own mechanics as passive, a plain power
+(passive plus a power profile) or active, lists the kinds of facts it can supply
+(identity, power profile, further entries, facts, proficiencies, ability points,
+equipment proficiency, class access, size, pool rules) and answers whether it can
+change one requirement leaf. The prepared feat and power fast paths and listing
+retention all ask it.
+
+`ListingRetention.verdict(before, after, listing)` decides from the character before
+and after an edit whether a `BuilderOptionListing` is still correct: `Drop` (another
+character), `Keep`, or `Rebase(recheck)`, which keeps every loaded definition and marks
+the rows `recheck` selects unchecked. A listing survives while its slot's occurrence,
+candidate pool and every rules input at or below its level are unchanged, ignoring
+selections proven independent of it. `BuilderOptionListing.retainedAfter` applies a
+verdict. Content changes are not judged: callers discard every listing first.
+
 ## Structured feat and ancestry choices (#29)
 
 `ChoiceDefinition.Values` exposes finite `ValueOption` identities and labels.

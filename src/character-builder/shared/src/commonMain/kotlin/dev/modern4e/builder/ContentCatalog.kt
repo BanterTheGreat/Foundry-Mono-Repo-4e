@@ -26,6 +26,9 @@ class ContentCatalog private constructor(
         return ContentCatalog(source, packages, entries, definitions, diagnostics, mutableMapOf(), mutableMapOf())
     }
 
+    /** The category of every winning entry, unsorted; never loads a chunk. */
+    internal fun categories(): Map<String, EntryCategory> = entries.mapValues { it.value.metadata.category }
+
     /**
      * Search winning metadata only; never loads a chunk. Ordering is stable across platforms.
      * With [classIds], powers selectable only by other classes are left out; everything else is unaffected.

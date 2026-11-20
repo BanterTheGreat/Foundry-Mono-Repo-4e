@@ -11,7 +11,10 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
-/** Exercises selective refresh through committed edits and the picker’s first published rows. */
+/**
+ * Exercises selective refresh through committed edits and the picker’s first published rows. Occurrence and structural
+ * edits are covered without a session by the shared `ListingRetentionTest`.
+ */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class ChoiceCacheRefreshTest {
@@ -148,37 +151,6 @@ class ChoiceCacheRefreshTest {
         assertEquals(Eligibility.INELIGIBLE, final.getValue(dependentFeat).option?.eligibility)
         val fresh = model.progressionOptions(4, later).associate { it.entry.entry.id to it.eligibility }
         assertEquals(fresh.filterKeys { it in final }, final.mapValues { it.value.option?.eligibility })
-    }
-
-    @Test fun changedOccurrenceKeepsContentButRefreshesEligibility() = runBlocking {
-        val model = session()
-        model.edit(BuilderEdit.Entry(4, later, independentFeat, "first-occurrence", true))
-        assertTrue(model.errors.toString(), model.errors.isEmpty())
-        model.warmAllTabs()
-
-        val decisions = model.current!!.document.levels.single { it.level == 4 }
-        model.edit(BuilderEdit.LaterDecisions(decisions.copy(entries = decisions.entries.map {
-            if (it.slot == later) it.copy(instanceId = "changed-occurrence") else it
-        })))
-        assertTrue(model.errors.toString(), model.errors.isEmpty())
-
-        assertTrue(model.firstRows().all { !it.checked && it.option != null })
-    }
-
-    @Test fun structuralEditRetainsDescriptionsWhileRefreshingEveryEligibilityResult() = runBlocking {
-        val model = session()
-        val before = model.warmAllTabs().associateBy { it.metadata.metadata.id }
-        val allocation = model.current!!.document.abilities
-
-        model.edit(BuilderEdit.Allocation(allocation.copy(points = allocation.points +
-            mapOf(Ability.DEXTERITY to 1, Ability.WISDOM to 1))))
-        assertTrue(model.errors.toString(), model.errors.isEmpty())
-
-        val first = model.firstRows()
-        assertTrue(first.all { !it.checked && it.option?.eligibility == Eligibility.UNRESOLVED })
-        for (row in first) {
-            assertEquals(before.getValue(row.metadata.metadata.id).option?.entry, row.option?.entry)
-        }
     }
 
     @Test fun unseenTabStartsFreshAfterEarlierFeatEdit() = runBlocking {
