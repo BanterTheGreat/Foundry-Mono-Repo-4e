@@ -23,7 +23,7 @@ import dev.modern4e.builder.ui.screens.pickerSheetHeight
 
 /** Presents workflow modals, prioritizing blocking operational errors. */
 @Composable
-internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession.() -> Unit) -> Unit) {
+internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession.() -> Unit) -> Unit, exports: ExportTargets? = null) {
     if (model.errors.isNotEmpty()) {
         FolioDialog("Something went wrong", {}, dismissible = false) {
             Text("Return to the main menu before continuing. Unsaved changes in this session will be discarded.")
@@ -40,6 +40,31 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
                 Text(message)
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     TextButton(onClick = { model.notice = null }) { Text("OK") }
+                }
+            }
+        }
+        if (model.exportChoice && exports != null) {
+            FolioDialog("Export character", { model.exportChoice = false }) {
+                Text("Save a copy of this character as a JSON file, or share it with a friend.", color = Dim)
+                TextButton(enabled = model.canExport, onClick = {
+                    model.exportChoice = false
+                    task { export(exports.save) }
+                }) { Text("Save to device") }
+                TextButton(enabled = model.canExport, onClick = {
+                    model.exportChoice = false
+                    task { export(exports.share) }
+                }) { Text("Share") }
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    TextButton(onClick = { model.exportChoice = false }) { Text("Cancel") }
+                }
+            }
+        }
+        model.exportFailure?.let { reason ->
+            FolioDialog("Export failed", { model.exportFailure = null }) {
+                Text("The character was not exported, and no file was kept.")
+                Text(reason, color = Accent, modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    TextButton(onClick = { model.exportFailure = null }) { Text("OK") }
                 }
             }
         }

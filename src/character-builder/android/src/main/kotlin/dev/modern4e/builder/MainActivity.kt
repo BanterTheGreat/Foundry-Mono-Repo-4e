@@ -14,6 +14,11 @@ class MainActivity : ComponentActivity() {
         val picker = AndroidDocumentPicker(this)
         val exchange = AndroidFileExchange(contentResolver, picker)
         val portraitChooser = AndroidPortraitChooser(contentResolver, picker)
+        val exports = ExportTargets(AndroidSaveExportTarget(contentResolver, picker), AndroidShareExportTarget(this))
+        if (savedInstanceState == null) {
+            // Only on a fresh launch, so a rotation cannot delete a file the share sheet is still reading.
+            AndroidShareExportTarget.deleteStaleExports(this)
+        }
         val model = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 val portraits = PortraitStore(File(applicationContext.filesDir, "portraits"), BitmapPortraitEncoder)
@@ -24,6 +29,6 @@ class MainActivity : ComponentActivity() {
                 } as T
             }
         })[BuilderSession::class.java]
-        setContent { BuilderApp(model, exchange, portraitChooser) }
+        setContent { BuilderApp(model, exchange, portraitChooser, exports = exports) }
     }
 }

@@ -32,8 +32,15 @@ internal fun String.readable() = lowercase().replace('_', ' ').replaceFirstChar 
 
 /** App shell: initializes the session and coordinates navigation, chrome, and destinations. */
 @Composable
-fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: PortraitChooser? = null) {
+fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: PortraitChooser? = null, exports: ExportTargets? = null) {
     val scope = rememberCoroutineScope()
+    val snackbar = remember { SnackbarHostState() }
+    LaunchedEffect(model.exportedMessage) {
+        model.exportedMessage?.let { message ->
+            snackbar.showSnackbar(message)
+            model.exportedMessage = null
+        }
+    }
     fun task(action: suspend BuilderSession.() -> Unit) { scope.launch { model.run(action) } }
     LaunchedEffect(Unit) { model.run { refresh() } }
     LaunchedEffect(model) { model.preloadHomePickers() }
@@ -56,101 +63,109 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
             onExit = { model.page = "home" },
             onOpen = { task { openLibrary() } },
             onValidation = { model.page = "validation" },
-            exportEnabled = model.canExport,
+            onExport = { model.exportChoice = true },
+            exportEnabled = model.canExport && exports != null,
         ) {
             Surface(Modifier.fillMaxSize(), color = Paper) {
-                Column(Modifier.fillMaxSize().systemBarsPadding()) {
-                    if (model.page == "home") {
-                        Row(Modifier.fillMaxWidth().height(62.dp).padding(end = 4.dp), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Top) {
-                            IconButton({}, enabled = false, modifier = Modifier.size(48.dp).semantics { contentDescription = "Settings, coming later" }) {
-                                WrenchIcon()
+                Box(Modifier.fillMaxSize()) {
+                    Column(Modifier.fillMaxSize().systemBarsPadding()) {
+                        if (model.page == "home") {
+                            Row(Modifier.fillMaxWidth().height(62.dp).padding(end = 4.dp), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Top) {
+                                IconButton({}, enabled = false, modifier = Modifier.size(48.dp).semantics { contentDescription = "Settings, coming later" }) {
+                                    WrenchIcon()
+                                }
                             }
-                        }
-                    } else {
-                        Row(Modifier.fillMaxWidth().height(62.dp).padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                            IconButton(enabled = !model.busy, onClick = model::navigateBack,
-                                modifier = Modifier.size(48.dp).semantics { contentDescription = "Back" }) {
-                                Canvas(Modifier.size(24.dp)) {
-                                    val chevron = Path().apply {
-                                        moveTo(size.width * .625f, size.height * .25f)
-                                        lineTo(size.width * .375f, size.height * .5f)
-                                        lineTo(size.width * .625f, size.height * .75f)
+                        } else {
+                            Row(Modifier.fillMaxWidth().height(62.dp).padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                                IconButton(enabled = !model.busy, onClick = model::navigateBack,
+                                    modifier = Modifier.size(48.dp).semantics { contentDescription = "Back" }) {
+                                    Canvas(Modifier.size(24.dp)) {
+                                        val chevron = Path().apply {
+                                            moveTo(size.width * .625f, size.height * .25f)
+                                            lineTo(size.width * .375f, size.height * .5f)
+                                            lineTo(size.width * .625f, size.height * .75f)
+                                        }
+                                        drawPath(chevron, Accent, style = Stroke(width = 1.5.dp.toPx()))
                                     }
-                                    drawPath(chevron, Accent, style = Stroke(width = 1.5.dp.toPx()))
+                                }
+                                val character = model.page in CharacterTabs
+                                Row(Modifier.weight(1f).height(48.dp).then(
+                                    if (character) Modifier.clickable(enabled = !model.busy) { model.beginEdit("Name") }
+                                        .semantics(mergeDescendants = true) { contentDescription = "Edit character name" } else Modifier),
+                                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    Text(if (character) model.current?.document?.identity?.name.orEmpty() else if (model.page == "import") "Import Character" else "Characters",
+                                        fontFamily = FontFamily.Serif, fontSize = 24.sp, lineHeight = 28.sp,
+                                        modifier = Modifier.weight(1f, fill = false), maxLines = 1,
+                                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+                                    if (character) { PencilIcon() }
+                                }
+                                if (character && model.exporting) {
+                                    Text("Exporting…", color = Dim, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 8.dp))
+                                } else if (character && model.saving) {
+                                    Text("Saving…", color = Dim, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 8.dp))
+                                }
+                                if (character) {
+                                    IconButton(onClick = { scope.launch { drawerState.open() } }, enabled = !model.busy,
+                                        modifier = Modifier.semantics { contentDescription = "Character menu" }) {
+                                        CogIcon()
+                                    }
                                 }
                             }
-                            val character = model.page in CharacterTabs
-                            Row(Modifier.weight(1f).height(48.dp).then(
-                                if (character) Modifier.clickable(enabled = !model.busy) { model.beginEdit("Name") }
-                                    .semantics(mergeDescendants = true) { contentDescription = "Edit character name" } else Modifier),
-                                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                Text(if (character) model.current?.document?.identity?.name.orEmpty() else if (model.page == "import") "Import Character" else "Characters",
-                                    fontFamily = FontFamily.Serif, fontSize = 24.sp, lineHeight = 28.sp,
-                                    modifier = Modifier.weight(1f, fill = false), maxLines = 1,
-                                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
-                                if (character) { PencilIcon() }
-                            }
-                            if (character && model.saving) {
-                                Text("Saving…", color = Dim, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 8.dp))
-                            }
-                            if (character) {
-                                IconButton(onClick = { scope.launch { drawerState.open() } }, enabled = !model.busy,
-                                    modifier = Modifier.semantics { contentDescription = "Character menu" }) {
-                                    CogIcon()
+                            HorizontalDivider(color = Line)
+                        }
+                        if (model.busy || model.saving) { LinearProgressIndicator(Modifier.fillMaxWidth()) }
+                        AnimatedContent(if (model.page in CharacterTabs) "character" else model.page, modifier = Modifier.weight(1f), label = "Screen transition", transitionSpec = {
+                            val order = listOf("home", "library", "import", "character")
+                            val forward = order.indexOf(targetState) > order.indexOf(initialState)
+                            slideInHorizontally(tween(220)) { if (forward) it else -it } togetherWith
+                                slideOutHorizontally(tween(220)) { if (forward) -it else it }
+                        }) { page ->
+                            when (page) {
+                                "home" -> HomeScreen(model, ::task)
+                                "library" -> LibraryScreen(model, ::task)
+                                "import" -> ImportScreen(model, ::task, exchange)
+                                "character" -> model.current?.let {
+                                    CompositionLocalProvider(LocalPortraitChooser provides portraitChooser) { CharacterPages(it, model) }
                                 }
                             }
                         }
-                        HorizontalDivider(color = Line)
-                    }
-                    if (model.busy || model.saving) { LinearProgressIndicator(Modifier.fillMaxWidth()) }
-                    AnimatedContent(if (model.page in CharacterTabs) "character" else model.page, modifier = Modifier.weight(1f), label = "Screen transition", transitionSpec = {
-                        val order = listOf("home", "library", "import", "character")
-                        val forward = order.indexOf(targetState) > order.indexOf(initialState)
-                        slideInHorizontally(tween(220)) { if (forward) it else -it } togetherWith
-                            slideOutHorizontally(tween(220)) { if (forward) -it else it }
-                    }) { page ->
-                        when (page) {
-                            "home" -> HomeScreen(model, ::task)
-                            "library" -> LibraryScreen(model, ::task)
-                            "import" -> ImportScreen(model, ::task, exchange)
-                            "character" -> model.current?.let {
-                                CompositionLocalProvider(LocalPortraitChooser provides portraitChooser) { CharacterPages(it, model) }
-                            }
-                        }
-                    }
-                    if (model.page in CharacterTabs) {
-                        HorizontalDivider(color = Line)
-                        Row(Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
-                            CharacterNavigationTabs.forEach { page ->
-                                TextButton(enabled = !model.busy, onClick = { model.page = page }, contentPadding = PaddingValues(horizontal = 4.dp),
-                                    modifier = Modifier.weight(1f).semantics { selected = model.page == page; role = Role.Tab }) {
-                                    val color = if (page == model.page) Accent else Dim
-                                    when (page) {
-                                        "character" -> Text("About", color = color)
-                                        "progression" -> {
-                                            val missing = model.current?.let { Progression.missing(it) } ?: 0
-                                            Row(
-                                                horizontalArrangement = Arrangement.spacedBy(3.dp),
-                                                verticalAlignment = Alignment.CenterVertically,
-                                            ) {
-                                                Text("Levels", color = color)
-                                                if (missing > 0) {
-                                                    Badge(
-                                                        modifier = Modifier.offset(y = (-7).dp),
-                                                        containerColor = MaterialTheme.colorScheme.error,
-                                                    ) {
-                                                        Text(missing.toString(), Modifier.semantics {
-                                                            contentDescription = "$missing required choices remaining"
-                                                        })
+                        if (model.page in CharacterTabs) {
+                            HorizontalDivider(color = Line)
+                            Row(Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                                CharacterNavigationTabs.forEach { page ->
+                                    TextButton(enabled = !model.busy, onClick = { model.page = page }, contentPadding = PaddingValues(horizontal = 4.dp),
+                                        modifier = Modifier.weight(1f).semantics { selected = model.page == page; role = Role.Tab }) {
+                                        val color = if (page == model.page) Accent else Dim
+                                        when (page) {
+                                            "character" -> Text("About", color = color)
+                                            "progression" -> {
+                                                val missing = model.current?.let { Progression.missing(it) } ?: 0
+                                                Row(
+                                                    horizontalArrangement = Arrangement.spacedBy(3.dp),
+                                                    verticalAlignment = Alignment.CenterVertically,
+                                                ) {
+                                                    Text("Levels", color = color)
+                                                    if (missing > 0) {
+                                                        Badge(
+                                                            modifier = Modifier.offset(y = (-7).dp),
+                                                            containerColor = MaterialTheme.colorScheme.error,
+                                                        ) {
+                                                            Text(missing.toString(), Modifier.semantics {
+                                                                contentDescription = "$missing required choices remaining"
+                                                            })
+                                                        }
                                                     }
                                                 }
                                             }
+                                            else -> Text(page.readable(), color = color)
                                         }
-                                        else -> Text(page.readable(), color = color)
                                     }
                                 }
                             }
                         }
+                    }
+                    SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter).systemBarsPadding().padding(16.dp)) { data ->
+                        Snackbar(data, containerColor = Accent, contentColor = Paper, shape = RectangleShape)
                     }
                 }
             }
@@ -163,7 +178,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                 dismissButton = { TextButton(onClick = { model.resolveBackConfirmation(leave = false) }) { Text("Cancel") } },
             )
         }
-        BuilderDialogs(model, ::task)
+        BuilderDialogs(model, ::task, exports)
     }
 }
 
@@ -175,6 +190,7 @@ private fun CharacterDrawer(
     onExit: () -> Unit,
     onOpen: () -> Unit,
     onValidation: () -> Unit,
+    onExport: () -> Unit,
     exportEnabled: Boolean,
     content: @Composable () -> Unit,
 ) {
@@ -202,7 +218,10 @@ private fun CharacterDrawer(
                             })
                             HorizontalDivider(color = Line)
                             // A file taken mid-save could lack the latest choices, so Export waits for the save to finish.
-                            DropdownMenuItem(text = { Text("Export") }, onClick = onDismiss, enabled = exportEnabled)
+                            DropdownMenuItem(text = { Text("Export") }, onClick = {
+                                onDismiss()
+                                onExport()
+                            }, enabled = exportEnabled)
                             HorizontalDivider(color = Line)
                             DropdownMenuItem(text = { Text("Validation") }, onClick = {
                                 onDismiss()

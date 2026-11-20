@@ -25,6 +25,7 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import java.io.File
 import java.time.Instant
+import java.time.LocalDate
 import java.util.UUID
 
 /** Activity-retained workflow state. Rules and atomic persistence stay behind their shared boundaries. */
@@ -39,6 +40,15 @@ class BuilderSession(
     var page by mutableStateOf("home")
     /** A non-blocking message about something that did not happen, such as an unusable portrait image. */
     var notice by mutableStateOf<String?>(null)
+    /** Whether the Save-or-Share choice for exporting the open character is showing. */
+    var exportChoice by mutableStateOf(false)
+    /** Why the last export did not happen; shown in a dismissible dialog. */
+    var exportFailure by mutableStateOf<String?>(null)
+    /** Confirmation of a verified export, shown briefly and then cleared by the screen. */
+    var exportedMessage by mutableStateOf<String?>(null)
+    /** True while an export writes and checks its file. */
+    var exporting by mutableStateOf(false)
+        private set
     /** Changes whenever a stored portrait is added, replaced or removed, so displays reload it. */
     var portraitRevision by mutableStateOf(0)
         private set
@@ -239,6 +249,9 @@ class BuilderSession(
         deleting = null
         confirmReturnToLibrary = false
         notice = null
+        exportChoice = false
+        exportFailure = null
+        exportedMessage = null
         preview = null
         recoveries = null
         description = null
@@ -751,6 +764,69 @@ class BuilderSession(
                     page = "library"
                     refresh()
                 }
+            }
+        }
+    }
+
+    /**
+     * Writes the open character as portable JSON to [target] and reports success only once the stored bytes were read
+     * back and shown to import as the same character. A file that fails the check is removed, and a failure never
+     * blocks the session the way a storage error does. Run through [run] so the screen is blocked meanwhile.
+     *
+     * @param target where the file goes, either a user-chosen location or the share sheet.
+     * @param exportedOn the date shown in the file name.
+     */
+    suspend fun export(target: ExportTarget, exportedOn: LocalDate = LocalDate.now()) {
+        val document = current?.document ?: return
+        exporting = true
+        try {
+            exportFailure = exportChecked(document, target, exportedOn)
+        } finally {
+            exporting = false
+        }
+    }
+
+    /** Returns the failure to show, or null when the export finished (or the user cancelled before anything was written). */
+    private suspend fun exportChecked(document: CharacterDocument, target: ExportTarget, exportedOn: LocalDate): String? {
+        val bytes = when (val encoded = ContractCodec.encodeChecked(document)) {
+            is ContractResult.Unavailable -> return encoded.diagnostics.first().message
+            is ContractResult.Available -> encoded.value.toByteArray(Charsets.UTF_8)
+        }
+        // Check the document itself first, so a failure never reaches the destination at all.
+        (withContext(Dispatchers.IO) { ExportVerifier.verify(bytes, document) } as? ContractResult.Unavailable)?.let {
+            return it.diagnostics.first().message
+        }
+        val name = ExportFileName.of(document.level, document.identity.name, exportedOn)
+        var file: ExportedFile? = null
+        try {
+            val written = withContext(Dispatchers.IO) { target.write(name, bytes) } ?: return null
+            file = written
+            val stored = withContext(Dispatchers.IO) { written.read() }
+            (withContext(Dispatchers.IO) { ExportVerifier.verify(stored, document) } as? ContractResult.Unavailable)?.let {
+                discardQuietly(written)
+                return it.diagnostics.first().message
+            }
+            if (target.confirmsWithMessage) {
+                exportedMessage = "Exported ${written.displayName}"
+            } else {
+                written.present()
+            }
+            return null
+        } catch (error: Exception) {
+            file?.let { discardQuietly(it) }
+            if (error is CancellationException) {
+                throw error
+            }
+            return error.message ?: "The file could not be exported."
+        }
+    }
+
+    private suspend fun discardQuietly(file: ExportedFile) {
+        withContext(NonCancellable + Dispatchers.IO) {
+            try {
+                file.discard()
+            } catch (_: Exception) {
+                // The failure being reported is the useful one; a file that cannot be removed is already unusable.
             }
         }
     }
