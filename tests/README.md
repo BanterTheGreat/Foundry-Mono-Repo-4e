@@ -1,5 +1,7 @@
 # Running tests yourself
 
+Power card keywords: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.PowerBlockTest"`. `PowerBlockTest` checks that keywords show for header-style descriptions, multi-activation powers and powers with no keywords.
+
 Android launcher icon: from `src/character-builder`, run `./gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.LauncherIconTest"`. `LauncherIconTest` checks that the manifest declares an adaptive icon with a foreground and the ink background colour.
 
 Character Builder overview, equipment, future grants, rituals, and formulas: from `src/character-builder`, run `./gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. Shared tests cover portable knowledge selections, eligibility, saving multiple rituals beyond the Bard's class allotment, and future grant previews. Android unit tests cover displayed stats and powers, implement links, and equipment edits.

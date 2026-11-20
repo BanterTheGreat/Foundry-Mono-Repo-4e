@@ -142,18 +142,20 @@ private fun activationUsage(activation: JsonObject): String? =
 
 /** Reads a single authored activation when the presentation only contains a rules excerpt. */
 internal fun powerBlockText(entry: ContentEntry): PowerBlockText? {
-    val block = powerBlockText(entry.presentation.description) ?: return null
+    val parsed = powerBlockText(entry.presentation.description) ?: return null
+    val data = entry.sharedData ?: return parsed
+    // Keywords belong to the power rather than an activation, so every description format shows them.
+    val keywords = (data["keywords"] as? JsonArray).orEmpty().mapNotNull {
+        (it as? JsonPrimitive)?.contentOrNull?.let(::powerTerm)
+    }
+    val block = parsed.copy(keywords = keywords)
     if (block.usage != null) {
         return block
     }
-    val data = entry.sharedData ?: return block
     val activation = singlePowerActivation(data) ?: return block
     val usage = activationUsage(activation) ?: return block
     val action = activation.primitiveText("action")?.let { if (it == "EXTENDED") "Extended action" else powerActionLabel(it) }
     val range = (activation["range"] as? JsonObject)?.let(::powerRangeLabel)
-    val keywords = (data["keywords"] as? JsonArray).orEmpty().mapNotNull {
-        (it as? JsonPrimitive)?.contentOrNull?.let(::powerTerm)
-    }
     val rules = (activation["blocks"] as? JsonArray)?.filterIsInstance<JsonObject>()?.flatMap { authoredPowerRules(it) }
     val target = activation.primitiveText("targets")?.let { (activation["bindings"] as? JsonObject)?.get(it) } as? JsonObject
     val activationRules = listOfNotNull(

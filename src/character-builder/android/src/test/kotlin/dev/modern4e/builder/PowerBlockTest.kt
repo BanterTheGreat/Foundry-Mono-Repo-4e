@@ -158,8 +158,40 @@ class PowerBlockTest {
         val withHeader = authoredPower("DAILY / STANDARD\nPersonal\nEffect: Shift 1 square.")
         val legacy = authoredPower("<b>Effect:</b> Shift 1 square.")
 
-        assertEquals(powerBlockText(withHeader.presentation.description), powerBlockText(withHeader))
+        assertEquals(
+            powerBlockText(withHeader.presentation.description)?.copy(keywords = listOf("Martial", "Weapon")),
+            powerBlockText(withHeader),
+        )
         assertNull(powerBlockText(legacy))
+    }
+
+    @Test
+    fun keywordsShowOnPowersWhoseDescriptionAlreadyHasAHeader() {
+        val withHeader = authoredPower("DAILY / STANDARD\nMelee weapon\nEffect: Shift 1 square.")
+        val block = requireNotNull(powerBlockText(withHeader))
+
+        assertEquals(listOf("Martial", "Weapon"), block.keywords)
+        assertEquals("Daily", block.usage)
+        assertEquals("Melee weapon", block.range)
+    }
+
+    @Test
+    fun keywordsShowOnPowersWithSeveralActivations() {
+        val entry = authoredPower("DAILY / STANDARD\nMelee weapon\nEffect: Shift 1 square.")
+        val second = Json.parseToJsonElement(
+            """{"keywords": ["MARTIAL"], "activations": [{"usage": {"frequency": "DAILY"}}, {"usage": {"frequency": "DAILY"}}]}"""
+        ).jsonObject
+
+        assertEquals(listOf("Martial"), powerBlockText(entry.copy(sharedData = second))?.keywords)
+    }
+
+    @Test
+    fun powersWithoutKeywordsKeepAnEmptyList() {
+        val entry = authoredPower("DAILY / STANDARD\nMelee weapon\nEffect: Shift 1 square.")
+        val bare = Json.parseToJsonElement("""{"activations": [{"usage": {"frequency": "DAILY"}}]}""").jsonObject
+
+        assertEquals(emptyList<String>(), powerBlockText(entry.copy(sharedData = bare))?.keywords)
+        assertEquals(emptyList<String>(), powerBlockText(entry.copy(sharedData = null))?.keywords)
     }
 
     @Test
