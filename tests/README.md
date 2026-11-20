@@ -528,6 +528,11 @@ padded level records, retaining choices above the target level and the confirm/c
 (save/replace/delete, hostile ids, oversize and unusable images), that choosing, exporting
 and importing never change or carry portrait data, deletion cleanup and downscaling.
 
+Android Copy Character: `BuilderSessionTest.copyDialogStoresAndOpensANamedCopyAndLeavesTheOriginalAlone`
+(`gradlew.bat :android:testDebugUnitTest` from `src/character-builder`) covers the default "{Name} (copy)"
+name, cancel, blank-name rejection, name trimming, a fresh ID, identical content, no recovery history, the
+untouched original and opening the copy.
+
 Android JVM and Python feat runtime tests cover indexed Class feat scoping, including
 alternative class access and Android picker refresh after gaining multiclass access.
 Feat consolidation tests cover shared section references, OR class access, shield

@@ -43,6 +43,8 @@ class BuilderSession(
     var notice by mutableStateOf<String?>(null)
     /** Whether the Save-or-Share choice for exporting the open character is showing. */
     var exportChoice by mutableStateOf(false)
+    /** Name being chosen for a copy of the open character; null when the copy dialog is closed. */
+    var copyName by mutableStateOf<String?>(null)
     /** Why the last export did not happen; shown in a dismissible dialog. */
     var exportFailure by mutableStateOf<String?>(null)
     /** Confirmation of a verified export, shown briefly and then cleared by the screen. */
@@ -165,6 +167,36 @@ class BuilderSession(
     /** Whether the open character is fully stored and nothing is working on it, so a file leaves with every choice made. */
     val canExport: Boolean get() = current != null && !busy && !saving && errors.isEmpty()
 
+    /** Whether the open character is fully stored, so a copy carries every choice made. */
+    val canCopy: Boolean get() = canExport
+
+    /** Open the copy dialog, offering "{name} (copy)" as the new character's name. */
+    fun beginCopy() {
+        val name = current?.document?.identity?.name ?: return
+        copyName = "$name (copy)"
+    }
+
+    fun cancelCopy() {
+        copyName = null
+    }
+
+    /**
+     * Store the open character under a fresh ID and the chosen name, then open the copy on the current tab. The copy
+     * starts with no portrait and no recovery history, as with an imported copy. A blank name changes nothing.
+     */
+    suspend fun confirmCopy() {
+        val name = copyName?.trim()?.takeIf { it.isNotEmpty() } ?: return
+        val source = committed ?: return
+        val document = source.copy(
+            id = UUID.randomUUID().toString(), savedAt = Instant.now().toString(),
+            identity = source.identity.copy(name = name))
+        copyName = null
+        if (persist(document, null)) {
+            open(document, initialPage = page)
+            refresh()
+        }
+    }
+
     /** The choice a submitted but uncommitted edit will make in [slot], for display ahead of the commit. */
     fun pendingSelection(slot: ChoiceSlotId): PendingSelection? = pendingSelections[slot]
 
@@ -277,6 +309,7 @@ class BuilderSession(
         confirmReturnToLibrary = false
         notice = null
         exportChoice = false
+        copyName = null
         exportFailure = null
         exportedMessage = null
         preview = null

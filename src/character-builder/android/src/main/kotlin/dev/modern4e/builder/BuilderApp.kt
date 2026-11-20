@@ -65,6 +65,8 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
             onValidation = { model.page = "validation" },
             onExport = { model.exportChoice = true },
             exportEnabled = model.canExport && exports != null,
+            onCopy = model::beginCopy,
+            copyEnabled = model.canCopy,
         ) {
             Surface(Modifier.fillMaxSize(), color = Paper) {
                 Box(Modifier.fillMaxSize()) {
@@ -195,6 +197,8 @@ private fun CharacterDrawer(
     onValidation: () -> Unit,
     onExport: () -> Unit,
     exportEnabled: Boolean,
+    onCopy: () -> Unit,
+    copyEnabled: Boolean,
     content: @Composable () -> Unit,
 ) {
     val contentDirection = LocalLayoutDirection.current
@@ -225,6 +229,11 @@ private fun CharacterDrawer(
                                 onDismiss()
                                 onExport()
                             }, enabled = exportEnabled)
+                            // A copy of a character mid-save could lack the latest choices, so Copy waits like Export.
+                            DropdownMenuItem(text = { Text("Copy Character") }, onClick = {
+                                onDismiss()
+                                onCopy()
+                            }, enabled = copyEnabled)
                             HorizontalDivider(color = Line)
                             DropdownMenuItem(text = { Text("Validation") }, onClick = {
                                 onDismiss()

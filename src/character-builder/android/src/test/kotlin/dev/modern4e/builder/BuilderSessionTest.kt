@@ -919,6 +919,42 @@ class BuilderSessionTest {
         assertEquals(beforeLowering, (store.loadRecovery(previousHighLevel.recoveryId) as ContractResult.Available).value)
     }
 
+    @Test fun copyDialogStoresAndOpensANamedCopyAndLeavesTheOriginalAlone() = runBlocking {
+        val document = sample().copy(id = "copy-source", identity = sample().identity.copy(name = "Original"))
+        store.save(document, SaveMode.CREATE)
+        val model = session()
+        model.load(document.id)
+        model.refresh()
+        val original = model.current!!.document
+
+        model.beginCopy()
+        assertEquals("Original (copy)", model.copyName)
+        model.cancelCopy()
+        assertNull(model.copyName)
+        assertEquals(1, (store.list() as ContractResult.Available).value.size)
+
+        model.beginCopy()
+        model.copyName = "   "
+        model.confirmCopy()
+        assertEquals(1, (store.list() as ContractResult.Available).value.size)
+        assertEquals("   ", model.copyName)
+
+        model.page = "character"
+        model.copyName = "  Twin  "
+        model.confirmCopy()
+        assertTrue(model.errors.isEmpty())
+        assertNull(model.copyName)
+        val copy = model.current!!.document
+        assertNotEquals(original.id, copy.id)
+        assertEquals("Twin", copy.identity.name)
+        assertEquals(original.copy(id = copy.id, savedAt = copy.savedAt, identity = original.identity.copy(name = "Twin")), copy)
+        assertEquals("character", model.page)
+        assertEquals(copy, (store.load(copy.id) as ContractResult.Available).value)
+        assertEquals(original, (store.load(original.id) as ContractResult.Available).value)
+        assertEquals(setOf(original.id, copy.id), model.characters.map { it.id }.toSet())
+        assertTrue((store.listRecovery(copy.id) as ContractResult.Available).value.isEmpty())
+    }
+
     @Test fun progressionBackgroundClearsSkillAndPersistsIndependentOrigin() = runBlocking {
         val model = session()
         model.create()

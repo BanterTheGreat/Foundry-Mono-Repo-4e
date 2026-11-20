@@ -35,6 +35,7 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
     } else {
         Editor(model, task)
         model.levelTarget?.let { target -> LevelDialog(model, target, task) }
+        model.copyName?.let { name -> CopyDialog(model, name, task) }
         model.notice?.let { message ->
             FolioDialog("Portrait not changed", { model.notice = null }) {
                 Text(message)
@@ -167,6 +168,27 @@ private fun Editor(model: BuilderSession, task: (suspend BuilderSession.() -> Un
                     saveIdentityDraft()
                 }
             }) { Text("Save") }
+        }
+    }
+}
+
+/** Name a copy of the open character; saving stores the copy and opens it. */
+@Composable
+private fun CopyDialog(model: BuilderSession, name: String, task: (suspend BuilderSession.() -> Unit) -> Unit) {
+    FolioDialog("Copy character", { if (!model.busy) model.cancelCopy() }) {
+        val focus = remember { FocusRequester() }
+        OutlinedTextField(
+            name,
+            { model.copyName = it },
+            enabled = !model.busy,
+            label = { Text("Name") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth().focusRequester(focus),
+        )
+        LaunchedEffect(Unit) { focus.requestFocus() }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            TextButton(enabled = !model.busy, onClick = { model.cancelCopy() }) { Text("Cancel") }
+            TextButton(enabled = !model.busy && name.isNotBlank(), onClick = { task { confirmCopy() } }) { Text("Save") }
         }
     }
 }
