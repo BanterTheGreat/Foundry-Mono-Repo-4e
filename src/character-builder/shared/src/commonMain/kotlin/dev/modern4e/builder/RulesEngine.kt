@@ -113,6 +113,8 @@ data class EngineResult(
     internal val overviewStatistics: Map<Statistic, ContractResult<CalculatedValue>> = emptyMap(),
     /** Typed reasons saved decisions do not fit their slots, keyed by the slot their diagnostics name. */
     val slotIssues: Map<ChoiceSlotId, List<SlotIssue>> = emptyMap(),
+    /** Definitions of occurrences a saved replacement retired, from the occurrence timeline; full evaluations only. */
+    internal val retired: List<ContentEntry> = emptyList(),
 ) {
     fun ability(ability: Ability) = statistics.getValue(ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)).value
     fun skill(skill: Skill) = statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = skill)).value
@@ -587,7 +589,8 @@ private class Evaluation(
             entries.flatMap { occurrence -> occurrence.definition.entry.mechanics.conditionalModifiers.map {
                 ConditionalContribution(occurrence.instanceId, occurrence.slot, it)
             } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap(), equipmentProficiencies.mapValues { it.value.toList() }, facts.toList(),
-            overviewStatistics, slotIssues.mapValues { it.value.toList() })
+            overviewStatistics, slotIssues.mapValues { it.value.toList() },
+            timeline.retirements.map { it.retiredDefinition.entry })
     }
 
     /**

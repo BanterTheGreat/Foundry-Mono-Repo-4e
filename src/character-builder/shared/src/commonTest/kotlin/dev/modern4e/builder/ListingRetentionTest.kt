@@ -102,6 +102,26 @@ class ListingRetentionTest {
         assertEquals("rebased 354/354", world.outcome(utility, before, abilityEdited))
     }
 
+    /**
+     * The regression Fighter replaced daily attacks at levels 9 and 15. An unrelated feat edit must not recheck every
+     * feat row just because the retired originals are no longer active: only the edited selections count as changed,
+     * and retired ones are resolved through the occurrence timeline.
+     */
+    @Test
+    fun anUnrelatedFeatEditRechecksOnlyDependentFeatRowsDespiteRetiredReplacements() = synchronous {
+        val world = world(regressionFighter)
+        val before = world.state(regressionFighter)
+        assertTrue(before.document.levels.any { it.replacements.isNotEmpty() })
+        val feat = world.listing(before, 18, ChoiceSlotId("advancement.18", "feat", 0))
+
+        val after = world.edit(before, unrelatedFeat)
+
+        assertEquals(listOf("class: rebased 0/77", "ancestry: rebased 0/11", "general: rebased 49/148"),
+            listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL).map { group ->
+                "${group.name.lowercase()}: ${world.outcome(feat, before, after, group)}"
+            })
+    }
+
     @Test
     fun aDailyPickKeepsOtherUsageAndUtilityListsButRechecksLaterDaily() = synchronous {
         val world = world(openFighter)

@@ -94,17 +94,20 @@ class ListingRetentionBaselineTest {
             observed[step] = model.snapshot()
         }
 
-        // Today any selection edit below level 18 rechecks every feat row: the daily replacements at 9 and 15 make the
-        // whole-character change list unprovable. Value choices list no entries; their values come from the rules.
+        // A selection edit below level 18 rechecks only the feat rows that can depend on it. Until the retention verdict
+        // counted only changed selections and resolved retired originals through the occurrence timeline, the daily
+        // replacements at 9 and 15 made every such edit recheck all 236 feat rows (77/77, 11/11 and 148/148).
+        // Value choices list no entries; their values come from the rules.
         val featsRechecked = listOf("feat 18 class: rebased 77/77", "feat 18 ancestry: rebased 11/11",
             "feat 18 general: rebased 148/148")
         val structural = featsRechecked + listOf("utility 17: rebased 354/354", "encounter 13: rebased 164/164")
         assertEquals(linkedMapOf(
             "open" to listOf("feat 18 class: retained", "feat 18 ancestry: retained", "feat 18 general: retained",
                 "utility 17: retained", "encounter 13: retained", "paragon path: fresh", "linguist language: empty"),
-            "unrelated feat" to featsRechecked + listOf("utility 17: retained", "encounter 13: retained",
-                "paragon path: retained", "linguist language: empty"),
-            "encounter power" to featsRechecked + listOf("utility 17: retained", "encounter 13: rebased 164/164",
+            "unrelated feat" to listOf("feat 18 class: retained", "feat 18 ancestry: retained", "feat 18 general: rebased 49/148",
+                "utility 17: retained", "encounter 13: retained", "paragon path: retained", "linguist language: empty"),
+            "encounter power" to listOf("feat 18 class: retained", "feat 18 ancestry: retained", "feat 18 general: rebased 48/148",
+                "utility 17: retained", "encounter 13: rebased 164/164",
                 "paragon path: retained", "linguist language: empty"),
             "ability at 4" to structural + listOf("paragon path: rebased 35/35", "linguist language: empty"),
             "level 1 skill" to structural + listOf("paragon path: rebased 35/35", "linguist language: empty"),

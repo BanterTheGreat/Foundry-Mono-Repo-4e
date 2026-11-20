@@ -63,10 +63,12 @@ class SessionWorkBaselineTest {
         }
 
         // Each edit re-reads the 24 chunks one evaluation needs (see PerformanceBaselineTest); the path edit reads 2 more.
+        // The feat and power edits warm far less (from 142 and 293 batches) since the retention verdict counts only
+        // changed selections and resolves the retired daily originals through the occurrence timeline.
         assertEquals(listOf(
             "open: 9 index reads, 101 chunk reads, 641 warm batches, 31 retained",
-            "unrelated feat: 0 index reads, 24 chunk reads, 142 warm batches, 31 retained",
-            "encounter power: 0 index reads, 24 chunk reads, 293 warm batches, 31 retained",
+            "unrelated feat: 0 index reads, 24 chunk reads, 21 warm batches, 31 retained",
+            "encounter power: 0 index reads, 24 chunk reads, 94 warm batches, 31 retained",
             "ability at 4: 0 index reads, 24 chunk reads, 525 warm batches, 31 retained",
             "level 1 skill: 0 index reads, 24 chunk reads, 636 warm batches, 31 retained",
             "paragon path: 0 index reads, 26 chunk reads, 301 warm batches, 31 retained",

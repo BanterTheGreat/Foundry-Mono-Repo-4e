@@ -100,7 +100,13 @@ object ListingRetention {
         else -> null
     }
 
-    /** Unknown or non-selection input changes require fresh eligibility, while definitions remain reusable. */
+    /**
+     * The definitions of every selection at or below [level] that the edit added or removed, or null when other inputs
+     * changed or a definition is unknown. A replacement that was added or removed also counts the selections it
+     * displaces or restores in its slot. Retired occurrences are no longer active, so their definitions come from the
+     * occurrence timeline's retirements. Unknown or non-selection input changes require fresh eligibility, while
+     * definitions remain reusable.
+     */
     private fun selectionChanges(before: BuilderState, after: BuilderState, level: Int): List<ContentEntry>? {
         if (firstChangedLevel(before.document, after.document, ignoreEntry = { true }) <= level ||
             poolRules(before) != poolRules(after)) {
@@ -109,14 +115,18 @@ object ListingRetention {
         fun CharacterDocument.selections() = levels.filter { it.level <= level }.flatMap {
             it.entries + it.replacements.map { replacement -> replacement.replacement }
         }.toSet()
+        fun CharacterDocument.replacements() = levels.filter { it.level <= level }.flatMap { it.replacements }.toSet()
         val old = before.document.selections()
         val new = after.document.selections()
         val changed = ((old - new) + (new - old)).map { it.selection.entryId }.toMutableSet()
-        val replacements = (before.document.levels + after.document.levels).filter { it.level <= level }
-            .flatMap { it.replacements }.map { it.replaces }.toSet()
-        changed += (old + new).filter { it.slot in replacements }.map { it.selection.entryId }
-        val definitions = (before.rules.entries + after.rules.entries).associate { it.definition.entry.id to it.definition.entry }
-        return changed.map { definitions[it] ?: return null }
+        val oldReplacements = before.document.replacements()
+        val newReplacements = after.document.replacements()
+        val replacedSlots = ((oldReplacements - newReplacements) + (newReplacements - oldReplacements)).map { it.replaces }.toSet()
+        changed += (old + new).filter { it.slot in replacedSlots }.map { it.selection.entryId }
+        val definitions = (before.rules.entries + after.rules.entries).map { it.definition.entry } +
+            before.rules.retired + after.rules.retired
+        val byId = definitions.associateBy { it.id }
+        return changed.map { byId[it] ?: return null }
     }
 
     /** Active pool overrides and granted powers can change eligibility without changing offered entry IDs. */

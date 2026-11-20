@@ -278,7 +278,11 @@ and after an edit whether a `BuilderOptionListing` is still correct: `Drop` (ano
 character), `Keep`, or `Rebase(recheck)`, which keeps every loaded definition and marks
 the rows `recheck` selects unchecked. A listing survives while its slot's occurrence,
 candidate pool and every rules input at or below its level are unchanged, ignoring
-selections proven independent of it. `BuilderOptionListing.retainedAfter` applies a
+selections proven independent of it. Only selections the edit added or removed count as
+changed (with the selections a changed replacement displaces or restores), and retired
+occurrences resolve through the occurrence timeline (`EngineResult.retired`), so a daily
+replacement does not make every edit recheck the whole listing.
+`BuilderOptionListing.retainedAfter` applies a
 verdict. Content changes are not judged: callers discard every listing first.
 
 ## Structured feat and ancestry choices (#29)
