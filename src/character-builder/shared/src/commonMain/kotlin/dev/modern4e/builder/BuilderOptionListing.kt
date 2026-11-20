@@ -147,7 +147,8 @@ class BuilderOptionListing internal constructor(
         val entries = checkedEntries() ?: return false
         val mechanics = feat.mechanics
         val indirect = mechanics.grants.any { it is Grant.Entry } || mechanics.progression.isNotEmpty() ||
-            mechanics.choices.isNotEmpty() || mechanics.facts.isNotEmpty() || mechanics.factLinks.isNotEmpty()
+            mechanics.choices.isNotEmpty() || mechanics.facts.isNotEmpty() || mechanics.factLinks.isNotEmpty() ||
+            mechanics.classProfile != null
         val classes = catalog.search(category = EntryCategory.CLASS).map { it.metadata.id }.toSet()
         return entries.all { entry ->
             val power = entry.mechanics
