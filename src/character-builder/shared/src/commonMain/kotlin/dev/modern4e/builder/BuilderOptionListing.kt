@@ -145,34 +145,13 @@ class BuilderOptionListing internal constructor(
     /** Check the authored dependencies of powers with extra requirements, such as skill utilities. */
     fun canIgnoreFeatChange(feat: ContentEntry): Boolean {
         val entries = checkedEntries() ?: return false
-        val mechanics = feat.mechanics
-        val indirect = mechanics.grants.any { it is Grant.Entry } || mechanics.progression.isNotEmpty() ||
-            mechanics.choices.isNotEmpty() || mechanics.facts.isNotEmpty() || mechanics.factLinks.isNotEmpty() ||
-            mechanics.classProfile != null
+        val profile = EffectProfile.of(feat)
         val classes = catalog.search(category = EntryCategory.CLASS).map { it.metadata.id }.toSet()
         return entries.all { entry ->
-            val power = entry.mechanics
-            entry.category == EntryCategory.POWER && power.version == 2 && power.powerProfile != null &&
-                power.copy(prerequisites = emptyList(), access = null, maximumSelections = null,
-                    unsupported = emptyList(), powerProfile = null) == Mechanics(version = 2) &&
-                (power.prerequisites + listOfNotNull(power.access)).flatMap { it.leaves() }.all { condition ->
-                    when (condition) {
-                        is Prerequisite.Always, is Prerequisite.Level, is Prerequisite.Unavailable,
-                        is Prerequisite.Unresolved, is Prerequisite.Unadapted -> true
-                        is Prerequisite.Entry -> condition.entryId in classes ||
-                            condition.entryId != feat.id && !indirect
-                        is Prerequisite.Proficiency -> !indirect && mechanics.grants.none {
-                            it is Grant.Proficiency && it.skill == condition.skill
-                        }
-                        is Prerequisite.AbilityPoints -> !indirect && mechanics.conditionalModifiers.isEmpty() &&
-                            mechanics.modifiers.none { it.target.statistic == Statistic.ABILITY_POINTS && it.target.ability == condition.ability }
-                        is Prerequisite.EquipmentProficiency -> !indirect && mechanics.armorAdvancement == null &&
-                            condition.equipment !in mechanics.equipmentProficiencies
-                        is Prerequisite.ClassPowerSource -> !indirect && mechanics.multiclassFor == null
-                        is Prerequisite.Size -> !indirect && mechanics.size == null
-                        is Prerequisite.Selected -> !indirect && (condition.category != EntryCategory.FEAT || mechanics.multiclassFor == null)
-                        is Prerequisite.AllOf, is Prerequisite.AnyOf -> false
-                    }
+            entry.category == EntryCategory.POWER && EffectProfile.of(entry).kind == EffectKind.PLAIN_POWER &&
+                (entry.mechanics.prerequisites + listOfNotNull(entry.mechanics.access)).flatMap { it.leaves() }.none { leaf ->
+                    // The pool already restricts a power list to the character's classes.
+                    !(leaf is Prerequisite.Entry && leaf.entryId in classes) && profile.canAffect(leaf)
                 }
         }
     }
@@ -180,12 +159,11 @@ class BuilderOptionListing internal constructor(
     /** A passive power still matters to lists that name it or ask for selected powers. */
     fun canIgnorePowerChange(power: ContentEntry): Boolean {
         val entries = checkedEntries() ?: return false
+        val profile = EffectProfile.of(power)
         return entries.all { entry ->
             entry.mechanics.version == 2 && entry.id != power.id &&
                 (entry.mechanics.prerequisites + listOfNotNull(entry.mechanics.access)).flatMap { it.leaves() }.none {
-                    it is Prerequisite.Entry && it.entryId == power.id ||
-                        it is Prerequisite.Selected && it.category == EntryCategory.POWER &&
-                        it.filters.usage == power.mechanics.powerProfile?.usage
+                    profile.canAffect(it)
                 }
         }
     }

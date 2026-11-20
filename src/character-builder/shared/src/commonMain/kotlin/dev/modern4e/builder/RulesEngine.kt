@@ -232,8 +232,7 @@ internal class PreparedFeatChoices(
         val root = slot.ordinal == 0 && slot.choiceId == "feat" &&
             AdvancementRules.rootCategory(level, slot) == EntryCategory.FEAT
         if (!root || level !in 1..document.level || document.levels.none { it.level == level } || entry.category != EntryCategory.FEAT ||
-            mechanics.version != 2 || mechanics.copy(prerequisites = emptyList(), access = null,
-                maximumSelections = null, unsupported = emptyList()) != Mechanics(version = 2)) {
+            EffectProfile.of(entry).kind != EffectKind.PASSIVE) {
             return null
         }
         if (document.levels.any { decisions -> decisions.replacements.any { it.replaces == slot } ||
@@ -327,9 +326,7 @@ internal class PreparedPowerChoices(
     private fun plainPower(entry: ContentEntry, content: RulesContent): Boolean {
         val mechanics = entry.mechanics
         if (level !in 1..document.level || document.levels.none { it.level == level } || content.diagnostics.isNotEmpty() ||
-            entry.category != EntryCategory.POWER || mechanics.version != 2 || mechanics.powerProfile == null ||
-            mechanics.copy(prerequisites = emptyList(), access = null, maximumSelections = null, unsupported = emptyList(),
-                powerProfile = null) != Mechanics(version = 2)) {
+            entry.category != EntryCategory.POWER || EffectProfile.of(entry).kind != EffectKind.PLAIN_POWER) {
             return false
         }
         if (document.levels.any { decisions -> decisions.replacements.any { it.replaces == slot } ||

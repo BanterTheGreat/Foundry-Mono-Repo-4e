@@ -1380,10 +1380,8 @@ class BuilderSession(
             when (entry.category) {
                 EntryCategory.POWER -> {
                     val profile = mechanics.powerProfile
-                    val passive = mechanics.version == 2 && profile != null &&
-                        mechanics.copy(prerequisites = emptyList(), access = null, maximumSelections = null,
-                            unsupported = emptyList(), powerProfile = null) == Mechanics(version = 2)
-                    passive && (family == null || family != powerFamily(profile?.powerKind, profile?.usage)) &&
+                    val passive = EffectProfile.of(entry).kind == EffectKind.PLAIN_POWER
+                    passive &&(family == null || family != powerFamily(profile?.powerKind, profile?.usage)) &&
                         listing.canIgnorePowerChange(entry)
                 }
                 EntryCategory.FEAT -> samePowerRules && mechanics.version == 2 &&
