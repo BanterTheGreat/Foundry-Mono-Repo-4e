@@ -113,14 +113,13 @@ internal class RulesContentPreparation(catalog: ContentCatalog) {
         const val MAX_EXTENSIONS = 64
     }
 
+    /** What [entry] activates by [level] (the occurrence timeline's per-entry rule), plus what its conditions name. */
     private fun dependencies(entry: ContentEntry, level: Int, classes: Set<String>): List<String> =
         dependencies.getOrPut(Triple(entry.id, level, classes)) {
             val mechanics = entry.mechanics
-            val progression = mechanics.progression.filter { it.level <= level }
-            val choices = (mechanics.choices + progression.flatMap { it.choices })
-                .filterIsInstance<ChoiceDefinition.Entries>().filter { it.atLevel <= level }
-            val grants = (mechanics.grants + progression.flatMap { it.grants })
-                .filterIsInstance<Grant.Entry>().filter { it.atLevel <= level }
+            val activation = entry.activation(level)
+            val choices = activation.choices.map { it.choice }.filterIsInstance<ChoiceDefinition.Entries>()
+            val grants = activation.grants.map { it.grant }.filterIsInstance<Grant.Entry>()
             val queried = if (choices.any { it.query?.category == EntryCategory.POWER }) {
                 // A class's own pools always include it, even while a candidate class is being previewed.
                 val scope = if (entry.category == EntryCategory.CLASS) classes + entry.id else classes

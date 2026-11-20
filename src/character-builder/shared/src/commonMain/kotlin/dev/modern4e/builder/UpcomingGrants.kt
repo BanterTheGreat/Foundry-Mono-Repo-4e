@@ -26,10 +26,8 @@ internal suspend fun upcomingGrants(state: BuilderState, lookup: suspend (String
         if (entry.id in ancestors || entry.mechanics.version !in 1..2) {
             return
         }
-        val mechanics = entry.mechanics
-        val grants = mechanics.grants.map { 1 to it } +
-            mechanics.progression.flatMap { row -> row.grants.map { row.level to it } }
-        val automatic = grants.mapNotNull { (atLevel, grant) -> (grant as? Grant.Entry)?.let { atLevel to it } }
+        // Every grant the entry can ever make, by the occurrence timeline's per-entry rule.
+        val automatic = entry.activation(Int.MAX_VALUE).grants.mapNotNull { (grant, atLevel) -> (grant as? Grant.Entry)?.let { atLevel to it } }
         val counts = automatic.groupingBy { (_, grant) -> grant.grantId }.eachCount()
         for ((atLevel, grant) in automatic) {
             if (grant.grantId.isBlank() || counts[grant.grantId] != 1) {

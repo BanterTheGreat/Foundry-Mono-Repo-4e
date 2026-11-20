@@ -139,76 +139,59 @@ internal class ChoiceEvaluation(
     }
 
     /**
-     * Inspect only acquired class/feat definitions and their active grants. Later multiclass feats cannot
-     * widen an earlier path picker. Unknown saved suppliers keep browsing conservative rather than hiding
-     * a possibly applicable path; ordinary eligibility still reports the missing facts.
+     * The classes a path picker at [level] may serve: active classes and the targets of active multiclass feats, read
+     * from the occurrence timeline of the character at that level. Later multiclass feats cannot widen an earlier
+     * path picker. Only definitions whose index rows can qualify are loaded, so unrelated powers are never read and
+     * their picks simply stay unresolved. Unknown saved suppliers and grant cycles keep browsing conservative (null)
+     * rather than hiding a possibly applicable path; ordinary eligibility still reports the missing facts.
      */
     private suspend fun pathAccessClasses(document: CharacterDocument, level: Int): Set<String>? {
         val key = document to level
         if (pathClasses.containsKey(key)) {
             return pathClasses[key]
         }
-        val classes = mutableSetOf<String>()
-        var unresolved = false
-        val seen = mutableSetOf<String>()
-        val decisions = document.levels.filter { it.level <= level }.flatMap { it.entries }
-        val bySlot = decisions.associateBy { it.slot }
+        // Equipment never establishes a class, so the hypothetical character carries none.
+        val scoped = document.atLevel(level).copy(equipment = emptyList())
         val categories = indexed.associate { it.metadata.id to it.metadata.category }
         val qualifyingCategories = setOf(EntryCategory.CLASS, EntryCategory.FEAT, EntryCategory.FEATURE,
             EntryCategory.ANCESTRY, EntryCategory.THEME, EntryCategory.BACKGROUND)
-        suspend fun visit(entry: ContentEntry, instance: String, acquiredAt: Int, ancestors: Set<String> = emptySet()) {
-            if (entry.id in ancestors) {
-                unresolved = true
-                return
-            }
-            if (acquiredAt > level || !seen.add(instance)) {
-                return
-            }
-            if (entry.category == EntryCategory.CLASS) {
-                classes += entry.id
-            }
-            if (entry.category == EntryCategory.FEAT) {
-                entry.mechanics.multiclassFor?.let { classes += it }
-            }
-            val grants = entry.mechanics.grants + entry.mechanics.progression.filter { it.level <= level }
-                .flatMap { progression -> progression.grants.map { grant ->
-                    if (grant is Grant.Entry) grant.copy(atLevel = maxOf(grant.atLevel, progression.level)) else grant
-                } }
-            for (grant in grants.filterIsInstance<Grant.Entry>()) {
-                val acquired = maxOf(acquiredAt, grant.atLevel)
-                if (acquired > level) {
-                    continue
-                }
-                val substitution = bySlot[ChoiceSlotId(instance, grant.grantId, 0)]
-                    ?.takeIf { it.selection.entryId in grant.replacementEntryIds }
-                val id = substitution?.selection?.entryId ?: grant.entryId
-                if (categories[id] != null && categories[id] !in qualifyingCategories) {
-                    continue
-                }
-                val resolved = if (substitution != null) catalog.resolve(substitution.selection)
-                    else catalog.lookup(grant.entryId)
-                val child = (resolved as? ContractResult.Available)?.value
-                if (child == null) {
-                    unresolved = true
-                } else {
-                    visit(child.entry, ModernCreation.grantInstance(instance, grant.grantId), acquired, ancestors + entry.id)
+        fun qualifies(id: String) = categories[id].let { it == null || it in qualifyingCategories }
+        val entries = linkedMapOf<String, ContractResult<ResolvedEntry>>()
+        val selections = linkedMapOf<SavedSelection, ContractResult<ResolvedEntry>>()
+        // Load what the timeline still asks for until it asks for nothing new; each pass reaches one grant or pick deeper.
+        while (true) {
+            val timeline = OccurrenceTimeline.of(scoped, RulesContent(entries, selections))
+            val missing = timeline.unresolved.filter { qualifies(it.entryId) }
+            var loaded = false
+            for (lookup in missing) {
+                val selection = lookup.selection
+                if (selection != null && selection !in selections) {
+                    selections[selection] = catalog.resolve(selection)
+                    loaded = true
+                } else if (selection == null && lookup.entryId !in entries) {
+                    entries[lookup.entryId] = when (val found = catalog.lookup(lookup.entryId)) {
+                        is ContractResult.Unavailable -> found
+                        is ContractResult.Available -> found.value?.let { ContractResult.Available(it, found.diagnostics) }
+                            ?: ContractResult.Unavailable(listOf(Diagnostic("engine.missingDefinition",
+                                DiagnosticKind.UNRESOLVED_CONTENT, "Definition ${lookup.entryId} is unavailable", entryId = lookup.entryId)))
+                    }
+                    loaded = true
                 }
             }
+            if (loaded) {
+                continue
+            }
+            val classes = if (missing.isNotEmpty() || timeline.events.any { it is TimelineEvent.GrantCycle }) null else {
+                timeline.entries.map { it.definition.entry }.mapNotNullTo(mutableSetOf()) { entry ->
+                    when (entry.category) {
+                        EntryCategory.CLASS -> entry.id
+                        EntryCategory.FEAT -> entry.mechanics.multiclassFor
+                        else -> null
+                    }
+                }
+            }
+            return classes.also { pathClasses[key] = it }
         }
-        for (row in document.levels.filter { it.level <= level }) {
-            for (decision in row.entries) {
-                if (categories[decision.selection.entryId] != null && categories[decision.selection.entryId] !in qualifyingCategories) {
-                    continue
-                }
-                val resolved = (catalog.resolve(decision.selection) as? ContractResult.Available)?.value
-                if (resolved == null) {
-                    unresolved = true
-                } else {
-                    visit(resolved.entry, decision.instanceId, row.level)
-                }
-            }
-        }
-        return (if (unresolved) null else classes).also { pathClasses[key] = it }
     }
 
     private suspend fun candidate(document: CharacterDocument, level: Int, slot: ChoiceSlotId,

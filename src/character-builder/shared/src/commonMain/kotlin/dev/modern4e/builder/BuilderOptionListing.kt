@@ -195,11 +195,10 @@ class BuilderOptionListing internal constructor(
         val entries = linkedMapOf<String, ContentEntry>()
         val seen = mutableSetOf(root.id)
         suspend fun visit(entry: ContentEntry) {
-            val mechanics = entry.mechanics
-            val grants = mechanics.grants + mechanics.progression.flatMap { it.grants }
-            val choices = mechanics.choices + mechanics.progression.flatMap { it.choices }
-            val references = grants.filterIsInstance<Grant.Entry>().flatMap { listOf(it.entryId) + it.replacementEntryIds } +
-                choices.filterIsInstance<ChoiceDefinition.Entries>().flatMap { it.entryIds }
+            // Everything the entry can ever activate, by the occurrence timeline's per-entry rule.
+            val activation = entry.activation(Int.MAX_VALUE)
+            val references = activation.grants.map { it.grant }.filterIsInstance<Grant.Entry>().flatMap { listOf(it.entryId) + it.replacementEntryIds } +
+                activation.choices.map { it.choice }.filterIsInstance<ChoiceDefinition.Entries>().flatMap { it.entryIds }
             for (id in references) {
                 if (seen.add(id)) {
                     val resolved = (catalog.lookup(id) as? ContractResult.Available)?.value?.entry ?: continue

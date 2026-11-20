@@ -215,6 +215,21 @@ mistimed replacements, invalid value decisions and violated selection sets from
 them. Every verdict still emits its diagnostic with an unchanged code and
 message: diagnostics are the presentation surface only.
 
+## Occurrence timeline
+
+`OccurrenceTimeline.of(document, content)` answers once per evaluation which occurrences
+are active, the acquisition level of each occurrence and choice slot, which grants were
+substituted and which saved replacements retired an occurrence. It is built on the
+per-entry rule `ContentEntry.activation(level)`: the progression rows, grants (with
+their alternatives) and choices one entry activates by a level, from that entry alone.
+Content loading follows the same rule, as do the detail reader and upcoming-grant
+previews; the paragon-path and foreign-power filters ask the timeline of the character
+at the picker level. Every saved pick whose content resolves activates when its root
+slot or offering choice is active; missing content stays saved, activates nothing and
+remains a blocker. The engine reports the timeline's walk and judges substitution and
+replacement validity; it never re-derives activation. Equipment has no dated history
+and is acquired at the current level.
+
 ## Structured feat and ancestry choices (#29)
 
 `ChoiceDefinition.Values` exposes finite `ValueOption` identities and labels.

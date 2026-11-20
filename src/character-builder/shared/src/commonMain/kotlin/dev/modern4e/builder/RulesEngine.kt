@@ -334,78 +334,67 @@ private class Evaluation(
             Evaluation(snapshot, content, factsOnly = true).also { it.run() }
         }
     }
+    /** Activation, acquisition levels and retirements; the evaluation reports and judges what it activated. */
+    private val timeline = OccurrenceTimeline.of(document, content)
     private val diagnostics = content.diagnostics.toMutableList()
     private val blockers = content.diagnostics.filter { it.kind == DiagnosticKind.UNRESOLVED_CONTENT }.toMutableList()
     /** Blockers that only mark an unfilled entry slot; they hide unknown effects from totals but not from known facts. */
     private val unfilledChoiceBlockers = mutableSetOf<Diagnostic>()
     /** Choice sets (source occurrence, choice ID) whose active overrides disagree, so no candidate can be proven. */
-    private val overrideConflicts = mutableSetOf<Pair<String, String>>()
+    private val overrideConflicts = timeline.overrideConflicts
     /** Typed slot issues recorded beside their diagnostics, published as [EngineResult.slotIssues]. */
     private val slotIssues = linkedMapOf<ChoiceSlotId, MutableList<SlotIssue>>()
     private val entries = mutableListOf<EngineEntry>()
-    private val instances = mutableSetOf<String>()
     private val choices = linkedMapOf<ChoiceSlotId, ChoiceDefinition>()
-    private val grantReplacementSlots = mutableSetOf<ChoiceSlotId>()
+    private val grantReplacementSlots = timeline.substitutionChoices
     private val modifiers = mutableListOf<ModifierContribution>()
     private val proficiencies = linkedMapOf<Skill, MutableList<ChoiceSlotId>>()
     private val equipmentProficiencies = linkedMapOf<String, MutableList<ChoiceSlotId>>()
-    private val usedEntries = mutableSetOf<EntryChoice>()
-    private data class PendingChoice(val owner: EngineEntry, val choice: ChoiceDefinition, val ancestors: Set<String>, val acquiredAt: Int)
-    private val choiceAcquisitionLevels = mutableMapOf<ChoiceSlotId, Int>()
-    private val pendingChoices = mutableListOf<PendingChoice>()
+    private val choiceAcquisitionLevels = timeline.choiceLevels
     private val sets = mutableListOf<SelectionSetResult>()
     private val usedProficiencies = mutableSetOf<ProficiencyChoice>()
     private val valueDecisions = document.levels.sortedBy { it.level }.flatMap { it.values }
     private val facts = mutableListOf<StructuredFact>()
     private val selectedValues = mutableListOf<ValueChoice>()
     private val valueOptions = linkedMapOf<ChoiceSlotId, List<ValueOption>>()
-    private val entryDecisions = effectiveDecisions()
-    private val decisionLevels = document.levels.sortedBy { it.level }.flatMap { level ->
-        level.entries.map { it.slot to level.level } + level.replacements.map { it.replaces to level.level }
-    }.toMap().toMutableMap()
+    private val entryDecisions = judgeReplacements()
+    private val decisionLevels = timeline.decisionLevels.toMutableMap()
 
-    /** Replay a replacement against its stable acquisition occurrence, retaining saved history. */
-    private fun effectiveDecisions(): List<EntryChoice> {
-        val current = mutableListOf<EntryChoice>()
-        for (level in document.levels.sortedBy { it.level }) {
-            current += level.entries
-            for (change in level.replacements) {
-                val original = current.singleOrNull { it.slot == change.replaces }
-                val resolved = content.selections[change.replacement.selection] as? ContractResult.Available
-                val source = original?.let { content.selections[it.selection] as? ContractResult.Available }
-                if (original == null || change.replacement.slot != change.replaces ||
-                    source?.value?.entry?.category != EntryCategory.POWER || resolved?.value?.entry?.category != EntryCategory.POWER) {
-                    invalid("replacementTarget", "Replacement needs an existing power occurrence and the same persistent slot.",
+    /**
+     * Judge each replacement the timeline replayed; a retirement stands even when its timing is invalid, so the
+     * saved history stays visible. Returns the effective entry decisions.
+     */
+    private fun judgeReplacements(): List<EntryChoice> {
+        for ((row, change, retirement) in timeline.replacements) {
+            if (retirement == null) {
+                invalid("replacementTarget", "Replacement needs an existing power occurrence and the same persistent slot.",
+                    change.replaces, change.replacement.selection.entryId)
+                continue
+            }
+            if (retirement.replacementDefinition.entry.mechanics.powerProfile?.level?.let { it > row.level } == true) {
+                invalid("replacementAcquisition", "A replacement power cannot exceed its recorded replacement level.",
+                    change.replaces, change.replacement.selection.entryId)
+            }
+            if (change.kind == ReplacementKind.RETRAINING) {
+                diagnostics += diagnostic("replacementTiming", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                    "Retraining allowances are not specified by the local advancement rules.",
+                    change.replaces, change.replacement.selection.entryId)
+            } else {
+                val acquired = retirement.firstChosenAt
+                val profile = retirement.retiredDefinition.entry.mechanics.powerProfile
+                val classInstances = document.levels.flatMap { it.entries }.filter {
+                    it.slot == ChoiceSlotId("creation", "class", 0)
+                }.map { it.instanceId }
+                if (row.level !in AdvancementRules.dailyReplacementLevels || acquired == null || acquired >= row.level ||
+                    change.replaces.sourceInstanceId !in classInstances || profile?.powerKind != "ATTACK" || profile.usage != "DAILY" ||
+                    row.replacements.count { it.kind == ReplacementKind.PROGRESSION } > 1) {
+                    invalid("replacementTiming", "Replace one earlier class daily attack at levels 9, 15 and 19.",
                         change.replaces, change.replacement.selection.entryId)
-                    continue
-                }
-                if (resolved.value.entry.mechanics.powerProfile?.level?.let { it > level.level } == true) {
-                    invalid("replacementAcquisition", "A replacement power cannot exceed its recorded replacement level.",
-                        change.replaces, change.replacement.selection.entryId)
-                }
-                current.remove(original)
-                current += change.replacement.copy(instanceId = original.instanceId)
-                if (change.kind == ReplacementKind.RETRAINING) {
-                    diagnostics += diagnostic("replacementTiming", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                        "Retraining allowances are not specified by the local advancement rules.",
-                        change.replaces, change.replacement.selection.entryId)
-                } else {
-                    val acquired = document.levels.firstOrNull { row -> row.entries.any { it.slot == change.replaces } }?.level
-                    val profile = source.value.entry.mechanics.powerProfile
-                    val classInstances = document.levels.flatMap { it.entries }.filter {
-                        it.slot == ChoiceSlotId("creation", "class", 0)
-                    }.map { it.instanceId }
-                    if (level.level !in AdvancementRules.dailyReplacementLevels || acquired == null || acquired >= level.level ||
-                        change.replaces.sourceInstanceId !in classInstances || profile?.powerKind != "ATTACK" || profile.usage != "DAILY" ||
-                        level.replacements.count { it.kind == ReplacementKind.PROGRESSION } > 1) {
-                        invalid("replacementTiming", "Replace one earlier class daily attack at levels 9, 15 and 19.",
-                            change.replaces, change.replacement.selection.entryId)
-                        issue(change.replaces, SlotIssue.Timing)
-                    }
+                    issue(change.replaces, SlotIssue.Timing)
                 }
             }
         }
-        return current
+        return timeline.decisions
     }
     private val proficiencyDecisions = document.levels.sortedBy { it.level }.flatMap { it.proficiencies }
     private val abilityValues = linkedMapOf<Ability, StatisticCalculation>()
@@ -453,9 +442,7 @@ private class Evaluation(
     }
 
     fun run(): EngineResult {
-        val repeatedSlots = (entryDecisions.map { it.slot } + proficiencyDecisions.map { it.slot } + valueDecisions.map { it.slot })
-            .groupingBy { it }.eachCount().filterValues { it > 1 }.keys
-        for (slot in repeatedSlots) {
+        for (slot in timeline.repeatedSlots) {
             invalid("duplicateSlot", "Multiple decisions occupy the same choice slot.", slot)
             blockers += diagnostics.last()
         }
@@ -463,47 +450,8 @@ private class Evaluation(
             diagnostics += diagnostic("progressionUnsupported", DiagnosticKind.INCOMPLETE_AUTOMATION,
                 "Progression after level 19 remains unsupported.")
         }
-        for (level in document.levels.sortedBy { it.level }) {
-            for (decision in level.entries) {
-                if (decision.slot in repeatedSlots) {
-                    continue
-                }
-                val rootCategory = AdvancementRules.rootCategory(level.level, decision.slot)
-                if (rootCategory != null) {
-                    usedEntries += decision
-                    val definition = selected(decision)
-                    if (definition != null) {
-                        if (definition.entry.category != rootCategory) {
-                            invalid("rootCategory", "Expected a $rootCategory selection.", decision.slot, definition.entry.id)
-                        } else {
-                            visit(definition, decision.instanceId, decision.slot, false, emptySet())
-                        }
-                    }
-                }
-            }
-        }
-        for (equipment in document.equipment.filter { it.equipped }) {
-            val slot = ChoiceSlotId(equipment.instanceId, "equipment", 0)
-            val resolved = content.selections[equipment.selection]
-            val definition = accept(resolved, slot, equipment.selection.entryId)
-            if (definition != null) {
-                if (definition.entry.category != EntryCategory.ITEM) {
-                    invalid("equipmentCategory", "Equipped definition must be an item.", slot, definition.entry.id)
-                } else if (equipment.configuration.isNotEmpty()) {
-                    diagnostics += diagnostic("equipmentConfiguration", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                        "Conditional equipment configurations are not interpreted by the proof engine.", slot, definition.entry.id)
-                    visit(definition, equipment.instanceId, slot, false, emptySet())
-                } else {
-                    visit(definition, equipment.instanceId, slot, false, emptySet())
-                }
-            }
-        }
-        while (pendingChoices.isNotEmpty()) {
-            // Resolve finite feature choices before shared pools, so active feature exceptions apply.
-            val index = pendingChoices.indexOfFirst { (it.choice as? ChoiceDefinition.Entries)?.query == null }
-                .let { if (it < 0) 0 else it }
-            processChoice(pendingChoices.removeAt(index))
-        }
+        reportActivation()
+        choices += timeline.choices
         validateSelectionSets()
         for ((id, occurrences) in entries.groupBy { it.definition.entry.id }) {
             if (occurrences.map { it.definition.entry }.distinct().size > 1) {
@@ -519,7 +467,7 @@ private class Evaluation(
                 applyProficiency(slot, definition.skills)
             }
         }
-        for (decision in entryDecisions.filter { it !in usedEntries }) {
+        for (decision in entryDecisions.filter { it !in timeline.used }) {
             invalid("orphanEntry", "Choice has no active granting source or supported root slot.", decision.slot, decision.selection.entryId)
         }
         for (decision in proficiencyDecisions.filter { it !in usedProficiencies }) {
@@ -614,21 +562,87 @@ private class Evaluation(
             overviewStatistics, slotIssues.mapValues { it.value.toList() })
     }
 
-    /** Resolve finite fact decisions in acquisition order, preserving rejected decisions for diagnostics. */
-    private fun acquisitionLevel(occurrence: EngineEntry, seen: Set<String> = emptySet()): Int {
-        decisionLevels[occurrence.slot]?.let { return it }
-        if (occurrence.instanceId in seen) {
-            return document.level
+    /**
+     * Report what the occurrence timeline activated, in its walk order, and collect each active occurrence's own
+     * contributions. The timeline already decided activation; this only emits diagnostics, blockers and effects.
+     */
+    private fun reportActivation() {
+        for (event in timeline.events) {
+            when (event) {
+                is TimelineEvent.Resolution -> accept(event.result, event.slot, event.entryId)
+                is TimelineEvent.RootCategory -> invalid("rootCategory", "Expected a ${event.expected} selection.", event.slot, event.entryId)
+                is TimelineEvent.EquipmentCategory -> invalid("equipmentCategory", "Equipped definition must be an item.", event.slot, event.entryId)
+                is TimelineEvent.EquipmentConfiguration -> diagnostics += diagnostic("equipmentConfiguration", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                    "Conditional equipment configurations are not interpreted by the proof engine.", event.slot, event.entryId)
+                is TimelineEvent.GrantCycle -> {
+                    val error = diagnostic("grantCycle", DiagnosticKind.INCOMPLETE_AUTOMATION, "Recursive grant of ${event.entryId} was stopped.",
+                        event.slot, event.entryId)
+                    diagnostics += error
+                    blockers += error
+                }
+                is TimelineEvent.DuplicateInstance -> {
+                    invalid("duplicateInstance", "Entry occurrences must have unique instance IDs.", event.slot, event.entryId)
+                    blockers += diagnostics.last()
+                }
+                is TimelineEvent.Activated -> activate(event.occurrence, event.progression, event.supportedVersion)
+                is TimelineEvent.InvalidGrant -> {
+                    diagnostics += diagnostic("grantDefinition", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                        "Grant IDs must be nonblank and unique within an occurrence.", event.slot, event.entryId)
+                    blockers += diagnostics.last()
+                }
+                is TimelineEvent.ProficiencyGranted -> proficiencies.getOrPut(event.skill) { mutableListOf() }.add(event.slot)
+                is TimelineEvent.RepeatedSubstitution -> invalid("duplicateSlot", "A grant substitution needs exactly one saved decision.", event.slot)
+                is TimelineEvent.LateSubstitution -> invalid("grantTiming",
+                    "A grant substitution must be recorded at its source acquisition level; the default grant remains active.", event.slot, event.entryId)
+                is TimelineEvent.WithdrawnSubstitution -> invalid("grantReplacement",
+                    "Saved substitution is no longer permitted by this grant; the default grant remains active.", event.slot, event.entryId)
+                is TimelineEvent.SubstitutionIdentity -> invalid("grantInstance",
+                    "A grant substitution must retain its stable granted occurrence identity.", event.slot, event.entryId)
+                is TimelineEvent.OverrideConflict -> diagnostics += diagnostic("selectionOverrideConflict", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                    "Active features disagree about count or collection for ${event.choiceId}.", event.slot)
+                is TimelineEvent.QueryCoverage -> diagnostics += diagnostic("queryCoverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                    "${event.category} query requires an adapted fact catalog; no candidate eligibility is inferred.", event.slot)
+                is TimelineEvent.InvalidChoice -> diagnostics += diagnostic("choiceDefinition", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                    "Choice IDs must be unique and counts must be within 0?100.", event.owner.slot, event.owner.definition.entry.id)
+                is TimelineEvent.MissingPick -> {
+                    invalid("missingChoice", "Select exactly one entry for this slot.", event.slot, event.owner.definition.entry.id)
+                    blockers += diagnostics.last()
+                    unfilledChoiceBlockers += diagnostics.last()
+                }
+                is TimelineEvent.OptionNotOffered -> invalid("choiceOption", "Selected entry is not an option for this slot.", event.slot, event.entryId)
+            }
         }
-        val parent = entries.singleOrNull { it.instanceId == occurrence.slot.sourceInstanceId } ?: return 1
-        val mechanics = parent.definition.entry.mechanics
-        val grantedAt = mechanics.grants.filterIsInstance<Grant.Entry>().singleOrNull { it.grantId == occurrence.slot.choiceId }?.atLevel ?: 1
-        val progressedAt = mechanics.progression.filter { progression -> progression.grants.any {
-            it is Grant.Entry && it.grantId == occurrence.slot.choiceId
-        } }.maxOfOrNull { it.level } ?: 1
-        return maxOf(grantedAt, progressedAt, acquisitionLevel(parent, seen + occurrence.instanceId))
     }
 
+    /** Record an occurrence the timeline activated with its coverage, authored limits and modifiers. */
+    private fun activate(occurrence: EngineEntry, progression: List<ClassProgression>, supportedVersion: Boolean) {
+        val entry = occurrence.definition.entry
+        val slot = occurrence.slot
+        entries += occurrence
+        if (entry.coverage.status != CoverageStatus.SUPPORTED) {
+            diagnostics += coverageDiagnostic(entry, slot)
+        }
+        if (!supportedVersion) {
+            val error = diagnostic("mechanicsVersion", DiagnosticKind.INCOMPATIBLE_FORMAT,
+                "Unsupported mechanics version ${entry.mechanics.version}.", slot, entry.id)
+            diagnostics += error
+            blockers += error
+            return
+        }
+        for (reason in entry.mechanics.unsupported) {
+            diagnostics += diagnostic("unsupportedMechanic", DiagnosticKind.INCOMPLETE_AUTOMATION, reason, slot, entry.id)
+        }
+        if (entry.mechanics.classProfile != null && entry.category != EntryCategory.CLASS) {
+            val error = diagnostic("classProfile", DiagnosticKind.INCOMPLETE_AUTOMATION, "Only a class may establish class statistics.", slot, entry.id)
+            diagnostics += error
+            blockers += error
+        }
+        for (modifier in entry.mechanics.modifiers + progression.flatMap { it.modifiers }) {
+            modifiers += ModifierContribution(modifier, entry.presentation.title, entry.id, slot)
+        }
+    }
+
+    /** Resolve finite fact decisions in acquisition order, preserving rejected decisions for diagnostics. */
     private fun calculateValueChoices() {
         fun grant(kind: FactKind, value: String, target: String?, slot: ChoiceSlotId) {
             facts += StructuredFact(kind, value, target, slot)
@@ -640,9 +654,9 @@ private class Evaluation(
             }
         }
         val used = mutableSetOf<ValueChoice>()
-        val ordered = entries.sortedWith(compareBy<EngineEntry> { acquisitionLevel(it) }
+        val ordered = entries.sortedWith(compareBy<EngineEntry> { timeline.acquisitionLevel(it) }
             .thenBy { if (it.definition.entry.category == EntryCategory.FEAT) 1 else 0 })
-        val acquiredEntries = ordered.groupBy { acquisitionLevel(it) }
+        val acquiredEntries = ordered.groupBy { timeline.acquisitionLevel(it) }
         val valueChoices = choices.entries.mapNotNull { (slot, choice) ->
             (choice as? ChoiceDefinition.Values)?.takeIf { slot.ordinal == 0 }?.let { slot to it }
         }.groupBy { (slot, _) -> choiceAcquisitionLevels.getValue(slot) }
@@ -724,24 +738,10 @@ private class Evaluation(
 
     /** Replay equipment grants in acquisition order, including independent grants before each advancement. */
     private fun calculateEquipmentProficiencies() {
-        fun level(occurrence: EngineEntry, seen: Set<String> = emptySet()): Int {
-            decisionLevels[occurrence.slot]?.let { return it }
-            if (occurrence.instanceId in seen) {
-                return document.level
-            }
-            val parent = entries.singleOrNull { it.instanceId == occurrence.slot.sourceInstanceId } ?: return 1
-            val mechanics = parent.definition.entry.mechanics
-            val grantLevel = mechanics.grants.filterIsInstance<Grant.Entry>()
-                .singleOrNull { it.grantId == occurrence.slot.choiceId }?.atLevel ?: 1
-            val progressionLevel = mechanics.progression.filter { progression -> progression.grants.any {
-                it is Grant.Entry && it.grantId == occurrence.slot.choiceId
-            } }.maxOfOrNull { it.level } ?: 1
-            return maxOf(grantLevel, progressionLevel, level(parent, seen + occurrence.instanceId))
-        }
         fun grant(value: String, source: ChoiceSlotId) {
             equipmentProficiencies.getOrPut(value) { mutableListOf() }.add(source)
         }
-        for ((_, acquired) in entries.groupBy { level(it) }.entries.sortedBy { it.key }) {
+        for ((_, acquired) in entries.groupBy { timeline.acquisitionLevel(it) }.entries.sortedBy { it.key }) {
             for (occurrence in acquired) {
                 val mechanics = occurrence.definition.entry.mechanics
                 val values = mechanics.classProfile?.proficiencies?.values?.flatten().orEmpty() + mechanics.equipmentProficiencies
@@ -818,8 +818,6 @@ private class Evaluation(
         }
     }
 
-    private fun selected(decision: EntryChoice): ResolvedEntry? = accept(content.selections[decision.selection], decision.slot, decision.selection.entryId)
-
     private fun accept(result: ContractResult<ResolvedEntry>?, slot: ChoiceSlotId, id: String): ResolvedEntry? {
         return when (result) {
             is ContractResult.Available -> {
@@ -844,205 +842,13 @@ private class Evaluation(
         }
     }
 
-    private fun visit(resolved: ResolvedEntry, instance: String, slot: ChoiceSlotId, granted: Boolean, ancestors: Set<String>) {
-        val entry = resolved.entry
-        if (entry.id in ancestors) {
-            val error = diagnostic("grantCycle", DiagnosticKind.INCOMPLETE_AUTOMATION, "Recursive grant of ${entry.id} was stopped.", slot, entry.id)
-            diagnostics += error
-            blockers += error
-            return
-        }
-        if (!instances.add(instance)) {
-            invalid("duplicateInstance", "Entry occurrences must have unique instance IDs.", slot, entry.id)
-            blockers += diagnostics.last()
-            return
-        }
-        entries += EngineEntry(instance, slot, resolved, granted)
-        if (entry.coverage.status != CoverageStatus.SUPPORTED) {
-            diagnostics += coverageDiagnostic(entry, slot)
-        }
-        val progression = entry.mechanics.progression.filter { it.level <= document.level }
-        if (entry.mechanics.version !in 1..2) {
-            val error = diagnostic("mechanicsVersion", DiagnosticKind.INCOMPATIBLE_FORMAT,
-                "Unsupported mechanics version ${entry.mechanics.version}.", slot, entry.id)
-            diagnostics += error
-            blockers += error
-            return
-        }
-        for (reason in entry.mechanics.unsupported) {
-            diagnostics += diagnostic("unsupportedMechanic", DiagnosticKind.INCOMPLETE_AUTOMATION, reason, slot, entry.id)
-        }
-        val profile = entry.mechanics.classProfile
-        if (profile != null && entry.category != EntryCategory.CLASS) {
-            val error = diagnostic("classProfile", DiagnosticKind.INCOMPLETE_AUTOMATION, "Only a class may establish class statistics.", slot, entry.id)
-            diagnostics += error
-            blockers += error
-        }
-        val sourceChoices = (entry.mechanics.choices + progression.flatMap { it.choices } +
-            if (profile != null) listOf(ChoiceDefinition.MainAbility("main", profile.mainAbilities)) else emptyList())
-            .filter { it !is ChoiceDefinition.Entries || it.atLevel <= document.level }
-        val sourceGrants = (entry.mechanics.grants + progression.flatMap { it.grants }).filter { it !is Grant.Entry || it.atLevel <= document.level }
-        for (modifier in entry.mechanics.modifiers + progression.flatMap { it.modifiers }) {
-            modifiers += ModifierContribution(modifier, entry.presentation.title, entry.id, slot)
-        }
-        val grantIds = sourceGrants.map { when (it) { is Grant.Entry -> it.grantId; is Grant.Proficiency -> it.grantId } }
-        for (grant in sourceGrants) {
-            val id = when (grant) { is Grant.Entry -> grant.grantId; is Grant.Proficiency -> grant.grantId }
-            if (id.isBlank() || grantIds.count { it == id } != 1) {
-                diagnostics += diagnostic("grantDefinition", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                    "Grant IDs must be nonblank and unique within an occurrence.", slot, entry.id)
-                blockers += diagnostics.last()
-                continue
-            }
-            val grantSlot = ChoiceSlotId(instance, id, 0)
-            when (grant) {
-                is Grant.Proficiency -> proficiencies.getOrPut(grant.skill) { mutableListOf() }.add(grantSlot)
-                is Grant.Entry -> {
-                    val saved = entryDecisions.filter { it.slot == grantSlot }
-                    val acquiredAt = maxOf(acquisitionLevel(entries.first { it.instanceId == instance }), grant.atLevel,
-                        progression.filter { grant in it.grants }.maxOfOrNull { it.level } ?: 1)
-                    decisionLevels[grantSlot] = acquiredAt
-                    if (grant.replacementEntryIds.isNotEmpty()) {
-                        grantReplacementSlots += grantSlot
-                        choices[grantSlot] = ChoiceDefinition.Entries(id, 1, listOf(grant.entryId) + grant.replacementEntryIds,
-                            atLevel = grant.atLevel)
-                    }
-                    val decision = saved.singleOrNull()
-                    val next = if (saved.isEmpty()) {
-                        accept(content.entries[grant.entryId], grantSlot, grant.entryId)
-                    } else {
-                        usedEntries += saved
-                        if (decision == null) {
-                            invalid("duplicateSlot", "A grant substitution needs exactly one saved decision.", grantSlot)
-                            null
-                        } else if (document.levels.single { decision in it.entries }.level != acquiredAt) {
-                            invalid("grantTiming", "A grant substitution must be recorded at its source acquisition level; the default grant remains active.",
-                                grantSlot, decision.selection.entryId)
-                            accept(content.entries[grant.entryId], grantSlot, grant.entryId)
-                        } else if (decision.selection.entryId != grant.entryId && decision.selection.entryId !in grant.replacementEntryIds ||
-                            grant.replacementEntryIds.isEmpty()) {
-                            invalid("grantReplacement", "Saved substitution is no longer permitted by this grant; the default grant remains active.",
-                                grantSlot, decision.selection.entryId)
-                            accept(content.entries[grant.entryId], grantSlot, grant.entryId)
-                        } else {
-                            if (decision.instanceId != ModernCreation.grantInstance(instance, id)) {
-                                invalid("grantInstance", "A grant substitution must retain its stable granted occurrence identity.", grantSlot, decision.selection.entryId)
-                            }
-                            selected(decision)
-                        }
-                    }
-                    if (next != null) {
-                        visit(next, ModernCreation.grantInstance(instance, id), grantSlot, true, ancestors + entry.id)
-                    }
-                }
-            }
-        }
-        val owner = entries.first { it.instanceId == instance }
-        for (choice in sourceChoices) {
-            val acquiredAt = maxOf(acquisitionLevel(owner), (choice as? ChoiceDefinition.Entries)?.atLevel ?: 1,
-                progression.filter { choice in it.choices }.maxOfOrNull { it.level } ?: 1)
-            pendingChoices += PendingChoice(owner, choice, ancestors + entry.id, acquiredAt)
-        }
-    }
-
-    private fun processChoice(pending: PendingChoice) {
-        val owner = pending.owner
-        val instance = owner.instanceId
-        var choice = pending.choice
-        val id = when (choice) { is ChoiceDefinition.Entries -> choice.id; is ChoiceDefinition.Proficiencies -> choice.id; is ChoiceDefinition.MainAbility -> choice.id; is ChoiceDefinition.Values -> choice.id }
-        if (choice is ChoiceDefinition.Entries) {
-            val changes = entries.flatMap { it.definition.entry.mechanics.selectionModifiers }.filter { it.choiceId == id }
-                .map { modifier -> modifier.copy(count = modifier.countByLevel.filter { it.atLevel <= document.level }
-                    .maxByOrNull { it.atLevel }?.count ?: modifier.count) }
-            if (changes.map { it.count }.distinct().size > 1 || changes.mapNotNull { it.collection }.distinct().size > 1) {
-                diagnostics += diagnostic("selectionOverrideConflict", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                    "Active features disagree about count or collection for $id.", ChoiceSlotId(instance, id, 0))
-                overrideConflicts += instance to id
-            } else {
-                choice = choice.copy(count = changes.firstOrNull()?.count ?: choice.countByLevel
-                    .filter { it.atLevel <= document.level }.maxByOrNull { it.atLevel }?.count ?: choice.count,
-                    constraints = (choice.constraints + changes.flatMap { it.constraints }).distinct(),
-                    collection = changes.firstNotNullOfOrNull { it.collection } ?: choice.collection)
-            }
-            val query = choice.query
-            if (query != null) {
-                if (query.category != EntryCategory.POWER) {
-                    diagnostics += diagnostic("queryCoverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                        "${query.category} query requires an adapted fact catalog; no candidate eligibility is inferred.", ChoiceSlotId(instance, id, 0))
-                }
-                val replacementLevel = document.levels.filter { level -> level.replacements.any {
-                    it.replaces.sourceInstanceId == instance && it.replaces.choiceId == id
-                } }.maxOfOrNull { it.level }
-                val ceiling = if (query.characterLevel) document.level else maxOf(query.levelMaximum ?: choice.atLevel,
-                    replacementLevel ?: choice.atLevel)
-                val candidates = content.entries.values.filterIsInstance<ContractResult.Available<ResolvedEntry>>()
-                    .map { it.value.entry }.filter { candidate ->
-                        val profile = candidate.mechanics.powerProfile
-                        query.category == EntryCategory.POWER && candidate.category == query.category && profile != null && candidate.mechanics.access != null &&
-                            (query.usage == null || profile.usage == query.usage) &&
-                            (query.powerKind == null || profile.powerKind == query.powerKind) &&
-                            (query.pickKind == null || query.pickKind in profile.pickKinds) &&
-                            profile.level <= ceiling &&
-                            profile.keywords.containsAll(query.keywords)
-                    }.map { it.id }.sorted()
-                choice = choice.copy(entryIds = candidates, query = null)
-            }
-        }
-        val count = when (choice) { is ChoiceDefinition.Entries -> choice.count; is ChoiceDefinition.Proficiencies -> choice.count; is ChoiceDefinition.MainAbility -> 1; is ChoiceDefinition.Values -> choice.count }
-        if (id.isBlank() || count !in 0..100 || choices.keys.any { it.sourceInstanceId == instance && it.choiceId == id } ||
-            choice is ChoiceDefinition.Entries && (choice.entryIds.distinct().size != choice.entryIds.size || choice.entryIds.any { it.isBlank() } ||
-                (pending.choice as? ChoiceDefinition.Entries)?.query == null && choice.distinct && count > choice.entryIds.size)) {
-            diagnostics += diagnostic("choiceDefinition", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                "Choice IDs must be unique and counts must be within 0?100.", owner.slot, owner.definition.entry.id)
-            return
-        }
-        if (choice is ChoiceDefinition.Entries) {
-            effectiveSets += Triple(owner, choice, pending.ancestors)
-        }
-        for (ordinal in 0 until count) {
-            val slot = ChoiceSlotId(instance, id, ordinal)
-            choiceAcquisitionLevels[slot] = pending.acquiredAt
-            val originalQuery = (pending.choice as? ChoiceDefinition.Entries)?.query
-            val slotChoice = if (choice is ChoiceDefinition.Entries && originalQuery != null && !originalQuery.characterLevel) {
-                val replacedAt = document.levels.filter { level -> level.replacements.any { it.replaces == slot } }.maxOfOrNull { it.level }
-                val maximum = replacedAt ?: originalQuery.levelMaximum ?: choice.atLevel
-                choice.copy(entryIds = choice.entryIds.filter { candidate ->
-                    val found = content.entries[candidate] as? ContractResult.Available
-                    found?.value?.entry?.mechanics?.powerProfile?.level?.let { it <= maximum } == true
-                })
-            } else choice
-            choices[slot] = slotChoice
-            if (choice is ChoiceDefinition.Entries) {
-                val decisions = entryDecisions.filter { it.slot == slot }
-                if (decisions.size != 1) {
-                    invalid("missingChoice", "Select exactly one entry for this slot.", slot, owner.definition.entry.id)
-                    blockers += diagnostics.last()
-                    unfilledChoiceBlockers += diagnostics.last()
-                    continue
-                }
-                val decision = decisions.single()
-                usedEntries += decision
-                val definition = selected(decision)
-                if (decision.selection.entryId !in (slotChoice as ChoiceDefinition.Entries).entryIds) {
-                    invalid("choiceOption", "Selected entry is not an option for this slot.", slot, decision.selection.entryId)
-                }
-                // Preserve and diagnose invalid saved decisions; never silently drop an owned occurrence.
-                if (definition != null) {
-                    visit(definition, decision.instanceId, slot, false, pending.ancestors)
-                }
-            }
-        }
-    }
-
-    private val effectiveSets = mutableListOf<Triple<EngineEntry, ChoiceDefinition.Entries, Set<String>>>()
-
     private fun validateSelectionSets() {
         val collections = linkedMapOf<String, MutableList<EntryChoice>>()
-        for ((owner, choice) in effectiveSets) {
+        for ((owner, choice) in timeline.sets) {
             val selected = entryDecisions.filter { it.slot.sourceInstanceId == owner.instanceId && it.slot.choiceId == choice.id && it.slot.ordinal < choice.count }
             choice.collection?.let { collections.getOrPut(it) { mutableListOf() }.addAll(selected) }
         }
-        for ((owner, choice) in effectiveSets) {
+        for ((owner, choice) in timeline.sets) {
             val slot = ChoiceSlotId(owner.instanceId, choice.id, 0)
             val selected = entryDecisions.filter { it.slot.sourceInstanceId == owner.instanceId && it.slot.choiceId == choice.id }
             val errors = mutableListOf<Diagnostic>()
@@ -1290,7 +1096,7 @@ private class Evaluation(
                 DiagnosticKind.INCOMPLETE_AUTOMATION, "Conflicting active overrides prevent establishing selection eligibility.", slot, entry.id)))
         }
         sourceChoice?.requiresCollection?.let { required ->
-            val owned = effectiveSets.filter { it.second.collection == required }.flatMap { (owner, choice) ->
+            val owned = timeline.sets.filter { it.choice.collection == required }.flatMap { (owner, choice) ->
                 entryDecisions.filter { it.slot.sourceInstanceId == owner.instanceId && it.slot.choiceId == choice.id && it.slot.ordinal < choice.count }
             }.map { it.selection.entryId }
             if (entry.id !in owned) {
