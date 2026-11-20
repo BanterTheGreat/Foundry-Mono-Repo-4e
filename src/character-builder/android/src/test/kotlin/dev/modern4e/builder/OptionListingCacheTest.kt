@@ -32,9 +32,10 @@ class OptionListingCacheTest {
     private class ManualClock : WarmupClock {
         private val now = MutableStateFlow(0L)
 
-        override suspend fun sleep(millis: Long) {
-            val until = now.value + millis
-            now.first { it >= until }
+        override fun now(): Long = now.value
+
+        override suspend fun sleepUntil(deadline: Long) {
+            now.first { it >= deadline }
         }
 
         fun advance(millis: Long) = now.update { it + millis }

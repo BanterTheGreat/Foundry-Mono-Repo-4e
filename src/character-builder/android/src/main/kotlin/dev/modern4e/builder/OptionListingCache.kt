@@ -21,9 +21,20 @@ import kotlinx.coroutines.withContext
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicInteger
 
-/** Waits out the settle delay before background warming; production sleeps, tests advance a manual clock. */
-fun interface WarmupClock {
-    suspend fun sleep(millis: Long)
+/** Times the settle delay before background warming; production uses the system clock, tests advance a manual one. */
+interface WarmupClock {
+    /** Milliseconds on this clock's own timeline. */
+    fun now(): Long
+
+    /** Suspends until [now] reaches [deadline]. */
+    suspend fun sleepUntil(deadline: Long)
+
+    /** The monotonic system clock. */
+    object System : WarmupClock {
+        override fun now(): Long = java.lang.System.nanoTime() / 1_000_000
+
+        override suspend fun sleepUntil(deadline: Long) = delay(deadline - now())
+    }
 }
 
 /**
@@ -44,7 +55,7 @@ internal class OptionListingCache(
     private val pendingEdits: StateFlow<Int>,
     private val io: CoroutineDispatcher = Dispatchers.IO,
     background: CoroutineDispatcher = Dispatchers.Default,
-    private val clock: WarmupClock = WarmupClock { delay(it) },
+    private val clock: WarmupClock = WarmupClock.System,
 ) {
     /** The character, its content catalog and the operations reading it, which every listing belongs to. */
     class Snapshot(val state: BuilderState, val catalog: ContentCatalog?, val operations: BuilderOperations?)
@@ -271,8 +282,10 @@ internal class OptionListingCache(
             return
         }
         val targets = warmTargets(original.state)
+        // The deadline is fixed now, when the edit commits, not whenever the warming coroutine first runs.
+        val deadline = clock.now() + settle
         warming = scope.launch {
-            clock.sleep(settle)
+            clock.sleepUntil(deadline)
             for (target in targets) {
                 // A failed read is left for the picker to meet and report; its half-checked rows are discarded.
                 if (warmTarget(original, target).isNotEmpty()) {
