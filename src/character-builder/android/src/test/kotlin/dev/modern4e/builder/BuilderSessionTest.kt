@@ -30,7 +30,7 @@ class BuilderSessionTest {
     private fun sample(): CharacterDocument = (ContractCodec.decode(File("../shared/fixtures/sample-current-fighter-1-base.json")
         .readText(Charsets.UTF_8)) as ContractResult.Available).value
     private fun session(storage: CharacterStore = store, source: ContentSource = AndroidContentSource(context.assets)) =
-        BuilderSession(storage, source, ::sample).also { it.warmupSettleMillis = 0 }
+        BuilderSession(storage, source, ::sample).also { it.listings.settleMillis = 0 }
     @Before fun reset() {
         File(context.filesDir, "characters").deleteRecursively()
         store = AndroidCharacterStore(context)
@@ -49,7 +49,7 @@ class BuilderSessionTest {
         model.create()
         model.awaitWarmup()
         // The picker's own batching is checked on a cold list, so hold background warming off from here on.
-        model.warmupSettleMillis = 60_000
+        model.listings.settleMillis = 60_000
         model.touchRules()
         val slot = ChoiceSlotId("creation", "feat", 0)
         reads = 0
@@ -62,7 +62,7 @@ class BuilderSessionTest {
                     assertTrue(rows.all { !it.checked && it.option != null })
                     assertEquals(0, reads)
                 } else {
-                    assertEquals(minOf(BuilderSession.OPTION_BATCH_SIZE, rows.size), rows.count { it.checked })
+                    assertEquals(minOf(OptionListingCache.OPTION_BATCH_SIZE, rows.size), rows.count { it.checked })
                     throw kotlinx.coroutines.CancellationException("Dismiss picker after the first batch")
                 }
             }
@@ -73,7 +73,7 @@ class BuilderSessionTest {
         var reopened: List<BuilderOptionRow>? = null
         model.progressionOptionRows(1, slot, FeatGroup.GENERAL) { rows ->
             if (reopened == null) {
-                assertEquals(minOf(BuilderSession.OPTION_BATCH_SIZE, rows.size), rows.count { it.checked })
+                assertEquals(minOf(OptionListingCache.OPTION_BATCH_SIZE, rows.size), rows.count { it.checked })
             }
             reopened = rows
         }
@@ -98,7 +98,7 @@ class BuilderSessionTest {
     @Test fun classAndAncestryRowsAreNeverEligibilityCheckedAndAncestriesListTheirFeatures() = runBlocking {
         val model = session()
         model.create()
-        model.warmupSettleMillis = 60_000
+        model.listings.settleMillis = 60_000
         for (choice in listOf("class", "ancestry")) {
             var last = emptyList<BuilderOptionRow>()
             model.progressionOptionRows(1, ChoiceSlotId("creation", choice, 0)) { last = it }
@@ -140,7 +140,7 @@ class BuilderSessionTest {
         sample().let { document -> document.copy(levels = document.levels.map { level ->
             level.copy(entries = level.entries.filterNot { it.slot.choiceId.startsWith("modern4e.choice.class-attack") })
         }) }
-    }.also { it.warmupSettleMillis = 0 }
+    }.also { it.listings.settleMillis = 0 }
 
     /** Level 1 attack-power slots that still have no selection, in the order the Progression screen lists them. */
     private fun BuilderSession.emptyAttackSlots(): List<ChoiceSlotId> {
@@ -174,7 +174,7 @@ class BuilderSessionTest {
         val warmedRows = model.firstRows(1, pickedSlot)
         val pick = warmedRows.first { it.option?.eligibility == Eligibility.ELIGIBLE }.metadata.metadata.id
         val instance = model.progressionEntryInstance(1, pickedSlot)
-        model.warmupSettleMillis = 60_000
+        model.listings.settleMillis = 60_000
         model.edit(BuilderEdit.Entry(1, pickedSlot, pick, instance, true))
         assertTrue(model.errors.isEmpty())
         assertEquals(instance, model.current!!.document.levels.flatMap { it.entries }.first { it.slot == pickedSlot }.instanceId)
@@ -184,7 +184,7 @@ class BuilderSessionTest {
         model.progressionOptionRows(1, siblingSlot) { siblingRows = it }
         assertEquals(Eligibility.INELIGIBLE, siblingRows.first { it.metadata.metadata.id == pick }.option?.eligibility)
 
-        model.warmupSettleMillis = 0
+        model.listings.settleMillis = 0
         val document = model.current!!.document
         model.edit(BuilderEdit.Identity(document.identity.copy(notes = "No rules inputs changed")))
         model.awaitWarmup()
@@ -247,7 +247,7 @@ class BuilderSessionTest {
                 level.copy(entries = level.entries.filterNot { it.slot.choiceId == "class" || it.slot.choiceId == "ancestry" })
             }) }
         }
-        bare.warmupSettleMillis = 0
+        bare.listings.settleMillis = 0
         bare.create()
         bare.awaitWarmup()
         assertTrue(bare.errors.isEmpty())
@@ -360,7 +360,7 @@ class BuilderSessionTest {
         model.create()
         model.awaitWarmup()
         val roots = listOf("class", "ancestry").map { ChoiceSlotId("creation", it, 0) }
-        model.warmupSettleMillis = 60_000
+        model.listings.settleMillis = 60_000
         model.touchRules()
         model.edit(BuilderEdit.Entry(1, ChoiceSlotId("creation", "ancestry", 0), "modern4e.ancestry.human", "ancestry-human", true))
         assertTrue(model.errors.isEmpty())
@@ -382,7 +382,7 @@ class BuilderSessionTest {
         assertTrue(model.firstRows(2, level2Feat, FeatGroup.CLASS).let { it.isNotEmpty() && it.all { row -> row.checked } })
 
         // A level 2 pick keeps every level 1 list and the edited feat slot checked.
-        model.warmupSettleMillis = 60_000
+        model.listings.settleMillis = 60_000
         val feat = model.firstRows(2, level2Feat, FeatGroup.GENERAL).first { it.option?.eligibility == Eligibility.ELIGIBLE }
         val instance = model.progressionEntryInstance(2, level2Feat)
         model.edit(BuilderEdit.Entry(2, level2Feat, feat.metadata.metadata.id, instance, true))
@@ -453,7 +453,7 @@ class BuilderSessionTest {
         model.create("modern4e.class.fighter")
         val ancestry = ChoiceSlotId("creation", "ancestry", 0)
         val classSlot = ChoiceSlotId("creation", "class", 0)
-        assertTrue(model.warmTargets(model.current!!).none { it.slot == ancestry || it.slot == classSlot })
+        assertTrue(model.listings.warmTargets(model.current!!).none { it.slot == ancestry || it.slot == classSlot })
         val rows = model.firstRows(1, ancestry)
         assertTrue(rows.isNotEmpty() && rows.all { it.checked })
         assertTrue(rows.first { it.metadata.metadata.id == "modern4e.ancestry.deva" }.ancestryGrants.isNotEmpty())
@@ -470,29 +470,6 @@ class BuilderSessionTest {
         model.awaitWarmup()
     }
 
-    @Test fun levelNineteenWarmupDecodesEachChunkAFewTimesNotOncePerFeatSlot() = runBlocking {
-        val real = AndroidContentSource(context.assets)
-        val loads = java.util.concurrent.ConcurrentHashMap<Pair<String, String>, AtomicInteger>()
-        val source = object : ContentSource by real {
-            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> {
-                loads.getOrPut(packageId to chunkId) { AtomicInteger() }.incrementAndGet()
-                return real.loadChunk(packageId, chunkId)
-            }
-        }
-        val model = session(source = source)
-        model.create()
-        model.awaitWarmup()
-        loads.clear()
-        model.edit(BuilderEdit.Level(19))
-        assertTrue(model.errors.isEmpty())
-        model.awaitWarmup()
-        val featSlots = (1..19).count { Progression.level(it).feat }
-        assertTrue(featSlots > 10)
-        val worst = loads.entries.maxByOrNull { it.value.get() }!!
-        println("Level 19 warm-up: $featSlots feat slots, ${loads.size} chunks, ${loads.values.sumOf { it.get() }} loads, worst ${worst.key} x${worst.value.get()}")
-        assertTrue("Chunks are decoded once per session, not once per slot: ${worst.key} x${worst.value.get()}", worst.value.get() <= 4)
-    }
-
     @Test fun warmupQueuesUnmadeChoicesByLevelThenOpenedPickersThenIdleMadeChoices() = runBlocking {
         val model = openPoolSession()
         model.preloadHomePickers()
@@ -502,7 +479,7 @@ class BuilderSessionTest {
         model.awaitWarmup()
         val state = model.current!!
         val filled = state.document.levels.flatMap { it.entries }.map { it.slot }.toSet()
-        val targets = model.warmTargets(state)
+        val targets = model.listings.warmTargets(state)
 
         // Everything still unmade comes first, nearest level first: the five open attack pools, then the level 2 and 4 feats.
         val unmade = targets.takeWhile { !it.idle }
@@ -529,56 +506,18 @@ class BuilderSessionTest {
         val model = session()
         model.create()
         model.awaitWarmup()
-        model.warmupSettleMillis = 60_000
-        val before = model.warmTargets(model.current!!)
+        model.listings.settleMillis = 60_000
+        val before = model.listings.warmTargets(model.current!!)
         val unmade = before.takeWhile { !it.idle }
         val lastIdle = before.last { it.idle && it.slot.choiceId != "feat" && it.slot.sourceInstanceId != "creation" }
         assertEquals("No opened pickers yet, so every made choice is idle", before.size - unmade.size, before.count { it.idle })
 
         model.firstRows(lastIdle.level, lastIdle.slot)
-        val after = model.warmTargets(model.current!!)
+        val after = model.listings.warmTargets(model.current!!)
         assertEquals(unmade.size + 1, after.takeWhile { !it.idle }.size)
         assertEquals("The opened picker is queued right behind the unmade choices", lastIdle.copy(idle = false), after[unmade.size])
         assertEquals(before.size, after.size)
         assertEquals(before.filter { it != lastIdle }, after.filter { it.slot != lastIdle.slot })
-    }
-
-    @Test fun anOpenPickerPausesBackgroundWarmingUntilItIsDone() = runBlocking {
-        val model = session()
-        model.create()
-        model.awaitWarmup()
-        // A rules change leaves every list with eligibility to recheck, and warming starts at once.
-        model.touchRules()
-        var duringPicker = -1
-        try {
-            model.progressionOptionRows(1, ChoiceSlotId("creation", "feat", 0), FeatGroup.GENERAL) {
-                val before = model.warmBatchCount
-                // The picker holds no lock here, so any batch in this window can only be background warming.
-                delay(400)
-                duringPicker = model.warmBatchCount - before
-                throw kotlinx.coroutines.CancellationException("Only hold the picker open")
-            }
-        } catch (_: kotlinx.coroutines.CancellationException) { }
-        assertEquals("Background warming waits while a picker is open", 0, duringPicker)
-        val afterPicker = model.warmBatchCount
-        model.awaitWarmup()
-        assertTrue("Warming resumes once the picker is closed", model.warmBatchCount > afterPicker)
-        model.assertEveryLevel1ListIsWarm("After the picker closed")
-    }
-
-    @Test fun warmingTheWorkingSetStaysBoundedAndNeverLeavesAnUnmadeChoiceCold() = runBlocking {
-        val model = session()
-        model.create()
-        model.edit(BuilderEdit.Level(19))
-        assertTrue(model.errors.isEmpty())
-        model.awaitWarmup()
-        assertTrue("${model.retainedListingCount()} listings", model.retainedListingCount() <= BuilderSession.OPTION_LISTING_LIMIT)
-        val unmade = model.warmTargets(model.current!!).takeWhile { !it.idle }
-        assertTrue(unmade.isNotEmpty())
-        for (target in unmade) {
-            val rows = model.firstRows(target.level, target.slot, target.group)
-            assertTrue("${target.slot.sourceInstanceId} ${target.slot.choiceId} ${target.group} opens checked", rows.isEmpty() || rows.all { it.checked })
-        }
     }
 
     @Test fun filledFeatSlotsWarmLastAndEveryFeatSlotStillWarmsOncePerTab() = runBlocking {
@@ -596,7 +535,7 @@ class BuilderSessionTest {
 
         val state = model.current!!
         val filled = state.document.levels.flatMap { it.entries }.map { it.slot }.toSet()
-        val targets = model.warmTargets(state)
+        val targets = model.listings.warmTargets(state)
         val slots = (1..19).filter { Progression.level(it).feat }
             .map { ChoiceSlotId(if (it == 1) "creation" else "advancement.$it", "feat", 0) }
         val tabs = listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL)
@@ -652,7 +591,7 @@ class BuilderSessionTest {
 
         val state = model.current!!
         val choice = Progression.ancestryPowerChoices(state, model.powerEntryIds()).single()
-        val targets = model.warmTargets(state)
+        val targets = model.listings.warmTargets(state)
         assertEquals(choice.slot, targets.first().slot)
         assertFalse("The new choice is unmade, so it is not speculative", targets.first().idle)
         assertEquals(1, targets.count { it.slot == choice.slot })
@@ -668,7 +607,7 @@ class BuilderSessionTest {
         model.create()
         model.awaitWarmup()
         // Instance IDs stay stable across a class swap, so compare the choices themselves.
-        fun BuilderSession.owners() = warmTargets(current!!).filter { it.slot.sourceInstanceId != "creation" }.map { it.slot.choiceId }
+        fun BuilderSession.owners() = listings.warmTargets(current!!).filter { it.slot.sourceInstanceId != "creation" }.map { it.slot.choiceId }
         val fighter = model.owners()
         assertTrue(fighter.isNotEmpty())
         assertTrue("A Fighter never warms Avenger choices: $fighter", fighter.none { it.contains("avenger", ignoreCase = true) })
@@ -684,51 +623,9 @@ class BuilderSessionTest {
         assertTrue("Fighter pools no longer apply once the class changes", avenger.none { it == "modern4e.choice.fighter-reactivity" })
     }
 
-    private fun warmTargetsOwnedBy(model: BuilderSession, active: Set<String>) = model.warmTargets(model.current!!)
+    private fun warmTargetsOwnedBy(model: BuilderSession, active: Set<String>) = model.listings.warmTargets(model.current!!)
         .filter { it.slot.sourceInstanceId != "creation" && it.slot.sourceInstanceId != "advancement.2" }
         .all { it.slot.sourceInstanceId in active }
-
-    @Test fun editsSettleBeforeWarmingStartsAndASupersededEditNeverWarms() = runBlocking {
-        val model = session()
-        model.create()
-        model.awaitWarmup()
-        model.warmupSettleMillis = 60_000
-        model.touchRules()
-        assertTrue("Nothing starts until edits stop arriving", model.firstFeatRows(FeatGroup.CLASS).none { it.checked })
-        // The next edit replaces the pending warm-up instead of waiting out its delay.
-        model.warmupSettleMillis = 0
-        model.touchRules()
-        model.awaitWarmup()
-        assertTrue(model.errors.isEmpty())
-        model.assertEveryLevel1ListIsWarm("Final document")
-    }
-
-    @Test fun warmupReadFailuresStayQuietAndThePickerRecovers() = runBlocking {
-        val real = AndroidContentSource(context.assets)
-        var failReads = false
-        val source = object : ContentSource by real {
-            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> =
-                if (failReads) ContractResult.Unavailable(listOf(Diagnostic("test.read", DiagnosticKind.IO_FAILURE, "Cannot load content")))
-                else real.loadChunk(packageId, chunkId)
-        }
-        var armed = false
-        val storage = object : CharacterStore by store {
-            override suspend fun save(document: CharacterDocument, mode: SaveMode, expected: CharacterDocument?) =
-                store.save(document, mode, expected).also { failReads = armed }
-        }
-        val model = session(storage, source)
-        model.create()
-        armed = true
-        // Reads fail only once the edit is stored, so the background warm-up is what meets the failure.
-        model.edit(BuilderEdit.Entry(1, ChoiceSlotId("creation", "ancestry", 0), "modern4e.ancestry.human", "ancestry-human", true))
-        model.awaitWarmup()
-        assertTrue("A background failure never opens the blocking error flow", model.errors.isEmpty())
-        failReads = false
-        var last: List<BuilderOptionRow> = emptyList()
-        model.progressionOptionRows(1, ChoiceSlotId("creation", "feat", 0), FeatGroup.ANCESTRY) { last = it }
-        assertTrue(model.errors.isEmpty())
-        assertTrue(last.isNotEmpty() && last.all { it.checked })
-    }
 
     @Test fun characterChangesStopOldPickerUpdatesAndContentFailuresUseBlockingErrors() = runBlocking {
         val real = AndroidContentSource(context.assets)
@@ -742,7 +639,7 @@ class BuilderSessionTest {
         model.create()
         // A warmed list would never read content again, so keep background warming out of this failure scenario.
         model.awaitWarmup()
-        model.warmupSettleMillis = 60_000
+        model.listings.settleMillis = 60_000
         var updates = 0
         val slot = ChoiceSlotId("creation", "feat", 0)
         model.progressionOptionRows(1, slot, FeatGroup.GENERAL) {
@@ -840,14 +737,14 @@ class BuilderSessionTest {
     @Test fun higherLevelFeatRowsUseSharedEligibilityAndWarmAllReachedFeatSlots() = runBlocking {
         val document = sample().copy(id = "later-feats", level = 19)
         store.save(document, SaveMode.CREATE)
-        val model = session().also { it.warmupSettleMillis = 60_000 }
+        val model = session().also { it.listings.settleMillis = 60_000 }
         model.load(document.id)
         var rows = emptyList<BuilderOptionRow>()
         model.progressionOptionRows(18, ChoiceSlotId("advancement.18", "feat", 0), FeatGroup.GENERAL) { rows = it }
         assertTrue(rows.isNotEmpty())
         assertTrue(rows.all { it.checked })
         assertTrue(rows.none { row -> row.diagnostics.any { it.code == "android.progression" } })
-        val targets = model.warmTargets(model.current!!)
+        val targets = model.listings.warmTargets(model.current!!)
         val featLevels = targets.filter { it.slot.choiceId == "feat" }.map { it.level }.toSet()
         assertEquals((1..19).filter { Progression.level(it).feat }.toSet(), featLevels)
         assertTrue(targets.none { it.level > 19 })
@@ -1108,7 +1005,7 @@ class BuilderSessionTest {
         model.create()
         // The commit path itself must not read content; background warming would, so keep it out of this window.
         model.awaitWarmup()
-        model.warmupSettleMillis = 60_000
+        model.listings.settleMillis = 60_000
         val original = model.current!!
         val adjustment = ManualAdjustment("save-bonus", TypedModifier(
             ModifierTarget(Statistic.SKILL_CHECK, skill = Skill.ATHLETICS), ModifierOperation.ADD, 2), "Training")

@@ -26,7 +26,7 @@ class CharacterExportTest {
     private fun sample(): CharacterDocument = (ContractCodec.decode(File("../shared/fixtures/sample-current-fighter-1-base.json")
         .readText(Charsets.UTF_8)) as ContractResult.Available).value
     private fun session(storage: CharacterStore = store) =
-        BuilderSession(storage, AndroidContentSource(context.assets), ::sample).also { it.warmupSettleMillis = 0 }
+        BuilderSession(storage, AndroidContentSource(context.assets), ::sample).also { it.listings.settleMillis = 0 }
 
     @Before fun reset() {
         File(context.filesDir, "characters").deleteRecursively()

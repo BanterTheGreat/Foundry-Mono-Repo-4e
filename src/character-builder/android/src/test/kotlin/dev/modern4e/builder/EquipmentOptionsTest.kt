@@ -25,7 +25,7 @@ class EquipmentOptionsTest {
             .value.copy(equipment = emptyList())
 
     private fun session(source: ContentSource = AndroidContentSource(context.assets)) =
-        BuilderSession(store, source, ::sample).also { it.warmupSettleMillis = 60_000 }
+        BuilderSession(store, source, ::sample).also { it.listings.settleMillis = 60_000 }
 
     @Before fun reset() {
         File(context.filesDir, "characters").deleteRecursively()

@@ -21,7 +21,7 @@ class PortraitSessionTest {
     private val journal get() = File(context.filesDir, "characters/store.json")
     private fun sample(): CharacterDocument = (ContractCodec.decode(File("../shared/fixtures/sample-current-fighter-1-base.json")
         .readText(Charsets.UTF_8)) as ContractResult.Available).value
-    private fun session() = BuilderSession(store, AndroidContentSource(context.assets), portraits, ::sample).also { it.warmupSettleMillis = 0 }
+    private fun session() = BuilderSession(store, AndroidContentSource(context.assets), portraits, ::sample).also { it.listings.settleMillis = 0 }
     private fun choosing(text: String?) = PortraitChooser { text?.let { ByteArrayInputStream(it.toByteArray()) } }
     private val files get() = File(context.filesDir, "portraits").list().orEmpty().toSet()
 

@@ -44,15 +44,15 @@ class SessionWorkBaselineTest {
         }
         val document = RegressionFighter.document()
         store.save(document, SaveMode.CREATE)
-        val model = BuilderSession(store, source) { document }.also { it.warmupSettleMillis = 0 }
+        val model = BuilderSession(store, source) { document }.also { it.listings.settleMillis = 0 }
         val measured = mutableListOf<String>()
         var batches = 0
         suspend fun record(step: String) {
             model.awaitWarmup()
             assertTrue(model.errors.toString(), model.errors.isEmpty())
             measured += "$step: ${indexes.getAndSet(0)} index reads, ${chunks.getAndSet(0)} chunk reads, " +
-                "${model.warmBatchCount - batches} warm batches, ${model.retainedListingCount()} retained"
-            batches = model.warmBatchCount
+                "${model.listings.warmBatchCount - batches} warm batches, ${model.listings.retainedCount()} retained"
+            batches = model.listings.warmBatchCount
         }
 
         model.load(document.id)

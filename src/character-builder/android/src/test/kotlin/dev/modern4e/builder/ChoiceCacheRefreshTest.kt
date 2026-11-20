@@ -89,7 +89,7 @@ class ChoiceCacheRefreshTest {
 
     private suspend fun session(source: Source = Source()): BuilderSession =
         BuilderSession(store, source, ::sample).also { model ->
-            model.warmupSettleMillis = 60_000
+            model.listings.settleMillis = 60_000
             model.create()
             model.pick(oldFeat)
         }

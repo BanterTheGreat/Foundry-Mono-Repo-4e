@@ -86,7 +86,7 @@ class ListingRetentionBaselineTest {
         model.load(document.id)
         // Opening always warms at once; let it finish, then keep later warming away from the lists under observation.
         model.awaitWarmup()
-        model.warmupSettleMillis = 60_000
+        model.listings.settleMillis = 60_000
         val observed = linkedMapOf("open" to model.snapshot())
         for ((step, edit) in RegressionFighter.edits) {
             model.edit(edit)

@@ -37,7 +37,7 @@ class PowerChoiceCacheTest {
     private suspend fun session(document: CharacterDocument = sample(), source: ContentSource = AndroidContentSource(context.assets)): BuilderSession = BuilderSession(store, source, { document })
         .also {
             // Warm only the lists under test, and observe the first publication before background work can refill them.
-            it.warmupSettleMillis = 60_000
+            it.listings.settleMillis = 60_000
             it.create()
             assertTrue(it.errors.toString(), it.errors.isEmpty())
         }
