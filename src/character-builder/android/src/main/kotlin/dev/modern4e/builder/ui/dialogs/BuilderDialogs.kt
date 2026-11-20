@@ -116,11 +116,11 @@ internal fun BuilderDialogs(
                 }
             }
         }
-        model.recoveries?.let { copies ->
+        model.recoveries?.takeIf { model.page != "recovery" }?.let { copies ->
             FolioDialog("Recovery copies", { model.recoveries = null }) {
                 if (copies.isEmpty()) { Text("No retained recovery copies.") }
                 copies.forEach { copy ->
-                    FolioButton("${copy.character.name} · Level ${copy.character.level}\n${copy.character.savedAt}", !model.busy, outlined = true) {
+                    FolioButton("${copy.character.name} · Level ${copy.character.level}\n${formatCharacterDate(copy.character.savedAt)}", !model.busy, outlined = true) {
                         task { recover(copy.recoveryId) }
                     }
                 }

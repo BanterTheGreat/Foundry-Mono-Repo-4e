@@ -7,6 +7,7 @@ import java.nio.file.StandardCopyOption
 import java.io.File
 import java.io.RandomAccessFile
 import java.util.UUID
+import java.time.LocalDate
 import kotlinx.serialization.json.*
 
 /** Private JSON journal. Interrupted staging files never replace committed JSON.
@@ -52,7 +53,13 @@ class AndroidCharacterStore(context: Context, private val beforeCommit: () -> Un
         try {
             check(directory.isDirectory || directory.mkdirs()) { "Cannot create private store" }
             RandomAccessFile(File(directory, "store.lock"), "rw").use { file ->
-                file.channel.lock().use { block(read()) }
+                file.channel.lock().use {
+                    val state = read()
+                    if (prune(state)) {
+                        write(state)
+                    }
+                    block(state)
+                }
             }
         } catch (error: Exception) {
             failure("io", error.message ?: "Private storage failed")
@@ -64,6 +71,16 @@ class AndroidCharacterStore(context: Context, private val beforeCommit: () -> Un
         is ContractResult.Unavailable -> throw IllegalArgumentException(decoded.diagnostics.joinToString { it.message })
     }
     private fun summary(text: String): CharacterSummary = document(text).summary()
+    /** Compact older editing days on access as well as on write, including after a quiet period. */
+    private fun prune(state: State): Boolean {
+        val copies = state.recovery.map { RecoverySummary(it.key, summary(it.value)) }
+        val keep = retainedRecoveryCopies(copies, LocalDate.now()).map { it.recoveryId }.toSet()
+        if (state.recovery.keys.any { it !in keep }) {
+            state.recovery.keys.retainAll(keep)
+            return true
+        }
+        return false
+    }
     override suspend fun list() = access { state -> ContractResult.Available(state.live.values.map(::summary)) }
     override suspend fun load(id: String) = access { state ->
         state.live[id]?.let { ContractResult.Available(document(it)) } ?: failure("missing", "Character does not exist")
@@ -100,6 +117,9 @@ class AndroidCharacterStore(context: Context, private val beforeCommit: () -> Un
     }
     override suspend fun listRecovery(characterId: String) = access { state ->
         ContractResult.Available(state.recovery.map { RecoverySummary(it.key, summary(it.value)) }.filter { it.character.id == characterId })
+    }
+    override suspend fun listAllRecovery() = access { state ->
+        ContractResult.Available(dailyRecoveryCopies(state.recovery.map { RecoverySummary(it.key, summary(it.value)) }))
     }
     override suspend fun loadRecovery(recoveryId: String) = access { state ->
         state.recovery[recoveryId]?.let { ContractResult.Available(document(it)) } ?: failure("missing", "Recovery does not exist")

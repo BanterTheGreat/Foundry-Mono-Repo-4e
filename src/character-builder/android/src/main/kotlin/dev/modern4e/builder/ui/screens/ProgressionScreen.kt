@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
@@ -30,7 +31,6 @@ import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -80,23 +80,89 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     }
     fun needsAttention(slot: ChoiceSlotId, level: Int = 1, optional: Boolean = false) = Progression.choiceNeedsAttention(
         level <= document.level, optional, model.pendingSelection(slot)?.let { it.title != null } ?: (slot in filledSlots), slot in invalidSlots)
-    fun selected(slot: ChoiceSlotId, displayState: BuilderState = state) = model.pendingSelection(slot)?.let { it.title ?: "Choose…" }
+    fun selected(slot: ChoiceSlotId, displayState: BuilderState = state) = model.pendingSelection(slot)?.let { it.title ?: ChoosePlaceholder }
         ?: entries.firstOrNull { it.slot == slot }?.selection?.savedTitle
-        ?: displayState.rules.entries.firstOrNull { it.slot == slot && it.granted }?.definition?.entry?.presentation?.title ?: "Choose…"
+        ?: displayState.rules.entries.firstOrNull { it.slot == slot && it.granted }?.definition?.entry?.presentation?.title ?: ChoosePlaceholder
     fun selectedPowerUsage(slot: ChoiceSlotId, displayState: BuilderState = state) = displayState.rules.entries.firstOrNull { it.slot == slot }
         ?.definition?.entry?.let(::powerChoiceUsage)
     fun open(kind: String, level: Int = 1, slot: ChoiceSlotId? = null) { editor = ProgressionEditor(kind, level, slot) }
     fun saving(kind: String, level: Int = 1, slot: ChoiceSlotId? = null) = model.isSaving(ProgressionEditor(kind, level, slot))
+    fun creationNeedsAttention(kind: String): Boolean {
+        val background = kind == "environment" || kind == "upbringing"
+        val slot = if (background) null else AdvancementRules.rootSlot(1, EntryCategory.valueOf(kind.uppercase()))
+        val backgroundOptions = if (kind == "environment") ModernCreation.environments else ModernCreation.upbringings
+        return if (slot == null) Progression.background(document, kind) !in backgroundOptions else needsAttention(slot)
+    }
+    fun skillTileChosen(kind: String): Boolean {
+        val backgroundKind = kind.removeSuffix("-skill").takeIf { it != kind }
+        val background = backgroundKind?.let { Progression.background(document, it) }
+        val available = background == null || background.isNotBlank()
+        val freeSlots = (0..1).map { ChoiceSlotId("creation", "free-skill", it) }
+        return when (kind) {
+            "allocation" -> Progression.validAllocation(document.abilities) && document.abilities.source !in invalidSlots
+            "free" -> freeSlots.none { needsAttention(it) }
+            else -> available && !needsAttention(ChoiceSlotId("background.$backgroundKind.$background", "skill", 0))
+        }
+    }
+    fun abilityIncreaseInvalid(level: Int): Boolean {
+        val rootSlot = AdvancementRules.rootSlot(level, SlotCategory.AbilityIncrease)
+        val advancements = document.levels.firstOrNull { it.level == level }?.abilityAdvancements.orEmpty()
+        val increase = advancements.singleOrNull()?.takeIf { it.slot == (rootSlot ?: AdvancementRules.abilitySlot(level)) }
+            ?.increases?.entries?.singleOrNull()
+        return rootSlot != null && level <= document.level &&
+            (increase?.value != 1 || increase.key == document.abilities.mainAbility)
+    }
+    fun replacementInvalid(level: Int): Boolean {
+        val replacementSlot = AdvancementRules.rootSlots(level).firstOrNull { root -> root.category is SlotCategory.Replacement }?.slot
+        val replacements = document.levels.firstOrNull { decisions -> decisions.level == level }?.replacements.orEmpty()
+        return replacementSlot != null && level <= document.level &&
+            (replacements.none { it.kind == ReplacementKind.PROGRESSION } || replacements.any { change ->
+                change.replaces in invalidSlots || change.replacement.slot in invalidSlots
+            })
+    }
+    /** Counts what the Base heading reports: the origin choices shown above Level 1. */
+    fun baseNeeds(): Int = listOf("ancestry", "class", "theme", "environment", "upbringing").count(::creationNeedsAttention) +
+        ancestryLanguages.count { needsAttention(it.slot, optional = it.optional) } +
+        ancestryPowers.count { needsAttention(it.slot, optional = it.optional) }
+    /** Counts the choices a reached level's rows flag, so its heading can report how many are left. */
+    fun levelNeeds(level: Int): Int {
+        if (level > document.level) {
+            return 0
+        }
+        val schedule = Progression.level(level)
+        val levelChoices = Progression.levelChoices(state, level).filterNot { it in ancestryLanguages || it in ancestryPowers }
+        val (powerSlots, regularChoices) = Progression.partitionLevelChoices(level, levelChoices, powerEntryIds)
+        val shown = powerSlots + regularChoices.filter { it.entries.isNotEmpty() || it.valueKind != null || it.skills.isNotEmpty() }
+        var needs = shown.count { needsAttention(it.slot, level, it.optional) }
+        if (level == 1) {
+            needs += listOf("allocation", "environment-skill", "upbringing-skill", "free").count { !skillTileChosen(it) }
+        }
+        AdvancementRules.rootSlot(level, EntryCategory.PARAGON_PATH)?.let { slot ->
+            needs += if (needsAttention(slot, level)) 1 else 0
+        }
+        if (schedule.ability == "non-main" && abilityIncreaseInvalid(level)) {
+            needs++
+        }
+        if (schedule.feat) {
+            val slot = AdvancementRules.rootSlot(level, EntryCategory.FEAT)
+            if (slot != null && needsAttention(slot, level)) {
+                needs++
+            }
+        }
+        if (schedule.replacement != null && replacementInvalid(level)) {
+            needs++
+        }
+        return needs
+    }
     @Composable
     fun CreationChoice(kind: String, modifier: Modifier = Modifier) {
         val background = kind == "environment" || kind == "upbringing"
         val slot = if (background) null else AdvancementRules.rootSlot(1, EntryCategory.valueOf(kind.uppercase()))
         val selection = if (slot == null) Progression.background(document, kind) else selected(slot)
-        val backgroundOptions = if (kind == "environment") ModernCreation.environments else ModernCreation.upbringings
-        val invalid = if (slot == null) selection !in backgroundOptions else needsAttention(slot)
+        val invalid = creationNeedsAttention(kind)
         LevelChoice(
             kind.readable(),
-            if (background) selection.ifBlank { "Choose…" }.readable() else selection,
+            if (background) selection.ifBlank { ChoosePlaceholder }.readable() else selection,
             modifier, enabled = !model.busy, invalid = invalid,
             saving = if (background) saving(kind) else saving("entry", slot = slot),
         ) {
@@ -117,7 +183,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     ScrollToFirstOpenChoice(model, scroll, openChoices) { viewport?.takeIf { it.isAttached }?.positionInRoot()?.y }
     CompositionLocalProvider(LocalOpenChoices provides openChoices) {
     Column(Modifier.fillMaxSize().onGloballyPositioned { viewport = it }.folioScroll(scroll).padding(20.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        ProgressionLevelHeading(0)
+        ProgressionLevelHeading(0, Progression.levelTally(true, baseNeeds()), current = false)
         val firstLanguage = ancestryLanguages.firstOrNull()
         if (firstLanguage == null) {
             CreationChoice("ancestry")
@@ -157,11 +223,12 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             val schedule = Progression.level(level)
             val future = level > document.level
             val levelState = if (future) futureState ?: state else state
-            ProgressionLevelHeading(level, future, onClick = if (future && !model.busy) {
-                { model.beginLevelChange(level) }
-            } else {
-                null
-            })
+            ProgressionLevelHeading(level, Progression.levelTally(!future, levelNeeds(level)), level == document.level,
+                onClick = if (future && !model.busy) {
+                    { model.beginLevelChange(level) }
+                } else {
+                    null
+                })
             if (level == 1) {
                 val tiles = listOf("Ability Scores", "Environment skill", "Upbringing skill", "Free skills")
                 tiles.chunked(2).forEach { row ->
@@ -175,19 +242,13 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                             val backgroundKind = kind.removeSuffix("-skill").takeIf { it != kind }
                             val background = backgroundKind?.let { Progression.background(document, it) }
                             val available = background == null || background.isNotBlank()
-                            val freeSlots = (0..1).map { ChoiceSlotId("creation", "free-skill", it) }
-                            val freeCount = freeSlots.count { it in filledSlots }
-                            val chosen = when (kind) {
-                                "allocation" -> Progression.validAllocation(document.abilities) &&
-                                    document.abilities.source !in invalidSlots
-                                "free" -> freeSlots.none { needsAttention(it) }
-                                else -> available && !needsAttention(ChoiceSlotId("background.$backgroundKind.$background", "skill", 0))
-                            }
+                            val freeCount = (0..1).count { ChoiceSlotId("creation", "free-skill", it) in filledSlots }
+                            val chosen = skillTileChosen(kind)
                             val value = when {
                                 !available -> "Choose ${backgroundKind.orEmpty().readable()} first"
                                 chosen -> "✓"
                                 kind == "free" && freeCount < 2 -> "${2 - freeCount} LEFT"
-                                else -> "✗"
+                                else -> ChoosePlaceholder
                             }
                             LevelChoice(
                                 label, value, Modifier.weight(1f).fillMaxHeight(),
@@ -224,7 +285,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                         open("value", level, choice.slot)
                     }
                 } else if (choice.skills.isNotEmpty()) {
-                    LevelChoice(Progression.choiceLabel(choice.slot.choiceId, className), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: "Choose…", enabled = !model.busy, invalid = invalid,
+                    LevelChoice(Progression.choiceLabel(choice.slot.choiceId, className), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: ChoosePlaceholder, enabled = !model.busy, invalid = invalid,
                         saving = saving("skill", level, choice.slot)) {
                         open("skill", level, choice.slot)
                     }
@@ -246,9 +307,9 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                     val advancements = document.levels.firstOrNull { it.level == level }?.abilityAdvancements.orEmpty()
                     val slot = rootSlot ?: AdvancementRules.abilitySlot(level)
                     val increase = advancements.singleOrNull()?.takeIf { it.slot == slot }?.increases?.entries?.singleOrNull()
-                    LevelChoice("Ability increase", increase?.key?.name?.readable() ?: if (supported) "Choose…" else "Unavailable",
+                    LevelChoice("Ability increase", increase?.key?.name?.readable() ?: if (supported) ChoosePlaceholder else "Unavailable",
                         enabled = supported && !model.busy,
-                        invalid = supported && !future && (increase?.value != 1 || increase.key == document.abilities.mainAbility),
+                        invalid = abilityIncreaseInvalid(level),
                         saving = saving("advancement", level)) {
                         open("advancement", level)
                     }
@@ -280,11 +341,9 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 }?.slot
                 val supported = replacementSlot != null
                 val replacements = document.levels.firstOrNull { decisions -> decisions.level == level }?.replacements.orEmpty()
-                val invalid = supported && !future && (replacements.none { it.kind == ReplacementKind.PROGRESSION } || replacements.any { change ->
-                    change.replaces in invalidSlots || change.replacement.slot in invalidSlots
-                })
+                val invalid = replacementInvalid(level)
                 val savedTitle = replacements.singleOrNull()?.replacement?.selection?.savedTitle
-                LevelChoice("Replace a $it attack power", savedTitle ?: if (supported) "Choose…" else "Unavailable",
+                LevelChoice("Replace a $it attack power", savedTitle ?: if (supported) ChoosePlaceholder else "Unavailable",
                     enabled = supported && !model.busy,
                     powerUsage = it, invalid = invalid,
                     saving = saving("replacement", level, replacementSlot)) {
@@ -297,23 +356,21 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                         (label.startsWith("Epic ") && otherFeatures.any { it.sourceCategory == EntryCategory.EPIC_DESTINY })
                 }.forEach { Text("$it arrives automatically", color = Dim) }
             }
-            if (powerSlots.isNotEmpty()) {
-                val gap = 4.dp
-                Row(
-                    Modifier.fillMaxWidth().height(IntrinsicSize.Min),
-                    horizontalArrangement = Arrangement.spacedBy(gap),
-                ) {
-                    powerSlots.forEach { choice ->
-                        val sourceTitle = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }
-                            ?.definition?.entry?.presentation?.title.orEmpty()
-                        val label = if (choice.optional) sourceTitle else Progression.choiceLabel(choice.slot.choiceId, className)
-                        val compactLabel = label.removeSuffix(" attack power").removeSuffix(" power")
-                        LevelOnePowerTile(
-                            compactLabel, selected(choice.slot), selectedPowerUsage(choice.slot) ?: label,
-                            Modifier.weight(1f).heightIn(min = 48.dp).fillMaxHeight(), enabled = !model.busy,
-                            invalid = needsAttention(choice.slot, level, choice.optional),
-                            saving = saving("entry", level, choice.slot),
-                        ) { open("entry", level, choice.slot) }
+            Progression.groupByLabel(powerSlots) { choice ->
+                val sourceTitle = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }
+                    ?.definition?.entry?.presentation?.title.orEmpty()
+                if (choice.optional) sourceTitle else Progression.choiceLabel(choice.slot.choiceId, className)
+            }.forEach { (label, group) ->
+                Progression.powerRows(group).forEach { row ->
+                    CreationChoicePair {
+                        row.forEach { choice ->
+                            LevelChoice(label, selected(choice.slot), Modifier.weight(1f).fillMaxHeight(), enabled = !model.busy,
+                                powerUsage = selectedPowerUsage(choice.slot) ?: label,
+                                invalid = needsAttention(choice.slot, level, choice.optional),
+                                saving = saving("entry", level, choice.slot)) {
+                                open("entry", level, choice.slot)
+                            }
+                        }
                     }
                 }
             }
@@ -332,7 +389,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     }
 }
 
-/** Keeps paired creation fields equally wide and as tall as the larger label or value needs. */
+/** Keeps paired fields (creation choices, power slots) equally wide and as tall as the larger label or value needs. */
 @Composable
 private fun CreationChoicePair(content: @Composable RowScope.() -> Unit) {
     Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -355,32 +412,44 @@ private fun StartingGrantDivider(title: String) {
 }
 
 /**
- * Labels the choices made at creation and the rows gained at each character level.
+ * Labels the choices made at creation and the rows gained at each character level, with how many of them are still open.
  *
+ * @param level 0 for the creation choices (Base), otherwise the character level.
+ * @param tally what to report beside the heading: a finished mark, the choices left, or that the level is upcoming.
+ * @param current whether this is the character's own level, which its number highlights.
  * @param onClick what tapping the heading does, or null when it is only a label; an upcoming level uses it to offer the level-up.
  */
 @Composable
-private fun ProgressionLevelHeading(level: Int, future: Boolean = false, onClick: (() -> Unit)? = null) {
-    Surface(
-        Modifier.fillMaxWidth().padding(top = 16.dp).semantics { heading() }.then(
-            if (onClick != null) {
-                Modifier.clickable(onClickLabel = "Level up to level $level", role = Role.Button, onClick = onClick)
-            } else {
-                Modifier
-            }),
-        color = Wash,
+private fun ProgressionLevelHeading(level: Int, tally: LevelTally, current: Boolean, onClick: (() -> Unit)? = null) {
+    val upcoming = tally is LevelTally.Upcoming
+    Row(
+        Modifier.fillMaxWidth().padding(top = if (level == 0) 0.dp else 20.dp).heightIn(min = 40.dp)
+            .semantics(mergeDescendants = true) { heading() }.then(
+                if (onClick != null) {
+                    Modifier.clickable(onClickLabel = "Level up to level $level", role = Role.Button, onClick = onClick)
+                } else {
+                    Modifier
+                }),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically) {
-            if (level > 0) {
-                Text("LEVEL", color = Dim, letterSpacing = 2.sp, fontSize = 12.sp)
-            }
-            Text(if (level == 0) "Base" else level.toString(), fontFamily = FontFamily.Serif, fontSize = 28.sp)
-            if (future) {
-                Surface(shape = RoundedCornerShape(50), color = Accent.copy(alpha = 0.12f)) {
-                    Text("Upcoming", Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
-                        color = Accent, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+        Text(if (level == 0) "Base" else level.toString(), fontFamily = FontFamily.Serif, fontSize = if (level == 0) 24.sp else 30.sp,
+            color = if (upcoming) Dim else if (current) Accent else Ink)
+        if (level > 0) {
+            Text("LEVEL", color = Dim, letterSpacing = 2.sp, fontSize = 10.sp)
+        }
+        HorizontalDivider(Modifier.weight(1f), color = Line)
+        when (tally) {
+            is LevelTally.Needs -> Text("${tally.count} to choose", color = Accent, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
+            LevelTally.Complete -> Text("✓", Modifier.semantics { contentDescription = "Complete" }, color = RequirementMetColor,
+                fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            LevelTally.Upcoming -> if (onClick != null) {
+                Surface(shape = RoundedCornerShape(3.dp), color = Color.Transparent, border = BorderStroke(1.dp, Accent)) {
+                    Text("Level up ›", Modifier.padding(horizontal = 10.dp, vertical = 2.dp), color = Accent, fontSize = 12.sp,
+                        lineHeight = 15.sp, fontWeight = FontWeight.SemiBold)
                 }
+            } else {
+                Text("Upcoming", color = Dim, fontSize = 11.sp)
             }
         }
     }
@@ -420,57 +489,17 @@ private fun AutomaticGrantCard(documentId: String, grant: ProgressionGrant) {
 @Composable
 private fun LevelValueChoice(choice: EngineChoice, label: String, value: String?, enabled: Boolean, invalid: Boolean,
     modifier: Modifier = Modifier, saving: Boolean = false, edit: () -> Unit) {
-    val title = choice.values.firstOrNull { it.id == value }?.title ?: value ?: "Choose…"
+    val title = choice.values.firstOrNull { it.id == value }?.title ?: value ?: ChoosePlaceholder
     LevelChoice(label, title, modifier, enabled = enabled, invalid = invalid, saving = saving, action = edit)
 }
 
-/** A compact power slot with the same edit action and frequency color as a Levels field. */
-@Composable
-private fun LevelOnePowerTile(
-    label: String,
-    title: String,
-    usage: String,
-    modifier: Modifier,
-    enabled: Boolean,
-    invalid: Boolean,
-    saving: Boolean = false,
-    action: () -> Unit,
-) {
-    val errorColor = MaterialTheme.colorScheme.error
-    val flagged = invalid && !saving
-    val accent = powerChoiceColor(usage).takeUnless { flagged }
-    Surface(
-        modifier.openChoice(flagged).clickable(enabled = enabled, role = Role.Button, onClick = action)
-            .semantics {
-                if (saving) {
-                    stateDescription = "Saving"
-                } else if (invalid) {
-                    stateDescription = "Needs attention"
-                }
-            },
-        color = if (flagged) errorColor.copy(alpha = 0.10f).compositeOver(Paper) else if (saving) Wash else Paper,
-        border = BorderStroke(1.dp, if (flagged) errorColor else Line),
-    ) {
-        Box(Modifier.leftEdgeAccent(accent)) {
-            Column(
-                Modifier.fillMaxWidth().alpha(if (saving) 0.55f else 1f).padding(horizontal = 4.dp, vertical = 3.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(label, color = if (flagged) errorColor else Dim, fontSize = 10.sp, lineHeight = 11.sp,
-                    maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
-                Text(title, color = if (flagged) errorColor else Ink,
-                    fontFamily = FontFamily.Serif, fontSize = 11.sp, lineHeight = 12.sp,
-                    maxLines = 2, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
-            }
-            if (saving) {
-                SavingSpinner(Modifier.align(Alignment.CenterEnd).padding(end = 4.dp), size = 12.dp)
-            }
-        }
-    }
-}
+/** What a Levels field shows for a slot nobody has filled yet. */
+private const val ChoosePlaceholder = "Choose…"
 
-/** Applies the Levels layout and the known power frequency color to choice fields. */
+/**
+ * One choice on the Levels tab. A filled choice shows its label above its value, tinted with the power frequency colour;
+ * a choice still to be made is a dashed outline inviting a tap, accent-coloured once it is required.
+ */
 @Composable
 private fun LevelChoice(
     label: String,
@@ -483,10 +512,48 @@ private fun LevelChoice(
     saving: Boolean = false,
     action: () -> Unit,
 ) {
-    Field(
-        label, value, modifier.openChoice(invalid && !saving), enabled, compact = true, leftAccent = powerUsage?.let(::powerChoiceColor),
-        valueIsHint = valueIsHint, invalid = invalid, saving = saving, action = action,
-    )
+    val errorColor = MaterialTheme.colorScheme.error
+    val kindColor = powerUsage?.let(::powerChoiceColor)
+    val invitation = (value == ChoosePlaceholder || valueIsHint) && !saving
+    val illegal = invalid && !invitation && !saving
+    Surface(
+        modifier.openChoice(invalid && !saving).fillMaxWidth().then(
+            if (invitation) Modifier.dashedBorder(if (invalid) Accent else Line) else Modifier,
+        ).clickable(enabled = enabled, onClick = action).semantics {
+            contentDescription = "Edit $label"
+            if (saving) {
+                stateDescription = "Saving"
+            } else if (invalid) {
+                stateDescription = "Needs attention"
+            }
+        },
+        color = when {
+            illegal -> errorColor.copy(alpha = 0.10f).compositeOver(Paper)
+            invitation -> Color.Transparent
+            saving -> Wash
+            else -> Paper
+        },
+        border = if (invitation) null else BorderStroke(1.dp, if (illegal) errorColor else Line),
+    ) {
+        Box(Modifier.leftEdgeAccent(kindColor.takeUnless { illegal || invitation })) {
+            Column(Modifier.alpha(if (saving) 0.55f else 1f).padding(horizontal = 12.dp, vertical = 6.dp)) {
+                Text(label, color = if (illegal) errorColor else kindColor.takeUnless { invitation } ?: Dim, fontSize = 11.sp,
+                    lineHeight = 14.sp, fontWeight = if (kindColor != null && !invitation) FontWeight.SemiBold else null)
+                when {
+                    valueIsHint -> Box(Modifier.heightIn(min = 20.dp), contentAlignment = Alignment.CenterStart) {
+                        Text(value, color = Dim, fontSize = 11.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    }
+                    invitation -> Text("+ $value", color = if (invalid) Accent else Dim, fontSize = 14.sp, lineHeight = 20.sp,
+                        fontWeight = FontWeight.SemiBold)
+                    else -> Text(value, color = if (illegal) errorColor else Ink, fontFamily = FontFamily.Serif, fontSize = 16.sp,
+                        lineHeight = 20.sp)
+                }
+            }
+            if (saving) {
+                SavingSpinner(Modifier.align(Alignment.CenterEnd).padding(end = 12.dp))
+            }
+        }
+    }
 }
 
 @Composable

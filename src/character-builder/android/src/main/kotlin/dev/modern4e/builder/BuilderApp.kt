@@ -49,7 +49,7 @@ fun BuilderApp(
         scope.launch { drawerState.close() }
     }
     FolioTheme {
-        BackHandler(model.errors.isEmpty() && model.page != "home" && model.dialog == null &&
+        BackHandler(model.errors.isEmpty() && (model.page != "home" || drawerState.isOpen) && model.dialog == null &&
             model.preview == null && model.description == null && model.deleting == null) {
             if (drawerState.targetValue == DrawerValue.Open || drawerState.isOpen) {
                 closeMenu()
@@ -59,6 +59,8 @@ fun BuilderApp(
         }
         CharacterDrawer(
             drawerState = drawerState,
+            home = model.page == "home",
+            onRecovery = { task { openRecoveries() } },
             onDismiss = ::closeMenu,
             onExit = { model.page = "home" },
             onOpen = { task { openLibrary() } },
@@ -73,14 +75,14 @@ fun BuilderApp(
                     Column(Modifier.fillMaxSize().systemBarsPadding()) {
                         if (model.page == "home") {
                             Row(Modifier.fillMaxWidth().height(62.dp).padding(end = 4.dp), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Top) {
-                                FolioIconButton("Settings, coming later", enabled = false, action = {}) {
-                                    WrenchIcon()
+                                FolioIconButton("Main menu", enabled = !model.busy, action = { scope.launch { drawerState.open() } }) {
+                                    CogIcon()
                                 }
                             }
                         } else {
                             val character = model.page in CharacterTabs
                             FolioHeader(
-                                title = if (character) model.current?.document?.identity?.name.orEmpty() else if (model.page == "import") "Import Character" else "Characters",
+                                title = if (character) model.current?.document?.identity?.name.orEmpty() else if (model.page == "import") "Import Character" else if (model.page == "recovery") "Recovery Copies" else "Characters",
                                 subtitle = if (character) characterHeaderSubtitle(model.current?.document, model.busy, model.saving, model.exporting) else null,
                                 backEnabled = !model.busy,
                                 onBack = model::navigateBack,
@@ -101,7 +103,7 @@ fun BuilderApp(
                             if (model.busy || model.saving) { LinearProgressIndicator(Modifier.fillMaxWidth()) }
                         }
                         AnimatedContent(if (model.page in CharacterTabs) "character" else model.page, modifier = Modifier.weight(1f), label = "Screen transition", transitionSpec = {
-                            val order = listOf("home", "library", "import", "character")
+                            val order = listOf("home", "library", "recovery", "import", "character")
                             val forward = order.indexOf(targetState) > order.indexOf(initialState)
                             slideInHorizontally(tween(220)) { if (forward) it else -it } togetherWith
                                 slideOutHorizontally(tween(220)) { if (forward) -it else it }
@@ -109,6 +111,7 @@ fun BuilderApp(
                             when (page) {
                                 "home" -> HomeScreen(model, ::task)
                                 "library" -> LibraryScreen(model, ::task)
+                                "recovery" -> RecoveryScreen(model, ::task)
                                 "import" -> ImportScreen(model, ::task, exchange)
                                 "character" -> model.current?.let {
                                     CompositionLocalProvider(LocalPortraitChooser provides portraitChooser) { CharacterPages(it, model) }
@@ -144,10 +147,12 @@ fun BuilderApp(
     }
 }
 
-/** Wraps the character screen in a full-height right drawer with swipe dismissal. */
+/** Wraps Home and character pages in the same full-height right drawer with swipe dismissal. */
 @Composable
 private fun CharacterDrawer(
     drawerState: DrawerState,
+    home: Boolean,
+    onRecovery: () -> Unit,
     onDismiss: () -> Unit,
     onExit: () -> Unit,
     onOpen: () -> Unit,
@@ -172,30 +177,37 @@ private fun CharacterDrawer(
                         drawerContainerColor = Paper,
                     ) {
                         Column(Modifier.folioScroll(rememberScrollState()).padding(vertical = 4.dp)) {
-                            DropdownMenuItem(text = { Text("Exit") }, onClick = {
-                                onDismiss()
-                                onExit()
-                            })
-                            DropdownMenuItem(text = { Text("Open Character") }, onClick = {
-                                onDismiss()
-                                onOpen()
-                            })
-                            HorizontalDivider(color = Line)
-                            // A file taken mid-save could lack the latest choices, so Export waits for the save to finish.
-                            DropdownMenuItem(text = { Text("Export") }, onClick = {
-                                onDismiss()
-                                onExport()
-                            }, enabled = exportEnabled)
-                            // A copy of a character mid-save could lack the latest choices, so Copy waits like Export.
-                            DropdownMenuItem(text = { Text("Copy Character") }, onClick = {
-                                onDismiss()
-                                onCopy()
-                            }, enabled = copyEnabled)
-                            HorizontalDivider(color = Line)
-                            DropdownMenuItem(text = { Text("Validation") }, onClick = {
-                                onDismiss()
-                                onValidation()
-                            })
+                            if (home) {
+                                DropdownMenuItem(text = { Text("Recovery Copies") }, onClick = {
+                                    onDismiss()
+                                    onRecovery()
+                                })
+                            } else {
+                                DropdownMenuItem(text = { Text("Exit") }, onClick = {
+                                    onDismiss()
+                                    onExit()
+                                })
+                                DropdownMenuItem(text = { Text("Open Character") }, onClick = {
+                                    onDismiss()
+                                    onOpen()
+                                })
+                                HorizontalDivider(color = Line)
+                                // A file taken mid-save could lack the latest choices, so Export waits for the save to finish.
+                                DropdownMenuItem(text = { Text("Export") }, onClick = {
+                                    onDismiss()
+                                    onExport()
+                                }, enabled = exportEnabled)
+                                // A copy of a character mid-save could lack the latest choices, so Copy waits like Export.
+                                DropdownMenuItem(text = { Text("Copy Character") }, onClick = {
+                                    onDismiss()
+                                    onCopy()
+                                }, enabled = copyEnabled)
+                                HorizontalDivider(color = Line)
+                                DropdownMenuItem(text = { Text("Validation") }, onClick = {
+                                    onDismiss()
+                                    onValidation()
+                                })
+                            }
                         }
                     }
                 }

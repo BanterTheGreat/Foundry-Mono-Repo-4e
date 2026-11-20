@@ -36,6 +36,7 @@ class AndroidAdaptersJvmTest {
     @Before fun reset() {
         File(context.filesDir, "characters").deleteRecursively()
         original = value(ContractCodec.decode(javaClass.classLoader!!.getResourceAsStream("character.json")!!.bufferedReader().use { it.readText() }))
+            .copy(savedAt = java.time.OffsetDateTime.now().toString())
     }
     @Test fun storageImportAndRecoveryContract() = run {
         val store = AndroidCharacterStore(context)
@@ -75,6 +76,27 @@ class AndroidAdaptersJvmTest {
         assertTrue(value(store.listRecovery(original.id)).isEmpty())
         File(context.filesDir, "characters/store.pending").writeText("interrupted")
         assertEquals(original, value(AndroidCharacterStore(context).load(original.id)))
+    }
+    @Test fun recoveryDiscoveryCompactsOldDaysAndIncludesDeletedCharacters() = run {
+        val store = AndroidCharacterStore(context)
+        var previous = original.copy(savedAt = "2020-01-01T10:00:00Z")
+        value(store.save(previous, SaveMode.CREATE))
+        for (day in 1..12) {
+            for (hour in listOf(11, 12)) {
+                val next = previous.copy(savedAt = "2020-01-${day.toString().padStart(2, '0')}T$hour:00:00Z")
+                value(store.save(next, SaveMode.REPLACE_WITH_RECOVERY, previous))
+                previous = next
+            }
+        }
+        val copies = value(store.listAllRecovery())
+        assertEquals(10, copies.size)
+        assertEquals(10, value(store.listRecovery(original.id)).size)
+        assertFalse(copies.any { it.character.savedAt.startsWith("2020-01-01") || it.character.savedAt.startsWith("2020-01-02") })
+        assertTrue(value(store.delete(original.id)))
+        assertTrue(value(store.list()).isEmpty())
+        val reopened = AndroidCharacterStore(context)
+        assertEquals(copies, value(reopened.listAllRecovery()))
+        assertEquals(copies.first().character.savedAt, value(reopened.loadRecovery(copies.first().recoveryId)).savedAt)
     }
     @Test fun ioMalformedAndCancellationFailures() = run {
         val directory = File(context.filesDir, "characters")

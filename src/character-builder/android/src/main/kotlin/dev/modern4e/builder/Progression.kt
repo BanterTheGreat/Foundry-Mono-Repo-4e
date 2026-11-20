@@ -346,6 +346,24 @@ object Progression {
         reached && (if (filled) invalid else !optional)
 
     /**
+     * What a Levels heading reports.
+     *
+     * @param reached whether the character has reached the level; upcoming levels never count choices.
+     * @param needs how many of the level's choices still need attention.
+     */
+    fun levelTally(reached: Boolean, needs: Int): LevelTally = when {
+        !reached -> LevelTally.Upcoming
+        needs > 0 -> LevelTally.Needs(needs)
+        else -> LevelTally.Complete
+    }
+
+    /** Groups slots that share a label, keeping the order in which each label first appears. */
+    fun <T> groupByLabel(items: List<T>, label: (T) -> String): List<Pair<String, List<T>>> = items.groupBy(label).toList()
+
+    /** Lays one power group's slots out in rows of at most two: a pair sits side by side, a lone slot takes the full width. */
+    fun <T> powerRows(group: List<T>): List<List<T>> = group.chunked(2)
+
+    /**
      * Decisions the character still needs: the engine's required slot offers that are unfilled, plus the two
      * background origins and an invalid allocation, which are not slots.
      */
@@ -355,6 +373,13 @@ object Progression {
             listOf("environment", "upbringing").count { background(doc, it).isEmpty() } +
             if (validAllocation(doc.abilities)) 0 else 1
     }
+}
+
+/** A Levels heading's status: not reached yet, finished, or this many required choices still open. */
+sealed interface LevelTally {
+    data object Upcoming : LevelTally
+    data object Complete : LevelTally
+    data class Needs(val count: Int) : LevelTally
 }
 
 internal fun ChoiceDefinition.choiceId(): String = when (this) {

@@ -342,7 +342,7 @@ class BuilderSession(
         }
         when (page) {
             in CharacterTabs -> confirmReturnToLibrary = true
-            "library" -> page = "home"
+            "library", "recovery" -> page = "home"
             "import" -> page = "library"
         }
     }
@@ -947,9 +947,20 @@ class BuilderSession(
         }
     }
 
+    /** Discover daily copies across all characters, including characters removed from the library. */
+    suspend fun openRecoveries() {
+        when (val result = withContext(Dispatchers.IO) { store.listAllRecovery() }) {
+            is ContractResult.Available -> {
+                recoveries = dailyRecoveryCopies(result.value)
+                page = "recovery"
+            }
+            is ContractResult.Unavailable -> errors = result.diagnostics
+        }
+    }
+
     suspend fun showRecoveries(id: String) {
         when (val result = withContext(Dispatchers.IO) { importer.recoveries(id) }) {
-            is ContractResult.Available -> recoveries = result.value
+            is ContractResult.Available -> recoveries = dailyRecoveryCopies(result.value)
             is ContractResult.Unavailable -> errors = result.diagnostics
         }
     }

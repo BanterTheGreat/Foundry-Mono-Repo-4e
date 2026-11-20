@@ -46,8 +46,8 @@ modals. Dark mode and dynamic system colours are not implemented.
 ## Surfaces and controls
 
 - Prefer rectangular surfaces with subtle corners: generally 2–3 dp, with 6 dp
-  corners for dialogs. Buttons, steppers and tabs are always 3 dp; the "Upcoming"
-  pill is the one deliberate fully rounded shape.
+  corners for dialogs. Buttons, steppers, tabs and the Levels "Level up ›" button are
+  always 3 dp; nothing on the Levels tab is fully rounded.
 - Use 1 dp Line borders and parchment dividers.
 - Reuse shared folio components for consistent fields, buttons, headings and
   dialogs.
@@ -107,12 +107,25 @@ text is title case, a verb or short verb phrase ("Save", "Select Character"), no
   not invent a one-off affordance on a single screen; any change should be applied
   to all of them together.
 
+## Levels tab
+
+- Base and each level open with a slim heading: serif number (30 sp; Base is 24 sp), a 10 sp
+  LEVEL label, a Line hairline and a status at the right: "N to choose" (Accent, 11 sp bold), a
+  green ✓, or for an upcoming level an outlined Accent "Level up ›" button. The character's
+  level number is Accent and upcoming numbers are Dim. Do not use a filled banner.
+- A filled choice is a Paper card: 11 sp sentence-case label above a 16 sp serif value. Powers
+  tint the label and the 3 dp left edge with the power frequency colour.
+- A choice not yet made is a transparent dashed outline reading "+ Choose…": Accent when
+  required, Line and Dim when optional or upcoming. An illegal saved choice keeps the red fill.
+- Same-kind powers at one level are ordinary choices laid out in a row of two (the two At-Wills,
+  the two Dailies); a kind with one slot is full width. Never squeeze more than two powers into one row.
+
 ## Navigation and motion
 
 - Use the shared fixed-height 62 dp header: oxblood back chevron, a centered 22 sp serif title and, on
   character pages, a small uppercase Dim line beneath it ("Level 1 · Fighter"; Loading…, Saving… or
   Exporting… while work is in progress). The trailing 48 dp slot holds the cog menu on character pages
-  and stays reserved elsewhere so the title is centered.
+  and stays reserved elsewhere so the title is centered. Home uses the same cog and right-side cabinet, with Recovery Copies opening a dated, scrollable list.
 - The character footer is a 42 dp status strip (Wash background, 3 dp Accent left rule, Line when
   complete) above three text tabs with a 3 dp Accent underline that slides between them. The strip reports
   required choices left and its Continue action opens Levels and scrolls the first open (red) row to just below the header; once none remain it links to Validation.

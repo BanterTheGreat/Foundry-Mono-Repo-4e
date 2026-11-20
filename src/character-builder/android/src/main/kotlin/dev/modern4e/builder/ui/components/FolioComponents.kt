@@ -16,10 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -108,6 +111,17 @@ internal fun Modifier.leftEdgeAccent(color: Color?): Modifier = drawBehind {
     if (color != null) {
         drawRect(color, size = Size(3.dp.toPx().coerceAtMost(size.width), size.height))
     }
+}
+
+/** Draws a dashed outline that marks a slot still waiting to be filled. */
+internal fun Modifier.dashedBorder(color: Color): Modifier = drawBehind {
+    val stroke = 1.dp.toPx()
+    drawRect(
+        color,
+        topLeft = Offset(stroke / 2, stroke / 2),
+        size = Size(size.width - stroke, size.height - stroke),
+        style = Stroke(stroke, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5.dp.toPx(), 3.dp.toPx()))),
+    )
 }
 
 /** Shares the label and value layout between editable fields and collapsible grants. */

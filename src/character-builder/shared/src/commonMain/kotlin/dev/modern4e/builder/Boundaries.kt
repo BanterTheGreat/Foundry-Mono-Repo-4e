@@ -73,6 +73,21 @@ interface CharacterStore {
     suspend fun save(document: CharacterDocument, mode: SaveMode, expected: CharacterDocument? = null): ContractResult<SaveReceipt>
     suspend fun delete(id: String): ContractResult<Boolean>
     suspend fun listRecovery(characterId: String): ContractResult<List<RecoverySummary>>
+    /** Discover recovery history; persistent adapters also include deleted characters. */
+    suspend fun listAllRecovery(): ContractResult<List<RecoverySummary>> {
+        val characters = when (val result = list()) {
+            is ContractResult.Available -> result.value
+            is ContractResult.Unavailable -> return result
+        }
+        val copies = mutableListOf<RecoverySummary>()
+        for (character in characters) {
+            when (val result = listRecovery(character.id)) {
+                is ContractResult.Available -> copies.addAll(result.value)
+                is ContractResult.Unavailable -> return result
+            }
+        }
+        return ContractResult.Available(copies)
+    }
     suspend fun loadRecovery(recoveryId: String): ContractResult<CharacterDocument>
 }
 

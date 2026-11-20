@@ -453,6 +453,32 @@ class ProgressionTest {
         return BuilderState(document, RulesEngine.evaluate(document, RulesContent(entries, selections)))
     }
 
+    @Test fun levelHeadingTallyReportsUpcomingCompleteOrChoicesLeft() {
+        assertEquals(LevelTally.Upcoming, Progression.levelTally(reached = false, needs = 0))
+        assertEquals(LevelTally.Upcoming, Progression.levelTally(reached = false, needs = 3))
+        assertEquals(LevelTally.Complete, Progression.levelTally(reached = true, needs = 0))
+        assertEquals(LevelTally.Needs(1), Progression.levelTally(reached = true, needs = 1))
+        assertEquals(LevelTally.Needs(5), Progression.levelTally(reached = true, needs = 5))
+    }
+
+    @Test fun samePowerSlotsShareOneGroupInFirstSeenOrder() {
+        val labels = listOf("At-Will attack power", "At-Will attack power", "Encounter attack power",
+            "Daily attack power", "Daily attack power")
+        val groups = Progression.groupByLabel(labels) { it }
+        assertEquals(listOf("At-Will attack power", "Encounter attack power", "Daily attack power"), groups.map { it.first })
+        assertEquals(listOf(2, 1, 2), groups.map { it.second.size })
+        assertTrue(Progression.groupByLabel(emptyList<String>()) { it }.isEmpty())
+    }
+
+    @Test fun levelOnePowersPairPerKindAndLoneSlotsTakeTheFullWidth() {
+        val labels = listOf("At-Will attack power", "At-Will attack power", "Encounter attack power",
+            "Daily attack power", "Daily attack power")
+        val rows = Progression.groupByLabel(labels) { it }.flatMap { (_, group) -> Progression.powerRows(group) }
+        assertEquals(listOf(2, 1, 2), rows.map { it.size })
+        assertEquals(listOf(listOf("a", "b"), listOf("c")), Progression.powerRows(listOf("a", "b", "c")))
+        assertTrue(Progression.powerRows(emptyList<String>()).isEmpty())
+    }
+
     private fun entry(id: String, category: EntryCategory, mechanics: Mechanics = Mechanics()) =
         ContentEntry(id, category, Presentation(id), mechanics, Coverage(CoverageStatus.SUPPORTED))
 
