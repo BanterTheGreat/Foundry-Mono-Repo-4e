@@ -106,12 +106,7 @@ def compile_entry(entry):
     if kind == "ANCESTRY":
         limitations.append("Size and structured language choices supply build-time facts, and base speed is applied. Vision is preserved in sharedData and is not applied "
                            "as a modifier by the character builder.")
-    elif kind == "FEATURE":
-        limitations.append("Trait effects described in the text are not automated by the character builder.")
-    else:
-        limitations.append("Power execution is not automated; ancestry powers are never offered by class power queries.")
-    status = "UNIMPLEMENTED" if kind == "POWER" else "PARTIAL"
-    result["coverage"] = {"status": status, "limitations": limitations}
+    result["coverage"] = runtime_common.coverage(limitations)
     result["sharedData"] = copy.deepcopy(entry)
     return result
 

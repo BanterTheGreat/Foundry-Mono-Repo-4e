@@ -59,12 +59,13 @@ class EquipmentRuntimeTest(unittest.TestCase):
                               "grants": [], "choices": [], "unsupported": [], "maximumSelections": None},
                              entry["mechanics"], entry["id"])
             kind = entry["sharedData"]["equipment"]["kind"]
-            self.assertEqual("UNIMPLEMENTED" if kind == "WEAPON" else "PARTIAL", entry["coverage"]["status"])
+            self.assertEqual("PARTIAL" if entry["coverage"]["limitations"] else "SUPPORTED", entry["coverage"]["status"])
             self.assertEqual({"id", "category", "presentation", "mechanics", "coverage", "sharedData"}, set(entry))
             self.assertEqual({"title", "description"}, set(entry["presentation"]))
             if kind == "WEAPON":
-                authored = entry["sharedData"]["coverage"]["limitations"]
-                self.assertEqual(authored, entry["coverage"]["limitations"][:len(authored)])
+                authored = [text for text in entry["sharedData"]["coverage"]["limitations"]
+                            if not text.startswith(runtime_common.OUT_OF_SCOPE_LIMITATIONS)]
+                self.assertEqual(authored, entry["coverage"]["limitations"])
             else:
                 self.assertIn("contribute to", entry["coverage"]["limitations"][0])
                 self.assertIn("remain descriptive", entry["coverage"]["limitations"][0])

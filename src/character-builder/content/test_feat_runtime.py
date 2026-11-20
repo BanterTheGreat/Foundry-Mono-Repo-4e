@@ -95,9 +95,10 @@ class FeatRuntimeTest(unittest.TestCase):
             self.assertEqual(authored["description"], entry["presentation"]["description"])
             self.assertEqual(authored["selection"]["maximum"], entry["mechanics"]["maximumSelections"])
             self.assertEqual(2, entry["mechanics"]["version"])
-            automated = key == "modern4e.feat.alchemist" or bool(entry["mechanics"]["choices"]) or bool(entry["mechanics"].get("multiclassFor")) or bool(entry["mechanics"].get("armorAdvancement"))
-            self.assertEqual("PARTIAL" if automated else "UNIMPLEMENTED", entry["coverage"]["status"])
-            self.assertTrue(entry["coverage"]["limitations"])
+            # Play-time benefits are out of scope; only build-relevant gaps keep a feat incomplete.
+            limitations = entry["coverage"]["limitations"]
+            self.assertEqual("PARTIAL" if limitations else "SUPPORTED", entry["coverage"]["status"])
+            self.assertFalse(any(text.startswith(runtime_common.OUT_OF_SCOPE_LIMITATIONS) for text in limitations))
             shared = {k: v for k, v in entry["sharedData"].items() if not k.startswith("runtime")}
             self.assertEqual(authored, shared)
 

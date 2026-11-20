@@ -118,7 +118,7 @@ def compile_entry(entry, definitions, rules):
                              "description": describe(entry, definitions, rules)},
             "mechanics": {"version": 2, "access": {"type": "always"}, "prerequisites": [{"type": "always"}],
                           "grants": [], "choices": [], "unsupported": [], "maximumSelections": None},
-            "coverage": {"status": "UNIMPLEMENTED" if kind == "WEAPON" else "PARTIAL", "limitations": limitations},
+            "coverage": runtime_common.coverage(limitations),
             "sharedData": shared}
 
 

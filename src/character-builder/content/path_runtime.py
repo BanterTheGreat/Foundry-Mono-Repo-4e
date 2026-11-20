@@ -83,9 +83,9 @@ def build(content=None):
             entry = class_runtime.compile_entry(working)
             entry["sharedData"] = copy.deepcopy(source)
             entry["mechanics"].pop("powerProfile", None)
-            entry["coverage"]["limitations"] = [
+            entry["coverage"] = runtime_common.coverage([
                 note for note in entry["coverage"]["limitations"]
-                if note != "Authoring and printed rules only; runtime path effects and progression are unimplemented."]
+                if note != "Authoring and printed rules only; runtime path effects and progression are unimplemented."])
             entries.append(entry)
     # Class-page catalogs provide reviewed summaries, not adapted feature/power
     # stat blocks. Preserve that distinction and every explicit prerequisite.

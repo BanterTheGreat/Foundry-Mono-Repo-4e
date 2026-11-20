@@ -32,7 +32,7 @@ class ProductionClassesTest(unittest.TestCase):
         self.assertEqual(19, len(classes))
         self.assertEqual(19, len({entry['id'] for entry in classes}))
         self.assertTrue(all(e['id'].startswith('modern4e.class.') and e['sharedData']['flavor'] for e in classes))
-        self.assertTrue(all(e['coverage']['status'] != 'SUPPORTED' for e in classes))
+        self.assertTrue(all(e['coverage']['status'] == ('PARTIAL' if e['coverage']['limitations'] else 'SUPPORTED') for e in classes))
         self.assertFalse(any(e['id'] == 'class3' for name, value in assets.items() if '/entries' in name for e in value['entries']))
 
     def test_poisoned_source_class_html_never_read_or_used(self):

@@ -51,9 +51,9 @@ class AncestryRuntimeTest(unittest.TestCase):
             self.assertEqual({"type": "always"}, mechanics["access"])
             self.assertEqual([{"type": "always"}], mechanics["prerequisites"])
             self.assertEqual(1, mechanics["maximumSelections"])
-            self.assertEqual("UNIMPLEMENTED" if entry["category"] == "POWER" else "PARTIAL", entry["coverage"]["status"])
-            self.assertTrue(entry["coverage"]["limitations"])
-            self.assertTrue(all(text.strip() for text in entry["coverage"]["limitations"]))
+            limitations = entry["coverage"]["limitations"]
+            self.assertEqual("PARTIAL" if limitations else "SUPPORTED", entry["coverage"]["status"])
+            self.assertTrue(all(text.strip() for text in limitations))
             self.assertEqual([(g["id"], g["entryId"]) for g in authored.get("grants", [])],
                              [(g["grantId"], g["entryId"]) for g in mechanics["grants"]])
             self.assertTrue(all(grant["atLevel"] == 1 for grant in mechanics["grants"]))
@@ -156,7 +156,7 @@ class AncestryRuntimeTest(unittest.TestCase):
             self.assertNotIn("powerProfile", power["mechanics"])
             self.assertNotIn("level", power["sharedData"])
             self.assertNotIn("powerKind", power["sharedData"])
-            self.assertEqual("UNIMPLEMENTED", power["coverage"]["status"])
+            self.assertEqual("SUPPORTED", power["coverage"]["status"])
         self.assertFalse(any("powerProfile" in e["mechanics"] for e in entries.values()))
         self.assertFalse(any("query" in choice for e in entries.values() for choice in e["mechanics"]["choices"]))
 

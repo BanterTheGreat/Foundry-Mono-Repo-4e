@@ -116,12 +116,32 @@ internal class PreparedFeatChoices(
     private val level: Int,
     private val slot: ChoiceSlotId,
 ) {
-    private val baseline = document.copy(levels = document.levels.map { decisions ->
+    /** The character as the slot sees it before it is filled; its content is prepared once and extended per candidate. */
+    internal val baseline = document.copy(levels = document.levels.map { decisions ->
         decisions.copy(entries = decisions.entries.filterNot { it.slot == slot })
     })
-    private val prepared = linkedMapOf<RulesContent, Evaluation>()
+
+    /**
+     * Identifies a content snapshot without deep-hashing every definition on each lookup. The hash covers only
+     * entry IDs and the selection count, which equal snapshots always share; equality is still full [RulesContent]
+     * equality, so a coarser hash can only cost a comparison, never return another snapshot's activation.
+     */
+    private class ContentKey(val content: RulesContent) {
+        private val hash = content.entries.keys.hashCode() * 31 + content.selections.size
+
+        override fun hashCode() = hash
+
+        override fun equals(other: Any?) = other is ContentKey && other.content == content
+    }
+
+    private val prepared = linkedMapOf<ContentKey, Evaluation>()
     internal var factPreparations = 0
         private set
+
+    private companion object {
+        /** Most retained activations; each holds a whole evaluated character, so the cache stays bounded. */
+        const val MAX_PREPARED = 48
+    }
 
     fun check(definition: ResolvedEntry, content: RulesContent, instanceId: String): PreparedFeatChoice? {
         val entry = definition.entry
@@ -140,11 +160,14 @@ internal class PreparedFeatChoices(
         val saved = baseline.levels.flatMap { decisions -> decisions.entries.map { it.selection } +
             decisions.replacements.map { it.replacement.selection } } + baseline.equipment.filter { it.equipped }.map { it.selection }
         val factsContent = content.copy(selections = content.selections.filterKeys { it in saved })
-        val facts = prepared[factsContent] ?: Evaluation(baseline, factsContent, targetInstance = "").also {
+        val key = ContentKey(factsContent)
+        val facts = prepared[key] ?: Evaluation(baseline, factsContent, targetInstance = "").also {
             it.run()
             factPreparations++
-            prepared[factsContent] = it
-            if (prepared.size > 4) {
+            prepared[key] = it
+            // Snapshots differ by the prerequisite entries a feat references: about 30 distinct sets cover the
+            // whole production feat list, so a smaller cap evicts and re-runs activations while the list is checked.
+            if (prepared.size > MAX_PREPARED) {
                 prepared.remove(prepared.keys.first())
             }
         }

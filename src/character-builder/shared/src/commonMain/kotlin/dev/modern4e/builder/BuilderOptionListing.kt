@@ -87,8 +87,19 @@ class BuilderOptionListing internal constructor(
             }
             result += row
         }
+        if (fullyChecked()) {
+            // Every offered row is checked; keep the rows, not the characters evaluated to produce them.
+            choices.release()
+        }
         return result
     }
+
+    /**
+     * Whether nothing is left to check. A feat listing also waits until every tab has been listed, because
+     * its tabs are normally checked back to back and share the same prepared facts.
+     */
+    private fun fullyChecked(): Boolean =
+        checked.size == known.size && (slot.choiceId != "feat" || FeatGroup.entries.all { it in groups })
 
     /** Load nested grants and explicitly offered alternatives for the detail reader. */
     private suspend fun previewDefinitions(root: ContentEntry): Map<String, ContentEntry> {

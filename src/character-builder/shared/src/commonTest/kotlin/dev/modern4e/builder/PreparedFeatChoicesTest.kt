@@ -87,6 +87,55 @@ class PreparedFeatChoicesTest {
         assertEquals(Eligibility.INELIGIBLE, fast.eligibility.status)
     }
 
+    @Test fun activationsAreKeptForEveryDistinctSnapshotUpToABoundedCap() {
+        val feat = resolved(feat("feat"))
+        fun content(index: Int) = RulesContent(
+            mapOf(feat.entry.id to ContractResult.Available(feat), "extra-$index" to ContractResult.Available(feat)),
+            mapOf(selection(feat) to ContractResult.Available(feat)))
+        val prepared = RulesEngine.prepareFeatChoices(document(), 1, slot)
+        for (index in 0 until 40) {
+            assertNotNull(prepared.check(feat, content(index), "candidate"))
+        }
+        assertEquals(40, prepared.factPreparations)
+        for (index in 0 until 40) {
+            prepared.check(feat, content(index), "candidate")
+        }
+        assertEquals(40, prepared.factPreparations, "A full feat list's distinct snapshots never re-run an activation")
+        for (index in 40 until 60) {
+            prepared.check(feat, content(index), "candidate")
+        }
+        assertEquals(60, prepared.factPreparations)
+        prepared.check(feat, content(0), "candidate")
+        assertEquals(61, prepared.factPreparations, "The oldest activation was evicted to keep the cache bounded")
+        prepared.check(feat, content(59), "candidate")
+        assertEquals(61, prepared.factPreparations, "A recent activation is still held")
+    }
+
+    @Test fun snapshotsWithTheSameEntryIdsButDifferentDefinitionsNeverShareAnActivation() {
+        val candidate = resolved(feat("candidate", Mechanics(version = 2, prerequisites = listOf(Prerequisite.Proficiency(Skill.ARCANA)))))
+        val granting = resolved(ContentEntry("theme", EntryCategory.THEME, Presentation("Theme"),
+            Mechanics(version = 2, grants = listOf(Grant.Proficiency("skill", Skill.ARCANA))), Coverage(CoverageStatus.SUPPORTED)))
+        val inert = resolved(ContentEntry("theme", EntryCategory.THEME, Presentation("Theme"),
+            Mechanics(version = 2), Coverage(CoverageStatus.SUPPORTED)))
+        val theme = EntryChoice("theme", ChoiceSlotId("creation", "theme", 0), selection(granting))
+        val document = document().copy(levels = listOf(LevelDecisions(1, entries = listOf(theme)), LevelDecisions(2)))
+        fun content(themeDefinition: ResolvedEntry) = RulesContent(
+            mapOf(candidate.entry.id to ContractResult.Available(candidate), "theme" to ContractResult.Available(themeDefinition)),
+            mapOf(selection(candidate) to ContractResult.Available(candidate), selection(granting) to ContractResult.Available(themeDefinition)))
+        val prepared = RulesEngine.prepareFeatChoices(document, 1, slot)
+        val statuses = listOf(granting, inert, granting).map { definition ->
+            val content = content(definition)
+            val fast = assertNotNull(prepared.check(candidate, content, "candidate"))
+            val full = RulesEngine.evaluateChoice(candidate(document, candidate), content, "candidate")
+            assertEquals(full.entryEligibility.getValue("candidate"), fast.eligibility)
+            fast.eligibility.status
+        }
+        assertEquals(Eligibility.ELIGIBLE, statuses[0])
+        assertNotEquals(statuses[0], statuses[1], "Same IDs, different definitions: the equal hash must not return the other activation")
+        assertEquals(statuses[0], statuses[2])
+        assertEquals(2, prepared.factPreparations)
+    }
+
     @Test fun passiveProductionFeatsMatchTargetedActivation() = synchronous {
         for (level in 1..2) {
             val document = CurrentDataFixtures.sample(level)

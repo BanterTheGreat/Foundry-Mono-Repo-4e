@@ -307,6 +307,8 @@ Mechanics use the existing closed Kotlin v1 vocabulary: prerequisites, grants, c
 
 Absent mechanics receive UNIMPLEMENTED coverage with a limitation. Authored mechanics require explicit coverage. PARTIAL/UNIMPLEMENTED require nonblank limitations; an unadapted prerequisite cannot claim SUPPORTED. Coverage is the author's declaration, not proof that a runtime engine evaluates every operation.
 
+Production runtime packages report coverage for the builder's scope only. Play-time effects (power execution, combat and session rules, descriptive-only feat benefits, trait text, weapon properties) are out of scope and are filtered by `runtime_common.OUT_OF_SCOPE_LIMITATIONS`; an entry is SUPPORTED unless a build-relevant limitation remains (unresolved prerequisites, unsupported selections, pending catalogs, descriptive armor penalties, summary-only paths). Add a new out-of-scope phrase there rather than flagging every entry.
+
 ## Retired dependencies and reviewed languages (#29)
 
 Feral Companion, Fey Charge, Combat Opening and Elusive Hexer are removed from

@@ -92,7 +92,7 @@ class ProductionContentPackagesTest {
                     continue
                 }
                 val loaded = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup(candidate.metadata.id)).value!!
-                assertNotEquals(CoverageStatus.SUPPORTED, loaded.entry.coverage.status)
+                assertEquals(loaded.entry.coverage.limitations.isEmpty(), loaded.entry.coverage.status == CoverageStatus.SUPPORTED)
                 assertEquals(2, loaded.entry.mechanics.version)
             }
         }

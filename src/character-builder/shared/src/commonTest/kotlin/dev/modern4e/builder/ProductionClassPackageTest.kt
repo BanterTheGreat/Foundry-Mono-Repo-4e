@@ -30,7 +30,7 @@ class ProductionClassPackageTest {
             val fighter = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup("modern4e.class.fighter")).value!!
             assertNotNull(fighter.entry.sharedData?.get("flavor"))
             assertEquals(18, fighter.entry.mechanics.classProfile!!.statistics.getValue(Statistic.HIT_POINTS).base)
-            assertNotEquals(CoverageStatus.SUPPORTED, fighter.entry.coverage.status)
+            assertEquals(CoverageStatus.SUPPORTED, fighter.entry.coverage.status)
             val sample = assertIs<ContractResult.Available<CharacterDocument>>(
                 ContractCodec.decode(contractFixtures.getValue("sample-modern-fighter.json"))).value
             val saved = sample.levels.first().entries.first().selection

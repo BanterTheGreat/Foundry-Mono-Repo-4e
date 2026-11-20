@@ -9,6 +9,28 @@ import itertools
 
 CHUNK_SIZE = 100
 
+# Play-time effects (power execution, combat and session rules, descriptive-only benefits) are outside the
+# character builder's scope, so they are not incomplete automation. Matched by prefix; authored text varies.
+OUT_OF_SCOPE_LIMITATIONS = (
+    "Power selection is supported; combat execution",
+    "Shared local authoring definition; runtime interpretation",
+    "Shared authoring data; runtime theme mechanics",
+    "Runtime utility effects are unimplemented",
+    "The follow-up power is a separate granted activation",
+    "Combat/session effects",
+    "Power execution is not automated",
+    "Trait effects described in the text",
+    "Feat benefits are descriptive text",
+    "Equipment combat rules are not interpreted",
+    "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only",
+)
+
+
+def coverage(limitations):
+    """Runtime coverage for the builder's scope: SUPPORTED unless a build-relevant limitation remains."""
+    remaining = [text for text in limitations if not text.startswith(OUT_OF_SCOPE_LIMITATIONS)]
+    return {"status": "PARTIAL" if remaining else "SUPPORTED", "limitations": remaining}
+
 
 def power_scope(class_ids):
     """Scope function for selectable powers: the class a power's access condition names, otherwise None."""

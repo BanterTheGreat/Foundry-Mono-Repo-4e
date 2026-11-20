@@ -125,7 +125,8 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
         }
     }
 
-    private fun choiceEvaluation() = ChoiceEvaluation(catalog, { evaluate(it) }, { preparation.load(it) })
+    private fun choiceEvaluation() = ChoiceEvaluation(catalog, { evaluate(it) }, { preparation.load(it) },
+        extend = { baseline, document, selection -> preparation.extend(baseline, document, selection) })
 
     /** Read multiple saved definitions using the same catalog read session. */
     suspend fun resolveSelections(selections: Set<SavedSelection>): Map<SavedSelection, ContentEntry> {

@@ -87,7 +87,7 @@ class ClassRuntimeTest(unittest.TestCase):
         talent = entries["modern4e.feature.one-handed-weapon-talent"]
         self.assertEqual("ONE_HANDED_WEAPON", talent["mechanics"]["conditionalModifiers"][0]["condition"])
         self.assertNotIn("modifiers", talent["mechanics"])
-        self.assertEqual("UNIMPLEMENTED", entries["modern4e.power.combat-challenge"]["coverage"]["status"])
+        self.assertEqual("SUPPORTED", entries["modern4e.power.combat-challenge"]["coverage"]["status"])
 
     def test_conditions_preserve_grouping_and_unresolved_queries(self):
         node = {"type": "allOf", "conditions": [{"type": "classPowerSource", "powerSource": "MARTIAL"},
@@ -163,7 +163,8 @@ class ClassRuntimeTest(unittest.TestCase):
         self.assertEqual([1, 3, 7, 13, 17], tome["replacementLevels"])
         self.assertEqual([1, 3, 7], entries["modern4e.feature.tome-of-readiness"]["sharedData"]["choices"][0]["replacementLevels"])
         self.assertIn("runtimeReferences", entries["modern4e.class.wizard"]["sharedData"])
-        self.assertNotEqual("SUPPORTED", entries["modern4e.class.wizard"]["coverage"]["status"])
+        # The class entry itself is complete; its unresolved technique catalog is flagged on the feature entries.
+        self.assertEqual("SUPPORTED", entries["modern4e.class.wizard"]["coverage"]["status"])
 
     def test_local_formula_changes_output_and_malformed_source_fails(self):
         with tempfile.TemporaryDirectory() as directory:

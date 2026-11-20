@@ -37,7 +37,7 @@ class ProductionCatalogTest {
             assertNotEquals(base.fingerprint, resolved.fingerprint)
             assertEquals(base.entry.mechanics, resolved.entry.mechanics)
             assertTrue(resolved.entry.presentation.description.contains("Test-only presentation override"))
-            assertTrue(replacement.diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
+            assertFalse(replacement.diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
             val saved = SavedSelection(resolved.entry.id, resolved.entry.presentation.title, resolved.supplier.packageId, resolved.fingerprint)
             assertIs<ContractResult.Unavailable>(standard.resolve(saved))
             assertEquals(base.entry, assertIs<ContractResult.Available<ResolvedEntry>>(standard.resolve(saved, deliberatePackageSwitch = true)).value.entry)

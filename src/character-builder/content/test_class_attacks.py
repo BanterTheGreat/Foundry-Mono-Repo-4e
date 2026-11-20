@@ -186,7 +186,7 @@ class ClassAttacksTest(unittest.TestCase):
                 self.assertEqual(power["activations"][0]["usage"]["frequency"], profile["usage"], power["id"])
                 self.assertEqual("ATTACK", profile["powerKind"])
                 self.assertEqual(power, {k: v for k, v in runtime["sharedData"].items() if k != "category"})
-                self.assertEqual("UNIMPLEMENTED", runtime["coverage"]["status"])
+                self.assertEqual("SUPPORTED", runtime["coverage"]["status"])
         wizard = class_runtime.build(class_ids=["modern4e.class.wizard"])
         wizard_powers = {e["id"] for e in runtime_common.entries_of(wizard) if e["id"].startswith("modern4e.power.wizard-power")}
         self.assertEqual({p["id"] for p in self.powers["Wizard"]}, wizard_powers)

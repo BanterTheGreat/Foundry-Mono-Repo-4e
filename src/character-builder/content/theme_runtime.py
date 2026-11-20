@@ -55,7 +55,7 @@ def compile_theme_entry(entry):
     if source.get("choices") and runtime["category"] == "POWER":
         notes.append("Power choices are not compiled; they are preserved in shared data.")
     mechanics["unsupported"] += notes
-    runtime["coverage"]["limitations"] += notes
+    runtime["coverage"] = runtime_common.coverage(runtime["coverage"]["limitations"] + notes)
     return runtime
 
 

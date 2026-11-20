@@ -10,13 +10,27 @@ internal class ChoiceEvaluation(
     private val evaluate: suspend (CharacterDocument) -> BuilderState,
     private val prepare: suspend (CharacterDocument) -> RulesContent,
     private val fastPowers: Boolean = true,
+    /** Adds one saved selection to already prepared content; without it each candidate is prepared in full. */
+    private val extend: (suspend (RulesContent, CharacterDocument, SavedSelection) -> RulesContent)? = null,
 ) {
     private data class Selection(val ids: List<String>, val instance: String?)
     private val featFacts = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, PreparedFeatChoices>()
+    private val featBaselines = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, RulesContent>()
     private val powerFacts = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, Pair<PreparedPowerChoices, RulesContent>>()
     private val selections = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, Selection>()
     private val pathClasses = mutableMapOf<Pair<CharacterDocument, Int>, Set<String>?>()
     private val indexed by lazy { catalog.search() }
+
+    /**
+     * Drop the prepared activations behind candidate checks. They only speed up later checks, so releasing them is
+     * invisible to results: a check after this prepares what it needs again. A listing calls it once every
+     * row it knows has been checked, so a retained listing holds checked rows rather than evaluated characters.
+     */
+    fun release() {
+        featFacts.clear()
+        featBaselines.clear()
+        powerFacts.clear()
+    }
 
     /** Metadata-first browsing never evaluates a root choice or unrelated tabs. */
     suspend fun metadata(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
@@ -201,8 +215,9 @@ internal class ChoiceEvaluation(
         // Legacy coverage gates use the complete diagnostic stream. V2 separates eligibility
         // from statistic coverage, so unrelated choices and totals need not be calculated here.
         val rules = if (definition.entry.mechanics.version >= 2) {
-            val content = prepare(candidate)
-            val checker = featFacts.getOrPut(Triple(document, level, slot)) { RulesEngine.prepareFeatChoices(document, level, slot) }
+            val key = Triple(document, level, slot)
+            val checker = featFacts.getOrPut(key) { RulesEngine.prepareFeatChoices(document, level, slot) }
+            val content = candidateContent(key, checker, candidate, saved)
             val checked = checker.check(definition, content, instance)
             if (checked != null) {
                 return BuilderOption(definition, checked.eligibility.status, checked.diagnostics)
@@ -221,6 +236,21 @@ internal class ChoiceEvaluation(
             else -> Eligibility.ELIGIBLE
         }
         return BuilderOption(definition, status, diagnostics)
+    }
+
+    /**
+     * Content for one candidate, equal to `prepare(candidate)`. A list prepares its slot's baseline (the character with
+     * the slot emptied) once, and each candidate adds only its own selection and the definitions that selection reaches.
+     * A candidate that changes the level or class set would change how dependencies are scoped, so it is prepared in full.
+     */
+    private suspend fun candidateContent(key: Triple<CharacterDocument, Int, ChoiceSlotId>, checker: PreparedFeatChoices,
+        candidate: CharacterDocument, saved: SavedSelection): RulesContent {
+        val baseline = checker.baseline
+        val extend = extend
+        if (extend == null || candidate.level != baseline.level || candidate.classEntryIds() != baseline.classEntryIds()) {
+            return prepare(candidate)
+        }
+        return extend(featBaselines.getOrPut(key) { prepare(baseline) }, candidate, saved)
     }
 
     private fun previewInstance(slot: ChoiceSlotId) =

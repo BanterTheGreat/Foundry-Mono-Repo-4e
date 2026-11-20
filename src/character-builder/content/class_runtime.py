@@ -111,10 +111,7 @@ def compile_entry(entry):
     mechanics["weaponAbilities"] = {row["weaponGroup"]: row["ability"] for row in entry.get("weaponAbilities", [])}
     boilerplate = "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
     limitations = [text for text in entry["coverage"]["limitations"] if text != boilerplate]
-    limitations += mechanics["unsupported"] + [
-        "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."]
-    coverage = {"status": "PARTIAL" if entry["category"] != "POWER" else "UNIMPLEMENTED",
-                "limitations": limitations or ["Combat/session effects are not executed by the character builder."]}
+    coverage = runtime_common.coverage(limitations + mechanics["unsupported"])
     description = entry["description"]
     if entry["category"] == "POWER" and entry.get("source", {}).get("rulesText"):
         # Render reviewed local rules, not the preserved unadapted source transcript.

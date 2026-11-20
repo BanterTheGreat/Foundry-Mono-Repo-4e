@@ -463,7 +463,7 @@ class BuilderSessionTest {
         assertTrue("Chunks are decoded once per session, not once per slot: ${worst.key} x${worst.value.get()}", worst.value.get() <= 4)
     }
 
-    @Test fun warmupPrioritizesClassFeaturesThenPowersThenFeatTabsThenOtherPickers() = runBlocking {
+    @Test fun warmupPrioritizesClassFeaturesThenPowersThenOtherPickersThenFilledFeatTabs() = runBlocking {
         val model = session()
         model.preloadHomePickers()
         model.create()
@@ -474,9 +474,67 @@ class BuilderSessionTest {
         val powers = targets.drop(features.size).takeWhile { it.slot.choiceId.startsWith("modern4e.choice.class-attack-") }
         assertEquals(5, powers.size)
         val remainder = targets.drop(features.size + powers.size)
-        assertEquals(listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL), remainder.take(3).map { it.group })
-        assertEquals(ChoiceSlotId("creation", "theme", 0), remainder.last().slot)
+        // The sample's level 1 feat slot already holds Skill Training, so its three tabs are the very last targets.
+        val featSlot = ChoiceSlotId("creation", "feat", 0)
+        assertTrue(state.document.levels.flatMap { it.entries }.any { it.slot == featSlot })
+        assertEquals(listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL), remainder.takeLast(3).map { it.group })
+        assertTrue(remainder.takeLast(3).all { it.slot == featSlot })
+        assertTrue(remainder.dropLast(3).none { it.slot.choiceId == "feat" })
+        assertEquals(ChoiceSlotId("creation", "theme", 0), remainder.dropLast(3).last().slot)
         model.awaitWarmup()
+    }
+
+    @Test fun filledFeatSlotsWarmLastAndEveryFeatSlotStillWarmsOncePerTab() = runBlocking {
+        val model = session()
+        model.create()
+        model.edit(BuilderEdit.Level(19))
+        assertTrue(model.errors.isEmpty())
+        model.awaitWarmup()
+        // Level 1 holds Skill Training and level 2 gets a pick; every later feat slot stays empty.
+        val level2Feat = ChoiceSlotId("advancement.2", "feat", 0)
+        val pick = model.firstRows(2, level2Feat, FeatGroup.GENERAL).first { it.option?.eligibility == Eligibility.ELIGIBLE }
+        model.edit(BuilderEdit.Entry(2, level2Feat, pick.metadata.metadata.id, model.progressionEntryInstance(2, level2Feat), true))
+        assertTrue(model.errors.isEmpty())
+        model.awaitWarmup()
+
+        val state = model.current!!
+        val filled = state.document.levels.flatMap { it.entries }.map { it.slot }.toSet()
+        val targets = model.warmTargets(state)
+        val slots = (1..19).filter { Progression.level(it).feat }
+            .map { ChoiceSlotId(if (it == 1) "creation" else "advancement.$it", "feat", 0) }
+        val tabs = listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL)
+        for (slot in slots) {
+            assertEquals("Every feat slot warms once per tab: ${slot.sourceInstanceId}", tabs,
+                targets.filter { it.slot == slot }.map { it.group })
+        }
+        assertEquals(slots.size * tabs.size, targets.count { it.slot.choiceId == "feat" })
+        val filledSlots = slots.filter { it in filled }
+        assertEquals(listOf(ChoiceSlotId("creation", "feat", 0), level2Feat), filledSlots)
+        assertTrue(slots.size > filledSlots.size)
+
+        val emptyFeats = targets.filter { it.slot.choiceId == "feat" && it.slot !in filled }
+        val filledFeats = targets.filter { it.slot.choiceId == "feat" && it.slot in filled }
+        assertEquals((slots.size - filledSlots.size) * tabs.size, emptyFeats.size)
+        assertEquals(filledSlots.size * tabs.size, filledFeats.size)
+        // Filled feat slots are the tail of the list, after every other target.
+        assertEquals(filledFeats, targets.takeLast(filledFeats.size))
+        assertTrue(targets.dropLast(filledFeats.size).none { it.slot in filledSlots })
+        // Unfilled feat tabs keep their place: after the class feature and power phases, before the root pickers.
+        val firstEmptyFeat = targets.indexOf(emptyFeats.first())
+        val lastEmptyFeat = targets.indexOf(emptyFeats.last())
+        assertEquals(emptyFeats, targets.subList(firstEmptyFeat, lastEmptyFeat + 1).filter { it.slot.choiceId == "feat" })
+        assertTrue(targets.take(firstEmptyFeat).any { it.slot.choiceId == "modern4e.choice.fighter-reactivity" })
+        val roots = targets.filter { it.slot.sourceInstanceId == "creation" && it.slot.choiceId in setOf("class", "ancestry", "theme") }
+        assertTrue(roots.isNotEmpty())
+        assertTrue(roots.all { targets.indexOf(it) > lastEmptyFeat })
+        // Everything is still warmed eventually: no list the picker can open is left cold.
+        model.awaitWarmup()
+        for (slot in slots) {
+            for (group in tabs) {
+                val rows = model.firstRows(if (slot.sourceInstanceId == "creation") 1 else slot.sourceInstanceId.substringAfter('.').toInt(), slot, group)
+                assertTrue("${slot.sourceInstanceId} $group opens checked", rows.isNotEmpty() && rows.all { it.checked })
+            }
+        }
     }
 
     @Test fun changingAncestryWarmsItsNewPowerChoiceFirst() = runBlocking {

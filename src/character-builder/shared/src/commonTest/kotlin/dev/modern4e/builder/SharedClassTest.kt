@@ -57,7 +57,7 @@ class SharedClassTest {
         assertEquals(CombatCondition.ONE_HANDED_WEAPON, result.conditionalModifiers.single().benefit.condition)
         assertEquals(Ability.CONSTITUTION, feature("melee-weapon-mastery").mechanics.weaponAbilities[WeaponGroup.AXE])
         assertIs<ContractResult.Unavailable>(result.statistics.getValue(ModifierTarget(Statistic.ATTACK)).value)
-        assertTrue(result.diagnostics.any { it.code == "engine.coverage" })
+        assertFalse(result.diagnostics.any { it.code == "engine.coverage" })
         assertFalse(result.diagnostics.any { it.kind == DiagnosticKind.INVALID_SELECTION || it.kind == DiagnosticKind.UNRESOLVED_CONTENT }, result.diagnostics.toString())
     }
 

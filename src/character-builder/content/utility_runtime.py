@@ -76,7 +76,7 @@ def compile_utility(power, section, known):
     if not available:
         entry["mechanics"].pop("powerProfile", None)
         entry["mechanics"]["unsupported"].append(WITHHELD)
-        entry["coverage"]["limitations"].append(WITHHELD)
+        entry["coverage"] = runtime_common.coverage(entry["coverage"]["limitations"] + [WITHHELD])
     entry["sharedData"] = {**authored, "utilitySection": section_metadata(section, power["id"])}
     return entry
 

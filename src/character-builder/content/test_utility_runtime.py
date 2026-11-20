@@ -83,8 +83,10 @@ class UtilityRuntimeTest(unittest.TestCase):
             self.assertEqual({"type": "entry", "entryId": class_id}, entry["mechanics"]["access"])
             self.assertEqual(level, entry["mechanics"]["powerProfile"]["level"])
             self.assertEqual(class_id, self.sections[power_id]["classId"])
-            # The review reasons are resolved; only the generic runtime limitation remains.
+            # The review reasons are resolved; only the generic runtime limitation remains in the authored data.
             self.assertEqual(1, len(self.powers[power_id]["coverage"]["limitations"]))
+            # Play-time effects are out of scope, so the runtime entry carries no limitation.
+            self.assertEqual("SUPPORTED", self.entries[power_id]["coverage"]["status"])
 
     def test_withheld_sections_resolve_but_are_excluded_from_pools(self):
         power = self.powers["modern4e.power.utility-class-deferred-power7643"]
@@ -92,6 +94,7 @@ class UtilityRuntimeTest(unittest.TestCase):
         entry = utility_runtime.compile_utility(power, section, known=set(self.powers) | set(self.class_ids))
         self.assertNotIn("powerProfile", entry["mechanics"])
         self.assertIn(utility_runtime.WITHHELD, entry["mechanics"]["unsupported"])
+        self.assertEqual("PARTIAL", entry["coverage"]["status"])
         self.assertIn(utility_runtime.WITHHELD, entry["coverage"]["limitations"])
         self.assertEqual("DEFERRED", entry["sharedData"]["utilitySection"]["availability"])
         # Withheld rules text is not presented; the unreviewed description is unchanged.
@@ -136,8 +139,9 @@ class UtilityRuntimeTest(unittest.TestCase):
 
     def test_available_description_renders_local_rules_and_coverage_stays_honest(self):
         for power_id, entry in self.entries.items():
-            self.assertEqual("UNIMPLEMENTED", entry["coverage"]["status"])
-            self.assertTrue(entry["coverage"]["limitations"])
+            limitations = entry["coverage"]["limitations"]
+            self.assertEqual("PARTIAL" if limitations else "SUPPORTED", entry["coverage"]["status"])
+            self.assertEqual(self.sections[power_id]["availability"] != "AVAILABLE", bool(limitations) and utility_runtime.WITHHELD in limitations)
             self.assertEqual(1, entry["mechanics"]["maximumSelections"])
             if self.sections[power_id]["availability"] == "AVAILABLE":
                 self.assertTrue(entry["presentation"]["description"].startswith(self.powers[power_id]["description"]))

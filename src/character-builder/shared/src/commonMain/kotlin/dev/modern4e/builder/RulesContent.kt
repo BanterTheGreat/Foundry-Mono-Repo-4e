@@ -25,22 +25,65 @@ internal class RulesContentPreparation(catalog: ContentCatalog) {
     private var powers: List<CatalogEntry>? = null
 
     suspend fun load(document: CharacterDocument): RulesContent {
+        val saved = document.levels.flatMap { level ->
+            level.entries.map { it.selection } + level.replacements.map { it.replacement.selection }
+        } + document.equipment.filter { it.equipped }.map { it.selection }
+        val selections = linkedMapOf<SavedSelection, ContractResult<ResolvedEntry>>()
+        val entries = expand(document, saved.distinct(), emptyMap(), selections)
+        return RulesContent(entries, selections, reading.diagnostics)
+    }
+
+    /** The baseline whose merged entry maps [extensions] holds; another baseline starts it afresh. */
+    private var extendedBase: Map<String, ContractResult<ResolvedEntry>>? = null
+    private val extensions = mutableMapOf<Set<String>, Map<String, ContractResult<ResolvedEntry>>>()
+
+    /**
+     * Content for a document that is [baseline]'s document plus [selection] in one more place: the baseline is
+     * reused and only the new selection and the definitions it alone reaches are read. The result equals
+     * `load(document)`. Dependencies are a function of each entry, the document's level and its class set, and the
+     * saved selections only add, so the caller must pass a [baseline] loaded for a document with the same level and
+     * class entry IDs and every saved selection of [document] other than [selection].
+     */
+    suspend fun extend(baseline: RulesContent, document: CharacterDocument, selection: SavedSelection): RulesContent {
+        if (extendedBase !== baseline.entries) {
+            extendedBase = baseline.entries
+            extensions.clear()
+        }
+        val selections = LinkedHashMap(baseline.selections)
+        val added = expand(document, listOf(selection), baseline.entries, selections)
+        if (added.isEmpty()) {
+            return RulesContent(baseline.entries, selections, reading.diagnostics)
+        }
+        // Candidates that reach the same new definitions share one merged map, which also makes comparing them cheap.
+        val key = added.keys.toSet()
+        val entries = extensions[key] ?: (baseline.entries + added).also {
+            if (extensions.size >= MAX_EXTENSIONS) {
+                extensions.clear()
+            }
+            extensions[key] = it
+        }
+        return RulesContent(entries, selections, reading.diagnostics)
+    }
+
+    /**
+     * Resolve [saved] into [selections], then follow dependencies, reading only definitions [base] does not already
+     * hold. Returns the definitions read, which [base] does not contain.
+     */
+    private suspend fun expand(document: CharacterDocument, saved: List<SavedSelection>,
+        base: Map<String, ContractResult<ResolvedEntry>>,
+        selections: MutableMap<SavedSelection, ContractResult<ResolvedEntry>>): Map<String, ContractResult<ResolvedEntry>> {
         val classes = document.classEntryIds()
         val entries = linkedMapOf<String, ContractResult<ResolvedEntry>>()
-        val selections = linkedMapOf<SavedSelection, ContractResult<ResolvedEntry>>()
         val pending = mutableListOf<String>()
         val scheduled = mutableSetOf<String>()
         fun enqueue(ids: List<String>) {
             for (id in ids) {
-                if (scheduled.add(id)) {
+                if (id !in base && scheduled.add(id)) {
                     pending += id
                 }
             }
         }
-        val saved = document.levels.flatMap { level ->
-            level.entries.map { it.selection } + level.replacements.map { it.replacement.selection }
-        } + document.equipment.filter { it.equipped }.map { it.selection }
-        for (selection in saved.distinct()) {
+        for (selection in saved) {
             val resolved = reading.resolve(selection)
             selections[selection] = resolved
             if (resolved is ContractResult.Available) {
@@ -62,7 +105,12 @@ internal class RulesContentPreparation(catalog: ContentCatalog) {
                 enqueue(dependencies(resolved.value.entry, document.level, classes))
             }
         }
-        return RulesContent(entries.toMap(), selections.toMap(), reading.diagnostics)
+        return entries
+    }
+
+    private companion object {
+        /** Merged entry maps kept per baseline; a feat list reaches about 30 distinct sets of new definitions. */
+        const val MAX_EXTENSIONS = 64
     }
 
     private fun dependencies(entry: ContentEntry, level: Int, classes: Set<String>): List<String> =

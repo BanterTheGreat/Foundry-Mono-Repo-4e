@@ -47,10 +47,9 @@ class ThemeRuntimeTest(unittest.TestCase):
             self.assertEqual([{"type": "always"}], mechanics["prerequisites"])
             self.assertEqual(1, mechanics["maximumSelections"])
             self.assertEqual([], mechanics["choices"])
-            expected = "UNIMPLEMENTED" if entry["category"] == "POWER" else "PARTIAL"
-            self.assertEqual(expected, entry["coverage"]["status"])
-            self.assertTrue(entry["coverage"]["limitations"])
-            self.assertTrue(all(text.strip() for text in entry["coverage"]["limitations"]))
+            limitations = entry["coverage"]["limitations"]
+            self.assertEqual("PARTIAL" if limitations else "SUPPORTED", entry["coverage"]["status"])
+            self.assertTrue(all(text.strip() for text in limitations))
             self.assertEqual(self.source[entry_id], entry["sharedData"])
 
     def test_theme_grants_mirror_authored_grants_with_levels(self):

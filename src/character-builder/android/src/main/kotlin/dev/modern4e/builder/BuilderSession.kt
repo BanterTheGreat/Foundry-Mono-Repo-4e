@@ -1001,8 +1001,8 @@ class BuilderSession(
 
     /**
      * Check every list the picker can open at supported levels, so each one opens already filled in. Order is the
-     * unfilled ancestry power choices, then Class Feature choices, other power pools, feat tabs, and the
-     * remaining catalog pickers. The Class and Ancestry rows are normally ready from Home. A character with no class or ancestry simply has
+     * unfilled ancestry power choices, then Class Feature choices, other power pools, unfilled feat slots' tabs, the
+     * remaining catalog pickers, and finally the tabs of feat slots that already have a feat (see [warmTargets]). The Class and Ancestry rows are normally ready from Home. A character with no class or ancestry simply has
      * rows without eligibility to show; a failed read leaves the rest to the picker.
      *
      * This runs after every committed edit, but lists that are still valid (see [stillValid]) are reused, so
@@ -1031,6 +1031,11 @@ class BuilderSession(
     /**
      * Only lists this character can actually edit: choices come from the engine's active sources, so another
      * class's choices (an Avenger's Vindicator's Censure, say) are never offered to a Fighter and never warmed.
+     *
+     * Order: unfilled ancestry power choices, Class Feature choices, power pools (unfilled before filled), the
+     * Class, Ancestry and General tabs of every unfilled feat slot (slot by slot), other choices, the root pickers, and last the
+     * same three tabs of every feat slot that already has a feat. A loaded character usually has all of those
+     * filled and opens at most one or two, so they are nice-to-haves that never delay an open decision.
      */
     internal fun warmTargets(state: BuilderState): List<WarmTarget> {
         val document = state.document
@@ -1050,12 +1055,15 @@ class BuilderSession(
         }
         val roots = listOf("class", "ancestry", "theme").map { ChoiceSlotId("creation", it, 0) }
             .filter { preloadedRootRows(document, 1, it) == null }
+        // Slot by slot, so a slot's three tabs run back to back and share one set of prepared facts.
+        val (filledFeats, emptyFeats) = featSlots.flatMap { (level, slot) ->
+            listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL).map { group -> WarmTarget(level, slot, group) }
+        }.partition { it.slot in filled }
         return (ancestryPowers + features + empty + taken).map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
-            listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL).flatMap { group ->
-                featSlots.map { (level, slot) -> WarmTarget(level, slot, group) }
-            } +
+            emptyFeats +
             remaining.map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
-            roots.map { WarmTarget(1, it, null) }
+            roots.map { WarmTarget(1, it, null) } +
+            filledFeats
     }
 
     /** Test hook: returns once the warm-up started by the last committed edit has finished or been cancelled. */

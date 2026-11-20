@@ -178,10 +178,7 @@ def compile_feat(entry, context, requirement_text, selection_text):
     armor = next((rule for rule in entry["selection"]["constraints"] if rule["type"] == "advance"), None)
     unsupported += [constraint_note(rule) for rule in entry["selection"]["constraints"]
                     if rule["type"] != "advance" and not (rule["type"] == "distinct" and rule["choiceId"] in enforced)]
-    automated = entry["id"] == "modern4e.feat.alchemist" or bool(armor) or bool(choices) or "MULTICLASS" in entry.get("tags", []) and bool(entry.get("multiclassFor"))
-    limitations = ["Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; "
-                    "other feat benefits require manual resolution." if automated else
-                    "Feat benefits are descriptive text; no feat effect is automated by the character builder."]
+    limitations = []
     for label, tree in (("Access", access), ("Prerequisite", prerequisite)):
         for leaf in unresolved_nodes(tree):
             limitations.append(f"{label} not evaluated: {leaf['text']} ({leaf['reason']})")
@@ -201,15 +198,14 @@ def compile_feat(entry, context, requirement_text, selection_text):
                  "maximumSelections": entry["selection"]["maximum"]}
     if armor:
         mechanics["armorAdvancement"] = {"order": armor["order"], "steps": armor["steps"]}
-        limitations[0] = "Authored armor proficiency advancement is automated; armor statistics and combat effects remain manual."
     if entry["id"] == "modern4e.feat.alchemist":
-        limitations[0] = "Optional replacement of an explicitly granted Technique Master class-feature feat is automated; technique mastery and formula acquisition remain manual."
+        limitations.insert(0, "Optional replacement of an explicitly granted Technique Master class-feature feat is automated; technique mastery and formula acquisition remain manual.")
     if "MULTICLASS" in entry.get("tags", []) and entry.get("multiclassFor"):
         mechanics["multiclassFor"] = entry["multiclassFor"]
     return {"id": entry["id"], "category": "FEAT",
             "presentation": {"title": entry["title"], "description": entry["description"]},
             "mechanics": mechanics,
-            "coverage": {"status": "PARTIAL" if automated else "UNIMPLEMENTED", "limitations": limitations},
+            "coverage": runtime_common.coverage(limitations),
             "sharedData": shared}
 
 
