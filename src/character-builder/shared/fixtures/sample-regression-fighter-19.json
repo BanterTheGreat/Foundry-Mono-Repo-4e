@@ -1,0 +1,841 @@
+{
+  "abilities": {
+    "mainAbility": "STRENGTH",
+    "points": {
+      "CHARISMA": 0,
+      "CONSTITUTION": 2,
+      "DEXTERITY": 2,
+      "INTELLIGENCE": 1,
+      "STRENGTH": 4,
+      "WISDOM": 0
+    },
+    "source": {
+      "choiceId": "main",
+      "ordinal": 0,
+      "sourceInstanceId": "fighter"
+    }
+  },
+  "equipment": [
+    {
+      "equipped": true,
+      "instanceId": "longsword",
+      "quantity": 1,
+      "selection": {
+        "acknowledgedFingerprint": "sha256-v1:527e36e9d9fb932471534c98dcf8d6b3a21ae0d5a0a8d735c9c7b686bd7e1983",
+        "entryId": "modern4e.weapon.longsword",
+        "savedTitle": "Longsword",
+        "supplierPackageId": "modern4e.equipment"
+      }
+    },
+    {
+      "equipped": true,
+      "instanceId": "scale",
+      "quantity": 1,
+      "selection": {
+        "acknowledgedFingerprint": "sha256-v1:836505a0817d8ffdbe7dfa93466fca2d4b79b7a0211c941ba5845fb1c206b9db",
+        "entryId": "modern4e.armor.scale",
+        "savedTitle": "Scale",
+        "supplierPackageId": "modern4e.equipment"
+      }
+    },
+    {
+      "equipped": true,
+      "instanceId": "shield",
+      "quantity": 1,
+      "selection": {
+        "acknowledgedFingerprint": "sha256-v1:952a0f9c490e4c20864569c049e6618c293cd4089c555a4e2fed059f5b9ae684",
+        "entryId": "modern4e.shield.heavy-shield",
+        "savedTitle": "Heavy Shield",
+        "supplierPackageId": "modern4e.equipment"
+      }
+    }
+  ],
+  "formatVersion": 1,
+  "id": "regression-fighter-19",
+  "identity": {
+    "environment": "urban",
+    "name": "Regression Fighter",
+    "upbringing": "labor"
+  },
+  "level": 19,
+  "levels": [
+    {
+      "entries": [
+        {
+          "instanceId": "fighter",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:bff163860030b6fb4d0db805e005f35164cf1ef7a34f4d4b1b72760f66f8c613",
+            "entryId": "modern4e.class.fighter",
+            "savedTitle": "Fighter",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "class",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "instanceId": "dwarf",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:53e51cd7abe27c2303f331dcb2ad4ac994d2c2e43fa94aa8e114ccf10859e4c5",
+            "entryId": "modern4e.ancestry.dwarf",
+            "savedTitle": "Dwarf",
+            "supplierPackageId": "modern4e.ancestries"
+          },
+          "slot": {
+            "choiceId": "ancestry",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "instanceId": "training",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:9bda3248b4a9b707c1f7e3af653c811cd7942fe8dc5f3a675b9dad40af05c11c",
+            "entryId": "modern4e.feat.skill-training",
+            "savedTitle": "Skill Training",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "instanceId": "build-fighter-reactivity-0",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:4c51bc49359b55fc00e04e57bca60bdeffe358f64ce65228f6d99de1b155ea4e",
+            "entryId": "modern4e.feature.combat-reactivity",
+            "savedTitle": "Combat Reactivity",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.fighter-reactivity",
+            "ordinal": 0,
+            "sourceInstanceId": "grant:7:fighter:18:fighter-reactivity"
+          }
+        },
+        {
+          "instanceId": "build-fighter-specialization-0",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:221ff752127d71888ebee8db76f0f9fad21d16645039bae7a21bcfb23c08cc50",
+            "entryId": "modern4e.feature.one-handed-weapon-talent",
+            "savedTitle": "One-Handed Weapon Talent",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.fighter-specialization",
+            "ordinal": 0,
+            "sourceInstanceId": "grant:7:fighter:22:fighter-specialization"
+          }
+        },
+        {
+          "instanceId": "power992",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:50d4b33a69688c9fa90d655875f2b77c04139437c59e07341392446b02685b91",
+            "entryId": "modern4e.power.fighter-power992",
+            "savedTitle": "Cleave",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-at-will",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1000",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:8a98a59dc2155ab7de44c377dc09bbc3117cb9c23eeb5b01df2bcf9355b9e08e",
+            "entryId": "modern4e.power.fighter-power1000",
+            "savedTitle": "Tide of Iron",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-at-will",
+            "ordinal": 1,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1015",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:97e64827eb063f6d7ff0591d7227bb18e04daf7a059bce74747e49faaab5047d",
+            "entryId": "modern4e.power.fighter-power1015",
+            "savedTitle": "Passing Attack",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-encounter",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1429",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:a048d4e1f7f082ae8c6c9614d9f79adc69caec9f077b9347f2fc65044b3353bf",
+            "entryId": "modern4e.power.fighter-power1429",
+            "savedTitle": "Villain's Menace",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-daily",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1524",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:caeae945df4acb4632438a7203e1244d14cf16c715af4c1f83fef23b4efa4cb4",
+            "entryId": "modern4e.power.fighter-power1524",
+            "savedTitle": "Brute Strike",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-daily",
+            "ordinal": 1,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "docker",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:a890846aba3e2bda3f8389dad442cc5591d01fd7b5fb4c6f6027cc3ac695584e",
+            "entryId": "modern4e.theme.docker",
+            "savedTitle": "Docker",
+            "supplierPackageId": "modern4e.themes"
+          },
+          "slot": {
+            "choiceId": "theme",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        }
+      ],
+      "level": 1,
+      "proficiencies": [
+        {
+          "skill": "SOCIETY",
+          "slot": {
+            "choiceId": "skill",
+            "ordinal": 0,
+            "sourceInstanceId": "background.environment.urban"
+          }
+        },
+        {
+          "skill": "CRAFTING",
+          "slot": {
+            "choiceId": "skill",
+            "ordinal": 0,
+            "sourceInstanceId": "background.upbringing.labor"
+          }
+        },
+        {
+          "skill": "MEDICINE",
+          "slot": {
+            "choiceId": "free-skill",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "skill": "RELIGION",
+          "slot": {
+            "choiceId": "free-skill",
+            "ordinal": 1,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "skill": "ATHLETICS",
+          "slot": {
+            "choiceId": "modern4e.choice.skill-training.skills",
+            "ordinal": 0,
+            "sourceInstanceId": "training"
+          }
+        },
+        {
+          "skill": "ENDURANCE",
+          "slot": {
+            "choiceId": "modern4e.choice.skill-training.skills",
+            "ordinal": 1,
+            "sourceInstanceId": "training"
+          }
+        }
+      ]
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "utility-2",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:1e3cc21f021394ae800695d254dfc158bb0db041defa0412fd26cde1eb24207a",
+            "entryId": "modern4e.power.utility-class-fighter-power1119",
+            "savedTitle": "Unstoppable",
+            "supplierPackageId": "modern4e.utilities"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-utility-2",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "durable",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:67998277275b7cb66c7e55a0bf48a2662d8229fcc008f2e01b7f6b6c97471101",
+            "entryId": "modern4e.feat.durable",
+            "savedTitle": "Durable",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.2"
+          }
+        }
+      ],
+      "level": 2,
+      "proficiencies": []
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "attack-encounter-3",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:cd405ef1194342b385a1118a43484f506e84a70e6f5e76b1d4e510657afca7a8",
+            "entryId": "modern4e.power.fighter-power1004",
+            "savedTitle": "Spinning Sweep",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-encounter-3",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ],
+      "level": 3,
+      "proficiencies": []
+    },
+    {
+      "abilityAdvancements": [
+        {
+          "increases": {
+            "CONSTITUTION": 1
+          },
+          "slot": {
+            "choiceId": "ability",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.4"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "instanceId": "feat-4",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:f3af8f395dc012fce89bac4c24c646cce6d64326fb6900a7d850d713366a70eb",
+            "entryId": "modern4e.feat.linguist",
+            "savedTitle": "Linguist",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.4"
+          }
+        }
+      ],
+      "level": 4,
+      "proficiencies": [],
+      "values": [
+        {
+          "slot": {
+            "choiceId": "modern4e.choice.linguist.languages",
+            "ordinal": 0,
+            "sourceInstanceId": "feat-4"
+          },
+          "value": "DRACONIC"
+        },
+        {
+          "slot": {
+            "choiceId": "modern4e.choice.linguist.languages",
+            "ordinal": 1,
+            "sourceInstanceId": "feat-4"
+          },
+          "value": "ELVEN"
+        },
+        {
+          "slot": {
+            "choiceId": "modern4e.choice.linguist.languages",
+            "ordinal": 2,
+            "sourceInstanceId": "feat-4"
+          },
+          "value": "GIANT"
+        },
+        {
+          "slot": {
+            "choiceId": "modern4e.choice.linguist.skill-bonus",
+            "ordinal": 0,
+            "sourceInstanceId": "feat-4"
+          },
+          "value": "DIPLOMACY"
+        }
+      ]
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "attack-daily-5",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:c8c586ca5e99fa1540f3970a2b7d572411f55955040d55f4551efe9716ff01d9",
+            "entryId": "modern4e.power.fighter-power10153",
+            "savedTitle": "Brazen Assault",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-daily-5",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ],
+      "level": 5,
+      "proficiencies": []
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "feat-6",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:1d52bf6f2aa30c800fe2b7f324de9f4c2269dc0a24260d9d1248918ddc4be96a",
+            "entryId": "modern4e.feat.student-of-battle",
+            "savedTitle": "Student of Battle",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.6"
+          }
+        },
+        {
+          "instanceId": "utility-6",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:199f0260849e4c76d7d2691ca1ce71a3c90e3fb4c22e7f7578f4df7609117ccb",
+            "entryId": "modern4e.power.utility-class-fighter-power10333",
+            "savedTitle": "Battle Fury Stance",
+            "supplierPackageId": "modern4e.utilities"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-utility-6",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ],
+      "level": 6,
+      "proficiencies": []
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "attack-encounter-7",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:81e27a86745485c863647d44bf53e8a2e0cc5bebc0e459d01d9f4775d9e0af8d",
+            "entryId": "modern4e.power.fighter-power1008",
+            "savedTitle": "Steel Serpent Strike",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-encounter-7",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ],
+      "level": 7,
+      "proficiencies": []
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "feat-8",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:4cd8ef83f67d4b725bda651f0073eb275def0030c29b0a93f68188903382731f",
+            "entryId": "modern4e.feat.improved-initiative",
+            "savedTitle": "Improved Initiative",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.8"
+          }
+        }
+      ],
+      "level": 8,
+      "proficiencies": []
+    },
+    {
+      "entries": [],
+      "level": 9,
+      "proficiencies": [],
+      "replacements": [
+        {
+          "kind": "PROGRESSION",
+          "replacement": {
+            "instanceId": "power1429",
+            "selection": {
+              "acknowledgedFingerprint": "sha256-v1:d2517e0977581a803f317a360846c7f1b68befde0d959fc4044fb2fe1baadfe8",
+              "entryId": "modern4e.power.fighter-power10478",
+              "savedTitle": "Bristling Defense",
+              "supplierPackageId": "modern4e.classes"
+            },
+            "slot": {
+              "choiceId": "modern4e.choice.class-attack-daily",
+              "ordinal": 0,
+              "sourceInstanceId": "fighter"
+            }
+          },
+          "replaces": {
+            "choiceId": "modern4e.choice.class-attack-daily",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ]
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "feat-10",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:bee23d7db5223eb79b0bc1b71ced949009ab5e7cae4a227842c687e2e5e7ca2e",
+            "entryId": "modern4e.feat.toughness",
+            "savedTitle": "Toughness",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.10"
+          }
+        },
+        {
+          "instanceId": "utility-10",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:46f991405cc317c837936fdd17978203ab991cc2e011b564d43bfb85d3e72e47",
+            "entryId": "modern4e.power.utility-class-deferred-power12677",
+            "savedTitle": "Shield Block",
+            "supplierPackageId": "modern4e.utilities"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-utility-10",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ],
+      "level": 10,
+      "proficiencies": []
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "feat-11",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:85631c4070eb06ce6203bd182ab50bcc5edabdd9b02e22933a612f31f12f06b7",
+            "entryId": "modern4e.feat.power-attack",
+            "savedTitle": "Power Attack",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.11"
+          }
+        },
+        {
+          "instanceId": "celebrity",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:89dc3effe462002eff5471152ee65724a0e4245687ceeea2a33a2d1aad29608c",
+            "entryId": "modern4e.path.notorious-celebrity",
+            "savedTitle": "Notorious Celebrity",
+            "supplierPackageId": "modern4e.paths"
+          },
+          "slot": {
+            "choiceId": "paragon-path",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.11"
+          }
+        }
+      ],
+      "level": 11,
+      "proficiencies": []
+    },
+    {
+      "abilityAdvancements": [
+        {
+          "increases": {
+            "DEXTERITY": 1
+          },
+          "slot": {
+            "choiceId": "ability",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.12"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "instanceId": "feat-12",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:1d9f671f614e8fd42f146145a0dbe9a7327236001a036f56a928866e2d26134c",
+            "entryId": "modern4e.feat.shield-specialization",
+            "savedTitle": "Shield Specialization",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.12"
+          }
+        }
+      ],
+      "level": 12,
+      "proficiencies": []
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "attack-encounter-13",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:7fd79ee03419db2157f7264a9804d5922d8d1406202ce26383aba36f3d73eb1d",
+            "entryId": "modern4e.power.fighter-power10001",
+            "savedTitle": "Leaping Assault",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-encounter-13",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ],
+      "level": 13,
+      "proficiencies": []
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "feat-14",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:5af14e572fb96f42c67d28620cd1dab50f9aa6371e88ea4af57a6bfb95e8ddb8",
+            "entryId": "modern4e.feat.improved-second-wind",
+            "savedTitle": "Improved Second Wind",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.14"
+          }
+        }
+      ],
+      "level": 14,
+      "proficiencies": []
+    },
+    {
+      "entries": [],
+      "level": 15,
+      "proficiencies": [],
+      "replacements": [
+        {
+          "kind": "PROGRESSION",
+          "replacement": {
+            "instanceId": "attack-daily-5",
+            "selection": {
+              "acknowledgedFingerprint": "sha256-v1:6d51c3092a591e19fdc9cb8859bf880d576b32012820acfeac1159d8459b1a0d",
+              "entryId": "modern4e.power.fighter-power10002",
+              "savedTitle": "Hurricane Strike",
+              "supplierPackageId": "modern4e.classes"
+            },
+            "slot": {
+              "choiceId": "modern4e.choice.class-attack-daily-5",
+              "ordinal": 0,
+              "sourceInstanceId": "fighter"
+            }
+          },
+          "replaces": {
+            "choiceId": "modern4e.choice.class-attack-daily-5",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ]
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "feat-16",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:4102d6a21977693d1139b565639f0d552f091f9277cf40b7f41fd5f1b0a11cd7",
+            "entryId": "modern4e.feat.devastating-critical",
+            "savedTitle": "Devastating Critical",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.16"
+          }
+        }
+      ],
+      "level": 16,
+      "proficiencies": []
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "feat-17",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:537d4b2def9171b1e788fcf331fe1471ccd50b0a424e263a5ee3fa86d23d263a",
+            "entryId": "modern4e.feat.combat-reflexes",
+            "savedTitle": "Combat Reflexes",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.17"
+          }
+        },
+        {
+          "instanceId": "utility-17",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:197bd191762132e3b094645cd5aed6fe0d04b4d8cf2a59aa2f29aa4d00966d7d",
+            "entryId": "modern4e.power.utility-class-fighter-power10000",
+            "savedTitle": "Mighty Surge",
+            "supplierPackageId": "modern4e.utilities"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-utility-17",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "encounter-17",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:c50f7253ccf1d7d9cd0dd909120f84643a41759dc2f5d409a70931f0f7debeae",
+            "entryId": "modern4e.power.fighter-power10004",
+            "savedTitle": "Bitter Harvest",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-encounter-17",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ],
+      "level": 17,
+      "proficiencies": []
+    },
+    {
+      "entries": [
+        {
+          "instanceId": "feat-18",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:04507943c0bb91a086f62051cc0e9610781bd45c070b0578d815d107594eb595",
+            "entryId": "modern4e.feat.uncanny-dodge",
+            "savedTitle": "Uncanny Dodge",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "advancement.18"
+          }
+        }
+      ],
+      "level": 18,
+      "proficiencies": []
+    },
+    {
+      "entries": [],
+      "level": 19,
+      "proficiencies": [],
+      "replacements": [
+        {
+          "kind": "PROGRESSION",
+          "replacement": {
+            "instanceId": "power1524",
+            "selection": {
+              "acknowledgedFingerprint": "sha256-v1:a4eb8b8c2f8827793d2a3468119882250400203e5140695f27b0591025882657",
+              "entryId": "modern4e.power.fighter-power10005",
+              "savedTitle": "Toppling Finish",
+              "supplierPackageId": "modern4e.classes"
+            },
+            "slot": {
+              "choiceId": "modern4e.choice.class-attack-daily",
+              "ordinal": 1,
+              "sourceInstanceId": "fighter"
+            }
+          },
+          "replaces": {
+            "choiceId": "modern4e.choice.class-attack-daily",
+            "ordinal": 1,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ]
+    }
+  ],
+  "manualAdjustments": [],
+  "packages": [
+    {
+      "packageId": "modern4e.classes",
+      "revision": "5"
+    },
+    {
+      "packageId": "modern4e.ancestries",
+      "revision": "1"
+    },
+    {
+      "packageId": "modern4e.themes",
+      "revision": "1"
+    },
+    {
+      "packageId": "modern4e.feats",
+      "revision": "1"
+    },
+    {
+      "packageId": "modern4e.utilities",
+      "revision": "3"
+    },
+    {
+      "packageId": "modern4e.equipment",
+      "revision": "2"
+    },
+    {
+      "packageId": "modern4e.paths",
+      "revision": "2"
+    },
+    {
+      "packageId": "modern4e.rituals",
+      "revision": "1"
+    },
+    {
+      "packageId": "modern4e.formulas",
+      "revision": "1"
+    }
+  ],
+  "savedAt": "2026-11-17T12:00:00Z"
+}

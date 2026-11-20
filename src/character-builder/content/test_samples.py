@@ -20,6 +20,27 @@ class SampleTest(unittest.TestCase):
             self.assertEqual(3, len(document['equipment']))
             self.assertEqual(document['level'], sum(e['slot']['choiceId'] == 'feat' for row in document['levels'] for e in row['entries']))
 
+    def test_level_nineteen_regression_fighter_covers_later_progression(self):
+        packages = build.production()
+        definitions = {e['id']: e for e in runtime_common.entries_of(packages)}
+        generated = samples.regression_assets(packages)
+        self.assertEqual(['sample-regression-fighter-19.json'], list(generated))
+        document = generated['sample-regression-fighter-19.json']
+        self.assertEqual(build.serialize(document), (samples.FIXTURES / 'sample-regression-fighter-19.json').read_bytes())
+        self.assertEqual(list(range(1, 20)), [row['level'] for row in document['levels']])
+        rows = {row['level']: row for row in document['levels']}
+        selections = [e['selection'] for row in document['levels'] for e in row['entries']] + \
+            [r['replacement']['selection'] for row in document['levels'] for r in row.get('replacements', [])] + \
+            [e['selection'] for e in document['equipment']]
+        for selection in selections:
+            self.assertEqual(samples.fingerprint(definitions[selection['entryId']]), selection['acknowledgedFingerprint'])
+        self.assertIn('modern4e.path.notorious-celebrity', [e['selection']['entryId'] for e in rows[11]['entries']])
+        self.assertEqual([9, 15, 19], [level for level, row in rows.items() if row.get('replacements')])
+        self.assertEqual({4: 'CONSTITUTION', 12: 'DEXTERITY'}, {level: next(iter(row['abilityAdvancements'][0]['increases']))
+                                                              for level, row in rows.items() if row.get('abilityAdvancements')})
+        self.assertEqual(4, len(rows[4]['values']))
+        self.assertTrue(any(definitions[s['entryId']]['mechanics'].get('multiclassFor') for s in selections))
+
     def test_samples_are_reproducible_and_reference_current_definitions(self):
         packages = build.production()
         original_bytes = {name: build.serialize(value) for name, value in packages.items()}

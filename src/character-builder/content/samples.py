@@ -184,12 +184,71 @@ def accepted_assets(packages=None):
     return result
 
 
+# Level-19 regression decisions, chosen from the engine's eligible candidates on current data.
+REGRESSION_FEATS = {4: 'modern4e.feat.linguist', 6: 'modern4e.feat.student-of-battle',
+                    8: 'modern4e.feat.improved-initiative', 10: 'modern4e.feat.toughness',
+                    11: 'modern4e.feat.power-attack', 12: 'modern4e.feat.shield-specialization',
+                    14: 'modern4e.feat.improved-second-wind', 16: 'modern4e.feat.devastating-critical',
+                    17: 'modern4e.feat.combat-reflexes', 18: 'modern4e.feat.uncanny-dodge'}
+REGRESSION_POWERS = [(3, 'attack-encounter-3', 'modern4e.power.fighter-power1004'),
+                     (5, 'attack-daily-5', 'modern4e.power.fighter-power10153'),
+                     (6, 'utility-6', 'modern4e.power.utility-class-fighter-power10333'),
+                     (7, 'attack-encounter-7', 'modern4e.power.fighter-power1008'),
+                     (10, 'utility-10', 'modern4e.power.utility-class-deferred-power12677'),
+                     (13, 'attack-encounter-13', 'modern4e.power.fighter-power10001'),
+                     (17, 'utility-17', 'modern4e.power.utility-class-fighter-power10000'),
+                     (17, 'encounter-17', 'modern4e.power.fighter-power10004')]
+# (level, replaced class choice, its ordinal, replaced occurrence, replacement daily)
+REGRESSION_REPLACEMENTS = [(9, 'class-attack-daily', 0, 'power1429', 'modern4e.power.fighter-power10478'),
+                           (15, 'class-attack-daily-5', 0, 'attack-daily-5', 'modern4e.power.fighter-power10002'),
+                           (19, 'class-attack-daily', 1, 'power1524', 'modern4e.power.fighter-power10005')]
+
+
+def regression_assets(packages=None):
+    """A complete level-19 Fighter: paragon path, daily replacements, ability choices, Linguist values and a multiclass feat."""
+    packages = build.production() if packages is None else packages
+    definitions = {e['id']: (name.split('/')[0], e) for name, chunk in packages.items()
+                   if '/entries' in name for e in chunk['entries']}
+    def saved(entry_id):
+        supplier, entry = definitions[entry_id]
+        return dict(entryId=entry_id, savedTitle=entry['presentation']['title'],
+                    supplierPackageId=supplier, acknowledgedFingerprint=fingerprint(entry))
+    def slot(source, choice, ordinal=0):
+        return dict(sourceInstanceId=source, choiceId=choice, ordinal=ordinal)
+    document = accepted_assets(packages)['sample-accepted-fighter-2.json']
+    document.update(id='regression-fighter-19', level=19)
+    document['identity'].update(name='Regression Fighter')
+    rows = {row['level']: row for row in document['levels']}
+    for level in range(3, 20):
+        rows[level] = dict(level=level, entries=[], proficiencies=[])
+    for level, entry_id in REGRESSION_FEATS.items():
+        rows[level]['entries'].append(dict(instanceId=f'feat-{level}', slot=slot(f'advancement.{level}', 'feat'),
+                                           selection=saved(entry_id)))
+    rows[11]['entries'].append(dict(instanceId='celebrity', slot=slot('advancement.11', 'paragon-path'),
+                                    selection=saved('modern4e.path.notorious-celebrity')))
+    # Each occurrence is named after its class choice, e.g. utility-6 fills modern4e.choice.class-utility-6.
+    for level, instance, entry_id in REGRESSION_POWERS:
+        rows[level]['entries'].append(dict(instanceId=instance, slot=slot('fighter', 'modern4e.choice.class-' + instance),
+                                           selection=saved(entry_id)))
+    for level, ability in [(4, 'CONSTITUTION'), (12, 'DEXTERITY')]:
+        rows[level]['abilityAdvancements'] = [dict(slot=slot(f'advancement.{level}', 'ability'), increases={ability: 1})]
+    rows[4]['values'] = [dict(slot=slot('feat-4', 'modern4e.choice.linguist.languages', ordinal), value=language)
+                         for ordinal, language in enumerate(['DRACONIC', 'ELVEN', 'GIANT'])] + [
+                         dict(slot=slot('feat-4', 'modern4e.choice.linguist.skill-bonus'), value='DIPLOMACY')]
+    for level, choice, ordinal, instance, entry_id in REGRESSION_REPLACEMENTS:
+        target = slot('fighter', f'modern4e.choice.{choice}', ordinal)
+        rows[level]['replacements'] = [dict(replaces=target, kind='PROGRESSION',
+            replacement=dict(instanceId=instance, slot=target, selection=saved(entry_id)))]
+    document['levels'] = [rows[level] for level in sorted(rows)]
+    return {'sample-regression-fighter-19.json': document}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args()
     packages = build.production()
-    samples = assets(packages) | accepted_assets(packages)
+    samples = assets(packages) | accepted_assets(packages) | regression_assets(packages)
     template = {'sample-modern-fighter.json': modern_sample(packages)}
     destinations = [(FIXTURES, samples | template), (TEST_PACKAGES, test_override(packages)),
         (HERE.parent / 'web/public/samples', template),
@@ -204,7 +263,7 @@ def main():
             else:
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(data)
-    print('Checked' if args.check else 'Generated', 'four regression characters, three acceptance characters, test override and identical production starters')
+    print('Checked' if args.check else 'Generated', 'four regression characters, three acceptance characters, the level-19 regression Fighter, test override and identical production starters')
 
 
 if __name__ == '__main__':
