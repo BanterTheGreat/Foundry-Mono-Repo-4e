@@ -17,6 +17,11 @@ install: copy-modules
 builder-install:
 	node scripts/builder-install.mjs
 
+# Same over Wi-Fi: `make builder-install-wifi DEVICE=192.168.2.3:39867` (DEVICE optional; mDNS fallback).
+.PHONY: builder-install-wifi
+builder-install-wifi:
+	node scripts/builder-install.mjs --wireless $(DEVICE)
+
 # Typst development; outputs src/modern4e/inDev.pdf. Requires Typst on PATH.
 # Extra options: make typst-compile TYPST_ARGS="--font-path /path/to/fonts"
 # Override the executable with TYPST_BIN=/path/to/typst.

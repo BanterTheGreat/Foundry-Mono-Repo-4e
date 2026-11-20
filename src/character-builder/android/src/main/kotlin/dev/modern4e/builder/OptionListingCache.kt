@@ -340,7 +340,8 @@ internal class OptionListingCache(
      *
      * Order: every choice still unmade, by level (the next one the character will face first). Within a level that is
      * unfilled ancestry power choices, Class Feature choices, power pools, the Class, Ancestry and General tabs of an
-     * empty feat slot (back to back, sharing one set of prepared facts), other choices, then the root pickers. After
+     * empty feat slot (back to back, sharing one set of prepared facts), other choices including a reached Paragon Path
+     * pick, then the root pickers. After
      * those come choices already made that the user opened lately, most recent first. Last are the remaining made
      * choices, marked [WarmTarget.idle]: power pools and class features before feat tabs, by level. A loaded character
      * usually has all of those filled and opens at most one or two, so they are nice-to-haves that never delay an open
@@ -357,6 +358,9 @@ internal class OptionListingCache(
         val rootOffers = state.rules.choices.filter { it.listing == SlotListing.DEFERRED }
         fun SlotCategory?.isEntry(category: EntryCategory) = this == SlotCategory.Entry(category)
         val featSlots = rootOffers.filter { it.category.isEntry(EntryCategory.FEAT) }.map { requireNotNull(it.acquisitionLevel) to it.slot }
+        val pathSlots = rootOffers.filter { it.category.isEntry(EntryCategory.PARAGON_PATH) }
+            .map { requireNotNull(it.acquisitionLevel) to it.slot }
+            .filter { (level, _) -> level <= document.level }
         val roots = listOf(EntryCategory.CLASS, EntryCategory.ANCESTRY, EntryCategory.THEME).mapNotNull { category ->
             rootOffers.firstOrNull { it.category.isEntry(category) }?.slot
         }.filter { preloadedRows(document, 1, it) == null }
@@ -371,7 +375,7 @@ internal class OptionListingCache(
             rank to WarmTarget(level, choice.slot, null)
         } + featSlots.flatMap { (level, slot) ->
             listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL).map { group -> 3 to WarmTarget(level, slot, group) }
-        } + roots.map { 5 to WarmTarget(1, it, null) }
+        } + pathSlots.map { (level, slot) -> 4 to WarmTarget(level, slot, null) } + roots.map { 5 to WarmTarget(1, it, null) }
         val (unmade, made) = candidates.partition { (_, target) -> target.slot !in filled }
         val opened = synchronized(listings) { openedPickers.toList() }
         val (reopened, rest) = made.partition { (_, target) -> target.level to target.slot in opened }

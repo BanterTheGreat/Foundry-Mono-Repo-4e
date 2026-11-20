@@ -567,6 +567,25 @@ class OptionListingCacheTest {
         assertTrue(targets.none { it.level > 19 })
     }
 
+    @Test fun aReachedParagonPathPickerWarmsOnOpen() = runBlocking {
+        val opened = fixture()
+        val pathSlot = ChoiceSlotId("advancement.11", "paragon-path", 0)
+        fun pathTargets(world: Fixture) = world.cache.warmTargets(world.state).filter { it.slot == pathSlot }
+        assertTrue("A level 1 character has not reached the path", pathTargets(opened).isEmpty())
+
+        val level10 = fixture(opened.operations.apply(sample(), BuilderEdit.Level(10)).also { assertTrue(it.applied) }.state.document)
+        assertTrue("Level 10 has not reached the path", pathTargets(level10).isEmpty())
+
+        val level19 = fixture(opened.operations.apply(sample(), BuilderEdit.Level(19)).also { assertTrue(it.applied) }.state.document)
+        level19.cache.awaitWarmup()
+        val path = pathTargets(level19).single()
+        assertEquals(11, path.level)
+        assertFalse("An unmade path is not speculative", path.idle)
+        val rows = level19.firstRows(11, pathSlot)
+        assertTrue("The path lists candidates", rows.isNotEmpty())
+        assertTrue("The path opens checked", rows.all { it.checked })
+    }
+
     @Test fun changingAncestryWarmsItsNewPowerChoiceFirst() = runBlocking {
         val world = fixture()
         world.cache.settleMillis = 0

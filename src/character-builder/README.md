@@ -96,6 +96,12 @@ Enable USB debugging and authorize this PC on the phone first; keep only the
 intended device connected and close emulators. Requires the toolchain below.
 This updates the installed app while normally preserving saved characters.
 
+To install without a cable, pair once (phone: Developer options > Wireless debugging > Pair device with pairing code, then `adb pair <ip>:<pairing-port>`), then run
+`npm run builder:install:wifi -- <ip:port>` or `make builder-install-wifi DEVICE=<ip:port>`,
+using the `ip:port` on the main Wireless debugging screen (the port changes when
+Wireless debugging is toggled or the phone reboots). The address may instead come
+from `BUILDER_DEVICE`, or be omitted to use mDNS discovery. Only that device is installed to.
+
 Build-time package generation and validation live in [content/README.md](content/README.md). The checked-in representative assets use existing v1 contracts unchanged and are tested on JVM/JS. Full compendium extraction remains explicitly unimplemented automation; the authored proof is partial Modern 4e content.
 
 From this directory in PowerShell:

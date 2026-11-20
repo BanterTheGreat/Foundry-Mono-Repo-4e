@@ -10,7 +10,7 @@ Apply these rules to new screens and changes to existing screens.
   identifies the page, omit a matching heading inside the page.
 - Keep headings that identify meaningful sections within the page, such as
   Abilities, Proficient skills and Notes.
-- Show the character name in the shared header; do not repeat it inside each tab.
+- Show the character name in the shared header; do not repeat it inside each tab. Tapping it renames the character; there is no pencil icon.
 - Overview already follows this rule. Progression and Validation currently repeat
   their navigation labels as page headings and need alignment when those screens
   are next updated.
@@ -57,8 +57,14 @@ modals. Dark mode and dynamic system colours are not implemented.
 
 ## Navigation and motion
 
-- Use the shared fixed-height 62 dp header and oxblood back chevron.
-- Selected bottom navigation labels use Accent; inactive labels use Dim.
+- Use the shared fixed-height 62 dp header: oxblood back chevron, a centered 22 sp serif title and, on
+  character pages, a small uppercase Dim line beneath it ("Level 1 · Fighter"; Loading…, Saving… or
+  Exporting… while work is in progress). The trailing 48 dp slot holds the cog menu on character pages
+  and stays reserved elsewhere so the title is centered.
+- The character footer is a 42 dp status strip (Wash background, 3 dp Accent left rule, Line when
+  complete) above three text tabs with a 3 dp Accent underline that slides between them. The strip reports
+  required choices left and links to Levels, or to Validation once none remain.
+- Selected footer tab labels use bold Accent; inactive labels use Dim.
 - Route transitions slide horizontally over 220 ms without a crossfade.
 - Overview, Progression and Validation support both tab taps and horizontal
   swipes, with selection synchronized to the pager.

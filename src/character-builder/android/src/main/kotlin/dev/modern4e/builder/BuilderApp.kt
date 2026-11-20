@@ -3,23 +3,17 @@ package dev.modern4e.builder
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.*
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import dev.modern4e.builder.ui.theme.*
 import dev.modern4e.builder.ui.components.*
@@ -78,41 +72,23 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                                 }
                             }
                         } else {
-                            Row(Modifier.fillMaxWidth().height(62.dp).padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                                IconButton(enabled = !model.busy, onClick = model::navigateBack,
-                                    modifier = Modifier.size(48.dp).semantics { contentDescription = "Back" }) {
-                                    Canvas(Modifier.size(24.dp)) {
-                                        val chevron = Path().apply {
-                                            moveTo(size.width * .625f, size.height * .25f)
-                                            lineTo(size.width * .375f, size.height * .5f)
-                                            lineTo(size.width * .625f, size.height * .75f)
+                            val character = model.page in CharacterTabs
+                            FolioHeader(
+                                title = if (character) model.current?.document?.identity?.name.orEmpty() else if (model.page == "import") "Import Character" else "Characters",
+                                subtitle = if (character) characterHeaderSubtitle(model.current?.document, model.busy, model.saving, model.exporting) else null,
+                                backEnabled = !model.busy,
+                                onBack = model::navigateBack,
+                                onTitleClick = if (character && !model.busy) { { model.beginEdit("Name") } } else null,
+                                titleDescription = "Edit character name",
+                                menu = if (character) {
+                                    {
+                                        IconButton(onClick = { scope.launch { drawerState.open() } }, enabled = !model.busy,
+                                            modifier = Modifier.semantics { contentDescription = "Character menu" }) {
+                                            CogIcon()
                                         }
-                                        drawPath(chevron, Accent, style = Stroke(width = 1.5.dp.toPx()))
                                     }
-                                }
-                                val character = model.page in CharacterTabs
-                                Row(Modifier.weight(1f).height(48.dp).then(
-                                    if (character) Modifier.clickable(enabled = !model.busy) { model.beginEdit("Name") }
-                                        .semantics(mergeDescendants = true) { contentDescription = "Edit character name" } else Modifier),
-                                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                    Text(if (character) model.current?.document?.identity?.name.orEmpty() else if (model.page == "import") "Import Character" else "Characters",
-                                        fontFamily = FontFamily.Serif, fontSize = 24.sp, lineHeight = 28.sp,
-                                        modifier = Modifier.weight(1f, fill = false), maxLines = 1,
-                                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
-                                    if (character) { PencilIcon() }
-                                }
-                                if (character && model.exporting) {
-                                    Text("Exporting…", color = Dim, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 8.dp))
-                                } else if (character && model.saving) {
-                                    Text("Saving…", color = Dim, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 8.dp))
-                                }
-                                if (character) {
-                                    IconButton(onClick = { scope.launch { drawerState.open() } }, enabled = !model.busy,
-                                        modifier = Modifier.semantics { contentDescription = "Character menu" }) {
-                                        CogIcon()
-                                    }
-                                }
-                            }
+                                } else null,
+                            )
                             HorizontalDivider(color = Line)
                         }
                         // The slot is always reserved, so the content below never shifts when the bar appears or goes away.
@@ -135,38 +111,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                             }
                         }
                         if (model.page in CharacterTabs) {
-                            HorizontalDivider(color = Line)
-                            Row(Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
-                                CharacterNavigationTabs.forEach { page ->
-                                    TextButton(enabled = !model.busy, onClick = { model.page = page }, contentPadding = PaddingValues(horizontal = 4.dp),
-                                        modifier = Modifier.weight(1f).semantics { selected = model.page == page; role = Role.Tab }) {
-                                        val color = if (page == model.page) Accent else Dim
-                                        when (page) {
-                                            "character" -> Text("About", color = color)
-                                            "progression" -> {
-                                                val missing = model.current?.let { Progression.unfinished(it) } ?: 0
-                                                Row(
-                                                    horizontalArrangement = Arrangement.spacedBy(3.dp),
-                                                    verticalAlignment = Alignment.CenterVertically,
-                                                ) {
-                                                    Text("Levels", color = color)
-                                                    if (missing > 0) {
-                                                        Badge(
-                                                            modifier = Modifier.offset(y = (-7).dp),
-                                                            containerColor = MaterialTheme.colorScheme.error,
-                                                        ) {
-                                                            Text(missing.toString(), Modifier.semantics {
-                                                                contentDescription = "$missing required choices remaining"
-                                                            })
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            else -> Text(page.readable(), color = color)
-                                        }
-                                    }
-                                }
-                            }
+                            FolioFooter(model.page, footerStatus(model.current?.let { Progression.unfinished(it) } ?: 0), enabled = !model.busy) { model.page = it }
                         }
                     }
                     SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter).systemBarsPadding().padding(16.dp)) { data ->

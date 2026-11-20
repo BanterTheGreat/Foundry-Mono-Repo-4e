@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "builder:install": "node scripts/builder-install.mjs",
+    "builder:install:wifi": "node scripts/builder-install.mjs --wireless",
     "copy-modules": "node scripts/copy-modules.mjs",
     "copy-module": "node scripts/copy-modules.mjs",
     "typst:compile": "node scripts/typst.mjs compile",

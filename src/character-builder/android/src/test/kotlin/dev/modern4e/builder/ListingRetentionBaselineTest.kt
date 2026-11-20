@@ -103,7 +103,7 @@ class ListingRetentionBaselineTest {
         val structural = featsRechecked + listOf("utility 17: rebased 354/354", "encounter 13: rebased 164/164")
         assertEquals(linkedMapOf(
             "open" to listOf("feat 18 class: retained", "feat 18 ancestry: retained", "feat 18 general: retained",
-                "utility 17: retained", "encounter 13: retained", "paragon path: fresh", "linguist language: empty"),
+                "utility 17: retained", "encounter 13: retained", "paragon path: retained", "linguist language: empty"),
             "unrelated feat" to listOf("feat 18 class: retained", "feat 18 ancestry: retained", "feat 18 general: rebased 49/148",
                 "utility 17: retained", "encounter 13: retained", "paragon path: retained", "linguist language: empty"),
             "encounter power" to listOf("feat 18 class: retained", "feat 18 ancestry: retained", "feat 18 general: rebased 48/148",

@@ -33,7 +33,7 @@ python -X utf8 -m unittest discover -s content -p 'test_*.py'
 
 `AdvancementRulesTest` covers ability milestones and invalid or missing advancement choices. `Level19AcceptanceTest` exercises production Fighter level-17 acquisition, level-19 daily replacement, invalid replacement timing, portable reopen, level reduction and path grants at 11/12/16. `PowerSelectionTest` covers replacement target changes and historical eligibility when later replacements exist. Android `ProgressionTest` and `BuilderSessionTest` cover later-level editing and persistence, including choosing an upcoming utility power, reaching its level and keeping it as a plan after lowering the level. Content tests cover the added acquisition slots, attacks through 19 and paragon path grants and summary-only limitations. UI/instrumentation tests remain opt-in.
 
-Character Builder install command routing and failure propagation: `node --test scripts/test/builder-install.test.mjs`. This uses a stub process runner; a real device install is a separate manual check with `npm run builder:install` (or `make builder-install`).
+Character Builder install command routing and failure propagation: `node --test scripts/test/builder-install.test.mjs`. This uses a stub process runner; a real device install is a separate manual check with `npm run builder:install` (or `make builder-install`), or wirelessly with `npm run builder:install:wifi -- <ip:port>` (or `make builder-install-wifi DEVICE=<ip:port>`).
 
 Ordered power authoring (16 published-reference fixtures plus all 19 local class
 migrations and 96 selectable revised Barbarian attacks; Psionics and Monks excluded):
@@ -1008,7 +1008,9 @@ Manual device check: open the library through Select Character and check the
 compact name, level, ancestry and class rows, timestamp placement, and adjacent
 New and Import actions. Open a character and check Levels, the cog menu and
 both outcomes of the native Back prompt. Slide the full-height cog drawer
-closed and check that the Levels badge clears the label. In About, check ancestry size, field
+closed and check that the footer status strip and Levels tab clear the drawer edge. In About, check ancestry size, field
 focus, Notes, and the read-only Skills list. In Stats, check Max HP, Max Surges
 and Equipment. On a Cleric or Warlock, change the main ability in Ability
 Points, save, and reopen the character.
+
+Character screen header and footer: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.FolioChromeTest"`. `FolioChromeTest` checks the header line (level and class, no dangling separator without a class, Loading… when busy or without a character, Saving… and Exporting… precedence), the footer strip (plural and singular required-choice counts, Validate when complete) and the tab labels and underline index (none on Validation). Device check: open a character and watch the line change while an edit saves, then the strip and underline while switching tabs.
