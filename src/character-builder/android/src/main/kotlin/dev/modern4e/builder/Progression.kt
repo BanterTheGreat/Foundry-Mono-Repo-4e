@@ -333,8 +333,10 @@ object Progression {
     /** Rules failures for saved selections and engine-defined slots, including unresolved content. */
     fun invalidChoiceSlots(rules: EngineResult): Set<ChoiceSlotId> = buildSet {
         rules.diagnostics.filter { diagnostic ->
-            diagnostic.kind in setOf(DiagnosticKind.INVALID_SELECTION, DiagnosticKind.UNRESOLVED_CONTENT) ||
-                diagnostic.code == "engine.duplicateProficiency"
+            // Remaining picks describe the whole set, reported against ordinal zero, not an illegal saved pick.
+            diagnostic.code != "engine.selectionRemaining" &&
+                (diagnostic.kind in setOf(DiagnosticKind.INVALID_SELECTION, DiagnosticKind.UNRESOLVED_CONTENT) ||
+                    diagnostic.code == "engine.duplicateProficiency")
         }.mapNotNullTo(this) { it.slot }
         rules.entries.filter { entry ->
             rules.entryEligibility[entry.instanceId]?.status in setOf(Eligibility.INELIGIBLE, Eligibility.UNRESOLVED)

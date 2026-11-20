@@ -14,7 +14,7 @@ Always-visible picker options: from `src/character-builder`, run `.\gradlew.bat 
 
 Ancestry size and defense corrections: from `src/character-builder`, run `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. `DefenseRulesTest` verifies light/unarmored Int/Dex selection, heavy armor, odd/even half-level AC and tier bonuses on all defenses. Shared class tests verify explicit class bonus contributors. Android overview/session tests cover read-only ancestry size and retained legacy fields; `StatsDisplayTest` covers the defense breakdown.
 
-Armor order and Ability Increase previews: run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder`. `EquipmentOptionsTest` checks numeric AC order, ties, unknown bonuses and existing category/proficiency grouping. `ProgressionTest` checks fresh and saved +1 previews, moving/clearing drafts, invalid saved choices and preservation of other ability totals.
+Armor order and Ability Increase previews: run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder`. `EquipmentOptionsTest` checks numeric AC order, ties, unknown bonuses and existing category/proficiency grouping. `ProgressionTest` checks fresh and saved +1 previews, moving/clearing drafts, invalid saved choices and preservation of other ability totals. `EquipmentOptionsTest` also covers a queued equipment pick (returns at once, shows the pending value, commits in the background) and storing an ineligible item only when accepted, flagged on Validation.
 
 Levels headings and power slots: run `.\gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.ProgressionTest"` from `src/character-builder`. `ProgressionTest` covers the heading tally (upcoming, complete, N to choose) and the grouping of same-kind power slots and their layout in rows of at most two. The dashed styling and the "Level up ›" button are checked manually; device UI tests remain opt-in.
 
@@ -859,6 +859,8 @@ pages in `src/modern4e/inDev.pdf` after compiling. See
 [path authoring](../src/modern4e/content/paths/README.md).
 
 Android Progression presentation helpers: `ProgressionTest` covers remaining allocation points (fixed main, unassigned abilities, tradeoffs and overspending) and compact skill source labels. It also verifies Level 1 power tiles preserve slot order and that non-power choices and later levels stay in regular rows. It checks which missing or invalid choices receive attention styling, including optional and future slots. Stepper regression coverage verifies single-negative/single-3 limits, the required -1 before raising to 3, removing the tradeoff in order, fixed main ability and min/max bounds. Run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder/`.
+`ProgressionTest.partiallyFilledPowerPairsDoNotInvalidateTheSavedPower` evaluates both At-Will and Daily pairs through the rules engine, selecting either slot first, completing the pair, and checking duplicate rejection. Run `.\gradlew.bat :android:testDebugUnitTest --tests dev.modern4e.builder.ProgressionTest` from `src/character-builder/`.
+
 ### Modern 4e creation and advancement authoring
 
 ```sh

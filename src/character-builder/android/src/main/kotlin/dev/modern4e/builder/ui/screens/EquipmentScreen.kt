@@ -6,11 +6,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.modern4e.builder.*
 import dev.modern4e.builder.ui.components.*
 import dev.modern4e.builder.ui.theme.*
-import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.intOrNull
 
@@ -19,7 +17,6 @@ import kotlinx.serialization.json.intOrNull
 internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
     var editing by remember(state.document.id) { mutableStateOf<EquipmentSlot?>(null) }
     var options by remember(state.document) { mutableStateOf<Map<EquipmentSlot, EquipmentOptions>>(emptyMap()) }
-    val scope = rememberCoroutineScope()
     val configuration = LocalConfiguration.current
     val slotsPerRow = if (configuration.screenWidthDp < 320 || configuration.fontScale > 1.2f) 1 else 2
     LaunchedEffect(state.document, state.rules) {
@@ -43,15 +40,13 @@ internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
                     val ineligible = linked?.let { !it.eligible }
                         ?: (entry?.meetsEquipmentProficiencyRequirement(state.rules.equipmentProficiencies.keys) == false)
                     val title = entry?.presentation?.title ?: selected?.selection?.savedTitle
-                    val value = if (linked == null) title else "$title (${linked.slot.title})"
-                    Column(Modifier.weight(1f).fillMaxHeight()) {
-                        Field(slot.title, value ?: "Choose…", Modifier.fillMaxWidth().weight(1f),
-                            enabled = !model.busy && slotOptions != null, compact = true,
-                            valueIsHint = selected == null, invalid = ineligible) { editing = slot }
-                        if (ineligible) {
-                            Text("Requires proficiency", fontSize = 12.sp, color = MaterialTheme.colorScheme.error)
-                        }
-                    }
+                    val saved = if (linked == null) title else "$title (${linked.slot.title})"
+                    // A submitted change shows ahead of its commit, as it does on Levels.
+                    val pending = model.pendingSelection(slot.pendingSlot)
+                    val saving = model.isSaving(slot)
+                    val value = if (pending != null) pending.title else saved
+                    LevelChoice(slot.title, value ?: ChoosePlaceholder, Modifier.weight(1f).fillMaxHeight(),
+                        enabled = !model.busy && slotOptions != null, invalid = ineligible, saving = saving) { editing = slot }
                 }
             }
         }
@@ -62,12 +57,10 @@ internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
     if (slot != null && slotOptions != null) {
         key(slot) {
             EquipmentPicker(slot, slotOptions, model.busy, dismiss = { editing = null }) { row ->
-                scope.launch {
-                    model.run {
-                        selectEquipment(slot, row?.option, row?.weapon?.selection?.instanceId)
-                        editing = null
-                    }
-                }
+                // The session stores it in the background, so the sheet closes at once like every other choice.
+                model.submitEquipment(slot, row?.option, row?.weapon?.selection?.instanceId,
+                    acceptIneligible = row?.eligible == false)
+                editing = null
             }
         }
     }
@@ -157,13 +150,9 @@ private fun EquipmentPicker(
                 enabled = !busy, badge = null, compact = true,
                 titleColor = if (row.eligible) Ink else MaterialTheme.colorScheme.error,
                 click = {
-                    if (row.eligible) {
-                        expanded = choiceExpansionOnTap(row.key, draft?.key, expanded)
-                        draft = row
-                        clearing = false
-                    } else {
-                        expanded = if (expanded == row.key) null else row.key
-                    }
+                    expanded = choiceExpansionOnTap(row.key, draft?.key, expanded)
+                    draft = row
+                    clearing = false
                 },
             ) {
                 PlainChoiceDescription(entry.presentation.description)

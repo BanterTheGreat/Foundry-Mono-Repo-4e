@@ -4,6 +4,31 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ProgressionTest {
+    @Test fun partiallyFilledPowerPairsDoNotInvalidateTheSavedPower() {
+        for (usage in listOf("AT_WILL", "DAILY")) {
+            val powers = (0..1).map { index -> entry("power-$index", EntryCategory.POWER,
+                Mechanics(powerProfile = PowerProfile(1, usage, "ATTACK"))) }
+            val fighter = entry("fighter", EntryCategory.CLASS, Mechanics(choices = listOf(
+                ChoiceDefinition.Entries("powers", 2, powers.map { it.id }, distinct = true))))
+            val slots = (0..1).map { ChoiceSlotId(fighter.id, "powers", it) }
+            val classChoice = entryChoice(fighter, ChoiceSlotId("creation", "class", 0))
+            for (ordinal in 0..1) {
+                val state = evaluated(1, listOf(classChoice, entryChoice(powers[ordinal], slots[ordinal])),
+                    listOf(fighter) + powers)
+                assertTrue(state.rules.slotIssues[slots[0]].orEmpty().any { it is SlotIssue.Remaining })
+                val invalid = Progression.invalidChoiceSlots(state.rules)
+                assertFalse("$usage slot $ordinal is valid while its sibling is empty", slots[ordinal] in invalid)
+                assertTrue(Progression.choiceNeedsAttention(true, false, false, slots[1 - ordinal] in invalid))
+            }
+            val complete = evaluated(1, listOf(classChoice) + powers.mapIndexed { i, power -> entryChoice(power, slots[i]) },
+                listOf(fighter) + powers)
+            assertTrue(slots.none { it in Progression.invalidChoiceSlots(complete.rules) })
+            val duplicate = evaluated(1, listOf(classChoice, entryChoice(powers[0], slots[0]),
+                entryChoice(powers[0], slots[1]).copy(instanceId = "duplicate")), listOf(fighter) + powers)
+            assertTrue(slots[0] in Progression.invalidChoiceSlots(duplicate.rules))
+        }
+    }
+
     @Test fun abilityIncreasePreviewMovesTheDraftWithoutStackingTheSavedIncrease() {
         val points = Ability.entries.associateWith { if (it == Ability.STRENGTH) 6 else 2 }
         val document = CharacterDocument(id = "preview", savedAt = "2026-11-19T00:00:00Z",

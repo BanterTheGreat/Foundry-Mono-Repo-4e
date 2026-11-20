@@ -98,6 +98,46 @@ class EquipmentOptionsTest {
             armor.last().rows.map { it.option.entry.presentation.title }.toSet())
     }
 
+    @Test fun submittedEquipmentReturnsAtOnceShowsPendingAndCommitsInTheBackground() = runBlocking {
+        val model = session()
+        model.create("modern4e.class.rogue")
+        val slot = EquipmentSlot.WEAPON_ONE
+        val dagger = model.equipmentOptions(slot).eligible.single { it.entry.presentation.title == "Dagger" }
+        model.submitEquipment(slot, dagger)
+        assertFalse("The picker never waits on the session", model.busy)
+        assertTrue(model.isSaving(slot))
+        assertEquals("Dagger", model.pendingSelection(slot.pendingSlot)?.title)
+        model.awaitSaved()
+        assertFalse(model.isSaving(slot))
+        assertNull(model.pendingSelection(slot.pendingSlot))
+        assertEquals(dagger.entry.id, model.equipmentOptions(slot).selected?.selection?.entryId)
+
+        model.submitEquipment(slot, null)
+        assertTrue(model.pendingSelection(slot.pendingSlot) != null)
+        assertNull(model.pendingSelection(slot.pendingSlot)?.title)
+        model.awaitSaved()
+        assertNull(model.equipmentOptions(slot).selected)
+    }
+
+    @Test fun ineligibleEquipmentIsStoredWhenAcceptedAndReportedOnValidation() = runBlocking {
+        val model = session()
+        model.create("modern4e.class.rogue")
+        val slot = EquipmentSlot.WEAPON_ONE
+        val greatsword = model.equipmentOptions(slot).ineligible.single { it.entry.id == "modern4e.weapon.greatsword" }
+
+        model.submitEquipment(slot, greatsword)
+        model.awaitSaved()
+        assertTrue("Without acceptance the unavailable item is refused", model.errors.isNotEmpty())
+
+        val accepting = session()
+        accepting.create("modern4e.class.rogue")
+        accepting.submitEquipment(slot, greatsword, acceptIneligible = true)
+        accepting.awaitSaved()
+        assertTrue(accepting.errors.isEmpty())
+        assertEquals(greatsword.entry.id, accepting.equipmentOptions(slot).selected?.selection?.entryId)
+        assertTrue(accepting.current!!.rules.diagnostics.any { it.code == "android.equipment.unproficient" })
+    }
+
     @Test fun broadArmorProficiencyCoversEveryArmorInTheCategory() = runBlocking {
         val model = session()
         model.create("modern4e.class.paladin")

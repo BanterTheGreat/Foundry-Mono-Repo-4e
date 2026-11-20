@@ -134,8 +134,9 @@ class BuilderSession(
     /** What a submitted edit shows in its slot until it commits; a null title is a cleared slot. */
     class PendingSelection(val title: String?)
 
-    private class QueuedEdit(val edit: BuilderEdit, val epoch: Int, val selections: Map<ChoiceSlotId, PendingSelection>,
-        val field: Any?)
+    /** [edit] is resolved when the queue reaches it, so it sees the committed result of every edit submitted before it. */
+    private class QueuedEdit(val edit: suspend () -> BuilderEdit?, val epoch: Int,
+        val selections: Map<ChoiceSlotId, PendingSelection>, val field: Any?)
 
     private val queuedEdits = Channel<QueuedEdit>(Channel.UNLIMITED)
     private val unsaved = MutableStateFlow(0)
@@ -226,6 +227,29 @@ class BuilderSession(
             is BuilderEdit.RemoveEntry -> mapOf(edit.slot to PendingSelection(null))
             else -> emptyMap()
         }
+        enqueue({ edit }, shown, field)
+    }
+
+    /**
+     * Queue the change that puts [entry] in [slot], or clears it when [entry] is null, with the same immediate return,
+     * pending display and saving mark as [submitEdit]. The edit is built when the queue reaches it. An item the character
+     * lacks proficiency for is stored with [acceptIneligible] and reported on Validation. Call on Main.
+     *
+     * @param linkedWeaponId the equipped weapon an implement slot reuses, if any.
+     */
+    internal fun submitEquipment(slot: EquipmentSlot, entry: ResolvedEntry?, linkedWeaponId: String? = null,
+        acceptIneligible: Boolean = false) {
+        if (errors.isNotEmpty()) {
+            return
+        }
+        val title = entry?.entry?.presentation?.title?.let { title ->
+            linkedWeaponId?.let { "$title (${slot.title})" } ?: title
+        }
+        enqueue({ resolveEquipmentEdit(slot, entry, linkedWeaponId, acceptIneligible) },
+            mapOf(slot.pendingSlot to PendingSelection(title)), slot)
+    }
+
+    private fun enqueue(edit: suspend () -> BuilderEdit?, shown: Map<ChoiceSlotId, PendingSelection>, field: Any?) {
         pendingSelections.putAll(shown)
         field?.let { changeSavingField(it, 1) }
         changeUnsaved(1)
@@ -260,7 +284,7 @@ class BuilderSession(
             return
         }
         try {
-            applyEdit(queued.edit, closesDialog = false)
+            applyEdit(queued.edit() ?: return, closesDialog = false)
         } catch (error: Exception) {
             if (error is CancellationException) {
                 throw error
@@ -532,41 +556,57 @@ class BuilderSession(
             linkedWeapons)
     }
 
-    /** Save or remove one position through the same durable commit path as other choices. */
-    internal suspend fun selectEquipment(slot: EquipmentSlot, entry: ResolvedEntry?, linkedWeaponId: String? = null) {
-        val state = current ?: return
+    /**
+     * Save or remove one position through the same durable commit path as other choices, returning when it is stored.
+     * The picker queues the same change through [submitEquipment] instead.
+     */
+    internal suspend fun selectEquipment(slot: EquipmentSlot, entry: ResolvedEntry?, linkedWeaponId: String? = null,
+        acceptIneligible: Boolean = false) {
+        edit(resolveEquipmentEdit(slot, entry, linkedWeaponId, acceptIneligible) ?: return)
+    }
+
+    /**
+     * Build the edit that puts [entry] in [slot], or clears the slot when [entry] is null, from the latest committed state.
+     *
+     * @param acceptIneligible whether an item the character lacks proficiency for may be stored; Validation then reports it.
+     * @return the edit, or null when there is nothing to clear or the item is not offered, which blocks the session.
+     */
+    private suspend fun resolveEquipmentEdit(slot: EquipmentSlot, entry: ResolvedEntry?, linkedWeaponId: String?,
+        acceptIneligible: Boolean): BuilderEdit? {
+        val state = current ?: return null
         if (entry == null) {
-            val selected = equipmentOptions(slot).selected ?: return
-            if (current === state) {
-                val change = if (slot == EquipmentSlot.IMPLEMENT) {
-                    BuilderEdit.Batch(buildList {
-                        state.document.equipment.filter { it.isLinkedImplement }.forEach {
-                            add(BuilderEdit.Equipment(it.withImplementLink(false)))
-                        }
-                        if (!selected.isLinkedImplement) {
-                            add(BuilderEdit.RemoveEquipment(selected.instanceId))
-                        }
-                    })
-                } else {
-                    BuilderEdit.RemoveEquipment(selected.instanceId)
-                }
-                edit(change)
+            val selected = equipmentOptions(slot).selected ?: return null
+            return if (slot == EquipmentSlot.IMPLEMENT) {
+                BuilderEdit.Batch(buildList {
+                    state.document.equipment.filter { it.isLinkedImplement }.forEach {
+                        add(BuilderEdit.Equipment(it.withImplementLink(false)))
+                    }
+                    if (!selected.isLinkedImplement) {
+                        add(BuilderEdit.RemoveEquipment(selected.instanceId))
+                    }
+                })
+            } else {
+                BuilderEdit.RemoveEquipment(selected.instanceId)
             }
-            return
         }
-        val result: ContractResult<Pair<BuilderState, ContentCatalog?>> = withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             val prepared = when (val loaded = loadEquipmentCatalog(state.document, sample())) {
-                is ContractResult.Unavailable -> return@withContext loaded
+                is ContractResult.Unavailable -> return@withContext reject(loaded.diagnostics)
                 is ContractResult.Available -> loaded.value
             }
             val options = equipmentOptions(state, slot, prepared)
-            val linked = options.linkedWeapons.firstOrNull { it.selection.instanceId == linkedWeaponId && it.eligible }
-            val candidates = if (linkedWeaponId == null) options.eligible else listOfNotNull(linked?.definition)
-            val eligible = candidates.firstOrNull {
+            val linked = options.linkedWeapons.firstOrNull {
+                it.selection.instanceId == linkedWeaponId && (it.eligible || acceptIneligible)
+            }
+            val candidates = if (linkedWeaponId == null) {
+                options.eligible + options.ineligible.takeIf { acceptIneligible }.orEmpty()
+            } else {
+                listOfNotNull(linked?.definition)
+            }
+            val chosen = candidates.firstOrNull {
                 it.entry.id == entry.entry.id && it.supplier == entry.supplier && it.fingerprint == entry.fingerprint
-            } ?: return@withContext ContractResult.Unavailable(listOf(
-                Diagnostic("android.equipment.proficiency", DiagnosticKind.INVALID_SELECTION,
-                    "This item is no longer available for this position or requires proficiency.")))
+            } ?: return@withContext reject(listOf(Diagnostic("android.equipment.proficiency", DiagnosticKind.INVALID_SELECTION,
+                "This item is no longer available for this position or requires proficiency.")))
             val previous = options.selected?.takeUnless { slot == EquipmentSlot.IMPLEMENT && it.isLinkedImplement }
             val instanceId = if (state.document.levels.any { level -> level.entries.any { it.instanceId == slot.instanceId } }) {
                 previous?.instanceId ?: UUID.randomUUID().toString()
@@ -574,7 +614,7 @@ class BuilderSession(
                 slot.instanceId
             }
             // Remove the imported occurrence when assigning its position a stable Android identity.
-            val edits = buildList {
+            BuilderEdit.Batch(buildList {
                 if (slot == EquipmentSlot.IMPLEMENT) {
                     state.document.equipment.filter { it.isLinkedImplement && it.instanceId != linkedWeaponId }.forEach {
                         add(BuilderEdit.Equipment(it.withImplementLink(false)))
@@ -586,28 +626,34 @@ class BuilderSession(
                 if (linked != null) {
                     add(BuilderEdit.Equipment(linked.selection.withImplementLink(true)))
                 } else {
-                    val selection = SavedSelection(eligible.entry.id, eligible.entry.presentation.title, eligible.supplier.packageId,
-                        eligible.fingerprint)
+                    val selection = SavedSelection(chosen.entry.id, chosen.entry.presentation.title, chosen.supplier.packageId,
+                        chosen.fingerprint)
                     add(BuilderEdit.Equipment(EquipmentSelection(instanceId, selection, equipped = true)))
                 }
-            }
-            val document = state.document.copy(packages = prepared.packages)
-            val updatedCatalog = prepared.catalog.takeIf { document.packages != state.document.packages }
-            val applied = BuilderOperations(prepared.catalog).apply(document, BuilderEdit.Batch(edits))
-            if (applied.applied) ContractResult.Available(applied.state to updatedCatalog)
-            else ContractResult.Unavailable(applied.diagnostics)
+            })
         }
-        when (result) {
-            is ContractResult.Unavailable -> errors = result.diagnostics
-            is ContractResult.Available -> {
-                val (evaluated, updatedCatalog) = result.value
-                editLock.withLock {
-                    if (current === state) {
-                        commitPending(evaluated, updatedCatalog = updatedCatalog)
-                    }
-                }
-            }
+    }
+
+    /** Block the session on [diagnostics], as a refused direct edit does, and build nothing. */
+    private fun reject(diagnostics: List<Diagnostic>): BuilderEdit? {
+        errors = diagnostics
+        return null
+    }
+
+    /** Add the bundled equipment catalog to an older character, as the equipment picker does. */
+    private fun withBundledEquipment(document: CharacterDocument): CharacterDocument {
+        val bundled = sample().packages.firstOrNull { it.packageId == "modern4e.equipment" }
+        return if (bundled == null || document.packages.any { it.packageId == bundled.packageId }) {
+            document
+        } else {
+            document.copy(packages = document.packages + bundled)
         }
+    }
+
+    private fun BuilderEdit.touchesEquipment(): Boolean = when (this) {
+        is BuilderEdit.Equipment, is BuilderEdit.RemoveEquipment -> true
+        is BuilderEdit.Batch -> edits.any { it.touchesEquipment() }
+        else -> false
     }
 
     private suspend fun loadHomeClasses(base: CharacterDocument): ContractResult<HomePickers> {
@@ -790,7 +836,8 @@ class BuilderSession(
     }
 
     private suspend fun applyLockedEdit(edit: BuilderEdit, closesDialog: Boolean) {
-        val document = withBundledPaths(current!!.document, (edit as? BuilderEdit.Level)?.value ?: current!!.document.level)
+        val bundled = withBundledPaths(current!!.document, (edit as? BuilderEdit.Level)?.value ?: current!!.document.level)
+        val document = if (edit.touchesEquipment()) withBundledEquipment(bundled) else bundled
         val expandedCatalog = if (document.packages != current!!.document.packages) {
             (withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", document.packages) }
                 as? ContractResult.Available)?.value

@@ -494,14 +494,16 @@ private fun LevelValueChoice(choice: EngineChoice, label: String, value: String?
 }
 
 /** What a Levels field shows for a slot nobody has filled yet. */
-private const val ChoosePlaceholder = "Choose…"
+internal const val ChoosePlaceholder = "Choose…"
 
 /**
- * One choice on the Levels tab. A filled choice shows its label above its value, tinted with the power frequency colour;
- * a choice still to be made is a dashed outline inviting a tap, accent-coloured once it is required.
+ * One choice on the Levels tab and in other editable lists. A filled choice shows its label above its value, tinted with the
+ * power frequency colour; a choice still to be made is a dashed outline inviting a tap, accent-coloured once it is required.
+ *
+ * @param blank treats [value] as the invitation text of an empty optional field, as [ChoosePlaceholder] is for a slot.
  */
 @Composable
-private fun LevelChoice(
+internal fun LevelChoice(
     label: String,
     value: String,
     modifier: Modifier = Modifier,
@@ -510,11 +512,12 @@ private fun LevelChoice(
     valueIsHint: Boolean = false,
     invalid: Boolean = false,
     saving: Boolean = false,
+    blank: Boolean = false,
     action: () -> Unit,
 ) {
     val errorColor = MaterialTheme.colorScheme.error
     val kindColor = powerUsage?.let(::powerChoiceColor)
-    val invitation = (value == ChoosePlaceholder || valueIsHint) && !saving
+    val invitation = (value == ChoosePlaceholder || valueIsHint || blank) && !saving
     val illegal = invalid && !invitation && !saving
     Surface(
         modifier.openChoice(invalid && !saving).fillMaxWidth().then(

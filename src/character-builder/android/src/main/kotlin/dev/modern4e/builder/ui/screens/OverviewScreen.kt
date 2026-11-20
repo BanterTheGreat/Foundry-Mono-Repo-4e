@@ -79,8 +79,8 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 row.forEach { (label, value) ->
-                    Field(label, value.ifBlank { "—" }, Modifier.weight(1f).heightIn(min = 48.dp).fillMaxHeight(),
-                        enabled = canEdit, compact = true) { model.beginEdit(label) }
+                    LevelChoice(label, value.ifBlank { "Add…" }, Modifier.weight(1f).heightIn(min = 48.dp).fillMaxHeight(),
+                        enabled = canEdit, blank = value.isBlank()) { model.beginEdit(label) }
                 }
             }
         }

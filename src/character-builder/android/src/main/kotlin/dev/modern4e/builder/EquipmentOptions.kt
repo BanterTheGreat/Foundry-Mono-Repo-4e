@@ -141,3 +141,7 @@ internal fun BuilderState.withEquipmentValidation(): BuilderState {
     }
     return copy(rules = rules.copy(diagnostics = rules.diagnostics + diagnostics))
 }
+
+/** The key under which a submitted but uncommitted equipment change is shown, matching how the engine keys equipped items. */
+internal val EquipmentSlot.pendingSlot: ChoiceSlotId
+    get() = ChoiceSlotId(instanceId, "equipment", 0)

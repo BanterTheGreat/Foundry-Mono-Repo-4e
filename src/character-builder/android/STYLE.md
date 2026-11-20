@@ -113,6 +113,7 @@ text is title case, a verb or short verb phrase ("Save", "Select Character"), no
   LEVEL label, a Line hairline and a status at the right: "N to choose" (Accent, 11 sp bold), a
   green ✓, or for an upcoming level an outlined Accent "Level up ›" button. The character's
   level number is Accent and upcoming numbers are Dim. Do not use a filled banner.
+- Gender, Age, Deity and the equipment slots use the same card (`LevelChoice`); an empty optional one reads "+ Add…" or "+ Choose…" in Dim.
 - A filled choice is a Paper card: 11 sp sentence-case label above a 16 sp serif value. Powers
   tint the label and the 3 dp left edge with the power frequency colour.
 - A choice not yet made is a transparent dashed outline reading "+ Choose…": Accent when
