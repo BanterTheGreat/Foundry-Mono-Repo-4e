@@ -41,6 +41,10 @@ python -X utf8 -m unittest discover -s content -p 'test_*.py'
 
 Character Builder install command routing and failure propagation: `node --test scripts/test/builder-install.test.mjs`. This uses a stub process runner; a real device install is a separate manual check with `npm run builder:install` (or `make builder-install`), or wirelessly with `npm run builder:install:wifi -- <ip:port>` (or `make builder-install-wifi DEVICE=<ip:port>`).
 
+Character Builder shareable APK build: `node --test scripts/test/builder-apk.test.mjs` checks the Gradle command per platform, the printed path and `file:///` link, failure propagation and the missing-file case with a stub runner. The real build is `npm run builder:apk` (or `make builder-apk`).
+
+Debug build notice: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.BuildChannelTest"`. It checks the notice appears for debug builds and not for release builds. Manually confirm the "DEBUG BUILD" tag at Home's top left on an installed debug APK.
+
 Ordered power authoring (16 published-reference fixtures plus all 19 local class
 migrations and 96 selectable revised Barbarian attacks; Psionics and Monks excluded):
 
@@ -1016,9 +1020,20 @@ read-only skill list data, Max Surges display, and main ability changes across
 save and reopen. `ProgressionTest` covers switching the main ability after
 a complete tradeoff that leaves every non-main score below 3.
 
-Manual device check: open the library through Select Character and check the
-compact name, level, ancestry and class rows, timestamp placement, and adjacent
-New and Import actions. Open a character and check Levels, the cog menu and
+`LibraryListingTest` covers the library's search and sort (case-insensitive
+name, ancestry and class matching, trimmed and blank queries, Recent / A–Z /
+Level ordering, tie-breaking, offset-aware save times and unreadable dates).
+
+`HomeLedgerTest` covers the Home ledger rows: Continue only when a character exists and opening
+the most recently saved one, Roman renumbering without it, the Characters count and
+the Continue detail line when ancestry or class is unchosen.
+
+Manual device check: open the library through Characters on Home and check the
+search box, the Recent / A–Z / Level sort (the chosen one filled), the ledger
+rows with their large level numeral, name, ancestry and class line, date and
+trash icon, and adjacent New and Import actions. Type a search with no match and
+check the "No characters match your search." line; with an empty library check
+the search and sort are hidden. Open a character and check Levels, the cog menu and
 both outcomes of the native Back prompt. Slide the full-height cog drawer
 closed and check that the footer status strip and Levels tab clear the drawer edge. In About, check ancestry size, field
 focus, Notes, and the read-only Skills list. In Stats, check Max HP, Max Surges
@@ -1029,4 +1044,4 @@ Character screen header and footer: from `src/character-builder`, run `.\gradlew
 
 Blocking error dialog and error report: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.ErrorReportTest"`. `ErrorReportTest` checks the report text (recipient line, environment, diagnostics, stack trace, truncation) and the plain-text share chooser; `BuilderSessionTest` checks that a thrown exception keeps its stack trace, including causes, until Return to main menu. Device UI tests remain opt-in. Manual check: force a storage failure, confirm the banner, the Send this to Banter button and Return to main menu, then tap Send and read the report in the chosen app.
 
-Character Builder recovery: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest` for daily retention, global recovery discovery (including deleted characters), and recovery review/navigation coverage. Device UI tests remain opt-in. Manually check Home cog > Recovery Copies, dated rows, cancel, replacement and recovery as a new copy.
+Character Builder recovery: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest` for daily retention, per-character grouping, global recovery discovery (including deleted characters), and recovery review/navigation coverage (Back clears the copies so no dialog reappears). Device UI tests remain opt-in. Manually check Home cog > Recovery Copies, collapsible character sections, dated rows, cancel, replacement and recovery as a new copy.

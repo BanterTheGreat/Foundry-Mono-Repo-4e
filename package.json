@@ -5,6 +5,7 @@
   "scripts": {
     "builder:install": "node scripts/builder-install.mjs",
     "builder:install:wifi": "node scripts/builder-install.mjs --wireless",
+    "builder:apk": "node scripts/builder-apk.mjs",
     "copy-modules": "node scripts/copy-modules.mjs",
     "copy-module": "node scripts/copy-modules.mjs",
     "typst:compile": "node scripts/typst.mjs compile",
@@ -22,6 +23,8 @@
     "prototype:damage": "open src/dnd4e-health-display/PoC/target-flow-prototype/confirm-damage-review.prototype.html",
     "prototype:extras": "open src/dnd4e-health-display/PoC/actor-hud-ui-prototype/extras.prototype.html",
     "prototype:home": "open src/character-builder/android/prototypes/home.prototype.html",
+    "prototype:start": "powershell -NoProfile -Command Start-Process src/character-builder/android/prototypes/start-page.prototype.html",
+    "prototype:select": "powershell -NoProfile -Command Start-Process src/character-builder/android/prototypes/character-select.prototype.html",
     "prototype:error": "powershell -NoProfile -Command Start-Process src/character-builder/android/prototypes/error-dialog.prototype.html",
     "prototype:powers": "powershell -NoProfile -Command Start-Process src/character-builder/android/prototypes/power-choice.prototype.html"
   },

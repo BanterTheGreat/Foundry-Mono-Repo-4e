@@ -896,33 +896,10 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
     }
 }
 
-/** A single-line search with the same touch height as the compact picker rows. */
-@OptIn(ExperimentalMaterial3Api::class)
+/** The power picker's search, sharing the folio search field. */
 @Composable
 private fun PowerSearchField(query: String, onQueryChange: (String) -> Unit) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val textStyle = MaterialTheme.typography.bodyMedium
-    BasicTextField(
-        value = query,
-        onValueChange = onQueryChange,
-        modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp).heightIn(min = 48.dp),
-        textStyle = textStyle.copy(color = Ink),
-        singleLine = true,
-        cursorBrush = SolidColor(Accent),
-        interactionSource = interactionSource,
-        decorationBox = { innerTextField ->
-            OutlinedTextFieldDefaults.DecorationBox(
-                value = query,
-                innerTextField = innerTextField,
-                enabled = true,
-                singleLine = true,
-                visualTransformation = VisualTransformation.None,
-                interactionSource = interactionSource,
-                placeholder = { Text("Search powers", style = textStyle) },
-                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
-            )
-        },
-    )
+    FolioSearchField(query, "Search powers", Modifier.fillMaxWidth().padding(bottom = 4.dp), onQueryChange)
 }
 
 /** Compact browsing stays above an independently scrolling power description with explicit row taps drafting the selection. */

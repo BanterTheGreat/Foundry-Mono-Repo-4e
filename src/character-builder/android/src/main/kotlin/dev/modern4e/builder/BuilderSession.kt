@@ -366,7 +366,12 @@ class BuilderSession(
         }
         when (page) {
             in CharacterTabs -> confirmReturnToLibrary = true
-            "library", "recovery" -> page = "home"
+            "library" -> page = "home"
+            "recovery" -> {
+                // The copies belong to this page; left set they would reappear as a dialog.
+                recoveries = null
+                page = "home"
+            }
             "import" -> page = "library"
         }
     }

@@ -96,6 +96,11 @@ Enable USB debugging and authorize this PC on the phone first; keep only the
 intended device connected and close emulators. Requires the toolchain below.
 This updates the installed app while normally preserving saved characters.
 
+To build a debug APK to send to friends, run `npm run builder:apk` or `make builder-apk`;
+it prints the APK path and a `file:///` link. Debug builds show a "DEBUG BUILD" tag at
+Home's top left. Updates install over an earlier copy only when signed with the same
+debug keystore and a higher `versionCode`.
+
 To install without a cable, pair once (phone: Developer options > Wireless debugging > Pair device with pairing code, then `adb pair <ip>:<pairing-port>`), then run
 `npm run builder:install:wifi -- <ip:port>` or `make builder-install-wifi DEVICE=<ip:port>`,
 using the `ip:port` on the main Wireless debugging screen (the port changes when

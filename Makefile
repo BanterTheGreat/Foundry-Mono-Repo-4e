@@ -22,6 +22,11 @@ builder-install:
 builder-install-wifi:
 	node scripts/builder-install.mjs --wireless $(DEVICE)
 
+# Build the shareable debug APK and print its path.
+.PHONY: builder-apk
+builder-apk:
+	node scripts/builder-apk.mjs
+
 # Typst development; outputs src/modern4e/inDev.pdf. Requires Typst on PATH.
 # Extra options: make typst-compile TYPST_ARGS="--font-path /path/to/fonts"
 # Override the executable with TYPST_BIN=/path/to/typst.

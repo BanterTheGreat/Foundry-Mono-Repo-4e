@@ -27,7 +27,10 @@ android {
     // The decoded production packages hold roughly 80 MB; the Gradle default test heap cannot hold several sessions of them.
     testOptions.unitTests.all { it.maxHeapSize = "2g" }
     sourceSets["test"].resources.srcDir("../shared/fixtures")
-    buildFeatures { compose = true }
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21

@@ -12,6 +12,15 @@ internal fun dailyRecoveryCopies(copies: List<RecoverySummary>): List<RecoverySu
             .sortedByDescending { recoveryInstant(it) }.take(10)
     }.sortedByDescending { recoveryInstant(it) }
 
+/** One character's retained copies, newest first. */
+internal data class RecoveryGroup(val characterId: String, val name: String, val copies: List<RecoverySummary>)
+
+/** Groups [copies] by character; groups and their copies are ordered newest first, and a group is named after its newest copy. */
+internal fun recoveryGroups(copies: List<RecoverySummary>): List<RecoveryGroup> =
+    dailyRecoveryCopies(copies).groupBy { it.character.id }.map { (id, characterCopies) ->
+        RecoveryGroup(id, characterCopies.first().character.name, characterCopies)
+    }
+
 /** Preserve today's intermediate states; completed editing days need only their latest state. */
 internal fun retainedRecoveryCopies(copies: List<RecoverySummary>, today: LocalDate): List<RecoverySummary> {
     val daily = dailyRecoveryCopies(copies)

@@ -74,7 +74,8 @@ fun BuilderApp(
                 Box(Modifier.fillMaxSize()) {
                     Column(Modifier.fillMaxSize().systemBarsPadding()) {
                         if (model.page == "home") {
-                            Row(Modifier.fillMaxWidth().height(62.dp).padding(end = 4.dp), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Top) {
+                            Row(Modifier.fillMaxWidth().height(62.dp).padding(end = 4.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {
+                                buildChannelNotice()?.let { DebugBuildBadge(it) } ?: Spacer(Modifier)
                                 FolioIconButton("Main menu", enabled = !model.busy, action = { scope.launch { drawerState.open() } }) {
                                     CogIcon()
                                 }

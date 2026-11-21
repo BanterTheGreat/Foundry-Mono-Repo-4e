@@ -111,3 +111,25 @@ internal fun CogIcon() {
         drawCircle(Paper, radius = 3.5f * unit)
     }
 }
+
+/** Shield-and-cross emblem for the Home cover, drawn in Accent hairlines. */
+@Composable
+internal fun HomeEmblem() {
+    Canvas(Modifier.size(84.dp)) {
+        val unit = size.width / 96f
+        val stroke = Stroke(width = 1.2f * unit, join = StrokeJoin.Round, cap = StrokeCap.Round)
+        fun shield(inset: Float, top: Float, shoulder: Float, bottom: Float) = Path().apply {
+            moveTo(48f * unit, top * unit)
+            lineTo((96f - inset) * unit, (top + 20f) * unit)
+            lineTo((96f - inset) * unit, shoulder * unit)
+            cubicTo((96f - inset) * unit, (shoulder + 18f) * unit, 72f * unit, (bottom - 6f) * unit, 48f * unit, bottom * unit)
+            cubicTo(24f * unit, (bottom - 6f) * unit, inset * unit, (shoulder + 18f) * unit, inset * unit, shoulder * unit)
+            lineTo(inset * unit, (top + 20f) * unit)
+            close()
+        }
+        drawPath(shield(10f, 6f, 54f, 92f), Accent, style = stroke)
+        drawPath(shield(22f, 18f, 53f, 80f), Accent, style = stroke)
+        drawLine(Accent, Offset(48f * unit, 30f * unit), Offset(48f * unit, 70f * unit), strokeWidth = 1.2f * unit)
+        drawLine(Accent, Offset(34f * unit, 44f * unit), Offset(62f * unit, 44f * unit), strokeWidth = 1.2f * unit)
+    }
+}

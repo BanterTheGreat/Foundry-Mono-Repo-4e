@@ -23,6 +23,7 @@ import dev.modern4e.builder.R
 import dev.modern4e.builder.ui.theme.*
 import dev.modern4e.builder.ui.components.*
 import dev.modern4e.builder.ui.screens.PowerBlock
+import dev.modern4e.builder.ui.screens.RecoveryCopyList
 import dev.modern4e.builder.ui.screens.pickerSheetHeight
 
 /** Artwork and a hazard stripe across the top of the blocking error dialog. */
@@ -119,11 +120,7 @@ internal fun BuilderDialogs(
         model.recoveries?.takeIf { model.page != "recovery" }?.let { copies ->
             FolioDialog("Recovery copies", { model.recoveries = null }) {
                 if (copies.isEmpty()) { Text("No retained recovery copies.") }
-                copies.forEach { copy ->
-                    FolioButton("${copy.character.name} · Level ${copy.character.level}\n${formatCharacterDate(copy.character.savedAt)}", !model.busy, outlined = true) {
-                        task { recover(copy.recoveryId) }
-                    }
-                }
+                RecoveryCopyList(copies, !model.busy) { task { recover(it) } }
                 FolioActions {
                     FolioTextButton("Close") { model.recoveries = null }
                 }

@@ -7,9 +7,11 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,11 +23,13 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -250,6 +254,35 @@ internal fun FolioActions(leading: (@Composable () -> Unit)? = null, content: @C
         Spacer(Modifier.weight(1f))
         content()
     }
+}
+
+/** A single-line search with the same 48dp touch height as the compact picker rows. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun FolioSearchField(query: String, placeholder: String, modifier: Modifier = Modifier, onQueryChange: (String) -> Unit) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val textStyle = MaterialTheme.typography.bodyMedium
+    BasicTextField(
+        value = query,
+        onValueChange = onQueryChange,
+        modifier = modifier.heightIn(min = 48.dp),
+        textStyle = textStyle.copy(color = Ink),
+        singleLine = true,
+        cursorBrush = SolidColor(Accent),
+        interactionSource = interactionSource,
+        decorationBox = { innerTextField ->
+            OutlinedTextFieldDefaults.DecorationBox(
+                value = query,
+                innerTextField = innerTextField,
+                enabled = true,
+                singleLine = true,
+                visualTransformation = VisualTransformation.None,
+                interactionSource = interactionSource,
+                placeholder = { Text(placeholder, style = textStyle) },
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+            )
+        },
+    )
 }
 
 /** A square outlined +/− control; the symbol is decorative, so [description] names the action. */

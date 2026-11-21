@@ -65,6 +65,8 @@ class RecoverySessionTest {
         assertEquals("Deleted hero", copies.single { it.character.id == deleted.id }.character.name)
         model.navigateBack()
         assertEquals("home", model.page)
+        // Left set, the copies would reappear as the recovery dialog over Home.
+        assertNull(model.recoveries)
     }
 
     @Test

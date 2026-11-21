@@ -59,12 +59,12 @@ modals. Dark mode and dynamic system colours are not implemented.
 Never use a stock Material `Button`, `OutlinedButton`, `TextButton`, `IconButton`,
 `FilterChip` or `AlertDialog` directly. Use the shared controls in
 `ui/components/FolioComponents.kt`, which fix the shape, colour and size. All button
-text is title case, a verb or short verb phrase ("Save", "Select Character"), not
+text is title case, a verb or short verb phrase ("Save", "Import"), not
 "OK" or "Yes", except OK on a notice that has nothing to confirm.
 
 | Role | Component | Look | Use |
 | --- | --- | --- | --- |
-| Screen action | `FolioButton` | Full width, 56 dp min, 17 sp, filled Accent | The main thing to do on a screen: Select Character, New, Choose a file |
+| Screen action | `FolioButton` | Full width, 56 dp min, 17 sp, filled Accent | The main thing to do on a screen: New, Choose a file |
 | Alternative screen action | `FolioButton(outlined = true)` | Same size, 1 dp Accent border | A second action beside the primary one (Import beside New); at most one filled button per screen |
 | Dialog / sheet / card action | `FolioButton(compact = true)` | 40 dp min, 14 sp | The primary action of a dialog, sheet or card (Save, Create, Confirm, Learn). Filled unless it is one of several alternatives, then outlined |
 | Destructive action | `FolioButton(destructive = true)` | Error colour instead of Accent | Anything that deletes data (Delete). Never style a destructive action like an ordinary one |
@@ -154,8 +154,10 @@ text is title case, a verb or short verb phrase ("Save", "Select Character"), no
 - The Portrait panel is tappable and opens the system image picker; the chosen image fills
   the panel (cropped to fit). Problems with a picked image use a small dismissible notice
   dialog, not the blocking error modal, since nothing in the session is at risk.
-- Character library rows are rectangular, with a right-aligned delete icon button.
-  Display dates as day month year.
+- Character library rows are a ledger: hairline Line dividers (no card borders), a 28 sp serif Accent level
+  numeral over a 9 sp LEVEL label, the name (18 sp serif) over a 12 sp Dim ancestry and class line, the save
+  date and a right-aligned delete icon button. A `FolioSearchField` and a Recent / A–Z / Level row of equal
+  compact `FolioButton`s sit above it. Display dates as day month year.
 - Do not show status banners for successful create, save, import or delete actions,
   or for picker cancellation.
 - Operational failures use a blocking modal with a Return to main menu action.
