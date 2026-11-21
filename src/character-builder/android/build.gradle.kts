@@ -20,6 +20,16 @@ android {
         versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    buildTypes {
+        // Non-debuggable, R8-optimized build for performance testing; signed with the debug key so it installs over the debug app.
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+            signingConfig = signingConfigs.getByName("debug")
+        }
+    }
     sourceSets["main"].assets.srcDir(layout.buildDirectory.dir("generated/bundledAssets"))
     sourceSets["main"].res.srcDir(layout.buildDirectory.dir("generated/buildInfo"))
     sourceSets["androidTest"].assets.srcDir("../shared/fixtures")

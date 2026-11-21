@@ -1,0 +1,157 @@
+<!doctype html>
+<!-- THROWAWAY: What should the Import screen show when the chosen file is not a usable character file?
+     Today every decode failure (ImportScreen.kt -> BuilderSession.inspect -> errors) opens the blocking "Something went wrong"
+     modal. A bad file is the user's input, not an unexpected fault, so nothing in the session is at risk (same reasoning as the
+     "Portrait not changed" notice). Three variants, switchable with ?variant=A|B|C or the floating bar / arrow keys:
+       A  Notice dialog      small FolioDialog over the Import screen, one reason, Choose another file
+       B  Inline on screen   no dialog; a panel under the Choose a file button
+       C  Diagnosis sheet    bottom sheet walking the checks the file passed or failed
+     Open directly or npm run prototype:import-error. In-memory only; the file picker is a mock that "picks" the scenario below
+     the phone. Dev-only switcher bar: this is a static throwaway, never merged to main. -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Modern 4e · Import error prototype</title><style>
+:root{--paper:#f3eddf;--ink:#322b25;--dim:#71675c;--line:#c9bda7;--oxblood:#863f36;--wash:#e8ddcb;--green:#4d7a46;--font-sans:Calibri,'Segoe UI',sans-serif}
+*{box-sizing:border-box}body{margin:0;padding:24px 12px 96px;background:#d9d3c6;color:var(--ink);font-family:var(--font-sans)}
+button{font:inherit;cursor:pointer;touch-action:manipulation;color:inherit}button:focus-visible{outline:2px solid var(--oxblood);outline-offset:3px}
+h1,h2,h3,p{margin:0}
+.phone{max-width:410px;margin:auto;background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;position:relative;height:820px;box-shadow:0 12px 35px #0002;display:flex;flex-direction:column}
+.status{height:30px;padding:10px 22px 0;display:flex;justify-content:space-between;font-size:11px;flex:none}
+/* shared 62 dp header: oxblood chevron, centred 22 sp serif title, reserved trailing slot */
+.header{height:62px;flex:none;display:grid;grid-template-columns:48px 1fr 48px;align-items:center}
+.header .back{width:48px;height:48px;border:0;background:none;color:var(--oxblood);font-size:30px;line-height:1}
+.header h1{font:normal 22px Georgia,serif;text-align:center}
+.screen{flex:1;padding:24px;overflow:auto;position:relative}
+.screen .lead{color:var(--dim);margin-bottom:24px;line-height:1.5}
+.btn{width:100%;min-height:40px;border:1px solid var(--oxblood);border-radius:3px;padding:6px 16px;font-size:14px;background:var(--oxblood);color:var(--paper);text-align:center}
+.btn.big{min-height:56px;font-size:17px}.btn.out{background:transparent;color:var(--oxblood)}.btn.fit{width:auto}
+.textbtn{border:0;background:none;color:var(--oxblood);font-size:14px;min-height:40px;padding:6px 12px}
+.actions{display:flex;justify-content:flex-end;gap:8px;align-items:center;margin-top:4px}
+.scrim{position:absolute;inset:0;background:#2b221c99;display:flex;align-items:center;justify-content:center;padding:18px;z-index:3}
+.scrim.bottom{align-items:flex-end;padding:0}
+.dialog{width:100%;max-height:620px;overflow:auto;background:var(--paper);border-radius:6px;box-shadow:0 8px 30px #0006}
+.pad{padding:24px;display:flex;flex-direction:column;gap:12px}
+.heading{font:normal 23px Georgia,serif}.body{font-size:14px;line-height:1.5}
+.dim{color:var(--dim)}.acc{color:var(--oxblood)}
+.file{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--dim);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 0}
+.file b{color:var(--ink);font-weight:600;word-break:break-all}
+/* B: inline panel */
+.panel{border:1px solid var(--line);border-left:3px solid var(--oxblood);background:var(--wash);border-radius:3px;padding:14px 16px;margin-top:20px;display:flex;flex-direction:column;gap:8px;animation:in .16s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+.panel .kick{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--dim)}
+.panel h2{font:normal 19px Georgia,serif}
+/* C: sheet */
+.sheet{width:100%;background:var(--paper);border-radius:6px 6px 0 0;box-shadow:0 -6px 24px #0005;padding:20px 24px 22px;display:flex;flex-direction:column;gap:12px;animation:rise .2s ease-out;max-height:92%;overflow:auto}
+@keyframes rise{from{transform:translateY(40px);opacity:.6}}
+.grip{width:36px;height:4px;border-radius:2px;background:var(--line);margin:-8px auto 0}
+.checks{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.checks li{display:grid;grid-template-columns:26px 1fr;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.checks .mark{font:bold 16px Georgia,serif;text-align:center}
+.checks .ok .mark{color:var(--green)}.checks .bad .mark{color:var(--oxblood)}.checks .skip{color:var(--dim)}.checks .skip .mark{color:var(--line)}
+.checks .why{display:block;font-size:12px;color:var(--oxblood);margin-top:2px}
+details summary{cursor:pointer;font-size:13px;color:var(--dim);padding:4px 0}
+details pre{margin:6px 0 0;padding:10px;background:var(--wash);border-radius:3px;font:11px/1.45 Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+.note{max-width:410px;margin:14px auto;font-size:12px;line-height:1.5;color:#5b554b}
+.note label{display:inline-flex;gap:4px;align-items:center;margin-right:10px}
+.note button{border:1px solid #8a8272;background:transparent;border-radius:3px;padding:6px 10px;margin-right:6px}
+.toast{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);background:#282d35;color:#fff;border-radius:20px;padding:9px 16px;font-size:13px;opacity:0;transition:opacity .15s;pointer-events:none;z-index:9}
+.toast.on{opacity:1}
+/* floating variant switcher: deliberately not folio-styled */
+.switcher{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;background:#1d1d1f;color:#fff;border-radius:999px;padding:6px 8px;box-shadow:0 6px 22px #0005;font:600 13px system-ui,sans-serif;z-index:20}
+.switcher button{width:34px;height:34px;border-radius:50%;border:0;background:#3a3a3d;color:#fff;font-size:16px}
+.switcher span{min-width:190px;text-align:center}
+@media(prefers-reduced-motion:reduce){.panel,.sheet{animation:none}}
+</style></head><body>
+<div class="phone"><div class="status" aria-hidden="true"><span>9:41</span><span>▴ ▰</span></div>
+<div class="header"><button class="back" aria-label="Back">‹</button><h1>Import character</h1><span></span></div>
+<div class="screen" id="screen"></div>
+<div id="overlay"></div><div class="toast" id="toast" role="status"></div></div>
+<p class="note" id="state"></p>
+<p class="note" id="scenarios"></p>
+<p class="note"><button id="reset">Reset</button> The mock picker "chooses" the file selected above.</p>
+<div class="switcher" role="group" aria-label="Prototype variant"><button id="prev" aria-label="Previous variant">←</button><span id="vlabel"></span><button id="next" aria-label="Next variant">→</button></div>
+<script>
+const $=id=>document.getElementById(id);
+const VARIANTS=[['A','Notice dialog'],['B','Inline on screen'],['C','Diagnosis sheet']];
+/* what the importer would hand back: INCOMPATIBLE_FORMAT diagnostics, never IO_FAILURE. stage = first failed check. */
+const SCENARIOS={
+  txt:{label:'Random .txt',file:'shopping-list.txt',size:'214 B',stage:1,code:'character.malformed',
+    title:"That isn't a character file",
+    reason:"The file isn't a Modern 4e character. Character files end in .json and come from Export in the Builder.",
+    fail:'Not valid JSON',tech:'character.malformed (INCOMPATIBLE_FORMAT)\nMalformed character document: check JSON syntax, levels (1–30, with unique decision levels)…\nUnexpected JSON token at offset 0: Expected start of the object \'{\', but had \'m\' instead'},
+  version:{label:'Newer format',file:'Mira-Level-5.json',size:'18.4 KB',stage:3,code:'package.format',
+    title:'Saved by a newer Builder',
+    reason:'This character was exported by a newer version of the Builder than the one on this device. Update the app, then import it again.',
+    fail:'Format version 7 is not supported (this app reads version 3)',tech:'package.format (INCOMPATIBLE_FORMAT)\nUnsupported or missing package format version: 7'},
+  damaged:{label:'Damaged / hand-edited',file:'Torvin-L3.json',size:'12.1 KB',stage:2,code:'character.malformed',
+    title:'The character file is damaged',
+    reason:"The file looks like a character but can't be read. It may have been cut off or edited by hand. Export it again from the original device.",
+    fail:'Levels must be 1–30 with unique decision levels',tech:'character.malformed (INCOMPATIBLE_FORMAT)\nMalformed character document: check JSON syntax, levels (1–30, with unique decision levels)…\nlevels[2].decisionLevel: duplicate 2'}
+};
+const STEPS=['Read the file','Valid JSON','A Modern 4e character','A format this app reads'];
+let scenario='txt',failed=null,detail=false;
+const v0=new URLSearchParams(location.search).get('variant');
+let vi=Math.max(0,VARIANTS.findIndex(v=>v[0]===v0));
+const S=()=>SCENARIOS[scenario];
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const fileLine=()=>`<div class="file"><span aria-hidden="true">▤</span><span><b>${esc(S().file)}</b> · ${S().size}</span></div>`;
+
+/* ---- the Import screen underneath all variants (ImportScreen.kt) ---- */
+function screen(){
+  const inline=VARIANTS[vi][0]==='B'&&failed;
+  return `<p class="lead">Choose a character file from your device to add it to your character list.</p>
+  <button class="btn big${inline?' out':''}" data-a="pick">${inline?'Choose another file':'Choose a file'}</button>${inline?variantB():''}`;
+}
+/* ---- A: notice dialog, mirrors "Portrait not changed": dismissible, nothing at risk ---- */
+function variantA(){
+  const s=S();
+  return `<div class="scrim" data-a="dismiss"><div class="dialog" role="dialog" aria-label="Import failed" data-a="keep"><div class="pad">
+    <h2 class="heading">Couldn't import that file</h2>${fileLine()}
+    <p class="body">${esc(s.reason)}</p>
+    <div class="actions"><button class="textbtn" data-a="dismiss">Cancel</button><button class="btn fit" data-a="pick">Choose another file</button></div></div></div></div>`;
+}
+/* ---- B: inline panel, no modal; the button above becomes the retry ---- */
+function variantB(){
+  const s=S();
+  return `<div class="panel" role="alert"><span class="kick">Couldn't import</span><h2>${esc(s.title)}</h2>${fileLine().replace('class="file"','class="file" style="border:0;padding:0"')}
+    <p class="body">${esc(s.reason)}</p><div class="actions"><button class="textbtn" data-a="dismiss">Dismiss</button></div></div>`;
+}
+/* ---- C: diagnosis sheet, shows how far the file got ---- */
+function variantC(){
+  const s=S();
+  const rows=STEPS.map((t,i)=>{
+    const cls=i<s.stage?'ok':i===s.stage?'bad':'skip';
+    const mark=i<s.stage?'✓':i===s.stage?'✕':'–';
+    return `<li class="${cls}"><span class="mark" aria-hidden="true">${mark}</span><span>${t}${i===s.stage?`<span class="why">${esc(s.fail)}</span>`:''}${i>s.stage?' <span class="dim">(not checked)</span>':''}</span></li>`;
+  }).join('');
+  return `<div class="scrim bottom" data-a="dismiss"><div class="sheet" role="dialog" aria-label="Import failed" data-a="keep"><div class="grip"></div>
+    <h2 class="heading">${esc(s.title)}</h2>${fileLine()}
+    <ul class="checks" aria-label="What was checked">${rows}</ul>
+    <details${detail?' open':''} data-a="keep"><summary>Technical details</summary><pre>${esc(s.tech)}</pre></details>
+    <div class="actions"><button class="textbtn" data-a="dismiss">Close</button><button class="btn fit" data-a="pick">Choose another file</button></div></div></div>`;
+}
+function render(){
+  const k=VARIANTS[vi][0];
+  $('screen').innerHTML=screen();
+  $('overlay').innerHTML=failed?(k==='A'?variantA():k==='C'?variantC():''):'';
+  $('vlabel').textContent=`${VARIANTS[vi][0]} (${VARIANTS[vi][1]})`;
+  $('scenarios').innerHTML='File to pick: '+Object.entries(SCENARIOS).map(([id,s])=>`<label><input type="radio" name="sc" value="${id}"${id===scenario?' checked':''}> ${s.label}</label>`).join('');
+  $('state').textContent=`Prototype · variant ${k} · scenario ${scenario} (${S().code}) · ${failed?'failure showing':'no failure shown'}. Today's app shows the blocking "Something went wrong" modal for all of these. All state is in memory.`;
+}
+function setVariant(i){
+  vi=(i+VARIANTS.length)%VARIANTS.length;failed=failed&&true;
+  const u=new URL(location.href);u.searchParams.set('variant',VARIANTS[vi][0]);history.replaceState(null,'',u);render();
+}
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1500);}
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-a]');if(!el)return;const a=el.dataset.a;
+  if(a==='pick'){failed=true;render();}
+  else if(a==='dismiss'&&(e.target===el||el.tagName==='BUTTON')){failed=false;render();}
+});
+document.addEventListener('change',e=>{if(e.target.name==='sc'){scenario=e.target.value;if(failed){render();}else{render();}}});
+document.addEventListener('keydown',e=>{
+  if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)||e.target.isContentEditable){return;}
+  if(e.key==='ArrowLeft'){setVariant(vi-1);}else if(e.key==='ArrowRight'){setVariant(vi+1);}else if(e.key==='Escape'&&failed){failed=false;render();}
+});
+$('prev').onclick=()=>setVariant(vi-1);$('next').onclick=()=>setVariant(vi+1);
+$('reset').onclick=()=>{failed=null;render();};
+render();
+</script></body></html>

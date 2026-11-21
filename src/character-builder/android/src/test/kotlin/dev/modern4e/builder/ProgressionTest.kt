@@ -516,6 +516,33 @@ class ProgressionTest {
         assertTrue(Progression.powerRows(emptyList<String>()).isEmpty())
     }
 
+    @Test fun levelGrantsSeparateParagonPathGrantsSoTheyFollowTheirPathChoice() {
+        val feature = entry("feature", EntryCategory.FEATURE)
+        val power = entry("power", EntryCategory.POWER)
+        val fighter = entry("fighter", EntryCategory.CLASS, Mechanics(
+            grants = listOf(Grant.Entry("feature", feature.id), Grant.Entry("power", power.id))))
+        val state = evaluated(11, listOf(entryChoice(fighter, ChoiceSlotId("creation", "class", 0))),
+            listOf(fighter, feature, power))
+        val granted = Progression.automaticGrants(state)
+        val (classFeature, classPower) = granted.partition { !it.isPower }.let { it.first.single() to it.second.single() }
+        fun from(grant: ProgressionGrant, category: EntryCategory) = grant.copy(sourceCategory = category)
+
+        val grants = Progression.levelGrants(listOf(
+            from(classFeature, EntryCategory.CLASS),
+            from(classFeature, EntryCategory.PARAGON_PATH),
+            from(classPower, EntryCategory.PARAGON_PATH),
+            from(classPower, EntryCategory.THEME),
+            from(classFeature, EntryCategory.THEME),
+            from(classPower, EntryCategory.EPIC_DESTINY),
+        ))
+        assertEquals(listOf(false, true), grants.path.map { it.isPower })
+        assertTrue(grants.path.all { it.sourceCategory == EntryCategory.PARAGON_PATH })
+        assertEquals(listOf(EntryCategory.CLASS), grants.classGrants.map { it.sourceCategory })
+        assertEquals(listOf(EntryCategory.THEME, EntryCategory.EPIC_DESTINY), grants.powers.map { it.sourceCategory })
+        assertEquals(listOf(EntryCategory.THEME), grants.features.map { it.sourceCategory })
+        assertEquals(Progression.LevelGrants(emptyList(), emptyList(), emptyList(), emptyList()), Progression.levelGrants(emptyList()))
+    }
+
     private fun entry(id: String, category: EntryCategory, mechanics: Mechanics = Mechanics()) =
         ContentEntry(id, category, Presentation(id), mechanics, Coverage(CoverageStatus.SUPPORTED))
 

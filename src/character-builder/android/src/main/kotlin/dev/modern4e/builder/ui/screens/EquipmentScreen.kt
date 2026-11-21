@@ -16,12 +16,18 @@ import kotlinx.serialization.json.intOrNull
 @Composable
 internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
     var editing by remember(state.document.id) { mutableStateOf<EquipmentSlot?>(null) }
-    var options by remember(state.document) { mutableStateOf<Map<EquipmentSlot, EquipmentOptions>>(emptyMap()) }
+    // The last options stay up while the next are read, so an edit never blanks every slot; only another character clears them.
+    var options by remember(state.document.id) { mutableStateOf<Map<EquipmentSlot, EquipmentOptions>>(emptyMap()) }
+    var optionsFor by remember(state.document.id) { mutableStateOf<CharacterDocument?>(null) }
+    val shownValues = remember(state.document.id) { mutableMapOf<EquipmentSlot, String?>() }
     val configuration = LocalConfiguration.current
     val slotsPerRow = if (configuration.screenWidthDp < 320 || configuration.fontScale > 1.2f) 1 else 2
     LaunchedEffect(state.document, state.rules) {
+        val document = state.document
         options = EquipmentSlot.entries.associateWith { model.equipmentOptions(it) }
+        optionsFor = document
     }
+    val fresh = optionsFor == state.document
 
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         if (options.isEmpty()) {
@@ -44,7 +50,13 @@ internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
                     // A submitted change shows ahead of its commit, as it does on Levels.
                     val pending = model.pendingSelection(slot.pendingSlot)
                     val saving = model.isSaving(slot)
-                    val value = if (pending != null) pending.title else saved
+                    val computed = if (pending != null) pending.title else saved
+                    // Between a commit and the re-read options, keep showing what the pending change showed.
+                    val value = if ((fresh || pending != null || !shownValues.containsKey(slot))) {
+                        computed.also { shownValues[slot] = it }
+                    } else {
+                        shownValues[slot]
+                    }
                     LevelChoice(slot.title, value ?: ChoosePlaceholder, Modifier.weight(1f).fillMaxHeight(),
                         enabled = !model.busy && slotOptions != null, invalid = ineligible, saving = saving) { editing = slot }
                 }

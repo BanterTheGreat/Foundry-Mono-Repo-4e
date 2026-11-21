@@ -196,6 +196,29 @@ object Progression {
             level == 1 && choice.isPowerChoice(powerEntryIds)
         }
 
+    /**
+     * One level's automatic grants in the groups its row shows them in.
+     *
+     * @property path features and powers a Paragon Path grants; they follow the path's own choice row.
+     * @property classGrants the class's features and powers.
+     * @property features other features, shown after the level's choices.
+     * @property powers other powers, shown after the level's feat.
+     */
+    internal data class LevelGrants(
+        val path: List<ProgressionGrant>,
+        val classGrants: List<ProgressionGrant>,
+        val features: List<ProgressionGrant>,
+        val powers: List<ProgressionGrant>,
+    )
+
+    /** Group a level's [grants] by where its row shows them. */
+    internal fun levelGrants(grants: List<ProgressionGrant>): LevelGrants {
+        val (path, rest) = grants.partition { it.sourceCategory == EntryCategory.PARAGON_PATH }
+        val (classGrants, other) = rest.partition { it.sourceCategory == EntryCategory.CLASS }
+        val (powers, features) = other.partition { it.isPower }
+        return LevelGrants(path, classGrants, features, powers)
+    }
+
     internal fun EngineChoice.isPowerChoice(powerEntryIds: Set<String>): Boolean =
         entries.isNotEmpty() && entries.all { it.entryId in powerEntryIds }
 

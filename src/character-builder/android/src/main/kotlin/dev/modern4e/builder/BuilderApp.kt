@@ -142,7 +142,7 @@ fun BuilderApp(
                 }
             }
         }
-        BuilderDialogs(model, ::task, exports, errorSharer)
+        BuilderDialogs(model, ::task, exports, errorSharer, exchange)
     }
 }
 

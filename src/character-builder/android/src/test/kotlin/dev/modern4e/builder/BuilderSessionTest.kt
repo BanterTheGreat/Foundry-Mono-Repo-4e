@@ -806,6 +806,28 @@ class BuilderSessionTest {
         assertNull(model.cachedFuturePreview(document.id))
     }
 
+    @Test fun anUpcomingLevelPreviewIsReusedForTheSameCharacterAndForgottenAfterAnEdit() = runBlocking {
+        val document = sample().copy(id = "level-preview-cache")
+        store.save(document, SaveMode.CREATE)
+        val model = session()
+        model.load(document.id)
+        val state = model.current!!
+        assertNull("Nothing is cached before the first preview", model.cachedPreview(state, 20))
+
+        val preview = model.progressionPreview(state, 20)
+        assertSame("Reopening a sheet for that level needs no new evaluation", preview, model.cachedPreview(state, 20))
+        assertSame(preview, model.progressionPreview(state, 20))
+        assertNull("Another level is still to be computed", model.cachedPreview(state, 19))
+
+        model.submitEdit(bonus("edited"), field = "edited")
+        model.awaitSaved()
+        assertNull("An edit changes the character, so the old preview no longer applies", model.cachedPreview(model.current!!, 20))
+        assertNull(model.cachedPreview(state, 20))
+
+        model.returnHomeAfterError()
+        assertNull(model.cachedPreview(state, 20))
+    }
+
     @Test fun levelDialogCanOpenOnAnyUpcomingLevelWithinTheSupportedRange() = runBlocking {
         val document = sample().copy(id = "level-dialog-target")
         store.save(document, SaveMode.CREATE)
@@ -899,9 +921,46 @@ class BuilderSessionTest {
         model.import(ImportAction.REPLACE)
         assertEquals(original, (store.load(original.id) as ContractResult.Available).value)
         model.inspect("{\"formatVersion\":99}")
-        assertTrue(model.errors.any { it.kind == DiagnosticKind.INCOMPATIBLE_FORMAT })
+        assertTrue("A bad file is not an operational error", model.errors.isEmpty())
+        assertNotNull(model.importFailure)
         assertNull(model.preview)
         assertEquals(2, (store.list() as ContractResult.Available).value.size)
+    }
+
+    @Test fun unusableImportFileShowsAFailureNamingTheFileWithoutBlockingTheSession() = runBlocking {
+        val model = session()
+        model.run { inspect("buy milk\neggs", "primary:Download/shopping-list.txt") }
+        val failure = model.importFailure!!
+        assertEquals("shopping-list.txt", failure.fileName)
+        assertTrue(failure.reason.contains("not a Modern 4e character"))
+        assertTrue(model.errors.isEmpty())
+        assertNull(model.errorTrace)
+        assertNull(model.preview)
+        assertTrue("The diagnostic text never reaches the player", !failure.reason.contains("Malformed"))
+
+        model.dismissImportFailure()
+        assertNull(model.importFailure)
+
+        model.run { inspect("{\"formatVersion\":99}", "Mira.json") }
+        assertTrue(model.importFailure!!.reason.contains("newer Builder"))
+        var ran = false
+        model.run { ran = true }
+        assertTrue("The session keeps working while the failure shows", ran)
+
+        model.run { inspect(ContractCodec.encode(sample()), "Fighter.json") }
+        assertNull("A usable file clears the earlier failure", model.importFailure)
+        assertNotNull(model.preview)
+    }
+
+    @Test fun storeFaultDuringImportStillBlocksTheSession() = runBlocking {
+        val faulty = object : CharacterStore by store {
+            override suspend fun list(): ContractResult<List<CharacterSummary>> =
+                ContractResult.Unavailable(listOf(Diagnostic("store.list", DiagnosticKind.IO_FAILURE, "Disk unavailable")))
+        }
+        val model = session(faulty)
+        model.run { inspect(ContractCodec.encode(sample()), "Fighter.json") }
+        assertNull(model.importFailure)
+        assertEquals("Disk unavailable", model.errors.single().message)
     }
     @Test fun personalDetailsCancelSaveAndReopenWithoutChangingBuild() = runBlocking {
         val model = session()
@@ -948,6 +1007,31 @@ class BuilderSessionTest {
         reopened.load(initial.id)
         assertEquals("", reopened.current!!.document.identity.deity)
         assertEquals("28", reopened.current!!.document.identity.age)
+    }
+
+    @Test fun detailsThatTheRulesNeverReadSaveWithoutRecalculatingAndBackgroundsStillDo() = runBlocking {
+        val model = session()
+        model.create()
+        val first = model.current!!
+        for ((field, value) in mapOf("Gender" to "Woman", "Age" to "28", "Deity" to "Erathis", "Name" to "Renamed")) {
+            model.beginEdit(field)
+            model.draft = value
+            model.saveIdentityDraft()
+        }
+        val renamed = model.current!!
+        assertEquals("Erathis", renamed.document.identity.deity)
+        assertEquals("Renamed", renamed.document.identity.name)
+        assertSame("Details the rules never read keep the calculated rules", first.rules, renamed.rules)
+        assertEquals(first.rules.diagnostics, renamed.rules.diagnostics)
+        assertNull(model.dialog)
+        assertEquals("Renamed", model.characters.single().name)
+        val stored = (store.load(first.document.id) as ContractResult.Available).value
+        assertEquals(renamed.document.identity, stored.identity)
+
+        val environment = ModernCreation.environments.keys.first { it != renamed.document.identity.environment }
+        model.edit(BuilderEdit.Identity(renamed.document.identity.copy(environment = environment)))
+        assertEquals(environment, model.current!!.document.identity.environment)
+        assertNotSame("A background changes the rules inputs, so they are calculated again", renamed.rules, model.current!!.rules)
     }
 
     @Test fun skillsOverviewListsTrainedAndUntrainedSkillsWithCommittedTotals() = runBlocking {
@@ -1031,8 +1115,12 @@ class BuilderSessionTest {
         model.showRecoveries(original.id)
         model.requestDeletion(model.characters.single())
         model.run { inspect("unsupported character data") }
+        assertNotNull(model.importFailure)
+        assertTrue(model.errors.isEmpty())
+        model.run { error("Storage fault") }
         assertTrue(model.errors.isNotEmpty())
         model.returnHomeAfterError()
+        assertNull(model.importFailure)
         assertNull(model.preview)
         assertNull(model.recoveries)
         assertNull(model.deleting)

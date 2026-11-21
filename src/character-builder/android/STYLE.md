@@ -160,6 +160,10 @@ text is title case, a verb or short verb phrase ("Save", "Import"), not
   compact `FolioButton`s sit above it. Display dates as day month year.
 - Do not show status banners for successful create, save, import or delete actions,
   or for picker cancellation.
+- A chosen import file that is not a usable character (wrong content or an unsupported format version) is the player's
+  input, not a fault: it uses the small dismissible "Couldn't import that file" dialog, like the portrait notice. It names
+  the file, gives one plain-language reason and offers Cancel and a compact "Choose another file". It never shows
+  diagnostic codes, the banner or the Banter button.
 - Operational failures use a blocking modal with a Return to main menu action.
   Back/outside dismissal and retry are unavailable. Rules diagnostics belong on
   Validation.

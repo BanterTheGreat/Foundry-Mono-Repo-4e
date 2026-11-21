@@ -24,6 +24,7 @@ import dev.modern4e.builder.ui.theme.*
 import dev.modern4e.builder.ui.components.*
 import dev.modern4e.builder.ui.screens.PowerBlock
 import dev.modern4e.builder.ui.screens.RecoveryCopyList
+import dev.modern4e.builder.ui.screens.chooseImportFile
 import dev.modern4e.builder.ui.screens.pickerSheetHeight
 
 /** Artwork and a hazard stripe across the top of the blocking error dialog. */
@@ -61,6 +62,7 @@ internal fun BuilderDialogs(
     task: (suspend BuilderSession.() -> Unit) -> Unit,
     exports: ExportTargets? = null,
     errorSharer: AndroidErrorReportSharer? = null,
+    exchange: FileExchange? = null,
 ) {
     if (model.errors.isNotEmpty()) {
         FolioDialog("Something went wrong", {}, dismissible = false, banner = { ErrorBanner() }) {
@@ -104,6 +106,19 @@ internal fun BuilderDialogs(
                 Text(reason, color = Accent, modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
                 FolioActions {
                     FolioButton("OK", true, compact = true, fillWidth = false) { model.exportFailure = null }
+                }
+            }
+        }
+        model.importFailure?.let { failure ->
+            FolioDialog("Couldn't import that file", { model.dismissImportFailure() }) {
+                Text(failure.fileName, color = Dim)
+                Text(failure.reason)
+                FolioActions {
+                    FolioTextButton("Cancel") { model.dismissImportFailure() }
+                    FolioButton("Choose another file", !model.busy && exchange != null, compact = true, fillWidth = false) {
+                        model.dismissImportFailure()
+                        exchange?.let { task { chooseImportFile(it) } }
+                    }
                 }
             }
         }

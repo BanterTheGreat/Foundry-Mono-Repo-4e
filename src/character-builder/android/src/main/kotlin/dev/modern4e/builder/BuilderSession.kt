@@ -54,6 +54,8 @@ class BuilderSession(
     var characters by mutableStateOf(emptyList<CharacterSummary>())
     var recoveries by mutableStateOf<List<RecoverySummary>?>(null)
     var preview by mutableStateOf<ImportPreview?>(null)
+    /** Why the chosen file was not imported; shown in a dismissible dialog and does not block the session. */
+    var importFailure by mutableStateOf<ImportFailure?>(null)
     var confirmReturnToLibrary by mutableStateOf(false)
         private set
     var deleting by mutableStateOf<CharacterSummary?>(null)
@@ -328,7 +330,7 @@ class BuilderSession(
         pending = null
         operations = null
         catalog = null
-        futurePreview = null
+        forgetPreviews()
         listings.reset(null)
         dialog = null
         levelTarget = null
@@ -342,6 +344,7 @@ class BuilderSession(
         exportFailure = null
         exportedMessage = null
         preview = null
+        importFailure = null
         recoveries = null
         description = null
         characters = emptyList()
@@ -413,7 +416,7 @@ class BuilderSession(
                     pending = null
                     operations = null
                     catalog = null
-                    futurePreview = null
+                    forgetPreviews()
                     listings.reset(null)
                     description = null
                     dialog = null
@@ -766,7 +769,7 @@ class BuilderSession(
      */
     private suspend fun open(savedDocument: CharacterDocument, initialPage: String) {
         val document = withBundledCraftKnowledge(withBundledPaths(savedDocument))
-        futurePreview = null
+        forgetPreviews()
         listings.reset(null)
         val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", document.packages) }
         if (result is ContractResult.Unavailable && result.diagnostics.any { it.kind == DiagnosticKind.IO_FAILURE }) {
@@ -843,6 +846,14 @@ class BuilderSession(
     private suspend fun applyLockedEdit(edit: BuilderEdit, closesDialog: Boolean) {
         val bundled = withBundledPaths(current!!.document, (edit as? BuilderEdit.Level)?.value ?: current!!.document.level)
         val document = if (edit.touchesEquipment()) withBundledEquipment(bundled) else bundled
+        val before = current!!
+        if (edit is BuilderEdit.Identity && document == before.document &&
+            edit.value.environment == document.identity.environment && edit.value.upbringing == document.identity.upbringing) {
+            // The rules read only Environment and Upbringing, so Name, Gender, Age, Deity and the rest keep the calculated
+            // rules as they are. Skipping the evaluation also skips the queue behind previews and background warming.
+            commitPending(before.copy(document = document.copy(identity = edit.value)), null, closesDialog, validated = true)
+            return
+        }
         val expandedCatalog = if (document.packages != current!!.document.packages) {
             (withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", document.packages) }
                 as? ContractResult.Available)?.value
@@ -870,11 +881,13 @@ class BuilderSession(
      * finishes together with the in-memory commit, so a cancelled caller cannot leave memory and storage disagreeing.
      */
     private suspend fun commitPending(evaluated: BuilderState, updatedCatalog: ContentCatalog? = null,
-        closesDialog: Boolean = true) {
-        withContext(NonCancellable) { storeAndPublish(evaluated, updatedCatalog, closesDialog) }
+        closesDialog: Boolean = true, validated: Boolean = false) {
+        withContext(NonCancellable) { storeAndPublish(evaluated, updatedCatalog, closesDialog, validated) }
     }
 
-    private suspend fun storeAndPublish(evaluated: BuilderState, updatedCatalog: ContentCatalog?, closesDialog: Boolean) {
+    /** @param validated whether [evaluated] already carries its equipment validation, as a reused current state does. */
+    private suspend fun storeAndPublish(evaluated: BuilderState, updatedCatalog: ContentCatalog?, closesDialog: Boolean,
+        validated: Boolean) {
         val document = evaluated.document.copy(savedAt = Instant.now().toString())
         pending = document
         if (persist(document, committed)) {
@@ -882,7 +895,8 @@ class BuilderSession(
                 catalog = updatedCatalog
                 operations = BuilderOperations(updatedCatalog)
             }
-            val updated = evaluated.copy(document = document).withEquipmentValidation()
+            forgetLevelPreviews()
+            val updated = evaluated.copy(document = document).let { if (validated) it else it.withEquipmentValidation() }
             listings.committed(updated, catalog, operations)
             current = updated
             committed = document
@@ -914,11 +928,30 @@ class BuilderSession(
         }
     }
 
-    suspend fun inspect(json: String) {
+    /**
+     * Previews the chosen file for import. A file with unusable contents sets [importFailure] and leaves the session
+     * running; any other failure blocks it as usual.
+     *
+     * @param json the file's text.
+     * @param fileName the chosen file's name, shown if the file cannot be imported.
+     */
+    suspend fun inspect(json: String, fileName: String? = null) {
+        importFailure = null
         when (val result = withContext(Dispatchers.IO) { importer.inspect(json) }) {
             is ContractResult.Available -> preview = result.value
-            is ContractResult.Unavailable -> errors = result.diagnostics
+            is ContractResult.Unavailable -> {
+                val failure = ImportFailure.from(fileName, result.diagnostics)
+                if (failure != null) {
+                    importFailure = failure
+                } else {
+                    errors = result.diagnostics
+                }
+            }
         }
+    }
+
+    fun dismissImportFailure() {
+        importFailure = null
     }
 
     suspend fun import(action: ImportAction) {
@@ -1035,13 +1068,45 @@ class BuilderSession(
     /** The last full-length preview and the character it was for, so Levels can show upcoming grants the moment it reopens. */
     @Volatile private var futurePreview: Pair<String, BuilderState>? = null
 
+    /** Exact previews by level, each valid only for the document it evaluated, so reopening an upcoming level's sheet is instant. */
+    private val levelPreviews = LinkedHashMap<Int, Pair<CharacterDocument, BuilderState>>(8, 0.75f, true)
+
+    private fun forgetPreviews() {
+        futurePreview = null
+        forgetLevelPreviews()
+    }
+
+    /** An edit makes every exact preview describe a character that no longer exists, so none is kept. */
+    private fun forgetLevelPreviews() {
+        synchronized(levelPreviews) { levelPreviews.clear() }
+    }
+
+    /**
+     * The preview of exactly [state]'s character at [level] when it was already evaluated, so a sheet for an upcoming level
+     * can open without waiting; null when it must still be computed.
+     */
+    internal fun cachedPreview(state: BuilderState, level: Int): BuilderState? {
+        val document = state.document.copy(level = level)
+        return synchronized(levelPreviews) { levelPreviews[level]?.takeIf { it.first == document }?.second }
+    }
+
     /**
      * Evaluate a Levels preview without publishing or persisting a different character level. A preview at the top level
-     * is remembered for [cachedFuturePreview]; one that is cancelled before it finishes is not.
+     * is remembered for [cachedFuturePreview]; every finished one is kept for [cachedPreview], while one that is cancelled
+     * before it finishes is not.
      */
     internal suspend fun progressionPreview(state: BuilderState, level: Int): BuilderState {
+        val document = state.document.copy(level = level)
         val preview = withContext(Dispatchers.IO) { listings.heavy {
-            operations?.evaluate(state.document.copy(level = level)) ?: state
+            // A preview queued behind another for the same character finds it already done.
+            cachedPreview(state, level) ?: (operations?.evaluate(document) ?: state).also { evaluated ->
+                synchronized(levelPreviews) {
+                    levelPreviews[level] = document to evaluated
+                    while (levelPreviews.size > PREVIEW_LEVEL_LIMIT) {
+                        levelPreviews.remove(levelPreviews.keys.first())
+                    }
+                }
+            }
         } }
         if (level == MAX_LEVEL) {
             futurePreview = state.document.id to preview
@@ -1228,6 +1293,9 @@ class BuilderSession(
     companion object {
         /** Highest supported character level. */
         const val MAX_LEVEL = 30
+
+        /** Level previews kept at once; the least recently used go first. */
+        private const val PREVIEW_LEVEL_LIMIT = 6
 
     }
 }

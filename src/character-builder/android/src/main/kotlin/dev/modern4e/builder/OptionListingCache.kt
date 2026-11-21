@@ -105,6 +105,16 @@ internal class OptionListingCache(
         }
         warming?.cancel()
         warming = null
+        val previous = snapshot
+        if (previous != null && previous.state.rules === updated.rules && previous.state.document.id == updated.document.id) {
+            // The edit reused the calculated rules (identity details), so every listing is still correct as it is. Only the
+            // snapshot moves on; waiting for the heavy lock here would hold the edit behind a running preview or check.
+            synchronized(listings) {
+                snapshot = Snapshot(updated, catalog, operations)
+            }
+            warm(settleMillis)
+            return
+        }
         // Serialized with checks, so cancelled warming cannot mutate the inherited rows.
         heavyWork.withLock {
             synchronized(listings) {

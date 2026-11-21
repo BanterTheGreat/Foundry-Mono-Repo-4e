@@ -259,9 +259,14 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                     }
                 }
             }
-            val (classGrants, otherGrants) = grantsByLevel[level].orEmpty().partition { it.sourceCategory == EntryCategory.CLASS }
-            val (otherPowers, otherFeatures) = otherGrants.partition { it.isPower }
-            classGrants.forEach { grant -> AutomaticGrantCard(document.id, grant) }
+            val grants = Progression.levelGrants(grantsByLevel[level].orEmpty())
+            // The Paragon Path pick and what the path grants lead the level, ahead of its other features and choices.
+            AdvancementRules.rootSlot(level, EntryCategory.PARAGON_PATH)?.let { slot ->
+                LevelChoice("Paragon path", selected(slot), enabled = !model.busy,
+                    invalid = needsAttention(slot, level), saving = saving("entry", level, slot)) { open("entry", level, slot) }
+            }
+            grants.path.forEach { grant -> AutomaticGrantCard(document.id, grant) }
+            grants.classGrants.forEach { grant -> AutomaticGrantCard(document.id, grant) }
 
             val levelChoices = Progression.levelChoices(levelState, level).filterNot { it in ancestryLanguages || it in ancestryPowers }
             val className = state.rules.entries.firstOrNull { it.definition.entry.category == EntryCategory.CLASS }
@@ -291,14 +296,10 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                     }
                 }
             }
-            otherFeatures.forEach { grant -> AutomaticGrantCard(document.id, grant) }
-            if (level == 1 && state.rules.entries.any { it.definition.entry.category == EntryCategory.CLASS && it.definition.entry.presentation.title.contains("Fighter") } &&
+            grants.features.forEach { grant -> AutomaticGrantCard(document.id, grant) }
+            if (level == 1 &&state.rules.entries.any { it.definition.entry.category == EntryCategory.CLASS && it.definition.entry.presentation.title.contains("Fighter") } &&
                 levelChoices.none { it.slot.choiceId.contains("react", ignoreCase = true) }) {
                 Text("Reactivity and Combat Superiority choices are not yet authored in the installed Fighter proof.", color = Dim)
-            }
-            AdvancementRules.rootSlot(level, EntryCategory.PARAGON_PATH)?.let { slot ->
-                LevelChoice("Paragon path", selected(slot), enabled = !model.busy,
-                    invalid = needsAttention(slot, level), saving = saving("entry", level, slot)) { open("entry", level, slot) }
             }
             if (schedule.ability != null) {
                 if (schedule.ability == "non-main") {
@@ -317,8 +318,8 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             }
             if (level > AdvancementRules.LAST_ENFORCED_LEVEL && levelChoices.none { with(Progression) { it.isPowerChoice(powerEntryIds) } }) {
                 schedule.powers.forEach { power ->
-                    if ((power.startsWith("Paragon ") && otherPowers.any { it.sourceCategory == EntryCategory.PARAGON_PATH }) ||
-                        (power.startsWith("Epic ") && otherPowers.any { it.sourceCategory == EntryCategory.EPIC_DESTINY })) {
+                    if ((power.startsWith("Paragon ") && grants.path.any { it.isPower }) ||
+                        (power.startsWith("Epic ") && grants.powers.any { it.sourceCategory == EntryCategory.EPIC_DESTINY })) {
                         return@forEach
                     }
                     LevelChoice("$power power", "Unavailable", enabled = false, powerUsage = power) {}
@@ -334,7 +335,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                     open("feat", level, slot)
                 }
             }
-            otherPowers.forEach { grant -> AutomaticGrantCard(document.id, grant) }
+            grants.powers.forEach { grant -> AutomaticGrantCard(document.id, grant) }
             schedule.replacement?.let {
                 val replacementSlot = AdvancementRules.rootSlots(level).firstOrNull { root ->
                     root.category is SlotCategory.Replacement
@@ -352,8 +353,8 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             }
             if (future || level > AdvancementRules.LAST_ENFORCED_LEVEL) {
                 schedule.automatic.filterNot { label ->
-                    (label.startsWith("Paragon ") && otherFeatures.any { it.sourceCategory == EntryCategory.PARAGON_PATH }) ||
-                        (label.startsWith("Epic ") && otherFeatures.any { it.sourceCategory == EntryCategory.EPIC_DESTINY })
+                    (label.startsWith("Paragon ") && grants.path.any { !it.isPower }) ||
+                        (label.startsWith("Epic ") && grants.features.any { it.sourceCategory == EntryCategory.EPIC_DESTINY })
                 }.forEach { Text("$it arrives automatically", color = Dim) }
             }
             Progression.groupByLabel(powerSlots) { choice ->
@@ -379,8 +380,11 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     }
     editor?.let { request ->
         val editorState by key(request, state) {
-            produceState(state.takeIf { request.level <= document.level }, model) {
-                if (request.level > document.level) {
+            // An upcoming level's preview from an earlier open of the same character opens the sheet at once.
+            produceState(
+                state.takeIf { request.level <= document.level } ?: model.cachedPreview(state, request.level), model,
+            ) {
+                if (request.level > document.level && value == null) {
                     value = model.progressionPreview(state, request.level)
                 }
             }
