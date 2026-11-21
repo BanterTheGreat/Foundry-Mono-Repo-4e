@@ -18,6 +18,8 @@ PATHS = compendium.ROOT / "content/paths"
 ZEITGEIST = PATHS / "zeitgeist.json"
 # Zeitgeist data and this importer's own reviewed output are never class-catalog sources.
 EXCLUDED = ("zeitgeist.json", "class-paths.json")
+# Published prerequisite clauses Modern 4e deliberately drops (it has no Arena Fighting feat chain), keyed by entry ID.
+DROPPED_PREREQUISITES = {"paragonpath217": ", at least one Arena Fighting feat"}
 FEATURE_LINE = re.compile(r"^(?P<name>[^:]+?) \((?P<level>\d+)(?:st|nd|rd|th) level\): (?P<text>.+)$")
 POWER_TITLE = re.compile(r"(?:(?:Attack|Utility) \d+|Feature)$")
 KINDS = {"Attack": "ATTACK", "Utility": "UTILITY", "Feature": "UTILITY"}
@@ -181,7 +183,7 @@ def build(selected=None):
                 "type": "unresolved", "text": requirement,
                 "reason": "Class path prerequisite has not been structurally adapted."}]}
             limitations.append(f"Class path prerequisite has not been structurally adapted: {requirement}.")
-        printed = parsed["prerequisite"] or ""
+        printed = (parsed["prerequisite"] or "").replace(DROPPED_PREREQUISITES.get(source["sourceEntryId"], "~~"), "")
         extra = unenforced_prerequisite(printed, requirement, source["classIds"])
         if extra:
             limitations.append(f"Published prerequisite not enforced: {extra}.")
