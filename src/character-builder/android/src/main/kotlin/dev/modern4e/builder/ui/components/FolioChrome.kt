@@ -52,14 +52,14 @@ internal fun characterHeaderSubtitle(document: CharacterDocument?, loading: Bool
     return listOf("Level ${summary.level}", summary.characterClass).filter(String::isNotBlank).joinToString(" · ")
 }
 
-/** What the footer strip reports about the open character and where its action leads. */
-internal data class FooterStatus(val text: String, val action: String, val target: String, val complete: Boolean)
+/** What the footer strip reports about the open character; its action leads to the first open choice. */
+internal data class FooterStatus(val text: String, val action: String)
 
-/** The strip says how many required choices remain and offers the way on; when none remain it offers Validation. */
-internal fun footerStatus(missing: Int): FooterStatus = if (missing > 0) {
-    FooterStatus("$missing required ${if (missing == 1) "choice" else "choices"} left", "Continue →", "progression", false)
+/** The strip says how many required choices remain and offers the way on; with none left there is no strip. */
+internal fun footerStatus(missing: Int): FooterStatus? = if (missing > 0) {
+    FooterStatus("$missing required ${if (missing == 1) "choice" else "choices"} left", "Continue →")
 } else {
-    FooterStatus("All choices complete", "Validate", "validation", true)
+    null
 }
 
 /**
@@ -111,28 +111,30 @@ internal fun FolioHeader(
 }
 
 /**
- * The character footer: a status strip reporting the required choices still to make, above text tabs
- * with an oxblood underline that slides to the selected one.
+ * The character footer: a status strip reporting the required choices still to make (absent when [status] is
+ * null), above text tabs with an oxblood underline that slides to the selected one.
  */
 @Composable
 internal fun FolioFooter(
     page: String,
-    status: FooterStatus,
+    status: FooterStatus?,
     enabled: Boolean,
     onNavigate: (String) -> Unit,
-    onStatusAction: (FooterStatus) -> Unit,
+    onStatusAction: () -> Unit,
 ) {
     Column(Modifier.fillMaxWidth()) {
         HorizontalDivider(color = Line)
-        Row(Modifier.fillMaxWidth().height(42.dp).background(Wash), verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.width(3.dp).fillMaxHeight().background(if (status.complete) Line else Accent))
-            Text(status.text, color = if (status.complete) Dim else Ink, fontSize = 13.sp, maxLines = 1,
-                modifier = Modifier.weight(1f).padding(start = 14.dp))
-            TextButton(enabled = enabled, onClick = { onStatusAction(status) }, contentPadding = PaddingValues(horizontal = 14.dp)) {
-                Text(status.action, color = Accent, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+        if (status != null) {
+            Row(Modifier.fillMaxWidth().height(42.dp).background(Wash), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.width(3.dp).fillMaxHeight().background(Accent))
+                Text(status.text, color = Ink, fontSize = 13.sp, maxLines = 1,
+                    modifier = Modifier.weight(1f).padding(start = 14.dp))
+                TextButton(enabled = enabled, onClick = onStatusAction, contentPadding = PaddingValues(horizontal = 14.dp)) {
+                    Text(status.action, color = Accent, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                }
             }
+            HorizontalDivider(color = Line)
         }
-        HorizontalDivider(color = Line)
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val tabWidth = maxWidth / CharacterNavigationTabs.size
             Row(Modifier.fillMaxWidth()) {

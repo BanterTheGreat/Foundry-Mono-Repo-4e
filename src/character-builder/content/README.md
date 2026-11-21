@@ -12,13 +12,11 @@ The production build reads the reviewed local JSON and never imports source rule
 
 `modern4e.paths` compiles all nine structured Zeitgeist paths with absolute-level
 feature and power grants and readable supplementary rules. Granted path powers
-never enter class selection pools. Class-page paths are selectable local summaries;
-their absent adapted feature/power stat blocks remain explicitly unimplemented and
-require manual resolution. Narrative prerequisites retain GM-confirmation diagnostics.
+never enter class selection pools. The 205 class paragon paths (the older Barbarian, Fighter, Shaman, Swordmage, Warlock, Warlord and Wizard pages plus the Artificer, Avenger, Bard, Cleric, Druid, Invoker, Paladin, Ranger, Rogue, Runepriest, Sorcerer and Warden pages) are authored in `modern4e/content/paths/class-paths.json` (features at their printed levels and granted level 11/12/20 powers) and compile like the Zeitgeist paths; combat effects and non-class prerequisites remain manual or unresolved. A path with no authored content would fall back to an UNIMPLEMENTED summary. Narrative prerequisites retain GM-confirmation diagnostics.
 New character starters enable the paths package alongside the other production packages.
 
-Paths package revision 2 indexes class-bound paths with `pathClassIds`, including
-every authored class alternative. Identical class access sets occupy separate chunks,
+Paths package revision 3 indexes class-bound paths with `pathClassIds`, including
+every authored class alternative. Identical class access sets occupy separate chunks (a path's features and powers share its class chunk; path powers carry their path id as `classId`, so no class power query lists them),
 so candidate filtering can skip unrelated path definitions and eligibility checks.
 Theme-based Zeitgeist paths and unrestricted access alternatives remain unscoped;
 metadata never replaces their actual prerequisite evaluation.
@@ -242,7 +240,7 @@ Tome of Readiness excludes known powers and exposes replacement levels 1/3/7/13/
 `ReplacePower` preserves the target occurrence and revalidates composition while
 replaying saved history. Builder progression now validates the represented choices through level 19;
 technique catalogs, combat execution and unresolved narrative qualifications remain
-explicit limitations. Levels 20?30 remain outside supported progression.
+explicit limitations. Level 20 is enforced; levels 21?30 remain outside supported progression.
 
 ## Shared equipment authoring
 

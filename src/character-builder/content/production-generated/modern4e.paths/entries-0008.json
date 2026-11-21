@@ -1,64 +1,398 @@
 {
   "entries": [
     {
-      "category": "PARAGON_PATH",
+      "category": "FEATURE",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath31",
+      "id": "modern4e.feature.nocturnal-hunter-of-two-worlds",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.wizard",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
-            "type": "level"
+            "type": "always"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Pay for greater spell damage with your own blood, turning self-inflicted wounds into power behind your most demanding attacks. An action point attack leaves its victims bleeding, while your second wind can set already-afflicted enemies alight. Your spells punish foes for moving and leave crowds dazed beneath lingering psychic pain, and you can sacrifice a healing surge to recover a spent encounter power when the battle demands more magic.",
-        "title": "Blood Mage"
+        "description": "When you use a move action in place of a standard action, you can lose a healing surge, causing yourself to be phasing during that move action.",
+        "title": "Hunter of Two Worlds"
       },
       "sharedData": {
-        "description": "Pay for greater spell damage with your own blood, turning self-inflicted wounds into power behind your most demanding attacks. An action point attack leaves its victims bleeding, while your second wind can set already-afflicted enemies alight. Your spells punish foes for moving and leave crowds dazed beneath lingering psychic pain, and you can sacrifice a healing surge to recover a spent encounter power when the battle demands more magic.",
-        "link": "https://iws.mx/dnd/?view=paragonpath31",
-        "requirements": null,
-        "sourceEntryId": "paragonpath31",
-        "title": "Blood Mage"
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you use a move action in place of a standard action, you can lose a healing surge, causing yourself to be phasing during that move action.",
+        "id": "modern4e.feature.nocturnal-hunter-of-two-worlds",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Hunter of Two Worlds"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.nocturnal-nightstrider",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you charge a creature that you can see, you are phasing during the charge's movement.",
+        "title": "Nightstrider"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you charge a creature that you can see, you are phasing during the charge's movement.",
+        "id": "modern4e.feature.nocturnal-nightstrider",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Nightstrider"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.nocturnal-nocturnal-frenzy",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to use an at-will attack power that hits at least one target, you can then charge as a free action.",
+        "title": "Nocturnal Frenzy"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to use an at-will attack power that hits at least one target, you can then charge as a free action.",
+        "id": "modern4e.feature.nocturnal-nocturnal-frenzy",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Nocturnal Frenzy"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.nocturnal-savor-the-black-blood",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain the savor the black blood power.",
+        "title": "Savor the Black Blood"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain the savor the black blood power.",
+        "id": "modern4e.feature.nocturnal-savor-the-black-blood",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Savor the Black Blood"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.nocturnal-summon-the-shadow-pack",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain the summon the shadow pack power.",
+        "title": "Summon the Shadow Pack"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain the summon the shadow pack power.",
+        "id": "modern4e.feature.nocturnal-summon-the-shadow-pack",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Summon the Shadow Pack"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.nocturnal-tainted-predator",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain the tainted predator power.",
+        "title": "Tainted Predator"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain the tainted predator power.",
+        "id": "modern4e.feature.nocturnal-tainted-predator",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Tainted Predator"
       }
     },
     {
       "category": "PARAGON_PATH",
       "coverage": {
         "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
+          "Published prerequisite not enforced: Any primal class."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
-      "id": "modern4e.path.paragonpath329",
+      "id": "modern4e.path.paragonpath834",
       "mechanics": {
         "access": {
           "conditions": [
             {
-              "entryId": "modern4e.class.wizard",
+              "entryId": "modern4e.class.barbarian",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.druid",
               "type": "entry"
             }
           ],
           "type": "anyOf"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.nocturnal-nightstrider",
+            "grantId": "nightstrider",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.nocturnal-nocturnal-frenzy",
+            "grantId": "nocturnal-frenzy",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.nocturnal-savor-the-black-blood",
+            "grantId": "savor-the-black-blood",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-savor-the-black-blood",
+            "grantId": "savor-the-black-blood-2",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.feature.nocturnal-summon-the-shadow-pack",
+            "grantId": "summon-the-shadow-pack",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-summon-the-shadow-pack",
+            "grantId": "summon-the-shadow-pack-2",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.nocturnal-hunter-of-two-worlds",
+            "grantId": "hunter-of-two-worlds",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.feature.nocturnal-tainted-predator",
+            "grantId": "tainted-predator",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-tainted-predator",
+            "grantId": "tainted-predator-2",
+            "type": "entry"
+          }
+        ],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -66,39 +400,116 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Step through space as easily as another wizard crosses a room, eventually gaining teleportation as a normal way to move. Critical hits let you teleport your victims, and an action point carries you to a better position before the fight can pin you down. Your spells send allies to safety and enemies into danger, whisk you away from an incoming attack, and finally strand a group of creatures in an interplanar space until they find their way back.",
-        "title": "Arcane Wayfarer"
+        "description": "Hunt through the boundary between the world and its shadows, passing through obstacles as you charge a visible enemy. An action point spent on a successful at-will attack can send you straight into another charge, while a brutal follow-up blow grants temporary vitality. Shadow packmates flank enemies alongside your companions, and your later gifts let you spend a healing surge to move through solid barriers or leave lingering necrotic and poisonous wounds with every melee hit.",
+        "title": "Nocturnal"
       },
       "sharedData": {
-        "description": "Step through space as easily as another wizard crosses a room, eventually gaining teleportation as a normal way to move. Critical hits let you teleport your victims, and an action point carries you to a better position before the fight can pin you down. Your spells send allies to safety and enemies into danger, whisk you away from an incoming attack, and finally strand a group of creatures in an interplanar space until they find their way back.",
-        "link": "https://iws.mx/dnd/?view=paragonpath329",
+        "access": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.barbarian",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.druid",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Published prerequisite not enforced: Any primal class."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Hunt through the boundary between the world and its shadows, passing through obstacles as you charge a visible enemy. An action point spent on a successful at-will attack can send you straight into another charge, while a brutal follow-up blow grants temporary vitality. Shadow packmates flank enemies alongside your companions, and your later gifts let you spend a healing surge to move through solid barriers or leave lingering necrotic and poisonous wounds with every melee hit.",
+        "flavor": "Hunt through the boundary between the world and its shadows, passing through obstacles as you charge a visible enemy. An action point spent on a successful at-will attack can send you straight into another charge, while a brutal follow-up blow grants temporary vitality. Shadow packmates flank enemies alongside your companions, and your later gifts let you spend a healing surge to move through solid barriers or leave lingering necrotic and poisonous wounds with every melee hit.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.nocturnal-nightstrider",
+            "id": "nightstrider"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.nocturnal-nocturnal-frenzy",
+            "id": "nocturnal-frenzy"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.nocturnal-savor-the-black-blood",
+            "id": "savor-the-black-blood"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-savor-the-black-blood",
+            "id": "savor-the-black-blood-2"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.feature.nocturnal-summon-the-shadow-pack",
+            "id": "summon-the-shadow-pack"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-summon-the-shadow-pack",
+            "id": "summon-the-shadow-pack-2"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.nocturnal-hunter-of-two-worlds",
+            "id": "hunter-of-two-worlds"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.feature.nocturnal-tainted-predator",
+            "id": "tainted-predator"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-tainted-predator",
+            "id": "tainted-predator-2"
+          }
+        ],
+        "id": "modern4e.path.paragonpath834",
+        "link": "https://iws.mx/dnd/?view=paragonpath834",
+        "prerequisiteText": "Any primal class",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
         "requirements": null,
-        "sourceEntryId": "paragonpath329",
-        "title": "Arcane Wayfarer"
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath834",
+        "title": "Nocturnal"
       }
     },
     {
-      "category": "PARAGON_PATH",
+      "category": "POWER",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath330",
+      "id": "modern4e.power.path-savor-the-black-blood",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.wizard",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -106,218 +517,318 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Build a lasting bond with your summoned creatures, keeping them in the fight with healing and, eventually, regeneration. An action point lets you command each of your summons, while conjuration and summoning spells carry you a short teleport out of danger. A planar gateway scatters creatures that stray too close, and your greatest servant is a towering protector that dazes crowds, knocks attackers down, and can trade places with you in an instant.",
-        "title": "Bonded Summoner"
+        "description": "You drive into your foe with a brutal attack, replenishing your strength as you drink deep of its life force.\n\nENCOUNTER / NO_ACTION\n\nMelee 1\n\nTrigger: You hit an adjacent creature with a melee attack.\n\nTarget: The creature you hit\n\nEffect: The target takes 10 extra damage, and you gain 10 temporary hit points.",
+        "title": "Savor the Black Blood"
       },
       "sharedData": {
-        "description": "Build a lasting bond with your summoned creatures, keeping them in the fight with healing and, eventually, regeneration. An action point lets you command each of your summons, while conjuration and summoning spells carry you a short teleport out of danger. A planar gateway scatters creatures that stray too close, and your greatest servant is a towering protector that dazes crowds, knocks attackers down, and can trade places with you in an instant.",
-        "link": "https://iws.mx/dnd/?view=paragonpath330",
-        "requirements": null,
-        "sourceEntryId": "paragonpath330",
-        "title": "Bonded Summoner"
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "NO_ACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "The creature you hit"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-3",
+                "label": "Effect",
+                "text": "The target takes 10 extra damage, and you gain 10 temporary hit points.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "trigger": "You hit an adjacent creature with a melee attack.",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You drive into your foe with a brutal attack, replenishing your strength as you drink deep of its life force.",
+        "flavor": "You drive into your foe with a brutal attack, replenishing your strength as you drink deep of its life force.",
+        "id": "modern4e.power.path-savor-the-black-blood",
+        "keywords": [
+          "PRIMAL",
+          "SHADOW"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power14046",
+          "publication": "Published in Heroes of Shadow, page(s) 145.",
+          "rulesText": "Savor the Black BloodNocturnal Attack 11\nYou drive into your foe with a brutal attack, replenishing your strength as you drink deep of its life force.\nEncounter   ✦     Primal, Shadow\nNo Action      Melee 1\nTrigger: You hit an adjacent creature with a melee attack.\nTarget: The creature you hit\nEffect: The target takes 10 extra damage, and you gain 10 temporary hit points.\nPublished in Heroes of Shadow, page(s) 145."
+        },
+        "subtitle": "Nocturnal Attack 11",
+        "title": "Savor the Black Blood"
       }
     },
     {
-      "category": "PARAGON_PATH",
+      "category": "POWER",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath332",
+      "id": "modern4e.power.path-summon-the-shadow-pack",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.wizard",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
+            "minimum": 12,
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Speak winter into your summons, granting yourself and your servants resistance to cold before surrounding them with a frostbite aura that harms any creature lingering nearby. An action point chills and slows adjacent enemies, while your spells raise an obscuring wall of ice and wind or infuse a fresh summon with cold immunity and harder-hitting attacks. Your greatest calling brings forth a rimefire brute that knocks foes down, freezes groups in place, and spreads its killing cold farther across the battlefield.",
-        "title": "Rimetongue Caller"
+        "description": "A feral howl heralds the arrival of your packmates, who slip around your foes to aid you and your allies.\n\nDAILY / MINOR\n\nRanged 10\n\nEffect: You conjure up to five shadow pack members in unoccupied squares within range that are adjacent to one or more enemies. The pack members last until the end of your next turn. Pack members can flank with you and your allies. As a move action, you can move any or all pack members up to 6 squares each.\n\nSustain Minor: The pack members persist until the end of your next turn.",
+        "title": "Summon the Shadow Pack"
       },
       "sharedData": {
-        "description": "Speak winter into your summons, granting yourself and your servants resistance to cold before surrounding them with a frostbite aura that harms any creature lingering nearby. An action point chills and slows adjacent enemies, while your spells raise an obscuring wall of ice and wind or infuse a fresh summon with cold immunity and harder-hitting attacks. Your greatest calling brings forth a rimefire brute that knocks foes down, freezes groups in place, and spreads its killing cold farther across the battlefield.",
-        "link": "https://iws.mx/dnd/?view=paragonpath332",
-        "requirements": null,
-        "sourceEntryId": "paragonpath332",
-        "title": "Rimetongue Caller"
+        "access": {
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You conjure up to five shadow pack members in unoccupied squares within range that are adjacent to one or more enemies. The pack members last until the end of your next turn. Pack members can flank with you and your allies. As a move action, you can move any or all pack members up to 6 squares each.",
+                "type": "effect"
+              },
+              {
+                "id": "row-2",
+                "label": "Sustain Minor",
+                "text": "The pack members persist until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A feral howl heralds the arrival of your packmates, who slip around your foes to aid you and your allies.",
+        "flavor": "A feral howl heralds the arrival of your packmates, who slip around your foes to aid you and your allies.",
+        "id": "modern4e.power.path-summon-the-shadow-pack",
+        "keywords": [
+          "CONJURATION",
+          "PRIMAL",
+          "SHADOW"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power14048",
+          "publication": "Published in Heroes of Shadow, page(s) 145.",
+          "rulesText": "Summon the Shadow PackNocturnal Utility 12\nA feral howl heralds the arrival of your packmates, who slip around your foes to aid you and your allies.\nDaily   ✦     Conjuration, Primal, Shadow\nMinor Action      Ranged 10\nEffect: You conjure up to five shadow pack members in unoccupied squares within range that are adjacent to one or more enemies. The pack members last until the end of your next turn. Pack members can flank with you and your allies. As a move action, you can move any or all pack members up to 6 squares each.\nSustain Minor: The pack members persist until the end of your next turn.\nPublished in Heroes of Shadow, page(s) 145."
+        },
+        "subtitle": "Nocturnal Utility 12",
+        "title": "Summon the Shadow Pack"
       }
     },
     {
-      "category": "PARAGON_PATH",
+      "category": "POWER",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath351",
+      "id": "modern4e.power.path-tainted-predator",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.wizard",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
+            "minimum": 20,
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Master the fundamentals of arcane magic until even your simplest spells set up stronger follow-up attacks and strike with greater force. Your schooling sharpens your Arcana knowledge, while an action point gives you a chance to correct a missed attack. You can pour extra power into familiar spells, reclaim an encounter attack that misses every target, and eventually turn a practiced encounter spell into a more punishing assault with longer-lasting effects.",
-        "title": "Academy Master"
+        "description": "You call forth the black blood of the hunting beasts that are your kin, seeding your attacks with their deadly power.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the end of the encounter, your melee attacks that hit also deal ongoing 5 necrotic and poison damage (save ends). On a critical hit, this increases to ongoing 10 necrotic and poison damage (save ends).",
+        "title": "Tainted Predator"
       },
       "sharedData": {
-        "description": "Master the fundamentals of arcane magic until even your simplest spells set up stronger follow-up attacks and strike with greater force. Your schooling sharpens your Arcana knowledge, while an action point gives you a chance to correct a missed attack. You can pour extra power into familiar spells, reclaim an encounter attack that misses every target, and eventually turn a practiced encounter spell into a more punishing assault with longer-lasting effects.",
-        "link": "https://iws.mx/dnd/?view=paragonpath351",
-        "requirements": null,
-        "sourceEntryId": "paragonpath351",
-        "title": "Academy Master"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath59",
-      "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.wizard",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath834",
+          "type": "entry"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
+        "activations": [
           {
-            "minimum": 11,
-            "type": "level"
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, your melee attacks that hit also deal ongoing 5 necrotic and poison damage (save ends). On a critical hit, this increases to ongoing 10 necrotic and poison damage (save ends).",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
           }
         ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Draw spells from the arcane storm around you, using Wisdom to determine how powerful a spent spell you can reclaim each day. An action point strengthens your attacks for the turn, and becoming bloodied eventually answers your enemies with a burst of lightning. Your magic cages creatures behind a crackling wall, sweeps a moving curtain of rain across the battlefield, and scatters enemies through a maelstrom of force and teleportation.",
-        "title": "Spellstorm Mage"
-      },
-      "sharedData": {
-        "description": "Draw spells from the arcane storm around you, using Wisdom to determine how powerful a spent spell you can reclaim each day. An action point strengthens your attacks for the turn, and becoming bloodied eventually answers your enemies with a burst of lightning. Your magic cages creatures behind a crackling wall, sweeps a moving curtain of rain across the battlefield, and scatters enemies through a maelstrom of force and teleportation.",
-        "link": "https://iws.mx/dnd/?view=paragonpath59",
-        "requirements": null,
-        "sourceEntryId": "paragonpath59",
-        "title": "Spellstorm Mage"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath66",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.wizard",
-              "type": "entry"
-            }
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
           ],
-          "type": "anyOf"
+          "status": "UNIMPLEMENTED"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
+        "description": "You call forth the black blood of the hunting beasts that are your kin, seeding your attacks with their deadly power.",
+        "flavor": "You call forth the black blood of the hunting beasts that are your kin, seeding your attacks with their deadly power.",
+        "id": "modern4e.power.path-tainted-predator",
+        "keywords": [
+          "NECROTIC",
+          "POISON",
+          "PRIMAL",
+          "SHADOW"
         ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Train for the battlefield, turning a chosen single-target wizard spell into a basic attack that fits naturally into your companions' tactics. Your action point attacks let you cast ranged and area spells without provoking opportunity attacks, while critical hits with close and area attacks eventually punish every target more severely. Sweeping lightning prepares your next strike, a selective barrier shields you from distant attacks while letting your spells through, and a thunderous assault leaves its targets open to your allies.",
-        "title": "War Wizard of Cormyr"
-      },
-      "sharedData": {
-        "description": "Train for the battlefield, turning a chosen single-target wizard spell into a basic attack that fits naturally into your companions' tactics. Your action point attacks let you cast ranged and area spells without provoking opportunity attacks, while critical hits with close and area attacks eventually punish every target more severely. Sweeping lightning prepares your next strike, a selective barrier shields you from distant attacks while letting your spells through, and a thunderous assault leaves its targets open to your allies.",
-        "link": "https://iws.mx/dnd/?view=paragonpath66",
-        "requirements": null,
-        "sourceEntryId": "paragonpath66",
-        "title": "War Wizard of Cormyr"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath692",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.wizard",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Give yourself completely to fire, spreading burning wounds and eventually widening every arcane fire burst and blast you cast. Critical hits kindle lingering flames, and an action point scorches enemies gathered beside you. You can fan an existing blaze into a second explosion, become an insubstantial creature of fire whose touch punishes melee attackers, and raise a hungry inferno that drags nearby creatures toward its center.",
-        "title": "Master of Flame"
-      },
-      "sharedData": {
-        "description": "Give yourself completely to fire, spreading burning wounds and eventually widening every arcane fire burst and blast you cast. Critical hits kindle lingering flames, and an action point scorches enemies gathered beside you. You can fan an existing blaze into a second explosion, become an insubstantial creature of fire whose touch punishes melee attackers, and raise a hungry inferno that drags nearby creatures toward its center.",
-        "link": "https://iws.mx/dnd/?view=paragonpath692",
-        "requirements": null,
-        "sourceEntryId": "paragonpath692",
-        "title": "Master of Flame"
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power14047",
+          "publication": "Published in Heroes of Shadow, page(s) 145.",
+          "rulesText": "Tainted PredatorNocturnal Attack 20\nYou call forth the black blood of the hunting beasts that are your kin, seeding your attacks with their deadly power.\nDaily   ✦     Necrotic, Poison, Primal, Shadow\nMinor Action      Personal\nEffect: Until the end of the encounter, your melee attacks that hit also deal ongoing 5 necrotic and poison damage (save ends). On a critical hit, this increases to ongoing 10 necrotic and poison damage (save ends).\nPublished in Heroes of Shadow, page(s) 145."
+        },
+        "subtitle": "Nocturnal Attack 20",
+        "title": "Tainted Predator"
       }
     }
   ],

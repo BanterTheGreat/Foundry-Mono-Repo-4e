@@ -467,9 +467,9 @@ private class Evaluation(
             invalid("duplicateSlot", "Multiple decisions occupy the same choice slot.", slot)
             blockers += diagnostics.last()
         }
-        if (document.level > 19) {
+        if (document.level > AdvancementRules.LAST_ENFORCED_LEVEL) {
             diagnostics += diagnostic("progressionUnsupported", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                "Progression after level 19 remains unsupported.")
+                "Progression after level 20 remains unsupported.")
         }
         reportActivation()
         choices += timeline.choices

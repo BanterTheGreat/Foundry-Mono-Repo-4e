@@ -36,6 +36,19 @@
     ]
 
 
+    #pagebreak(weak: true)
+
+    #align(center)[
+      = #className Paragon Paths
+    ]
+    #classes.zeitgeistPathReference()
+
+    #columns(2)[
+      #theme.pathBlocksFromJson("../content/paths/bard.json")
+    ]
+
+    #pagebreak()
+
     #align(center)[
       = Heroic #className Feats
     ]

@@ -1,28 +1,667 @@
 {
   "entries": [
     {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.fortune-blessed-avandras-luck",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you roll a natural 1 or 20 on an attack roll or saving throw during an encounter, you gain 1 luck token. Luck tokens remain until you spend them or until you take an extended rest, at which point you remove all unexpended luck tokens.\n\nWhenever you make an attack roll, saving throw, ability check, or skill check on your turn, you can expend one luck token after seeing the result. Roll a d6. On a result of 1–3, you gain a +1 bonus to the triggering roll. On a 4 or 5, you gain a +2 bonus to the triggering roll. On a 6, you can reroll the triggering roll and use the result you like. You have no limit to the number of luck tokens you can spend during an encounter, but you can spend only one token per turn.",
+        "title": "Avandra's Luck"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you roll a natural 1 or 20 on an attack roll or saving throw during an encounter, you gain 1 luck token. Luck tokens remain until you spend them or until you take an extended rest, at which point you remove all unexpended luck tokens.\n\nWhenever you make an attack roll, saving throw, ability check, or skill check on your turn, you can expend one luck token after seeing the result. Roll a d6. On a result of 1–3, you gain a +1 bonus to the triggering roll. On a 4 or 5, you gain a +2 bonus to the triggering roll. On a 6, you can reroll the triggering roll and use the result you like. You have no limit to the number of luck tokens you can spend during an encounter, but you can spend only one token per turn.",
+        "id": "modern4e.feature.fortune-blessed-avandras-luck",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Avandra's Luck"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.fortune-blessed-fortune-blessed-implements",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You can use any implements you would ordinarily use for divine powers with fortune blessed implement prayers.",
+        "title": "Fortune Blessed Implements"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You can use any implements you would ordinarily use for divine powers with fortune blessed implement prayers.",
+        "id": "modern4e.feature.fortune-blessed-fortune-blessed-implements",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Fortune Blessed Implements"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.fortune-blessed-lucky-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you spend an action point to take an extra action, you can make a saving throw. If the saving throw succeeds, you also gain one luck token.",
+        "title": "Lucky Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you spend an action point to take an extra action, you can make a saving throw. If the saving throw succeeds, you also gain one luck token.",
+        "id": "modern4e.feature.fortune-blessed-lucky-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Lucky Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.fortune-blessed-swift-luck",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The first time in each encounter that you roll a natural 18, 19, or 20 on an attack roll or saving throw, you can take an extra move action on your next turn.",
+        "title": "Swift Luck"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The first time in each encounter that you roll a natural 18, 19, or 20 on an attack roll or saving throw, you can take an extra move action on your next turn.",
+        "id": "modern4e.feature.fortune-blessed-swift-luck",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Swift Luck"
+      }
+    },
+    {
       "category": "PARAGON_PATH",
       "coverage": {
         "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
+          "Class path prerequisite has not been structurally adapted: Must worship Avandra.",
+          "Published prerequisite not enforced: Any divine class, must worship Avandra."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
-      "id": "modern4e.path.paragonpath223",
+      "id": "modern4e.path.paragonpath623",
       "mechanics": {
         "access": {
           "conditions": [
             {
-              "entryId": "modern4e.class.warlock",
+              "entryId": "modern4e.class.avenger",
               "type": "entry"
             },
             {
-              "entryId": "modern4e.class.wizard",
+              "entryId": "modern4e.class.paladin",
               "type": "entry"
             }
           ],
           "type": "anyOf"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.fortune-blessed-avandras-luck",
+            "grantId": "avandras-luck",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.fortune-blessed-fortune-blessed-implements",
+            "grantId": "fortune-blessed-implements",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.fortune-blessed-lucky-action",
+            "grantId": "lucky-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-misfortunes-curse",
+            "grantId": "misfortunes-curse",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-lucky-break",
+            "grantId": "lucky-break",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.fortune-blessed-swift-luck",
+            "grantId": "swift-luck",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-avandras-curse",
+            "grantId": "avandras-curse",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "reason": "Class path prerequisite has not been structurally adapted.",
+                "text": "Must worship Avandra",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Avandra's favor turns chance itself into a resource you can bank and spend. Natural 1s and 20s earn luck tokens, and a token spent later nudges a roll upward or lets you try it again, while an action point can win you another token through a saving throw. Misfortune's Curse turns an enemy's missed blow into a gift for you, a lucky break can blunt a hit that would have hurt badly, and your daily attack leaves a foe dazed and slowed while you force its saves to be rerolled.",
+        "title": "Fortune Blessed"
+      },
+      "sharedData": {
+        "access": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.avenger",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.paladin",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Class path prerequisite has not been structurally adapted: Must worship Avandra.",
+            "Published prerequisite not enforced: Any divine class, must worship Avandra."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Avandra's favor turns chance itself into a resource you can bank and spend. Natural 1s and 20s earn luck tokens, and a token spent later nudges a roll upward or lets you try it again, while an action point can win you another token through a saving throw. Misfortune's Curse turns an enemy's missed blow into a gift for you, a lucky break can blunt a hit that would have hurt badly, and your daily attack leaves a foe dazed and slowed while you force its saves to be rerolled.",
+        "flavor": "Avandra's favor turns chance itself into a resource you can bank and spend. Natural 1s and 20s earn luck tokens, and a token spent later nudges a roll upward or lets you try it again, while an action point can win you another token through a saving throw. Misfortune's Curse turns an enemy's missed blow into a gift for you, a lucky break can blunt a hit that would have hurt badly, and your daily attack leaves a foe dazed and slowed while you force its saves to be rerolled.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.fortune-blessed-avandras-luck",
+            "id": "avandras-luck"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.fortune-blessed-fortune-blessed-implements",
+            "id": "fortune-blessed-implements"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.fortune-blessed-lucky-action",
+            "id": "lucky-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-misfortunes-curse",
+            "id": "misfortunes-curse"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-lucky-break",
+            "id": "lucky-break"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.fortune-blessed-swift-luck",
+            "id": "swift-luck"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-avandras-curse",
+            "id": "avandras-curse"
+          }
+        ],
+        "id": "modern4e.path.paragonpath623",
+        "link": "https://iws.mx/dnd/?view=paragonpath623",
+        "prerequisiteText": "Any divine class, must worship Avandra",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "reason": "Class path prerequisite has not been structurally adapted.",
+              "text": "Must worship Avandra",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "requirements": "Must worship Avandra",
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath623",
+        "title": "Fortune Blessed"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-avandras-curse",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You call to Avandra and ask the goddess to lift her gaze from your enemy. For a time, nothing goes right for your chosen foe.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Highest ability vs. Will\n\nHit: 2d8 + highest ability psychic damage.\n\nEffect: The target is dazed, slowed, takes a -2 penalty to attack rolls, and takes psychic damage equal to your highest ability the first time it misses with an attack on its turn (save ends all). Whenever the target succeeds on a saving throw to end the effect, you can spend 1 luck token as an immediate interrupt to force the target to reroll the saving throw and use the second result.",
+        "title": "Avandra's Curse"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d8 + highest ability psychic damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "text": "Highest ability vs. Will",
+                    "type": "RULES_TEXT"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Highest ability vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "The target is dazed, slowed, takes a -2 penalty to attack rolls, and takes psychic damage equal to your highest ability the first time it misses with an attack on its turn (save ends all). Whenever the target succeeds on a saving throw to end the effect, you can spend 1 luck token as an immediate interrupt to force the target to reroll the saving throw and use the second result.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You call to Avandra and ask the goddess to lift her gaze from your enemy. For a time, nothing goes right for your chosen foe.",
+        "flavor": "You call to Avandra and ask the goddess to lift her gaze from your enemy. For a time, nothing goes right for your chosen foe.",
+        "id": "modern4e.power.path-avandras-curse",
+        "keywords": [
+          "DIVINE",
+          "IMPLEMENT",
+          "PSYCHIC"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11717",
+          "publication": "Published in Dragon Magazine 384, page(s) 71.",
+          "rulesText": "Avandra's CurseFortune Blessed Attack 20\nYou call to Avandra and ask the goddess to lift her gaze from your enemy. For a time, nothing goes right for your chosen foe.\nDaily   ✦     Divine, Implement, Psychic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Highest ability vs. Will\nHit: 2d8 + highest ability modifier psychic damage.\nEffect: The target is dazed, slowed, takes a -2 penalty to attack rolls, and takes psychic damage equal to your highest ability modifier the first time it misses with an attack on its turn (save ends all). Whenever the target succeeds on a saving throw to end the effect, you can spend 1 luck token as an immediate interrupt to force the target to reroll the saving throw and use the second result.\nPublished in Dragon Magazine 384, page(s) 71."
+        },
+        "subtitle": "Fortune Blessed Attack 20",
+        "title": "Avandra's Curse"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-lucky-break",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Unexpected fortune turns a certain injury or even death into a close call.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: You take damage\n\nEffect: Reduce the triggering damage by your healing surge value. You can spend 1 luck token to add 1d20 to this amount. If this reduces the damage to 0, you also shift 1 square.",
+        "title": "Lucky Break"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "Reduce the triggering damage by your healing surge value. You can spend 1 luck token to add 1d20 to this amount. If this reduces the damage to 0, you also shift 1 square.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "trigger": "You take damage",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Unexpected fortune turns a certain injury or even death into a close call.",
+        "flavor": "Unexpected fortune turns a certain injury or even death into a close call.",
+        "id": "modern4e.power.path-lucky-break",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11718",
+          "publication": "Published in Dragon Magazine 384, page(s) 71.",
+          "rulesText": "Lucky BreakFortune Blessed Utility 12\nUnexpected fortune turns a certain injury or even death into a close call.\nDaily   ✦     Divine\nImmediate Interrupt      Personal\nTrigger: You take damage\nEffect: Reduce the triggering damage by your healing surge value. You can spend 1 luck token to add 1d20 to this amount. If this reduces the damage to 0, you also shift 1 square.\nPublished in Dragon Magazine 384, page(s) 71."
+        },
+        "subtitle": "Fortune Blessed Utility 12",
+        "title": "Lucky Break"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-misfortunes-curse",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -30,18 +669,94 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Treat distance and planar boundaries as problems you already know how to solve, gaining portal lore and a long teleport alongside your action point maneuver. In battle, you can banish an enemy long enough to change the odds, and later your presence keeps nearby allies from being teleported against their will. Your portals offer a swift escape to a known circle at a steep cost in healing surges, while your greatest attack sends a foe through a succession of hostile planes and brings it back still suffering.",
-        "title": "Planeshifter"
+        "description": "You steal a bit of luck from your enemy to leave the foe fumbling and stumbling through the fight.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nMelee touch\n\nTrigger: An enemy adjacent to you misses you with a melee attack\n\nTarget: One creature\n\nEffect: The triggering enemy repeats the attack against a legal target of your choice or itself, with a +2 bonus to the attack roll. If the attack hits and deals damage, it deals extra damage equal to your highest ability. In addition, if have 0 luck tokens when you use this power, you gain 1 luck token.",
+        "title": "Misfortune's Curse"
       },
       "sharedData": {
-        "description": "Treat distance and planar boundaries as problems you already know how to solve, gaining portal lore and a long teleport alongside your action point maneuver. In battle, you can banish an enemy long enough to change the odds, and later your presence keeps nearby allies from being teleported against their will. Your portals offer a swift escape to a known circle at a steep cost in healing surges, while your greatest attack sends a foe through a succession of hostile planes and brings it back still suffering.",
-        "link": "https://iws.mx/dnd/?view=paragonpath223",
-        "requirements": null,
-        "sourceEntryId": "paragonpath223",
-        "title": "Planeshifter"
+        "access": {
+          "entryId": "modern4e.path.paragonpath623",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_REACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-3",
+                "label": "Effect",
+                "text": "The triggering enemy repeats the attack against a legal target of your choice or itself, with a +2 bonus to the attack roll. If the attack hits and deals damage, it deals extra damage equal to your highest ability. In addition, if have 0 luck tokens when you use this power, you gain 1 luck token.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee touch",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "trigger": "An enemy adjacent to you misses you with a melee attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You steal a bit of luck from your enemy to leave the foe fumbling and stumbling through the fight.",
+        "flavor": "You steal a bit of luck from your enemy to leave the foe fumbling and stumbling through the fight.",
+        "id": "modern4e.power.path-misfortunes-curse",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11716",
+          "publication": "Published in Dragon Magazine 384, page(s) 71.",
+          "rulesText": "Misfortune's CurseFortune Blessed Attack 11\nYou steal a bit of luck from your enemy to leave the foe fumbling and stumbling through the fight.\nEncounter   ✦     Divine\nImmediate Reaction      Melee touch\nTrigger: An enemy adjacent to you misses you with a melee attack\nTarget: One creature\nEffect: The triggering enemy repeats the attack against a legal target of your choice or itself, with a +2 bonus to the attack roll. If the attack hits and deals damage, it deals extra damage equal to your highest ability modifier. In addition, if have 0 luck tokens when you use this power, you gain 1 luck token.\nPublished in Dragon Magazine 384, page(s) 71."
+        },
+        "subtitle": "Fortune Blessed Attack 11",
+        "title": "Misfortune's Curse"
       }
     }
   ],

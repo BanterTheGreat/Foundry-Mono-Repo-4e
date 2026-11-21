@@ -1,519 +1,224 @@
 {
   "entries": [
     {
-      "category": "PARAGON_PATH",
+      "category": "FEATURE",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath121",
+      "id": "modern4e.feature.master-preserver-blessing-of-the-land",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
-            "type": "level"
+            "type": "always"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Keep your shield between danger and your companions, then make enemies regret trying to fight past it. Attacks against nearby allies build force behind your next melee blow, while a sudden shield bash can stop a marked enemy cold with a stun. Between sheltering adjacent allies from incoming fire, reinforcing your own defenses, and answering a missed melee attack with dazing, weakening pressure, you give the party a sturdy place to rally.",
-        "title": "Shield Adept"
+        "description": "You can no longer use arcane defiling. In addition, you gain a +2 bonus to Endurance, Nature, and Perception checks.",
+        "title": "Blessing of the Land"
       },
       "sharedData": {
-        "description": "Keep your shield between danger and your companions, then make enemies regret trying to fight past it. Attacks against nearby allies build force behind your next melee blow, while a sudden shield bash can stop a marked enemy cold with a stun. Between sheltering adjacent allies from incoming fire, reinforcing your own defenses, and answering a missed melee attack with dazing, weakening pressure, you give the party a sturdy place to rally.",
-        "link": "https://iws.mx/dnd/?view=paragonpath121",
-        "requirements": null,
-        "sourceEntryId": "paragonpath121",
-        "title": "Shield Adept"
+        "access": {
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You can no longer use arcane defiling. In addition, you gain a +2 bonus to Endurance, Nature, and Perception checks.",
+        "id": "modern4e.feature.master-preserver-blessing-of-the-land",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Blessing of the Land"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.master-preserver-master-preservers-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to make an arcane attack, you can choose to reroll one attack roll or damage roll and use either result.",
+        "title": "Master Preserver's Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to make an arcane attack, you can choose to reroll one attack roll or damage roll and use either result.",
+        "id": "modern4e.feature.master-preserver-master-preservers-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Master Preserver's Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.master-preserver-surging-vitality",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you spend a healing surge, one ally within 10 squares of you regains hit points equal to twice your primary ability. In addition, you gain a +1 bonus to attack rolls with arcane attack powers until the end of your next turn.",
+        "title": "Surging Vitality"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you spend a healing surge, one ally within 10 squares of you regains hit points equal to twice your primary ability. In addition, you gain a +1 bonus to attack rolls with arcane attack powers until the end of your next turn.",
+        "id": "modern4e.feature.master-preserver-surging-vitality",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Surging Vitality"
       }
     },
     {
       "category": "PARAGON_PATH",
       "coverage": {
         "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
+          "Published prerequisite not enforced: Arcane class."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
-      "id": "modern4e.path.paragonpath152",
+      "id": "modern4e.path.paragonpath671",
       "mechanics": {
         "access": {
           "conditions": [
             {
-              "entryId": "modern4e.class.fighter",
+              "entryId": "modern4e.class.artificer",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.sorcerer",
               "type": "entry"
             }
           ],
           "type": "anyOf"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
           {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "A spear in your hands is a weapon of pursuit, pinning enemies in place and drawing them out of position as you slip around the battlefield. Frequent critical hits reward your precision, and a well-placed strike against a bloodied foe can lead straight into an attack against another enemy. With shifts to set up an action point assault or carry you away from a fallen opponent, you are always looking for the next opening.",
-        "title": "Draeven Marauder"
-      },
-      "sharedData": {
-        "description": "A spear in your hands is a weapon of pursuit, pinning enemies in place and drawing them out of position as you slip around the battlefield. Frequent critical hits reward your precision, and a well-placed strike against a bloodied foe can lead straight into an attack against another enemy. With shifts to set up an action point assault or carry you away from a fallen opponent, you are always looking for the next opening.",
-        "link": "https://iws.mx/dnd/?view=paragonpath152",
-        "requirements": null,
-        "sourceEntryId": "paragonpath152",
-        "title": "Draeven Marauder"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath160",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Plant yourself in the thick of the fighting and keep advancing when wounds and afflictions would stop another warrior. A deeper reserve of health lets you endure punishment and even pay in blood to shake off lingering effects, while bursts of damage resistance help you weather the enemy's answer. Your attacks carry you forward with short shifts and invigorating blows, leaving battered enemies displaced or dazed in your wake.",
-        "title": "Dreadnought"
-      },
-      "sharedData": {
-        "description": "Plant yourself in the thick of the fighting and keep advancing when wounds and afflictions would stop another warrior. A deeper reserve of health lets you endure punishment and even pay in blood to shake off lingering effects, while bursts of damage resistance help you weather the enemy's answer. Your attacks carry you forward with short shifts and invigorating blows, leaving battered enemies displaced or dazed in your wake.",
-        "link": "https://iws.mx/dnd/?view=paragonpath160",
-        "requirements": null,
-        "sourceEntryId": "paragonpath160",
-        "title": "Dreadnought"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath166",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Make the space around your reach weapon dangerous, dragging enemies out of position and shoving them farther than they expect. Your daily stance lets you punish openings with opportunity attacks across your weapon's reach, and later even a marked enemy two squares away must think twice before shifting or attacking an ally. Long lunges, sweeping blows, and forceful slides let you dictate where the fight happens before an enemy ever reaches your side.",
-        "title": "Polearm Master"
-      },
-      "sharedData": {
-        "description": "Make the space around your reach weapon dangerous, dragging enemies out of position and shoving them farther than they expect. Your daily stance lets you punish openings with opportunity attacks across your weapon's reach, and later even a marked enemy two squares away must think twice before shifting or attacking an ally. Long lunges, sweeping blows, and forceful slides let you dictate where the fight happens before an enemy ever reaches your side.",
-        "link": "https://iws.mx/dnd/?view=paragonpath166",
-        "requirements": null,
-        "sourceEntryId": "paragonpath166",
-        "title": "Polearm Master"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath168",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Get inside an enemy's guard and stay there, weaving between strikes as you look for a chance to bury another blade. Off-hand weapons hit harder in your grip, and Dexterity eventually rewards attacks made with combat advantage, making careful positioning worth the effort. Your powers can build into a three-hit assault, turn a miss into better footing or protection, and use a free hand to seize an enemy for a vicious close-range strike.",
-        "title": "Shock Trooper"
-      },
-      "sharedData": {
-        "description": "Get inside an enemy's guard and stay there, weaving between strikes as you look for a chance to bury another blade. Off-hand weapons hit harder in your grip, and Dexterity eventually rewards attacks made with combat advantage, making careful positioning worth the effort. Your powers can build into a three-hit assault, turn a miss into better footing or protection, and use a free hand to seize an enemy for a vicious close-range strike.",
-        "link": "https://iws.mx/dnd/?view=paragonpath168",
-        "requirements": null,
-        "sourceEntryId": "paragonpath168",
-        "title": "Shock Trooper"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath21",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Choose a melee weapon and master it until every cut, thrust, or crushing blow lands with exceptional precision and force. That commitment rewards you with lasting accuracy and damage, backed by the option to spend an action point correcting a crucial roll and a parry that softens a punishing hit. At your most fluid, you pass between several enemies in a single sequence, leaving each struck foe on the ground and unable to move.",
-        "title": "Kensei"
-      },
-      "sharedData": {
-        "description": "Choose a melee weapon and master it until every cut, thrust, or crushing blow lands with exceptional precision and force. That commitment rewards you with lasting accuracy and damage, backed by the option to spend an action point correcting a crucial roll and a parry that softens a punishing hit. At your most fluid, you pass between several enemies in a single sequence, leaving each struck foe on the ground and unable to move.",
-        "link": "https://iws.mx/dnd/?view=paragonpath21",
-        "requirements": null,
-        "sourceEntryId": "paragonpath21",
-        "title": "Kensei"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath219",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Fight as though every exchange should leave something broken, tearing through resistances and opening gaps in enemy armor at the cost of your own protection. Spending an action point unleashes a particularly destructive turn, while critical hits restore some of your health and missed melee strikes help you find your mark on the next attempt. You thrive on relentless pressure, leaving wounds that keep bleeding and make your follow-up attacks harder to escape.",
-        "title": "Doomguard Marauder"
-      },
-      "sharedData": {
-        "description": "Fight as though every exchange should leave something broken, tearing through resistances and opening gaps in enemy armor at the cost of your own protection. Spending an action point unleashes a particularly destructive turn, while critical hits restore some of your health and missed melee strikes help you find your mark on the next attempt. You thrive on relentless pressure, leaving wounds that keep bleeding and make your follow-up attacks harder to escape.",
-        "link": "https://iws.mx/dnd/?view=paragonpath219",
-        "requirements": null,
-        "sourceEntryId": "paragonpath219",
-        "title": "Doomguard Marauder"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath26",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Keep a blade fight moving in your favor, turning a critical hit into another use of a spent Fighter encounter attack. Your swordplay carries selected at-will techniques into a charge and gives you a precise strike against Reflex that can punish an opening as an opportunity attack. Defensive bursts help you survive a committed assault, while your great sweeping attack can recover a spent daily power and leave you ready for another decisive exchange.",
-        "title": "Swordmaster"
-      },
-      "sharedData": {
-        "description": "Keep a blade fight moving in your favor, turning a critical hit into another use of a spent Fighter encounter attack. Your swordplay carries selected at-will techniques into a charge and gives you a precise strike against Reflex that can punish an opening as an opportunity attack. Defensive bursts help you survive a committed assault, while your great sweeping attack can recover a spent daily power and leave you ready for another decisive exchange.",
-        "link": "https://iws.mx/dnd/?view=paragonpath26",
-        "requirements": null,
-        "sourceEntryId": "paragonpath26",
-        "title": "Swordmaster"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath28",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Take ground by force, driving enemies backward and hammering them to the floor while your allies advance behind you. With experience, those pushes and knockdowns become a source of damage in their own right, making Constitution as useful for breaking the enemy line as enduring it. Each kill restores a little health, and your action point defenses and last-moment surge of action help you hold on when the battle turns against you.",
-        "title": "Iron Vanguard"
-      },
-      "sharedData": {
-        "description": "Take ground by force, driving enemies backward and hammering them to the floor while your allies advance behind you. With experience, those pushes and knockdowns become a source of damage in their own right, making Constitution as useful for breaking the enemy line as enduring it. Each kill restores a little health, and your action point defenses and last-moment surge of action help you hold on when the battle turns against you.",
-        "link": "https://iws.mx/dnd/?view=paragonpath28",
-        "requirements": null,
-        "sourceEntryId": "paragonpath28",
-        "title": "Iron Vanguard"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath462",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.feature.master-preserver-blessing-of-the-land",
+            "grantId": "blessing-of-the-land",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Battlerager Vigor",
-            "type": "unresolved"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Fight with a Battlerager's fury, using invigorating attacks to sustain the brawl and turning a missed swing into greater accuracy on the next attack. An action point gives your weapon attacks a sustained surge of force, while a growing reserve of health keeps you in the crush of bodies. Wide, angry blows send enemies sprawling, your stance draws attackers into your marks, and foes felled by your greatest assault risk another strike when they try to stand beside you.",
-        "title": "Wrathbearer"
-      },
-      "sharedData": {
-        "description": "Fight with a Battlerager's fury, using invigorating attacks to sustain the brawl and turning a missed swing into greater accuracy on the next attack. An action point gives your weapon attacks a sustained surge of force, while a growing reserve of health keeps you in the crush of bodies. Wide, angry blows send enemies sprawling, your stance draws attackers into your marks, and foes felled by your greatest assault risk another strike when they try to stand beside you.",
-        "link": "https://iws.mx/dnd/?view=paragonpath462",
-        "requirements": "Battlerager Vigor",
-        "sourceEntryId": "paragonpath462",
-        "title": "Wrathbearer"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath513",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.feature.master-preserver-master-preservers-action",
+            "grantId": "master-preservers-action",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "One-Handed Weapon Talent or Two-Handed Weapon Talent",
-            "type": "unresolved"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Bring a two-handed weapon to bear on an exposed enemy and keep pounding until the defense gives way. Combat advantage adds Constitution-driven force to your blows, while repeated at-will hits help line up the next attack and an action point can put extra weight behind a strike that has already landed. As enemies fall, fresh opponents grant you openings, letting you carry the assault onward with dazing blows, bleeding wounds, and punishing knockdowns.",
-        "title": "Siegebreaker"
-      },
-      "sharedData": {
-        "description": "Bring a two-handed weapon to bear on an exposed enemy and keep pounding until the defense gives way. Combat advantage adds Constitution-driven force to your blows, while repeated at-will hits help line up the next attack and an action point can put extra weight behind a strike that has already landed. As enemies fall, fresh opponents grant you openings, letting you carry the assault onward with dazing blows, bleeding wounds, and punishing knockdowns.",
-        "link": "https://iws.mx/dnd/?view=paragonpath513",
-        "requirements": "One-Handed Weapon Talent or Two-Handed Weapon Talent",
-        "sourceEntryId": "paragonpath513",
-        "title": "Siegebreaker"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath544",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-vital-spell",
+            "grantId": "vital-spell",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Trained in Athletics",
-            "type": "unresolved"
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-life-shield",
+            "grantId": "life-shield",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.master-preserver-surging-vitality",
+            "grantId": "surging-vitality",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-light-of-the-lost-sun",
+            "grantId": "light-of-the-lost-sun",
+            "type": "entry"
           }
         ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Move with an athlete's freedom even in chainmail or scale, closing the distance with a charge that can send an enemy sprawling whether the blow lands or not. A kill gives you a chance to catch your breath with second wind, while spending an action point lets you reposition and attack with greater confidence. As your prowess grows, greater speed and a powerful battle stance help you press the attack, stand your ground, and make ignoring your challenge a costly gamble.",
-        "title": "Glorious Myrmidon"
-      },
-      "sharedData": {
-        "description": "Move with an athlete's freedom even in chainmail or scale, closing the distance with a charge that can send an enemy sprawling whether the blow lands or not. A kill gives you a chance to catch your breath with second wind, while spending an action point lets you reposition and attack with greater confidence. As your prowess grows, greater speed and a powerful battle stance help you press the attack, stand your ground, and make ignoring your challenge a costly gamble.",
-        "link": "https://iws.mx/dnd/?view=paragonpath544",
-        "requirements": "Trained in Athletics",
-        "sourceEntryId": "paragonpath544",
-        "title": "Glorious Myrmidon"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath548",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -521,39 +226,359 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Pick a target beyond the enemy line and charge straight through the bodies in your way. Foes that catch you with opportunity attacks can end up on their backs, while your own attacks scatter enemies or turn your arrival into a sweeping blow against the surrounding crowd. Spending an action point gives a charge extra force, and bringing one enemy down can send you thundering straight toward the next.",
-        "title": "Rampaging Brute"
+        "description": "Draw on the vital energy around you without harming it, and let that restraint make you tougher, healthier and a better steward of your allies. The land sharpens your Endurance, Nature and Perception, and an action point lets you reroll an attack or damage roll and keep the better result. At higher levels every healing surge you spend heals a nearby ally and sharpens your aim. Your spells turn an enemy's vitality into healing, shield a friend from a blow, and bathe the battlefield in a zone of weakening, restorative light.",
+        "title": "Master Preserver"
       },
       "sharedData": {
-        "description": "Pick a target beyond the enemy line and charge straight through the bodies in your way. Foes that catch you with opportunity attacks can end up on their backs, while your own attacks scatter enemies or turn your arrival into a sweeping blow against the surrounding crowd. Spending an action point gives a charge extra force, and bringing one enemy down can send you thundering straight toward the next.",
-        "link": "https://iws.mx/dnd/?view=paragonpath548",
-        "requirements": null,
-        "sourceEntryId": "paragonpath548",
-        "title": "Rampaging Brute"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath550",
-      "mechanics": {
         "access": {
           "conditions": [
             {
-              "entryId": "modern4e.class.fighter",
+              "entryId": "modern4e.class.artificer",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.sorcerer",
               "type": "entry"
             }
           ],
           "type": "anyOf"
         },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Published prerequisite not enforced: Arcane class."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Draw on the vital energy around you without harming it, and let that restraint make you tougher, healthier and a better steward of your allies. The land sharpens your Endurance, Nature and Perception, and an action point lets you reroll an attack or damage roll and keep the better result. At higher levels every healing surge you spend heals a nearby ally and sharpens your aim. Your spells turn an enemy's vitality into healing, shield a friend from a blow, and bathe the battlefield in a zone of weakening, restorative light.",
+        "flavor": "Draw on the vital energy around you without harming it, and let that restraint make you tougher, healthier and a better steward of your allies. The land sharpens your Endurance, Nature and Perception, and an action point lets you reroll an attack or damage roll and keep the better result. At higher levels every healing surge you spend heals a nearby ally and sharpens your aim. Your spells turn an enemy's vitality into healing, shield a friend from a blow, and bathe the battlefield in a zone of weakening, restorative light.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.master-preserver-blessing-of-the-land",
+            "id": "blessing-of-the-land"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.master-preserver-master-preservers-action",
+            "id": "master-preservers-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-vital-spell",
+            "id": "vital-spell"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-life-shield",
+            "id": "life-shield"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.master-preserver-surging-vitality",
+            "id": "surging-vitality"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-light-of-the-lost-sun",
+            "id": "light-of-the-lost-sun"
+          }
+        ],
+        "id": "modern4e.path.paragonpath671",
+        "link": "https://iws.mx/dnd/?view=paragonpath671",
+        "prerequisiteText": "Arcane class",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "requirements": null,
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath671",
+        "title": "Master Preserver"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-life-shield",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You shield your ally's life with your arcane energy.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nClose burst 5\n\nTrigger: An ally in the burst takes damage from an attack.\n\nEffect: The damage the ally takes is reduced by 10 + your primary ability.",
+        "title": "Life Shield"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "The damage the ally takes is reduced by 10 + your primary ability.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "trigger": "An ally in the burst takes damage from an attack.",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You shield your ally's life with your arcane energy.",
+        "flavor": "You shield your ally's life with your arcane energy.",
+        "id": "modern4e.power.path-life-shield",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12348",
+          "publication": "Published in Dark Sun Campaign Setting, page(s) 68.",
+          "rulesText": "Life ShieldMaster Preserver Utility 12\nYou shield your ally's life with your arcane energy.\nEncounter   ✦     Arcane\nImmediate Interrupt      Close burst 5\nTrigger: An ally in the burst takes damage from an attack.\nEffect: The damage the ally takes is reduced by 10 + your primary ability modifier.\nPublished in Dark Sun Campaign Setting, page(s) 68."
+        },
+        "subtitle": "Master Preserver Utility 12",
+        "title": "Life Shield"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-light-of-the-lost-sun",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You radiate scintillating light that burns into the minds of your enemies and fills your allies with light and life.\n\nDAILY / STANDARD\n\nClose burst 5\n\nTarget: Each enemy in the burst\n\nAttack: Primary ability vs. Will\n\nHit: 2d10 + ability radiant damage, and the target takes a -2 penalty to attack rolls and cannot recharge powers (save ends both).\n\nEffect: The attack creates a zone that lasts until the end of the encounter or until you dismiss it as a free action. When you move, the zone moves with you, remaining centered on you. Any ally within the zone who hits with an attack deals 2d6 extra radiant damage or regains hit points equal to your primary ability.",
+        "title": "Light of the Lost Sun"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d10 + ability radiant damage, and the target takes a -2 penalty to attack rolls and cannot recharge powers (save ends both).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Close burst 5",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "text": "Primary ability vs. Will",
+                    "type": "RULES_TEXT"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Primary ability vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "The attack creates a zone that lasts until the end of the encounter or until you dismiss it as a free action. When you move, the zone moves with you, remaining centered on you. Any ally within the zone who hits with an attack deals 2d6 extra radiant damage or regains hit points equal to your primary ability.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You radiate scintillating light that burns into the minds of your enemies and fills your allies with light and life.",
+        "flavor": "You radiate scintillating light that burns into the minds of your enemies and fills your allies with light and life.",
+        "id": "modern4e.power.path-light-of-the-lost-sun",
+        "keywords": [
+          "ARCANE",
+          "HEALING",
+          "IMPLEMENT",
+          "RADIANT",
+          "ZONE"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12347",
+          "publication": "Published in Dark Sun Campaign Setting, page(s) 68.",
+          "rulesText": "Light of the Lost SunMaster Preserver Attack 20\nYou radiate scintillating light that burns into the minds of your enemies and fills your allies with light and life.\nDaily   ✦     Arcane, Healing, Implement, Radiant, Zone\nStandard Action      Close burst 5\nTarget: Each enemy in the burst\nAttack: Primary ability vs. Will\nHit: 2d10 + ability modifier radiant damage, and the target takes a -2 penalty to attack rolls and cannot recharge powers (save ends both).\nEffect: The attack creates a zone that lasts until the end of the encounter or until you dismiss it as a free action. When you move, the zone moves with you, remaining centered on you. Any ally within the zone who hits with an attack deals 2d6 extra radiant damage or regains hit points equal to your primary ability modifier.\nPublished in Dark Sun Campaign Setting, page(s) 68."
+        },
+        "subtitle": "Master Preserver Attack 20",
+        "title": "Light of the Lost Sun"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-vital-spell",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -561,98 +586,89 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Recover your footing and come back harder, turning a spent healing surge into renewed accuracy in melee. You can trade an action point for healing, strike to mend your own wounds, and lean on your shield to strengthen your resolve against attacks on Will. A commanding stance steadies nearby allies while troubling marked enemies until a hit breaks it, and your fiercest assault can bind one foe to your challenge while leaving others easier to bring down.",
-        "title": "Warhound of Bane"
+        "description": "Your mastery of preserving allows you to conserve the fleeting vitality of your enemy to invigorate an ally.\n\nENCOUNTER / STANDARD\n\nPersonal\n\nEffect: You can use one of your arcane at-will attack powers as a free action. If you hit, you deal 1d10 extra damage, and you or one ally within 10 squares of you can spend a healing surge.",
+        "title": "Vital Spell"
       },
       "sharedData": {
-        "description": "Recover your footing and come back harder, turning a spent healing surge into renewed accuracy in melee. You can trade an action point for healing, strike to mend your own wounds, and lean on your shield to strengthen your resolve against attacks on Will. A commanding stance steadies nearby allies while troubling marked enemies until a hit breaks it, and your fiercest assault can bind one foe to your challenge while leaving others easier to bring down.",
-        "link": "https://iws.mx/dnd/?view=paragonpath550",
-        "requirements": null,
-        "sourceEntryId": "paragonpath550",
-        "title": "Warhound of Bane"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath656",
-      "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath671",
+          "type": "entry"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
+        "activations": [
           {
-            "minimum": 11,
-            "type": "level"
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You can use one of your arcane at-will attack powers as a free action. If you hit, you deal 1d10 extra damage, and you or one ally within 10 squares of you can spend a healing surge.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
           }
         ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Draw enemies into a close, ugly brawl where hurting one can hurt the others and slipping away becomes increasingly difficult. Your attacks arrange the melee in your allies' favor, and your finishing stance can leave nearby enemies rooted in place as you cut into a bloodied opponent. Being bloodied yourself only sharpens the contest, giving you a stronger action point attack and the footwork to turn an enemy's hit into a new opening.",
-        "title": "Gladiator Champion"
-      },
-      "sharedData": {
-        "description": "Draw enemies into a close, ugly brawl where hurting one can hurt the others and slipping away becomes increasingly difficult. Your attacks arrange the melee in your allies' favor, and your finishing stance can leave nearby enemies rooted in place as you cut into a bloodied opponent. Being bloodied yourself only sharpens the contest, giving you a stronger action point attack and the footwork to turn an enemy's hit into a new opening.",
-        "link": "https://iws.mx/dnd/?view=paragonpath656",
-        "requirements": null,
-        "sourceEntryId": "paragonpath656",
-        "title": "Gladiator Champion"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath99",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
           ],
-          "type": "anyOf"
+          "status": "UNIMPLEMENTED"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
+        "description": "Your mastery of preserving allows you to conserve the fleeting vitality of your enemy to invigorate an ally.",
+        "flavor": "Your mastery of preserving allows you to conserve the fleeting vitality of your enemy to invigorate an ally.",
+        "id": "modern4e.power.path-vital-spell",
+        "keywords": [
+          "ARCANE",
+          "HEALING"
         ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Win the close fight with hard-earned toughness and the sort of dirty tricks that make every opening hurt. Your armor serves you better, your action point turns hit harder, and Wisdom eventually adds bite to your Fighter and Pit Fighter weapon attacks. A dazing follow-up jab and vicious payback keep opponents under pressure, while a brutal finish against a wounded foe can send the rest scrambling away.",
-        "title": "Pit Fighter"
-      },
-      "sharedData": {
-        "description": "Win the close fight with hard-earned toughness and the sort of dirty tricks that make every opening hurt. Your armor serves you better, your action point turns hit harder, and Wisdom eventually adds bite to your Fighter and Pit Fighter weapon attacks. A dazing follow-up jab and vicious payback keep opponents under pressure, while a brutal finish against a wounded foe can send the rest scrambling away.",
-        "link": "https://iws.mx/dnd/?view=paragonpath99",
-        "requirements": null,
-        "sourceEntryId": "paragonpath99",
-        "title": "Pit Fighter"
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12346",
+          "publication": "Published in Dark Sun Campaign Setting, page(s) 68.",
+          "rulesText": "Vital SpellMaster Preserver Attack 11\nYour mastery of preserving allows you to conserve the fleeting vitality of your enemy to invigorate an ally.\nEncounter   ✦     Arcane, Healing\nStandard Action      Personal\nEffect: You can use one of your arcane at-will attack powers as a free action. If you hit, you deal 1d10 extra damage, and you or one ally within 10 squares of you can spend a healing surge.\nPublished in Dark Sun Campaign Setting, page(s) 68."
+        },
+        "subtitle": "Master Preserver Attack 11",
+        "title": "Vital Spell"
       }
     }
   ],

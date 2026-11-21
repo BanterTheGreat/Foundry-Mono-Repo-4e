@@ -1,262 +1,909 @@
 {
   "entries": [
     {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.soulforged-foe-hammer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "If you use Moradin's resolve with an attack that uses the weapon under the effects of your weapon of the dwarf-father power, you also deal 1d10 extra radiant and fire damage with that weapon until the end of your next turn. If the attack scores a critical hit, the target is also stunned until the end of your next turn.\n\nWeapon of the Dwarf-FatherSoulforged Feature 11\n\nYour weapon glows with the power of Moradin's forge.\n\nAt-Will   ✦     Divine, Fire, Radiant\n\nMinor Action      Melee touch\n\nTarget: One weapon you are holding\n\nEffect: Weapon attacks made with the target weapon deal fire and radiant damage instead of their normal damage types. Additionally, the weapon emits bright light in all squares within 15 squares of you. This effect lasts until you end it as a free action or until you end your turn and are not holding the target weapon.",
+        "title": "Foe Hammer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "If you use Moradin's resolve with an attack that uses the weapon under the effects of your weapon of the dwarf-father power, you also deal 1d10 extra radiant and fire damage with that weapon until the end of your next turn. If the attack scores a critical hit, the target is also stunned until the end of your next turn.\n\nWeapon of the Dwarf-FatherSoulforged Feature 11\n\nYour weapon glows with the power of Moradin's forge.\n\nAt-Will   ✦     Divine, Fire, Radiant\n\nMinor Action      Melee touch\n\nTarget: One weapon you are holding\n\nEffect: Weapon attacks made with the target weapon deal fire and radiant damage instead of their normal damage types. Additionally, the weapon emits bright light in all squares within 15 squares of you. This effect lasts until you end it as a free action or until you end your turn and are not holding the target weapon.",
+        "id": "modern4e.feature.soulforged-foe-hammer",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Foe Hammer"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.soulforged-reforged-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point, you regain use of Channel Divinity or one divine encounter attack power of 11th level or lower.",
+        "title": "Reforged Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point, you regain use of Channel Divinity or one divine encounter attack power of 11th level or lower.",
+        "id": "modern4e.feature.soulforged-reforged-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Reforged Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.soulforged-weapon-of-the-dwarf-father",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain the weapon of the dwarf-father power.",
+        "title": "Weapon of the Dwarf-Father"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain the weapon of the dwarf-father power.",
+        "id": "modern4e.feature.soulforged-weapon-of-the-dwarf-father",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Weapon of the Dwarf-Father"
+      }
+    },
+    {
       "category": "PARAGON_PATH",
       "coverage": {
         "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
+          "Class path prerequisite has not been structurally adapted: Must worship Moradin; Moradin's Resolve Channel Divinity power.",
+          "Published prerequisite not enforced: Must worship Moradin and have the Moradin's resolve Channel Divinity power."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
-      "id": "modern4e.path.paragonpath14",
+      "id": "modern4e.path.paragonpath651",
       "mechanics": {
         "access": {
           "conditions": [
             {
-              "entryId": "modern4e.class.warlock",
+              "entryId": "modern4e.class.avenger",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.cleric",
               "type": "entry"
             }
           ],
           "type": "anyOf"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
           {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.feature.soulforged-reforged-action",
+            "grantId": "reforged-action",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Fey Pact",
-            "type": "unresolved"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Disappear in a flash of fey magic and leave the enemies beside your old position feeling the cut of your departure. Your action point turns bring a rush of accuracy, while fallen cursed enemies eventually offer an unpredictable choice of favors beyond your usual Misty Step. Between moving a creature into a fallen foe's place and twisting enemies into attacking their own companions, you make the battlefield feel treacherous to everyone caught in your wake.",
-        "title": "Feytouched"
-      },
-      "sharedData": {
-        "description": "Disappear in a flash of fey magic and leave the enemies beside your old position feeling the cut of your departure. Your action point turns bring a rush of accuracy, while fallen cursed enemies eventually offer an unpredictable choice of favors beyond your usual Misty Step. Between moving a creature into a fallen foe's place and twisting enemies into attacking their own companions, you make the battlefield feel treacherous to everyone caught in your wake.",
-        "link": "https://iws.mx/dnd/?view=paragonpath14",
-        "requirements": "Fey Pact",
-        "sourceEntryId": "paragonpath14",
-        "title": "Feytouched"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath156",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlock",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.feature.soulforged-weapon-of-the-dwarf-father",
+            "grantId": "weapon-of-the-dwarf-father",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Star Pact",
-            "type": "unresolved"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Trust a distant star to guide your fear and radiant magic toward devastating critical hits, with action point strikes leaving a lingering radiant wound. Its gifts can carry you unseen through the air or turn a cursed enemy's death into an ally's sudden attack, but those favors exact their payment in pain. When the need is greatest, you and your companions can offer healing surges for a chance to reclaim spent powers, gambling on how much the star will return.",
-        "title": "Student of Caiphon"
-      },
-      "sharedData": {
-        "description": "Trust a distant star to guide your fear and radiant magic toward devastating critical hits, with action point strikes leaving a lingering radiant wound. Its gifts can carry you unseen through the air or turn a cursed enemy's death into an ally's sudden attack, but those favors exact their payment in pain. When the need is greatest, you and your companions can offer healing surges for a chance to reclaim spent powers, gambling on how much the star will return.",
-        "link": "https://iws.mx/dnd/?view=paragonpath156",
-        "requirements": "Star Pact",
-        "sourceEntryId": "paragonpath156",
-        "title": "Student of Caiphon"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath322",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlock",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Hold enemies in a fascination they struggle to shake, making nearby foes especially vulnerable to lingering charms and other effects. Your enchantments draw victims out of position, turn a missed attack against you into a dazed hesitation, and eventually grow more accurate and forgiving when an encounter charm fails entirely. At the height of your influence, a crowd must choose between surrendering its actions and enduring a punishing psychic torment.",
-        "title": "Entrancing Mystic"
-      },
-      "sharedData": {
-        "description": "Hold enemies in a fascination they struggle to shake, making nearby foes especially vulnerable to lingering charms and other effects. Your enchantments draw victims out of position, turn a missed attack against you into a dazed hesitation, and eventually grow more accurate and forgiving when an encounter charm fails entirely. At the height of your influence, a crowd must choose between surrendering its actions and enduring a punishing psychic torment.",
-        "link": "https://iws.mx/dnd/?view=paragonpath322",
-        "sourceEntryId": "paragonpath322",
-        "title": "Entrancing Mystic"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath325",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlock",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Let your curse reach past the nearest victim and settle on the enemy you actually want to torment. As your hexes deepen, curse damage can tug foes out of position, while an action point leaves everyone already cursed struggling to strike true. Your spells spread that influence across a crowd, answer distant attackers with a fresh curse, and make gathering beside one chosen victim an invitation to share its misfortune.",
-        "title": "Hexer"
-      },
-      "sharedData": {
-        "description": "Let your curse reach past the nearest victim and settle on the enemy you actually want to torment. As your hexes deepen, curse damage can tug foes out of position, while an action point leaves everyone already cursed struggling to strike true. Your spells spread that influence across a crowd, answer distant attackers with a fresh curse, and make gathering beside one chosen victim an invitation to share its misfortune.",
-        "link": "https://iws.mx/dnd/?view=paragonpath325",
-        "requirements": null,
-        "sourceEntryId": "paragonpath325",
-        "title": "Hexer"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath349",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlock",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-weapon-of-the-dwarf-father",
+            "grantId": "weapon-of-the-dwarf-father-2",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Trained in Intimidate",
-            "type": "unresolved"
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-forge-fire-blast",
+            "grantId": "forge-fire-blast",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-tempered",
+            "grantId": "tempered",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.soulforged-foe-hammer",
+            "grantId": "foe-hammer",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-soul-of-the-dwarf-father",
+            "grantId": "soul-of-the-dwarf-father",
+            "type": "entry"
           }
         ],
-        "version": 2
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "reason": "Class path prerequisite has not been structurally adapted.",
+                "text": "Must worship Moradin; Moradin's Resolve Channel Divinity power",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Let one enemy's fall carry the nightmare onward, spreading your curse or unsettling a foe already caught in it. Action point attacks pull cursed enemies out of position, your encounter spells eventually gain rattling, and Shadow Walk can hide you completely from those you have cursed. Your most personal terrors leave a victim dazed and vulnerable to follow-up blows, or give it a relentless illusory pursuer that strikes when its attacks fail.",
-        "title": "Nightmare Weaver"
+        "description": "You are tempered in the white flames of Moradin's forge and carry its fire into every strike. Spending an action point restores a spent Channel Divinity use or an encounter attack, and your weapon can blaze with fire and radiant light at will. A burning blast scorches nearby foes, an interrupt hardens you against danger, and your daily attack makes the ground around you hard to cross while your hits keep burning with extra Wisdom damage.",
+        "title": "Soulforged"
       },
       "sharedData": {
-        "description": "Let one enemy's fall carry the nightmare onward, spreading your curse or unsettling a foe already caught in it. Action point attacks pull cursed enemies out of position, your encounter spells eventually gain rattling, and Shadow Walk can hide you completely from those you have cursed. Your most personal terrors leave a victim dazed and vulnerable to follow-up blows, or give it a relentless illusory pursuer that strikes when its attacks fail.",
-        "link": "https://iws.mx/dnd/?view=paragonpath349",
-        "requirements": "Trained in Intimidate",
-        "sourceEntryId": "paragonpath349",
-        "title": "Nightmare Weaver"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath361",
-      "mechanics": {
         "access": {
           "conditions": [
             {
-              "entryId": "modern4e.class.warlock",
+              "entryId": "modern4e.class.avenger",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.cleric",
               "type": "entry"
             }
           ],
           "type": "anyOf"
         },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Class path prerequisite has not been structurally adapted: Must worship Moradin; Moradin's Resolve Channel Divinity power.",
+            "Published prerequisite not enforced: Must worship Moradin and have the Moradin's resolve Channel Divinity power."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You are tempered in the white flames of Moradin's forge and carry its fire into every strike. Spending an action point restores a spent Channel Divinity use or an encounter attack, and your weapon can blaze with fire and radiant light at will. A burning blast scorches nearby foes, an interrupt hardens you against danger, and your daily attack makes the ground around you hard to cross while your hits keep burning with extra Wisdom damage.",
+        "flavor": "You are tempered in the white flames of Moradin's forge and carry its fire into every strike. Spending an action point restores a spent Channel Divinity use or an encounter attack, and your weapon can blaze with fire and radiant light at will. A burning blast scorches nearby foes, an interrupt hardens you against danger, and your daily attack makes the ground around you hard to cross while your hits keep burning with extra Wisdom damage.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.soulforged-reforged-action",
+            "id": "reforged-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.soulforged-weapon-of-the-dwarf-father",
+            "id": "weapon-of-the-dwarf-father"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-weapon-of-the-dwarf-father",
+            "id": "weapon-of-the-dwarf-father-2"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-forge-fire-blast",
+            "id": "forge-fire-blast"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-tempered",
+            "id": "tempered"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.soulforged-foe-hammer",
+            "id": "foe-hammer"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-soul-of-the-dwarf-father",
+            "id": "soul-of-the-dwarf-father"
+          }
+        ],
+        "id": "modern4e.path.paragonpath651",
+        "link": "https://iws.mx/dnd/?view=paragonpath651",
+        "prerequisiteText": "Must worship Moradin and have the Moradin's resolve Channel Divinity power",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "reason": "Class path prerequisite has not been structurally adapted.",
+              "text": "Must worship Moradin; Moradin's Resolve Channel Divinity power",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "requirements": "Must worship Moradin; Moradin's Resolve Channel Divinity power",
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath651",
+        "title": "Soulforged"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-forge-fire-blast",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
             "minimum": 11,
             "type": "level"
-          },
-          {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Fey Pact",
-            "type": "unresolved"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Carry winter into the fight, adding cold to a chosen encounter spell and resisting the chill yourself. Your action point attacks drive that cold through resistance, while later teleports leave nearby enemies hurting and slowed in the place you abandoned. By exposing a foe to deeper cold, reclaiming a spent cold spell, and laying a creeping frost that can progress into a stun, you make each escape feel further away.",
-        "title": "Long Night Scion"
+        "description": "Your weapon glows bright with the heat of the Soulforge. It hurtles into one enemy, and then releases a searing blast of celestial fire.\n\nENCOUNTER / STANDARD\n\nMelee or Ranged weapon\n\nTarget: One creature\n\nPrimary Attack: Wisdom vs. AC\n\nHit: 2[W] + Wisdom fire and radiant damage.\n\nEffect: Make a secondary attack.\n\nSecondary Target: Each enemy within 3 squares of the primary target.\n\nSecondary Attack: Wisdom vs. Fortitude\n\nHit: 1d8 + Wisdom fire and radiant damage, and the secondary target is dazed until the end of your next turn.",
+        "title": "Forge Fire Blast"
       },
       "sharedData": {
-        "description": "Carry winter into the fight, adding cold to a chosen encounter spell and resisting the chill yourself. Your action point attacks drive that cold through resistance, while later teleports leave nearby enemies hurting and slowed in the place you abandoned. By exposing a foe to deeper cold, reclaiming a spent cold spell, and laying a creeping frost that can progress into a stun, you make each escape feel further away.",
-        "link": "https://iws.mx/dnd/?view=paragonpath361",
-        "requirements": "Fey Pact",
-        "sourceEntryId": "paragonpath361",
-        "title": "Long Night Scion"
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              },
+              "targets-5": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy within 3 squares of the primary target."
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Wisdom fire and radiant damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Primary Attack",
+                "range": {
+                  "text": "Melee or Ranged weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "Make a secondary attack.",
+                "type": "effect"
+              },
+              {
+                "id": "row-5",
+                "label": "Secondary Target",
+                "text": "Each enemy within 3 squares of the primary target.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-7",
+                          "label": "Hit",
+                          "text": "1d8 + Wisdom fire and radiant damage, and the secondary target is dazed until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-6",
+                "label": "Secondary Attack",
+                "range": {
+                  "text": "Each enemy within 3 squares of the primary target.",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-5",
+                "text": "Wisdom vs. Fortitude",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee or Ranged weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your weapon glows bright with the heat of the Soulforge. It hurtles into one enemy, and then releases a searing blast of celestial fire.",
+        "flavor": "Your weapon glows bright with the heat of the Soulforge. It hurtles into one enemy, and then releases a searing blast of celestial fire.",
+        "id": "modern4e.power.path-forge-fire-blast",
+        "keywords": [
+          "DIVINE",
+          "FIRE",
+          "RADIANT",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12211",
+          "publication": "Published in Dragon Magazine 385, page(s) 75.",
+          "rulesText": "Forge Fire BlastSoulforged Attack 11\nYour weapon glows bright with the heat of the Soulforge. It hurtles into one enemy, and then releases a searing blast of celestial fire.\nEncounter   ✦     Divine, Fire, Radiant, Weapon\nStandard Action      Melee or Ranged weapon\nPrimary Target: One creature\nPrimary Attack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier fire and radiant damage.\nEffect: Make a secondary attack.\nSecondary Target: Each enemy within 3 squares of the primary target.\nSecondary Attack: Wisdom vs. Fortitude\nHit: 1d8 + Wisdom modifier fire and radiant damage, and the secondary target is dazed until the end of your next turn.\nPublished in Dragon Magazine 385, page(s) 75."
+        },
+        "subtitle": "Soulforged Attack 11",
+        "title": "Forge Fire Blast"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-soul-of-the-dwarf-father",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You call out to Moradin, praying for his greatest blessings. Your body and weapon glow with astral light that sears your enemies and drives them back.\n\nDAILY / STANDARD\n\nMelee or Ranged weapon\n\nTarget: One creature\n\nAttack: Wisdom vs. AC\n\nHit: 2[W] + Wisdom fire and radiant damage.\n\nMiss: Half damage.\n\nEffect: Until the end of the encounter, your attacks deal extra fire and radiant damage equal to your Wisdom, and enemies treat all squares adjacent to you as difficult terrain.",
+        "title": "Soul of the Dwarf-Father"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Wisdom fire and radiant damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee or Ranged weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "Until the end of the encounter, your attacks deal extra fire and radiant damage equal to your Wisdom, and enemies treat all squares adjacent to you as difficult terrain.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee or Ranged weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You call out to Moradin, praying for his greatest blessings. Your body and weapon glow with astral light that sears your enemies and drives them back.",
+        "flavor": "You call out to Moradin, praying for his greatest blessings. Your body and weapon glow with astral light that sears your enemies and drives them back.",
+        "id": "modern4e.power.path-soul-of-the-dwarf-father",
+        "keywords": [
+          "DIVINE",
+          "FIRE",
+          "RADIANT",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12212",
+          "publication": "Published in Dragon Magazine 385, page(s) 76.",
+          "rulesText": "Soul of the Dwarf-FatherSoulforged Attack 20\nYou call out to Moradin, praying for his greatest blessings. Your body and weapon glow with astral light that sears your enemies and drives them back.\nDaily   ✦     Divine, Fire, Radiant, Weapon\nStandard Action      Melee or Ranged weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier fire and radiant damage.\nMiss: Half damage.\nEffect: Until the end of the encounter, your attacks deal extra fire and radiant damage equal to your Wisdom modifier, and enemies treat all squares adjacent to you as difficult terrain.\nPublished in Dragon Magazine 385, page(s) 76."
+        },
+        "subtitle": "Soulforged Attack 20",
+        "title": "Soul of the Dwarf-Father"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-tempered",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Like adamantine forged in the Soulforge, you are unbreakable.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: You are hit by an attack\n\nEffect: You gain a +4 power bonus to Fortitude and Will until the end of your next turn, and a +5 power bonus to your next saving throw made before the end of the encounter.",
+        "title": "Tempered"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You gain a +4 power bonus to Fortitude and Will until the end of your next turn, and a +5 power bonus to your next saving throw made before the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "trigger": "You are hit by an attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Like adamantine forged in the Soulforge, you are unbreakable.",
+        "flavor": "Like adamantine forged in the Soulforge, you are unbreakable.",
+        "id": "modern4e.power.path-tempered",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12213",
+          "publication": "Published in Dragon Magazine 385, page(s) 75.",
+          "rulesText": "TemperedSoulforged Utility 12\nLike adamantine forged in the Soulforge, you are unbreakable.\nEncounter   ✦     Divine\nImmediate Interrupt      Personal\nTrigger: You are hit by an attack\nEffect: You gain a +4 power bonus to Fortitude and Will until the end of your next turn, and a +5 power bonus to your next saving throw made before the end of the encounter.\nPublished in Dragon Magazine 385, page(s) 75."
+        },
+        "subtitle": "Soulforged Utility 12",
+        "title": "Tempered"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-weapon-of-the-dwarf-father",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your weapon glows with the power of Moradin's forge.\n\nAT_WILL / MINOR\n\nMelee touch\n\nTarget: One weapon you are holding\n\nEffect: Weapon attacks made with the target weapon deal fire and radiant damage instead of their normal damage types. Additionally, the weapon emits bright light in all squares within 15 squares of you. This effect lasts until you end it as a free action or until you end your turn and are not holding the target weapon.",
+        "title": "Weapon of the Dwarf-Father"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath651",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One weapon you are holding"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "Weapon attacks made with the target weapon deal fire and radiant damage instead of their normal damage types. Additionally, the weapon emits bright light in all squares within 15 squares of you. This effect lasts until you end it as a free action or until you end your turn and are not holding the target weapon.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee touch",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your weapon glows with the power of Moradin's forge.",
+        "flavor": "Your weapon glows with the power of Moradin's forge.",
+        "id": "modern4e.power.path-weapon-of-the-dwarf-father",
+        "keywords": [
+          "DIVINE",
+          "FIRE",
+          "RADIANT"
+        ],
+        "level": 11,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12209",
+          "publication": "Published in Dragon Magazine 385, page(s) 75.",
+          "rulesText": "Weapon of the Dwarf-FatherSoulforged Feature 11\nYour weapon glows with the power of Moradin's forge.\nAt-Will   ✦     Divine, Fire, Radiant\nMinor Action      Melee touch\nTarget: One weapon you are holding\nEffect: Weapon attacks made with the target weapon deal fire and radiant damage instead of their normal damage types. Additionally, the weapon emits bright light in all squares within 15 squares of you. This effect lasts until you end it as a free action or until you end your turn and are not holding the target weapon.\nPublished in Dragon Magazine 385, page(s) 75."
+        },
+        "subtitle": "Soulforged Feature",
+        "title": "Weapon of the Dwarf-Father"
       }
     }
   ],

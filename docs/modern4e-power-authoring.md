@@ -4,7 +4,7 @@ Status: used by all 19 local class chapters, validated against
 16 additional published-reference scenarios. Class catalog/export schema v2
 adopts these ordered power definitions, and `helpers/power_content.typ` renders
 them. This is an authoring contract, not an enabled builder runtime package.
-All 15 ancestry powers, 11 Zeitgeist theme powers, 26 Zeitgeist paragon-path powers and 1,046 utility definitions
+All 15 ancestry powers, 11 Zeitgeist theme powers, 26 Zeitgeist and 618 class paragon-path powers and 1,046 utility definitions
 now use this body too. The [utility catalog](../src/modern4e/content/utilities/README.md)
 can withhold whole sections (none currently) and carries separate combat/non-combat selection metadata.
 Non-augmenting local theme powers may retain the Psionic source keyword;

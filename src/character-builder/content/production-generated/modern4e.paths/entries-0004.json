@@ -1,239 +1,993 @@
 {
   "entries": [
     {
-      "category": "PARAGON_PATH",
+      "category": "FEATURE",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath222",
+      "id": "modern4e.feature.agent-of-the-unbroken-circle-exorcise-corruption",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.swordmage",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
-            "type": "level"
+            "type": "always"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Stand ready to trade places with a threatened companion, turning a sudden rescue into an opening for both your blades. Your magic lets you appear at an ally's side to reinforce their defenses, while your elemental training eventually adds a chosen energy to every attack. When the fighting grows fierce, a wider assault or shielding aegis and resistance-breaking attacks help you keep control, culminating in an elemental eruption that lets your allies teleport clear.",
-        "title": "Malec-Keth Janissary"
+        "description": "Whenever you score a critical hit against your oath of enmity target, each ally within 10 squares of your target that can see the target can make a saving throw, with a bonus to the saving throw equal to your Wisdom.",
+        "title": "Exorcise Corruption"
       },
       "sharedData": {
-        "description": "Stand ready to trade places with a threatened companion, turning a sudden rescue into an opening for both your blades. Your magic lets you appear at an ally's side to reinforce their defenses, while your elemental training eventually adds a chosen energy to every attack. When the fighting grows fierce, a wider assault or shielding aegis and resistance-breaking attacks help you keep control, culminating in an elemental eruption that lets your allies teleport clear.",
-        "link": "https://iws.mx/dnd/?view=paragonpath222",
-        "requirements": null,
-        "sourceEntryId": "paragonpath222",
-        "title": "Malec-Keth Janissary"
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you score a critical hit against your oath of enmity target, each ally within 10 squares of your target that can see the target can make a saving throw, with a bonus to the saving throw equal to your Wisdom.",
+        "id": "modern4e.feature.agent-of-the-unbroken-circle-exorcise-corruption",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Exorcise Corruption"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.agent-of-the-unbroken-circle-incorruptible",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You become proficient in the Insight and Society skills.",
+        "title": "Incorruptible"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You become proficient in the Insight and Society skills.",
+        "id": "modern4e.feature.agent-of-the-unbroken-circle-incorruptible",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Incorruptible"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.agent-of-the-unbroken-circle-unity-unbroken",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, until the end of your next turn your allies gain a +5 bonus to damage rolls against your oath of enmity target while they are flanking that target.",
+        "title": "Unity Unbroken"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to take an extra action, until the end of your next turn your allies gain a +5 bonus to damage rolls against your oath of enmity target while they are flanking that target.",
+        "id": "modern4e.feature.agent-of-the-unbroken-circle-unity-unbroken",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Unity Unbroken"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.favored-soul-favored-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, you or an ally adjacent to you can also spend a healing surge.",
+        "title": "Favored Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to take an extra action, you or an ally adjacent to you can also spend a healing surge.",
+        "id": "modern4e.feature.favored-soul-favored-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Favored Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.favored-soul-heavens-boon",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A pair of feathery wings unfolds from your back, and you gain a fly speed of 6. You can use this speed only if you are wearing no armor or light armor.",
+        "title": "Heaven's Boon"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A pair of feathery wings unfolds from your back, and you gain a fly speed of 6. You can use this speed only if you are wearing no armor or light armor.",
+        "id": "modern4e.feature.favored-soul-heavens-boon",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Heaven's Boon"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.favored-soul-heavens-shield",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "While you have maximum hit points, you gain a +1 bonus to all defenses.",
+        "title": "Heaven's Shield"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "While you have maximum hit points, you gain a +1 bonus to all defenses.",
+        "id": "modern4e.feature.favored-soul-heavens-shield",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Heaven's Shield"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.hammer-of-judgment-avalanche-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to make an attack and that attack hits, you push each target you hit with that attack a number of squares equal to your Intelligence.",
+        "title": "Avalanche Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to make an attack and that attack hits, you push each target you hit with that attack a number of squares equal to your Intelligence.",
+        "id": "modern4e.feature.hammer-of-judgment-avalanche-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Avalanche Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.hammer-of-judgment-bloodthirsty-hammer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you pull, push, slide, or teleport a bloodied creature by using a power, you can move the creature an additional 2 squares.",
+        "title": "Bloodthirsty Hammer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you pull, push, slide, or teleport a bloodied creature by using a power, you can move the creature an additional 2 squares.",
+        "id": "modern4e.feature.hammer-of-judgment-bloodthirsty-hammer",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bloodthirsty Hammer"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.hammer-of-judgment-bone-crusher",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you hit a creature with a daily attack power, that creature takes a -2 penalty to AC until the end of your next turn.",
+        "title": "Bone Crusher"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you hit a creature with a daily attack power, that creature takes a -2 penalty to AC until the end of your next turn.",
+        "id": "modern4e.feature.hammer-of-judgment-bone-crusher",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bone Crusher"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.oathsworn-blood-oath",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain a +1 bonus to all defenses against attacks made by your oath of enmity target.",
+        "title": "Blood Oath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain a +1 bonus to all defenses against attacks made by your oath of enmity target.",
+        "id": "modern4e.feature.oathsworn-blood-oath",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Blood Oath"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.oathsworn-enduring-oath",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When your oath of enmity target drops to 0 hit points, you can spend a healing surge as a free action.",
+        "title": "Enduring Oath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When your oath of enmity target drops to 0 hit points, you can spend a healing surge as a free action.",
+        "id": "modern4e.feature.oathsworn-enduring-oath",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Enduring Oath"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.oathsworn-sworn-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to make an attack, you make two attack rolls against each target of that attack and use either result.",
+        "title": "Sworn Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to make an attack, you make two attack rolls against each target of that attack and use either result.",
+        "id": "modern4e.feature.oathsworn-sworn-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Sworn Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.serene-initiate-calm-eye",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to use an at-will attack power, that attack deals 2d10 extra damage.",
+        "title": "Calm Eye"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to use an at-will attack power, that attack deals 2d10 extra damage.",
+        "id": "modern4e.feature.serene-initiate-calm-eye",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Calm Eye"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.serene-initiate-certain-cut",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you miss your oath of enmity target with an at-will attack power, the attack deals damage to the target equal to your Dexterity.",
+        "title": "Certain Cut"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you miss your oath of enmity target with an at-will attack power, the attack deals damage to the target equal to your Dexterity.",
+        "id": "modern4e.feature.serene-initiate-certain-cut",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Certain Cut"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.serene-initiate-serene-edge",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you miss your oath of enmity target with an encounter attack power, the attack deals damage to the target equal to your Dexterity.",
+        "title": "Serene Edge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you miss your oath of enmity target with an encounter attack power, the attack deals damage to the target equal to your Dexterity.",
+        "id": "modern4e.feature.serene-initiate-serene-edge",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Serene Edge"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.zealous-assassin-divine-shroud-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, you also gain concealment until the end of your next turn, and you can teleport 3 squares as a free action before or after the extra action.",
+        "title": "Divine Shroud Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to take an extra action, you also gain concealment until the end of your next turn, and you can teleport 3 squares as a free action before or after the extra action.",
+        "id": "modern4e.feature.zealous-assassin-divine-shroud-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Divine Shroud Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.zealous-assassin-finishing-technique",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you hit a bloodied target that is granting combat advantage to you, the attack deals 1d6 extra damage against the target.",
+        "title": "Finishing Technique"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you hit a bloodied target that is granting combat advantage to you, the attack deals 1d6 extra damage against the target.",
+        "id": "modern4e.feature.zealous-assassin-finishing-technique",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Finishing Technique"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.zealous-assassin-zealots-veil",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you charge, you can make a Stealth check opposed by the passive Perception check of the target of your charge attack. (You don't take a penalty to this check for moving during the charge.) If the check succeeds, you gain combat advantage for the attack.",
+        "title": "Zealot's Veil"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you charge, you can make a Stealth check opposed by the passive Perception check of the target of your charge attack. (You don't take a penalty to this check for moving during the charge.) If the check succeeds, you gain combat advantage for the attack.",
+        "id": "modern4e.feature.zealous-assassin-zealots-veil",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Zealot's Veil"
       }
     },
     {
       "category": "PARAGON_PATH",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath315",
+      "id": "modern4e.path.paragonpath254",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.swordmage",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
           {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.feature.hammer-of-judgment-avalanche-action",
+            "grantId": "avalanche-action",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Aegis of ensnarement",
-            "type": "unresolved"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Look past a creature's imposing hide or ghostly form and find the weakness your blade can exploit. Your action point attack pierces resistance and insubstantial protection, while critical hits and carefully placed strikes punish existing vulnerabilities and later attacks wear through resistance more easily. An elemental stance lets you create vulnerabilities of your own, setting up attacks from you and your companions to bite deeper into the same wounded prey.",
-        "title": "Arcane Hunter"
-      },
-      "sharedData": {
-        "description": "Look past a creature's imposing hide or ghostly form and find the weakness your blade can exploit. Your action point attack pierces resistance and insubstantial protection, while critical hits and carefully placed strikes punish existing vulnerabilities and later attacks wear through resistance more easily. An elemental stance lets you create vulnerabilities of your own, setting up attacks from you and your companions to bite deeper into the same wounded prey.",
-        "link": "https://iws.mx/dnd/?view=paragonpath315",
-        "requirements": "Aegis of ensnarement",
-        "sourceEntryId": "paragonpath315",
-        "title": "Arcane Hunter"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath316",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.swordmage",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Slip between solid form and ghostly presence, emerging from a teleport with an opening for your next weapon strike. Spending an action point makes you insubstantial, and your defensive magic can also let you pass through obstacles, with later benefits extending your teleports and exposing marked enemies while you remain elusive. Your blade can cut through an insubstantial foe's protection, and your greatest assault carries you from enemy to enemy before returning you to where you began.",
-        "title": "Ghost Blade"
-      },
-      "sharedData": {
-        "description": "Slip between solid form and ghostly presence, emerging from a teleport with an opening for your next weapon strike. Spending an action point makes you insubstantial, and your defensive magic can also let you pass through obstacles, with later benefits extending your teleports and exposing marked enemies while you remain elusive. Your blade can cut through an insubstantial foe's protection, and your greatest assault carries you from enemy to enemy before returning you to where you began.",
-        "link": "https://iws.mx/dnd/?view=paragonpath316",
-        "requirements": null,
-        "sourceEntryId": "paragonpath316",
-        "title": "Ghost Blade"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath318",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.swordmage",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.feature.hammer-of-judgment-bone-crusher",
+            "grantId": "bone-crusher",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Aegis of shielding",
-            "type": "unresolved"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Make your side of the battlefield a refuge, tracing wards that strengthen the defenses of companions standing beside you. An enemy that strikes one of those companions despite your mark can eventually feel your blade from well beyond its normal reach, making your shelter dangerous to challenge. Extra shielding marks, timely rescue teleports, and a sigil that lends force to your allies' melee attacks let you protect the group without surrendering the initiative.",
-        "title": "Sigil Carver"
-      },
-      "sharedData": {
-        "description": "Make your side of the battlefield a refuge, tracing wards that strengthen the defenses of companions standing beside you. An enemy that strikes one of those companions despite your mark can eventually feel your blade from well beyond its normal reach, making your shelter dangerous to challenge. Extra shielding marks, timely rescue teleports, and a sigil that lends force to your allies' melee attacks let you protect the group without surrendering the initiative.",
-        "link": "https://iws.mx/dnd/?view=paragonpath318",
-        "requirements": "Aegis of shielding",
-        "sourceEntryId": "paragonpath318",
-        "title": "Sigil Carver"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath319",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.swordmage",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-thunder-hammer",
+            "grantId": "thunder-hammer",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Aegis of assault",
-            "type": "unresolved"
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-resolve-of-steel",
+            "grantId": "resolve-of-steel",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.hammer-of-judgment-bloodthirsty-hammer",
+            "grantId": "bloodthirsty-hammer",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-hammer-of-the-final-pronouncement",
+            "grantId": "hammer-of-the-final-pronouncement",
+            "type": "entry"
           }
         ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Answer an enemy's defiance with a spell-laden blade, replacing your assault aegis's ordinary retaliation with a Swordmage at-will attack. An action point charge can carry an even stronger technique into the enemy line, and later a successful melee blow can open the way for a quick additional spell. With another aegis mark to spread your attention and attacks charged with elemental force, you press your advantage through sudden, concentrated violence.",
-        "title": "Sword of Assault"
-      },
-      "sharedData": {
-        "description": "Answer an enemy's defiance with a spell-laden blade, replacing your assault aegis's ordinary retaliation with a Swordmage at-will attack. An action point charge can carry an even stronger technique into the enemy line, and later a successful melee blow can open the way for a quick additional spell. With another aegis mark to spread your attention and attacks charged with elemental force, you press your advantage through sudden, concentrated violence.",
-        "link": "https://iws.mx/dnd/?view=paragonpath319",
-        "requirements": "Aegis of assault",
-        "sourceEntryId": "paragonpath319",
-        "title": "Sword of Assault"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath73",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.swordmage",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -241,39 +995,434 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Meet danger with a patient guard, turning your shielding aegis into a reserve of temporary health while strengthening your own magical defenses. When an enemy reaches for an ally, a thunderous counterstroke can drive it out of reach before its blow lands. Defensive surges and a lasting ward help you endure the pressure, while a powerful finishing strike sends a troublesome foe elsewhere on the battlefield.",
-        "title": "Coronal Guard"
+        "description": "You judge the battlefield like a smith working metal, shoving and hammering enemies exactly where your god wants them. Your action point attacks drive hit foes backward, daily attacks leave targets easier to strike, and bloodied creatures can be flung even farther by any forced movement you inflict. Wielding a hammer stretches every push further, and you can answer a rough turn by shrugging off damage or slamming the ground with a thunderous burst that topples nearby enemies.",
+        "title": "Hammer of Judgment"
       },
       "sharedData": {
-        "description": "Meet danger with a patient guard, turning your shielding aegis into a reserve of temporary health while strengthening your own magical defenses. When an enemy reaches for an ally, a thunderous counterstroke can drive it out of reach before its blow lands. Defensive surges and a lasting ward help you endure the pressure, while a powerful finishing strike sends a troublesome foe elsewhere on the battlefield.",
-        "link": "https://iws.mx/dnd/?view=paragonpath73",
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You judge the battlefield like a smith working metal, shoving and hammering enemies exactly where your god wants them. Your action point attacks drive hit foes backward, daily attacks leave targets easier to strike, and bloodied creatures can be flung even farther by any forced movement you inflict. Wielding a hammer stretches every push further, and you can answer a rough turn by shrugging off damage or slamming the ground with a thunderous burst that topples nearby enemies.",
+        "flavor": "You judge the battlefield like a smith working metal, shoving and hammering enemies exactly where your god wants them. Your action point attacks drive hit foes backward, daily attacks leave targets easier to strike, and bloodied creatures can be flung even farther by any forced movement you inflict. Wielding a hammer stretches every push further, and you can answer a rough turn by shrugging off damage or slamming the ground with a thunderous burst that topples nearby enemies.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.hammer-of-judgment-avalanche-action",
+            "id": "avalanche-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.hammer-of-judgment-bone-crusher",
+            "id": "bone-crusher"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-thunder-hammer",
+            "id": "thunder-hammer"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-resolve-of-steel",
+            "id": "resolve-of-steel"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.hammer-of-judgment-bloodthirsty-hammer",
+            "id": "bloodthirsty-hammer"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-hammer-of-the-final-pronouncement",
+            "id": "hammer-of-the-final-pronouncement"
+          }
+        ],
+        "id": "modern4e.path.paragonpath254",
+        "link": "https://iws.mx/dnd/?view=paragonpath254",
+        "prerequisiteText": "Avenger",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
         "requirements": null,
-        "sourceEntryId": "paragonpath73",
-        "title": "Coronal Guard"
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath254",
+        "title": "Hammer of Judgment"
       }
     },
     {
       "category": "PARAGON_PATH",
       "coverage": {
         "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
+          "Class path prerequisite has not been structurally adapted: Oath of Enmity class feature.",
+          "Published prerequisite not enforced: Avenger, oath of enmity power."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
-      "id": "modern4e.path.paragonpath76",
+      "id": "modern4e.path.paragonpath255",
       "mechanics": {
         "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.oathsworn-blood-oath",
+            "grantId": "blood-oath",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.oathsworn-sworn-action",
+            "grantId": "sworn-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-oath-of-weakness",
+            "grantId": "oath-of-weakness",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-sworn-crusade",
+            "grantId": "sworn-crusade",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.oathsworn-enduring-oath",
+            "grantId": "enduring-oath",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-oath-bond",
+            "grantId": "oath-bond",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "reason": "Class path prerequisite has not been structurally adapted.",
+                "text": "Oath of Enmity class feature",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your word carries the weight of creation, and your Oath of Enmity becomes a binding sentence on the enemy it names. That foe finds you harder to hit, your action point attacks roll twice against every target, and slaying your sworn enemy lets you recover with a healing surge. Weakening strikes, a prayer that lends your allies the same twin rolls, and a daily bond that leaves the target vulnerable round out a path of grim, focused retribution.",
+        "title": "Oathsworn"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Class path prerequisite has not been structurally adapted: Oath of Enmity class feature.",
+            "Published prerequisite not enforced: Avenger, oath of enmity power."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your word carries the weight of creation, and your Oath of Enmity becomes a binding sentence on the enemy it names. That foe finds you harder to hit, your action point attacks roll twice against every target, and slaying your sworn enemy lets you recover with a healing surge. Weakening strikes, a prayer that lends your allies the same twin rolls, and a daily bond that leaves the target vulnerable round out a path of grim, focused retribution.",
+        "flavor": "Your word carries the weight of creation, and your Oath of Enmity becomes a binding sentence on the enemy it names. That foe finds you harder to hit, your action point attacks roll twice against every target, and slaying your sworn enemy lets you recover with a healing surge. Weakening strikes, a prayer that lends your allies the same twin rolls, and a daily bond that leaves the target vulnerable round out a path of grim, focused retribution.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.oathsworn-blood-oath",
+            "id": "blood-oath"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.oathsworn-sworn-action",
+            "id": "sworn-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-oath-of-weakness",
+            "id": "oath-of-weakness"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-sworn-crusade",
+            "id": "sworn-crusade"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.oathsworn-enduring-oath",
+            "id": "enduring-oath"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-oath-bond",
+            "id": "oath-bond"
+          }
+        ],
+        "id": "modern4e.path.paragonpath255",
+        "link": "https://iws.mx/dnd/?view=paragonpath255",
+        "prerequisiteText": "Avenger, oath of enmity power",
+        "prerequisites": {
           "conditions": [
             {
-              "entryId": "modern4e.class.swordmage",
-              "type": "entry"
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "reason": "Class path prerequisite has not been structurally adapted.",
+              "text": "Oath of Enmity class feature",
+              "type": "unresolved"
             }
           ],
-          "type": "anyOf"
+          "type": "allOf"
         },
+        "requirements": "Oath of Enmity class feature",
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath255",
+        "title": "Oathsworn"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [
+          "Class path prerequisite has not been structurally adapted: Trained in Stealth."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.path.paragonpath257",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.zealous-assassin-divine-shroud-action",
+            "grantId": "divine-shroud-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.zealous-assassin-finishing-technique",
+            "grantId": "finishing-technique",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-strike-from-empty-air",
+            "grantId": "strike-from-empty-air",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-avenging-shadow",
+            "grantId": "avenging-shadow",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.zealous-assassin-zealots-veil",
+            "grantId": "zealots-veil",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-blade-of-the-zealot",
+            "grantId": "blade-of-the-zealot",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "reason": "Class path prerequisite has not been structurally adapted.",
+                "text": "Trained in Stealth",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You slip through the edges of combat and strike with the swift efficiency of a divine knife in the dark. An action point grants concealment and a short teleport, and combat advantage or a bloodied foe makes your blows land harder. Charging from hiding can let you strike with the upper hand, while a prayer can erase you from an enemy's sight and your signature attack sears a target with radiant fire that leaves it exposed.",
+        "title": "Zealous Assassin"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Class path prerequisite has not been structurally adapted: Trained in Stealth."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You slip through the edges of combat and strike with the swift efficiency of a divine knife in the dark. An action point grants concealment and a short teleport, and combat advantage or a bloodied foe makes your blows land harder. Charging from hiding can let you strike with the upper hand, while a prayer can erase you from an enemy's sight and your signature attack sears a target with radiant fire that leaves it exposed.",
+        "flavor": "You slip through the edges of combat and strike with the swift efficiency of a divine knife in the dark. An action point grants concealment and a short teleport, and combat advantage or a bloodied foe makes your blows land harder. Charging from hiding can let you strike with the upper hand, while a prayer can erase you from an enemy's sight and your signature attack sears a target with radiant fire that leaves it exposed.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.zealous-assassin-divine-shroud-action",
+            "id": "divine-shroud-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.zealous-assassin-finishing-technique",
+            "id": "finishing-technique"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-strike-from-empty-air",
+            "id": "strike-from-empty-air"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-avenging-shadow",
+            "id": "avenging-shadow"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.zealous-assassin-zealots-veil",
+            "id": "zealots-veil"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-blade-of-the-zealot",
+            "id": "blade-of-the-zealot"
+          }
+        ],
+        "id": "modern4e.path.paragonpath257",
+        "link": "https://iws.mx/dnd/?view=paragonpath257",
+        "prerequisiteText": "Avenger, trained in Stealth",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "reason": "Class path prerequisite has not been structurally adapted.",
+              "text": "Trained in Stealth",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "requirements": "Trained in Stealth",
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath257",
+        "title": "Zealous Assassin"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.path.paragonpath394",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.favored-soul-favored-action",
+            "grantId": "favored-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.favored-soul-heavens-shield",
+            "grantId": "heavens-shield",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-radiant-rush",
+            "grantId": "radiant-rush",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-wings-of-angels",
+            "grantId": "wings-of-angels",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.favored-soul-heavens-boon",
+            "grantId": "heavens-boon",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-celestial-skirmish",
+            "grantId": "celestial-skirmish",
+            "type": "entry"
+          }
+        ],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -281,18 +1430,2830 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Read the battlefield with a traveler's eye, letting Wisdom widen the reach of your assault or shielding aegis and guide a sharp answer to enemies that wound you deeply. Teleport before an action point maneuver, or catch a marked attacker in a magical snare that carries both of you away from your threatened ally. Your adaptable swordplay tests whichever defense looks weakest, while a circling guard of spectral blades can shelter companions and steadily cut at nearby foes.",
-        "title": "Wandering Swordmage"
+        "description": "Heaven's blessing awakens within you, rewarding the avenger who keeps fighting at full strength. Your action points can pull an ally back from the brink with a healing surge, and unbroken health hardens every one of your defenses. At 16th level feathered wings let you fly in light or no armor, and you can streak across the battlefield with a radiant charge or a sweeping series of aerial strikes that daze and stun the foes you pass.",
+        "title": "Favored Soul"
       },
       "sharedData": {
-        "description": "Read the battlefield with a traveler's eye, letting Wisdom widen the reach of your assault or shielding aegis and guide a sharp answer to enemies that wound you deeply. Teleport before an action point maneuver, or catch a marked attacker in a magical snare that carries both of you away from your threatened ally. Your adaptable swordplay tests whichever defense looks weakest, while a circling guard of spectral blades can shelter companions and steadily cut at nearby foes.",
-        "link": "https://iws.mx/dnd/?view=paragonpath76",
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Heaven's blessing awakens within you, rewarding the avenger who keeps fighting at full strength. Your action points can pull an ally back from the brink with a healing surge, and unbroken health hardens every one of your defenses. At 16th level feathered wings let you fly in light or no armor, and you can streak across the battlefield with a radiant charge or a sweeping series of aerial strikes that daze and stun the foes you pass.",
+        "flavor": "Heaven's blessing awakens within you, rewarding the avenger who keeps fighting at full strength. Your action points can pull an ally back from the brink with a healing surge, and unbroken health hardens every one of your defenses. At 16th level feathered wings let you fly in light or no armor, and you can streak across the battlefield with a radiant charge or a sweeping series of aerial strikes that daze and stun the foes you pass.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.favored-soul-favored-action",
+            "id": "favored-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.favored-soul-heavens-shield",
+            "id": "heavens-shield"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-radiant-rush",
+            "id": "radiant-rush"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-wings-of-angels",
+            "id": "wings-of-angels"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.favored-soul-heavens-boon",
+            "id": "heavens-boon"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-celestial-skirmish",
+            "id": "celestial-skirmish"
+          }
+        ],
+        "id": "modern4e.path.paragonpath394",
+        "link": "https://iws.mx/dnd/?view=paragonpath394",
+        "prerequisiteText": "Avenger",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
         "requirements": null,
-        "sourceEntryId": "paragonpath76",
-        "title": "Wandering Swordmage"
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath394",
+        "title": "Favored Soul"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [
+          "Class path prerequisite has not been structurally adapted: Oath of Enmity class feature.",
+          "Published prerequisite not enforced: Avenger, oath of enmity power."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.path.paragonpath396",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.serene-initiate-calm-eye",
+            "grantId": "calm-eye",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.serene-initiate-serene-edge",
+            "grantId": "serene-edge",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-defining-cut",
+            "grantId": "defining-cut",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-deadly-calm",
+            "grantId": "deadly-calm",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.serene-initiate-certain-cut",
+            "grantId": "certain-cut",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-heavens-edge",
+            "grantId": "heavens-edge",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "reason": "Class path prerequisite has not been structurally adapted.",
+                "text": "Oath of Enmity class feature",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Calm discipline guides your blade, and every swing lands as a measured act rather than a flash of anger. Spending an action point on an at-will attack adds a burst of extra damage, while misses against your sworn enemy still draw blood. A cutting encounter strike punishes targets that dare to act, and a stance and a daily attack reward you with sharper results whenever your Oath of Enmity gives you two attack rolls.",
+        "title": "Serene Initiate"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Class path prerequisite has not been structurally adapted: Oath of Enmity class feature.",
+            "Published prerequisite not enforced: Avenger, oath of enmity power."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Calm discipline guides your blade, and every swing lands as a measured act rather than a flash of anger. Spending an action point on an at-will attack adds a burst of extra damage, while misses against your sworn enemy still draw blood. A cutting encounter strike punishes targets that dare to act, and a stance and a daily attack reward you with sharper results whenever your Oath of Enmity gives you two attack rolls.",
+        "flavor": "Calm discipline guides your blade, and every swing lands as a measured act rather than a flash of anger. Spending an action point on an at-will attack adds a burst of extra damage, while misses against your sworn enemy still draw blood. A cutting encounter strike punishes targets that dare to act, and a stance and a daily attack reward you with sharper results whenever your Oath of Enmity gives you two attack rolls.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.serene-initiate-calm-eye",
+            "id": "calm-eye"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.serene-initiate-serene-edge",
+            "id": "serene-edge"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-defining-cut",
+            "id": "defining-cut"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-deadly-calm",
+            "id": "deadly-calm"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.serene-initiate-certain-cut",
+            "id": "certain-cut"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-heavens-edge",
+            "id": "heavens-edge"
+          }
+        ],
+        "id": "modern4e.path.paragonpath396",
+        "link": "https://iws.mx/dnd/?view=paragonpath396",
+        "prerequisiteText": "Avenger, oath of enmity power",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "reason": "Class path prerequisite has not been structurally adapted.",
+              "text": "Oath of Enmity class feature",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "requirements": "Oath of Enmity class feature",
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath396",
+        "title": "Serene Initiate"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [
+          "Class path prerequisite has not been structurally adapted: Oath of Enmity class feature.",
+          "Published prerequisite not enforced: Avenger, oath of enmity power."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.path.paragonpath686",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.agent-of-the-unbroken-circle-incorruptible",
+            "grantId": "incorruptible",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.agent-of-the-unbroken-circle-unity-unbroken",
+            "grantId": "unity-unbroken",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-carve-out-corruption",
+            "grantId": "carve-out-corruption",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-sanctity-of-the-ring",
+            "grantId": "sanctity-of-the-ring",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.agent-of-the-unbroken-circle-exorcise-corruption",
+            "grantId": "exorcise-corruption",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-judgment-of-the-true-king",
+            "grantId": "judgment-of-the-true-king",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "reason": "Class path prerequisite has not been structurally adapted.",
+                "text": "Oath of Enmity class feature",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You hunt corruption as part of a sworn circle, turning your oath of enmity into a rallying point for everyone beside you. Spending an action point lets your allies hit your target harder while they flank it, and a critical hit gives nearby allies a chance to shake off what afflicts them. Training in Insight and Society keeps you alert to rot in the shadows, while a radiant halo bolsters saving throws for any group that crowds your quarry.",
+        "title": "Agent of the Unbroken Circle"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Class path prerequisite has not been structurally adapted: Oath of Enmity class feature.",
+            "Published prerequisite not enforced: Avenger, oath of enmity power."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You hunt corruption as part of a sworn circle, turning your oath of enmity into a rallying point for everyone beside you. Spending an action point lets your allies hit your target harder while they flank it, and a critical hit gives nearby allies a chance to shake off what afflicts them. Training in Insight and Society keeps you alert to rot in the shadows, while a radiant halo bolsters saving throws for any group that crowds your quarry.",
+        "flavor": "You hunt corruption as part of a sworn circle, turning your oath of enmity into a rallying point for everyone beside you. Spending an action point lets your allies hit your target harder while they flank it, and a critical hit gives nearby allies a chance to shake off what afflicts them. Training in Insight and Society keeps you alert to rot in the shadows, while a radiant halo bolsters saving throws for any group that crowds your quarry.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.agent-of-the-unbroken-circle-incorruptible",
+            "id": "incorruptible"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.agent-of-the-unbroken-circle-unity-unbroken",
+            "id": "unity-unbroken"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-carve-out-corruption",
+            "id": "carve-out-corruption"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-sanctity-of-the-ring",
+            "id": "sanctity-of-the-ring"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.agent-of-the-unbroken-circle-exorcise-corruption",
+            "id": "exorcise-corruption"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-judgment-of-the-true-king",
+            "id": "judgment-of-the-true-king"
+          }
+        ],
+        "id": "modern4e.path.paragonpath686",
+        "link": "https://iws.mx/dnd/?view=paragonpath686",
+        "prerequisiteText": "Avenger, oath of enmity power",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "reason": "Class path prerequisite has not been structurally adapted.",
+              "text": "Oath of Enmity class feature",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "requirements": "Oath of Enmity class feature",
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath686",
+        "title": "Agent of the Unbroken Circle"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-avenging-shadow",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You call upon your god to blot your image from your foe's mind.\n\nDAILY / MINOR\n\nClose burst 10\n\nTarget: One enemy in the burst\n\nEffect: You become invisible to the target until the end of your next turn. If the target is your oath of enmity target, you become invisible to it (save ends).",
+        "title": "Avenging Shadow"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You become invisible to the target until the end of your next turn. If the target is your oath of enmity target, you become invisible to it (save ends).",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You call upon your god to blot your image from your foe's mind.",
+        "flavor": "You call upon your god to blot your image from your foe's mind.",
+        "id": "modern4e.power.path-avenging-shadow",
+        "keywords": [
+          "DIVINE",
+          "ILLUSION"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5364",
+          "publication": "Published in Player's Handbook 2, page(s) 47.",
+          "rulesText": "Avenging ShadowZealous Assassin Utility 12\nYou call upon your god to blot your image from your foe's mind.\nDaily   ✦     Divine, Illusion\nMinor Action      Close burst 10\nTarget: One enemy in the burst\nEffect: You become invisible to the target until the end of your next turn. If the target is your oath of enmity target, you become invisible to it (save ends).\nPublished in Player's Handbook 2, page(s) 47."
+        },
+        "subtitle": "Zealous Assassin Utility 12",
+        "title": "Avenging Shadow"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-blade-of-the-zealot",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your weapon sears your foe with radiant energy and leaves it vulnerable to your attacks.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Wisdom vs. AC\n\nHit: 4[W] + Wisdom radiant damage. The target takes ongoing 10 radiant damage and grants combat advantage to you (save ends both).\n\nMiss: Half damage. The target takes ongoing 5 radiant damage and grants combat advantage to you (save ends both).",
+        "title": "Blade of the Zealot"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "4[W] + Wisdom radiant damage. The target takes ongoing 10 radiant damage and grants combat advantage to you (save ends both).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage. The target takes ongoing 5 radiant damage and grants combat advantage to you (save ends both).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your weapon sears your foe with radiant energy and leaves it vulnerable to your attacks.",
+        "flavor": "Your weapon sears your foe with radiant energy and leaves it vulnerable to your attacks.",
+        "id": "modern4e.power.path-blade-of-the-zealot",
+        "keywords": [
+          "DIVINE",
+          "RADIANT",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5365",
+          "publication": "Published in Player's Handbook 2, page(s) 47.",
+          "rulesText": "Blade of the ZealotZealous Assassin Attack 20\nYour weapon sears your foe with radiant energy and leaves it vulnerable to your attacks.\nDaily   ✦     Divine, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 4[W] + Wisdom modifier radiant damage. The target takes ongoing 10 radiant damage and grants combat advantage to you (save ends both).\nMiss: Half damage. The target takes ongoing 5 radiant damage and grants combat advantage to you (save ends both).\nPublished in Player's Handbook 2, page(s) 47."
+        },
+        "subtitle": "Zealous Assassin Attack 20",
+        "title": "Blade of the Zealot"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-carve-out-corruption",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You strike to the malignant core of your sworn enemy, momentarily stopping its corrupting influence.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Wisdom vs. AC\n\nHit: 3[W] + Wisdom radiant damage, and the target takes a -5 penalty to attack rolls on attacks that target Will until the end of your next turn.",
+        "title": "Carve Out Corruption"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Wisdom radiant damage, and the target takes a -5 penalty to attack rolls on attacks that target Will until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You strike to the malignant core of your sworn enemy, momentarily stopping its corrupting influence.",
+        "flavor": "You strike to the malignant core of your sworn enemy, momentarily stopping its corrupting influence.",
+        "id": "modern4e.power.path-carve-out-corruption",
+        "keywords": [
+          "DIVINE",
+          "RADIANT",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12485",
+          "publication": "Published in Dragon Magazine 387, page(s) 38.",
+          "rulesText": "Carve Out CorruptionAgent of the Unbroken Circle Attack 11\nYou strike to the malignant core of your sworn enemy, momentarily stopping its corrupting influence.\nEncounter   ✦     Divine, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier radiant damage, and the target takes a -5 penalty to attack rolls on attacks that target Will until the end of your next turn.\nPublished in Dragon Magazine 387, page(s) 38."
+        },
+        "subtitle": "Agent of the Unbroken Circle Attack 11",
+        "title": "Carve Out Corruption"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-celestial-skirmish",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You take to the sky, your weapon aglow. You swoop and strike repeatedly as you dart past your foes.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nEffect: You fly your speed + 2. During this movement, you gain a +6 bonus to AC against opportunity attacks. At any point during the movement, you can make the following attack three times, each time against a different target.\n\nAttack: Wisdom vs. AC\n\nHit: 2[W] + Wisdom radiant damage. If you hit two creatures, the second is dazed (save ends). If you hit three creatures, the third is stunned (save ends).",
+        "title": "Celestial Skirmish"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You fly your speed + 2. During this movement, you gain a +6 bonus to AC against opportunity attacks. At any point during the movement, you can make the following attack three times, each time against a different target.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "2[W] + Wisdom radiant damage. If you hit two creatures, the second is dazed (save ends). If you hit three creatures, the third is stunned (save ends).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You take to the sky, your weapon aglow. You swoop and strike repeatedly as you dart past your foes.",
+        "flavor": "You take to the sky, your weapon aglow. You swoop and strike repeatedly as you dart past your foes.",
+        "id": "modern4e.power.path-celestial-skirmish",
+        "keywords": [
+          "DIVINE",
+          "RADIANT",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7715",
+          "publication": "Published in Divine Power, page(s) 23.",
+          "rulesText": "Celestial SkirmishFavored Soul Attack 20\nYou take to the sky, your weapon aglow. You swoop and strike repeatedly as you dart past your foes.\nDaily   ✦     Divine, Radiant, Weapon\nStandard Action      Melee weapon\nEffect: You fly your speed + 2. During this movement, you gain a +6 bonus to AC against opportunity attacks. At any point during the movement, you can make the following attack three times, each time against a different target.\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier radiant damage. If you hit two creatures, the second is dazed (save ends). If you hit three creatures, the third is stunned (save ends).\nPublished in Divine Power, page(s) 23."
+        },
+        "subtitle": "Favored Soul Attack 20",
+        "title": "Celestial Skirmish"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-deadly-calm",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Without malice, without anger, each blow is delivered as smoothly and perfectly as a one-word prayer.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, when you make two attack rolls because of oath of enmity and both would hit, the target takes extra damage equal to one-half your level.",
+        "title": "Deadly Calm"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "Until the stance ends, when you make two attack rolls because of oath of enmity and both would hit, the target takes extra damage equal to one-half your level.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Without malice, without anger, each blow is delivered as smoothly and perfectly as a one-word prayer.",
+        "flavor": "Without malice, without anger, each blow is delivered as smoothly and perfectly as a one-word prayer.",
+        "id": "modern4e.power.path-deadly-calm",
+        "keywords": [
+          "DIVINE",
+          "STANCE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7721",
+          "publication": "Published in Divine Power, page(s) 25.",
+          "rulesText": "Deadly CalmSerene Initiate Utility 12\nWithout malice, without anger, each blow is delivered as smoothly and perfectly as a one-word prayer.\nDaily   ✦     Divine, Stance\nMinor Action      Personal\nEffect: Until the stance ends, when you make two attack rolls because of oath of enmity and both would hit, the target takes extra damage equal to one-half your level.\nPublished in Divine Power, page(s) 25."
+        },
+        "subtitle": "Serene Initiate Utility 12",
+        "title": "Deadly Calm"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-defining-cut",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your deadly calm shapes the battle.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One or two creatures\n\nAttack: Wisdom vs. AC\n\nHit: 3[W] + Wisdom damage. Until the end of your next turn, the target takes 10 damage the first time it uses an attack other than a basic attack.\n\nAttack: If one of the targets is your oath of enmity target, both targets are treated as your oath of enmity target for this attack.",
+        "title": "Defining Cut"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One or two creatures"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Wisdom damage. Until the end of your next turn, the target takes 10 damage the first time it uses an attack other than a basic attack.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-2-note",
+                "label": "Attack",
+                "text": "If one of the targets is your oath of enmity target, both targets are treated as your oath of enmity target for this attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your deadly calm shapes the battle.",
+        "flavor": "Your deadly calm shapes the battle.",
+        "id": "modern4e.power.path-defining-cut",
+        "keywords": [
+          "DIVINE",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7720",
+          "publication": "Published in Divine Power, page(s) 25.",
+          "rulesText": "Defining CutSerene Initiate Attack 11\nYour deadly calm shapes the battle.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One or two creatures\nAttack: Wisdom vs. AC. If one of the targets is your oath of enmity target, both targets are treated as your oath of enmity target for this attack.\nHit: 3[W] + Wisdom modifier damage. Until the end of your next turn, the target takes 10 damage the first time it uses an attack other than a basic attack.\nPublished in Divine Power, page(s) 25."
+        },
+        "subtitle": "Serene Initiate Attack 11",
+        "title": "Defining Cut"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-hammer-of-the-final-pronouncement",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your god's judgment drives your foe back and roots it to the ground.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Wisdom vs. AC\n\nHit: 4[W] + Wisdom damage. You push the target 3 squares, and it is immobilized (save ends).\n\nMiss: Half damage. You push the target 3 squares, and it is immobilized until the end of your next turn.\n\nWeapon: If you are wielding a hammer, the number of squares you can push the target equals 3 + your Intelligence.",
+        "title": "Hammer of the Final Pronouncement"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "4[W] + Wisdom damage. You push the target 3 squares, and it is immobilized (save ends).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage. You push the target 3 squares, and it is immobilized until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Weapon",
+                "text": "If you are wielding a hammer, the number of squares you can push the target equals 3 + your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your god's judgment drives your foe back and roots it to the ground.",
+        "flavor": "Your god's judgment drives your foe back and roots it to the ground.",
+        "id": "modern4e.power.path-hammer-of-the-final-pronouncement",
+        "keywords": [
+          "DIVINE",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5356",
+          "publication": "Published in Player's Handbook 2, page(s) 44.",
+          "rulesText": "Hammer of the Final PronouncementHammer of Judgment Attack 20\nYour god's judgment drives your foe back and roots it to the ground.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 4[W] + Wisdom modifier damage. You push the target 3 squares, and it is immobilized (save ends).\nMiss: Half damage. You push the target 3 squares, and it is immobilized until the end of your next turn.\nWeapon: If you are wielding a hammer, the number of squares you can push the target equals 3 + your Intelligence modifier.\nPublished in Player's Handbook 2, page(s) 44."
+        },
+        "subtitle": "Hammer of Judgment Attack 20",
+        "title": "Hammer of the Final Pronouncement"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-heavens-edge",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your strike wins the favor of your deity, which in turn guides your weapon against your sworn foe.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Wisdom vs. AC\n\nHit: 3[W] + Wisdom damage. Before the end of the encounter, when you are next able to make two attack rolls because of your oath of enmity, you can instead make three attack rolls and use the result you prefer.\n\nSpecial: If you have no encounter attack powers available when you use this power, it is reliable.",
+        "title": "Heaven's Edge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath396",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Wisdom damage. Before the end of the encounter, when you are next able to make two attack rolls because of your oath of enmity, you can instead make three attack rolls and use the result you prefer.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Special",
+                "text": "If you have no encounter attack powers available when you use this power, it is reliable.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your strike wins the favor of your deity, which in turn guides your weapon against your sworn foe.",
+        "flavor": "Your strike wins the favor of your deity, which in turn guides your weapon against your sworn foe.",
+        "id": "modern4e.power.path-heavens-edge",
+        "keywords": [
+          "DIVINE",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7722",
+          "publication": "Published in Divine Power, page(s) 25.",
+          "rulesText": "Heaven's EdgeSerene Initiate Attack 20\nYour strike wins the favor of your deity, which in turn guides your weapon against your sworn foe.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage. Before the end of the encounter, when you are next able to make two attack rolls because of your oath of enmity, you can instead make three attack rolls and use the result you prefer.\nSpecial: If you have no encounter attack powers available when you use this power, it is reliable.\nPublished in Divine Power, page(s) 25."
+        },
+        "subtitle": "Serene Initiate Attack 20",
+        "title": "Heaven's Edge"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-judgment-of-the-true-king",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You advance in concert with your allies, taking strength from their bravery and beseeching the freed spirit of King Pedrawd to imbue your weapon with its divine wrath.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nEffect: Before the attack, you and each ally within 5 squares of you can shift 3 squares as a free action.\n\nAttack: Wisdom vs. AC\n\nHit: 4[W] + Wisdom radiant damage, or 6[W] + Wisdom radiant damage if at least two of your allies are adjacent to the target.\n\nMiss: Half damage.",
+        "title": "Judgment of the True King"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "Before the attack, you and each ally within 5 squares of you can shift 3 squares as a free action.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "4[W] + Wisdom radiant damage, or 6[W] + Wisdom radiant damage if at least two of your allies are adjacent to the target.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-5",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You advance in concert with your allies, taking strength from their bravery and beseeching the freed spirit of King Pedrawd to imbue your weapon with its divine wrath.",
+        "flavor": "You advance in concert with your allies, taking strength from their bravery and beseeching the freed spirit of King Pedrawd to imbue your weapon with its divine wrath.",
+        "id": "modern4e.power.path-judgment-of-the-true-king",
+        "keywords": [
+          "DIVINE",
+          "RADIANT",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12486",
+          "publication": "Published in Dragon Magazine 387, page(s) 38.",
+          "rulesText": "Judgment of the True KingAgent of the Unbroken Circle Attack 20\nYou advance in concert with your allies, taking strength from their bravery and beseeching the freed spirit of King Pedrawd to imbue your weapon with its divine wrath.\nDaily   ✦     Divine, Radiant, Weapon\nStandard Action      Melee weapon\nEffect: Before the attack, you and each ally within 5 squares of you can shift 3 squares as a free action.\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 4[W] + Wisdom modifier radiant damage, or 6[W] + Wisdom modifier radiant damage if at least two of your allies are adjacent to the target.\nMiss: Half damage.\nPublished in Dragon Magazine 387, page(s) 38."
+        },
+        "subtitle": "Agent of the Unbroken Circle Attack 20",
+        "title": "Judgment of the True King"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-oath-bond",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You bind a foe with your oath, consigning it to your god's punishment.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: Your oath of enmity target\n\nAttack: Wisdom vs. AC\n\nHit: 3[W] + Wisdom damage.\n\nEffect: The target gains vulnerable 5 to your attacks (save ends).",
+        "title": "Oath Bond"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Your oath of enmity target"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Wisdom damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "The target gains vulnerable 5 to your attacks (save ends).",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You bind a foe with your oath, consigning it to your god's punishment.",
+        "flavor": "You bind a foe with your oath, consigning it to your god's punishment.",
+        "id": "modern4e.power.path-oath-bond",
+        "keywords": [
+          "DIVINE",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5359",
+          "publication": "Published in Player's Handbook 2, page(s) 45.",
+          "rulesText": "Oath BondOathsworn Attack 20\nYou bind a foe with your oath, consigning it to your god's punishment.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: Your oath of enmity target\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage.\nEffect: The target gains vulnerable 5 to your attacks (save ends).\nPublished in Player's Handbook 2, page(s) 45."
+        },
+        "subtitle": "Oathsworn Attack 20",
+        "title": "Oath Bond"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-oath-of-weakness",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As you strike your sworn foe, the power of your oath saps its strength and will.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: Your oath of enmity target\n\nAttack: Wisdom vs. AC\n\nHit: 2[W] + Wisdom damage, and the target is weakened until the end of your next turn.",
+        "title": "Oath of Weakness"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Your oath of enmity target"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Wisdom damage, and the target is weakened until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As you strike your sworn foe, the power of your oath saps its strength and will.",
+        "flavor": "As you strike your sworn foe, the power of your oath saps its strength and will.",
+        "id": "modern4e.power.path-oath-of-weakness",
+        "keywords": [
+          "DIVINE",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5357",
+          "publication": "Published in Player's Handbook 2, page(s) 45.",
+          "rulesText": "Oath of WeaknessOathsworn Attack 11\nAs you strike your sworn foe, the power of your oath saps its strength and will.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: Your oath of enmity target\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier damage, and the target is weakened until the end of your next turn.\nPublished in Player's Handbook 2, page(s) 45."
+        },
+        "subtitle": "Oathsworn Attack 11",
+        "title": "Oath of Weakness"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-radiant-rush",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You blur into action, speeding across the battlefield to smash into your enemy in a halo of radiance. If your blow misses, the light conceals you.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: Your oath of enmity target\n\nAttack: Wisdom vs. AC\n\nHit: 2[W] + Wisdom radiant damage, you push the target 2 squares, and the target is dazed until the end of your next turn.\n\nMiss: You gain concealment until the end of your next turn.\n\nSpecial: When charging, you can use this power in place of a melee basic attack.",
+        "title": "Radiant Rush"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Your oath of enmity target"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Wisdom radiant damage, you push the target 2 squares, and the target is dazed until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "You gain concealment until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Special",
+                "text": "When charging, you can use this power in place of a melee basic attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You blur into action, speeding across the battlefield to smash into your enemy in a halo of radiance. If your blow misses, the light conceals you.",
+        "flavor": "You blur into action, speeding across the battlefield to smash into your enemy in a halo of radiance. If your blow misses, the light conceals you.",
+        "id": "modern4e.power.path-radiant-rush",
+        "keywords": [
+          "DIVINE",
+          "RADIANT",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7713",
+          "publication": "Published in Divine Power, page(s) 23.",
+          "rulesText": "Radiant RushFavored Soul Attack 11\nYou blur into action, speeding across the battlefield to smash into your enemy in a halo of radiance. If your blow misses, the light conceals you.\nEncounter   ✦     Divine, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: Your oath of enmity target\nAttack: Wisdom vs. AC\nHit: 2[W] + Wisdom modifier radiant damage, you push the target 2 squares, and the target is dazed until the end of your next turn.\nMiss: You gain concealment until the end of your next turn.\nSpecial: When charging, you can use this power in place of a melee basic attack.\nPublished in Divine Power, page(s) 23."
+        },
+        "subtitle": "Favored Soul Attack 11",
+        "title": "Radiant Rush"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-resolve-of-steel",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Like steel forged and tempered by a master smith, you resist the worst of your enemies' attacks.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You gain resist 10 to all damage until the end of your next turn.",
+        "title": "Resolve of Steel"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You gain resist 10 to all damage until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Like steel forged and tempered by a master smith, you resist the worst of your enemies' attacks.",
+        "flavor": "Like steel forged and tempered by a master smith, you resist the worst of your enemies' attacks.",
+        "id": "modern4e.power.path-resolve-of-steel",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5355",
+          "publication": "Published in Player's Handbook 2, page(s) 44.",
+          "rulesText": "Resolve of SteelHammer of Judgment Utility 12\nLike steel forged and tempered by a master smith, you resist the worst of your enemies' attacks.\nEncounter   ✦     Divine\nMinor Action      Personal\nEffect: You gain resist 10 to all damage until the end of your next turn.\nPublished in Player's Handbook 2, page(s) 44."
+        },
+        "subtitle": "Hammer of Judgment Utility 12",
+        "title": "Resolve of Steel"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-sanctity-of-the-ring",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A radiant halo encircles you and nearby allies, blessing them with your divine unity.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You enter the sanctity of the ring stance. Until the stance ends, you and your allies gain a +2 bonus to saving throws while adjacent to your oath of enmity target. If you and at least 2 other allies are adjacent to your oath of enmity target, the bonus increases to +4.",
+        "title": "Sanctity of the Ring"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath686",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You enter the sanctity of the ring stance. Until the stance ends, you and your allies gain a +2 bonus to saving throws while adjacent to your oath of enmity target. If you and at least 2 other allies are adjacent to your oath of enmity target, the bonus increases to +4.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A radiant halo encircles you and nearby allies, blessing them with your divine unity.",
+        "flavor": "A radiant halo encircles you and nearby allies, blessing them with your divine unity.",
+        "id": "modern4e.power.path-sanctity-of-the-ring",
+        "keywords": [
+          "DIVINE",
+          "STANCE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12487",
+          "publication": "Published in Dragon Magazine 387, page(s) 38.",
+          "rulesText": "Sanctity of the RingAgent of the Unbroken Circle Utility 12\nA radiant halo encircles you and nearby allies, blessing them with your divine unity.\nDaily   ✦     Divine, Stance\nMinor Action      Personal\nEffect: You enter the sanctity of the ring stance. Until the stance ends, you and your allies gain a +2 bonus to saving throws while adjacent to your oath of enmity target. If you and at least 2 other allies are adjacent to your oath of enmity target, the bonus increases to +4.\nPublished in Dragon Magazine 387, page(s) 38."
+        },
+        "subtitle": "Agent of the Unbroken Circle Utility 12",
+        "title": "Sanctity of the Ring"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-strike-from-empty-air",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You teleport to the perfect position to deliver a deadly strike against your foe.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Wisdom vs. AC\n\nHit: 3[W] + Wisdom damage. If you have combat advantage against the target, the attack deals 1[W] extra damage.\n\nEffect: Before or after the attack, you teleport 2 squares.",
+        "title": "Strike from Empty Air"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath257",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Wisdom damage. If you have combat advantage against the target, the attack deals 1[W] extra damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "Before or after the attack, you teleport 2 squares.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You teleport to the perfect position to deliver a deadly strike against your foe.",
+        "flavor": "You teleport to the perfect position to deliver a deadly strike against your foe.",
+        "id": "modern4e.power.path-strike-from-empty-air",
+        "keywords": [
+          "DIVINE",
+          "TELEPORTATION",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5363",
+          "publication": "Published in Player's Handbook 2, page(s) 47.",
+          "rulesText": "Strike from Empty AirZealous Assassin Attack 11\nYou teleport to the perfect position to deliver a deadly strike against your foe.\nEncounter   ✦     Divine, Teleportation, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Wisdom vs. AC\nHit: 3[W] + Wisdom modifier damage. If you have combat advantage against the target, the attack deals 1[W] extra damage.\nEffect: Before or after the attack, you teleport 2 squares.\nPublished in Player's Handbook 2, page(s) 47."
+        },
+        "subtitle": "Zealous Assassin Attack 11",
+        "title": "Strike from Empty Air"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-sworn-crusade",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The holy nimbus representing your oath against an enemy surrounds your allies too, endowing them with deadly accuracy.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: Each ally in the burst\n\nEffect: Until the end of your next turn, each target makes two attack rolls and uses the result he or she prefers when making a melee attack against your oath of enmity target.",
+        "title": "Sworn Crusade"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath255",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "Until the end of your next turn, each target makes two attack rolls and uses the result he or she prefers when making a melee attack against your oath of enmity target.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The holy nimbus representing your oath against an enemy surrounds your allies too, endowing them with deadly accuracy.",
+        "flavor": "The holy nimbus representing your oath against an enemy surrounds your allies too, endowing them with deadly accuracy.",
+        "id": "modern4e.power.path-sworn-crusade",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5358",
+          "publication": "Published in Player's Handbook 2, page(s) 45.",
+          "rulesText": "Sworn CrusadeOathsworn Utility 12\nThe holy nimbus representing your oath against an enemy surrounds your allies too, endowing them with deadly accuracy.\nDaily   ✦     Divine\nMinor Action      Close burst 5\nTarget: Each ally in the burst\nEffect: Until the end of your next turn, each target makes two attack rolls and uses the result he or she prefers when making a melee attack against your oath of enmity target.\nPublished in Player's Handbook 2, page(s) 45."
+        },
+        "subtitle": "Oathsworn Utility 12",
+        "title": "Sworn Crusade"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-thunder-hammer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You slam your weapon into the ground, and the earth itself transmits your god's wrath, bludgeoning your enemies with the force of thunder and either knocking them to the ground or driving them back.\n\nENCOUNTER / STANDARD\n\nClose burst 3\n\nTarget: Each enemy in the burst\n\nAttack: Wisdom vs. Fortitude\n\nHit: 2[W] + Wisdom thunder damage, and you either knock the target prone or push it 2 squares.\n\nWeapon: If you are wielding a hammer, the number of squares you can push the target equals 1 + your Intelligence.",
+        "title": "Thunder Hammer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath254",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Wisdom thunder damage, and you either knock the target prone or push it 2 squares.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Close burst 3",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Weapon",
+                "text": "If you are wielding a hammer, the number of squares you can push the target equals 1 + your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You slam your weapon into the ground, and the earth itself transmits your god's wrath, bludgeoning your enemies with the force of thunder and either knocking them to the ground or driving them back.",
+        "flavor": "You slam your weapon into the ground, and the earth itself transmits your god's wrath, bludgeoning your enemies with the force of thunder and either knocking them to the ground or driving them back.",
+        "id": "modern4e.power.path-thunder-hammer",
+        "keywords": [
+          "DIVINE",
+          "THUNDER",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5354",
+          "publication": "Published in Player's Handbook 2, page(s) 44.",
+          "rulesText": "Thunder HammerHammer of Judgment Attack 11\nYou slam your weapon into the ground, and the earth itself transmits your god's wrath, bludgeoning your enemies with the force of thunder and either knocking them to the ground or driving them back.\nEncounter   ✦     Divine, Thunder, Weapon\nStandard Action      Close burst 3\nTarget: Each enemy in the burst\nAttack: Wisdom vs. Fortitude\nHit: 2[W] + Wisdom modifier thunder damage, and you either knock the target prone or push it 2 squares.\nWeapon: If you are wielding a hammer, the number of squares you can push the target equals 1 + your Intelligence modifier.\nPublished in Player's Handbook 2, page(s) 44."
+        },
+        "subtitle": "Hammer of Judgment Attack 11",
+        "title": "Thunder Hammer"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-wings-of-angels",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your lower body fades into swirling mist as you gain mastery of your airborne movement.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, your fly speed increases by 4, and you can hover. In addition, while you aren't bloodied, you gain regeneration equal to your Wisdom.",
+        "title": "Wings of Angels"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath394",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "Until the stance ends, your fly speed increases by 4, and you can hover. In addition, while you aren't bloodied, you gain regeneration equal to your Wisdom.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your lower body fades into swirling mist as you gain mastery of your airborne movement.",
+        "flavor": "Your lower body fades into swirling mist as you gain mastery of your airborne movement.",
+        "id": "modern4e.power.path-wings-of-angels",
+        "keywords": [
+          "DIVINE",
+          "HEALING",
+          "STANCE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7714",
+          "publication": "Published in Divine Power, page(s) 23.",
+          "rulesText": "Wings of AngelsFavored Soul Utility 12\nYour lower body fades into swirling mist as you gain mastery of your airborne movement.\nDaily   ✦     Divine, Healing, Stance\nMinor Action      Personal\nEffect: Until the stance ends, your fly speed increases by 4, and you can hover. In addition, while you aren't bloodied, you gain regeneration equal to your Wisdom modifier.\nPublished in Divine Power, page(s) 23."
+        },
+        "subtitle": "Favored Soul Utility 12",
+        "title": "Wings of Angels"
       }
     }
   ],

@@ -8,16 +8,16 @@ class RootSlotOffersTest {
     private fun entry(category: EntryCategory) = SlotCategory.Entry(category)
 
     @Test
-    fun scheduleCoversThirtyLevelsAndEnforcesOnlyThroughNineteen() {
+    fun scheduleCoversThirtyLevelsAndEnforcesOnlyThroughTwenty() {
         val schedule = AdvancementRules.schedule
         assertEquals((1..30).toList(), schedule.map { it.level })
-        assertEquals((1..19).toList(), AdvancementRules.enforced.map { it.level })
-        assertTrue(schedule.filter { it.level >= 20 }.all { it.previewOnly })
-        assertTrue(schedule.filter { it.level <= 19 }.none { it.previewOnly })
+        assertEquals((1..20).toList(), AdvancementRules.enforced.map { it.level })
+        assertTrue(schedule.filter { it.level >= 21 }.all { it.previewOnly })
+        assertTrue(schedule.filter { it.level <= 20 }.none { it.previewOnly })
         val enforced = AdvancementRules.enforced
-        assertEquals(listOf(1, 2, 4, 6, 8, 10, 11, 12, 14, 16, 17, 18), enforced.filter { it.feat }.map { it.level })
+        assertEquals(listOf(1, 2, 4, 6, 8, 10, 11, 12, 14, 16, 17, 18, 20), enforced.filter { it.feat }.map { it.level })
         assertEquals(listOf(4, 12), enforced.filter { it.abilityIncrease == AbilityIncreaseKind.NON_MAIN }.map { it.level })
-        assertEquals(listOf(8), enforced.filter { it.abilityIncrease == AbilityIncreaseKind.MAIN }.map { it.level })
+        assertEquals(listOf(8, 20), enforced.filter { it.abilityIncrease == AbilityIncreaseKind.MAIN }.map { it.level })
         assertEquals(listOf(16), enforced.filter { it.abilityIncrease == AbilityIncreaseKind.ALL }.map { it.level })
         assertEquals(listOf(9, 15, 19), enforced.filter { it.replacement == ReplacementUsage.DAILY }.map { it.level })
         assertEquals(listOf(11), enforced.filter { it.pathSelection == EntryCategory.PARAGON_PATH }.map { it.level })
@@ -34,8 +34,16 @@ class RootSlotOffersTest {
         assertEquals(EntryCategory.EPIC_DESTINY, AdvancementRules.level(21).pathSelection)
         assertEquals(listOf(ScheduledPower(ScheduledPowerKind.UTILITY, EntryCategory.EPIC_DESTINY)), AdvancementRules.level(26).powers)
         assertEquals(listOf(21, 24, 30), schedule.filter { it.features?.source == EntryCategory.EPIC_DESTINY }.map { it.level })
+        // Level 20 is real: a Paragon-path daily granted by the path, a feat slot and an automatic main increase,
+        // but no class pick, replacement or non-main ability choice.
+        assertEquals(listOf(ScheduledPower(ScheduledPowerKind.DAILY, EntryCategory.PARAGON_PATH)), AdvancementRules.level(20).powers)
+        assertEquals(listOf(AdvancementRules.rootSlot(20, EntryCategory.FEAT)), AdvancementRules.rootSlots(20).map { it.slot })
+        assertEquals(ChoiceSlotId("advancement.20", "feat", 0), AdvancementRules.rootSlot(20, EntryCategory.FEAT))
+        assertNull(AdvancementRules.level(20).replacement)
+        assertFalse(AdvancementRules.replacesDailyAttack(20))
+        assertFalse(AdvancementRules.choosesNonMainIncrease(20))
         // Preview-only levels open no root slots and accept no ability decision.
-        for (level in 20..30) {
+        for (level in 21..30) {
             assertTrue(AdvancementRules.rootSlots(level).isEmpty(), "level $level")
             assertFalse(AdvancementRules.choosesNonMainIncrease(level))
         }
@@ -125,7 +133,7 @@ class RootSlotOffersTest {
         assertTrue(offer(RulesEngine.evaluate(document(4, Ability.WISDOM), content)).filled)
         assertFalse(offer(RulesEngine.evaluate(document(4, Ability.STRENGTH), content)).filled)
         val epic = RulesEngine.evaluate(document(30, Ability.WISDOM), content)
-        assertEquals(19, epic.choices.filter { it.listing == SlotListing.DEFERRED }.maxOf { it.acquisitionLevel!! })
+        assertEquals(20, epic.choices.filter { it.listing == SlotListing.DEFERRED }.maxOf { it.acquisitionLevel!! })
     }
 
     private fun synchronous(block: suspend () -> Unit) {

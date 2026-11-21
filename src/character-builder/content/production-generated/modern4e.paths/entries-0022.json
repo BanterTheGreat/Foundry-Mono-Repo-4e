@@ -1,0 +1,824 @@
+{
+  "entries": [
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.master-of-flame-combustive-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, you deal fire damage equal to your level to each enemy adjacent to you.",
+        "title": "Combustive Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to take an extra action, you deal fire damage equal to your level to each enemy adjacent to you.",
+        "id": "modern4e.feature.master-of-flame-combustive-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Combustive Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.master-of-flame-critical-conflagration",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you score a critical hit with an arcane fire attack, one creature you hit with the attack takes ongoing fire damage equal to twice your Intelligence (save ends).",
+        "title": "Critical Conflagration"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you score a critical hit with an arcane fire attack, one creature you hit with the attack takes ongoing fire damage equal to twice your Intelligence (save ends).",
+        "id": "modern4e.feature.master-of-flame-critical-conflagration",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Critical Conflagration"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.master-of-flame-swath-of-destruction",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you use an arcane fire burst or blast attack, you can increase the size of the burst or blast by 1.",
+        "title": "Swath of Destruction"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you use an arcane fire burst or blast attack, you can increase the size of the burst or blast by 1.",
+        "id": "modern4e.feature.master-of-flame-swath-of-destruction",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Swath of Destruction"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [
+          "Published prerequisite not enforced: Any arcane class."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.path.paragonpath692",
+      "mechanics": {
+        "access": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.sorcerer",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.wizard",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.master-of-flame-combustive-action",
+            "grantId": "combustive-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.master-of-flame-critical-conflagration",
+            "grantId": "critical-conflagration",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-fanning-the-flames",
+            "grantId": "fanning-the-flames",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-burning-transformation",
+            "grantId": "burning-transformation",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.master-of-flame-swath-of-destruction",
+            "grantId": "swath-of-destruction",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-furious-immolation",
+            "grantId": "furious-immolation",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Give yourself completely to fire, spreading burning wounds and eventually widening every arcane fire burst and blast you cast. Critical hits kindle lingering flames, and an action point scorches enemies gathered beside you. You can fan an existing blaze into a second explosion, become an insubstantial creature of fire whose touch punishes melee attackers, and raise a hungry inferno that drags nearby creatures toward its center.",
+        "title": "Master of Flame"
+      },
+      "sharedData": {
+        "access": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.sorcerer",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.wizard",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Published prerequisite not enforced: Any arcane class."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Give yourself completely to fire, spreading burning wounds and eventually widening every arcane fire burst and blast you cast. Critical hits kindle lingering flames, and an action point scorches enemies gathered beside you. You can fan an existing blaze into a second explosion, become an insubstantial creature of fire whose touch punishes melee attackers, and raise a hungry inferno that drags nearby creatures toward its center.",
+        "flavor": "Give yourself completely to fire, spreading burning wounds and eventually widening every arcane fire burst and blast you cast. Critical hits kindle lingering flames, and an action point scorches enemies gathered beside you. You can fan an existing blaze into a second explosion, become an insubstantial creature of fire whose touch punishes melee attackers, and raise a hungry inferno that drags nearby creatures toward its center.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.master-of-flame-combustive-action",
+            "id": "combustive-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.master-of-flame-critical-conflagration",
+            "id": "critical-conflagration"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-fanning-the-flames",
+            "id": "fanning-the-flames"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-burning-transformation",
+            "id": "burning-transformation"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.master-of-flame-swath-of-destruction",
+            "id": "swath-of-destruction"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-furious-immolation",
+            "id": "furious-immolation"
+          }
+        ],
+        "id": "modern4e.path.paragonpath692",
+        "link": "https://iws.mx/dnd/?view=paragonpath692",
+        "prerequisiteText": "Any arcane class",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "requirements": null,
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath692",
+        "title": "Master of Flame"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-burning-transformation",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You become a creature of pure flame.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You transform into a creature of fire until the end of the encounter. While in this form you gain the following benefits and limitations: You are insubstantial, you can shift 1 square as a minor action, you are immune to fire, you gain a +5 power bonus to damage rolls with arcane fire attacks, and you cannot use any attack power without the fire keyword. Additionally, whenever an enemy hits you with a melee attack, it takes fire damage equal to 5 + your Intelligence.",
+        "title": "Burning Transformation"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You transform into a creature of fire until the end of the encounter. While in this form you gain the following benefits and limitations: You are insubstantial, you can shift 1 square as a minor action, you are immune to fire, you gain a +5 power bonus to damage rolls with arcane fire attacks, and you cannot use any attack power without the fire keyword. Additionally, whenever an enemy hits you with a melee attack, it takes fire damage equal to 5 + your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You become a creature of pure flame.",
+        "flavor": "You become a creature of pure flame.",
+        "id": "modern4e.power.path-burning-transformation",
+        "keywords": [
+          "ARCANE",
+          "FIRE",
+          "POLYMORPH"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12559",
+          "publication": "Published in Dragon Magazine 388.",
+          "rulesText": "Burning TransformationMaster of Flame Utility 12\nYou become a creature of pure flame.\nDaily   ✦     Arcane, Fire, Polymorph\nMinor Action      Personal\nEffect: You transform into a creature of fire until the end of the encounter. While in this form you gain the following benefits and limitations: You are insubstantial, you can shift 1 square as a minor action, you are immune to fire, you gain a +5 power bonus to damage rolls with arcane fire attacks, and you cannot use any attack power without the fire keyword. Additionally, whenever an enemy hits you with a melee attack, it takes fire damage equal to 5 + your Intelligence modifier.\nPublished in Dragon Magazine 388."
+        },
+        "subtitle": "Master of Flame Utility 12",
+        "title": "Burning Transformation"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-fanning-the-flames",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As flames envelop one of your enemies, you cause the flames to swell and spread to another.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature taking ongoing fire damage\n\nAttack: Intelligence vs. Fortitude\n\nHit: 2d8 + Intelligence fire damage, and any ongoing fire damage the target is taking increases by 5.\n\nEffect: Make a secondary attack in an area burst 1 centered on the primary target.\n\nSecondary Target: Each creature in the burst\n\nSecondary Attack: Intelligence vs. Reflex\n\nHit: 2d8 + Intelligence fire damage.",
+        "title": "Fanning the Flames"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature taking ongoing fire damage"
+              },
+              "targets-5": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d8 + Intelligence fire damage, and any ongoing fire damage the target is taking increases by 5.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "Make a secondary attack in an area burst 1 centered on the primary target.",
+                "type": "effect"
+              },
+              {
+                "id": "row-5",
+                "label": "Secondary Target",
+                "text": "Each creature in the burst",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-7",
+                          "label": "Hit",
+                          "text": "2d8 + Intelligence fire damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-6",
+                "label": "Secondary Attack",
+                "range": {
+                  "text": "Each creature in the burst",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-5",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As flames envelop one of your enemies, you cause the flames to swell and spread to another.",
+        "flavor": "As flames envelop one of your enemies, you cause the flames to swell and spread to another.",
+        "id": "modern4e.power.path-fanning-the-flames",
+        "keywords": [
+          "ARCANE",
+          "FIRE",
+          "IMPLEMENT"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12557",
+          "publication": "Published in Dragon Magazine 388.",
+          "rulesText": "Fanning the FlamesMaster of Flame Attack 11\nAs flames envelop one of your enemies, you cause the flames to swell and spread to another.\nEncounter   ✦     Arcane, Fire, Implement\nStandard Action      Ranged 10\nTarget: One creature taking ongoing fire damage\nAttack: Intelligence vs. Fortitude\nHit: 2d8 + Intelligence modifier fire damage, and any ongoing fire damage the target is taking increases by 5.\nEffect: Make a secondary attack in an area burst 1 centered on the primary target.\nSecondary Target: Each creature in the burst\nSecondary Attack: Intelligence vs. Reflex\nHit: 2d8 + Intelligence modifier fire damage.\nPublished in Dragon Magazine 388."
+        },
+        "subtitle": "Master of Flame Attack 11",
+        "title": "Fanning the Flames"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-furious-immolation",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You summon a titanic column of flame that draws everything nearby toward destruction.\n\nDAILY / STANDARD\n\nArea burst 2 within 10\n\nTarget: Each creature in the burst\n\nAttack: Intelligence vs. Reflex\n\nHit: 3d6 + Intelligence fire damage.\n\nMiss: Half damage.\n\nEffect: The burst creates a zone that lasts until the end of your next turn. Any creature that enters the zone or starts its turn there takes 15 fire damage (a creature can take this damage only once per turn). Make a secondary attack as an area burst 4 with the same origin square.\n\nSecondary Target: Each creature in the burst\n\nSecondary Attack: Intelligence vs. Fortitude\n\nHit: You pull the target 2 squares toward the attack's origin square.\n\nSustain Minor: The zone persists until the end of your next turn, and you repeat the secondary attack.",
+        "title": "Furious Immolation"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath692",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              },
+              "targets-6": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3d6 + Intelligence fire damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Area burst 2 within 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "The burst creates a zone that lasts until the end of your next turn. Any creature that enters the zone or starts its turn there takes 15 fire damage (a creature can take this damage only once per turn). Make a secondary attack as an area burst 4 with the same origin square.",
+                "type": "effect"
+              },
+              {
+                "id": "row-6",
+                "label": "Secondary Target",
+                "text": "Each creature in the burst",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-8",
+                          "label": "Hit",
+                          "text": "You pull the target 2 squares toward the attack's origin square.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-7",
+                "label": "Secondary Attack",
+                "range": {
+                  "text": "Each creature in the burst",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-6",
+                "text": "Intelligence vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-9",
+                "label": "Sustain Minor",
+                "text": "The zone persists until the end of your next turn, and you repeat the secondary attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 2 within 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You summon a titanic column of flame that draws everything nearby toward destruction.",
+        "flavor": "You summon a titanic column of flame that draws everything nearby toward destruction.",
+        "id": "modern4e.power.path-furious-immolation",
+        "keywords": [
+          "ARCANE",
+          "FIRE",
+          "IMPLEMENT",
+          "ZONE"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12558",
+          "publication": "Published in Dragon Magazine 388.",
+          "rulesText": "Furious ImmolationMaster of Flame Attack 20\nYou summon a titanic column of flame that draws everything nearby toward destruction.\nDaily   ✦     Arcane, Fire, Implement, Zone\nStandard Action      Area burst 2 within 10\nTarget: Each creature in the burst\nAttack: Intelligence vs. Reflex\nHit: 3d6 + Intelligence modifier fire damage.\nMiss: Half damage.\nEffect: The burst creates a zone that lasts until the end of your next turn. Any creature that enters the zone or starts its turn there takes 15 fire damage (a creature can take this damage only once per turn). Make a secondary attack as an area burst 4 with the same origin square.\nSecondary Target: Each creature in the burst\nSecondary Attack: Intelligence vs. Fortitude\nHit: You pull the target 2 squares toward the attack's origin square.\nSustain Minor: The zone persists until the end of your next turn, and you repeat the secondary attack.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Dragon Magazine 388."
+        },
+        "subtitle": "Master of Flame Attack 20",
+        "title": "Furious Immolation"
+      }
+    }
+  ],
+  "id": "entries-0022"
+}

@@ -121,11 +121,9 @@ fun BuilderApp(
                         if (model.page in CharacterTabs) {
                             FolioFooter(model.page, footerStatus(model.current?.let { Progression.unfinished(it) } ?: 0), enabled = !model.busy,
                                 onNavigate = { model.page = it },
-                                onStatusAction = { status ->
-                                    model.page = status.target
-                                    if (!status.complete) {
-                                        model.requestFirstOpenChoice()
-                                    }
+                                onStatusAction = {
+                                    model.page = "progression"
+                                    model.requestFirstOpenChoice()
                                 })
                         }
                     }

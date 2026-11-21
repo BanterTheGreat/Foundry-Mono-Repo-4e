@@ -567,6 +567,15 @@ class OptionListingCacheTest {
         assertTrue(targets.none { it.level > 19 })
     }
 
+    @Test fun levelTwentyFeatSlotIsWarmedAndNothingAboveItIs() = runBlocking {
+        val world = fixture(sample().copy(id = "level-twenty-feats", level = 20))
+        val targets = world.cache.warmTargets(world.state)
+        val featLevels = targets.filter { it.slot.choiceId == "feat" }.map { it.level }.toSet()
+        assertTrue("Level 20 feat slot is a real offer", 20 in featLevels)
+        assertEquals((1..20).filter { Progression.level(it).feat }.toSet(), featLevels)
+        assertTrue(targets.none { it.level > AdvancementRules.LAST_ENFORCED_LEVEL })
+    }
+
     @Test fun aReachedParagonPathPickerWarmsOnOpen() = runBlocking {
         val opened = fixture()
         val pathSlot = ChoiceSlotId("advancement.11", "paragon-path", 0)

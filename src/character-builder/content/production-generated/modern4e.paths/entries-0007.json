@@ -1,314 +1,837 @@
 {
   "entries": [
     {
-      "category": "PARAGON_PATH",
+      "category": "FEATURE",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath120",
+      "id": "modern4e.feature.ancestral-weapon-battle-spirits-touch",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
-            "type": "level"
+            "type": "always"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Keep a spear poised between the enemy and your company, striking with greater accuracy and extending your reach when you spend an action point. With experience, careless movement and ranged attacks within that reach become chances to deal damage, while powerful thrusts push troublesome foes away. A defensive stance steadies your guard, and a deep, lingering wound makes every subsequent melee or ranged hit against your chosen target more punishing.",
-        "title": "Longarm Marshal"
+        "description": "When you spend an action point to make an attack and hit at least one target with that attack, you can spend a healing surge.",
+        "title": "Battle Spirit's Touch"
       },
       "sharedData": {
-        "description": "Keep a spear poised between the enemy and your company, striking with greater accuracy and extending your reach when you spend an action point. With experience, careless movement and ranged attacks within that reach become chances to deal damage, while powerful thrusts push troublesome foes away. A defensive stance steadies your guard, and a deep, lingering wound makes every subsequent melee or ranged hit against your chosen target more punishing.",
-        "link": "https://iws.mx/dnd/?view=paragonpath120",
-        "requirements": null,
-        "sourceEntryId": "paragonpath120",
-        "title": "Longarm Marshal"
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to make an attack and hit at least one target with that attack, you can spend a healing surge.",
+        "id": "modern4e.feature.ancestral-weapon-battle-spirits-touch",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Battle Spirit's Touch"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.ancestral-weapon-lethal-rampage",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "In place of making a melee basic attack as a result of Rampage, you can use a melee at-will attack power.",
+        "title": "Lethal Rampage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "In place of making a melee basic attack as a result of Rampage, you can use a melee at-will attack power.",
+        "id": "modern4e.feature.ancestral-weapon-lethal-rampage",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Lethal Rampage"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.ancestral-weapon-strong-spirit",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You add your Charisma to your healing surge value.",
+        "title": "Strong Spirit"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You add your Charisma to your healing surge value.",
+        "id": "modern4e.feature.ancestral-weapon-strong-spirit",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Strong Spirit"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.bear-warrior-bear-form",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As a bear warrior, you have the ability to channel the primal energy of beasts into your physical form. While you are raging, you take on a bearlike appearance. Your head becomes that of a bear, your body sprouts thick fur, and your hands become heavy claws. Until the rage ends, you gain a +1 bonus to AC and can use your second wind as a free action.",
+        "title": "Bear Form"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As a bear warrior, you have the ability to channel the primal energy of beasts into your physical form. While you are raging, you take on a bearlike appearance. Your head becomes that of a bear, your body sprouts thick fur, and your hands become heavy claws. Until the rage ends, you gain a +1 bonus to AC and can use your second wind as a free action.",
+        "id": "modern4e.feature.bear-warrior-bear-form",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bear Form"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.bear-warrior-bears-toughness",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, you can also spend a healing surge.",
+        "title": "Bear's Toughness"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to take an extra action, you can also spend a healing surge.",
+        "id": "modern4e.feature.bear-warrior-bears-toughness",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bear's Toughness"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.bear-warrior-wild-push",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you score a critical hit with a melee attack while you are raging, you push the target a number of squares equal to your Strength.",
+        "title": "Wild Push"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you score a critical hit with a melee attack while you are raging, you push the target a number of squares equal to your Strength.",
+        "id": "modern4e.feature.bear-warrior-wild-push",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Wild Push"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.calm-fury-certain-savagery",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You don't need to be raging to use rage strike. If you miss every target, you don't expend rage strike. In addition, when you miss with rage strike, you don't deal half damage.",
+        "title": "Certain Savagery"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You don't need to be raging to use rage strike. If you miss every target, you don't expend rage strike. In addition, when you miss with rage strike, you don't deal half damage.",
+        "id": "modern4e.feature.calm-fury-certain-savagery",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Certain Savagery"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.calm-fury-relentless-pace",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You can use rage strike three times per day, and it deals 1[W] extra damage.",
+        "title": "Relentless Pace"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You can use rage strike three times per day, and it deals 1[W] extra damage.",
+        "id": "modern4e.feature.calm-fury-relentless-pace",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Relentless Pace"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.calm-fury-strength-in-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, you regain hit points equal to one-half your level + your Strength.",
+        "title": "Strength in Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to take an extra action, you regain hit points equal to one-half your level + your Strength.",
+        "id": "modern4e.feature.calm-fury-strength-in-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Strength in Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.stonefire-rager-calm-before-the-flame",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to make an attack, each target you hit takes extra fire damage equal to your Constitution and is knocked prone.",
+        "title": "Calm Before the Flame"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to make an attack, each target you hit takes extra fire damage equal to your Constitution and is knocked prone.",
+        "id": "modern4e.feature.stonefire-rager-calm-before-the-flame",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Calm Before the Flame"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.stonefire-rager-fires-wrath",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "While you are bloodied, you gain resist 10 fire and a +2 bonus to damage rolls.",
+        "title": "Fire's Wrath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "While you are bloodied, you gain resist 10 fire and a +2 bonus to damage rolls.",
+        "id": "modern4e.feature.stonefire-rager-fires-wrath",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Fire's Wrath"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.stonefire-rager-resilience-of-stone",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When an enemy scores a critical hit against you, you can roll a d20. On a 10 or higher, that attack becomes a normal hit instead of a critical hit.",
+        "title": "Resilience of Stone"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When an enemy scores a critical hit against you, you can roll a d20. On a 10 or higher, that attack becomes a normal hit instead of a critical hit.",
+        "id": "modern4e.feature.stonefire-rager-resilience-of-stone",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Resilience of Stone"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.winter-fury-frost-reaver",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain resist 10 cold. Whenever you deal damage that has no type, you can make it cold damage.",
+        "title": "Frost Reaver"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain resist 10 cold. Whenever you deal damage that has no type, you can make it cold damage.",
+        "id": "modern4e.feature.winter-fury-frost-reaver",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Frost Reaver"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.winter-fury-ice-heart-reaper",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain a +1 bonus to attack rolls and a +2 bonus to damage rolls against immobilized targets.",
+        "title": "Ice Heart Reaper"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain a +1 bonus to attack rolls and a +2 bonus to damage rolls against immobilized targets.",
+        "id": "modern4e.feature.winter-fury-ice-heart-reaper",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Ice Heart Reaper"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.winter-fury-surging-ice",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to make an attack, the first target hit by the attack and each enemy adjacent to it are immobilized until the end of your next turn.",
+        "title": "Surging Ice"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to make an attack, the first target hit by the attack and each enemy adjacent to it are immobilized until the end of your next turn.",
+        "id": "modern4e.feature.winter-fury-surging-ice",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Surging Ice"
       }
     },
     {
       "category": "PARAGON_PATH",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath133",
+      "id": "modern4e.path.paragonpath258",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
           {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Hunt as a company, closing quickly and giving your companions the actions and movement they need to surround the prey. You can spend your own action point on an ally's turn in the spotlight, while cunning attacks lure enemies into striking each other and expose a victim to an ally's follow-up. When the formation needs to change, you can scatter willing companions clear of danger or sustain a veil of concealment over the whole pack.",
-        "title": "Pack Master"
-      },
-      "sharedData": {
-        "description": "Hunt as a company, closing quickly and giving your companions the actions and movement they need to surround the prey. You can spend your own action point on an ally's turn in the spotlight, while cunning attacks lure enemies into striking each other and expose a victim to an ally's follow-up. When the formation needs to change, you can scatter willing companions clear of danger or sustain a veil of concealment over the whole pack.",
-        "link": "https://iws.mx/dnd/?view=paragonpath133",
-        "requirements": null,
-        "sourceEntryId": "paragonpath133",
-        "title": "Pack Master"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath189",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Lead with a fearless surge, lending force and accuracy to your companions when you spend an action point. Your inspiring word can urge a wounded ally into a stronger attack, though a failed opening leaves that ally exposed, and your killing stroke can set off a chain of attacks as companions bring down foes in turn. Resistance to fear and enemy marks helps you keep moving, while your greatest maneuver carries you through several enemies in a storm of individual blows.",
-        "title": "Battlelord of Kord"
-      },
-      "sharedData": {
-        "description": "Lead with a fearless surge, lending force and accuracy to your companions when you spend an action point. Your inspiring word can urge a wounded ally into a stronger attack, though a failed opening leaves that ally exposed, and your killing stroke can set off a chain of attacks as companions bring down foes in turn. Resistance to fear and enemy marks helps you keep moving, while your greatest maneuver carries you through several enemies in a storm of individual blows.",
-        "link": "https://iws.mx/dnd/?view=paragonpath189",
-        "requirements": null,
-        "sourceEntryId": "paragonpath189",
-        "title": "Battlelord of Kord"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath195",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.feature.bear-warrior-bear-form",
+            "grantId": "bear-form",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Resourceful Presence",
-            "type": "unresolved"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Arrange the fight so that an enemy caught between you and an ally pays for every exposed flank. Your action points can rescue an ally's failed attack, and a second Commanding Presence eventually gives you more ways to shape the company's decisive moments. Feints undermine enemy accuracy, while flexible orders let an ally's action point become the occasion for healing, a stronger attack, or a daring extra maneuver.",
-        "title": "Infernal Strategist"
-      },
-      "sharedData": {
-        "description": "Arrange the fight so that an enemy caught between you and an ally pays for every exposed flank. Your action points can rescue an ally's failed attack, and a second Commanding Presence eventually gives you more ways to shape the company's decisive moments. Feints undermine enemy accuracy, while flexible orders let an ally's action point become the occasion for healing, a stronger attack, or a daring extra maneuver.",
-        "link": "https://iws.mx/dnd/?view=paragonpath195",
-        "requirements": "Resourceful Presence",
-        "sourceEntryId": "paragonpath195",
-        "title": "Infernal Strategist"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath198",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Keep two companions in the fight with one inspiring word, trading its usual extra healing for a wider rally. Your action points lend nearby allies greater accuracy, and their second winds eventually bring stronger protection, making recovery part of the company's advance. A shared stance lets you and one ally choose the better of two attack rolls each turn, while your greatest assault rewards companions who have already caught their breath with a fresh opening to strike.",
-        "title": "Twiceborn Leader"
-      },
-      "sharedData": {
-        "description": "Keep two companions in the fight with one inspiring word, trading its usual extra healing for a wider rally. Your action points lend nearby allies greater accuracy, and their second winds eventually bring stronger protection, making recovery part of the company's advance. A shared stance lets you and one ally choose the better of two attack rolls each turn, while your greatest assault rewards companions who have already caught their breath with a fresh opening to strike.",
-        "link": "https://iws.mx/dnd/?view=paragonpath198",
-        "requirements": null,
-        "sourceEntryId": "paragonpath198",
-        "title": "Twiceborn Leader"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath46",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Seize the opening moments of battle, giving nearby allies the accuracy to make their first attacks count. Your action points sharpen the company's attacks again, and later your inspiring word sends a recovered ally back into the fight with better accuracy and speed, especially under Tactical Presence. Forceful strikes clear space around the enemy line, while a moment of inspired command lets an ally bring a spent encounter attack back into play.",
-        "title": "Battle Captain"
-      },
-      "sharedData": {
-        "description": "Seize the opening moments of battle, giving nearby allies the accuracy to make their first attacks count. Your action points sharpen the company's attacks again, and later your inspiring word sends a recovered ally back into the fight with better accuracy and speed, especially under Tactical Presence. Forceful strikes clear space around the enemy line, while a moment of inspired command lets an ally bring a spent encounter attack back into play.",
-        "link": "https://iws.mx/dnd/?view=paragonpath46",
-        "requirements": null,
-        "sourceEntryId": "paragonpath46",
-        "title": "Battle Captain"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath47",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.feature.bear-warrior-bears-toughness",
+            "grantId": "bears-toughness",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Proficiency with heavy armor",
-            "type": "unresolved"
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-mauling-bear",
+            "grantId": "mauling-bear",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-bestial-vigor",
+            "grantId": "bestial-vigor",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.bear-warrior-wild-push",
+            "grantId": "wild-push",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-rampaging-bear",
+            "grantId": "rampaging-bear",
+            "type": "entry"
           }
         ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Become the armored center of the advance, giving companions beside you the confidence to strike more accurately. Your action points reinforce the company's defenses, and nearby opportunity attacks eventually gain extra force, making a tightly held line dangerous to cross. Your own attacks drive enemies back or draw them into your marks, while your greatest assault leaves surrounding foes bleeding and makes that suffering harder to shake while they remain beside you.",
-        "title": "Knight Commander"
-      },
-      "sharedData": {
-        "description": "Become the armored center of the advance, giving companions beside you the confidence to strike more accurately. Your action points reinforce the company's defenses, and nearby opportunity attacks eventually gain extra force, making a tightly held line dangerous to cross. Your own attacks drive enemies back or draw them into your marks, while your greatest assault leaves surrounding foes bleeding and makes that suffering harder to shake while they remain beside you.",
-        "link": "https://iws.mx/dnd/?view=paragonpath47",
-        "requirements": "Proficiency with heavy armor",
-        "sourceEntryId": "paragonpath47",
-        "title": "Knight Commander"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath575",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -316,39 +839,130 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Keep your company fighting past the point where its strength should have failed, lending nearby allies temporary health as your blade lands. Your own reserves run deeper, and second wind eventually restores a spent encounter attack, while spending an action point helps your companions finish bloodied enemies. A sweeping assault can draw enemy attention onto you and return encounter attacks to several allies, rewarding a battle in which you have already spent your encouragement freely.",
-        "title": "Arkhosian Blademaster"
+        "description": "Take on a bear's shape when you rage, gaining tougher protection and the freedom to catch your breath with second wind without slowing your assault. Action points offer further healing, while mauling blows knock enemies down and threaten another strike when they stand beside you. Your growing strength sends foes flying on a raging critical hit, and your fiercest rage carries you between opponents before settling into steady regeneration and resistance to being moved.",
+        "title": "Bear Warrior"
       },
       "sharedData": {
-        "description": "Keep your company fighting past the point where its strength should have failed, lending nearby allies temporary health as your blade lands. Your own reserves run deeper, and second wind eventually restores a spent encounter attack, while spending an action point helps your companions finish bloodied enemies. A sweeping assault can draw enemy attention onto you and return encounter attacks to several allies, rewarding a battle in which you have already spent your encouragement freely.",
-        "link": "https://iws.mx/dnd/?view=paragonpath575",
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Take on a bear's shape when you rage, gaining tougher protection and the freedom to catch your breath with second wind without slowing your assault. Action points offer further healing, while mauling blows knock enemies down and threaten another strike when they stand beside you. Your growing strength sends foes flying on a raging critical hit, and your fiercest rage carries you between opponents before settling into steady regeneration and resistance to being moved.",
+        "flavor": "Take on a bear's shape when you rage, gaining tougher protection and the freedom to catch your breath with second wind without slowing your assault. Action points offer further healing, while mauling blows knock enemies down and threaten another strike when they stand beside you. Your growing strength sends foes flying on a raging critical hit, and your fiercest rage carries you between opponents before settling into steady regeneration and resistance to being moved.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.bear-warrior-bear-form",
+            "id": "bear-form"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.bear-warrior-bears-toughness",
+            "id": "bears-toughness"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-mauling-bear",
+            "id": "mauling-bear"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-bestial-vigor",
+            "id": "bestial-vigor"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.bear-warrior-wild-push",
+            "id": "wild-push"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-rampaging-bear",
+            "id": "rampaging-bear"
+          }
+        ],
+        "id": "modern4e.path.paragonpath258",
+        "link": "https://iws.mx/dnd/?view=paragonpath258",
+        "prerequisiteText": "Barbarian",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
         "requirements": null,
-        "sourceEntryId": "paragonpath575",
-        "title": "Arkhosian Blademaster"
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath258",
+        "title": "Bear Warrior"
       }
     },
     {
       "category": "PARAGON_PATH",
       "coverage": {
         "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
+          "Published prerequisite not enforced: Barbarian, Rampage class feature."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
-      "id": "modern4e.path.paragonpath577",
+      "id": "modern4e.path.paragonpath475",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.ancestral-weapon-battle-spirits-touch",
+            "grantId": "battle-spirits-touch",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.ancestral-weapon-strong-spirit",
+            "grantId": "strong-spirit",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-blood-spattered-fury",
+            "grantId": "blood-spattered-fury",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-ancestors-presence",
+            "grantId": "ancestors-presence",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.ancestral-weapon-lethal-rampage",
+            "grantId": "lethal-rampage",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-ancestral-weapons-rage",
+            "grantId": "ancestral-weapons-rage",
+            "type": "entry"
+          }
+        ],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -356,39 +970,131 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Make good fortune look like sound command, smoothing out poor weapon damage rolls and giving allies the chance to roll attacks or damage again. Your action point attacks provide temporary health to you or nearby companions, and later you can spend two action points in one encounter across different rounds. When a dangerous enemy needs its luck broken, your lasting mark forces it to risk the worse of two attack rolls whenever it turns on an ally.",
-        "title": "Captain of Fortune"
+        "description": "Draw the enemy's attention with the strength of the ancestors behind you, marking foes and making your exchanges with them increasingly punishing. Charisma deepens your healing reserves, and a successful action point attack lets you spend a healing surge to stay in the fight. As your bond grows, Rampage can carry an at-will technique into the opening, while your greatest rage adds force to every blow against an enemy you have marked.",
+        "title": "Ancestral Weapon"
       },
       "sharedData": {
-        "description": "Make good fortune look like sound command, smoothing out poor weapon damage rolls and giving allies the chance to roll attacks or damage again. Your action point attacks provide temporary health to you or nearby companions, and later you can spend two action points in one encounter across different rounds. When a dangerous enemy needs its luck broken, your lasting mark forces it to risk the worse of two attack rolls whenever it turns on an ally.",
-        "link": "https://iws.mx/dnd/?view=paragonpath577",
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Published prerequisite not enforced: Barbarian, Rampage class feature."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Draw the enemy's attention with the strength of the ancestors behind you, marking foes and making your exchanges with them increasingly punishing. Charisma deepens your healing reserves, and a successful action point attack lets you spend a healing surge to stay in the fight. As your bond grows, Rampage can carry an at-will technique into the opening, while your greatest rage adds force to every blow against an enemy you have marked.",
+        "flavor": "Draw the enemy's attention with the strength of the ancestors behind you, marking foes and making your exchanges with them increasingly punishing. Charisma deepens your healing reserves, and a successful action point attack lets you spend a healing surge to stay in the fight. As your bond grows, Rampage can carry an at-will technique into the opening, while your greatest rage adds force to every blow against an enemy you have marked.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.ancestral-weapon-battle-spirits-touch",
+            "id": "battle-spirits-touch"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.ancestral-weapon-strong-spirit",
+            "id": "strong-spirit"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-blood-spattered-fury",
+            "id": "blood-spattered-fury"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-ancestors-presence",
+            "id": "ancestors-presence"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.ancestral-weapon-lethal-rampage",
+            "id": "lethal-rampage"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-ancestral-weapons-rage",
+            "id": "ancestral-weapons-rage"
+          }
+        ],
+        "id": "modern4e.path.paragonpath475",
+        "link": "https://iws.mx/dnd/?view=paragonpath475",
+        "prerequisiteText": "Barbarian, Rampage class feature",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
         "requirements": null,
-        "sourceEntryId": "paragonpath577",
-        "title": "Captain of Fortune"
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath475",
+        "title": "Ancestral Weapon"
       }
     },
     {
       "category": "PARAGON_PATH",
       "coverage": {
         "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
+          "Published prerequisite not enforced: Barbarian, rage strike power."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
-      "id": "modern4e.path.paragonpath771",
+      "id": "modern4e.path.paragonpath477",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.calm-fury-certain-savagery",
+            "grantId": "certain-savagery",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.calm-fury-strength-in-action",
+            "grantId": "strength-in-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-furious-calm",
+            "grantId": "furious-calm",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-deliberate-rampage",
+            "grantId": "deliberate-rampage",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.calm-fury-relentless-pace",
+            "grantId": "relentless-pace",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-lethal-ancestor-rage",
+            "grantId": "lethal-ancestor-rage",
+            "type": "entry"
+          }
+        ],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -396,18 +1102,2420 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Lead a luminous counterattack, turning a successful strike into a chance to spend an action point on an ally's recovery. Your healing eventually lets companions add radiant power to their attacks, while a blazing corona can blind surrounding enemies and leave you free to strike one still able to see. A field of holy light offers allies strength, protection, or healing, and your greatest rally sends the whole nearby company into a shared melee assault.",
-        "title": "Sainted General"
+        "description": "Focus your anger into deliberate Rage Strikes, using them even before you enter a rage and eventually putting greater force behind each blow. Spending an action point restores health, and a precise strike against Reflex lets you draw on a healing surge. A critical hit can turn Rampage into another use of that healing attack, while your greatest rage steadies the accuracy of at-will attacks and Rage Strikes and rewards their hits with temporary vitality.",
+        "title": "Calm Fury"
       },
       "sharedData": {
-        "description": "Lead a luminous counterattack, turning a successful strike into a chance to spend an action point on an ally's recovery. Your healing eventually lets companions add radiant power to their attacks, while a blazing corona can blind surrounding enemies and leave you free to strike one still able to see. A field of holy light offers allies strength, protection, or healing, and your greatest rally sends the whole nearby company into a shared melee assault.",
-        "link": "https://iws.mx/dnd/?view=paragonpath771",
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Published prerequisite not enforced: Barbarian, rage strike power."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Focus your anger into deliberate Rage Strikes, using them even before you enter a rage and eventually putting greater force behind each blow. Spending an action point restores health, and a precise strike against Reflex lets you draw on a healing surge. A critical hit can turn Rampage into another use of that healing attack, while your greatest rage steadies the accuracy of at-will attacks and Rage Strikes and rewards their hits with temporary vitality.",
+        "flavor": "Focus your anger into deliberate Rage Strikes, using them even before you enter a rage and eventually putting greater force behind each blow. Spending an action point restores health, and a precise strike against Reflex lets you draw on a healing surge. A critical hit can turn Rampage into another use of that healing attack, while your greatest rage steadies the accuracy of at-will attacks and Rage Strikes and rewards their hits with temporary vitality.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.calm-fury-certain-savagery",
+            "id": "certain-savagery"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.calm-fury-strength-in-action",
+            "id": "strength-in-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-furious-calm",
+            "id": "furious-calm"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-deliberate-rampage",
+            "id": "deliberate-rampage"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.calm-fury-relentless-pace",
+            "id": "relentless-pace"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-lethal-ancestor-rage",
+            "id": "lethal-ancestor-rage"
+          }
+        ],
+        "id": "modern4e.path.paragonpath477",
+        "link": "https://iws.mx/dnd/?view=paragonpath477",
+        "prerequisiteText": "Barbarian, rage strike power",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
         "requirements": null,
-        "sourceEntryId": "paragonpath771",
-        "title": "Sainted General"
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath477",
+        "title": "Calm Fury"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.path.paragonpath479",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.stonefire-rager-calm-before-the-flame",
+            "grantId": "calm-before-the-flame",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.stonefire-rager-resilience-of-stone",
+            "grantId": "resilience-of-stone",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-pyroclastic-tide",
+            "grantId": "pyroclastic-tide",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-serenity-of-stone",
+            "grantId": "serenity-of-stone",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.stonefire-rager-fires-wrath",
+            "grantId": "fires-wrath",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-volcanic-rage",
+            "grantId": "volcanic-rage",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Endure with the patience of stone, then erupt in a rush of heat and violence. You can turn some critical hits against you into ordinary wounds, and an action point attack adds Constitution-driven fire damage while knocking its victims down. Remaining outside a rage lets you shelter behind broad damage resistance, while being bloodied brings fire resistance and harder blows. When you finally unleash your volcanic rage, nearby enemies burn each turn and those that strike you leave themselves open to your answer.",
+        "title": "Stonefire Rager"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Endure with the patience of stone, then erupt in a rush of heat and violence. You can turn some critical hits against you into ordinary wounds, and an action point attack adds Constitution-driven fire damage while knocking its victims down. Remaining outside a rage lets you shelter behind broad damage resistance, while being bloodied brings fire resistance and harder blows. When you finally unleash your volcanic rage, nearby enemies burn each turn and those that strike you leave themselves open to your answer.",
+        "flavor": "Endure with the patience of stone, then erupt in a rush of heat and violence. You can turn some critical hits against you into ordinary wounds, and an action point attack adds Constitution-driven fire damage while knocking its victims down. Remaining outside a rage lets you shelter behind broad damage resistance, while being bloodied brings fire resistance and harder blows. When you finally unleash your volcanic rage, nearby enemies burn each turn and those that strike you leave themselves open to your answer.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.stonefire-rager-calm-before-the-flame",
+            "id": "calm-before-the-flame"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.stonefire-rager-resilience-of-stone",
+            "id": "resilience-of-stone"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-pyroclastic-tide",
+            "id": "pyroclastic-tide"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-serenity-of-stone",
+            "id": "serenity-of-stone"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.stonefire-rager-fires-wrath",
+            "id": "fires-wrath"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-volcanic-rage",
+            "id": "volcanic-rage"
+          }
+        ],
+        "id": "modern4e.path.paragonpath479",
+        "link": "https://iws.mx/dnd/?view=paragonpath479",
+        "prerequisiteText": "Barbarian",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "requirements": null,
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath479",
+        "title": "Stonefire Rager"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.path.paragonpath481",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.winter-fury-ice-heart-reaper",
+            "grantId": "ice-heart-reaper",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.winter-fury-surging-ice",
+            "grantId": "surging-ice",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-clutch-of-winter",
+            "grantId": "clutch-of-winter",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-armor-of-glaciers",
+            "grantId": "armor-of-glaciers",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.winter-fury-frost-reaver",
+            "grantId": "frost-reaver",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-worlds-end-rage",
+            "grantId": "worlds-end-rage",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Freeze enemies in place and make their helpless footing count, striking immobilized foes with greater accuracy and force. Your action point attacks can lock down a cluster of enemies, while a mantle of glacial armor absorbs punishment until repeated blows or fire break it apart. With experience, you resist the cold and can turn ordinary damage into frost, and your greatest rage lets each at-will hit hold its victim in place for another assault.",
+        "title": "Winter Fury"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Freeze enemies in place and make their helpless footing count, striking immobilized foes with greater accuracy and force. Your action point attacks can lock down a cluster of enemies, while a mantle of glacial armor absorbs punishment until repeated blows or fire break it apart. With experience, you resist the cold and can turn ordinary damage into frost, and your greatest rage lets each at-will hit hold its victim in place for another assault.",
+        "flavor": "Freeze enemies in place and make their helpless footing count, striking immobilized foes with greater accuracy and force. Your action point attacks can lock down a cluster of enemies, while a mantle of glacial armor absorbs punishment until repeated blows or fire break it apart. With experience, you resist the cold and can turn ordinary damage into frost, and your greatest rage lets each at-will hit hold its victim in place for another assault.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.winter-fury-ice-heart-reaper",
+            "id": "ice-heart-reaper"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.winter-fury-surging-ice",
+            "id": "surging-ice"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-clutch-of-winter",
+            "id": "clutch-of-winter"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-armor-of-glaciers",
+            "id": "armor-of-glaciers"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.winter-fury-frost-reaver",
+            "id": "frost-reaver"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-worlds-end-rage",
+            "id": "worlds-end-rage"
+          }
+        ],
+        "id": "modern4e.path.paragonpath481",
+        "link": "https://iws.mx/dnd/?view=paragonpath481",
+        "prerequisiteText": "Barbarian",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "requirements": null,
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath481",
+        "title": "Winter Fury"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-ancestors-presence",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Calling on the spirit of an honored ancestor for aid, you focus on the destruction of a chosen foe.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: One enemy in the burst\n\nEffect: You mark the target until the end of the encounter. Whenever the target makes an attack before this mark ends, you gain a power bonus to damage rolls against it equal to your Charisma. The power bonus lasts until the end of your next turn.",
+        "title": "Ancestor's Presence"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You mark the target until the end of the encounter. Whenever the target makes an attack before this mark ends, you gain a power bonus to damage rolls against it equal to your Charisma. The power bonus lasts until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Calling on the spirit of an honored ancestor for aid, you focus on the destruction of a chosen foe.",
+        "flavor": "Calling on the spirit of an honored ancestor for aid, you focus on the destruction of a chosen foe.",
+        "id": "modern4e.power.path-ancestors-presence",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9613",
+          "publication": "Published in Primal Power, page(s) 25.",
+          "rulesText": "Ancestor's PresenceAncestral Weapon Utility 12\nCalling on the spirit of an honored ancestor for aid, you focus on the destruction of a chosen foe.\nDaily   ✦     Primal\nMinor Action      Close burst 5\nTarget: One enemy in the burst\nEffect: You mark the target until the end of the encounter. Whenever the target makes an attack before this mark ends, you gain a power bonus to damage rolls against it equal to your Charisma modifier. The power bonus lasts until the end of your next turn.\nPublished in Primal Power, page(s) 25."
+        },
+        "subtitle": "Ancestral Weapon Utility 12",
+        "title": "Ancestor's Presence"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-ancestral-weapons-rage",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You strike hard, and the awesome power of the ancestors flows through you. To protect your allies, you then draw your enemies' ire to yourself.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 4[W] + Strength damage.\n\nMiss: Half damage.\n\nEffect: You mark the target until the end of your next turn. You enter the rage of the ancestral weapon. Until the rage ends, you mark each enemy you attack until the end of your next turn. In addition, you deal 1[W] extra damage against enemies marked by you.",
+        "title": "Ancestral Weapon's Rage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "4[W] + Strength damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "You mark the target until the end of your next turn. You enter the rage of the ancestral weapon. Until the rage ends, you mark each enemy you attack until the end of your next turn. In addition, you deal 1[W] extra damage against enemies marked by you.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You strike hard, and the awesome power of the ancestors flows through you. To protect your allies, you then draw your enemies' ire to yourself.",
+        "flavor": "You strike hard, and the awesome power of the ancestors flows through you. To protect your allies, you then draw your enemies' ire to yourself.",
+        "id": "modern4e.power.path-ancestral-weapons-rage",
+        "keywords": [
+          "PRIMAL",
+          "RAGE",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9612",
+          "publication": "Published in Primal Power, page(s) 25.",
+          "rulesText": "Ancestral Weapon's RageAncestral Weapon Attack 20\nYou strike hard, and the awesome power of the ancestors flows through you. To protect your allies, you then draw your enemies' ire to yourself.\nDaily   ✦     Primal, Rage, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: You mark the target until the end of your next turn. You enter the rage of the ancestral weapon. Until the rage ends, you mark each enemy you attack until the end of your next turn. In addition, you deal 1[W] extra damage against enemies marked by you.\nPublished in Primal Power, page(s) 25."
+        },
+        "subtitle": "Ancestral Weapon Attack 20",
+        "title": "Ancestral Weapon's Rage"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-armor-of-glaciers",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A layer of primal frost covers you, deflecting your foes' attacks until it is chipped away.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You gain resist 20 to all damage until the end of the encounter. Whenever this resistance reduces damage, the resistance decreases by 5, and it ends when it reaches 0. If you take fire damage, the resistance ends after reducing that damage.",
+        "title": "Armor of Glaciers"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You gain resist 20 to all damage until the end of the encounter. Whenever this resistance reduces damage, the resistance decreases by 5, and it ends when it reaches 0. If you take fire damage, the resistance ends after reducing that damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A layer of primal frost covers you, deflecting your foes' attacks until it is chipped away.",
+        "flavor": "A layer of primal frost covers you, deflecting your foes' attacks until it is chipped away.",
+        "id": "modern4e.power.path-armor-of-glaciers",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9632",
+          "publication": "Published in Primal Power, page(s) 31.",
+          "rulesText": "Armor of GlaciersWinter Fury Utility 12\nA layer of primal frost covers you, deflecting your foes' attacks until it is chipped away.\nDaily   ✦     Primal\nMinor Action      Personal\nEffect: You gain resist 20 to all damage until the end of the encounter. Whenever this resistance reduces damage, the resistance decreases by 5, and it ends when it reaches 0. If you take fire damage, the resistance ends after reducing that damage.\nPublished in Primal Power, page(s) 31."
+        },
+        "subtitle": "Winter Fury Utility 12",
+        "title": "Armor of Glaciers"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-bestial-vigor",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Primal might wells within you, allowing you to shake off wounds and see the fight to its end.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You gain temporary hit points equal to your healing surge value and can make a saving throw against each effect on you that a save can end.",
+        "title": "Bestial Vigor"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You gain temporary hit points equal to your healing surge value and can make a saving throw against each effect on you that a save can end.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Primal might wells within you, allowing you to shake off wounds and see the fight to its end.",
+        "flavor": "Primal might wells within you, allowing you to shake off wounds and see the fight to its end.",
+        "id": "modern4e.power.path-bestial-vigor",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power4979",
+          "publication": "Published in Player's Handbook 2, page(s) 62.",
+          "rulesText": "Bestial VigorBear Warrior Utility 12\nPrimal might wells within you, allowing you to shake off wounds and see the fight to its end.\nDaily   ✦     Primal\nMinor Action      Personal\nEffect: You gain temporary hit points equal to your healing surge value and can make a saving throw against each effect on you that a save can end.\nPublished in Player's Handbook 2, page(s) 62."
+        },
+        "subtitle": "Bear Warrior Utility 12",
+        "title": "Bestial Vigor"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-blood-spattered-fury",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You explode in violence, striking out and drawing your enemies' wrath.\n\nENCOUNTER / STANDARD\n\nClose burst 2\n\nTarget: Each enemy you can see in the burst\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength damage, and you mark the target until the end of your next turn. Until the mark ends, you and the target deal 1d10 extra damage against each other.",
+        "title": "Blood-Spattered Fury"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath475",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy you can see in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Strength damage, and you mark the target until the end of your next turn. Until the mark ends, you and the target deal 1d10 extra damage against each other.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Close burst 2",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 2",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You explode in violence, striking out and drawing your enemies' wrath.",
+        "flavor": "You explode in violence, striking out and drawing your enemies' wrath.",
+        "id": "modern4e.power.path-blood-spattered-fury",
+        "keywords": [
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9611",
+          "publication": "Published in Primal Power, page(s) 25.",
+          "rulesText": "Blood-Spattered FuryAncestral Weapon Attack 11\nYou explode in violence, striking out and drawing your enemies' wrath.\nEncounter   ✦     Primal, Weapon\nStandard Action      Close burst 2\nTarget: Each enemy you can see in the burst\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and you mark the target until the end of your next turn. Until the mark ends, you and the target deal 1d10 extra damage against each other.\nUpdate (4/13/2010)\nIn the Hit entry, replace “1[W] extra damage” with “1d10 extra damage.”\nPublished in Primal Power, page(s) 25."
+        },
+        "subtitle": "Ancestral Weapon Attack 11",
+        "title": "Blood-Spattered Fury"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-clutch-of-winter",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You swing your frosty weapon in a deadly arc, freezing your foe in place.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength cold damage, and the target is immobilized until the end of your next turn.",
+        "title": "Clutch of Winter"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Strength cold damage, and the target is immobilized until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You swing your frosty weapon in a deadly arc, freezing your foe in place.",
+        "flavor": "You swing your frosty weapon in a deadly arc, freezing your foe in place.",
+        "id": "modern4e.power.path-clutch-of-winter",
+        "keywords": [
+          "COLD",
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9630",
+          "publication": "Published in Primal Power, page(s) 31.",
+          "rulesText": "Clutch of WinterWinter Fury Attack 11\nYou swing your frosty weapon in a deadly arc, freezing your foe in place.\nEncounter   ✦     Cold, Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier cold damage, and the target is immobilized until the end of your next turn.\nPublished in Primal Power, page(s) 31."
+        },
+        "subtitle": "Winter Fury Attack 11",
+        "title": "Clutch of Winter"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-deliberate-rampage",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your previous devastating blow grants you an opening to strike again, and a chance to use your rage for invigoration\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You score a critical hit with a barbarian attack power and haven't used Rampage this round\n\nEffect: In place of making a melee basic attack as a result of Rampage, you can use furious calm, even if you have already used that power during this encounter.",
+        "title": "Deliberate Rampage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "In place of making a melee basic attack as a result of Rampage, you can use furious calm, even if you have already used that power during this encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "trigger": "You score a critical hit with a barbarian attack power and haven't used Rampage this round",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your previous devastating blow grants you an opening to strike again, and a chance to use your rage for invigoration",
+        "flavor": "Your previous devastating blow grants you an opening to strike again, and a chance to use your rage for invigoration",
+        "id": "modern4e.power.path-deliberate-rampage",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9620",
+          "publication": "Published in Primal Power, page(s) 27.",
+          "rulesText": "Deliberate RampageCalm Fury Utility 12\nYour previous devastating blow grants you an opening to strike again, and a chance to use your rage for invigoration\nEncounter   ✦     Primal\nFree Action      Personal\nTrigger: You score a critical hit with a barbarian attack power and haven't used Rampage this round\nEffect: In place of making a melee basic attack as a result of Rampage, you can use furious calm, even if you have already used that power during this encounter.\nPublished in Primal Power, page(s) 27."
+        },
+        "subtitle": "Calm Fury Utility 12",
+        "title": "Deliberate Rampage"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-furious-calm",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "With a heavy strike, you settle into your fury, allowing you to tap reserves of endurance.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. Reflex\n\nHit: 3[W] + Strength damage, and you can spend a healing surge.",
+        "title": "Furious Calm"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Strength damage, and you can spend a healing surge.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "With a heavy strike, you settle into your fury, allowing you to tap reserves of endurance.",
+        "flavor": "With a heavy strike, you settle into your fury, allowing you to tap reserves of endurance.",
+        "id": "modern4e.power.path-furious-calm",
+        "keywords": [
+          "HEALING",
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9618",
+          "publication": "Published in Primal Power, page(s) 27.",
+          "rulesText": "Furious CalmCalm Fury Attack 11\nWith a heavy strike, you settle into your fury, allowing you to tap reserves of endurance.\nEncounter   ✦     Healing, Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Reflex\nHit: 3[W] + Strength modifier damage, and you can spend a healing surge.\nPublished in Primal Power, page(s) 27."
+        },
+        "subtitle": "Calm Fury Attack 11",
+        "title": "Furious Calm"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-lethal-ancestor-rage",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "An ancestor wreathes you in power, strengthening your attacks and invigorating you.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 4[W] + Strength damage.\n\nMiss: Half damage.\n\nEffect: You enter the rage of the lethal ancestor. Until the rage ends, you gain a +2 power bonus to attack rolls with at-will attack powers and rage strike. In addition, when you hit any enemy with an at-will attack power or rage strike, you gain temporary hit points equal to one-half your level + your Strength.",
+        "title": "Lethal Ancestor Rage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath477",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "4[W] + Strength damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "You enter the rage of the lethal ancestor. Until the rage ends, you gain a +2 power bonus to attack rolls with at-will attack powers and rage strike. In addition, when you hit any enemy with an at-will attack power or rage strike, you gain temporary hit points equal to one-half your level + your Strength.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "An ancestor wreathes you in power, strengthening your attacks and invigorating you.",
+        "flavor": "An ancestor wreathes you in power, strengthening your attacks and invigorating you.",
+        "id": "modern4e.power.path-lethal-ancestor-rage",
+        "keywords": [
+          "PRIMAL",
+          "RAGE",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9619",
+          "publication": "Published in Primal Power, page(s) 27.",
+          "rulesText": "Lethal Ancestor RageCalm Fury Attack 20\nAn ancestor wreathes you in power, strengthening your attacks and invigorating you.\nDaily   ✦     Primal, Rage, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: You enter the rage of the lethal ancestor. Until the rage ends, you gain a +2 power bonus to attack rolls with at-will attack powers and rage strike. In addition, when you hit any enemy with an at-will attack power or rage strike, you gain temporary hit points equal to one-half your level + your Strength modifier.\nPublished in Primal Power, page(s) 27."
+        },
+        "subtitle": "Calm Fury Attack 20",
+        "title": "Lethal Ancestor Rage"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-mauling-bear",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You channel the bear's strength into a powerful blow that knocks your opponent to the ground. Like an angry bear, you stand over your foe, waiting for its next move.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength damage, and you knock the target prone.\n\nEffect: Until the end of your next turn, if you are adjacent to the target when it stands up, you can make a melee basic attack against it as an immediate reaction.",
+        "title": "Mauling Bear"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Strength damage, and you knock the target prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "Until the end of your next turn, if you are adjacent to the target when it stands up, you can make a melee basic attack against it as an immediate reaction.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You channel the bear's strength into a powerful blow that knocks your opponent to the ground. Like an angry bear, you stand over your foe, waiting for its next move.",
+        "flavor": "You channel the bear's strength into a powerful blow that knocks your opponent to the ground. Like an angry bear, you stand over your foe, waiting for its next move.",
+        "id": "modern4e.power.path-mauling-bear",
+        "keywords": [
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power4978",
+          "publication": "Published in Player's Handbook 2, page(s) 62.",
+          "rulesText": "Mauling BearBear Warrior Attack 11\nYou channel the bear's strength into a powerful blow that knocks your opponent to the ground. Like an angry bear, you stand over your foe, waiting for its next move.\nEncounter   ✦     Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and you knock the target prone.\nEffect: Until the end of your next turn, if you are adjacent to the target when it stands up, you can make a melee basic attack against it as an immediate reaction.\nPublished in Player's Handbook 2, page(s) 62."
+        },
+        "subtitle": "Bear Warrior Attack 11",
+        "title": "Mauling Bear"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-pyroclastic-tide",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You swing your weapon mightily, channeling a primal fire that washes over your enemies.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. Reflex\n\nHit: 3[W] + Strength damage, and each enemy within 2 squares of you takes fire damage equal to your Strength.",
+        "title": "Pyroclastic Tide"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Strength damage, and each enemy within 2 squares of you takes fire damage equal to your Strength.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You swing your weapon mightily, channeling a primal fire that washes over your enemies.",
+        "flavor": "You swing your weapon mightily, channeling a primal fire that washes over your enemies.",
+        "id": "modern4e.power.path-pyroclastic-tide",
+        "keywords": [
+          "FIRE",
+          "PRIMAL",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9624",
+          "publication": "Published in Primal Power, page(s) 29.",
+          "rulesText": "Pyroclastic TideStonefire Rager Attack 11\nYou swing your weapon mightily, channeling a primal fire that washes over your enemies.\nEncounter   ✦     Fire, Primal, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Reflex\nHit: 3[W] + Strength modifier damage, and each enemy within 2 squares of you takes fire damage equal to your Strength modifier.\nPublished in Primal Power, page(s) 29."
+        },
+        "subtitle": "Stonefire Rager Attack 11",
+        "title": "Pyroclastic Tide"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-rampaging-bear",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "With a mighty roar, you crash through the battle lines of your enemies.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nPrimary Attack: Strength vs. AC\n\nHit: 3[W] + Strength damage, and you push the target 1 square and knock it prone.\n\nEffect: You shift a number of squares equal to your Strength and then make a secondary attack.\n\nSecondary Target: One creature other than the primary target\n\nSecondary Attack: Strength vs. AC\n\nHit: 2[W] + Strength damage, and you push the secondary target 1 square and knock it prone.\n\nEffect: You shift a number of squares equal to your Strength. You then enter the bear warrior's rage. Until the rage ends, you gain regeneration 5, and whenever you are pulled, pushed, or slid, you can reduce the distance of the forced movement by 1 square.",
+        "title": "Rampaging Bear"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath258",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              },
+              "targets-5": {
+                "kind": "TARGET_SET",
+                "text": "One creature other than the primary target"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3[W] + Strength damage, and you push the target 1 square and knock it prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Primary Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "You shift a number of squares equal to your Strength and then make a secondary attack.",
+                "type": "effect"
+              },
+              {
+                "id": "row-5",
+                "label": "Secondary Target",
+                "text": "One creature other than the primary target",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-7",
+                          "label": "Hit",
+                          "text": "2[W] + Strength damage, and you push the secondary target 1 square and knock it prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-6",
+                "label": "Secondary Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-5",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-8",
+                "label": "Effect",
+                "text": "You shift a number of squares equal to your Strength. You then enter the bear warrior's rage. Until the rage ends, you gain regeneration 5, and whenever you are pulled, pushed, or slid, you can reduce the distance of the forced movement by 1 square.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "With a mighty roar, you crash through the battle lines of your enemies.",
+        "flavor": "With a mighty roar, you crash through the battle lines of your enemies.",
+        "id": "modern4e.power.path-rampaging-bear",
+        "keywords": [
+          "PRIMAL",
+          "RAGE",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power4980",
+          "publication": "Published in Player's Handbook 2, page(s) 62.",
+          "rulesText": "Rampaging BearBear Warrior Attack 20\nWith a mighty roar, you crash through the battle lines of your enemies.\nDaily   ✦     Primal, Rage, Weapon\nStandard Action      Melee weapon\nPrimary Target: One creature\nPrimary Attack: Strength vs. AC\nHit: 3[W] + Strength modifier damage, and you push the target 1 square and knock it prone.\nEffect: You shift a number of squares equal to your Strength modifier and then make a secondary attack.\nSecondary Target: One creature other than the primary target\nSecondary Attack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and you push the secondary target 1 square and knock it prone.\nEffect: You shift a number of squares equal to your Strength modifier. You then enter the bear warrior's rage. Until the rage ends, you gain regeneration 5, and whenever you are pulled, pushed, or slid, you can reduce the distance of the forced movement by 1 square.\nPublished in Player's Handbook 2, page(s) 62."
+        },
+        "subtitle": "Bear Warrior Attack 20",
+        "title": "Rampaging Bear"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-serenity-of-stone",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You skin becomes hard as stone, allowing you to shrug off even the most potent attacks.\n\nDAILY / MINOR\n\nPersonal\n\nRequirement: You must not be raging.\n\nEffect: You gain resist 10 to all damage until you use a rage power or until the end of the encounter.",
+        "title": "Serenity of Stone"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You gain resist 10 to all damage until you use a rage power or until the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must not be raging.",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You skin becomes hard as stone, allowing you to shrug off even the most potent attacks.",
+        "flavor": "You skin becomes hard as stone, allowing you to shrug off even the most potent attacks.",
+        "id": "modern4e.power.path-serenity-of-stone",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9626",
+          "publication": "Published in Primal Power, page(s) 29.",
+          "rulesText": "Serenity of StoneStonefire Rager Utility 12\nYou skin becomes hard as stone, allowing you to shrug off even the most potent attacks.\nDaily   ✦     Primal\nMinor Action      Personal\nRequirement: You must not be raging.\nEffect: You gain resist 10 to all damage until you use a rage power or until the end of the encounter.\nPublished in Primal Power, page(s) 29."
+        },
+        "subtitle": "Stonefire Rager Utility 12",
+        "title": "Serenity of Stone"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-volcanic-rage",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your weapon is sheathed in flame as you strike. Your wrath boils over, radiating from your molten skin and scorching nearby foes.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 4[W] + Strength fire damage.\n\nMiss: Half damage.\n\nEffect: You enter the rage of the volcano. Until the rage ends, as the first action of each of your turns, you can deal 5 + your Constitution fire damage to each enemy within 3 squares of you as a free action. In addition, if an adjacent enemy hits you, you gain a +2 bonus to attack rolls against that enemy until the end of your next turn.",
+        "title": "Volcanic Rage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath479",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "4[W] + Strength fire damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "You enter the rage of the volcano. Until the rage ends, as the first action of each of your turns, you can deal 5 + your Constitution fire damage to each enemy within 3 squares of you as a free action. In addition, if an adjacent enemy hits you, you gain a +2 bonus to attack rolls against that enemy until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your weapon is sheathed in flame as you strike. Your wrath boils over, radiating from your molten skin and scorching nearby foes.",
+        "flavor": "Your weapon is sheathed in flame as you strike. Your wrath boils over, radiating from your molten skin and scorching nearby foes.",
+        "id": "modern4e.power.path-volcanic-rage",
+        "keywords": [
+          "FIRE",
+          "PRIMAL",
+          "RAGE",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9625",
+          "publication": "Published in Primal Power, page(s) 29.",
+          "rulesText": "Volcanic RageStonefire Rager Attack 20\nYour weapon is sheathed in flame as you strike. Your wrath boils over, radiating from your molten skin and scorching nearby foes.\nDaily   ✦     Fire, Primal, Rage, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier fire damage.\nMiss: Half damage.\nEffect: You enter the rage of the volcano. Until the rage ends, as the first action of each of your turns, you can deal 5 + your Constitution modifier fire damage to each enemy within 3 squares of you as a free action. In addition, if an adjacent enemy hits you, you gain a +2 bonus to attack rolls against that enemy until the end of your next turn.\nPublished in Primal Power, page(s) 29."
+        },
+        "subtitle": "Stonefire Rager Attack 20",
+        "title": "Volcanic Rage"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-worlds-end-rage",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your strike encases your foe in ice. Snow then swirls around you and freezes your enemies as you rage across the battlefield.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 4[W] + Strength cold damage, and the target is restrained (save ends).\n\nMiss: Half damage.\n\nEffect: You enter the rage of the world's end. Until the rage ends, when you hit any enemy with an at-will attack power, that enemy is immobilized until the end of your next turn.",
+        "title": "World's End Rage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath481",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "4[W] + Strength cold damage, and the target is restrained (save ends).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "You enter the rage of the world's end. Until the rage ends, when you hit any enemy with an at-will attack power, that enemy is immobilized until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your strike encases your foe in ice. Snow then swirls around you and freezes your enemies as you rage across the battlefield.",
+        "flavor": "Your strike encases your foe in ice. Snow then swirls around you and freezes your enemies as you rage across the battlefield.",
+        "id": "modern4e.power.path-worlds-end-rage",
+        "keywords": [
+          "COLD",
+          "PRIMAL",
+          "RAGE",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9631",
+          "publication": "Published in Primal Power, page(s) 31.",
+          "rulesText": "World's End RageWinter Fury Attack 20\nYour strike encases your foe in ice. Snow then swirls around you and freezes your enemies as you rage across the battlefield.\nDaily   ✦     Cold, Primal, Rage, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 4[W] + Strength modifier cold damage, and the target is restrained (save ends).\nMiss: Half damage.\nEffect: You enter the rage of the world's end. Until the rage ends, when you hit any enemy with an at-will attack power, that enemy is immobilized until the end of your next turn.\nPublished in Primal Power, page(s) 31."
+        },
+        "subtitle": "Winter Fury Attack 20",
+        "title": "World's End Rage"
       }
     }
   ],

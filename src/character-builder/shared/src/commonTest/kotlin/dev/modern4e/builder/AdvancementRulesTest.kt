@@ -26,9 +26,9 @@ class AdvancementRulesTest {
 
     @Test
     fun earnedAbilityIncreasesApplyAtTheirMilestonesAndReachSkills() {
-        for (level in 1..19) {
+        for (level in 1..20) {
             val rules = evaluate(document(level))
-            assertEquals(4 + (if (level >= 8) 1 else 0) + (if (level >= 16) 1 else 0), total(rules, Ability.STRENGTH), "level $level")
+            assertEquals(4 + (if (level >= 8) 1 else 0) + (if (level >= 16) 1 else 0) + (if (level >= 20) 1 else 0), total(rules, Ability.STRENGTH), "level $level")
             assertEquals(2 + (if (level >= 4) 1 else 0) + (if (level >= 12) 1 else 0) + (if (level >= 16) 1 else 0), total(rules, Ability.DEXTERITY), "level $level")
             assertEquals(total(rules, Ability.DEXTERITY), assertIs<ContractResult.Available<CalculatedValue>>(rules.skill(Skill.ACROBATICS)).value.total)
             assertFalse(rules.diagnostics.any { it.code == "engine.progressionUnsupported" })
@@ -68,7 +68,7 @@ class AdvancementRulesTest {
 
     @Test
     fun rootsMatchTheLocalTableAndRejectOtherLevelsAndOrdinals() {
-        for (level in 2..19) {
+        for (level in 2..20) {
             val slot = ChoiceSlotId("advancement.$level", "feat", 0)
             assertEquals(if (AdvancementRules.level(level).feat) EntryCategory.FEAT else null,
                 AdvancementRules.rootCategory(level, slot))

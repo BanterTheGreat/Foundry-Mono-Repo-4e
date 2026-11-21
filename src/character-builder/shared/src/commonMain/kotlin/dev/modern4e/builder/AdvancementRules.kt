@@ -48,7 +48,7 @@ data class RootSlot(val slot: ChoiceSlotId, val level: Int, val category: SlotCa
  */
 object AdvancementRules {
     /** The last level whose schedule the engine enforces; later levels are preview only. */
-    const val LAST_ENFORCED_LEVEL = 19
+    const val LAST_ENFORCED_LEVEL = 20
 
     private val path = EntryCategory.PARAGON_PATH
     private val destiny = EntryCategory.EPIC_DESTINY

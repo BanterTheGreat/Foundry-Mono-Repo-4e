@@ -1,24 +1,681 @@
 {
   "entries": [
     {
-      "category": "PARAGON_PATH",
+      "category": "FEATURE",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath258",
+      "id": "modern4e.feature.arcane-armorer-arcane-armorers-action",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.barbarian",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you spend an action point to make an extra attack, choose one ally within 5 squares of one target of your attack. Until the end of your next turn, that ally gains resist 10 to your choice of one of cold, fire, force, lightning, necrotic, poison, radiant, or thunder damage.",
+        "title": "Arcane Armorer's Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you spend an action point to make an extra attack, choose one ally within 5 squares of one target of your attack. Until the end of your next turn, that ally gains resist 10 to your choice of one of cold, fire, force, lightning, necrotic, poison, radiant, or thunder damage.",
+        "id": "modern4e.feature.arcane-armorer-arcane-armorers-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Arcane Armorer's Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.arcane-armorer-practiced-armorer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You add your Wisdom to any resist value that you give to an ally.",
+        "title": "Practiced Armorer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You add your Wisdom to any resist value that you give to an ally.",
+        "id": "modern4e.feature.arcane-armorer-practiced-armorer",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Practiced Armorer"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.arcane-armorer-protective-spell-shield",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you use a Healing Infusion power on an ally, that ally cannot grant combat advantage until the end of your next turn.",
+        "title": "Protective Spell Shield"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you use a Healing Infusion power on an ally, that ally cannot grant combat advantage until the end of your next turn.",
+        "id": "modern4e.feature.arcane-armorer-protective-spell-shield",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Protective Spell Shield"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.battle-engineer-accurate-enhancement",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever one of your artificer or battle engineer powers grants a bonus to weapon attack rolls to an ally, that bonus increases by 2.",
+        "title": "Accurate Enhancement"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever one of your artificer or battle engineer powers grants a bonus to weapon attack rolls to an ally, that bonus increases by 2.",
+        "id": "modern4e.feature.battle-engineer-accurate-enhancement",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Accurate Enhancement"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.battle-engineer-aggressive-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, you gain a +1 bonus to weapon attack rolls until the end of your next turn, and your weapon attacks deal 1d6 extra damage until the end of your next turn.",
+        "title": "Aggressive Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to take an extra action, you gain a +1 bonus to weapon attack rolls until the end of your next turn, and your weapon attacks deal 1d6 extra damage until the end of your next turn.",
+        "id": "modern4e.feature.battle-engineer-aggressive-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Aggressive Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.battle-engineer-brutal-enchantment",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever one of your artificer or battle engineer powers grants an ally a bonus to weapon damage rolls, that ally's weapon also becomes brutal 1 until the bonus ends. If the weapon is already brutal, this has no effect.",
+        "title": "Brutal Enchantment"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever one of your artificer or battle engineer powers grants an ally a bonus to weapon damage rolls, that ally's weapon also becomes brutal 1 until the bonus ends. If the weapon is already brutal, this has no effect.",
+        "id": "modern4e.feature.battle-engineer-brutal-enchantment",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Brutal Enchantment"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.clockwork-engineer-clockwork-coordinated-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, you also gain two minor actions, which you can use only to command your summoned creatures.",
+        "title": "Clockwork Coordinated Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to take an extra action, you also gain two minor actions, which you can use only to command your summoned creatures.",
+        "id": "modern4e.feature.clockwork-engineer-clockwork-coordinated-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Clockwork Coordinated Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.clockwork-engineer-durable-artifice",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Creatures you summon with artificer or clockwork engineer powers have a +2 power bonus to all defenses.",
+        "title": "Durable Artifice"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Creatures you summon with artificer or clockwork engineer powers have a +2 power bonus to all defenses.",
+        "id": "modern4e.feature.clockwork-engineer-durable-artifice",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Durable Artifice"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.clockwork-engineer-superior-minions",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Creatures you summon with artificer or clockwork engineer powers have a +2 bonus to speed and a +1 bonus to attack rolls.",
+        "title": "Superior Minions"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Creatures you summon with artificer or clockwork engineer powers have a +2 bonus to speed and a +1 bonus to attack rolls.",
+        "id": "modern4e.feature.clockwork-engineer-superior-minions",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Superior Minions"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.spell-commander-arcane-weaponmaster",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You can use a bow or crossbow as an implement for ranged artificer attack powers. When you do so, increase the range of those powers by 5.",
+        "title": "Arcane Weaponmaster"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You can use a bow or crossbow as an implement for ranged artificer attack powers. When you do so, increase the range of those powers by 5.",
+        "id": "modern4e.feature.spell-commander-arcane-weaponmaster",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Arcane Weaponmaster"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.spell-commander-spell-commanders-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you spend an action point to make an attack, one ally within 10 squares of the target can use a basic attack or a 1st-level at-will arcane attack power as a free action. The ally must include at least one target of your attack as a target.",
+        "title": "Spell Commander's Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you spend an action point to make an attack, one ally within 10 squares of the target can use a basic attack or a 1st-level at-will arcane attack power as a free action. The ally must include at least one target of your attack as a target.",
+        "id": "modern4e.feature.spell-commander-spell-commanders-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Spell Commander's Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.spell-commander-unleash-spell-power",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever an adjacent ally would make a basic attack, that ally can instead use any 1st-level arcane at-will attack power they know. The ally must used ranged powers in the place of ranged basic attacks, and melee powers in the place of melee basic attacks.",
+        "title": "Unleash Spell Power"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever an adjacent ally would make a basic attack, that ally can instead use any 1st-level arcane at-will attack power they know. The ally must used ranged powers in the place of ranged basic attacks, and melee powers in the place of melee basic attacks.",
+        "id": "modern4e.feature.spell-commander-unleash-spell-power",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Unleash Spell Power"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.path.paragonpath366",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.battle-engineer-aggressive-action",
+            "grantId": "aggressive-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.battle-engineer-brutal-enchantment",
+            "grantId": "brutal-enchantment",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-greater-magic-weapon",
+            "grantId": "greater-magic-weapon",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-fleeting-dweomer",
+            "grantId": "fleeting-dweomer",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.battle-engineer-accurate-enhancement",
+            "grantId": "accurate-enhancement",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-persistent-spheres",
+            "grantId": "persistent-spheres",
+            "type": "entry"
+          }
+        ],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -26,79 +683,409 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Take on a bear's shape when you rage, gaining tougher protection and the freedom to catch your breath with second wind without slowing your assault. Action points offer further healing, while mauling blows knock enemies down and threaten another strike when they stand beside you. Your growing strength sends foes flying on a raging critical hit, and your fiercest rage carries you between opponents before settling into steady regeneration and resistance to being moved.",
-        "title": "Bear Warrior"
+        "description": "Leave the workshop behind and take your artifice straight into the front line. Your action point turns you into a harder-hitting combatant, and the weapon enchantments you grant allies become brutal and, later, noticeably more accurate. You can empower every ally standing beside you with a single strike, lace a weapon with lasting elemental force that sets critical targets burning, and fasten a zone of stinging motes to an enemy that punishes it for standing still.",
+        "title": "Battle Engineer"
       },
       "sharedData": {
-        "description": "Take on a bear's shape when you rage, gaining tougher protection and the freedom to catch your breath with second wind without slowing your assault. Action points offer further healing, while mauling blows knock enemies down and threaten another strike when they stand beside you. Your growing strength sends foes flying on a raging critical hit, and your fiercest rage carries you between opponents before settling into steady regeneration and resistance to being moved.",
-        "link": "https://iws.mx/dnd/?view=paragonpath258",
+        "access": {
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Leave the workshop behind and take your artifice straight into the front line. Your action point turns you into a harder-hitting combatant, and the weapon enchantments you grant allies become brutal and, later, noticeably more accurate. You can empower every ally standing beside you with a single strike, lace a weapon with lasting elemental force that sets critical targets burning, and fasten a zone of stinging motes to an enemy that punishes it for standing still.",
+        "flavor": "Leave the workshop behind and take your artifice straight into the front line. Your action point turns you into a harder-hitting combatant, and the weapon enchantments you grant allies become brutal and, later, noticeably more accurate. You can empower every ally standing beside you with a single strike, lace a weapon with lasting elemental force that sets critical targets burning, and fasten a zone of stinging motes to an enemy that punishes it for standing still.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.battle-engineer-aggressive-action",
+            "id": "aggressive-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.battle-engineer-brutal-enchantment",
+            "id": "brutal-enchantment"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-greater-magic-weapon",
+            "id": "greater-magic-weapon"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-fleeting-dweomer",
+            "id": "fleeting-dweomer"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.battle-engineer-accurate-enhancement",
+            "id": "accurate-enhancement"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-persistent-spheres",
+            "id": "persistent-spheres"
+          }
+        ],
+        "id": "modern4e.path.paragonpath366",
+        "link": "https://iws.mx/dnd/?view=paragonpath366",
+        "prerequisiteText": "Artificer",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
         "requirements": null,
-        "sourceEntryId": "paragonpath258",
-        "title": "Bear Warrior"
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath366",
+        "title": "Battle Engineer"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.path.paragonpath368",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.clockwork-engineer-clockwork-coordinated-action",
+            "grantId": "clockwork-coordinated-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.clockwork-engineer-durable-artifice",
+            "grantId": "durable-artifice",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-clockwork-soldiers",
+            "grantId": "clockwork-soldiers",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-aid-artifice",
+            "grantId": "aid-artifice",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.clockwork-engineer-superior-minions",
+            "grantId": "superior-minions",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-clockwork-companion",
+            "grantId": "clockwork-companion",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Fill the battlefield with devices of your own making and treat them like members of the party. Spending an action point grants extra minor actions to command your summoned creatures, which are sturdier from the start and become faster and more accurate later on. A swarm of tiny soldiers slows enemies that enter their zone, you can mend a damaged creation by spending a healing surge, and your clockwork companion marks foes while granting nearby characters temporary hit points.",
+        "title": "Clockwork Engineer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Fill the battlefield with devices of your own making and treat them like members of the party. Spending an action point grants extra minor actions to command your summoned creatures, which are sturdier from the start and become faster and more accurate later on. A swarm of tiny soldiers slows enemies that enter their zone, you can mend a damaged creation by spending a healing surge, and your clockwork companion marks foes while granting nearby characters temporary hit points.",
+        "flavor": "Fill the battlefield with devices of your own making and treat them like members of the party. Spending an action point grants extra minor actions to command your summoned creatures, which are sturdier from the start and become faster and more accurate later on. A swarm of tiny soldiers slows enemies that enter their zone, you can mend a damaged creation by spending a healing surge, and your clockwork companion marks foes while granting nearby characters temporary hit points.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.clockwork-engineer-clockwork-coordinated-action",
+            "id": "clockwork-coordinated-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.clockwork-engineer-durable-artifice",
+            "id": "durable-artifice"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-clockwork-soldiers",
+            "id": "clockwork-soldiers"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-aid-artifice",
+            "id": "aid-artifice"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.clockwork-engineer-superior-minions",
+            "id": "superior-minions"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-clockwork-companion",
+            "id": "clockwork-companion"
+          }
+        ],
+        "id": "modern4e.path.paragonpath368",
+        "link": "https://iws.mx/dnd/?view=paragonpath368",
+        "prerequisiteText": "Artificer",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "requirements": null,
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath368",
+        "title": "Clockwork Engineer"
       }
     },
     {
       "category": "PARAGON_PATH",
       "coverage": {
         "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
+          "Class path prerequisite has not been structurally adapted: Shielding elixir healing infusion."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
-      "id": "modern4e.path.paragonpath475",
+      "id": "modern4e.path.paragonpath526",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.barbarian",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.arcane-armorer-arcane-armorers-action",
+            "grantId": "arcane-armorers-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.arcane-armorer-protective-spell-shield",
+            "grantId": "protective-spell-shield",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-defense-siphon",
+            "grantId": "defense-siphon",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-protective-recall",
+            "grantId": "protective-recall",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.arcane-armorer-practiced-armorer",
+            "grantId": "practiced-armorer",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-armor-of-force",
+            "grantId": "armor-of-force",
+            "type": "entry"
+          }
+        ],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
-            "type": "level"
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "reason": "Class path prerequisite has not been structurally adapted.",
+                "text": "Shielding elixir healing infusion",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Draw the enemy's attention with the strength of the ancestors behind you, marking foes and making your exchanges with them increasingly punishing. Charisma deepens your healing reserves, and a successful action point attack lets you spend a healing surge to stay in the fight. As your bond grows, Rampage can carry an at-will technique into the opening, while your greatest rage adds force to every blow against an enemy you have marked.",
-        "title": "Ancestral Weapon"
+        "description": "Turn your allies' armor into a spellcaster's weapon, laying wards that blunt incoming energy and make shielded friends harder to exploit. Spending an action point lets you hand a nearby ally resistance to a chosen energy type, while your healing infusions keep that ally from granting combat advantage. Wisdom adds to every resistance you grant, and your powers siphon defenses off an enemy, teleport a battered ally to your side, or fill an armored ally with force that hurls foes away.",
+        "title": "Arcane Armorer"
       },
       "sharedData": {
-        "description": "Draw the enemy's attention with the strength of the ancestors behind you, marking foes and making your exchanges with them increasingly punishing. Charisma deepens your healing reserves, and a successful action point attack lets you spend a healing surge to stay in the fight. As your bond grows, Rampage can carry an at-will technique into the opening, while your greatest rage adds force to every blow against an enemy you have marked.",
-        "link": "https://iws.mx/dnd/?view=paragonpath475",
-        "requirements": null,
-        "sourceEntryId": "paragonpath475",
-        "title": "Ancestral Weapon"
+        "access": {
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Class path prerequisite has not been structurally adapted: Shielding elixir healing infusion."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Turn your allies' armor into a spellcaster's weapon, laying wards that blunt incoming energy and make shielded friends harder to exploit. Spending an action point lets you hand a nearby ally resistance to a chosen energy type, while your healing infusions keep that ally from granting combat advantage. Wisdom adds to every resistance you grant, and your powers siphon defenses off an enemy, teleport a battered ally to your side, or fill an armored ally with force that hurls foes away.",
+        "flavor": "Turn your allies' armor into a spellcaster's weapon, laying wards that blunt incoming energy and make shielded friends harder to exploit. Spending an action point lets you hand a nearby ally resistance to a chosen energy type, while your healing infusions keep that ally from granting combat advantage. Wisdom adds to every resistance you grant, and your powers siphon defenses off an enemy, teleport a battered ally to your side, or fill an armored ally with force that hurls foes away.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.arcane-armorer-arcane-armorers-action",
+            "id": "arcane-armorers-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.arcane-armorer-protective-spell-shield",
+            "id": "protective-spell-shield"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-defense-siphon",
+            "id": "defense-siphon"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-protective-recall",
+            "id": "protective-recall"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.arcane-armorer-practiced-armorer",
+            "id": "practiced-armorer"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-armor-of-force",
+            "id": "armor-of-force"
+          }
+        ],
+        "id": "modern4e.path.paragonpath526",
+        "link": "https://iws.mx/dnd/?view=paragonpath526",
+        "prerequisiteText": "Artificer, shielding elixir healing infusion",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "reason": "Class path prerequisite has not been structurally adapted.",
+              "text": "Shielding elixir healing infusion",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "requirements": "Shielding elixir healing infusion",
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath526",
+        "title": "Arcane Armorer"
       }
     },
     {
       "category": "PARAGON_PATH",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath477",
+      "id": "modern4e.path.paragonpath527",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.barbarian",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.spell-commander-arcane-weaponmaster",
+            "grantId": "arcane-weaponmaster",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.spell-commander-spell-commanders-action",
+            "grantId": "spell-commanders-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-spell-tracer",
+            "grantId": "spell-tracer",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-alter-spell-power",
+            "grantId": "alter-spell-power",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.spell-commander-unleash-spell-power",
+            "grantId": "unleash-spell-power",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-living-gate",
+            "grantId": "living-gate",
+            "type": "entry"
+          }
+        ],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -106,119 +1093,624 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Focus your anger into deliberate Rage Strikes, using them even before you enter a rage and eventually putting greater force behind each blow. Spending an action point restores health, and a precise strike against Reflex lets you draw on a healing surge. A critical hit can turn Rampage into another use of that healing attack, while your greatest rage steadies the accuracy of at-will attacks and Rage Strikes and rewards their hits with temporary vitality.",
-        "title": "Calm Fury"
+        "description": "Command your allies like a squad leader, turning every friend into a spell delivery system. A bow or crossbow works as your implement and extends your reach, and an action point lets a nearby ally add a free attack to your own. Later, adjacent allies can swap their basic attacks for arcane at-will powers. Your powers guide spells toward a target, retune an ally's damage type as they swing, and open a living gate that teleports you and your friends across the field.",
+        "title": "Spell Commander"
       },
       "sharedData": {
-        "description": "Focus your anger into deliberate Rage Strikes, using them even before you enter a rage and eventually putting greater force behind each blow. Spending an action point restores health, and a precise strike against Reflex lets you draw on a healing surge. A critical hit can turn Rampage into another use of that healing attack, while your greatest rage steadies the accuracy of at-will attacks and Rage Strikes and rewards their hits with temporary vitality.",
-        "link": "https://iws.mx/dnd/?view=paragonpath477",
+        "access": {
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Command your allies like a squad leader, turning every friend into a spell delivery system. A bow or crossbow works as your implement and extends your reach, and an action point lets a nearby ally add a free attack to your own. Later, adjacent allies can swap their basic attacks for arcane at-will powers. Your powers guide spells toward a target, retune an ally's damage type as they swing, and open a living gate that teleports you and your friends across the field.",
+        "flavor": "Command your allies like a squad leader, turning every friend into a spell delivery system. A bow or crossbow works as your implement and extends your reach, and an action point lets a nearby ally add a free attack to your own. Later, adjacent allies can swap their basic attacks for arcane at-will powers. Your powers guide spells toward a target, retune an ally's damage type as they swing, and open a living gate that teleports you and your friends across the field.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.spell-commander-arcane-weaponmaster",
+            "id": "arcane-weaponmaster"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.spell-commander-spell-commanders-action",
+            "id": "spell-commanders-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-spell-tracer",
+            "id": "spell-tracer"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-alter-spell-power",
+            "id": "alter-spell-power"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.spell-commander-unleash-spell-power",
+            "id": "unleash-spell-power"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-living-gate",
+            "id": "living-gate"
+          }
+        ],
+        "id": "modern4e.path.paragonpath527",
+        "link": "https://iws.mx/dnd/?view=paragonpath527",
+        "prerequisiteText": "Artificer",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
         "requirements": null,
-        "sourceEntryId": "paragonpath477",
-        "title": "Calm Fury"
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath527",
+        "title": "Spell Commander"
       }
     },
     {
-      "category": "PARAGON_PATH",
+      "category": "POWER",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath479",
+      "id": "modern4e.power.path-aid-artifice",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.barbarian",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
+            "minimum": 12,
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Endure with the patience of stone, then erupt in a rush of heat and violence. You can turn some critical hits against you into ordinary wounds, and an action point attack adds Constitution-driven fire damage while knocking its victims down. Remaining outside a rage lets you shelter behind broad damage resistance, while being bloodied brings fire resistance and harder blows. When you finally unleash your volcanic rage, nearby enemies burn each turn and those that strike you leave themselves open to your answer.",
-        "title": "Stonefire Rager"
+        "description": "Your creations last longer than expected.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nClose burst 10\n\nTrigger: A creature you summoned with an artificer or clockwork engineer power takes damage\n\nTarget: The triggering summoned creature\n\nEffect: You spend a healing surge, and the target regains hit points equal to your healing surge value + 2d6.",
+        "title": "Aid Artifice"
       },
       "sharedData": {
-        "description": "Endure with the patience of stone, then erupt in a rush of heat and violence. You can turn some critical hits against you into ordinary wounds, and an action point attack adds Constitution-driven fire damage while knocking its victims down. Remaining outside a rage lets you shelter behind broad damage resistance, while being bloodied brings fire resistance and harder blows. When you finally unleash your volcanic rage, nearby enemies burn each turn and those that strike you leave themselves open to your answer.",
-        "link": "https://iws.mx/dnd/?view=paragonpath479",
-        "requirements": null,
-        "sourceEntryId": "paragonpath479",
-        "title": "Stonefire Rager"
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "The triggering summoned creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-3",
+                "label": "Effect",
+                "text": "You spend a healing surge, and the target regains hit points equal to your healing surge value + 2d6.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "trigger": "A creature you summoned with an artificer or clockwork engineer power takes damage",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your creations last longer than expected.",
+        "flavor": "Your creations last longer than expected.",
+        "id": "modern4e.power.path-aid-artifice",
+        "keywords": [
+          "ARCANE",
+          "HEALING"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7562",
+          "publication": "Published in Eberron Player's Guide, page(s) 61.",
+          "rulesText": "Aid ArtificeClockwork Engineer Utility 12\nYour creations last longer than expected.\nEncounter   ✦     Arcane, Healing\nImmediate Interrupt      Close burst 10\nTrigger: A creature you summoned with an artificer or clockwork engineer power takes damage\nTarget: The triggering summoned creature\nEffect: You spend a healing surge, and the target regains hit points equal to your healing surge value + 2d6.\nPublished in Eberron Player's Guide, page(s) 61."
+        },
+        "subtitle": "Clockwork Engineer Utility 12",
+        "title": "Aid Artifice"
       }
     },
     {
-      "category": "PARAGON_PATH",
+      "category": "POWER",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath481",
+      "id": "modern4e.power.path-alter-spell-power",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.barbarian",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
+            "minimum": 12,
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Freeze enemies in place and make their helpless footing count, striking immobilized foes with greater accuracy and force. Your action point attacks can lock down a cluster of enemies, while a mantle of glacial armor absorbs punishment until repeated blows or fire break it apart. With experience, you resist the cold and can turn ordinary damage into frost, and your greatest rage lets each at-will hit hold its victim in place for another assault.",
-        "title": "Winter Fury"
+        "description": "You quickly weave an enchantment over an ally's weapon or implement, transforming an ally's next attack.\n\nENCOUNTER / FREE\n\nMelee touch\n\nTrigger: An ally adjacent to you makes an attack\n\nTarget: The triggering ally's implement or weapon\n\nEffect: Choose one of the following damage types: cold, fire, force, lightning, or thunder. The triggering attack's damage is changed to that type of damage, and the attack deals extra damage equal to your Intelligence.",
+        "title": "Alter Spell Power"
       },
       "sharedData": {
-        "description": "Freeze enemies in place and make their helpless footing count, striking immobilized foes with greater accuracy and force. Your action point attacks can lock down a cluster of enemies, while a mantle of glacial armor absorbs punishment until repeated blows or fire break it apart. With experience, you resist the cold and can turn ordinary damage into frost, and your greatest rage lets each at-will hit hold its victim in place for another assault.",
-        "link": "https://iws.mx/dnd/?view=paragonpath481",
-        "requirements": null,
-        "sourceEntryId": "paragonpath481",
-        "title": "Winter Fury"
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "The triggering ally's implement or weapon"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-3",
+                "label": "Effect",
+                "text": "Choose one of the following damage types: cold, fire, force, lightning, or thunder. The triggering attack's damage is changed to that type of damage, and the attack deals extra damage equal to your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee touch",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "trigger": "An ally adjacent to you makes an attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You quickly weave an enchantment over an ally's weapon or implement, transforming an ally's next attack.",
+        "flavor": "You quickly weave an enchantment over an ally's weapon or implement, transforming an ally's next attack.",
+        "id": "modern4e.power.path-alter-spell-power",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10237",
+          "publication": "Published in Dragon Magazine 381, page(s) 64.",
+          "rulesText": "Alter Spell PowerSpell Commander Utility 12\nYou quickly weave an enchantment over an ally's weapon or implement, transforming an ally's next attack.\nEncounter   ✦     Arcane\nFree Action      Melee touch\nTrigger: An ally adjacent to you makes an attack\nTarget: The triggering ally's implement or weapon\nEffect: Choose one of the following damage types: cold, fire, force, lightning, or thunder. The triggering attack's damage is changed to that type of damage, and the attack deals extra damage equal to your Intelligence modifier.\nPublished in Dragon Magazine 381, page(s) 64."
+        },
+        "subtitle": "Spell Commander Utility 12",
+        "title": "Alter Spell Power"
       }
     },
     {
-      "category": "PARAGON_PATH",
+      "category": "POWER",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath834",
+      "id": "modern4e.power.path-armor-of-force",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.barbarian",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You lay an enchantment over the armor worn by an ally, which causes the air to ripple with waves of raw force.\n\nDAILY / MINOR\n\nMelee touch\n\nTarget: One ally\n\nEffect: You infuse the primary target's armor with the power of arcane force. Until the end of the encounter, the ally gains resist 5 all. In addition, you can use the Armor of Force Attack power once per round until the end of the encounter if the primary target is within 5 squares of you.\n\nGrants: Armor of Force Attack\n\nAT_WILL / STANDARD\n\nClose burst 1 centered on the primary target\n\nRequirement: The power Armor of Force must be active in order to use this power.\n\nTarget: Each enemy in the burst\n\nSecondary Attack: Intelligence vs. Fortitude\n\nHit: 2d10 + Intelligence force damage, and you push the secondary target away from the primary target a number of squares equal to 1 + your Wisdom.",
+        "title": "Armor of Force"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You infuse the primary target's armor with the power of arcane force. Until the end of the encounter, the ally gains resist 5 all. In addition, you can use the Armor of Force Attack power once per round until the end of the encounter if the primary target is within 5 squares of you.",
+                "type": "effect"
+              },
+              {
+                "activationId": "use-armor-of-force-attack",
+                "duration": "As stated in the power's rules",
+                "id": "grant-use-armor-of-force-attack",
+                "label": "Grants",
+                "text": "Armor of Force Attack",
+                "type": "grant"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee touch",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          },
+          {
+            "action": "STANDARD",
+            "availability": "GRANTED",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-7": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-9",
+                          "label": "Hit",
+                          "text": "2d10 + Intelligence force damage, and you push the secondary target away from the primary target a number of squares equal to 1 + your Wisdom.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-8",
+                "label": "Secondary Attack",
+                "range": {
+                  "text": "Close burst 1 centered on the primary target",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-7",
+                "text": "Intelligence vs. Fortitude",
+                "type": "attack"
+              }
+            ],
+            "id": "use-armor-of-force-attack",
+            "range": {
+              "text": "Close burst 1 centered on the primary target",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "The power Armor of Force must be active in order to use this power.",
+            "targets": "targets-7",
+            "title": "Armor of Force Attack",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution.",
+            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You lay an enchantment over the armor worn by an ally, which causes the air to ripple with waves of raw force.",
+        "flavor": "You lay an enchantment over the armor worn by an ally, which causes the air to ripple with waves of raw force.",
+        "id": "modern4e.power.path-armor-of-force",
+        "keywords": [
+          "ARCANE",
+          "FORCE",
+          "IMPLEMENT"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10231",
+          "publication": "Published in Dragon Magazine 381, page(s) 63.",
+          "rulesText": "Armor of ForceArcane Armorer Attack 20\nYou lay an enchantment over the armor worn by an ally, which causes the air to ripple with waves of raw force.\nDaily   ✦     Arcane, Force, Implement\nMinor Action      Melee touch\nPrimary Target: One ally\nEffect: You infuse the primary target's armor with the power of arcane force. Until the end of the encounter, the ally gains resist 5 all. In addition, you can use the Armor of Force Attack power once per round until the end of the encounter if the primary target is within 5 squares of you.\nArmor of Force Attack\nAt-Will ✦     Arcane, Force, Implement\nStandard Action      Close burst 1 centered on the primary target\nRequirement: The power Armor of Force must be active in order to use this power.\nSecondary Target: Each enemy in the burst\nSecondary Attack: Intelligence vs. Fortitude\nHit: 2d10 + Intelligence modifier force damage, and you push the secondary target away from the primary target a number of squares equal to 1 + your Wisdom modifier.\nPublished in Dragon Magazine 381, page(s) 63."
+        },
+        "subtitle": "Arcane Armorer Attack 20",
+        "title": "Armor of Force"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-clockwork-companion",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You carefully assemble a realistic and versatile clockwork creation.\n\nDAILY / MINOR\n\nRanged 10\n\nEffect: You summon a Small clockwork companion in an unoccupied square within range. The clockwork companion has speed 7 and ignores difficult terrain. It has a +4 bonus to AC and to Reflex. When you or any ally starts your turn adjacent to the clockwork companion, that character gains 10 temporary hit points. You can give the clockwork companion the following special commands.\n\nMinor Action: Melee 1; targets one creature; Intelligence + 2 vs. AC; 2d10 + Intelligence damage, and the target is marked by the clockwork companion until the end of your next turn. If the target is already marked, the companion can deal 1d8 extra damage instead of marking it.\n\nOpportunity Attack: Melee 1; targets one creature; Intelligence + 2 vs. AC; 2d10 + Intelligence damage, and the target is marked by the clockwork companion until the end of your next turn. If the target is already marked, the companion can deal 1d8 extra damage instead of marking it.",
+        "title": "Clockwork Companion"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You summon a Small clockwork companion in an unoccupied square within range. The clockwork companion has speed 7 and ignores difficult terrain. It has a +4 bonus to AC and to Reflex. When you or any ally starts your turn adjacent to the clockwork companion, that character gains 10 temporary hit points. You can give the clockwork companion the following special commands.",
+                "type": "effect"
+              },
+              {
+                "id": "row-2",
+                "label": "Minor Action",
+                "text": "Melee 1; targets one creature; Intelligence + 2 vs. AC; 2d10 + Intelligence damage, and the target is marked by the clockwork companion until the end of your next turn. If the target is already marked, the companion can deal 1d8 extra damage instead of marking it.",
+                "type": "effect"
+              },
+              {
+                "id": "row-3",
+                "label": "Opportunity Attack",
+                "text": "Melee 1; targets one creature; Intelligence + 2 vs. AC; 2d10 + Intelligence damage, and the target is marked by the clockwork companion until the end of your next turn. If the target is already marked, the companion can deal 1d8 extra damage instead of marking it.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You carefully assemble a realistic and versatile clockwork creation.",
+        "flavor": "You carefully assemble a realistic and versatile clockwork creation.",
+        "id": "modern4e.power.path-clockwork-companion",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "SUMMONING"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7563",
+          "publication": "Published in Eberron Player's Guide, page(s) 61.",
+          "rulesText": "Clockwork CompanionClockwork Engineer Attack 20\nYou carefully assemble a realistic and versatile clockwork creation.\nDaily   ✦     Arcane, Implement, Summoning\nMinor Action      Ranged 10\nEffect: You summon a Small clockwork companion in an unoccupied square within range. The clockwork companion has speed 7 and ignores difficult terrain. It has a +4 bonus to AC and to Reflex. When you or any ally starts your turn adjacent to the clockwork companion, that character gains 10 temporary hit points. You can give the clockwork companion the following special commands.\nMinor Action: Melee 1; targets one creature; Intelligence + 2 vs. AC; 2d10 + Intelligence modifier damage, and the target is marked by the clockwork companion until the end of your next turn. If the target is already marked, the companion can deal 1d8 extra damage instead of marking it.\nOpportunity Attack: Melee 1; targets one creature; Intelligence + 2 vs. AC; 2d10 + Intelligence modifier damage, and the target is marked by the clockwork companion until the end of your next turn. If the target is already marked, the companion can deal 1d8 extra damage instead of marking it.\nPublished in Eberron Player's Guide, page(s) 61."
+        },
+        "subtitle": "Clockwork Engineer Attack 20",
+        "title": "Clockwork Companion"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-clockwork-soldiers",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -226,18 +1718,1133 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Hunt through the boundary between the world and its shadows, passing through obstacles as you charge a visible enemy. An action point spent on a successful at-will attack can send you straight into another charge, while a brutal follow-up blow grants temporary vitality. Shadow packmates flank enemies alongside your companions, and your later gifts let you spend a healing surge to move through solid barriers or leave lingering necrotic and poisonous wounds with every melee hit.",
-        "title": "Nocturnal"
+        "description": "Scores of tiny metal soldiers drop off your body and swarm a foe.\n\nENCOUNTER / STANDARD\n\nArea burst 2 within 10 squares\n\nEffect: The burst creates a zone of miniature clockwork soldiers. The zone lasts until the end of your next turn. The zone is difficult terrain, and any enemy that starts its turn within the zone is subject to an attack.\n\nAttack: Intelligence vs. Reflex\n\nHit: 1d8 + Intelligence, and the target is slowed until the end of its next turn.",
+        "title": "Clockwork Soldiers"
       },
       "sharedData": {
-        "description": "Hunt through the boundary between the world and its shadows, passing through obstacles as you charge a visible enemy. An action point spent on a successful at-will attack can send you straight into another charge, while a brutal follow-up blow grants temporary vitality. Shadow packmates flank enemies alongside your companions, and your later gifts let you spend a healing surge to move through solid barriers or leave lingering necrotic and poisonous wounds with every melee hit.",
-        "link": "https://iws.mx/dnd/?view=paragonpath834",
-        "requirements": null,
-        "sourceEntryId": "paragonpath834",
-        "title": "Nocturnal"
+        "access": {
+          "entryId": "modern4e.path.paragonpath368",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "The burst creates a zone of miniature clockwork soldiers. The zone lasts until the end of your next turn. The zone is difficult terrain, and any enemy that starts its turn within the zone is subject to an attack.",
+                "type": "effect"
+              },
+              {
+                "id": "row-2",
+                "label": "Attack",
+                "text": "Intelligence vs. Reflex",
+                "type": "effect"
+              },
+              {
+                "id": "row-3",
+                "label": "Hit",
+                "text": "1d8 + Intelligence, and the target is slowed until the end of its next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 2 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Scores of tiny metal soldiers drop off your body and swarm a foe.",
+        "flavor": "Scores of tiny metal soldiers drop off your body and swarm a foe.",
+        "id": "modern4e.power.path-clockwork-soldiers",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "ZONE"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7561",
+          "publication": "Published in Eberron Player's Guide, page(s) 61.",
+          "rulesText": "Clockwork SoldiersClockwork Engineer Attack 11\nScores of tiny metal soldiers drop off your body and swarm a foe.\nEncounter   ✦     Arcane, Implement, Zone\nStandard Action      Area burst 2 within 10 squares\nEffect: The burst creates a zone of miniature clockwork soldiers. The zone lasts until the end of your next turn. The zone is difficult terrain, and any enemy that starts its turn within the zone is subject to an attack.\nAttack: Intelligence vs. Reflex\nHit: 1d8 + Intelligence modifier, and the target is slowed until the end of its next turn.\nPublished in Eberron Player's Guide, page(s) 61."
+        },
+        "subtitle": "Clockwork Engineer Attack 11",
+        "title": "Clockwork Soldiers"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-defense-siphon",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You weave a spell that saps the strength and defenses of your enemy, transferring the power of those defenses to a nearby ally.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Intelligence vs. Will\n\nHit: 3d8 + Intelligence necrotic damage, and choose one ally within 5 squares of the target. Until the end of your next turn, the target takes a –4 penalty to your choice of Fortitude, Reflex, or Will defense, and the ally you chose gains a +4 power bonus to the same defense.",
+        "title": "Defense Siphon"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3d8 + Intelligence necrotic damage, and choose one ally within 5 squares of the target. Until the end of your next turn, the target takes a –4 penalty to your choice of Fortitude, Reflex, or Will defense, and the ally you chose gains a +4 power bonus to the same defense.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. Will",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You weave a spell that saps the strength and defenses of your enemy, transferring the power of those defenses to a nearby ally.",
+        "flavor": "You weave a spell that saps the strength and defenses of your enemy, transferring the power of those defenses to a nearby ally.",
+        "id": "modern4e.power.path-defense-siphon",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "NECROTIC"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10230",
+          "publication": "Published in Dragon Magazine 381, page(s) 62.",
+          "rulesText": "Defense SiphonArcane Armorer Attack 11\nYou weave a spell that saps the strength and defenses of your enemy, transferring the power of those defenses to a nearby ally.\nEncounter   ✦     Arcane, Implement, Necrotic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Intelligence vs. Will\nHit: 3d8 + Intelligence modifier necrotic damage, and choose one ally within 5 squares of the target. Until the end of your next turn, the target takes a –4 penalty to your choice of Fortitude, Reflex, or Will defense, and the ally you chose gains a +4 power bonus to the same defense.\nPublished in Dragon Magazine 381, page(s) 62."
+        },
+        "subtitle": "Arcane Armorer Attack 11",
+        "title": "Defense Siphon"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-fleeting-dweomer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You infuse a weapon with a brief yet powerful enchantment.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: One weapon or implement in the burst\n\nEffect: You infuse the target with arcane energy. Choose a damage type: acid, cold, fire, force, lightning, or thunder. The target deals extra damage of this type equal to your Intelligence until the end of the encounter. Until the end of the encounter, whenever the target's wielder scores a critical hit with the weapon, the target of the attack gains 10 ongoing damage of the damage type you chose (save ends).",
+        "title": "Fleeting Dweomer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One weapon or implement in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You infuse the target with arcane energy. Choose a damage type: acid, cold, fire, force, lightning, or thunder. The target deals extra damage of this type equal to your Intelligence until the end of the encounter. Until the end of the encounter, whenever the target's wielder scores a critical hit with the weapon, the target of the attack gains 10 ongoing damage of the damage type you chose (save ends).",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You infuse a weapon with a brief yet powerful enchantment.",
+        "flavor": "You infuse a weapon with a brief yet powerful enchantment.",
+        "id": "modern4e.power.path-fleeting-dweomer",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7555",
+          "publication": "Published in Eberron Player's Guide, page(s) 59.",
+          "rulesText": "Fleeting DweomerBattle Engineer Utility 12\nYou infuse a weapon with a brief yet powerful enchantment.\nDaily   ✦     Arcane\nMinor Action      Close burst 5\nTarget: One weapon or implement in the burst\nEffect: You infuse the target with arcane energy. Choose a damage type: acid, cold, fire, force, lightning, or thunder. The target deals extra damage of this type equal to your Intelligence modifier until the end of the encounter. Until the end of the encounter, whenever the target's wielder scores a critical hit with the weapon, the target of the attack gains 10 ongoing damage of the damage type you chose (save ends).\nUpdate (11/23/2009)\nThis power should be a daily power.\nPublished in Eberron Player's Guide, page(s) 59."
+        },
+        "subtitle": "Battle Engineer Utility 12",
+        "title": "Fleeting Dweomer"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-greater-magic-weapon",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Arcane energy enwraps your weapon and your allies' weapons.\n\nENCOUNTER / STANDARD\n\nMelee or Ranged weapon\n\nTarget: One creature\n\nAttack: Intelligence + 3 vs. AC\n\nHit: 2[W] + Intelligence damage.\n\nEffect: Each ally adjacent to you gains a power bonus to attack rolls and to damage rolls equal to your Wisdom or your Constitution until the end of your next turn.",
+        "title": "Greater Magic Weapon"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Intelligence damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee or Ranged weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "text": "Intelligence + 3 vs. AC",
+                    "type": "RULES_TEXT"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence + 3 vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "Each ally adjacent to you gains a power bonus to attack rolls and to damage rolls equal to your Wisdom or your Constitution until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee or Ranged weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Arcane energy enwraps your weapon and your allies' weapons.",
+        "flavor": "Arcane energy enwraps your weapon and your allies' weapons.",
+        "id": "modern4e.power.path-greater-magic-weapon",
+        "keywords": [
+          "ARCANE",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7554",
+          "publication": "Published in Eberron Player's Guide, page(s) 59.",
+          "rulesText": "Greater Magic WeaponBattle Engineer Attack 11\nArcane energy enwraps your weapon and your allies' weapons.\nEncounter   ✦     Arcane, Weapon\nStandard Action      Melee or Ranged weapon\nTarget: One creature\nAttack: Intelligence + 3 vs. AC\nHit: 2[W] + Intelligence modifier damage.\nEffect: Each ally adjacent to you gains a power bonus to attack rolls and to damage rolls equal to your Wisdom modifier or your Constitution modifier until the end of your next turn.\nPublished in Eberron Player's Guide, page(s) 59."
+        },
+        "subtitle": "Battle Engineer Attack 11",
+        "title": "Greater Magic Weapon"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-living-gate",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You alter the enchantments you have placed on your ally, transforming him or her into a living nexus through which others can travel.\n\nDAILY / STANDARD\n\nRanged weapon\n\nTarget: One ally within 5 squares of you\n\nEffect: You make the following attack, using the primary target's space as the origin square of the attack.\n\nSecondary Target: One creature\n\nSecondary Attack: Intelligence vs. AC\n\nHit: 4[W] + Intelligence damage.\n\nMiss: Half damage\n\nEffect: Until the end of the encounter, you can use the power Living Gate Teleport.\n\nGrants: Living Gate Teleport\n\nAT_WILL / MOVE\n\nClose burst 10\n\nRequirement: The power Living Gate must be active in order to use this power.\n\nTarget: You or one ally in the burst\n\nEffect: If the tertiary target is adjacent to the primary target, the tertiary target teleports 6 squares. Otherwise, the tertiary target teleports 10 squares into an unoccupied space adjacent to the primary target.",
+        "title": "Living Gate"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One ally within 5 squares of you"
+              },
+              "targets-3": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "You make the following attack, using the primary target's space as the origin square of the attack.",
+                "type": "effect"
+              },
+              {
+                "id": "row-3",
+                "label": "Secondary Target",
+                "text": "One creature",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-5",
+                          "label": "Hit",
+                          "text": "4[W] + Intelligence damage.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-6",
+                          "label": "Miss",
+                          "text": "Half damage",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-4",
+                "label": "Secondary Attack",
+                "range": {
+                  "text": "Ranged weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-3",
+                "text": "Intelligence vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-7",
+                "label": "Effect",
+                "text": "Until the end of the encounter, you can use the power Living Gate Teleport.",
+                "type": "effect"
+              },
+              {
+                "activationId": "use-living-gate-teleport",
+                "duration": "As stated in the power's rules",
+                "id": "grant-use-living-gate-teleport",
+                "label": "Grants",
+                "text": "Living Gate Teleport",
+                "type": "grant"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          },
+          {
+            "action": "MOVE",
+            "availability": "GRANTED",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-12": {
+                "kind": "TARGET_SET",
+                "text": "You or one ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-13",
+                "label": "Effect",
+                "text": "If the tertiary target is adjacent to the primary target, the tertiary target teleports 6 squares. Otherwise, the tertiary target teleports 10 squares into an unoccupied space adjacent to the primary target.",
+                "type": "effect"
+              }
+            ],
+            "id": "use-living-gate-teleport",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "The power Living Gate must be active in order to use this power.",
+            "targets": "targets-12",
+            "title": "Living Gate Teleport",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution.",
+            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You alter the enchantments you have placed on your ally, transforming him or her into a living nexus through which others can travel.",
+        "flavor": "You alter the enchantments you have placed on your ally, transforming him or her into a living nexus through which others can travel.",
+        "id": "modern4e.power.path-living-gate",
+        "keywords": [
+          "ARCANE",
+          "WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10235",
+          "publication": "Published in Dragon Magazine 381, page(s) 64.",
+          "rulesText": "Living GateSpell Commander Attack 20\nYou alter the enchantments you have placed on your ally, transforming him or her into a living nexus through which others can travel.\nDaily   ✦     Arcane, Weapon\nStandard Action      Ranged weapon\nPrimary Target: One ally within 5 squares of you\nEffect: You make the following attack, using the primary target's space as the origin square of the attack.\nSecondary Target: One creature\nSecondary Attack: Intelligence vs. AC\nHit: 4[W] + Intelligence modifier damage.\nMiss: Half damage\nEffect: Until the end of the encounter, you can use the power Living Gate Teleport.\nLiving Gate Teleport\nAt-Will ✦     Arcane, Weapon\nMove Action      Close burst 10\nRequirement: The power Living Gate must be active in order to use this power.\nTertiary Target: You or one ally in the burst\nEffect: If the tertiary target is adjacent to the primary target, the tertiary target teleports 6 squares. Otherwise, the tertiary target teleports 10 squares into an unoccupied space adjacent to the primary target.\nPublished in Dragon Magazine 381, page(s) 64."
+        },
+        "subtitle": "Spell Commander Attack 20",
+        "title": "Living Gate"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-persistent-spheres",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your weapon crashes into your foe, sending out sparklike motes that harass that creature and sting other foes that draw close to it.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Intelligence vs. AC\n\nHit: 3d10 + Intelligence damage, and if the target doesn't move at least 2 squares during its turn, it takes 10 damage at the end of its turn (save ends).\n\nMiss: Half damage, and if the target doesn't move at least 2 squares during its turn, it takes 5 damage at the end of its turn (save ends).\n\nEffect: The attack creates a zone of painful motes in a burst 2 centered on the target. The zone lasts until the target saves against this power. When the target moves, the zone moves with it, remaining centered on it. Any enemy that starts its turn within the zone takes 5 damage, and it grants combat advantage while within the zone.",
+        "title": "Persistent Spheres"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath366",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "3d10 + Intelligence damage, and if the target doesn't move at least 2 squares during its turn, it takes 10 damage at the end of its turn (save ends).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and if the target doesn't move at least 2 squares during its turn, it takes 5 damage at the end of its turn (save ends).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. AC",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "The attack creates a zone of painful motes in a burst 2 centered on the target. The zone lasts until the target saves against this power. When the target moves, the zone moves with it, remaining centered on it. Any enemy that starts its turn within the zone takes 5 damage, and it grants combat advantage while within the zone.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your weapon crashes into your foe, sending out sparklike motes that harass that creature and sting other foes that draw close to it.",
+        "flavor": "Your weapon crashes into your foe, sending out sparklike motes that harass that creature and sting other foes that draw close to it.",
+        "id": "modern4e.power.path-persistent-spheres",
+        "keywords": [
+          "ARCANE",
+          "WEAPON",
+          "ZONE"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7556",
+          "publication": "Published in Eberron Player's Guide, page(s) 59.",
+          "rulesText": "Persistent SpheresBattle Engineer Attack 20\nYour weapon crashes into your foe, sending out sparklike motes that harass that creature and sting other foes that draw close to it.\nDaily   ✦     Arcane, Weapon, Zone\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 3d10 + Intelligence modifier damage, and if the target doesn't move at least 2 squares during its turn, it takes 10 damage at the end of its turn (save ends).\nMiss: Half damage, and if the target doesn't move at least 2 squares during its turn, it takes 5 damage at the end of its turn (save ends).\nEffect: The attack creates a zone of painful motes in a burst 2 centered on the target. The zone lasts until the target saves against this power. When the target moves, the zone moves with it, remaining centered on it. Any enemy that starts its turn within the zone takes 5 damage, and it grants combat advantage while within the zone.\nPublished in Eberron Player's Guide, page(s) 59."
+        },
+        "subtitle": "Battle Engineer Attack 20",
+        "title": "Persistent Spheres"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-protective-recall",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "With a flash, your ally appears by your side, shielded by arcane wards.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nRanged 10\n\nTrigger: An ally is hit and damaged by an attack\n\nTarget: The triggering ally\n\nEffect: You teleport the target into any unoccupied space adjacent to you. The target gains resist 20 to all damage until the end of his or her next turn.",
+        "title": "Protective Recall"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath526",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_REACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "The triggering ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-3",
+                "label": "Effect",
+                "text": "You teleport the target into any unoccupied space adjacent to you. The target gains resist 20 to all damage until the end of his or her next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "trigger": "An ally is hit and damaged by an attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "With a flash, your ally appears by your side, shielded by arcane wards.",
+        "flavor": "With a flash, your ally appears by your side, shielded by arcane wards.",
+        "id": "modern4e.power.path-protective-recall",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10233",
+          "publication": "Published in Dragon Magazine 381, page(s) 63.",
+          "rulesText": "Protective RecallArcane Armorer Utility 12\nWith a flash, your ally appears by your side, shielded by arcane wards.\nEncounter   ✦     Arcane\nImmediate Reaction      Ranged 10\nTrigger: An ally is hit and damaged by an attack\nTarget: The triggering ally\nEffect: You teleport the target into any unoccupied space adjacent to you. The target gains resist 20 to all damage until the end of his or her next turn.\nPublished in Dragon Magazine 381, page(s) 63."
+        },
+        "subtitle": "Arcane Armorer Utility 12",
+        "title": "Protective Recall"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-spell-tracer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your shot becomes a magnet for arcane energy, drawing your allies' spells toward your enemy with great accuracy.\n\nENCOUNTER / STANDARD\n\nRanged weapon\n\nTarget: One creature\n\nAttack: Intelligence vs. AC\n\nHit: 2[W] + Intelligence force damage, and one ally within 5 squares of the target can make a basic attack against the target. If that ally uses an arcane power as their basic attack, that ally gains a +2 power bonus to the attack roll.",
+        "title": "Spell Tracer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath527",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Intelligence force damage, and one ally within 5 squares of the target can make a basic attack against the target. If that ally uses an arcane power as their basic attack, that ally gains a +2 power bonus to the attack roll.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "INTELLIGENCE",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your shot becomes a magnet for arcane energy, drawing your allies' spells toward your enemy with great accuracy.",
+        "flavor": "Your shot becomes a magnet for arcane energy, drawing your allies' spells toward your enemy with great accuracy.",
+        "id": "modern4e.power.path-spell-tracer",
+        "keywords": [
+          "ARCANE",
+          "FORCE",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10234",
+          "publication": "Published in Dragon Magazine 381, page(s) 64.",
+          "rulesText": "Spell TracerSpell Commander Attack 11\nYour shot becomes a magnet for arcane energy, drawing your allies' spells toward your enemy with great accuracy.\nEncounter   ✦     Arcane, Force, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 2[W] + Intelligence modifier force damage, and one ally within 5 squares of the target can make a basic attack against the target. If that ally uses an arcane power as their basic attack, that ally gains a +2 power bonus to the attack roll.\nPublished in Dragon Magazine 381, page(s) 64."
+        },
+        "subtitle": "Spell Commander Attack 11",
+        "title": "Spell Tracer"
       }
     }
   ],

@@ -129,11 +129,12 @@ text is title case, a verb or short verb phrase ("Save", "Select Character"), no
   and stays reserved elsewhere so the title is centered. Home uses the same cog and right-side cabinet, with Recovery Copies opening a dated, scrollable list.
 - The character footer is a 42 dp status strip (Wash background, 3 dp Accent left rule, Line when
   complete) above three text tabs with a 3 dp Accent underline that slides between them. The strip reports
-  required choices left and its Continue action opens Levels and scrolls the first open (red) row to just below the header; once none remain it links to Validation.
+  required choices left and its Continue action opens Levels and scrolls the first open (red) row to just below the header; once none remain the strip is not shown.
 - Selected footer tab labels use bold Accent; inactive labels use Dim.
 - Route transitions slide horizontally over 220 ms without a crossfade.
-- Overview, Progression and Validation support both tab taps and horizontal
-  swipes, with selection synchronized to the pager.
+- Overview, Progression and Stats support both tab taps and horizontal swipes, with selection
+  synchronized to the pager. Validation is only reachable from the cabinet; it joins the pager while open
+  and swiping from Stats never opens it.
 
 ## Scrolling
 

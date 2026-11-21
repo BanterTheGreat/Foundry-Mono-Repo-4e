@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -108,6 +109,64 @@ class PathContentTest(unittest.TestCase):
                 mutate(data)
                 with self.assertRaises(ValueError):
                     content.validate(data, themes)
+
+    def test_class_path_catalog_loads_beside_zeitgeist_without_changing_it(self):
+        classes = content.load_class_paths()
+        self.assertEqual([len(classes[k]) for k in ("paths", "features", "rules", "powers")], [205, 635, 0, 618])
+        zeitgeist = content.load()
+        self.assertEqual([len(zeitgeist[k]) for k in ("paths", "features", "rules", "powers")], [9, 32, 27, 26])
+        shared_ids = {v["id"] for k in content.CATEGORIES for v in classes[k]} & {v["id"] for k in content.CATEGORIES for v in zeitgeist[k]}
+        self.assertFalse(shared_ids, "the two catalogs share one runtime package, so identities must not collide")
+        # The Typst rulebook still reads only the Zeitgeist catalog and the older class summaries.
+        for path in (BOOK / "helpers/path_content.typ", BOOK / "glossary/zeitgeist_paths.typ"):
+            self.assertNotIn("class-paths", path.read_text(encoding="utf-8"))
+
+    def test_rejects_invalid_class_path_catalog(self):
+        data = json.loads(content.CLASS_CONTENT.read_text(encoding="utf-8"))
+        classes = content.class_ids()
+        content.validate(copy.deepcopy(data), {}, classes)
+        planeshifter = next(i for i, v in enumerate(data["paths"]) if v["title"] == "Planeshifter")
+        glorious = next(i for i, v in enumerate(data["paths"]) if v["title"] == "Glorious Myrmidon")
+        mutations = [
+            lambda d: d["paths"][0].update(access={"type": "always"}),
+            lambda d: d["paths"][0].update(access={"type": "entry", "entryId": "modern4e.class.missing"}),
+            lambda d: d["paths"][planeshifter]["access"]["conditions"].pop(),
+            lambda d: d["paths"][planeshifter]["access"]["conditions"][0].update(entryId="modern4e.path.paragonpath223"),
+            lambda d: d["paths"][0].update(prerequisites={"type": "level", "minimum": 12}),
+            lambda d: d["paths"][glorious].update(requirements=None),
+            lambda d: d["paths"][glorious]["prerequisites"]["conditions"].pop(),
+            lambda d: d["paths"][0].update(ruleIds=["modern4e.rule.invented"]),
+            lambda d: d["paths"][0].update(id="modern4e.path.paragonpath999"),
+            lambda d: d["paths"][0].pop("sourceEntryId"),
+            lambda d: d["paths"][0].update(themeId="modern4e.theme.docker"),
+            lambda d: d["paths"][0]["grants"][0].update(atLevel=13),
+            lambda d: d["paths"][0]["grants"][0].update(entryId=d["paths"][1]["grants"][0]["entryId"]),
+            lambda d: d["paths"][0]["grants"].pop(),
+            lambda d: d["features"].pop(),
+            lambda d: d["powers"][0].update(access={"type": "entry", "entryId": "modern4e.class.fighter"}),
+            lambda d: d["powers"][0].update(level=19),
+            lambda d: d["powers"][0].update(rulesProfile="PUBLISHED_REFERENCE"),
+            lambda d: d["powers"][0]["activations"][0].update(action="SCRIPT"),
+            lambda d: d["features"][0].update(script="execute()"),
+            lambda d: d["rules"].append({"id": "modern4e.rule.extra"}),
+            lambda d: d.update(schemaVersion=2),
+        ]
+        for mutate in mutations:
+            with self.subTest(mutation=mutate):
+                mutated = copy.deepcopy(data)
+                mutate(mutated)
+                with self.assertRaises(ValueError):
+                    content.validate(mutated, {}, classes)
+
+    def test_class_path_export_is_deterministic_and_protects_sources(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "class-paths-export.json"
+            args = [sys.executable, "-X", "utf8", str(Path(content.__file__)), "--class-paths", "--output", str(output)]
+            subprocess.check_call(args, stdout=subprocess.DEVNULL)
+            subprocess.check_call([*args, "--check"], stdout=subprocess.DEVNULL)
+            self.assertEqual(json.loads(output.read_text(encoding="utf-8"))["kind"], "modern4e.path-authoring")
+            rejected = subprocess.call([*args[:-1], str(content.CLASS_CONTENT)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            self.assertNotEqual(rejected, 0)
 
     def test_export_is_deterministic_and_protects_sources(self):
         with tempfile.TemporaryDirectory() as directory:

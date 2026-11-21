@@ -39,7 +39,7 @@ implicit. See [ENGINE.md](ENGINE.md) for class formulas and conditional benefits
 
 `BuilderOperations(catalog)` uses the character's existing package-order catalog.
 `create` takes caller-generated character ID, RFC 3339 saved timestamp, identity,
-package revisions, direct point allocation and a level from 1 through 19. It fills empty level
+package revisions, direct point allocation and a level from 1 through 20. It fills empty level
 containers without inventing player choices. `evaluate` refreshes content and
 returns `BuilderState(document, rules)` without saving. Recreate the coordinator
 when packages change; use the reconciliation workflow below for package switching.
@@ -139,7 +139,7 @@ candidates at the replacement level using the expanded original pool. Invalid
 progression timing is rejected even when eligibility override is requested.
 `RemoveReplacement(level, slot)` removes that history record and replays the rest.
 Retraining remains explicitly incomplete; the local chapter does not supply an allowance.
-`options` and normal typed edits support active choices through level 19.
+`options` and normal typed edits support active choices through level 20.
 Unsupported technique pools retain explicit coverage diagnostics.
 
 ## Progressive option browsing
@@ -179,4 +179,4 @@ in metadata title order during loading. Cancelling/tab switching stops delivery;
 reopening the unchanged character reuses checked results. At most two slot snapshots
 are retained; edits, character changes and catalog reloads clear them. Bundled content
 is immutable for the session; a new catalog is required after installed metadata changes.
-Choices through level 19 use the shared eligibility policy.
+Choices through level 20 use the shared eligibility policy.

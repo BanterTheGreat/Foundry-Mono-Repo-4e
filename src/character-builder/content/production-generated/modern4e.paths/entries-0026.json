@@ -1,0 +1,721 @@
+{
+  "entries": [
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.planeshifter-location-mastery",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You and allies within 5 squares of you cannot be teleported against your will.",
+        "title": "Location Mastery"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You and allies within 5 squares of you cannot be teleported against your will.",
+        "id": "modern4e.feature.planeshifter-location-mastery",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Location Mastery"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.planeshifter-planeshifters-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, you also gain an extra move action for that turn. You can use that move action to teleport 10 squares.",
+        "title": "Planeshifter's Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to take an extra action, you also gain an extra move action for that turn. You can use that move action to teleport 10 squares.",
+        "id": "modern4e.feature.planeshifter-planeshifters-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Planeshifter's Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.planeshifter-study-of-the-planes",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You acquire and master the Planar Portal ritual, even if you do not have the Ritual Caster feat or are of the appropriate level. You gain a +4 bonus to Arcana checks when performing rituals that have the travel category.",
+        "title": "Study of the Planes"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You acquire and master the Planar Portal ritual, even if you do not have the Ritual Caster feat or are of the appropriate level. You gain a +4 bonus to Arcana checks when performing rituals that have the travel category.",
+        "id": "modern4e.feature.planeshifter-study-of-the-planes",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Study of the Planes"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.path.paragonpath223",
+      "mechanics": {
+        "access": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.warlock",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.wizard",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.planeshifter-planeshifters-action",
+            "grantId": "planeshifters-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.planeshifter-study-of-the-planes",
+            "grantId": "study-of-the-planes",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-sequester",
+            "grantId": "sequester",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-quick-portal",
+            "grantId": "quick-portal",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.planeshifter-location-mastery",
+            "grantId": "location-mastery",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-dimensional-cascade",
+            "grantId": "dimensional-cascade",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Treat distance and planar boundaries as problems you already know how to solve, gaining portal lore and a long teleport alongside your action point maneuver. In battle, you can banish an enemy long enough to change the odds, and later your presence keeps nearby allies from being teleported against their will. Your portals offer a swift escape to a known circle at a steep cost in healing surges, while your greatest attack sends a foe through a succession of hostile planes and brings it back still suffering.",
+        "title": "Planeshifter"
+      },
+      "sharedData": {
+        "access": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.warlock",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.wizard",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Treat distance and planar boundaries as problems you already know how to solve, gaining portal lore and a long teleport alongside your action point maneuver. In battle, you can banish an enemy long enough to change the odds, and later your presence keeps nearby allies from being teleported against their will. Your portals offer a swift escape to a known circle at a steep cost in healing surges, while your greatest attack sends a foe through a succession of hostile planes and brings it back still suffering.",
+        "flavor": "Treat distance and planar boundaries as problems you already know how to solve, gaining portal lore and a long teleport alongside your action point maneuver. In battle, you can banish an enemy long enough to change the odds, and later your presence keeps nearby allies from being teleported against their will. Your portals offer a swift escape to a known circle at a steep cost in healing surges, while your greatest attack sends a foe through a succession of hostile planes and brings it back still suffering.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.planeshifter-planeshifters-action",
+            "id": "planeshifters-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.planeshifter-study-of-the-planes",
+            "id": "study-of-the-planes"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-sequester",
+            "id": "sequester"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-quick-portal",
+            "id": "quick-portal"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.planeshifter-location-mastery",
+            "id": "location-mastery"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-dimensional-cascade",
+            "id": "dimensional-cascade"
+          }
+        ],
+        "id": "modern4e.path.paragonpath223",
+        "link": "https://iws.mx/dnd/?view=paragonpath223",
+        "prerequisiteText": "Warlock or wizard",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "requirements": null,
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath223",
+        "title": "Planeshifter"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-dimensional-cascade",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You cast an enemy through a sequence of deadly planar locations.\n\nDAILY / STANDARD\n\nRanged 20\n\nTarget: One creature\n\nAttack: Intelligence or Charisma vs. Will\n\nHit: The target is cast through a series of dangerous planar locations. Until the start of the target's next turn, the target disappears, cannot take actions, and cannot be targeted. In addition, choose four damage types from the following list: acid, cold, fire, force, lightning, necrotic, poison, psychic, radiant, and thunder. The target takes 4d8 damage (1d8 of each damage type in whatever order you choose), and the target takes ongoing 5 damage of each type (save ends all).\n\nMiss: The target is cast through the dangerous planar locations but takes damage and ongoing damage of only two types, and the target reappears at the end of your turn.\n\nRule: At the start of the target's next turn, the target reappears in the space it last occupied. If that space is occupied, the target reappears in the nearest unoccupied space of its choice.",
+        "title": "Dimensional Cascade"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "The target is cast through a series of dangerous planar locations. Until the start of the target's next turn, the target disappears, cannot take actions, and cannot be targeted. In addition, choose four damage types from the following list: acid, cold, fire, force, lightning, necrotic, poison, psychic, radiant, and thunder. The target takes 4d8 damage (1d8 of each damage type in whatever order you choose), and the target takes ongoing 5 damage of each type (save ends all).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-5",
+                          "label": "Miss",
+                          "text": "The target is cast through the dangerous planar locations but takes damage and ongoing damage of only two types, and the target reappears at the end of your turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 20",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "text": "Intelligence or Charisma vs. Will",
+                    "type": "RULES_TEXT"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence or Charisma vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Rule",
+                "text": "At the start of the target's next turn, the target reappears in the space it last occupied. If that space is occupied, the target reappears in the nearest unoccupied space of its choice.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 20",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You cast an enemy through a sequence of deadly planar locations.",
+        "flavor": "You cast an enemy through a sequence of deadly planar locations.",
+        "id": "modern4e.power.path-dimensional-cascade",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "TELEPORTATION"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5658",
+          "publication": "Published in Manual of the Planes, page(s) 145.",
+          "rulesText": "Dimensional CascadePlaneshifter Attack 20\nYou cast an enemy through a sequence of deadly planar locations.\nDaily   ✦     Arcane, Implement, Teleportation\nStandard Action      Ranged 20\nTarget: One creature\nAttack: Intelligence or Charisma vs. Will\nHit: The target is cast through a series of dangerous planar locations. Until the start of the target's next turn, the target disappears, cannot take actions, and cannot be targeted. In addition, choose four damage types from the following list: acid, cold, fire, force, lightning, necrotic, poison, psychic, radiant, and thunder. The target takes 4d8 damage (1d8 of each damage type in whatever order you choose), and the target takes ongoing 5 damage of each type (save ends all).\nAt the start of the target's next turn, the target reappears in the space it last occupied. If that space is occupied, the target reappears in the nearest unoccupied space of its choice.\nMiss: The target is cast through the dangerous planar locations but takes damage and ongoing damage of only two types, and the target reappears at the end of your turn.\nPublished in Manual of the Planes, page(s) 145."
+        },
+        "subtitle": "Planeshifter Attack 20",
+        "title": "Dimensional Cascade"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-quick-portal",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "No one can open a portal quicker than you.\n\nENCOUNTER / STANDARD\n\nRanged 5\n\nEffect: You create a portal in an unoccupied square within range that lasts until the end of your next turn. The portal leads to a permanent teleportation circle on your current plane. You must know the teleportation circle's sigil sequence, and you lose three healing surges when you create the portal. If you have fewer than three healing surges when you use this power, you take damage equal to your healing surge value for each healing surge you don't lose.\n\nSustain Standard: You lose a healing surge or take damage equal to your healing surge value when you sustain the portal.",
+        "title": "Quick Portal"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You create a portal in an unoccupied square within range that lasts until the end of your next turn. The portal leads to a permanent teleportation circle on your current plane. You must know the teleportation circle's sigil sequence, and you lose three healing surges when you create the portal. If you have fewer than three healing surges when you use this power, you take damage equal to your healing surge value for each healing surge you don't lose.",
+                "type": "effect"
+              },
+              {
+                "id": "row-2",
+                "label": "Sustain Standard",
+                "text": "You lose a healing surge or take damage equal to your healing surge value when you sustain the portal.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 5",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "No one can open a portal quicker than you.",
+        "flavor": "No one can open a portal quicker than you.",
+        "id": "modern4e.power.path-quick-portal",
+        "keywords": [
+          "ARCANE",
+          "TELEPORTATION"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5657",
+          "publication": "Published in Manual of the Planes, page(s) 145.",
+          "rulesText": "Quick PortalPlaneshifter Utility 12\nNo one can open a portal quicker than you.\nEncounter   ✦     Arcane, Teleportation\nStandard Action      Ranged 5\nEffect: You create a portal in an unoccupied square within range that lasts until the end of your next turn. The portal leads to a permanent teleportation circle on your current plane. You must know the teleportation circle's sigil sequence, and you lose three healing surges when you create the portal. If you have fewer than three healing surges when you use this power, you take damage equal to your healing surge value for each healing surge you don't lose.\nSustain Standard: You lose a healing surge or take damage equal to your healing surge value when you sustain the portal.\nPublished in Manual of the Planes, page(s) 145."
+        },
+        "subtitle": "Planeshifter Utility 12",
+        "title": "Quick Portal"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-sequester",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A vortex opens behind your foe, drawing it into a timeless demiplane and briefly trapping it there.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Intelligence or Charisma vs. Fortitude\n\nHit: The target is banished to a demiplane (save ends). The target disappears, cannot take actions, and cannot be targeted. On a save, the target reappears in the space it last occupied. If that space is occupied, the target returns to the nearest unoccupied space of its choice. You can expel the target from the demiplane as a free action, in which case it appears as described above.",
+        "title": "Sequester"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath223",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "The target is banished to a demiplane (save ends). The target disappears, cannot take actions, and cannot be targeted. On a save, the target reappears in the space it last occupied. If that space is occupied, the target returns to the nearest unoccupied space of its choice. You can expel the target from the demiplane as a free action, in which case it appears as described above.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "text": "Intelligence or Charisma vs. Fortitude",
+                    "type": "RULES_TEXT"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Intelligence or Charisma vs. Fortitude",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A vortex opens behind your foe, drawing it into a timeless demiplane and briefly trapping it there.",
+        "flavor": "A vortex opens behind your foe, drawing it into a timeless demiplane and briefly trapping it there.",
+        "id": "modern4e.power.path-sequester",
+        "keywords": [
+          "ARCANE",
+          "IMPLEMENT",
+          "TELEPORTATION"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5656",
+          "publication": "Published in Manual of the Planes, page(s) 145.",
+          "rulesText": "SequesterPlaneshifter Attack 11\nA vortex opens behind your foe, drawing it into a timeless demiplane and briefly trapping it there.\nEncounter   ✦     Arcane, Implement, Teleportation\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Intelligence or Charisma vs. Fortitude\nHit: The target is banished to a demiplane (save ends). The target disappears, cannot take actions, and cannot be targeted. On a save, the target reappears in the space it last occupied. If that space is occupied, the target returns to the nearest unoccupied space of its choice. You can expel the target from the demiplane as a free action, in which case it appears as described above.\nPublished in Manual of the Planes, page(s) 145."
+        },
+        "subtitle": "Planeshifter Attack 11",
+        "title": "Sequester"
+      }
+    }
+  ],
+  "id": "entries-0026"
+}

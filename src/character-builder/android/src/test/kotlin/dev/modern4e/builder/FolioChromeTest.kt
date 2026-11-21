@@ -6,6 +6,7 @@ import dev.modern4e.builder.ui.components.footerStatus
 import dev.modern4e.builder.ui.components.footerTabIndex
 import dev.modern4e.builder.ui.components.footerTabLabel
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 class FolioChromeTest {
@@ -45,13 +46,13 @@ class FolioChromeTest {
 
     @Test
     fun footerStripCountsRequiredChoicesAndLeadsToLevels() {
-        assertEquals(FooterStatus("3 required choices left", "Continue →", "progression", false), footerStatus(3))
-        assertEquals("1 required choice left", footerStatus(1).text)
+        assertEquals(FooterStatus("3 required choices left", "Continue →"), footerStatus(3))
+        assertEquals("1 required choice left", footerStatus(1)?.text)
     }
 
     @Test
-    fun footerStripOffersValidationOnceNothingIsLeft() {
-        assertEquals(FooterStatus("All choices complete", "Validate", "validation", true), footerStatus(0))
+    fun footerStripIsAbsentOnceNothingIsLeft() {
+        assertNull(footerStatus(0))
     }
 
     @Test

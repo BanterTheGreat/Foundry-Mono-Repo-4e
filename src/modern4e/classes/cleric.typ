@@ -41,6 +41,17 @@
     #set page(columns: 1)
       #classes.powerLinks(className: className);
 
+    #pagebreak(weak: true)
+
+    #align(center)[
+      = #className Paragon Paths
+    ]
+    #classes.zeitgeistPathReference()
+
+    #columns(2)[
+      #theme.pathBlocksFromJson("../content/paths/cleric.json")
+    ]
+
     #pagebreak();
 
     #align(center)[

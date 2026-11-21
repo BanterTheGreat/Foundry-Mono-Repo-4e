@@ -65,6 +65,8 @@ TARGET_LABELS = ("Target", "Targets", "Primary Target", "Secondary Target", "Ter
 OUTCOME_LABELS = re.compile(r"Aftereffect|(?:First |Each )?Failed Saving Throw")
 DEFENSES = {"AC": "AC", "FORTITUDE": "FORTITUDE", "REFLEX": "REFLEX", "WILL": "WILL"}
 ABILITIES = "Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma"
+# "Increase damage to X" or "Increase to X" (an attack bonus) at 21st level scales the line above it.
+SCALE_21 = re.compile(r"Increase (?:damage )?to (.+?) at 21st level\.?")
 
 
 def is_header(body, i):
@@ -199,8 +201,8 @@ def fill(activation, rows, prereqs, inherited=None):
         elif re.fullmatch(r"Level \d+", label) and last:
             last.setdefault("scaling", []).append(dict(atLevel=int(label.split()[1]), text=value))
             continue
-        elif label == "Rule" and last and re.fullmatch(r"Increase damage to (.+?) at 21st level\.?", value):
-            last.setdefault("scaling", []).append(dict(atLevel=21, text=re.fullmatch(r"Increase damage to (.+?) at 21st level\.?", value)[1]))
+        elif label == "Rule" and last and SCALE_21.fullmatch(value):
+            last.setdefault("scaling", []).append(dict(atLevel=21, text=SCALE_21.fullmatch(value)[1]))
             continue
         activation["blocks"].append(block)
         last = block
@@ -217,7 +219,7 @@ def convert(row, html, class_name="Fighter"):
     slug = class_name.lower()
     original = text(html)
     lines = original.splitlines()
-    start = next(i for i, line in enumerate(lines) if re.match(r"^(At-Will|Encounter|Daily)\s", line))
+    start = next(i for i, line in enumerate(lines) if re.match(r"^(At-Will|Encounter|Daily)(?:\s|$)", line))
     activation = activation_for("use", lines[start], lines[start + 1], row["ID"])
     prereqs = [dict(type="level", minimum=int(row["Level"]))]
     unsupported = UNSUPPORTED.get(class_name)
@@ -263,7 +265,7 @@ def convert(row, html, class_name="Fighter"):
     else:
         fill(activation, indexed, prereqs)
     publication = next((line for line in lines if line.startswith("Published in ")), row["SourceBook"])
-    keywords = [keyword.strip().upper().replace(" ", "_").replace("-", "_") for keyword in re.split(r"[,;]", lines[start].split("✦", 1)[1])]
+    keywords = [keyword.strip().upper().replace(" ", "_").replace("-", "_") for keyword in re.split(r"[,;]", lines[start].partition("✦")[2]) if keyword.strip()]
     return dict(id=f"modern4e.power.{slug}-" + row["ID"], title=row["Name"],
                 description=adapt(" ".join(lines[1:start])) or row["Name"],
                 flavor=adapt(" ".join(lines[1:start])) or row["Name"],

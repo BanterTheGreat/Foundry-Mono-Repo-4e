@@ -454,6 +454,18 @@ class ProgressionTest {
     }
 
     /** A document with both origins and a valid allocation and level 1 skills, so only the remaining engine slot offers decide the badge. */
+    @Test fun levelTwentyFeatSlotIsARealRequiredOfferButLevelTwentyOneOffersNothing() {
+        fun missingSlots(level: Int) = engineState(badgeDocument(level, (1..level).map { LevelDecisions(it) }), emptyList())
+            .rules.choices.filter { it.missing && it.listing == SlotListing.DEFERRED }.mapNotNull { it.acquisitionLevel }
+        val twenty = missingSlots(20)
+        assertTrue("level 20 feat slot is missing", 20 in twenty)
+        assertEquals(1, twenty.count { it == 20 })
+        assertEquals("Level 20 opens exactly one deferred slot, matching the schedule", 1, AdvancementRules.rootSlots(20).size)
+        assertEquals(missingSlots(19).size + 1, twenty.size)
+        assertEquals("Level 21 is preview only and adds no required slot", twenty.size, missingSlots(21).size)
+        assertTrue(Progression.level(20).feat)
+    }
+
     private fun badgeDocument(level: Int, levels: List<LevelDecisions>) = CharacterDocument(
         id = "badge", savedAt = "2026-11-18T12:00:00Z",
         identity = CharacterIdentity("Badge", environment = "urban", upbringing = "academic"),

@@ -28,7 +28,7 @@ Foreign-class power lists: from `src/character-builder`, run `.\gradlew.bat :sha
 
 Character export (Android): from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.CharacterExportTest"` and `.\gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.AndroidExportTargetsJvmTest"`. `CharacterExportTest` covers the shared export flow: `ExportFileName` (level, sanitized name and date format, stripped forbidden and control characters, whitespace collapse, 80-character cap, empty-name fallback), `ExportVerifier` (real codec decode, real `CharacterImporter` preview against an empty read-only store, equality with the exported character) and `BuilderSession.export` with fake targets (silent cancel, verified success, discard on a failed check, non-blocking Export failed error). `AndroidExportTargetsJvmTest` runs under Robolectric with a fake document provider and covers `AndroidSaveExportTarget` (exact UTF-8 bytes and read-back, provider display name and fallback, cancelled picker, missing output stream, failing close, discard) and `AndroidShareExportTarget` (cache write, `application/json` chooser attachment through the FileProvider, stale-file cleanup, discard) plus read-back verification of each target. Device UI tests remain opt-in and none were added; the real Create-document dialog and share sheet follow the manual check in `FEATURES.md`.
 
-Character Builder advancement through level 19 (from `src/character-builder`, with JDK 21 and the Android SDK configured):
+Character Builder advancement through level 20 (from `src/character-builder`, with JDK 21 and the Android SDK configured):
 
 ```powershell
 .\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug
@@ -37,7 +37,7 @@ python -X utf8 content/samples.py --check
 python -X utf8 -m unittest discover -s content -p 'test_*.py'
 ```
 
-`AdvancementRulesTest` covers ability milestones and invalid or missing advancement choices. `Level19AcceptanceTest` exercises production Fighter level-17 acquisition, level-19 daily replacement, invalid replacement timing, portable reopen, level reduction and path grants at 11/12/16. `PowerSelectionTest` covers replacement target changes and historical eligibility when later replacements exist. Android `ProgressionTest` and `BuilderSessionTest` cover later-level editing and persistence, including choosing an upcoming utility power, reaching its level and keeping it as a plan after lowering the level. Content tests cover the added acquisition slots, attacks through 19 and paragon path grants and summary-only limitations. UI/instrumentation tests remain opt-in.
+`AdvancementRulesTest` covers ability milestones and invalid or missing advancement choices. `Level19AcceptanceTest` exercises production Fighter level-17 acquisition, level-19 daily replacement, invalid replacement timing, portable reopen, level reduction and path grants at 11/12/16. `Level20AcceptanceTest` covers level 20 (the last enforced level): the Paragon-tier feat slot and its rejection of Epic feats, the automatic main ability increase, a path's level-20 daily appearing at 20 but not 19, rejected non-main/replacement edits, save/reopen, lowering 20→19, and level 21 staying preview-only with its unsupported-progression diagnostic. `PowerSelectionTest` covers replacement target changes and historical eligibility when later replacements exist. Android `ProgressionTest` and `BuilderSessionTest` cover later-level editing and persistence, including choosing an upcoming utility power, reaching its level and keeping it as a plan after lowering the level. Content tests cover the added acquisition slots, attacks through 19 and authored class paragon paths (features at their levels, 11/12/20 powers) and the summary fallback. Android `ProgressionTest` and `OptionListingCacheTest` add level-20 offer and warm-up cases. UI/instrumentation tests remain opt-in.
 
 Character Builder install command routing and failure propagation: `node --test scripts/test/builder-install.test.mjs`. This uses a stub process runner; a real device install is a separate manual check with `npm run builder:install` (or `make builder-install`), or wirelessly with `npm run builder:install:wifi -- <ip:port>` (or `make builder-install-wifi DEVICE=<ip:port>`).
 
@@ -848,7 +848,11 @@ Zeitgeist paragon paths use the same ordered powers and are covered by:
 ```sh
 python3 src/modern4e/scripts/path_content.py
 python3 -m unittest discover -s src/modern4e/scripts -p test_path_content.py
+python3 src/modern4e/scripts/path_content.py --class-paths
+python3 -m unittest discover -s src/modern4e/scripts -p test_import_class_paths.py
 ```
+
+The 205 class paragon paths (`class-paths.json`) are covered by `test_import_class_paths.py` (every power's published text is preserved, committed JSON equals importer output, each class page prints exactly the catalog paths whose access names that class, the two same-titled Hammer of Vengeance paths keep their own powers, keyword-less power cards and rules printed before a path's first feature parse) and `src/character-builder/content/test_path_runtime.py` (all 66 older ids kept with class access equivalent to the old summary snapshot plus the three paths later shared with the Artificer, Sorcerer and Druid; an 11 encounter/12 utility/20 daily per path with the Student of Caiphon, Luckbringer of Tymora, Pack Lord and Steadfast Sentinel exceptions; granted powers never selectable or in class pools; per-class path counts and shared-path scoping in the index; summary fallback). On Windows set `PYTHONUTF8=1` when running the discover commands, or two export-determinism tests fail on cp1252.
 
 Path tests cover the nine paths, 32 features, 27 supplementary rule blocks and
 26 powers, the page consumers that render each exactly once, grant level and

@@ -216,8 +216,8 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 grants.forEach { grant -> AutomaticGrantCard(document.id, grant) }
             }
         }
-        if (document.level > 19) {
-            Text("Some progression choices above level 19 still need rules or catalog content.", color = Dim)
+        if (document.level > AdvancementRules.LAST_ENFORCED_LEVEL) {
+            Text("Some progression choices above level 20 still need rules or catalog content.", color = Dim)
         }
         (1..BuilderSession.MAX_LEVEL).forEach { level ->
             val schedule = Progression.level(level)
@@ -315,7 +315,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                     }
                 } else { Text("+1 to ${schedule.ability} abilities arrives automatically", color = Dim) }
             }
-            if (level > 19 && levelChoices.none { with(Progression) { it.isPowerChoice(powerEntryIds) } }) {
+            if (level > AdvancementRules.LAST_ENFORCED_LEVEL && levelChoices.none { with(Progression) { it.isPowerChoice(powerEntryIds) } }) {
                 schedule.powers.forEach { power ->
                     if ((power.startsWith("Paragon ") && otherPowers.any { it.sourceCategory == EntryCategory.PARAGON_PATH }) ||
                         (power.startsWith("Epic ") && otherPowers.any { it.sourceCategory == EntryCategory.EPIC_DESTINY })) {
@@ -350,7 +350,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                     open("replacement", level, replacementSlot)
                 }
             }
-            if (future || level > 19) {
+            if (future || level > AdvancementRules.LAST_ENFORCED_LEVEL) {
                 schedule.automatic.filterNot { label ->
                     (label.startsWith("Paragon ") && otherFeatures.any { it.sourceCategory == EntryCategory.PARAGON_PATH }) ||
                         (label.startsWith("Epic ") && otherFeatures.any { it.sourceCategory == EntryCategory.EPIC_DESTINY })
@@ -863,13 +863,13 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
         if (options is PickerOptions.Loading) {
             item("loading") {
                 val progress = options.total?.let {
-                    if (request.level > 19) " ${options.checked}/$it loaded"
+                    if (request.level > AdvancementRules.LAST_ENFORCED_LEVEL) " ${options.checked}/$it loaded"
                     else " ${options.checked}/$it checked · ${options.eligible} eligible"
                 }.orEmpty()
                 if (loadFinished) {
                     Text("Could not finish loading options. Reopen the picker to retry.", color = MaterialTheme.colorScheme.error)
                 } else {
-                    val label = if (request.level > 19) "Loading options…" else "Checking eligibility…"
+                    val label = if (request.level > AdvancementRules.LAST_ENFORCED_LEVEL) "Loading options…" else "Checking eligibility…"
                     Text(label + progress, color = Dim)
                 }
             }

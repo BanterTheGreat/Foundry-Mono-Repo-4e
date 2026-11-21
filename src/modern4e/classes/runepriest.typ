@@ -37,6 +37,17 @@
     #set page(columns: 1)
 
 
+    #pagebreak(weak: true)
+
+    #align(center)[
+      = #className Paragon Paths
+    ]
+    #classes.zeitgeistPathReference()
+
+    #columns(2)[
+      #theme.pathBlocksFromJson("../content/paths/runepriest.json")
+    ]
+
     #pagebreak()
 
     #align(center)[

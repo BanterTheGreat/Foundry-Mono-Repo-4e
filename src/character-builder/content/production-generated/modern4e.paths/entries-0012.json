@@ -1,0 +1,786 @@
+{
+  "entries": [
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.hammer-of-moradin-champions-aura",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You and any allies within 3 squares of you gain a +4 bonus to all defenses against fear effects.",
+        "title": "Champion's Aura"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You and any allies within 3 squares of you gain a +4 bonus to all defenses against fear effects.",
+        "id": "modern4e.feature.hammer-of-moradin-champions-aura",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Champion's Aura"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.hammer-of-moradin-hammer-bond",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain a +1 bonus to attack rolls with hammers.",
+        "title": "Hammer Bond"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain a +1 bonus to attack rolls with hammers.",
+        "id": "modern4e.feature.hammer-of-moradin-hammer-bond",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Hammer Bond"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.hammer-of-moradin-powerful-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to make an attack, each target hit by the attack is knocked prone or dazed until the end of your next turn. You choose the effect for each target after the attack's other effects are resolved.",
+        "title": "Powerful Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to make an attack, each target hit by the attack is knocked prone or dazed until the end of your next turn. You choose the effect for each target after the attack's other effects are resolved.",
+        "id": "modern4e.feature.hammer-of-moradin-powerful-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Powerful Action"
+      }
+    },
+    {
+      "category": "PARAGON_PATH",
+      "coverage": {
+        "limitations": [
+          "Class path prerequisite has not been structurally adapted: Proficiency with warhammer or throwing hammer; must worship Moradin.",
+          "Published prerequisite not enforced: Cleric or paladin, proficiency with warhammer or throwing hammer, must worship Moradin."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.path.paragonpath424",
+      "mechanics": {
+        "access": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.cleric",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.paladin",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.hammer-of-moradin-hammer-bond",
+            "grantId": "hammer-bond",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.hammer-of-moradin-powerful-action",
+            "grantId": "powerful-action",
+            "type": "entry"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-hammer-throw",
+            "grantId": "hammer-throw",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-stalwart-defense",
+            "grantId": "stalwart-defense",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.hammer-of-moradin-champions-aura",
+            "grantId": "champions-aura",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-quake-strike",
+            "grantId": "quake-strike",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "reason": "Class path prerequisite has not been structurally adapted.",
+                "text": "Proficiency with warhammer or throwing hammer; must worship Moradin",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Strike for the Soul Forger with a hammer in hand, whether you serve as a cleric or a paladin. You hit more reliably with hammers, and an action point attack can knock foes prone or leave them dazed. Hurl your hammer to bash two enemies and have it return to your hand, brace yourself in a stance of stone-hard resistance, and slam a thunderous quake into the ground. Your champion's aura steels you and nearby allies against fear.",
+        "title": "Hammer of Moradin"
+      },
+      "sharedData": {
+        "access": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.cleric",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.paladin",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Class path prerequisite has not been structurally adapted: Proficiency with warhammer or throwing hammer; must worship Moradin.",
+            "Published prerequisite not enforced: Cleric or paladin, proficiency with warhammer or throwing hammer, must worship Moradin."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Strike for the Soul Forger with a hammer in hand, whether you serve as a cleric or a paladin. You hit more reliably with hammers, and an action point attack can knock foes prone or leave them dazed. Hurl your hammer to bash two enemies and have it return to your hand, brace yourself in a stance of stone-hard resistance, and slam a thunderous quake into the ground. Your champion's aura steels you and nearby allies against fear.",
+        "flavor": "Strike for the Soul Forger with a hammer in hand, whether you serve as a cleric or a paladin. You hit more reliably with hammers, and an action point attack can knock foes prone or leave them dazed. Hurl your hammer to bash two enemies and have it return to your hand, brace yourself in a stance of stone-hard resistance, and slam a thunderous quake into the ground. Your champion's aura steels you and nearby allies against fear.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.hammer-of-moradin-hammer-bond",
+            "id": "hammer-bond"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.hammer-of-moradin-powerful-action",
+            "id": "powerful-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-hammer-throw",
+            "id": "hammer-throw"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-stalwart-defense",
+            "id": "stalwart-defense"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.hammer-of-moradin-champions-aura",
+            "id": "champions-aura"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-quake-strike",
+            "id": "quake-strike"
+          }
+        ],
+        "id": "modern4e.path.paragonpath424",
+        "link": "https://iws.mx/dnd/?view=paragonpath424",
+        "prerequisiteText": "Cleric or paladin, proficiency with warhammer or throwing hammer, must worship Moradin",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "reason": "Class path prerequisite has not been structurally adapted.",
+              "text": "Proficiency with warhammer or throwing hammer; must worship Moradin",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "requirements": "Proficiency with warhammer or throwing hammer; must worship Moradin",
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath424",
+        "title": "Hammer of Moradin"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-hammer-throw",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You hurl your hammer. It bashes one foe and spins through the air to knock another to the ground before returning to your hand.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nRequirement: You must be wielding a hammer.\n\nTarget: One creature\n\nPrimary Attack: Strength vs. Fortitude\n\nHit: 2[W] + Strength damage, and the target is dazed until the end of your next turn. Make a secondary attack.\n\nSecondary Target: One creature within 3 squares of the primary target\n\nSecondary Attack: Strength vs. Fortitude\n\nHit: 1[W] + Strength damage, and you knock the secondary target prone.\n\nSpecial: When you use this power, you can make the attacks as if your hammer was a heavy thrown weapon. The hammer returns to your hand after the attacks are resolved.",
+        "title": "Hammer Throw"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              },
+              "targets-5": {
+                "kind": "TARGET_SET",
+                "text": "One creature within 3 squares of the primary target"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "2[W] + Strength damage, and the target is dazed until the end of your next turn. Make a secondary attack.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Primary Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Strength vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Secondary Target",
+                "text": "One creature within 3 squares of the primary target",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-7",
+                          "label": "Hit",
+                          "text": "1[W] + Strength damage, and you knock the secondary target prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-6",
+                "label": "Secondary Attack",
+                "range": {
+                  "text": "One creature within 3 squares of the primary target",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-5",
+                "text": "Strength vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-8",
+                "label": "Special",
+                "text": "When you use this power, you can make the attacks as if your hammer was a heavy thrown weapon. The hammer returns to your hand after the attacks are resolved.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must be wielding a hammer.",
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You hurl your hammer. It bashes one foe and spins through the air to knock another to the ground before returning to your hand.",
+        "flavor": "You hurl your hammer. It bashes one foe and spins through the air to knock another to the ground before returning to your hand.",
+        "id": "modern4e.power.path-hammer-throw",
+        "keywords": [
+          "DIVINE",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power8154",
+          "publication": "Published in Divine Power, page(s) 100.",
+          "rulesText": "Hammer ThrowHammer of Moradin Attack 11\nYou hurl your hammer. It bashes one foe and spins through the air to knock another to the ground before returning to your hand.\nEncounter   ✦     Divine, Weapon\nStandard Action      Ranged 10\nRequirement: You must be wielding a hammer.\nPrimary Target: One creature\nPrimary Attack: Strength vs. Fortitude\nHit: 2[W] + Strength modifier damage, and the target is dazed until the end of your next turn. Make a secondary attack.\nSecondary Target: One creature within 3 squares of the primary target\nSecondary Attack: Strength vs. Fortitude\nHit: 1[W] + Strength modifier damage, and you knock the secondary target prone.\nSpecial: When you use this power, you can make the attacks as if your hammer was a heavy thrown weapon. The hammer returns to your hand after the attacks are resolved.\nPublished in Divine Power, page(s) 100."
+        },
+        "subtitle": "Hammer of Moradin Attack 11",
+        "title": "Hammer Throw"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-quake-strike",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You slam your hammer to the ground, unleashing an earthquake that represents Moradin's wrath.\n\nDAILY / STANDARD\n\nClose blast 5\n\nRequirement: You must be wielding a hammer.\n\nTarget: Each creature in the blast\n\nAttack: Strength vs. Fortitude\n\nHit: 2[W] + Strength thunder damage, and you knock the target prone.\n\nEffect: The burst creates a zone of difficult terrain that lasts until the end of the encounter.",
+        "title": "Quake Strike"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "Each creature in the blast"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "2[W] + Strength thunder damage, and you knock the target prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Close blast 5",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Strength vs. Fortitude",
+                "type": "attack"
+              },
+              {
+                "id": "row-5",
+                "label": "Effect",
+                "text": "The burst creates a zone of difficult terrain that lasts until the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close blast 5",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must be wielding a hammer.",
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You slam your hammer to the ground, unleashing an earthquake that represents Moradin's wrath.",
+        "flavor": "You slam your hammer to the ground, unleashing an earthquake that represents Moradin's wrath.",
+        "id": "modern4e.power.path-quake-strike",
+        "keywords": [
+          "DIVINE",
+          "THUNDER",
+          "WEAPON",
+          "ZONE"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power8156",
+          "publication": "Published in Divine Power, page(s) 100.",
+          "rulesText": "Quake StrikeHammer of Moradin Attack 20\nYou slam your hammer to the ground, unleashing an earthquake that represents Moradin's wrath.\nDaily   ✦     Divine, Thunder, Weapon, Zone\nStandard Action      Close blast 5\nRequirement: You must be wielding a hammer.\nTarget: Each creature in the blast\nAttack: Strength vs. Fortitude\nHit: 2[W] + Strength modifier thunder damage, and you knock the target prone.\nEffect: The burst creates a zone of difficult terrain that lasts until the end of the encounter.\nPublished in Divine Power, page(s) 100."
+        },
+        "subtitle": "Hammer of Moradin Attack 20",
+        "title": "Quake Strike"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-stalwart-defense",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Moradin's power shields you from the onslaught of your foes.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, you gain resist 5 to all damage and a +2 bonus to Fortitude.",
+        "title": "Stalwart Defense"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath424",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "Until the stance ends, you gain resist 5 to all damage and a +2 bonus to Fortitude.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Moradin's power shields you from the onslaught of your foes.",
+        "flavor": "Moradin's power shields you from the onslaught of your foes.",
+        "id": "modern4e.power.path-stalwart-defense",
+        "keywords": [
+          "DIVINE",
+          "STANCE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power8155",
+          "publication": "Published in Divine Power, page(s) 100.",
+          "rulesText": "Stalwart DefenseHammer of Moradin Utility 12\nMoradin's power shields you from the onslaught of your foes.\nDaily   ✦     Divine, Stance\nMinor Action      Personal\nEffect: Until the stance ends, you gain resist 5 to all damage and a +2 bonus to Fortitude.\nPublished in Divine Power, page(s) 100."
+        },
+        "subtitle": "Hammer of Moradin Utility 12",
+        "title": "Stalwart Defense"
+      }
+    }
+  ],
+  "id": "entries-0012"
+}

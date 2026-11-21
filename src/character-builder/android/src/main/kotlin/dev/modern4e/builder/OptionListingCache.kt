@@ -350,7 +350,7 @@ internal class OptionListingCache(
     fun warmTargets(state: BuilderState): List<WarmTarget> {
         val document = state.document
         val filled = document.levels.filter { it.level <= document.level }.flatMap { it.entries }.map { it.slot }.toSet()
-        val offered = (1..minOf(document.level, 19)).flatMap { level ->
+        val offered = (1..minOf(document.level, AdvancementRules.LAST_ENFORCED_LEVEL)).flatMap { level ->
             Progression.levelChoices(state, level).filter { it.abilities.isEmpty() && it.entries.isNotEmpty() }.map { level to it }
         }
         val powerEntryIds = snapshot?.catalog?.search(category = EntryCategory.POWER).orEmpty().mapTo(mutableSetOf()) { it.metadata.id }

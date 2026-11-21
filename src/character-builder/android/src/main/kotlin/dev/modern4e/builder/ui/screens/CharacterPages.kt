@@ -15,12 +15,26 @@ import dev.modern4e.builder.*
 import dev.modern4e.builder.ui.theme.*
 import dev.modern4e.builder.ui.components.*
 
-/** A real pager gives drag-following transitions and synchronizes swipes with tab selection. */
+/** Pager pages: the navigation tabs, plus Validation only while it is open, so swiping can never reach it. */
+internal fun characterPagerPageCount(validationOpen: Boolean): Int =
+    if (validationOpen) CharacterTabs.size else CharacterNavigationTabs.size
+
+/**
+ * A real pager gives drag-following transitions and synchronizes swipes with tab selection. Validation is only a
+ * pager page while it is open (reached from the cabinet), so no swipe from Stats can land on it.
+ */
 @Composable
 internal fun CharacterPages(state: BuilderState, model: BuilderSession) {
-    val pager = rememberPagerState(initialPage = CharacterTabs.indexOf(model.page).coerceAtLeast(0)) { CharacterTabs.size }
+    var validationLeaving by remember { mutableStateOf(false) }
+    val validationOpen = model.page == "validation" || validationLeaving
+    val pager = rememberPagerState(initialPage = CharacterTabs.indexOf(model.page).coerceAtLeast(0)) {
+        characterPagerPageCount(validationOpen)
+    }
     LaunchedEffect(model.page) {
         val target = CharacterTabs.indexOf(model.page)
+        if (model.page == "validation") {
+            validationLeaving = true
+        }
         if (target >= 0 && target != pager.settledPage) {
             pager.animateScrollToPage(target, animationSpec = tween(220))
         }
@@ -29,6 +43,9 @@ internal fun CharacterPages(state: BuilderState, model: BuilderSession) {
         snapshotFlow { if (pager.isScrollInProgress) null else pager.settledPage }.collect { index ->
             if (index != null && model.page in CharacterTabs) {
                 model.page = CharacterTabs[index]
+            }
+            if (index != null && model.page != "validation") {
+                validationLeaving = false
             }
         }
     }

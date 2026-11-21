@@ -43,10 +43,10 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
 
     /** Decoded content and calculations live for one command, never across content refreshes. */
     private fun operation() = if (operation) this else BuilderOperations(catalog.readSession(), true)
-    /** Direct creation through level 19; incomplete decisions remain exportable. */
+    /** Direct creation through level 20; incomplete decisions remain exportable. */
     suspend fun create(id: String, savedAt: String, identity: CharacterIdentity, packages: List<PackageRevision>,
         abilities: AbilityAllocation, level: Int = 1): BuilderState {
-        require(level in 1..19)
+        require(level in 1..AdvancementRules.LAST_ENFORCED_LEVEL)
         val document = CharacterDocument(id = id, savedAt = savedAt, identity = identity, packages = packages,
             level = level, abilities = abilities, levels = (1..level).map { LevelDecisions(it) })
         require(ContractCodec.encodeChecked(document) is ContractResult.Available)

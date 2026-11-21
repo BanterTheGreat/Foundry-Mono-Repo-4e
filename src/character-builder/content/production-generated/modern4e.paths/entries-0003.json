@@ -1,234 +1,228 @@
 {
   "entries": [
     {
-      "category": "PARAGON_PATH",
+      "category": "FEATURE",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath275",
+      "id": "modern4e.feature.academy-master-arcane-underpinning",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.shaman",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
-            "type": "level"
+            "type": "always"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Stalk the battlefield with a hunter's stealth and agility, sharing concealment of your approach with allies gathered around your spirit companion. An action point exposes nearby enemies to combat advantage, and your spirit can sap the strength of bloodied prey. Sudden leaps help you escape attacks, while a gathering of panther spirits lets your whole company teleport into striking distance.",
-        "title": "Ghost Panther"
+        "description": "You gain a +2 bonus to Arcana checks. When you hit a target with an arcane at-will attack power, you gain a +1 bonus to attack rolls with an arcane attack power you use against that target before the end of your next turn.",
+        "title": "Arcane Underpinning"
       },
       "sharedData": {
-        "description": "Stalk the battlefield with a hunter's stealth and agility, sharing concealment of your approach with allies gathered around your spirit companion. An action point exposes nearby enemies to combat advantage, and your spirit can sap the strength of bloodied prey. Sudden leaps help you escape attacks, while a gathering of panther spirits lets your whole company teleport into striking distance.",
-        "link": "https://iws.mx/dnd/?view=paragonpath275",
-        "requirements": null,
-        "sourceEntryId": "paragonpath275",
-        "title": "Ghost Panther"
+        "access": {
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain a +2 bonus to Arcana checks. When you hit a target with an arcane at-will attack power, you gain a +1 bonus to attack rolls with an arcane attack power you use against that target before the end of your next turn.",
+        "id": "modern4e.feature.academy-master-arcane-underpinning",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Arcane Underpinning"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.academy-master-educated-action",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, you can also reroll the next attack roll you make that misses before the end of your next turn.",
+        "title": "Educated Action"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you spend an action point to take an extra action, you can also reroll the next attack roll you make that misses before the end of your next turn.",
+        "id": "modern4e.feature.academy-master-educated-action",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Educated Action"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.feature.academy-master-fundamental-mastery",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "When you hit an enemy with an arcane at-will attack power, you deal 3 extra damage of the same type as the at-will power deals. This extra damage increases to 5 at 25th level.",
+        "title": "Fundamental Mastery"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
+        },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "When you hit an enemy with an arcane at-will attack power, you deal 3 extra damage of the same type as the at-will power deals. This extra damage increases to 5 at 25th level.",
+        "id": "modern4e.feature.academy-master-fundamental-mastery",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Fundamental Mastery"
       }
     },
     {
       "category": "PARAGON_PATH",
       "coverage": {
         "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
+          "Published prerequisite not enforced: Any arcane class."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
-      "id": "modern4e.path.paragonpath276",
+      "id": "modern4e.path.paragonpath351",
       "mechanics": {
         "access": {
           "conditions": [
             {
-              "entryId": "modern4e.class.shaman",
+              "entryId": "modern4e.class.artificer",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.sorcerer",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.wizard",
               "type": "entry"
             }
           ],
           "type": "anyOf"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
           {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Make your spirit companion a rallying point for warriors, strengthening attacks against marked enemies and helping allies punish foes that drop their guard. Spending an action point gives a companion a melee attack, and a commanding roar lets the party reposition. Your spirit's heaviest blows mark enemies, knock them down for attacking, or leave them suffering retaliation whenever they hit.",
-        "title": "Great Bear Shaman"
-      },
-      "sharedData": {
-        "description": "Make your spirit companion a rallying point for warriors, strengthening attacks against marked enemies and helping allies punish foes that drop their guard. Spending an action point gives a companion a melee attack, and a commanding roar lets the party reposition. Your spirit's heaviest blows mark enemies, knock them down for attacking, or leave them suffering retaliation whenever they hit.",
-        "link": "https://iws.mx/dnd/?view=paragonpath276",
-        "requirements": null,
-        "sourceEntryId": "paragonpath276",
-        "title": "Great Bear Shaman"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath489",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.shaman",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Keep your companions moving with helpful gusts, sliding them as you heal and helping them recover their footing after enemies push them around. An action point lets nearby allies slip into better positions, while protective winds carry one companion away from approaching foes. Your attacks open routes through enemy spaces or unleash a hurricane that scatters and dazes the opposition.",
-        "title": "Disciple of Winds"
-      },
-      "sharedData": {
-        "description": "Keep your companions moving with helpful gusts, sliding them as you heal and helping them recover their footing after enemies push them around. An action point lets nearby allies slip into better positions, while protective winds carry one companion away from approaching foes. Your attacks open routes through enemy spaces or unleash a hurricane that scatters and dazes the opposition.",
-        "link": "https://iws.mx/dnd/?view=paragonpath489",
-        "requirements": null,
-        "sourceEntryId": "paragonpath489",
-        "title": "Disciple of Winds"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath491",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.shaman",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.feature.academy-master-arcane-underpinning",
+            "grantId": "arcane-underpinning",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "World Speaker Spirit",
-            "type": "unresolved"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Let your spirit companion grow into a larger guardian, extending its reach and sheltering more allies around its presence. Your attacks and action points reinforce nearby companions' defenses, while your own resolve can protect them from attacks against Will. A hymn of nature offers another burst of protection, and your greatest evocation forces nearby enemies to choose between hesitation and psychic pain.",
-        "title": "Great Elder"
-      },
-      "sharedData": {
-        "description": "Let your spirit companion grow into a larger guardian, extending its reach and sheltering more allies around its presence. Your attacks and action points reinforce nearby companions' defenses, while your own resolve can protect them from attacks against Will. A hymn of nature offers another burst of protection, and your greatest evocation forces nearby enemies to choose between hesitation and psychic pain.",
-        "link": "https://iws.mx/dnd/?view=paragonpath491",
-        "requirements": "World Speaker Spirit",
-        "sourceEntryId": "paragonpath491",
-        "title": "Great Elder"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath492",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.shaman",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
+            "atLevel": 11,
+            "entryId": "modern4e.feature.academy-master-educated-action",
+            "grantId": "educated-action",
+            "type": "entry"
           },
           {
-            "reason": "Class path prerequisite has not been structurally adapted.",
-            "text": "Watcher Spirit",
-            "type": "unresolved"
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-learned-boost",
+            "grantId": "learned-boost",
+            "type": "entry"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-refined-recall",
+            "grantId": "refined-recall",
+            "type": "entry"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.academy-master-fundamental-mastery",
+            "grantId": "fundamental-mastery",
+            "type": "entry"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-masters-surge",
+            "grantId": "masters-surge",
+            "type": "entry"
           }
         ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Use your spirit companion's vantage point to guide ranged and area attacks around obstacles, eventually reaching enemies from much farther away. Spending an action point briefly brings a second companion into the fight, spreading your spirit's influence across two positions. Your eagle guides allies' shots and exposes enemies to critical hits, turning a carefully chosen target into an opening for the whole party.",
-        "title": "Keen Eagle"
-      },
-      "sharedData": {
-        "description": "Use your spirit companion's vantage point to guide ranged and area attacks around obstacles, eventually reaching enemies from much farther away. Spending an action point briefly brings a second companion into the fight, spreading your spirit's influence across two positions. Your eagle guides allies' shots and exposes enemies to critical hits, turning a carefully chosen target into an opening for the whole party.",
-        "link": "https://iws.mx/dnd/?view=paragonpath492",
-        "requirements": "Watcher Spirit",
-        "sourceEntryId": "paragonpath492",
-        "title": "Keen Eagle"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath494",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.shaman",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -236,39 +230,105 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Read the battle's omens to help your company act sooner and put an extra action into the hands of the ally who needs it most. When one companion falls, another receives healing, and your spirit can answer an enemy's blow with damage equal to what it inflicted. You can carry a useful die result into your next roll or call on winter to frustrate a foe's saving throws.",
-        "title": "Seasons' Herald"
+        "description": "Master the fundamentals of arcane magic until even your simplest spells set up stronger follow-up attacks and strike with greater force. Your schooling sharpens your Arcana knowledge, while an action point gives you a chance to correct a missed attack. You can pour extra power into familiar spells, reclaim an encounter attack that misses every target, and eventually turn a practiced encounter spell into a more punishing assault with longer-lasting effects.",
+        "title": "Academy Master"
       },
       "sharedData": {
-        "description": "Read the battle's omens to help your company act sooner and put an extra action into the hands of the ally who needs it most. When one companion falls, another receives healing, and your spirit can answer an enemy's blow with damage equal to what it inflicted. You can carry a useful die result into your next roll or call on winter to frustrate a foe's saving throws.",
-        "link": "https://iws.mx/dnd/?view=paragonpath494",
-        "requirements": null,
-        "sourceEntryId": "paragonpath494",
-        "title": "Seasons' Herald"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath646",
-      "mechanics": {
         "access": {
           "conditions": [
             {
-              "entryId": "modern4e.class.shaman",
+              "entryId": "modern4e.class.artificer",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.sorcerer",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.wizard",
               "type": "entry"
             }
           ],
           "type": "anyOf"
         },
+        "coverage": {
+          "limitations": [
+            "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+            "Published prerequisite not enforced: Any arcane class."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Master the fundamentals of arcane magic until even your simplest spells set up stronger follow-up attacks and strike with greater force. Your schooling sharpens your Arcana knowledge, while an action point gives you a chance to correct a missed attack. You can pour extra power into familiar spells, reclaim an encounter attack that misses every target, and eventually turn a practiced encounter spell into a more punishing assault with longer-lasting effects.",
+        "flavor": "Master the fundamentals of arcane magic until even your simplest spells set up stronger follow-up attacks and strike with greater force. Your schooling sharpens your Arcana knowledge, while an action point gives you a chance to correct a missed attack. You can pour extra power into familiar spells, reclaim an encounter attack that misses every target, and eventually turn a practiced encounter spell into a more punishing assault with longer-lasting effects.",
+        "grants": [
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.academy-master-arcane-underpinning",
+            "id": "arcane-underpinning"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.feature.academy-master-educated-action",
+            "id": "educated-action"
+          },
+          {
+            "atLevel": 11,
+            "entryId": "modern4e.power.path-learned-boost",
+            "id": "learned-boost"
+          },
+          {
+            "atLevel": 12,
+            "entryId": "modern4e.power.path-refined-recall",
+            "id": "refined-recall"
+          },
+          {
+            "atLevel": 16,
+            "entryId": "modern4e.feature.academy-master-fundamental-mastery",
+            "id": "fundamental-mastery"
+          },
+          {
+            "atLevel": 20,
+            "entryId": "modern4e.power.path-masters-surge",
+            "id": "masters-surge"
+          }
+        ],
+        "id": "modern4e.path.paragonpath351",
+        "link": "https://iws.mx/dnd/?view=paragonpath351",
+        "prerequisiteText": "Any arcane class",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "requirements": null,
+        "ruleIds": [],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "sourceEntryId": "paragonpath351",
+        "title": "Academy Master"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-learned-boost",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
@@ -276,218 +336,305 @@
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Feed your companions' momentum with soulfire, turning critical hits into greater speed, sharper reflexes, and extra fire damage on their attacks. Spending an action point spreads that power to several companions at once. Your evocations scorch groups of enemies, and empowered allies can become moving sources of heat that burn nearby foes. Even destroying your spirit companion can unleash a final burst of flame.",
-        "title": "Soul Igniter"
+        "description": "You masterfully channel arcane energy into one of your simplest powers, imbuing it with surprising power.\n\nENCOUNTER / STANDARD\n\nPersonal\n\nEffect: Use one of your arcane at-will attack powers on the target. If you hit, you deal +2[W] damage, or +2 dice of damage if it is a nonweapon attack.",
+        "title": "Learned Boost"
       },
       "sharedData": {
-        "description": "Feed your companions' momentum with soulfire, turning critical hits into greater speed, sharper reflexes, and extra fire damage on their attacks. Spending an action point spreads that power to several companions at once. Your evocations scorch groups of enemies, and empowered allies can become moving sources of heat that burn nearby foes. Even destroying your spirit companion can unleash a final burst of flame.",
-        "link": "https://iws.mx/dnd/?view=paragonpath646",
-        "requirements": null,
-        "sourceEntryId": "paragonpath646",
-        "title": "Soul Igniter"
+        "access": {
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "Use one of your arcane at-will attack powers on the target. If you hit, you deal +2[W] damage, or +2 dice of damage if it is a nonweapon attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You masterfully channel arcane energy into one of your simplest powers, imbuing it with surprising power.",
+        "flavor": "You masterfully channel arcane energy into one of your simplest powers, imbuing it with surprising power.",
+        "id": "modern4e.power.path-learned-boost",
+        "keywords": [
+          "ARCANE",
+          "RELIABLE",
+          "IMPLEMENT_OR_WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7430",
+          "publication": "Published in Dragon Magazine 374, page(s) 22.",
+          "rulesText": "Learned BoostAcademy Master Attack 11\nYou masterfully channel arcane energy into one of your simplest powers, imbuing it with surprising power.\nEncounter   ✦     Arcane, Reliable ; Implement or Weapon\nStandard Action\nEffect: Use one of your arcane at-will attack powers on the target. If you hit, you deal +2[W] damage, or +2 dice of damage if it is a nonweapon attack.\nPublished in Dragon Magazine 374, page(s) 22."
+        },
+        "subtitle": "Academy Master Attack 11",
+        "title": "Learned Boost"
       }
     },
     {
-      "category": "PARAGON_PATH",
+      "category": "POWER",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath647",
+      "id": "modern4e.power.path-masters-surge",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.shaman",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
+            "minimum": 20,
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Gather lightning, rain, and wind around your spirit companion, punishing enemies that attack it and dazing those that destroy it. Your action points help the company reposition, while storm spirits lend lightning damage to allied attacks and protect nearby companions from lightning and thunder. Driving rain conceals allies and exposes enemies to the storm, and a powerful cyclone knocks foes down while opening paths for your companions.",
-        "title": "Stormcaller"
+        "description": "With great skill, you increase the power of an oft-used spell to devastating effect.\n\nDAILY / STANDARD\n\nPersonal\n\nEffect: Use one of your arcane encounter attack powers on the target. That power is not expended. If you hit, you deal +2[W] damage, or +2 dice of damage if it is a nonweapon attack. You can also increase the duration of any effect the power applies to an enemy to “(save ends).”",
+        "title": "Master's Surge"
       },
       "sharedData": {
-        "description": "Gather lightning, rain, and wind around your spirit companion, punishing enemies that attack it and dazing those that destroy it. Your action points help the company reposition, while storm spirits lend lightning damage to allied attacks and protect nearby companions from lightning and thunder. Driving rain conceals allies and exposes enemies to the storm, and a powerful cyclone knocks foes down while opening paths for your companions.",
-        "link": "https://iws.mx/dnd/?view=paragonpath647",
-        "requirements": null,
-        "sourceEntryId": "paragonpath647",
-        "title": "Stormcaller"
+        "access": {
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "Use one of your arcane encounter attack powers on the target. That power is not expended. If you hit, you deal +2[W] damage, or +2 dice of damage if it is a nonweapon attack. You can also increase the duration of any effect the power applies to an enemy to “(save ends).”",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "With great skill, you increase the power of an oft-used spell to devastating effect.",
+        "flavor": "With great skill, you increase the power of an oft-used spell to devastating effect.",
+        "id": "modern4e.power.path-masters-surge",
+        "keywords": [
+          "ARCANE",
+          "RELIABLE",
+          "IMPLEMENT_OR_WEAPON"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7432",
+          "publication": "Published in Dragon Magazine 374, page(s) 22.",
+          "rulesText": "Master's SurgeAcademy Master Attack 20\nWith great skill, you increase the power of an oft-used spell to devastating effect.\nDaily   ✦     Arcane, Reliable ; Implement or Weapon\nStandard Action\nEffect: Use one of your arcane encounter attack powers on the target. That power is not expended. If you hit, you deal +2[W] damage, or +2 dice of damage if it is a nonweapon attack. You can also increase the duration of any effect the power applies to an enemy to “(save ends).”\nPublished in Dragon Magazine 374, page(s) 22."
+        },
+        "subtitle": "Academy Master Attack 20",
+        "title": "Master's Surge"
       }
     },
     {
-      "category": "PARAGON_PATH",
+      "category": "POWER",
       "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
+        "limitations": [],
+        "status": "SUPPORTED"
       },
-      "id": "modern4e.path.paragonpath648",
+      "id": "modern4e.power.path-refined-recall",
       "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.shaman",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
         },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
         "maximumSelections": 1,
         "prerequisites": [
           {
-            "minimum": 11,
+            "minimum": 12,
             "type": "level"
           }
         ],
-        "version": 2
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Expose weaknesses where your enemies seem to have none, letting allies strike through ghostly bodies and pierce elemental defenses. Your spirit attacks interrupt regeneration, while an action point or a well-placed strike leaves a foe vulnerable to extra damage. You can also borrow an enemy's resistances for nearby allies and make a wounded foe suffer whenever it lands a blow against them.",
-        "title": "Animus Predator"
+        "description": "A moment of concentration allows you to reclaim the power invested in your faulty effort.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You miss every target when using an arcane encounter attack power.\n\nEffect: The attack power is not expended.",
+        "title": "Refined Recall"
       },
       "sharedData": {
-        "description": "Expose weaknesses where your enemies seem to have none, letting allies strike through ghostly bodies and pierce elemental defenses. Your spirit attacks interrupt regeneration, while an action point or a well-placed strike leaves a foe vulnerable to extra damage. You can also borrow an enemy's resistances for nearby allies and make a wounded foe suffer whenever it lands a blow against them.",
-        "link": "https://iws.mx/dnd/?view=paragonpath648",
-        "requirements": null,
-        "sourceEntryId": "paragonpath648",
-        "title": "Animus Predator"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath649",
-      "mechanics": {
         "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.shaman",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+          "entryId": "modern4e.path.paragonpath351",
+          "type": "entry"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
+        "activations": [
           {
-            "minimum": 11,
-            "type": "level"
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "The attack power is not expended.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "trigger": "You miss every target when using an arcane encounter attack power.",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
           }
         ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Turn your spirit companion into a source of recovery, strengthening Healing Spirit and giving its target the option to seek relief from a lingering affliction instead of healing. Your action points restore nearby allies, and second wind becomes an opportunity to return to the attack. Cleansing waves and a movable sanctuary help companions recover, resist disease, and shake off effects that saving throws can end.",
-        "title": "Scion of Renewal"
-      },
-      "sharedData": {
-        "description": "Turn your spirit companion into a source of recovery, strengthening Healing Spirit and giving its target the option to seek relief from a lingering affliction instead of healing. Your action points restore nearby allies, and second wind becomes an opportunity to return to the attack. Cleansing waves and a movable sanctuary help companions recover, resist disease, and shake off effects that saving throws can end.",
-        "link": "https://iws.mx/dnd/?view=paragonpath649",
-        "requirements": null,
-        "sourceEntryId": "paragonpath649",
-        "title": "Scion of Renewal"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath663",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.shaman",
-              "type": "entry"
-            }
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
           ],
-          "type": "anyOf"
+          "status": "UNIMPLEMENTED"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
+        "description": "A moment of concentration allows you to reclaim the power invested in your faulty effort.",
+        "flavor": "A moment of concentration allows you to reclaim the power invested in your faulty effort.",
+        "id": "modern4e.power.path-refined-recall",
+        "keywords": [
+          "ARCANE"
         ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Give wounded primal spirits a voice, turning their anger into elemental protection for an ally and vengeance against your enemies. Your daily attacks bolster nearby companions and let them reposition, while a restorative wind heals and shields the group. Psychic commands force foes to strike one another, and your greatest outcry can stun a crowd before drawing the most vulnerable minds under your control.",
-        "title": "Voice for the Ravaged"
-      },
-      "sharedData": {
-        "description": "Give wounded primal spirits a voice, turning their anger into elemental protection for an ally and vengeance against your enemies. Your daily attacks bolster nearby companions and let them reposition, while a restorative wind heals and shields the group. Psychic commands force foes to strike one another, and your greatest outcry can stun a crowd before drawing the most vulnerable minds under your control.",
-        "link": "https://iws.mx/dnd/?view=paragonpath663",
-        "requirements": null,
-        "sourceEntryId": "paragonpath663",
-        "title": "Voice for the Ravaged"
-      }
-    },
-    {
-      "category": "PARAGON_PATH",
-      "coverage": {
-        "limitations": [
-          "Reviewed local class-path summary only. Path features and granted powers require manual entry; no adapted stat blocks are available."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.path.paragonpath807",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.shaman",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
         },
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Bend enemy minds through a spirit companion that projects your powers from its own position. Psychic assaults daze and move foes, while your strongest binding can dominate a victim and drag it along with the spirit. An action point makes your attack's lingering effects harder to shake off, and enemies that destroy your companion are dazed in return. You can also interpose it against an incoming blow.",
-        "title": "Phrenic Master"
-      },
-      "sharedData": {
-        "description": "Bend enemy minds through a spirit companion that projects your powers from its own position. Psychic assaults daze and move foes, while your strongest binding can dominate a victim and drag it along with the spirit. An action point makes your attack's lingering effects harder to shake off, and enemies that destroy your companion are dazed in return. You can also interpose it against an incoming blow.",
-        "link": "https://iws.mx/dnd/?view=paragonpath807",
-        "requirements": null,
-        "sourceEntryId": "paragonpath807",
-        "title": "Phrenic Master"
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7431",
+          "publication": "Published in Dragon Magazine 374, page(s) 22.",
+          "rulesText": "Refined RecallAcademy Master Utility 12\nA moment of concentration allows you to reclaim the power invested in your faulty effort.\nEncounter   ✦     Arcane\nFree Action      Personal\nTrigger: You miss every target when using an arcane encounter attack power.\nEffect: The attack power is not expended.\nPublished in Dragon Magazine 374, page(s) 22."
+        },
+        "subtitle": "Academy Master Utility 12",
+        "title": "Refined Recall"
       }
     }
   ],

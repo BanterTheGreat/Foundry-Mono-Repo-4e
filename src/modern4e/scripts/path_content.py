@@ -1,4 +1,4 @@
-"""Validate and export authoritative Zeitgeist paragon-path authoring."""
+"""Validate and export authoritative paragon-path authoring: the Zeitgeist paths and the class paths."""
 import argparse
 import json
 from pathlib import Path
@@ -7,12 +7,39 @@ import class_content as shared
 import power_content
 
 CONTENT = Path(__file__).resolve().parents[1] / "content/paths/zeitgeist.json"
+CLASS_CONTENT = CONTENT.with_name("class-paths.json")
 BASE = "id title description access prerequisites selection coverage".split()
 CATEGORIES = {"paths": "path", "features": "feature", "rules": "rule", "powers": "power"}
 
 
-def validate(data, themes):
-    """Reject malformed entries, unresolved grants, orphan rules and invalid powers."""
+def validate_class_path(value, eid, classes):
+    """Class paths keep their class-catalog access and may only add one explicit unresolved requirement."""
+    for key in ("flavor", "prerequisiteText", "sourceEntryId", "link"):
+        shared.string(value[key], eid)
+    shared.require(value["ruleIds"] == [], eid, "class paths have no supplementary rules")
+    shared.require(eid == "modern4e.path." + value["sourceEntryId"], eid, "path identity must follow its published entry")
+    shared.require(value["requirements"] is None or isinstance(value["requirements"], str), eid, "invalid requirements")
+    access = value["access"]
+    shared.require(access["type"] in ("entry", "anyOf"), eid, "class path access must name only classes")
+    routes = access["conditions"] if access["type"] == "anyOf" else [access]
+    shared.require(all(node["type"] == "entry" and node["entryId"] in classes for node in routes), eid,
+                   "class path access must name only classes")
+    level = {"type": "level", "minimum": 11}
+    prerequisites = value["prerequisites"]
+    if value["requirements"] is None:
+        shared.require(prerequisites == level, eid, "expected the level-11 prerequisite")
+    else:
+        shared.require(prerequisites.get("type") == "allOf" and prerequisites["conditions"][:1] == [level]
+                       and len(prerequisites["conditions"]) == 2 and prerequisites["conditions"][1].get("type") == "unresolved"
+                       and prerequisites["conditions"][1].get("text") == value["requirements"], eid,
+                       "expected level 11 and the unresolved class-path requirement")
+
+
+def validate(data, themes, classes=None):
+    """Reject malformed entries, unresolved grants, orphan rules and invalid powers.
+
+    ``classes`` (class entry IDs) validates the class-path catalog instead of the Zeitgeist theme paths.
+    """
     shared.fields(data, ["schemaVersion", "document", *CATEGORIES], [], "paths")
     shared.require(type(data["schemaVersion"]) is int and data["schemaVersion"] == 1, "paths", "unsupported schemaVersion")
     shared.fields(data["document"], ["title", "introduction", "source"], [], "document")
@@ -20,14 +47,14 @@ def validate(data, themes):
         shared.string(text, "document")
     entries, categories = {}, {}
     for category, prefix in CATEGORIES.items():
-        shared.array(data[category], category, True)
+        shared.array(data[category], category, classes is None or category != "rules")
         for value in data[category]:
             eid = value.get("id")
             shared.string(eid, category)
             shared.require(eid.startswith("modern4e." + prefix + "."), eid, "invalid identity")
             shared.require(eid not in entries and eid not in themes, eid, "duplicate identity")
             entries[eid], categories[eid] = value, category
-    references = entries | themes
+    references = entries | themes | dict.fromkeys(classes or ())
     owned = set()
     for eid, value in entries.items():
         category = categories[eid]
@@ -35,7 +62,9 @@ def validate(data, themes):
             power_content.validate_power(value, references)
             shared.require(value["rulesProfile"] == "MODERN4E" and "level" in value and "powerKind" in value, eid, "expected leveled local power")
             continue
-        extra = {"paths": ["themeId", "flavor", "prerequisiteText", "grants", "ruleIds"], "features": [], "rules": ["sections"]}[category]
+        extra = {"paths": ["themeId", "flavor", "prerequisiteText", "grants", "ruleIds"] if classes is None else
+                 ["flavor", "prerequisiteText", "grants", "ruleIds", "sourceEntryId", "link", "requirements"],
+                 "features": [], "rules": ["sections"]}[category]
         shared.fields(value, BASE + extra, [], eid)
         for key in ("title", "description"):
             shared.string(value[key], eid)
@@ -56,12 +85,15 @@ def validate(data, themes):
             continue
         for key in ("flavor", "prerequisiteText"):
             shared.string(value[key], eid)
-        shared.require(value["access"] == {"type": "always"}, eid, "campaign availability is separate from access")
-        shared.require(value["themeId"] in themes, eid, "missing associated theme")
-        prerequisites = value["prerequisites"]
-        shared.require(prerequisites.get("type") == "allOf" and {"type": "level", "minimum": 11} in prerequisites["conditions"], eid, "missing level-11 prerequisite")
-        routes = [node for node in prerequisites["conditions"] if node["type"] == "anyOf"]
-        shared.require(len(routes) == 1 and {"type": "entry", "entryId": value["themeId"]} in routes[0]["conditions"] and len(routes[0]["conditions"]) == 2, eid, "expected theme or alternative qualification")
+        if classes is not None:
+            validate_class_path(value, eid, classes)
+        else:
+            shared.require(value["access"] == {"type": "always"}, eid, "campaign availability is separate from access")
+            shared.require(value["themeId"] in themes, eid, "missing associated theme")
+            prerequisites = value["prerequisites"]
+            shared.require(prerequisites.get("type") == "allOf" and {"type": "level", "minimum": 11} in prerequisites["conditions"], eid, "missing level-11 prerequisite")
+            routes = [node for node in prerequisites["conditions"] if node["type"] == "anyOf"]
+            shared.require(len(routes) == 1 and {"type": "entry", "entryId": value["themeId"]} in routes[0]["conditions"] and len(routes[0]["conditions"]) == 2, eid, "expected theme or alternative qualification")
         shared.array(value["grants"], eid, True)
         grant_ids = set()
         for grant in value["grants"]:
@@ -93,14 +125,32 @@ def load(content=CONTENT):
     return data
 
 
+def class_ids():
+    """Authoritative class identities that class-path access may name."""
+    return {entry["id"] for entry in shared.catalog()["entries"] if entry["category"] == "CLASS"}
+
+
+def load_class_paths(content=CLASS_CONTENT):
+    """Read the class-path catalog; its access routes must be authoritative classes."""
+    data = shared.shared.load_json(content)
+    validate(data, {}, class_ids())
+    return data
+
+
 def main():
     """Validate by default and optionally write a deterministic authoring export."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--content", type=Path, default=CONTENT)
+    parser.add_argument("--content", type=Path)
+    parser.add_argument("--class-paths", action="store_true", help="Validate the class-path catalog instead of Zeitgeist")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    data = load(args.content)
+    if args.class_paths:
+        args.content = args.content or CLASS_CONTENT
+        data = load_class_paths(args.content)
+    else:
+        args.content = args.content or CONTENT
+        data = load(args.content)
     export = {"kind": "modern4e.path-authoring", **data}
     encoded = json.dumps(export, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
     if args.output:

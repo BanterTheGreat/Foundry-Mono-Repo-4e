@@ -1,0 +1,2326 @@
+{
+  "entries": [
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-reap-what-you-sow",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath405",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You denounce a foe, making it suffer all the pains dealt to your friends.\n\nDAILY / STANDARD\n\nClose burst 5\n\nTarget: One enemy in the burst\n\nAttack: Wisdom vs. Will\n\nHit: You transfer all effects that a save can end from each ally within the burst to the target.\n\nMiss: You transfer one effect that a save can end from each ally within the burst to the target.",
+        "title": "Reap What You Sow"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath405",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "You transfer all effects that a save can end from each ally within the burst to the target.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "You transfer one effect that a save can end from each ally within the burst to the target.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Close burst 5",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. Will",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You denounce a foe, making it suffer all the pains dealt to your friends.",
+        "flavor": "You denounce a foe, making it suffer all the pains dealt to your friends.",
+        "id": "modern4e.power.path-reap-what-you-sow",
+        "keywords": [
+          "DIVINE",
+          "IMPLEMENT"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7985",
+          "publication": "Published in Divine Power, page(s) 50.",
+          "rulesText": "Reap What You SowMiracle Worker Attack 20\nYou denounce a foe, making it suffer all the pains dealt to your friends.\nDaily   ✦     Divine, Implement\nStandard Action      Close burst 5\nTarget: One enemy in the burst\nAttack: Wisdom vs. Will\nHit: You transfer all effects that a save can end from each ally within the burst to the target.\nMiss: You transfer one effect that a save can end from each ally within the burst to the target.\nPublished in Divine Power, page(s) 50."
+        },
+        "subtitle": "Miracle Worker Attack 20",
+        "title": "Reap What You Sow"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-revelation-of-battle",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath401",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A ringing impact from your favored weapon instructs your allies in the more direct matters of faith.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. Reflex\n\nHit: 2[W] + Strength damage.\n\nEffect: Each ally within 10 squares of you gains a +2 power bonus to attack rolls and damage rolls until the start of your next turn.",
+        "title": "Revelation of Battle"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath401",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2[W] + Strength damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Strength vs. Reflex",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "Each ally within 10 squares of you gains a +2 power bonus to attack rolls and damage rolls until the start of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A ringing impact from your favored weapon instructs your allies in the more direct matters of faith.",
+        "flavor": "A ringing impact from your favored weapon instructs your allies in the more direct matters of faith.",
+        "id": "modern4e.power.path-revelation-of-battle",
+        "keywords": [
+          "DIVINE",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7903",
+          "publication": "Published in Divine Power, page(s) 46.",
+          "rulesText": "Revelation of BattleBattle Chaplain Attack 11\nA ringing impact from your favored weapon instructs your allies in the more direct matters of faith.\nEncounter   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Reflex\nHit: 2[W] + Strength modifier damage.\nEffect: Each ally within 10 squares of you gains a +2 power bonus to attack rolls and damage rolls until the start of your next turn.\nPublished in Divine Power, page(s) 46."
+        },
+        "subtitle": "Battle Chaplain Attack 11",
+        "title": "Revelation of Battle"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-reversal-of-fortunes",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath405",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A whispered benediction heals the injuries of an ally and gives the attacker a taste of the pain it inflicted.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nRanged 5\n\nTrigger: An enemy within 5 squares of you hits your ally adjacent to it\n\nTarget: The triggering enemy\n\nAttack: Wisdom vs. Fortitude\n\nHit: 2d10 + Wisdom damage. The ally hit by the triggering enemy's attack can spend a healing surge and regain 2d10 additional hit points.",
+        "title": "Reversal of Fortunes"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath405",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_REACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "The triggering enemy"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "2d10 + Wisdom damage. The ally hit by the triggering enemy's attack can spend a healing surge and regain 2d10 additional hit points.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 5",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Wisdom vs. Fortitude",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "trigger": "An enemy within 5 squares of you hits your ally adjacent to it",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A whispered benediction heals the injuries of an ally and gives the attacker a taste of the pain it inflicted.",
+        "flavor": "A whispered benediction heals the injuries of an ally and gives the attacker a taste of the pain it inflicted.",
+        "id": "modern4e.power.path-reversal-of-fortunes",
+        "keywords": [
+          "DIVINE",
+          "HEALING",
+          "IMPLEMENT"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7983",
+          "publication": "Published in Divine Power, page(s) 50.",
+          "rulesText": "Reversal of FortunesMiracle Worker Attack 11\nA whispered benediction heals the injuries of an ally and gives the attacker a taste of the pain it inflicted.\nEncounter   ✦     Divine, Healing, Implement\nImmediate Reaction      Ranged 5\nTrigger: An enemy within 5 squares of you hits your ally adjacent to it\nTarget: The triggering enemy\nAttack: Wisdom vs. Fortitude\nHit: 2d10 + Wisdom modifier damage. The ally hit by the triggering enemy's attack can spend a healing surge and regain 2d10 additional hit points.\nPublished in Divine Power, page(s) 50."
+        },
+        "subtitle": "Miracle Worker Attack 11",
+        "title": "Reversal of Fortunes"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-rolling-stab",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath463",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As your foe strikes you, you roll to the side to make a punishing counterstrike.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nMelee weapon\n\nTrigger: An enemy hits you with a melee attack\n\nTarget: The triggering enemy\n\nEffect: Before your attack, shift 5 squares to any square adjacent to the target.\n\nAttack: Strength, Wisdom, or Charisma vs. AC\n\nHit: 1[W] + Strength, Wisdom, or Charisma damage, and you gain a +2 bonus to all defenses until the end of your next turn. If the target is a dragon, this attack deals an extra 1[W] damage.",
+        "title": "Rolling Stab"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath463",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_REACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "The triggering enemy"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-3",
+                "label": "Effect",
+                "text": "Before your attack, shift 5 squares to any square adjacent to the target.",
+                "type": "effect"
+              },
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-5",
+                          "label": "Hit",
+                          "text": "1[W] + Strength, Wisdom, or Charisma damage, and you gain a +2 bonus to all defenses until the end of your next turn. If the target is a dragon, this attack deals an extra 1[W] damage.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-4",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee weapon",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "text": "Strength, Wisdom, or Charisma vs. AC",
+                    "type": "RULES_TEXT"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Strength, Wisdom, or Charisma vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee weapon",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-2",
+            "trigger": "An enemy hits you with a melee attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As your foe strikes you, you roll to the side to make a punishing counterstrike.",
+        "flavor": "As your foe strikes you, you roll to the side to make a punishing counterstrike.",
+        "id": "modern4e.power.path-rolling-stab",
+        "keywords": [
+          "DIVINE",
+          "WEAPON"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9382",
+          "publication": "Published in Dragon Magazine 378.",
+          "rulesText": "Rolling StabChromatic Bane Attack 11\nAs your foe strikes you, you roll to the side to make a punishing counterstrike.\nEncounter   ✦     Divine, Weapon\nImmediate Reaction      Melee weapon\nTrigger: An enemy hits you with a melee attack\nTarget: The triggering enemy\nEffect: Before your attack, shift 5 squares to any square adjacent to the target.\nAttack: Strength, Wisdom, or Charisma vs. AC\nHit: 1[W] + Strength, Wisdom, or Charisma modifier damage, and you gain a +2 bonus to all defenses until the end of your next turn. If the target is a dragon, this attack deals an extra 1[W] damage.\nPublished in Dragon Magazine 378."
+        },
+        "subtitle": "Chromatic Bane Attack 11",
+        "title": "Rolling Stab"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-rousing-cry",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath463",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You voice is a clarion, cutting through the confusion to stir your ally to action.\n\nDAILY / MINOR\n\nClose burst 10\n\nTarget: One dazed or stunned ally in the burst that you can see\n\nEffect: The dazed or stunned condition ends and the target can take a move action as a free action.",
+        "title": "Rousing Cry"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath463",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One dazed or stunned ally in the burst that you can see"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "The dazed or stunned condition ends and the target can take a move action as a free action.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You voice is a clarion, cutting through the confusion to stir your ally to action.",
+        "flavor": "You voice is a clarion, cutting through the confusion to stir your ally to action.",
+        "id": "modern4e.power.path-rousing-cry",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9384",
+          "publication": "Published in Dragon Magazine 378.",
+          "rulesText": "Rousing CryChromatic Bane Utility 12\nYou voice is a clarion, cutting through the confusion to stir your ally to action.\nDaily   ✦     Divine\nMinor Action      Close burst 10\nTarget: One dazed or stunned ally in the burst that you can see\nEffect: The dazed or stunned condition ends and the target can take a move action as a free action.\nPublished in Dragon Magazine 378."
+        },
+        "subtitle": "Chromatic Bane Utility 12",
+        "title": "Rousing Cry"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-scrape-the-sky",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath407",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Fury fills you, and you tower over your enemies.\n\nDAILY / STANDARD\n\nPersonal\n\nEffect: Until the end of the encounter, your reach and speed both increase by 1, and your melee attacks deal 2d6 extra damage.",
+        "title": "Scrape the Sky"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath407",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, your reach and speed both increase by 1, and your melee attacks deal 2d6 extra damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Fury fills you, and you tower over your enemies.",
+        "flavor": "Fury fills you, and you tower over your enemies.",
+        "id": "modern4e.power.path-scrape-the-sky",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7990",
+          "publication": "Published in Divine Power, page(s) 52.",
+          "rulesText": "Scrape the SkyStone Keeper Utility 12\nFury fills you, and you tower over your enemies.\nDaily   ✦     Divine\nStandard Action      Personal\nEffect: Until the end of the encounter, your reach and speed both increase by 1, and your melee attacks deal 2d6 extra damage.\nPublished in Divine Power, page(s) 52."
+        },
+        "subtitle": "Stone Keeper Utility 12",
+        "title": "Scrape the Sky"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-seldarine-wrath",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath406",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You launch a fiery bolt from your bow that erupts into white-hot flame where it hits.\n\nDAILY / STANDARD\n\nRanged 20\n\nRequirement: You must be wielding a longbow or a shortbow.\n\nTarget: One creature\n\nAttack: Wisdom vs. Reflex\n\nHit: 3d10 + Wisdom fire damage, and the target takes ongoing 10 fire damage and is dazed (save ends both).\n\nMiss: Half damage, and ongoing 10 fire damage (save ends).",
+        "title": "Seldarine Wrath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath406",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-2": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "REFLEX",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-4",
+                          "label": "Hit",
+                          "text": "3d10 + Wisdom fire damage, and the target takes ongoing 10 fire damage and is dazed (save ends both).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-5",
+                          "label": "Miss",
+                          "text": "Half damage, and ongoing 10 fire damage (save ends).",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-3",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 20",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-2",
+                "text": "Wisdom vs. Reflex",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 20",
+              "type": "RULES_TEXT"
+            },
+            "requirement": "You must be wielding a longbow or a shortbow.",
+            "targets": "targets-2",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You launch a fiery bolt from your bow that erupts into white-hot flame where it hits.",
+        "flavor": "You launch a fiery bolt from your bow that erupts into white-hot flame where it hits.",
+        "id": "modern4e.power.path-seldarine-wrath",
+        "keywords": [
+          "DIVINE",
+          "FIRE",
+          "IMPLEMENT"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7988",
+          "publication": "Published in Divine Power, page(s) 51.",
+          "rulesText": "Seldarine WrathSeldarine Dedicate Attack 20\nYou launch a fiery bolt from your bow that erupts into white-hot flame where it hits.\nDaily   ✦     Divine, Fire, Implement\nStandard Action      Ranged 20\nRequirement: You must be wielding a longbow or a shortbow.\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 3d10 + Wisdom modifier fire damage, and the target takes ongoing 10 fire damage and is dazed (save ends both).\nMiss: Half damage, and ongoing 10 fire damage (save ends).\nPublished in Divine Power, page(s) 51."
+        },
+        "subtitle": "Seldarine Dedicate Attack 20",
+        "title": "Seldarine Wrath"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-shrine-of-clarity",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath408",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Tracing a circle of binding power, you force your enemies to stand and face you.\n\nENCOUNTER / STANDARD\n\nClose burst 5\n\nEffect: The burst creates a zone of planar interference that lasts until the end of your next turn. Enemies cannot teleport into the zone. While within the zone, enemies cannot teleport and cannot benefit from phasing or being insubstantial.",
+        "title": "Shrine of Clarity"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath408",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "The burst creates a zone of planar interference that lasts until the end of your next turn. Enemies cannot teleport into the zone. While within the zone, enemies cannot teleport and cannot benefit from phasing or being insubstantial.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Tracing a circle of binding power, you force your enemies to stand and face you.",
+        "flavor": "Tracing a circle of binding power, you force your enemies to stand and face you.",
+        "id": "modern4e.power.path-shrine-of-clarity",
+        "keywords": [
+          "DIVINE",
+          "ZONE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7993",
+          "publication": "Published in Divine Power, page(s) 53.",
+          "rulesText": "Shrine of ClarityTruthseeker Utility 12\nTracing a circle of binding power, you force your enemies to stand and face you.\nEncounter   ✦     Divine, Zone\nStandard Action      Close burst 5\nEffect: The burst creates a zone of planar interference that lasts until the end of your next turn. Enemies cannot teleport into the zone. While within the zone, enemies cannot teleport and cannot benefit from phasing or being insubstantial.\nPublished in Divine Power, page(s) 53."
+        },
+        "subtitle": "Truthseeker Utility 12",
+        "title": "Shrine of Clarity"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-shroud-of-stars",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath406",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Myriad specks of light swirl about you, hiding you from enemies.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, whenever you shift, you gain concealment until the start of your next turn.",
+        "title": "Shroud of Stars"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath406",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "Until the stance ends, whenever you shift, you gain concealment until the start of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Myriad specks of light swirl about you, hiding you from enemies.",
+        "flavor": "Myriad specks of light swirl about you, hiding you from enemies.",
+        "id": "modern4e.power.path-shroud-of-stars",
+        "keywords": [
+          "DIVINE",
+          "STANCE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7987",
+          "publication": "Published in Divine Power, page(s) 51.",
+          "rulesText": "Shroud of StarsSeldarine Dedicate Utility 12\nMyriad specks of light swirl about you, hiding you from enemies.\nDaily   ✦     Divine, Stance\nMinor Action      Personal\nEffect: Until the stance ends, whenever you shift, you gain concealment until the start of your next turn.\nPublished in Divine Power, page(s) 51."
+        },
+        "subtitle": "Seldarine Dedicate Utility 12",
+        "title": "Shroud of Stars"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-silver-brand",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath369",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A tongue of fire erupts on your foe's brow.\n\nDAILY / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Wisdom vs. Fortitude\n\nHit: 2d6 + Wisdom fire and radiant damage, and the target is blinded and dazed (save ends both). If the target is a demon, a devil, a shapechanger, or an undead, it also takes ongoing 10 fire damage and ongoing 10 radiant damage (save ends both).\n\nMiss: Half damage, and the target is blinded and dazed until the end of your next turn.",
+        "title": "Silver Brand"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath369",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "FORTITUDE",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "2d6 + Wisdom fire and radiant damage, and the target is blinded and dazed (save ends both). If the target is a demon, a devil, a shapechanger, or an undead, it also takes ongoing 10 fire damage and ongoing 10 radiant damage (save ends both).",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "Half damage, and the target is blinded and dazed until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 10",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. Fortitude",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A tongue of fire erupts on your foe's brow.",
+        "flavor": "A tongue of fire erupts on your foe's brow.",
+        "id": "modern4e.power.path-silver-brand",
+        "keywords": [
+          "DIVINE",
+          "FIRE",
+          "IMPLEMENT",
+          "RADIANT"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7566",
+          "publication": "Published in Eberron Player's Guide, page(s) 62.",
+          "rulesText": "Silver BrandExorcist of the Silver Flame Attack 20\nA tongue of fire erupts on your foe's brow.\nDaily   ✦     Divine, Fire, Implement, Radiant\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Fortitude\nHit: 2d6 + Wisdom modifier fire and radiant damage, and the target is blinded and dazed (save ends both). If the target is a demon, a devil, a shapechanger, or an undead, it also takes ongoing 10 fire damage and ongoing 10 radiant damage (save ends both).\nMiss: Half damage, and the target is blinded and dazed until the end of your next turn.\nPublished in Eberron Player's Guide, page(s) 62."
+        },
+        "subtitle": "Exorcist of the Silver Flame Attack 20",
+        "title": "Silver Brand"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-siren-voice",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath141",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your words inflame the passions of your adversary, mesmerizing your enemy for a short time.\n\nENCOUNTER / STANDARD\n\nRanged 5\n\nTarget: One creature\n\nAttack: Charisma vs. Will\n\nHit: The target is dominated until the end of your next turn or until the target is attacked.",
+        "title": "Siren Voice"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath141",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "The target is dominated until the end of your next turn or until the target is attacked.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Ranged 5",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "CHARISMA",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Charisma vs. Will",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your words inflame the passions of your adversary, mesmerizing your enemy for a short time.",
+        "flavor": "Your words inflame the passions of your adversary, mesmerizing your enemy for a short time.",
+        "id": "modern4e.power.path-siren-voice",
+        "keywords": [
+          "DIVINE",
+          "IMPLEMENT"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3546",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 56.",
+          "rulesText": "Siren VoiceHeartwarder Attack 11\nYour words inflame the passions of your adversary, mesmerizing your enemy for a short time.\nEncounter   ✦     Divine, Implement\nStandard Action      Ranged 5\nTarget: One creature\nAttack: Charisma vs. Will\nHit: The target is dominated until the end of your next turn or until the target is attacked.\nPublished in Forgotten Realms Player's Guide, page(s) 56."
+        },
+        "subtitle": "Heartwarder Attack 11",
+        "title": "Siren Voice"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-sunes-kiss",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath141",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your touch plants a seed of love in your foe's heart, overwhelming your enemy. Harm that befalls you injures your foe as well.\n\nDAILY / STANDARD\n\nMelee touch\n\nTarget: One creature\n\nAttack: Charisma + 2 vs. Will\n\nHit: You push the target 4 squares, and the target is dazed (save ends). In addition, until the end of the encounter or until you are reduced to 0 hit points or fewer, each time you take damage, the target takes half as much damage as you took.\n\nMiss: You push the target 2 squares, and the target is dazed until the end of its next turn.",
+        "title": "Sune's Kiss"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath141",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "You push the target 4 squares, and the target is dazed (save ends). In addition, until the end of the encounter or until you are reduced to 0 hit points or fewer, each time you take damage, the target takes half as much damage as you took.",
+                          "type": "effect"
+                        }
+                      ],
+                      "miss": [
+                        {
+                          "id": "row-4",
+                          "label": "Miss",
+                          "text": "You push the target 2 squares, and the target is dazed until the end of its next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Melee touch",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "text": "Charisma + 2 vs. Will",
+                    "type": "RULES_TEXT"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Charisma + 2 vs. Will",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee touch",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your touch plants a seed of love in your foe's heart, overwhelming your enemy. Harm that befalls you injures your foe as well.",
+        "flavor": "Your touch plants a seed of love in your foe's heart, overwhelming your enemy. Harm that befalls you injures your foe as well.",
+        "id": "modern4e.power.path-sunes-kiss",
+        "keywords": [
+          "DIVINE",
+          "IMPLEMENT"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3548",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 56.",
+          "rulesText": "Sune's KissHeartwarder Attack 20\nYour touch plants a seed of love in your foe's heart, overwhelming your enemy. Harm that befalls you injures your foe as well.\nDaily   ✦     Divine, Implement\nStandard Action      Melee touch\nTarget: One creature\nAttack: Charisma + 2 vs. Will\nHit: You push the target 4 squares, and the target is dazed (save ends). In addition, until the end of the encounter or until you are reduced to 0 hit points or fewer, each time you take damage, the target takes half as much damage as you took.\nMiss: You push the target 2 squares, and the target is dazed until the end of its next turn.\nPublished in Forgotten Realms Player's Guide, page(s) 56."
+        },
+        "subtitle": "Heartwarder Attack 20",
+        "title": "Sune's Kiss"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-sunes-shield",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath141",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "With divine compassion, you ward your ally from harm at your own expense.\n\nDAILY / MINOR\n\nRanged 10\n\nTarget: Two allies within 5 squares of each other, or an ally within 5 squares of you and yourself\n\nEffect: Until the end of the encounter, any time one of the targets takes damage, the other target can choose to take half that damage in the first target's stead.",
+        "title": "Sune's Shield"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath141",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Two allies within 5 squares of each other, or an ally within 5 squares of you and yourself"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "Until the end of the encounter, any time one of the targets takes damage, the other target can choose to take half that damage in the first target's stead.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "With divine compassion, you ward your ally from harm at your own expense.",
+        "flavor": "With divine compassion, you ward your ally from harm at your own expense.",
+        "id": "modern4e.power.path-sunes-shield",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3547",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 56.",
+          "rulesText": "Sune's ShieldHeartwarder Utility 12\nWith divine compassion, you ward your ally from harm at your own expense.\nDaily   ✦     Divine\nMinor Action      Ranged 10\nTargets: Two allies within 5 squares of each other, or an ally within 5 squares of you and yourself\nEffect: Until the end of the encounter, any time one of the targets takes damage, the other target can choose to take half that damage in the first target's stead.\nPublished in Forgotten Realms Player's Guide, page(s) 56."
+        },
+        "subtitle": "Heartwarder Utility 12",
+        "title": "Sune's Shield"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-swim-the-astral-sea",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath400",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You and your companion move effortlessly through astral currents, bypassing mundane impediments.\n\nDAILY / MINOR\n\nClose burst 10\n\nTarget: You and one ally in the burst\n\nEffect: Each target can shift a number of squares equal to his or her speed, ignoring difficult terrain. Each target is unaffected by the immobilized, restrained, and slowed conditions during this movement.",
+        "title": "Swim the Astral Sea"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath400",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "You and one ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "Each target can shift a number of squares equal to his or her speed, ignoring difficult terrain. Each target is unaffected by the immobilized, restrained, and slowed conditions during this movement.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You and your companion move effortlessly through astral currents, bypassing mundane impediments.",
+        "flavor": "You and your companion move effortlessly through astral currents, bypassing mundane impediments.",
+        "id": "modern4e.power.path-swim-the-astral-sea",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7901",
+          "publication": "Published in Divine Power, page(s) 45.",
+          "rulesText": "Swim the Astral SeaAstral Savant Utility 12\nYou and your companion move effortlessly through astral currents, bypassing mundane impediments.\nDaily   ✦     Divine\nMinor Action      Close burst 10\nTarget: You and one ally in the burst\nEffect: Each target can shift a number of squares equal to his or her speed, ignoring difficult terrain. Each target is unaffected by the immobilized, restrained, and slowed conditions during this movement.\nPublished in Divine Power, page(s) 45."
+        },
+        "subtitle": "Astral Savant Utility 12",
+        "title": "Swim the Astral Sea"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-trumpet-of-awe",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath403",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Astral trumpets announce your god. Your allies take heart and your enemies quail before the divine presence.\n\nENCOUNTER / STANDARD\n\nClose blast 3\n\nTarget: Each enemy in the blast\n\nAttack: Wisdom vs. Will\n\nHit: 1d8 + Wisdom thunder damage, and the target grants combat advantage until the end of your next turn.\n\nEffect: Each ally in the blast can make a saving throw with a bonus equal to your Charisma.",
+        "title": "Trumpet of Awe"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath403",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the blast"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "WILL",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-3",
+                          "label": "Hit",
+                          "text": "1d8 + Wisdom thunder damage, and the target grants combat advantage until the end of your next turn.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "row-2",
+                "label": "Attack",
+                "range": {
+                  "text": "Close blast 3",
+                  "type": "RULES_TEXT"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "WISDOM",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets-1",
+                "text": "Wisdom vs. Will",
+                "type": "attack"
+              },
+              {
+                "id": "row-4",
+                "label": "Effect",
+                "text": "Each ally in the blast can make a saving throw with a bonus equal to your Charisma.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close blast 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Astral trumpets announce your god. Your allies take heart and your enemies quail before the divine presence.",
+        "flavor": "Astral trumpets announce your god. Your allies take heart and your enemies quail before the divine presence.",
+        "id": "modern4e.power.path-trumpet-of-awe",
+        "keywords": [
+          "DIVINE",
+          "IMPLEMENT",
+          "THUNDER"
+        ],
+        "level": 11,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7977",
+          "publication": "Published in Divine Power, page(s) 48.",
+          "rulesText": "Trumpet of AweHoly Emissary Attack 11\nAstral trumpets announce your god. Your allies take heart and your enemies quail before the divine presence.\nEncounter   ✦     Divine, Implement, Thunder\nStandard Action      Close blast 3\nTarget: Each enemy in the blast\nAttack: Wisdom vs. Will\nHit: 1d8 + Wisdom modifier thunder damage, and the target grants combat advantage until the end of your next turn.\nEffect: Each ally in the blast can make a saving throw with a bonus equal to your Charisma modifier.\nPublished in Divine Power, page(s) 48."
+        },
+        "subtitle": "Holy Emissary Attack 11",
+        "title": "Trumpet of Awe"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-unholy-aura",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath931",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You whisper a prayer asking for protection. The evil within grows until none can bear to linger in your presence.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You activate an aura 1 that lasts until the end of the encounter. Whenever a creature ends its turn in the aura, you can push that creature 1 square as an opportunity action.",
+        "title": "Unholy Aura"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath931",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You activate an aura 1 that lasts until the end of the encounter. Whenever a creature ends its turn in the aura, you can push that creature 1 square as an opportunity action.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You whisper a prayer asking for protection. The evil within grows until none can bear to linger in your presence.",
+        "flavor": "You whisper a prayer asking for protection. The evil within grows until none can bear to linger in your presence.",
+        "id": "modern4e.power.path-unholy-aura",
+        "keywords": [
+          "AURA",
+          "DIVINE",
+          "FEAR"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power15969",
+          "publication": "Published in The Book of Vile Darkness, page(s) 1-26.",
+          "rulesText": "Unholy AuraIdol of Darkness Utility 12\nYou whisper a prayer asking for protection. The evil within grows until none can bear to linger in your presence.\nDaily   ✦     Aura, Divine, Fear\nMinor Action      Personal\nEffect: You activate an aura 1 that lasts until the end of the encounter. Whenever a creature ends its turn in the aura, you can push that creature 1 square as an opportunity action.\nPublished in The Book of Vile Darkness, page(s) 1-26."
+        },
+        "subtitle": "Idol of Darkness Utility 12",
+        "title": "Unholy Aura"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-victory-prayer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath888",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 20,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The power of the gods infuses you and your allies, raising you to unmatched heights of battle prowess.\n\nDAILY / MINOR\n\nClose burst 3\n\nTarget: You and one or two allies in the burst\n\nEffect: Each target can use an at-will attack power as a minor action once during his or her next turn.",
+        "title": "Victory Prayer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath888",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets-1": {
+                "kind": "TARGET_SET",
+                "text": "You and one or two allies in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-2",
+                "label": "Effect",
+                "text": "Each target can use an at-will attack power as a minor action once during his or her next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The power of the gods infuses you and your allies, raising you to unmatched heights of battle prowess.",
+        "flavor": "The power of the gods infuses you and your allies, raising you to unmatched heights of battle prowess.",
+        "id": "modern4e.power.path-victory-prayer",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 20,
+        "powerKind": "ATTACK",
+        "prerequisites": {
+          "minimum": 20,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power14362",
+          "publication": "Published in Dragon Magazine 400.",
+          "rulesText": "Victory PrayerParagon of Victory Attack 20\nThe power of the gods infuses you and your allies, raising you to unmatched heights of battle prowess.\nDaily   ✦     Divine\nMinor Action      Close burst 3\nTarget: You and one or two allies in the burst\nEffect: Each target can use an at-will attack power as a minor action once during his or her next turn.\nPublished in Dragon Magazine 400."
+        },
+        "subtitle": "Paragon of Victory Attack 20",
+        "title": "Victory Prayer"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [],
+        "status": "SUPPORTED"
+      },
+      "id": "modern4e.power.path-warding-flame",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath369",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 12,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You summon a silver flame that bolsters allies and punishes foes.\n\nDAILY / STANDARD\n\nArea burst 2 within 10 squares\n\nEffect: The burst creates a zone of silver flame that lasts until the end of your next turn. You and each ally within the zone gain resist 10 fire, resist 10 radiant, and a +2 power bonus to all defenses. Each enemy within the zone gains vulnerable 5 fire and vulnerable 5 radiant, and takes a -2 penalty to all defenses.\n\nSustain Minor: The zone persists.",
+        "title": "Warding Flame"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.path.paragonpath369",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "The burst creates a zone of silver flame that lasts until the end of your next turn. You and each ally within the zone gain resist 10 fire, resist 10 radiant, and a +2 power bonus to all defenses. Each enemy within the zone gains vulnerable 5 fire and vulnerable 5 radiant, and takes a -2 penalty to all defenses.",
+                "type": "effect"
+              },
+              {
+                "id": "row-2",
+                "label": "Sustain Minor",
+                "text": "The zone persists.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 2 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Combat/session effects (conditional weapon benefits, secondary actions, sustain rules and summoned creatures) are printed rules and require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You summon a silver flame that bolsters allies and punishes foes.",
+        "flavor": "You summon a silver flame that bolsters allies and punishes foes.",
+        "id": "modern4e.power.path-warding-flame",
+        "keywords": [
+          "DIVINE",
+          "ZONE"
+        ],
+        "level": 12,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 12,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7565",
+          "publication": "Published in Eberron Player's Guide, page(s) 62.",
+          "rulesText": "Warding FlameExorcist of the Silver Flame Utility 12\nYou summon a silver flame that bolsters allies and punishes foes.\nDaily   ✦     Divine, Zone\nStandard Action      Area burst 2 within 10 squares\nEffect: The burst creates a zone of silver flame that lasts until the end of your next turn. You and each ally within the zone gain resist 10 fire, resist 10 radiant, and a +2 power bonus to all defenses. Each enemy within the zone gains vulnerable 5 fire and vulnerable 5 radiant, and takes a -2 penalty to all defenses.\nSustain Minor: The zone persists.\nPublished in Eberron Player's Guide, page(s) 62."
+        },
+        "subtitle": "Exorcist of the Silver Flame Utility 12",
+        "title": "Warding Flame"
+      }
+    }
+  ],
+  "id": "entries-0011"
+}

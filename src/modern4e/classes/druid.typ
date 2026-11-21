@@ -28,6 +28,17 @@
       #content.classText(content.entry("modern4e.rule.druid-initial-powers").description)
       #classes.powerLinks(className: className);
     ]
+    #pagebreak(weak: true)
+
+    #align(center)[
+      = #className Paragon Paths
+    ]
+    #classes.zeitgeistPathReference()
+
+    #columns(2)[
+      #theme.pathBlocksFromJson("../content/paths/druid.json")
+    ]
+
     #pagebreak()
 
     #align(center)[

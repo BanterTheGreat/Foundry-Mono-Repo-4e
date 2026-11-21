@@ -31,6 +31,17 @@
 
     #set page(columns: 1)
 
+    #pagebreak(weak: true)
+
+    #align(center)[
+      = #className Paragon Paths
+    ]
+    #classes.zeitgeistPathReference()
+
+    #columns(2)[
+      #theme.pathBlocksFromJson("../content/paths/invoker.json")
+    ]
+
     #pagebreak()
 
     #align(center)[
