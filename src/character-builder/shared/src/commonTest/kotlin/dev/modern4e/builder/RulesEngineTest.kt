@@ -67,6 +67,12 @@ class RulesEngineTest {
         assertEquals(9, total(result.displayedSkill(Skill.ACROBATICS, draftSlot)))
         assertEquals(3, total(result.displayedSkill(Skill.MEDICINE, proficiencySource = null)))
         assertIs<ContractResult.Unavailable>(result.skill(Skill.MEDICINE))
+        val raised = evaluate(character(choice(pending), choice(known, slot = slot("creation", "theme"))).copy(level = 2),
+            pending, known, bonus)
+        assertIs<ContractResult.Unavailable>(raised.skill(Skill.MEDICINE))
+        assertEquals(9, total(raised.displayedSkill(Skill.MEDICINE)))
+        assertEquals(5, total(raised.displayedSkill(Skill.ACROBATICS)))
+        assertEquals(10, total(raised.displayedSkill(Skill.ACROBATICS, draftSlot)))
     }
 
     @Test
@@ -107,7 +113,7 @@ class RulesEngineTest {
     }
 
     @Test
-    fun modernAbilityAndSkillGoldenHasExplainedProficiencyWithoutHalfLevel() {
+    fun modernAbilityAndSkillGoldenHasExplainedProficiency() {
         val result = evaluate()
         assertEquals(4, total(result.ability(Ability.STRENGTH)))
         assertEquals(6, total(result.skill(Skill.MEDICINE)))
@@ -120,12 +126,33 @@ class RulesEngineTest {
             assertEquals(total(result.ability(skill.ability)) + if (skill in result.proficiencies) 5 else 0, total(result.skill(skill)))
         }
         val medicine = assertIs<ContractResult.Available<CalculatedValue>>(result.skill(Skill.MEDICINE)).value
-        assertEquals(listOf(1, 5), medicine.contributors.map { it.value })
+        assertEquals(listOf(1, 0, 5), medicine.contributors.map { it.value })
         assertEquals(slot("creation", "free-skill"), medicine.contributors.last().source)
         assertEquals(4, result.choices.count { it.skills.isNotEmpty() })
         val (missingRoots, other) = result.diagnostics.partition { it.code == "engine.missingRootChoice" }
         assertEquals(listOf("ancestry", "theme", "feat"), missingRoots.map { it.slot?.choiceId })
         assertTrue(other.isEmpty(), other.toString())
+    }
+
+    @Test
+    fun skillsIncludeFlooredHalfLevelOnceForTrainedUntrainedAndDraftProficiency() {
+        for (level in 1..3) {
+            val document = character().copy(level = level)
+            val result = evaluate(document)
+            for (skill in Skill.entries) {
+                val points = total(result.ability(skill.ability))
+                val proficiency = if (skill in result.proficiencies) 5 else 0
+                val expected = points + level / 2 + proficiency
+                assertEquals(expected, total(result.skill(skill)), "$skill at level $level")
+                assertEquals(expected, total(result.displayedSkill(skill)), "displayed $skill at level $level")
+                assertEquals(points + level / 2, total(result.displayedSkill(skill, proficiencySource = null)))
+                assertEquals(points + level / 2 + 5,
+                    total(result.displayedSkill(skill, slot("creation", "free-skill"))))
+                val value = assertIs<ContractResult.Available<CalculatedValue>>(result.skill(skill)).value
+                assertEquals(level / 2, value.contributors.filter { it.label == "Half level" }.sumOf { it.value })
+                assertEquals(1, value.contributors.count { it.label == "Half level" })
+            }
+        }
     }
 
     @Test
@@ -261,7 +288,7 @@ class RulesEngineTest {
     }
 
     @Test
-    fun levelTwoProgressionAddsSlotsAndHalfLevelOnlyToArmorClass() {
+    fun levelTwoProgressionAddsSlotsAndHalfLevelToSkillsAndArmorClass() {
         val utility = entry("utility", EntryCategory.POWER)
         val parent = fighter.copy(mechanics = fighter.mechanics.copy(progression = listOf(ClassProgression(2,
             choices = listOf(ChoiceDefinition.Entries("utility", 1, listOf("utility"))),
@@ -269,10 +296,10 @@ class RulesEngineTest {
         val document = character().let { doc -> doc.copy(level = 2, levels = listOf(doc.levels.single().copy(entries =
             listOf(choice(parent, "fighter", slot("creation", "class")))), LevelDecisions(2, entries = listOf(choice(utility, slot = slot("fighter", "utility")))))) }
         val result = evaluate(document, parent, utility)
-        assertEquals(6, total(result.skill(Skill.MEDICINE)))
+        assertEquals(7, total(result.skill(Skill.MEDICINE)))
         assertEquals(30, total(result.statistics.getValue(ModifierTarget(Statistic.HIT_POINTS)).value))
         assertEquals(2, result.entries.size)
-        assertEquals(14, total(result.statistics.getValue(ModifierTarget(Statistic.AC)).value))
+        assertEquals(13, total(result.statistics.getValue(ModifierTarget(Statistic.AC)).value))
     }
 
     @Test

@@ -1267,7 +1267,7 @@ class BuilderSessionTest {
         model.create("modern4e.class.wizard")
         val rules = model.current!!.rules
 
-        assertEquals("15", rules.defenseDisplay(Statistic.AC))
+        assertEquals("14", rules.defenseDisplay(Statistic.AC))
         assertEquals("12", rules.defenseDisplay(Statistic.FORTITUDE))
         assertEquals("16", rules.defenseDisplay(Statistic.REFLEX))
         assertEquals("14", rules.defenseDisplay(Statistic.WILL))

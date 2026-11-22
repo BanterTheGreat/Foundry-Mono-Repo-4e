@@ -60,12 +60,14 @@ internal class DefenseEquipment(entries: List<EngineEntry>, proficiencies: Set<S
         return ContractResult.Available(CalculatedValue(total.toInt(), listOf(base, higher)))
     }
 
-    /** Every defense gets its tier bonus; AC also receives half the level, rounded down. */
+    /** Fortitude, Reflex and Will get the tier bonus; AC gets half the level, rounded down, instead. */
     fun modifiers(statistic: Statistic, level: Int): List<ModifierContribution> = buildList {
         fun addDefense(value: Int, title: String, key: String, source: ChoiceSlotId? = null) {
             add(ModifierContribution(TypedModifier(ModifierTarget(statistic), ModifierOperation.ADD, value), title, key, source))
         }
-        addDefense((level - 1) / 10 + 1, "Tier bonus", "modern.defense-tier")
+        if (statistic != Statistic.AC) {
+            addDefense((level - 1) / 10 + 1, "Tier bonus", "modern.defense-tier")
+        }
         if (statistic == Statistic.AC) {
             addDefense(level / 2, "Half level", "modern.armor-half-level")
             wornArmor?.armorBonus?.let { addDefense(it, wornArmor.title, "modern.armor-bonus", wornArmor.slot) }

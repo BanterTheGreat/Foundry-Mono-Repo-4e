@@ -12,7 +12,7 @@ Feat tier ceilings and power requirements: run `.\gradlew.bat :android:testDebug
 
 Always-visible picker options: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest :android:assembleDebug`. `ProgressionOptionsTest`, `PowerReaderOptionsTest` and `ClassPickerOptionsTest` verify tier/level/name ordering within eligibility groups, ineligible rows last in ordinary pickers, search across ineligible rows, and inline class sections, and preserved pending/unavailable/explicit-selection safeguards. Device UI tests remain opt-in.
 
-Ancestry size and defense corrections: from `src/character-builder`, run `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. `DefenseRulesTest` verifies light/unarmored Int/Dex selection, heavy armor, odd/even half-level AC and tier bonuses on all defenses. Shared class tests verify explicit class bonus contributors. Android overview/session tests cover read-only ancestry size and retained legacy fields; `StatsDisplayTest` covers the defense breakdown.
+Ancestry size and defense corrections: from `src/character-builder`, run `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. `DefenseRulesTest` verifies light/unarmored Int/Dex selection, heavy armor, odd/even half-level AC and tier bonuses on Fortitude, Reflex and Will only (none on AC). Shared class tests verify explicit class bonus contributors. Android overview/session tests cover read-only ancestry size and retained legacy fields; `StatsDisplayTest` covers the defense breakdown.
 
 Armor order and Ability Increase previews: run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder`. `EquipmentOptionsTest` checks numeric AC order, ties, unknown bonuses and existing category/proficiency grouping. `ProgressionTest` checks fresh and saved +1 previews, moving/clearing drafts, invalid saved choices and preservation of other ability totals. `EquipmentOptionsTest` also covers a queued equipment pick (returns at once, shows the pending value, commits in the background) and storing an ineligible item only when accepted, flagged on Validation.
 
@@ -934,6 +934,11 @@ npm test --prefix web
 npm run build --prefix web
 npm run test:browser --prefix web
 ```
+
+Skill half-level scaling is covered by `RulesEngineTest` on JVM and JS: run
+`.\gradlew.bat :shared:jvmTest :shared:jsNodeTest --tests "dev.modern4e.builder.RulesEngineTest"`
+from `src/character-builder/`. It checks evaluated and displayed skills, proficiency,
+and rounding at odd and even levels.
 
 `ValueChoicesTest` covers scoped language/damage/proficiency/qualification facts,
 distinctness, exhaustion/fallback, independent damage grants, historical facts,

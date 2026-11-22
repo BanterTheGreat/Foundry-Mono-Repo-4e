@@ -263,8 +263,8 @@ class ProductionContentPackagesTest {
         assertTrue(result.state.rules.diagnostics.none { it.code == "engine.equipmentCategory" })
         val before = operations.evaluate(sample).rules
         val after = result.state.rules
-        assertEquals(13, assertIs<ContractResult.Available<CalculatedValue>>(before.displayedDefense(Statistic.AC)).value.total)
-        assertEquals(17, assertIs<ContractResult.Available<CalculatedValue>>(after.displayedDefense(Statistic.AC)).value.total)
+        assertEquals(12, assertIs<ContractResult.Available<CalculatedValue>>(before.displayedDefense(Statistic.AC)).value.total)
+        assertEquals(16, assertIs<ContractResult.Available<CalculatedValue>>(after.displayedDefense(Statistic.AC)).value.total)
         val ac = ModifierTarget(Statistic.AC)
         assertEquals(before.statistics - ac, after.statistics - ac)
     }

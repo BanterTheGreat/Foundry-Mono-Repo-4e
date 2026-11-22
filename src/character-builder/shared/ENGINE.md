@@ -22,9 +22,9 @@ equipment proficiencies and closed linear formulas over level/direct abilities.
 The main-ability slot is `(class instance, "main", 0)`. Class HP, surges and three
 non-AC defenses use these formulas and return an explanation of every term.
 Missing/invalid dependencies, conflicting class profiles and integer overflow
-produce unavailable values. All four defenses include the default
+produce unavailable values. Fortitude, Reflex and Will include the default
 Modern 4e tier bonus once: +1 at levels 1-10, +2 at 11-20 and +3 at 21-30.
-Armor Class also adds half the character level, rounded down, and is otherwise
+Armor Class gets no tier bonus; it adds half the character level, rounded down, and is otherwise
 10 plus the greater of direct Dexterity
 or Intelligence points in light armor or without armor, plus the equipped
 armor's listed bonus. Heavy armor replaces the ability contribution. A proficient
@@ -112,8 +112,9 @@ allocations make ability and dependent skill calculations unavailable.
 
 The 16 `Skill` identities and their ability mappings come from
 `glossary/skill_checks.typ` and `glossary/balance_changes.typ`. A displayed skill
-bonus is its default ability's direct points plus **5** for proficiency and
-applicable modifiers. No half-level or vanilla ability-score conversion is used.
+bonus is its default ability's direct points plus **half the character's level
+(rounded down)**, **5** for proficiency, and applicable modifiers. Half-level
+applies to proficient and untrained skills. No vanilla ability-score conversion is used.
 These are builder statistics; live GM-selected alternate-ability checks are not
 a session feature of this builder.
 

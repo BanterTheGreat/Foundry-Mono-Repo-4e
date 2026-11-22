@@ -30,7 +30,7 @@ class AdvancementRulesTest {
             val rules = evaluate(document(level))
             assertEquals(4 + (if (level >= 8) 1 else 0) + (if (level >= 16) 1 else 0) + (if (level >= 20) 1 else 0), total(rules, Ability.STRENGTH), "level $level")
             assertEquals(2 + (if (level >= 4) 1 else 0) + (if (level >= 12) 1 else 0) + (if (level >= 16) 1 else 0), total(rules, Ability.DEXTERITY), "level $level")
-            assertEquals(total(rules, Ability.DEXTERITY), assertIs<ContractResult.Available<CalculatedValue>>(rules.skill(Skill.ACROBATICS)).value.total)
+            assertEquals(total(rules, Ability.DEXTERITY) + level / 2, assertIs<ContractResult.Available<CalculatedValue>>(rules.skill(Skill.ACROBATICS)).value.total)
             assertFalse(rules.diagnostics.any { it.code == "engine.progressionUnsupported" })
         }
     }

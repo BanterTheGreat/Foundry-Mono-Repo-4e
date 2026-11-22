@@ -554,7 +554,10 @@ private class Evaluation(
             val ability = abilityValues.getValue(skill.ability).value
             val target = ModifierTarget(Statistic.SKILL_CHECK, skill = skill)
             val proficiency = skillProficiency(skill, proficiencies[skill]?.firstOrNull())
-            val contributions = proficiency + modifiers.filter { it.modifier.target == target }
+            val halfLevel = ModifierContribution(
+                TypedModifier(target, ModifierOperation.ADD, document.level / 2),
+                "Half level", "modern.skill-half-level:$skill")
+            val contributions = listOf(halfLevel) + proficiency + modifiers.filter { it.modifier.target == target }
             statistics[target] = ModifierCalculator.calculate(ability, contributions)
         }
         val defenseEquipment = DefenseEquipment(entries, equipmentProficiencies.keys)

@@ -43,7 +43,7 @@ class SharedClassTest {
     fun fighterHasLocalFormulaGoldensIndependentChoicesAndThreeAutomaticPowers() {
         val result = evaluate()
         for ((statistic, expected) in mapOf(Statistic.HIT_POINTS to 29, Statistic.HEALING_SURGES to 11,
-            Statistic.AC to 13, Statistic.FORTITUDE to 20, Statistic.REFLEX to 15, Statistic.WILL to 12)) {
+            Statistic.AC to 12, Statistic.FORTITUDE to 20, Statistic.REFLEX to 15, Statistic.WILL to 12)) {
             val value = calculation(result, statistic)
             assertEquals(expected, value.total)
             assertEquals(expected, value.contributors.sumOf { it.value })
@@ -64,7 +64,7 @@ class SharedClassTest {
     }
 
     @Test
-    fun everyDefenseGetsTierBonusWhileArmorClassAlsoGetsFlooredHalfLevel() {
+    fun nonAcDefensesGetTierBonusWhileArmorClassGetsFlooredHalfLevelInstead() {
         val doc = character()
         for ((level, tier) in listOf(1 to 1, 2 to 1, 3 to 1, 10 to 1, 11 to 2, 20 to 2, 21 to 3, 30 to 3)) {
             val target = ModifierTarget(Statistic.FORTITUDE)
@@ -83,8 +83,8 @@ class SharedClassTest {
             assertEquals(11 + points(Ability.DEXTERITY) + points(Ability.INTELLIGENCE) + tier, calculation(result, Statistic.REFLEX).total)
             assertEquals(11 + points(Ability.WISDOM) + points(Ability.CHARISMA) + tier, calculation(result, Statistic.WILL).total)
             val ac = calculation(result, Statistic.AC)
-            assertEquals(10 + maxOf(points(Ability.DEXTERITY), points(Ability.INTELLIGENCE)) + level / 2 + tier, ac.total)
-            assertEquals(1, ac.contributors.count { it.label == "Tier bonus" && it.value == tier })
+            assertEquals(10 + maxOf(points(Ability.DEXTERITY), points(Ability.INTELLIGENCE)) + level / 2, ac.total)
+            assertEquals(0, ac.contributors.count { it.label == "Tier bonus" })
             assertEquals(level / 2, ac.contributors.filter { it.label == "Half level" }.sumOf { it.value })
         }
     }
@@ -99,7 +99,7 @@ class SharedClassTest {
         val result = evaluate(draft)
         assertIs<ContractResult.Unavailable>(result.statistics.getValue(ModifierTarget(Statistic.FORTITUDE)).value)
         assertEquals(18, assertIs<ContractResult.Available<CalculatedValue>>(result.displayedDefense(Statistic.FORTITUDE)).value.total)
-        assertEquals(11, assertIs<ContractResult.Available<CalculatedValue>>(result.displayedDefense(Statistic.AC)).value.total)
+        assertEquals(10, assertIs<ContractResult.Available<CalculatedValue>>(result.displayedDefense(Statistic.AC)).value.total)
         val missing = RulesEngine.evaluate(draft, content(draft).copy(selections = emptyMap()))
         assertIs<ContractResult.Unavailable>(missing.displayedDefense(Statistic.FORTITUDE))
         assertIs<ContractResult.Unavailable>(missing.displayedDefense(Statistic.AC))

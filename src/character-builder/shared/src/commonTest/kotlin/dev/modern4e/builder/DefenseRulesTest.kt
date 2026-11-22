@@ -33,7 +33,7 @@ class DefenseRulesTest {
                     val value = assertIs<ContractResult.Available<CalculatedValue>>(
                         ModifierCalculator.calculate(ContractResult.Available(base), modifiers).value).value
                     val ability = if (category == "HEAVY") 0 else maxOf(dexterity, intelligence)
-                    assertEquals(10 + ability + armorBonus + level / 2 + (level - 1) / 10 + 1, value.total,
+                    assertEquals(10 + ability + armorBonus + level / 2, value.total,
                         "category=$category level=$level Dex=$dexterity Int=$intelligence")
                     assertEquals(value.total, value.contributors.sumOf { it.value })
                 }
@@ -42,12 +42,16 @@ class DefenseRulesTest {
     }
 
     @Test
-    fun allFourDefensesReceiveExactlyOneTierBonusAndOnlyAcReceivesHalfLevel() {
+    fun nonAcDefensesReceiveExactlyOneTierBonusAndOnlyAcReceivesHalfLevel() {
         val equipment = DefenseEquipment(emptyList(), emptySet())
         for ((level, tier) in listOf(1 to 1, 10 to 1, 11 to 2, 20 to 2, 21 to 3, 30 to 3)) {
             for (statistic in defenseStatistics) {
                 val contributions = equipment.modifiers(statistic, level)
-                assertEquals(tier, contributions.single { it.label == "Tier bonus" }.modifier.value)
+                if (statistic == Statistic.AC) {
+                    assertTrue(contributions.none { it.label == "Tier bonus" }, "AC level=$level")
+                } else {
+                    assertEquals(tier, contributions.single { it.label == "Tier bonus" }.modifier.value)
+                }
                 assertEquals(if (statistic == Statistic.AC) level / 2 else 0,
                     contributions.filter { it.label == "Half level" }.sumOf { it.modifier.value })
                 assertEquals(if (statistic == Statistic.AC) 1 else 0,

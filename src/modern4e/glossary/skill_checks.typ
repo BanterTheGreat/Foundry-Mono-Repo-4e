@@ -27,7 +27,7 @@
         You may be proficient in a skill through your background, class or some other method. When you are proficient in a skill, you add a +5 bonus to any roll made with that skill.
 
         = Making a skill check
-        Whenever an adventurer tries to do something while outside of combat, the GM may call for a Skill check. The GM will say what ability fits the action the most and then the adventurer rolls 1D20 + their points in that ability + any other bonuses that may apply, such as their background.
+        Whenever an adventurer tries to do something while outside of combat, the GM may call for a Skill check. The GM will say what ability fits the action the most and then the adventurer rolls 1D20 + half their level (rounded down) + their points in that ability + any other bonuses that may apply, such as their background. Half-level applies whether or not the adventurer is proficient in the skill.
 
         Each Skill check has a target number that needs to be hit, that is the Difficulty Class (DC). When rolling for a Skill check, decide whether you want it be an Easy, Normal, Hard, or Extreme task, and use the corresponding DC from the table below, then compare your total roll to that DC to determine the degree of success:
 
