@@ -89,3 +89,27 @@ Two Legendary skills is the maximum. The level 27 and 30 increases are the only 
 - Decide whether Master and Legendary should unlock skill utility powers or other ways to use a skill.
 
 The proposed skill list and guidance for choosing an ability are in [Skills Overhaul](SKILLS_OVERHAUL.md).
+
+## What if skill increases had different rank caps?
+
+Start with four skills. Choose one to be Expert (+5) and three to be Trained (+3). Untrained skills give +0. Master gives +7 and Legendary gives +9. The rank bonus applies whichever ability the check uses.
+
+Gain one skill increase every three levels. Each increase moves one skill up one rank, subject to the cap for that pick.
+
+| Levels | Highest rank | Can train a new skill? |
+| --- | --- | --- |
+| 3, 6, 9, 15, 21 | Expert (+5) | Yes |
+| 12, 18, 24 | Master (+7) | Yes |
+| 27, 30 | Legendary (+9) | No |
+
+A Master-capped pick can also raise a Trained skill to Expert. Learning a new skill raises it from Untrained to Trained and uses the whole pick.
+
+This example prioritizes the three skills in bold. It raises Society and Nature at levels 3 and 6, then Crafting at 12. The picks at 9, 15, and 21 go to Stealth and Medicine. Society and Nature reach Master at 18 and 24, then Crafting and Society reach Legendary at 27 and 30.
+
+| Skill | Level 1 | Level 15 | Level 30 |
+| --- | ---: | ---: | ---: |
+| **Crafting** | +5 | +7 | +9 |
+| **Society** | +3 | +5 | +9 |
+| **Nature** | +3 | +5 | +7 |
+| Stealth | +3 | +5 | +5 |
+| Medicine | +0 | +3 | +5 |
