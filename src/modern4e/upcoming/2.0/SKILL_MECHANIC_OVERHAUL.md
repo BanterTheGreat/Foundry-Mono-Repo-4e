@@ -113,3 +113,100 @@ This example prioritizes the three skills in bold. It raises Society and Nature 
 | **Nature** | +3 | +5 | +7 |
 | Stealth | +3 | +5 | +5 |
 | Medicine | +0 | +3 | +5 |
+
+
+## What If — Half ability points and skill ranks
+
+Keep the current skill list. For a skill check, roll 1d20 and add half your level (rounded down), half your relevant ability points (rounded down), and your skill rank bonus. An ability of 2–3 contributes +1 and an ability of 4–5 contributes +2.
+
+| Rank | Bonus | Proposed access |
+| --- | ---: | --- |
+| Untrained | +0 | Default |
+| Trained | +3 | Convert existing proficiency grants to Trained |
+| Expert | +5 | Available from level 3 |
+| Specialist | +7 | Available from level 11 |
+| Master | +9 | Available from level 21 |
+
+Grant one skill advancement at levels 3, 6, 9, 11, 15, 18, 21, 24, 27, and 30. Spend it to learn a new skill or raise one existing skill by one rank, subject to the level gates. The level 11 and 21 advancements let a character take the new rank at the start of its tier. Trained satisfies existing skill utility proficiency prerequisites. This PoC uses rank bonuses alone.
+
+Keep the existing Normal DC progression, starting at 12. Set Easy to Normal −3 and Hard to Normal +3 at every level. The Normal DCs in level order are:
+
+| Levels | Normal DCs |
+| --- | --- |
+| 1–10 | 12, 13, 13, 14, 15, 15, 16, 16, 17, 18 |
+| 11–20 | 19, 20, 20, 21, 22, 22, 23, 23, 24, 25 |
+| 21–30 | 26, 27, 27, 28, 29, 29, 30, 30, 31, 32 |
+
+Count meeting the DC as success, including success with a minor hurdle. The chance in percent is 5 × (21 + total bonus − DC), bounded between 5% and 95% by the natural 20 and natural 1 rules.
+
+| Level 1 rank and ability contribution | Easy 9 | Normal 12 | Hard 15 |
+| --- | ---: | ---: | ---: |
+| Untrained +1 | 65% | 50% | 35% |
+| Untrained +2 | 70% | 55% | 40% |
+| Trained +1 | 80% | 65% | 50% |
+| Trained +2 | 85% | 70% | 55% |
+
+The table below shows Normal success chances for a fixed +1 ability contribution. Dashes mark ranks unavailable at the level shown.
+
+| Level | Normal DC | Untrained | Trained | Expert | Specialist | Master |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 12 | 50% | 65% | — | — | — |
+| 3 | 13 | 50% | 65% | 75% | — | — |
+| 6 | 15 | 50% | 65% | 75% | — | — |
+| 9 | 17 | 45% | 60% | 70% | — | — |
+| 11 | 19 | 40% | 55% | 65% | 75% | — |
+| 20 | 25 | 35% | 50% | 60% | 70% | — |
+| 21 | 26 | 30% | 45% | 55% | 65% | 75% |
+| 30 | 32 | 25% | 40% | 50% | 60% | 70% |
+
+Training adds 15 percentage points, and each later rank adds another 10 when the natural-roll bounds do not apply. A Trained character with +1 from ability stays 10 points ahead of an Untrained character with +2 on Normal checks throughout the progression.
+
+On the current DC curve, a character with +1 from ability has a 75% chance against a Normal check of their own level when they first reach Expert at level 3, Specialist at level 11, and Master at level 21. Within each rank, the chance can fall as the DC rises. If the PoC should make specialists increasingly reliable against challenges of their own level, test a Normal DC of 12 + half level rounded down, with the same Easy and Hard offsets. On that curve, a fixed +1 ability gives Normal success chances of 50%, 65%, 75%, 85%, and 95% from Untrained through Master.
+
+
+### What If — Half-level DCs with rank unlock increases
+
+Test Normal DC = 12 + half level rounded down, plus cumulative increases of +1 at level 3 (Expert), +2 more at level 11 (Specialist), and +2 more at level 21 (Master). Easy is Normal −3 and Hard is Normal +3. Normal DC is 12 at level 1, 14 at level 3, 20 at level 11, 27 at level 21, and 32 at level 30.
+
+Use Untrained +0, Trained +3, Expert +5, Specialist +7, and Master +9. Add half level rounded down and half the current ability points rounded down. Keep the current skill list and natural-roll outcomes. Use [the revised ability track](ABILITY_UPDATE.md) from level 11 onward and the existing track through level 10. The modeled main ability starts at 4 and gains points at 8, 14, 18, and 28. The modeled non-main ability starts at 2 or 3 and is selected at every opportunity (4, 11, 16, 21, and 24).
+
+The DC increase at Expert leaves a net +1 for a character who takes the promotion. At Specialist and Master, the promotion matches the DC increase. On the non-main path starting at 2, at level 21 Trained succeeds 50% on Normal and 35% on Hard, and Master succeeds 80% on Normal and 65% on Hard. These figures exclude item bonuses. For playtesting, use Normal to gauge whether a secondary Trained skill still contributes and Hard to gauge the payoff for a signature skill.
+
+#### Published 4e equipment benchmark
+
+The local 4e compendium sample groups equipment by published item level and counts each variant once, using its highest explicit fixed item bonus to skill checks in a property. It excludes consumables, alternative rewards, activated powers, and bonuses limited to a particular use of a skill. These are averages among qualifying equipment variants, with no estimate of how often a character has one equipped.
+
+| Item level | Mean bonus | Variants |
+| ---: | ---: | ---: |
+| 1 | +1.00 | 2 |
+| 2 | +1.43 | 7 |
+| 3 | +3.75 | 4 |
+| 4 | +2.75 | 4 |
+| 5 | +1.78 | 9 |
+| 6 | +2.00 | 4 |
+| 7 | +1.90 | 10 |
+| 8 | +3.40 | 5 |
+| 9 | +2.10 | 10 |
+| 10 | +2.43 | 7 |
+| 11 | +2.60 | 5 |
+| 12 | +1.91 | 11 |
+| 13 | +3.57 | 7 |
+| 14 | +2.08 | 12 |
+| 15 | +2.27 | 11 |
+| 16 | +2.88 | 8 |
+| 17 | +2.22 | 9 |
+| 18 | +3.33 | 15 |
+| 19 | +2.09 | 11 |
+| 20 | +3.56 | 9 |
+| 21 | +3.86 | 7 |
+| 22 | +2.75 | 8 |
+| 23 | +4.36 | 11 |
+| 24 | +2.50 | 8 |
+| 25 | +2.88 | 8 |
+| 26 | +4.00 | 4 |
+| 27 | +2.90 | 10 |
+| 28 | +4.29 | 7 |
+| 29 | +2.11 | 9 |
+| 30 | +4.33 | 6 |
+
+The sample averages +2.19 in heroic, +2.62 in paragon, and +3.33 in epic. [Boots of Stealth](https://iws.mx/dnd/?view=item764) give +2/+4/+6 at item levels 3/13/23. [Headband of Perception](https://iws.mx/dnd/?view=item1520) gives +1/+3/+5 at item levels 1/11/21. A +2 bonus has the same numerical effect as the proposed promotion above Trained. Test equipment on a signature skill after establishing the baseline odds.
