@@ -4,7 +4,7 @@ Modern 4e 2.0 would give every character a way to use what they know when talkin
 
 ## Proposed skill list
 
-The proposed list has 14 skills. It drops Diplomacy and Perception, replaces Intimidate with Command, and renames Thievery to Finesse and Bluff to Deception. All checks use skills.
+The proposed list has 14 skills. It drops Diplomacy and Perception, replaces Intimidate with Command, and renames Thievery to Finesse and Bluff to Deception.
 
 | Skill | Default ability | What it’s for |
 | --- | --- | --- |
@@ -29,9 +29,11 @@ Each skill has a default ability for its most common use. When a character makes
 
 For example, use Stealth with Dexterity to slip past a lookout and Stealth with Wisdom to spot a lookout who’s trying to stay hidden. Use Command with Charisma to give a convincing order or Command with Strength to back up a threat with a show of force.
 
+**Ability checks.** If the outcome is uncertain and no skill fits the approach, the GM calls for a check using the ability that best fits what the character is doing.
+
 ## How to handle social checks
 
-**Persuasion.** There’s no dedicated persuasion skill. The GM picks the skill that best fits what the character does. Bartering usually calls for Society with Intelligence. If the character is proficient in the chosen skill, add the usual +5. If no skill fits, resolve the appeal through what the character says or offers and what matters to the NPC.
+**Persuasion.** There’s no dedicated persuasion skill. The GM picks the skill that best fits what the character does. Bartering usually calls for Society with Intelligence. If the NPC’s response is clear from what the character says or offers and what matters to the NPC, go with that response. If the response is uncertain and the character is relying on sincerity, warmth, or flattery, make a Charisma check. For example, use Charisma to see whether a suspicious guard believes your sincere explanation for being there.
 
 **Deception (Charisma).** Use Deception when you want someone to act on something false they believe. Claiming to be an inspector is a Deception check. If their decision comes down to whether a forged seal looks real, roll Crafting with Intelligence. A successful Deception can keep someone cooperating for as long as they believe the lie.
 

@@ -35,6 +35,20 @@ Use a simple armor rule to keep the average monster's chance to hit a player at 
 - Monster attack rises 1 per level, so AC should too. Half level adds AC on even levels and enhancement on 2, 6, 11, 16, 21 and 26. The extra bonus increases on odd levels. Its only overlap with an enhancement increase is at level 21, when the two add up to +2 AC. No level gains more than 2 AC, so the hit chance changes by at most 5 percentage points between levels.
 - A tier bonus to AC is not part of this (the rulebook gives +1/+2/+3 by tier to attack, Fortitude, Reflex and Will only).
 
+### Fortitude, Reflex, and Will
+
+Use the higher ability in each pair as the defense's ability contribution.
+
+| Defense | Ability contribution |
+| --- | --- |
+| Fortitude | Higher of Strength and Constitution |
+| Reflex | Higher of Dexterity and Intelligence |
+| Will | Higher of Wisdom and Charisma |
+
+Each defense equals its class base + the higher ability + half level (rounded down) + magic neck enhancement + the built-in tier bonus (+1/+2/+3). The light armor +3 cap applies only to AC.
+
+In the shieldless comparison using the [2.0 ability progression](ABILITY_UPDATE.md), a same-level monster attacks AC at level + 5 and the other defenses at level + 3. Using the higher ability raises the average hit chance against Fortitude, Reflex, and Will from 51.0% to 56.0% across levels 1–30. The average absolute gap from Scale AC drops from 5.37 to 2.72 percentage points. For Hide with +2 Dex or Int at level 1 and a boost at level 8, the gap drops from 6.54 to 3.89 points. The comparison starts the three ability pairs at 4/0, 2/1, and 1/1 and uses elective boosts on the stronger abilities in the first two pairs.
+
 ## Results
 
 ![Enemy hit chance by armor over levels 1–30](../../armor-ac-hit-chance.svg)
@@ -64,7 +78,6 @@ The table shows AC at levels 1 and 30 for a character whose main ability is Dex 
 - Chainmail matches Leather at 15 but has a -1 speed penalty; Cloth and Mage Armor are worse than both for any class that can take them.
 - Which classes may take which armor. The repo already has a general feat, Armor Proficiency, that moves one step up Cloth, Leather, Hide, Chainmail, Scale, Plate, and features that give Cleric (Battlepriest's Lore) and Warlord (Armored Warlord) scale proficiency and Sorcerer (Leatherbound Sorcerer) leather. With flat heavy armors, one feat is worth +1 to +2 AC.
 - The chart models a heavy shield with Plate. Other shield combinations are still open.
-- Fortitude, Reflex and Will may drift against monster attacks the same way AC did; not checked.
 - The earlier comparison of vanilla 4e AC for Barbarian, Druid and Shaman was built on the old kit values and needs redoing.
 
 ## What to do after approval
@@ -72,5 +85,5 @@ The table shows AC at levels 1 and 30 for a character whose main ability is Dex 
 1. Change the armor bonuses in `src/modern4e/content/equipment/equipment.json` to the values above (Cloth 0, Leather +2, Hide +3, Chainmail +5, Scale +6, Plate +7), add the +3 Dex/Int cap for unarmored (Cloth), Leather and Hide, then regenerate with `python3 src/modern4e/scripts/equipment_content.py` and `python3 src/character-builder/content/build.py --modern-equipment --check`, and check the production-generated packages under `src/character-builder/content/production-generated/modern4e.equipment/`.
 2. Change `src/character-builder/shared/src/commonMain/kotlin/dev/modern4e/builder/DefenseRules.kt`: cap the Dex/Int contribution per armor and add the +1 every four levels from level 5. Update `shared/ENGINE.md`.
 3. Update tests that hard-code armor values (`ProductionContentPackagesTest.kt`, `SharedContentAcceptanceTest.kt`, `DefenseRulesTest.kt`, `EquipmentDefenseTest.kt`, fixtures under `shared/fixtures`, `content/samples.py`) and add coverage for the caps and the added bonus.
-4. Update `FEATURES.md` and `tests/README.md`; update the rulebook armor table and the AC rules, then `npm run typst:compile` and check the page.
+4. Update the builder and rulebook formulas for Fortitude, Reflex, and Will to use the higher ability and add half level. Test ties, advancement, and rounding. Update `FEATURES.md`, `tests/README.md`, and the rulebook armor and AC rules, then run `npm run typst:compile` and check the affected pages.
 5. Remove the queued item from memory (`project-armor-ac-todo.md`) and delete this file.

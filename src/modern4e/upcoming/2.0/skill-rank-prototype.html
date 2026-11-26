@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modern 4e Skill Rank Prototype</title>
+<style>
+:root { color-scheme: light dark; font: 16px/1.45 system-ui; }
+body { margin: 8px auto; max-width: 680px; color: var(--foreground, CanvasText); }
+h1 { font-size: 1.55rem; margin: 0; }
+p { margin: .55rem 0; }
+button { font: inherit; padding: .35rem .6rem; border: 1px solid var(--border, GrayText); border-radius: 6px; cursor: pointer; }
+button:disabled { cursor: default; opacity: .55; }
+button[aria-pressed=true], #guided { background: var(--primary, #285e74); color: var(--primary-foreground, white); }
+.controls { display: flex; flex-wrap: wrap; gap: .4rem; margin: .75rem 0; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th, td { padding: .3rem .25rem; border-bottom: 1px solid var(--border, GrayText); }
+td:last-child { text-align: right; }
+details { margin: .75rem 0; }
+summary { cursor: pointer; }
+</style>
+<main>
+<h1>Skill rank progression</h1>
+<p>Modern 4e throwaway prototype · Current test variant</p>
+<p>Can you spend every upgrade on the skills you trained at level 1?</p>
+<div class="controls" aria-label="Choose a walkthrough">
+  <button data-mode="free">Free play</button>
+  <button data-mode="four">Four starting skills</button>
+  <button data-mode="three">Three starting skills</button>
+</div>
+<div id="setup" class="controls">
+  <label>Starting Trained skills
+    <select id="starting"><option>3</option><option selected>4</option><option>5</option></select>
+  </label>
+</div>
+<p id="scenario"></p>
+<p id="status" role="status"></p>
+<div class="controls">
+  <button id="guided" hidden></button>
+  <button id="undo">Undo</button>
+  <button id="reset">Reset picks</button>
+</div>
+<table>
+<thead><tr><th scope="col">Skill</th><th scope="col">Rank</th><th scope="col"><span id="action-heading">Spend pick</span></th></tr></thead>
+<tbody id="skills"></tbody>
+</table>
+<details><summary>Upgrade history and schedule</summary>
+<p>Picks at levels 3, 6, 9, 11, 13, 16, 19, 21, 23, 26, and 29.</p>
+<ol id="history"></ol>
+</details>
+</main>
+<script>
+const levels = [3, 6, 9, 11, 13, 16, 19, 21, 23, 26, 29];
+const ranks = ['Untrained', 'Trained', 'Expert', 'Adept', 'Master'];
+const bonuses = [0, 3, 5, 7, 9];
+const names = ['Athletics', 'Perception', 'Stealth', 'Insight', 'Arcana', 'Nature', 'Diplomacy'];
+const capAt = level => level >= 21 ? 4 : level >= 11 ? 3 : 2;
+const getRanks = (starting, picks) => names.map((_, index) =>
+  Number(index < starting) + picks.filter(skill => skill === index).length
+);
+
+let mode = 'free';
+let starting = 4;
+let picks = [];
+const byId = id => document.getElementById(id);
+const modeButtons = document.querySelectorAll('[data-mode]');
+
+function spend(index) {
+  const level = levels[picks.length];
+  if (level === undefined || getRanks(starting, picks)[index] >= capAt(level)) {
+    return;
+  }
+  picks.push(index);
+  render();
+}
+
+function render() {
+  const current = getRanks(starting, picks);
+  const level = levels[picks.length];
+  const cap = capAt(level);
+  const complete = level === undefined;
+  const original = picks.filter(index => index < starting).length;
+  const originalCapped = !complete && current.slice(0, starting).every(rank => rank >= cap);
+  byId('status').textContent = complete
+    ? `Finished. ${original} of 11 picks went to level-1 skills.`
+    : `Level ${level} · Cap: ${ranks[cap]} · ${original} of ${picks.length} spent on level-1 skills.` +
+      (originalCapped ? ' All level-1 skills are at the cap. Spend this pick on a skill outside your original set.' : '');
+  byId('skills').replaceChildren(...names.map((name, index) => {
+    const row = document.createElement('tr');
+    row.insertCell().textContent = name + (index < starting ? ' (level 1)' : '');
+    const rank = current[index];
+    row.insertCell().textContent = `${ranks[rank]} +${bonuses[rank]}`;
+    const button = document.createElement('button');
+    button.disabled = complete || rank >= cap;
+    button.textContent = complete ? 'Done' : rank >= cap ? 'At cap' : rank ? 'Raise rank' : 'Train';
+    button.setAttribute('aria-label', `${button.textContent} · ${name}`);
+    button.onclick = () => spend(index);
+    row.insertCell().append(button);
+    return row;
+  }));
+  const suggestion = current.findIndex(rank => rank < cap);
+  const guided = byId('guided');
+  guided.hidden = mode === 'free' || complete;
+  guided.textContent = suggestion < 0 ? '' : `Level ${level} · ${names[suggestion]} to ${ranks[current[suggestion] + 1]}`;
+  guided.onclick = () => spend(suggestion);
+  byId('history').replaceChildren(...picks.map((index, step) => {
+    const entry = document.createElement('li');
+    const rank = getRanks(starting, picks.slice(0, step + 1))[index];
+    entry.textContent = `Level ${levels[step]} · ${names[index]} to ${ranks[rank]}`;
+    return entry;
+  }));
+  byId('undo').disabled = picks.length === 0;
+}
+
+function reset() {
+  starting = mode === 'free' ? Number(byId('starting').value) : mode === 'four' ? 4 : 3;
+  picks = [];
+  byId('setup').hidden = mode !== 'free';
+  byId('setup').style.display = mode === 'free' ? '' : 'none';
+  byId('scenario').textContent = {
+    free: 'Choose a starting skill count and spend each pick. Starting skills are marked “level 1.”',
+    four: 'Follow the suggested picks to keep all eleven upgrades in your original four skills.',
+    three: 'Follow the suggested picks to see when the tier caps force you to branch out.'
+  }[mode];
+  modeButtons.forEach(button => button.setAttribute('aria-pressed', button.dataset.mode === mode));
+  render();
+}
+
+modeButtons.forEach(button => button.onclick = () => {
+  mode = button.dataset.mode;
+  reset();
+});
+byId('starting').onchange = reset;
+byId('reset').onclick = reset;
+byId('undo').onclick = () => {
+  picks.pop();
+  render();
+};
+reset();
+</script>
+</html>

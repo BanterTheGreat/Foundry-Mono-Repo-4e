@@ -2,6 +2,17 @@
 
 Build snapshot read from the current Foundry PC sheets on 2026-11-04; all four characters are level 11. These summaries describe the playstyles supported by their current builds, rather than observed player habits. The sheets include local Modern 4e mechanics; consult the live actors for exact rules and later changes.
 
+## Ability scores and trained skills
+
+Read from the Foundry character sheets on 2026-11-25.
+
+| Character | STR | CON | DEX | INT | WIS | CHA | Trained skills |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| Mork | 10 | 14 | 14 | 16 | 20 | 10 | Crafting, Nature, Perception, Religion |
+| Gork | 20 | 18 | 14 | 10 | 10 | 12 | Athletics, Diplomacy, Endurance, Intimidate |
+| Idrani | 20 | 14 | 18 | 10 | 14 | 8 | Acrobatics, Athletics, Endurance, Insight |
+| Sedridor | 8 | 18 | 10 | 20 | 16 | 12 | Arcana, Insight, Medicine, Perception |
+
 ## Mork — Mork'allande
 
 Mork is an orc Shaman (Stalker Spirit, Voice for the Ravaged) who supports the party by positioning a spirit companion near the fighting, healing allies, and increasing their damage against bloodied enemies. Watcher's Strike improves nearby allies' accuracy, Ironbreaker Claws grants an ally a melee basic attack, and Call to the Blood Dancer creates a strong window for extra damage and critical hits. Infectious Spark and Hateful Binding turn enemies' attacks against other creatures, while the Technologist's Mechanical Pet and Second Self let Mork project powers and senses through a contraption. The build rewards careful companion placement and coordinated focus fire, especially when enabling Gork's heavy melee hits and Idrani's frontline pressure.

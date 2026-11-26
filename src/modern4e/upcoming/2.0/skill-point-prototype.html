@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modern 4e Skill Points</title>
+<style>
+:root { color-scheme: light dark; font: 16px/1.4 system-ui; }
+body { max-width: 680px; margin: 8px auto; }
+h1 { margin: 0; font-size: 1.55rem; }
+p { margin: .5rem 0; }
+button { font: inherit; padding: .25rem .55rem; border: 1px solid var(--border, GrayText); border-radius: 6px; cursor: pointer; }
+button:disabled { opacity: .55; cursor: default; }
+#advance { background: var(--primary, #285e74); color: var(--primary-foreground, white); }
+.controls { display: flex; flex-wrap: wrap; gap: .4rem; margin: .7rem 0; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th, td { padding: .28rem .25rem; border-bottom: 1px solid var(--border, GrayText); }
+td small { display: block; }
+tr.starting-skill {
+  background: color-mix(in srgb, var(--primary, #34869f) 22%, transparent);
+}
+tr.starting-skill td:first-child {
+  box-shadow: inset 3px 0 var(--primary, #34869f);
+  padding-inline-start: .55rem;
+}
+details { margin: .65rem 0; }
+</style>
+<main>
+<h1>Skill points</h1>
+<p>Modern 4e prototype. Pick four free Trained skills at level 1, then see how far your points take them.</p>
+<p id="status" role="status"></p>
+<div class="controls">
+  <button id="advance"></button>
+  <button id="undo">Undo</button>
+  <button id="reset">Reset</button>
+</div>
+<details><summary>Point schedule and costs</summary>
+<p>Each Skill Increase adds points to your balance. You can carry unspent points into later levels and tiers. You can train two additional skills per tier.</p>
+<table>
+<thead><tr><th scope="col">Tier</th><th scope="col">Skill Increase levels</th><th scope="col">Points per increase</th><th scope="col">Highest rank</th></tr></thead>
+<tbody id="schedule"></tbody>
+</table>
+<table>
+<thead><tr><th scope="col">Upgrade</th><th scope="col">Cost</th><th scope="col">Bonus after upgrade</th></tr></thead>
+<tbody id="costs"></tbody>
+</table>
+</details>
+<table>
+<thead><tr><th scope="col">Skill</th><th scope="col">Rank</th><th scope="col">Upgrade</th></tr></thead>
+<tbody id="skills"></tbody>
+</table>
+<details><summary>Advancement history</summary><ol id="history"></ol></details>
+</main>
+<script>
+const skills = [
+  ['Athletics', 'Strength'], ['Acrobatics', 'Dexterity'], ['Stealth', 'Dexterity'],
+  ['Finesse', 'Dexterity'], ['Endurance', 'Constitution'], ['Arcana', 'Intelligence'],
+  ['Crafting', 'Intelligence'], ['Medicine', 'Intelligence'], ['Society', 'Intelligence'],
+  ['Insight', 'Wisdom'], ['Nature', 'Wisdom'], ['Religion', 'Wisdom'],
+  ['Deception', 'Charisma'], ['Command', 'Charisma']
+];
+const ranks = ['Untrained', 'Trained', 'Expert', 'Adept', 'Master'];
+const bonuses = [0, 3, 5, 7, 9];
+const schedule = [
+  { level: 1, grant: 0, cap: 1 }, { level: 4, grant: 3, cap: 2 },
+  { level: 8, grant: 3, cap: 2 }, { level: 11, grant: 4, cap: 3 },
+  { level: 14, grant: 4, cap: 3 }, { level: 18, grant: 4, cap: 3 },
+  { level: 21, grant: 5, cap: 4 }, { level: 24, grant: 5, cap: 4 },
+  { level: 28, grant: 5, cap: 4 }
+];
+const initial = { step: 0, points: 0, trainedThisTier: 0, skillRanks: skills.map(() => 0), log: 'Level 1' };
+
+function upgrade(state, index) {
+  const rank = state.skillRanks[index];
+  const { level, cap } = schedule[state.step];
+  const free = level === 1;
+  const cost = free ? 0 : rank + 2;
+  if (rank >= cap || cost > state.points ||
+      (free && state.skillRanks.filter(Boolean).length >= 4) ||
+      (!free && rank === 0 && state.trainedThisTier >= 2)) {
+    return;
+  }
+  return {
+    ...state,
+    points: state.points - cost,
+    trainedThisTier: state.trainedThisTier + Number(!free && rank === 0),
+    skillRanks: state.skillRanks.map((value, i) => value + Number(i === index)),
+    log: `Level ${level} · ${skills[index][0]} to ${ranks[rank + 1]}${free ? ' (free)' : ` (−${cost} points)`}`
+  };
+}
+
+function advance(state) {
+  const next = schedule[state.step + 1];
+  if (!next || (state.step === 0 && state.skillRanks.filter(Boolean).length !== 4)) {
+    return;
+  }
+  return {
+    ...state,
+    step: state.step + 1,
+    points: state.points + next.grant,
+    trainedThisTier: next.level === 11 || next.level === 21 ? 0 : state.trainedThisTier,
+    log: `Level ${next.level} · ${state.points} carried + ${next.grant} granted = ${state.points + next.grant} points`
+  };
+}
+
+let history = [initial];
+const byId = id => document.getElementById(id);
+
+function addReferenceRow(tableBody, values) {
+  const row = byId(tableBody).insertRow();
+  values.forEach(value => { row.insertCell().textContent = value; });
+}
+
+['Heroic', 'Paragon', 'Epic'].forEach((tier, index) => {
+  const cap = index + 2;
+  const increases = schedule.filter(entry => entry.cap === cap);
+  addReferenceRow('schedule', [tier, increases.map(entry => entry.level).join(', '), increases[0].grant, ranks[cap]]);
+});
+bonuses.slice(1).forEach((bonus, index) => {
+  addReferenceRow('costs', [`${ranks[index]} → ${ranks[index + 1]}`, index + 2, `+${bonus}`]);
+});
+
+function apply(next) {
+  if (next) {
+    history.push(next);
+    render();
+  }
+}
+
+function render() {
+  const state = history.at(-1);
+  const { level, cap } = schedule[state.step];
+  const next = schedule[state.step + 1];
+  const free = level === 1;
+  const starting = free ? state.skillRanks : history.find(entry => entry.step === 1).skillRanks;
+  const chosen = starting.filter(Boolean).length;
+  byId('status').textContent = free
+    ? `Level 1 · ${chosen} of 4 free skills chosen`
+    : `Level ${level} · ${state.points} points available · Cap: ${ranks[cap]} · ${2 - state.trainedThisTier} new trainings left this tier`;
+  byId('advance').textContent = next
+    ? `Go to level ${next.level} (+${next.grant} points, ${state.points + next.grant} total)`
+    : 'Final skill increase reached';
+  byId('advance').disabled = !next || (free && chosen !== 4);
+  byId('advance').onclick = () => apply(advance(state));
+  byId('undo').disabled = history.length === 1;
+  byId('skills').replaceChildren(...skills.map(([name, ability], index) => {
+    const row = document.createElement('tr');
+    row.classList.toggle('starting-skill', Boolean(starting[index]));
+    const label = row.insertCell();
+    label.textContent = name;
+    const sub = document.createElement('small');
+    sub.textContent = ability + (starting[index] ? ' · Level 1' : '');
+    label.append(sub);
+    const rank = state.skillRanks[index];
+    row.insertCell().textContent = `${ranks[rank]} +${bonuses[rank]}`;
+    const button = document.createElement('button');
+    button.disabled = !upgrade(state, index);
+    if (free) {
+      button.setAttribute('aria-pressed', Boolean(rank));
+      button.textContent = rank ? 'Remove' : 'Train free';
+      button.disabled = !rank && chosen === 4;
+      button.onclick = () => {
+        if (rank) {
+          apply({
+            ...state,
+            skillRanks: state.skillRanks.map((value, i) => i === index ? 0 : value),
+            log: `Level 1 · Removed ${name}`
+          });
+        } else {
+          apply(upgrade(state, index));
+        }
+      };
+    } else {
+      button.textContent = rank >= cap ? 'At cap' : `${ranks[rank + 1]} · ${rank + 2} pts`;
+      button.onclick = () => apply(upgrade(state, index));
+    }
+    button.setAttribute('aria-label', `${name} · ${button.textContent}`);
+    row.insertCell().append(button);
+    return row;
+  }));
+  byId('history').replaceChildren(...history.slice(1).map(entry => {
+    const item = document.createElement('li');
+    item.textContent = entry.log;
+    return item;
+  }));
+}
+
+byId('undo').onclick = () => {
+  history.pop();
+  render();
+};
+byId('reset').onclick = () => {
+  history = [initial];
+  render();
+};
+render();
+</script>
+</html>

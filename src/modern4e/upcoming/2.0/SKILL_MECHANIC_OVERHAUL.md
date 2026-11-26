@@ -2,6 +2,110 @@
 
 **Status: Work in progress.**
 
+## Skill Points with Novice
+
+**Status: Very promising playtest option.**
+
+At level 1, choose four skills to start Trained in. Your theme will usually make you Novice in one additional skill. The rest start Untrained. Use the 14 skills in the [proposed skill list](SKILLS_OVERHAUL.md).
+
+Spend Skill Points to raise a skill one rank at a time. The rank bonus is the total bonus from proficiency.
+
+| Rank | Bonus | Cost from previous rank |
+| --- | ---: | ---: |
+| Untrained | +0 | — |
+| Novice | +1 | 1 |
+| Trained | +3 | 2 |
+| Expert | +5 | 3 |
+| Adept | +7 | 5 |
+| Master | +9 | 8 |
+
+| Tier | Skill Increase levels | Points per increase | Highest available rank |
+| --- | --- | ---: | --- |
+| Heroic | 4, 8 | 3 | Expert |
+| Paragon | 11, 14, 18 | 5 | Adept |
+| Epic | 21, 24, 28 | 8 | Master |
+
+Each Skill Increase gives you a fresh pool. Spend it on one skill or split it across several. You can buy successive ranks for the same skill if you can afford each step and stay within the tier cap. Unspent points expire when you advance. The point budget is the only limit on how many Untrained skills you can raise to Novice in an increase.
+
+At level 4, you could raise a Trained skill to Expert for 3 points, raise a Novice skill to Trained for 2 and make another skill Novice for 1, or make three skills Novice. In Paragon, 5 points buy one Adept promotion or an Expert and a Trained promotion. In Epic, 8 points buy one Master promotion or an Adept and an Expert promotion.
+
+### Idrani at levels 12 and 14
+
+Idrani starts Trained in Acrobatics, Athletics, Endurance, and Insight. For this example, her Urban Empath theme makes her Novice in Society. She raises Athletics to Expert at level 4, Endurance to Expert at level 8, and Athletics to Adept at level 11.
+
+| Skill | Level 12 | Level 14 with broader training |
+| --- | --- | --- |
+| Athletics | Adept +7 | Adept +7 |
+| Endurance | Expert +5 | Expert +5 |
+| Acrobatics | Trained +3 | Trained +3 |
+| Insight | Trained +3 | Expert +5 |
+| Society | Novice +1 | Trained +3 |
+
+At level 14, she can spend 3 points on Insight and 2 on Society as shown, or spend all 5 to raise Endurance to Adept. All other skills remain Untrained in this example.
+
+[Interactive rank demo](skill-rank-colour-demo.html)
+
+## Current test variant
+
+Use proficiency bonuses of **Untrained +0, Trained +3, Expert +5, Adept +7, and Master +9**. Training adds +3, and each later promotion adds +2. Use the ability progression, upgrade picks, and tier caps in the baseline below. Apply the base rank bonuses alone.
+
+Use the baseline Normal DC table below with these adjustments. The adjustment is the same for all checks at a given challenge level.
+
+| Challenge level | Normal DC adjustment |
+| --- | ---: |
+| 1–2 | +0 |
+| 3–10 | +1 |
+| 11–20 | +2 |
+| 21–30 | +3 |
+
+Normal DC starts at 13 and reaches 37 at level 30. The adjustments preserve the baseline odds for a skill that takes every promotion as soon as it unlocks. Main-stat Trained starts at 75% and secondary-stat Trained starts at 65%.
+
+| Proficiency at level 30 | Main (+4 start, boosted) | Secondary (+2 start, boosted) | Secondary (+2 start, never chosen) |
+| --- | ---: | ---: | ---: |
+| Untrained | 35% | 25% | 10% |
+| Trained | 50% | 40% | 25% |
+| Expert | 60% | 50% | 35% |
+| Adept | 70% | 60% | 45% |
+| Master | 80% | 70% | 55% |
+
+## Playtest baseline
+
+Use the [2.0 ability progression](ABILITY_UPDATE.md). At levels 8, 14, and 28, choose two different abilities and increase each by 1. At level 21, increase all abilities by 1. The benchmarks start the main ability at +4 and the secondary at +2. When chosen at every opportunity, each gains +1 at levels 8, 14, 21, and 28. The secondary that is never chosen stays at +2 through level 20 and reaches +3 at level 21.
+
+Roll **1d20 + half level (rounded down) + the full ability modifier + the skill rank bonus**. Use the existing degrees of success and natural 1 and natural 20 outcomes. The benchmark counts both success with a minor hurdle and perfect success, with no item or situational bonuses.
+
+| Rank | Bonus | Earliest tier |
+| --- | ---: | --- |
+| Untrained | +0 | Heroic |
+| Trained | +3 | Heroic |
+| Expert | +4 | Heroic |
+| Adept | +5 | Paragon |
+| Master | +6 | Epic |
+
+Grant one skill upgrade pick at levels **3, 6, 9, 11, 13, 16, 19, 21, 23, 26, and 29**. Each pick advances one skill by one rank, subject to its tier cap. Heroic caps at Expert, Paragon at Adept, and Epic at Master. A skill that starts Trained can reach those caps at levels 3, 11, and 21. Any other picks can advance other eligible skills.
+
+Use the same Normal DC for every character at a given challenge level.
+
+| Levels | Normal DCs in level order |
+| --- | --- |
+| 1–10 | 13, 14, 14, 15, 15, 16, 16, 18, 18, 19 |
+| 11–20 | 20, 21, 21, 23, 23, 24, 24, 25, 25, 26 |
+| 21–30 | 28, 29, 29, 30, 30, 31, 31, 33, 33, 34 |
+
+Keep the Normal DCs fixed at the values in the table when comparing ability and proficiency paths.
+
+| Proficiency path | Main at level 1 | Main at level 30 | Secondary at level 1 | Secondary boosted at level 30 | Secondary never chosen at level 30 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Untrained | 60% | 50% | 50% | 40% | 25% |
+| Stop at Trained | 75% | 65% | 65% | 55% | 40% |
+| Stop at Expert | 75% | 70% | 65% | 60% | 45% |
+| Stop at Adept | 75% | 75% | 65% | 65% | 50% |
+| Advance to Master | 75% | 80% | 65% | 70% | 55% |
+
+With the main ability, taking each rank at its first opportunity gives a 75% chance on Normal checks at levels 1–2 and 80% from level 3 onward.
+
+An optional tier bonus would give all Trained or higher skills +1 starting at level 11 and another +1 starting at level 21. The benchmarks above use the base rank bonuses.
+
 ## Starting skills and Intelligence
 
 Each character starts with two background skills and a number of free Trained skill picks based on their class.
