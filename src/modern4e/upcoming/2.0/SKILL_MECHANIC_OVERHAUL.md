@@ -6,7 +6,7 @@
 
 **Status: Very promising playtest option.**
 
-At level 1, choose four skills to start Trained in. Your theme will usually make you Novice in one additional skill. The rest start Untrained. Use the 14 skills in the [proposed skill list](SKILLS_OVERHAUL.md).
+At level 1, choose four skills to start Trained in. Your theme will usually make you Novice in one additional skill. The rest start Untrained. Use the 15 skills in the [proposed skill list](SKILLS_OVERHAUL.md).
 
 Spend Skill Points to raise a skill one rank at a time. The rank bonus is the total bonus from proficiency.
 
@@ -31,7 +31,7 @@ At level 4, you could raise a Trained skill to Expert for 3 points, raise a Novi
 
 ### Idrani at levels 12 and 14
 
-Idrani starts Trained in Acrobatics, Athletics, Endurance, and Insight. For this example, her Urban Empath theme makes her Novice in Society. She raises Athletics to Expert at level 4, Endurance to Expert at level 8, and Athletics to Adept at level 11.
+Idrani starts Trained in Acrobatics, Athletics, Endurance, and Insight. For this example, her Urban Empath theme makes her Novice in Culture. She raises Athletics to Expert at level 4, Endurance to Expert at level 8, and Athletics to Adept at level 11.
 
 | Skill | Level 12 | Level 14 with broader training |
 | --- | --- | --- |
@@ -39,11 +39,45 @@ Idrani starts Trained in Acrobatics, Athletics, Endurance, and Insight. For this
 | Endurance | Expert +5 | Expert +5 |
 | Acrobatics | Trained +3 | Trained +3 |
 | Insight | Trained +3 | Expert +5 |
-| Society | Novice +1 | Trained +3 |
+| Culture | Novice +1 | Trained +3 |
 
-At level 14, she can spend 3 points on Insight and 2 on Society as shown, or spend all 5 to raise Endurance to Adept. All other skills remain Untrained in this example.
+At level 14, she can spend 3 points on Insight and 2 on Culture as shown, or spend all 5 to raise Endurance to Adept. All other skills remain Untrained in this example.
 
 [Interactive rank demo](skill-rank-colour-demo.html)
+
+### Playtest charts
+
+[Success chance, outcome breakdown, and Average Rolled by level](skill-playtest-charts.html)
+
+For this playtest, compare the check total to the task's DC to determine the outcome.
+
+| Check total | Outcome |
+| --- | --- |
+| DC + 11 or higher | Perfect success |
+| DC + 1 through DC + 10 | Success with consequences |
+| DC or lower | Failure |
+
+A natural 1 gives failure by default. A natural 20 gives a critical success
+(success with bonus). These results override the check total.
+
+Both charts use the Skill Points with Novice ranks, a main ability that starts
+at +4 and increases at levels 8, 14, 21, and 28, and a Normal check against a
+challenge of the character's level. For this test, add +1 to the baseline Normal
+DC at levels 1–2 and 11–20, and +2 at levels 3–10 and 21–30.
+
+Use Normal DC − 3 for Easy checks and Normal DC + 3 for Hard checks.
+The outcome thresholds use the selected difficulty's DC.
+
+On Normal checks, a skill promoted at the first opportunity goes from 65% Trained at level 1 to
+70% Expert at level 4, 75% Adept at level 11, and 80% Master at level 21.
+Master stays at 80% through level 30.
+
+Average Rolled is the mean numeric total: 10.5 from the d20, plus half level
+rounded down, the main ability modifier, and the rank bonus. The dashed line
+marks DC + 1. Green marks totals that meet or exceed that threshold, and red marks
+totals that fall short. The success chance chart combines all three successful
+outcomes and shows all four outcomes for each available rank at the selected
+level. The odds apply the natural 1 and 20 overrides.
 
 ## Current test variant
 
@@ -178,7 +212,7 @@ These examples start with four Trained skills and spend all 11 skill increases.
 
 | Build | Trained | Expert | Adept | Master | Legendary |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Train all 14 skills and raise one to Expert | 13 | 1 | 0 | 0 | 0 |
+| Train 14 skills and raise one to Expert | 13 | 1 | 0 | 0 | 0 |
 | One Legendary and two Masters | 0 | 1 | 0 | 2 | 1 |
 | Two Legendary specialists | 0 | 1 | 1 | 0 | 2 |
 | One Legendary and seven new skills | 10 | 0 | 0 | 0 | 1 |
@@ -208,12 +242,12 @@ Gain one skill increase every three levels. Each increase moves one skill up one
 
 A Master-capped pick can also raise a Trained skill to Expert. Learning a new skill raises it from Untrained to Trained and uses the whole pick.
 
-This example prioritizes the three skills in bold. It raises Society and Nature at levels 3 and 6, then Crafting at 12. The picks at 9, 15, and 21 go to Stealth and Medicine. Society and Nature reach Master at 18 and 24, then Crafting and Society reach Legendary at 27 and 30.
+This example prioritizes the three skills in bold. It raises Culture and Nature at levels 3 and 6, then Crafting at 12. The picks at 9, 15, and 21 go to Stealth and Medicine. Culture and Nature reach Master at 18 and 24, then Crafting and Culture reach Legendary at 27 and 30.
 
 | Skill | Level 1 | Level 15 | Level 30 |
 | --- | ---: | ---: | ---: |
 | **Crafting** | +5 | +7 | +9 |
-| **Society** | +3 | +5 | +9 |
+| **Culture** | +3 | +5 | +9 |
 | **Nature** | +3 | +5 | +7 |
 | Stealth | +3 | +5 | +5 |
 | Medicine | +0 | +3 | +5 |

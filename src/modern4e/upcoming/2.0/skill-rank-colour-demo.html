@@ -53,11 +53,21 @@ details { margin: .65rem 0; }
 </main>
 <script>
 const skills = [
-  ['Athletics', 'Strength'], ['Acrobatics', 'Dexterity'], ['Stealth', 'Dexterity'],
-  ['Finesse', 'Dexterity'], ['Endurance', 'Constitution'], ['Arcana', 'Intelligence'],
-  ['Crafting', 'Intelligence'], ['Medicine', 'Intelligence'], ['Society', 'Intelligence'],
-  ['Insight', 'Wisdom'], ['Nature', 'Wisdom'], ['Religion', 'Wisdom'],
-  ['Deception', 'Charisma'], ['Command', 'Charisma']
+  ['Athletics', 'Physical'],
+  ['Acrobatics', 'Physical'],
+  ['Endurance', 'Physical'],
+  ['Stealth', 'Intrigue'],
+  ['Finesse', 'Intrigue'],
+  ['Arcana', 'Expertise'],
+  ['Crafting', 'Expertise'],
+  ['Medicine', 'Expertise'],
+  ['Nature', 'Expertise'],
+  ['Culture', 'Expertise'],
+  ['Religion', 'Expertise'],
+  ['Insight', 'Social'],
+  ['Streetwise', 'Social'],
+  ['Deception', 'Social'],
+  ['Command', 'Social']
 ];
 const ranks = ['Untrained', 'Novice', 'Trained', 'Expert', 'Adept', 'Master'];
 const bonuses = [0, 1, 3, 5, 7, 9];
@@ -141,13 +151,13 @@ function render() {
   byId('advance').disabled = !next || (free && chosen !== 4);
   byId('advance').onclick = () => apply(advance(state));
   byId('undo').disabled = history.length === 1;
-  byId('skills').replaceChildren(...skills.map(([name, ability], index) => {
+  byId('skills').replaceChildren(...skills.map(([name, group], index) => {
     const row = document.createElement('tr');
     row.dataset.rank = state.skillRanks[index];
     const label = row.insertCell();
     label.textContent = name;
     const sub = document.createElement('small');
-    sub.textContent = ability + (starting[index] ? ' · Level 1' : '');
+    sub.textContent = group + (starting[index] ? ' · Level 1' : '');
     label.append(sub);
     const rank = state.skillRanks[index];
     row.insertCell().textContent = `${ranks[rank]} +${bonuses[rank]}`;

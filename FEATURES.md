@@ -323,6 +323,7 @@ All 13 ancestry definitions, traits and powers are authored in shared JSON and r
 | 12 active ancestries | and **19 classes**, grouped by combat role. | Players & GM |
 | Backgrounds | combining environment and upbringing. | Players & GM |
 | Revised ability points and skill checks | Checks add half-level (rounded down) whether proficient or not, ability points, and applicable bonuses; proficiency adds +5. Graded check outcomes. | Players & GM |
+| Proposed 2.0 skill list | 15-skill playtest proposal grouped by what each skill covers. Athletics covers climbing, jumping, swimming, and vaulting. The check?s approach determines the ability. Culture covers history, customs, laws, and institutions. Streetwise covers finding people and information through informal local networks. | Players & GM |
 | Equipment, feats, utility powers, and Techniques | Character equipment and progression options. | Players & GM |
 | JSON feat catalog | All general, class, ancestry, and multiclass feats use JSON entries; the rulebook preserves section order, prerequisites, emphasis, lists, and source notes. Schema v2 adds explicit occurrence limits and generated repetition text from typed selection rules for the five repeatable feats. | Developers / maintainers |
 | Separate combat and out-of-combat utility choices | Independent utility selections for each area of play. | Players & GM |

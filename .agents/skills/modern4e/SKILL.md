@@ -1,6 +1,6 @@
 ---
 name: modern4e
-description: Project-specific layout, local D&D 4e rules, Typst conventions, and validation for src/modern4e. Use when reading or editing the rulebook or adapting published mechanics to its local rules.
+description: Modern 4e rulebook layout, local rules, Typst conventions, and validation. Use when working on the rulebook, adapting published mechanics, or charting the upcoming 2.0 skill overhaul.
 ---
 
 # Modern 4e
@@ -101,6 +101,23 @@ powers. Out-of-combat powers also respect power-source restrictions (Martial,
 Arcane, Divine, or Primal, or no source). Advancement grants separate combat and
 out-of-combat utility picks. The HOMEBREW theme text currently tells readers to
 ignore old skill-check bonuses pending replacements; preserve that distinction.
+
+## Upcoming 2.0 skill overhaul test chart
+
+For the default average success chance chart, plot a Normal check against a
+challenge of the character's level across levels 1–30. Read the
+[skill mechanic overhaul](../../../src/modern4e/upcoming/2.0/SKILL_MECHANIC_OVERHAUL.md)
+and [ability advancement](../../../src/modern4e/upcoming/2.0/ABILITY_UPDATE.md).
+Use the **Skill Points with Novice** rank bonuses and advancement gates, the
+**Current test variant** Normal DCs (baseline table plus adjustments), and
+the **Playtest baseline** roll formula. Start the main ability at +4 and boost
+it at every opportunity. Count perfect success and success with a minor
+hurdle, apply the natural 1 and 20 overrides, and use zero item or situational
+bonuses.
+
+Plot one line per rank from its first available level through level 30.
+Hovering a line or its legend label highlights that rank and dims the others.
+Provide a level slider that shows exact odds for every available rank.
 
 ## Typst coding style
 
