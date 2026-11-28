@@ -66,13 +66,13 @@
               "id": "rule-1",
               "type": "effect",
               "label": "Prerequisite",
-              "text": "You must be proficient in Diplomacy."
+              "text": "You must be at least Trained in Deception."
             },
             {
               "id": "rule-2",
               "type": "effect",
               "label": "Effect",
-              "text": "Until the end of your next turn, gain a +1 bonus to your next Bluff or Diplomacy check to persuade, sell something, or increase the impression or favorability someone has of you. If this is the first time you've met this NPC ever, the bonus increases to a +3. If you have ever done a negative action against this creature (tricked, swindled, cheated, stolen from, attacked, etc.) and they recognize you, then you cannot use this power on them."
+              "text": "Until the end of your next turn, gain a +1 bonus to your next Deception or Charisma check to persuade, sell something, or increase the impression or favorability someone has of you. If this is the first time you've met this NPC ever, the bonus increases to a +3. If you have ever done a negative action against this creature (tricked, swindled, cheated, stolen from, attacked, etc.) and they recognize you, then you cannot use this power on them."
             }
           ],
           "range": {
@@ -82,7 +82,7 @@
       ],
       "level": 2,
       "powerKind": "UTILITY",
-      "subtitle": "Diplomacy | Level 2",
+      "subtitle": "Deception | Level 2",
       "flavor": "You've charmed your way past more marks than you can count, turning wary strangers into fast friends with little more than a grin and a good story."
     },
     {
@@ -148,6 +148,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Command."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -164,7 +170,7 @@
       ],
       "level": 2,
       "powerKind": "UTILITY",
-      "subtitle": "Intimidate | Level 2",
+      "subtitle": "Command | Level 2",
       "flavor": "You draw your enemy's attention to rest squarely on you."
     },
     {
@@ -230,6 +236,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Insight."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -246,7 +258,7 @@
       ],
       "level": 2,
       "powerKind": "UTILITY",
-      "subtitle": "Diplomacy | Level 2",
+      "subtitle": "Insight | Level 2",
       "flavor": "The battle done, your allies turn to you for words of encouragement and support."
     },
     {
@@ -312,10 +324,16 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Deception."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
-              "text": "You make a Bluff check opposed by each target's passive Insight check. If the check succeeds against a target, that target cannot make opportunity attacks against you until the end of your next turn."
+              "text": "You make a Deception check opposed by each target's passive Insight check. If the check succeeds against a target, that target cannot make opportunity attacks against you until the end of your next turn."
             }
           ],
           "range": {
@@ -327,7 +345,7 @@
       ],
       "level": 6,
       "powerKind": "UTILITY",
-      "subtitle": "Bluff | Level 6",
+      "subtitle": "Deception | Level 6",
       "flavor": "You spew a stream of nonsense, leaving your enemies puzzled."
     },
     {
@@ -393,6 +411,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Command."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -409,7 +433,7 @@
       ],
       "level": 6,
       "powerKind": "UTILITY",
-      "subtitle": "Diplomacy | Level 6",
+      "subtitle": "Command | Level 6",
       "flavor": "Reciting your allies' great deeds and talents, you fill them with the confidence they need to win a battle ahead."
     },
     {
@@ -477,6 +501,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Command."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -493,7 +523,7 @@
       ],
       "level": 6,
       "powerKind": "UTILITY",
-      "subtitle": "Intimidate | Level 6",
+      "subtitle": "Command | Level 6",
       "flavor": "You spit an ugly threat at your adversary, making it think twice before it attacks you."
     },
     {
@@ -561,6 +591,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Command."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -576,7 +612,7 @@
       ],
       "level": 6,
       "powerKind": "UTILITY",
-      "subtitle": "Intimidate | Level 6",
+      "subtitle": "Command | Level 6",
       "flavor": "You inspire terror in your enemies."
     },
     {
@@ -642,6 +678,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Deception."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -658,7 +700,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Bluff | Level 10",
+      "subtitle": "Deception | Level 10",
       "flavor": "Your fast talking causes your enemies to hesitate for a crucial moment."
     },
     {
@@ -724,10 +766,16 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Deception."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
-              "text": "Until the end of the encounter, you gain a +5 power bonus to Bluff checks and Diplomacy checks against the target."
+              "text": "Until the end of the encounter, you gain a +5 power bonus to Deception checks and Charisma checks to persuade against the target."
             }
           ],
           "range": {
@@ -740,7 +788,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Diplomacy | Level 10",
+      "subtitle": "Deception | Level 10",
       "flavor": "You know the right things to say to make people like you."
     },
     {
@@ -806,6 +854,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Command."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -822,7 +876,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Diplomacy | Level 10",
+      "subtitle": "Command | Level 10",
       "flavor": "With pleading words and gestures, you discourage your enemies from striking down the wounded."
     },
     {
@@ -890,6 +944,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Command."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -906,7 +966,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Diplomacy | Level 10",
+      "subtitle": "Command | Level 10",
       "flavor": "You demand that an enemy face you to distract it from your wounded friend, who is inspired by your sacrifice."
     },
     {
@@ -972,6 +1032,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Command."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -988,7 +1054,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Intimidate | Level 10",
+      "subtitle": "Command | Level 10",
       "flavor": "A smack across the face brings your ally back to his or her senses."
     },
     {
@@ -1048,6 +1114,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Endurance."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -1123,6 +1195,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Endurance."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -1204,6 +1282,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Endurance."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -1281,6 +1365,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Endurance."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -1357,6 +1447,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Endurance."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -1438,6 +1534,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Endurance."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -1515,6 +1617,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Endurance."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -1583,6 +1691,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Acrobatics."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -1650,6 +1764,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Finesse."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -1669,7 +1789,7 @@
       ],
       "level": 2,
       "powerKind": "UTILITY",
-      "subtitle": "Thievery | Level 2",
+      "subtitle": "Finesse | Level 2",
       "flavor": "Your fingers blur as you manipulate objects faster than the eye can follow."
     },
     {
@@ -1729,6 +1849,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Stealth."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -1809,6 +1935,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Culture."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -1825,7 +1957,7 @@
       ],
       "level": 2,
       "powerKind": "UTILITY",
-      "subtitle": "Society | Level 2",
+      "subtitle": "Culture | Level 2",
       "flavor": "Negotiations are breaking down and will end in bloodshed. You realize this fact a split-second before your enemies do."
     },
     {
@@ -1885,6 +2017,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Acrobatics."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -1961,6 +2099,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Acrobatics."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -2034,6 +2178,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Acrobatics."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -2110,6 +2260,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Acrobatics."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -2184,6 +2340,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Stealth."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -2260,6 +2422,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Finesse."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -2269,12 +2437,12 @@
           "range": {
             "type": "PERSONAL"
           },
-          "trigger": "Your Thievery check triggers a trap"
+          "trigger": "Your Finesse check triggers a trap"
         }
       ],
       "level": 6,
       "powerKind": "UTILITY",
-      "subtitle": "Thievery | Level 6",
+      "subtitle": "Finesse | Level 6",
       "flavor": "It dawns on you as you botch the job that now might be a good time to make a swift exit."
     },
     {
@@ -2340,6 +2508,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Finesse."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -2355,7 +2529,7 @@
       ],
       "level": 6,
       "powerKind": "UTILITY",
-      "subtitle": "Thievery | Level 6",
+      "subtitle": "Finesse | Level 6",
       "flavor": "You pull your friend closer and then slip away."
     },
     {
@@ -2408,6 +2582,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Acrobatics."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -2484,6 +2664,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Acrobatics."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -2555,6 +2741,12 @@
             }
           },
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Stealth."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -2638,6 +2830,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Finesse."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -2653,7 +2851,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Thievery | Level 10",
+      "subtitle": "Finesse | Level 10",
       "flavor": "With a flurry of taps, shoves, and nudges, you push past your foe, leaving it flustered."
     },
     {
@@ -2716,6 +2914,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Arcana."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -2792,6 +2996,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Arcana."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -2866,6 +3076,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Arcana."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -2943,6 +3159,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Culture."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -2957,7 +3179,7 @@
       ],
       "level": 6,
       "powerKind": "UTILITY",
-      "subtitle": "Society | Level 6",
+      "subtitle": "Culture | Level 6",
       "flavor": "You knock over obstacles, take difficult paths, drop rubbish, and do anything else you can think of to slow your enemies' pursuit."
     },
     {
@@ -3018,6 +3240,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Finesse."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -3032,7 +3260,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Thievery | Level 10",
+      "subtitle": "Finesse | Level 10",
       "flavor": "As the trap springs, your experience in dealing with such hazards lets you step aside and leave a foe at the trap's mercy."
     },
     {
@@ -3098,6 +3326,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Culture."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -3114,7 +3348,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Society | Level 10",
+      "subtitle": "Culture | Level 10",
       "flavor": "As you watch your allies, you draw upon past lessons to shout out a few pointers."
     },
     {
@@ -3180,6 +3414,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Culture."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -3196,7 +3436,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Society | Level 10",
+      "subtitle": "Culture | Level 10",
       "flavor": "The enemies' movements are similar to those used in a skirmish you once studied. You use knowledge of it to outmaneuver a foe."
     },
     {
@@ -3257,6 +3497,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Streetwise."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -3270,7 +3516,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Society | Level 10",
+      "subtitle": "Streetwise | Level 10",
       "flavor": "A life spent in the city trained you to maneuver through crowds."
     },
     {
@@ -3330,6 +3576,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Athletics."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -3405,6 +3657,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Athletics."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -3485,6 +3743,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Athletics."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -3562,6 +3826,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Athletics."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -3644,6 +3914,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Religion."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -3724,6 +4000,12 @@
             }
           },
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Nature."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -3808,6 +4090,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Medicine."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -3891,6 +4179,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Medicine."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -3967,6 +4261,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Trained in Nature."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -4050,6 +4350,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Medicine."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -4131,6 +4437,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Medicine."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -4207,6 +4519,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Insight."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -4280,6 +4598,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Insight."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -4361,6 +4685,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Nature."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -4437,6 +4767,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Stealth."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -4451,7 +4787,7 @@
       ],
       "level": 6,
       "powerKind": "UTILITY",
-      "subtitle": "Perception | Level 6",
+      "subtitle": "Stealth | Level 6",
       "flavor": "Something out of place alerts you to imminent danger, letting you foil an enemy's ambush."
     },
     {
@@ -4513,6 +4849,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Religion."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -4590,6 +4932,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Religion."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -4663,6 +5011,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Religion."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -4743,6 +5097,12 @@
             }
           },
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Medicine."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -4825,6 +5185,12 @@
           },
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Nature."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -4901,6 +5267,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Stealth."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -4914,7 +5286,7 @@
       ],
       "level": 10,
       "powerKind": "UTILITY",
-      "subtitle": "Perception | Level 10",
+      "subtitle": "Stealth | Level 10",
       "flavor": "Enemies might hide, but once you find a trace of them, there's no escaping you."
     },
     {
@@ -4974,6 +5346,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Religion."
+            },
             {
               "id": "rule-1",
               "type": "effect",
@@ -5051,6 +5429,12 @@
           "bindings": {},
           "blocks": [
             {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Religion."
+            },
+            {
               "id": "rule-1",
               "type": "effect",
               "label": "Effect",
@@ -5126,6 +5510,12 @@
           },
           "bindings": {},
           "blocks": [
+            {
+              "id": "skill-rank",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be at least Expert in Religion."
+            },
             {
               "id": "rule-1",
               "type": "effect",

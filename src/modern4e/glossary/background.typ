@@ -3,6 +3,7 @@
 #let backgroundPage() = {
   return [
     #theme.pageTitle(title: "Background");
+    <standard-background>
 
     #columns(2)[
       Where did your adventurer come from? What life did they lead before taking up the mantle of heroism? Your character's background shapes who they are and where they came from. A background consists of two parts: an environment and their upbringing.

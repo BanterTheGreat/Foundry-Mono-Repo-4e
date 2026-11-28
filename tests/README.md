@@ -1,5 +1,9 @@
 # Running tests yourself
 
+Modern 4e utility cards: run `python -X utf8 -m unittest discover -s src/modern4e/scripts -p test_utility_content.py`. The suite checks the authored skill ranks, preserves other prerequisites, and validates the shared utility catalog.
+
+Modern 4e rules PDF: run `npm run typst:compile` for the development PDF or `npm run typst:release` for the versioned PDF. With Typst 0.15 or newer on PATH (or set `TYPST_BIN`), run `node --test scripts/test/modern4e-rules.test.mjs` to verify which chapters appear, the ability and Skill Point milestones, the armor table, and the sample DCs.
+
 Power card keywords: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.PowerBlockTest"`. `PowerBlockTest` checks that keywords show for header-style descriptions, multi-activation powers and powers with no keywords.
 
 Android launcher icon: from `src/character-builder`, run `./gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.LauncherIconTest"`. `LauncherIconTest` checks that the manifest declares an adaptive icon with a foreground and the ink background colour.

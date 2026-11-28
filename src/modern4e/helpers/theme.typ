@@ -62,7 +62,7 @@
     #counter(page).display("1", both: false);
     #colbreak();
     #align(right)[
-      #config.version
+      #(if config.isRevisedRules { config.version } else { "v1.3" })
     ]
     ]
   ]
@@ -322,11 +322,16 @@
 }
 
 #let featCardsFromJson(file) = {
-  json(file).feats.map(resolveFeat).map(feat => featBlock(
-    title: feat.title,
-    content: featContent(feat),
-    requirements: featRequirements(feat),
-  ))
+  json(file).feats.map(resolveFeat).map(feat => {
+    if config.isRevisedRules and feat.id == "modern4e.feat.skill-training" {
+      feat.description = "Choose two additional skills and raise each to Trained."
+    }
+    featBlock(
+      title: feat.title,
+      content: featContent(feat),
+      requirements: featRequirements(feat),
+    )
+  })
 }
 
 // Optional ranges keep explicit page breaks and card wrappers in the page source.

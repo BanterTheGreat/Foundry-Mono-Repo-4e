@@ -1,3 +1,6 @@
+#import "configuration.typ" as config
+#import "revised_rules.typ" as revised
+
 // Rules live in JSON; page geometry remains in the chapter.
 #let rules = json("../content/creation/standard.json")
 #let abilityText(value) = {
@@ -16,8 +19,17 @@
     let features = row.events.map(eventText).join("; ")
     // Preserve the source table's deliberate unbreakable paragon-entry cell.
     let featureCell = if row.level == 11 { block(features, breakable: false) } else { text(features) }
+    let increases = if config.isRevisedRules and row.level != 1 {
+      revised.abilityIncrease(row.level)
+    } else {
+      abilityText(row.abilityIncrease)
+    }
+    if config.isRevisedRules and str(row.level) in revised.skillIncreases {
+      let points = revised.skillIncreases.at(str(row.level))
+      featureCell = [#featureCell#(if features != "" { "; " })Gain #points Skill Points]
+    }
     let totals = row.powerTotals
-    cells += (text(levelLabel(row.level)), text(abilityText(row.abilityIncrease)), featureCell,
+    cells += (text(levelLabel(row.level)), text(increases), featureCell,
       text(str(row.featTotal)), text((totals.atWill, totals.encounter, totals.daily, totals.utility).map(str).join("/")))
   }
   cells

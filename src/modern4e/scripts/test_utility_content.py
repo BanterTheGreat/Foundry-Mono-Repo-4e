@@ -89,6 +89,28 @@ class UtilityContentTest(unittest.TestCase):
         self.assertEqual(attack["comparisons"][0]["defense"], "WILL")
         self.assertEqual(attack["comparisons"][0]["outcomes"]["hit"][0]["label"], "Hit")
 
+    def test_general_cards_author_their_current_skill_rank(self):
+        skills = {
+            "Athletics", "Acrobatics", "Endurance", "Stealth", "Finesse", "Arcana",
+            "Occultism", "Crafting", "Medicine", "Nature", "Culture", "Religion",
+            "Insight", "Streetwise", "Deception", "Command",
+        }
+        for section in self.catalog["sections"]:
+            if section["kind"] != "SKILL":
+                continue
+            for power_id in section["powerIds"]:
+                power = self.entries[power_id]
+                with self.subTest(power=power_id):
+                    skill, level = power["subtitle"].split(" | ")
+                    self.assertIn(skill, skills)
+                    self.assertEqual(level, f"Level {power['level']}")
+                    rank = {2: "Trained", 6: "Expert", 10: "Expert"}[power["level"]]
+                    for activation in power["activations"]:
+                        self.assertIn(
+                            ["Prerequisite", f"You must be at least {rank} in {skill}."],
+                            rows(activation["blocks"]),
+                        )
+
     def test_invalid_inventory_and_power_data_are_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

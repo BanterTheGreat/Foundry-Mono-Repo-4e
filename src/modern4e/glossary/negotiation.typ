@@ -1,3 +1,4 @@
+#import "../helpers/configuration.typ" as config;
 #import "../helpers/theme.typ" as theme;
 
 #let negotiationTable(columns: (), rows: ()) = {
@@ -65,7 +66,7 @@
 
       = Negotiation checks
 
-      Roll *1d20 + points in the GM-selected ability + applicable bonuses*. Relevant proficiency adds *+5*, as usual. Each argument has one speaker and one check; other heroes can provide facts or help shape the argument.
+      #if config.isRevisedRules [Roll *1d20 + half your level (rounded down) + your ability points + your skill rank bonus + applicable modifiers*. The GM chooses the ability and any skill that fit your argument.] else [Roll *1d20 + points in the GM-selected ability + applicable bonuses*. Relevant proficiency adds *+5*, as usual.] Each argument has one speaker and one check; other heroes can provide facts or help shape the argument.
 
       Arguments use *Normal* difficulty at the party's level. The GM can select a level one or two higher or lower for the circumstances, using that level's printed DCs. Motivations change the outcome of a check rather than lowering its difficulty.
 
@@ -73,10 +74,10 @@
         columns: (1fr, 1fr),
         rows: (
           [*Approach*], [*Typical ability / skill*],
-          [Bargain or reassure], [Charisma / Diplomacy],
-          [Make a deceptive claim], [Charisma / Bluff],
-          [Apply credible pressure], [Charisma / Intimidate],
-          [Present a legal or political case], [Intelligence / Society],
+          [Bargain or reassure], if config.isRevisedRules { [Charisma check] } else { [Charisma / Diplomacy] },
+          [Make a deceptive claim], if config.isRevisedRules { [Charisma / Deception] } else { [Charisma / Bluff] },
+          [Apply credible pressure], if config.isRevisedRules { [Charisma / Command] } else { [Charisma / Intimidate] },
+          [Present a legal or political case], if config.isRevisedRules { [Intelligence / Culture] } else { [Intelligence / Society] },
           [Demonstrate technical feasibility], [Intelligence / Crafting],
           [Appeal to religious obligations], [Wisdom / Religion],
         ),
@@ -90,7 +91,7 @@
 
     = Argument outcomes
 
-    Use the chosen level's Skill Checks DC table. A total at least the Hard DC is a *perfect success*; otherwise, a total at least the Normal DC is a *success with a minor hurdle*. A total at or below the Easy DC is a *catastrophic failure*. Other totals are a *failure*. Natural 20 and natural 1 override these thresholds.
+    Use the chosen level's Skill Checks DC table. #if config.isRevisedRules [Negotiation uses the outcomes below.] A total at least the Hard DC is a *perfect success*; otherwise, a total at least the Normal DC is a *success with a minor hurdle*. A total at or below the Easy DC is a *catastrophic failure*. Other totals are a *failure*. Natural 20 and natural 1 override these thresholds.
 
     #negotiationTable(
       columns: (1fr, 1.5fr, 1.5fr),
@@ -128,9 +129,9 @@
 
       == Lies and pressure
 
-      Bluff can support an argument containing a lie. If the argument fails to increase Interest, the GM may decide the NPC detects the lie. A detected lie costs an additional 1 Interest beyond the normal outcome. Its motivation is not spent, but repeating the exposed lie cannot earn a new check.
+      #if config.isRevisedRules [Deception] else [Bluff] can support an argument containing a lie. If the argument fails to increase Interest, the GM may decide the NPC detects the lie. A detected lie costs an additional 1 Interest beyond the normal outcome. Its motivation is not spent, but repeating the exposed lie cannot earn a new check.
 
-      Intimidate can emphasize credible consequences, leverage, or the danger of inaction. The NPC must still be willing to bargain. Demanding compliance through an immediate threat of violence generally takes the scene outside negotiation.
+      #if config.isRevisedRules [Command] else [Intimidate] can emphasize credible consequences, leverage, or the danger of inaction. The NPC must still be willing to bargain. Demanding compliance through an immediate threat of violence generally takes the scene outside negotiation.
 
       #colbreak();
 
@@ -138,7 +139,7 @@
 
       == Before negotiation
 
-      Research, contacts, observation, and relevant rituals or utility powers can reveal motivations and pitfalls. Use ordinary skill checks and the effects of those abilities. Society might uncover political loyalties, Religion might identify obligations, and Insight might reveal a personal concern.
+      Research, contacts, observation, and relevant rituals or utility powers can reveal motivations and pitfalls. Use ordinary skill checks and the effects of those abilities. #if config.isRevisedRules [Culture] else [Society] might uncover political loyalties, Religion might identify obligations, and Insight might reveal a personal concern.
 
       Give concrete information: _She fears another attack on the docks_ is more useful than simply naming _Protection_. Research does not spend a motivation or reduce the NPC's Patience unless its consequences actually affect the later meeting.
 
@@ -228,9 +229,9 @@
 
       The party asks a magistrate to send guards to the docks. She begins neutral: *Interest 2, Patience 3*. Her motivations are protecting residents and maintaining her reputation for fairness. Her pitfall is pressure to surrender her authority.
 
-      One hero explains how patrols will prevent attacks on dock workers, invoking protection. A Diplomacy check succeeds with a minor hurdle: *Interest 3, Patience 2*. The magistrate agrees to send guards, but requires her officer to oversee the operation.
+      One hero explains how patrols will prevent attacks on dock workers, invoking protection. A #if config.isRevisedRules [Charisma] else [Diplomacy] check succeeds with a minor hurdle: *Interest 3, Patience 2*. The magistrate agrees to send guards, but requires her officer to oversee the operation.
 
-      The party could accept. Instead, another hero presents evidence that the neglected docks deserve the same protection as wealthier districts, invoking fairness with Society. A perfect success brings her to *Interest 4, Patience 2*. She grants the requested patrols without the additional oversight condition.
+      The party could accept. Instead, another hero presents evidence that the neglected docks deserve the same protection as wealthier districts, invoking fairness with #if config.isRevisedRules [Culture] else [Society]. A perfect success brings her to *Interest 4, Patience 2*. She grants the requested patrols without the additional oversight condition.
 
       Repeating the protection argument would only have cost Patience. Demanding that she hand command to the party would have invoked her pitfall. The party accepts the Interest 4 deal rather than risking the agreement for an extra benefit.
     ]

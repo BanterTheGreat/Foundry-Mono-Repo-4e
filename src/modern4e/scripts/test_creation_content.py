@@ -106,7 +106,11 @@ class CreationContentTest(unittest.TestCase):
             self.assertEqual(cells[0]['value'], 150)
             rendered = json.loads(subprocess.check_output(command + ['<chapter>'], encoding='utf-8'))[0]['value']
             for step in self.rules['steps']:
-                self.assertIn(step['title'], rendered)
+                if step['id'] in ('modern4e.creation.background', 'modern4e.creation.skills'):
+                    self.assertNotIn(step['title'], rendered)
+                else:
+                    self.assertIn(step['title'], rendered)
+            self.assertIn('Choose four Trained skills', rendered)
             last = json.loads(subprocess.check_output(command + ['<last-cell>'], encoding='utf-8'))[0]['value']
             self.assertIn('2/7/4/7', last)
         finally:

@@ -1,5 +1,6 @@
 #import "../helpers/theme.typ" as theme;
 #import "../helpers/theme_content.typ" as themes;
+#import "../helpers/configuration.typ" as config;
 
 #let zeitgeistThemesPage() = [
   Choose one of these nine themes to connect your character to the Zeitgeist setting. A theme's role describes the capabilities it adds; it need not match your class's role. You gain its starting benefits at level 1 and its additional benefits at levels 5 and 10. Theme powers are granted by the theme, rather than purchased with utility picks.
@@ -14,7 +15,11 @@
   )
 
   = Using these themes
-  These themes use the local skill names and proficiency rules. References to a primary ability modifier mean the points in your Main Ability. Use the local skill-check formula and DC table; the source's Medium difficulty is Normal here. The HOMEBREW instruction to ignore old theme skill bonuses does not apply to these Zeitgeist benefits.
+  #if config.isRevisedRules [
+    Choose your theme's Novice skill using the rules in #link(<revised-skill-training>)[Skill training]. Use the 2.0 check rules for theme benefits. A primary ability modifier means the points in your main ability. A Medium DC is a Normal DC.
+  ] else [
+    These themes use the local skill names and proficiency rules. References to a primary ability modifier mean the points in your Main Ability. Use the local skill-check formula and DC table; the source's Medium difficulty is Normal here. The HOMEBREW instruction to ignore old theme skill bonuses does not apply to these Zeitgeist benefits.
+  ]
 
   Prestige, favors, and requisitions use the campaign rules in the Player's Guide (Prestige, p. 20; requisitions, p. 22). A theme that changes starting Prestige sets it to 2 instead of 1; it does not add 1 for every character with that theme. Suggested paragon paths below are pointers to the guide, not additional theme benefits.
 
