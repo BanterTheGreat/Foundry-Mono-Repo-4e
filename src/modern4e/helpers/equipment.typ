@@ -55,7 +55,8 @@
   if entry.equipment.kind == "WEAPON" { weaponRow(entry) } else {
     let row = armorRow(entry)
     if showAbilityCap {
-      row.push(signed(entry.equipment.acAbilityCap))
+      let cap = entry.equipment.acAbilityCap
+      row.push(if cap == 0 { "0" } else { signed(cap) })
     }
     row
   }

@@ -25,10 +25,10 @@ test("Modern 4e 2.0 uses the new advancement, armor, and DCs", (t) => {
       advancement: (4, 8, 14, 18, 21, 28).map(level => rows.at(level - 1).at(1).text),
       plate: equipment.armorRow(equipment.entries.at("modern4e.armor.plate")),
       hide: equipment.armorRow(equipment.entries.at("modern4e.armor.hide")).at(1),
-      lightArmorCaps: equipment.sectionRows(
-        equipment.catalog.sections.find(section => section.id == "light-armor"),
+      armorCaps: ("light-armor", "heavy-armor").map(id => equipment.sectionRows(
+        equipment.catalog.sections.find(section => section.id == id),
         showAbilityCap: true,
-      ).chunks(5).map(row => row.last()),
+      ).chunks(5).map(row => row.last())),
       skillPoints: revised.skillIncreases,
       extraArmor: revised.extraArmorLevels,
       tableAcIncreases: rows.enumerate()
@@ -51,7 +51,7 @@ test("Modern 4e 2.0 uses the new advancement, armor, and DCs", (t) => {
   ]);
   assert.deepEqual(revised.plate.slice(1), ["+7", "-1", "-1"]);
   assert.equal(revised.hide, "+3");
-  assert.deepEqual(revised.lightArmorCaps, ["+3", "+3", "+3"]);
+  assert.deepEqual(revised.armorCaps, [["+3", "+3", "+3"], ["0", "0", "0"]]);
   assert.deepEqual(revised.skillPoints, { 4: 3, 8: 3, 11: 5, 14: 5, 18: 5, 21: 8, 24: 8, 28: 8 });
   assert.deepEqual(revised.extraArmor, [5, 9, 13, 17, 19, 25, 27, 29]);
   assert.deepEqual(revised.tableAcIncreases, revised.extraArmor);

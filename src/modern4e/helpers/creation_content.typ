@@ -18,7 +18,7 @@
     }
     if str(row.level) in revised.skillIncreases {
       let points = revised.skillIncreases.at(str(row.level))
-      features.push("Gain " + str(points) + " Skill Points")
+      features.push("gain " + str(points) + " skill points")
     }
     if row.level in revised.extraArmorLevels {
       features.push("+1 AC")

@@ -57,7 +57,8 @@ class ModernEquipmentTest(unittest.TestCase):
         self.assertEqual(["INTELLIGENCE", "DEXTERITY"], self.catalog["armorRules"]["lightArmorAbilities"])
         self.assertEqual(["STRENGTH", "DEXTERITY", "CONSTITUTION"], self.catalog["armorRules"]["armorCheckAbilities"])
         self.assertEqual(
-            {"modern4e.armor.cloth": 3, "modern4e.armor.leather": 3, "modern4e.armor.hide": 3},
+            {"modern4e.armor.cloth": 3, "modern4e.armor.leather": 3, "modern4e.armor.hide": 3,
+             "modern4e.armor.chainmail": 0, "modern4e.armor.scale": 0, "modern4e.armor.plate": 0},
             {key: entry["equipment"]["acAbilityCap"] for key, entry in self.entries.items()
              if "acAbilityCap" in entry["equipment"]},
         )

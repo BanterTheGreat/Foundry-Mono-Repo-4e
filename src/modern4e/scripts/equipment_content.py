@@ -82,9 +82,11 @@ def validate_entry(entry, where):
     else:
         common = ["kind", "proficiencyKey", "speedModifier", "armorCheckModifier"]
         specific = ["armorCategory", "armorBonus"] if kind == "ARMOR" else ["handsOccupied", "shieldBonus"]
-        if kind == "ARMOR" and profile.get("armorCategory") == "LIGHT":
+        if kind == "ARMOR":
             specific.append("acAbilityCap")
             integer(profile.get("acAbilityCap"), where)
+            if profile.get("armorCategory") == "HEAVY":
+                require(profile["acAbilityCap"] == 0, where, "heavy armor must have a zero AC ability cap")
         fields(profile, common + specific, [], where)
         integer(profile["speedModifier"], where, -30, 0)
         integer(profile["armorCheckModifier"], where, -30, 0)

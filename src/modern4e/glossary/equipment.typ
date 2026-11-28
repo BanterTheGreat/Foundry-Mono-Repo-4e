@@ -1,6 +1,5 @@
 #import "../helpers/theme.typ" as theme;
 #import "../helpers/equipment.typ" as equipment;
-#import "../helpers/revised_rules.typ" as revised;
 
 #let weaponTable(equipment: ()) = {
   return table(
@@ -20,7 +19,7 @@
 
 #let armorTable(equipment: (), showAbilityCap: false) = {
   return table(
-    columns: if showAbilityCap { 5 } else { 4 },
+    columns: (1fr,) * (if showAbilityCap { 5 } else { 4 }),
     stroke: 0.5pt + theme.tableDivider,
     align: left,
     fill: theme.defaultTableStyle(),
@@ -63,7 +62,7 @@
 
     #for section in equipment.catalog.sections.filter(section => section.kind != "WEAPON") {
       heading(depth: 2, section.title)
-      let showAbilityCap = section.id == "light-armor"
+      let showAbilityCap = section.kind == "ARMOR"
       armorTable(equipment: equipment.sectionRows(section, showAbilityCap: showAbilityCap), showAbilityCap: showAbilityCap)
     }
 
