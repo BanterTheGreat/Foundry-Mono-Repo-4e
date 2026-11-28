@@ -1,12 +1,39 @@
 # Skill mechanic overhaul
 
-**Status: Work in progress.**
+**Status: Skill Points with Novice chosen for 2.0.**
 
 ## Skill Points with Novice
 
-**Status: Very promising playtest option.**
+**Status: Chosen 2.0 skill mechanic.**
 
-At level 1, choose four skills to start Trained in. Your theme will usually make you Novice in one additional skill. The rest start Untrained. Use the 15 skills in the [proposed skill list](SKILLS_OVERHAUL.md).
+At level 1, start Trained in one skill from your class and choose three other skills to start Trained in. Intelligence does not grant additional Trained skills. When you select a ZEITGEIST theme, choose one of its two listed skills to start at Novice. Homebrew themes currently grant no Novice skill. The rest start Untrained. Use the [chosen 16-skill list](SKILLS_OVERHAUL.md).
+
+> **TODO before enabling homebrew themes in Character Builder or any other 2.0 character creation tool:** Assign each homebrew theme a Novice skill and add those grants to the theme data.
+
+### Background utility playtest
+
+Choose one Environment and one Upbringing. Each opens two options. You can spend your first utility pick on one of those four powers. Treat them as non-combat utilities for this choice. Your background supplies class, power-source, and skill-rank eligibility for this pick. Use the original frequency, effects, and requirements for using the power, including equipment or ritual requirements. For Old War Buddy, the contact comes from your Militaristic upbringing. Only As Good as Their Tools is a level 6 source power offered early through Labor for this playtest.
+
+The IDs below refer to the printed cards in the [archived Non-Combat Utility Powers catalog](../../content/reference/non-combat-utility-powers.json).
+
+| Environment | First power | Second power |
+| --- | --- | --- |
+| Nomadic | Mind for Maps (`warlord-2-mind-for-maps`) | Setup Camp Quickly (`warlord-2-setup-camp-quickly`) |
+| Rural | Calming Rider (`ranger-2-calming-rider`) | Natural Leader (`warlord-2-natural-leader`) |
+| Wilderness | Favored Terrain (`ranger-2-favored-terrain`) | Forage for Magical Herbs (`ranger-2-forage-for-magical-herbs`) |
+| Urban | Charming Rapscallion (`rogue-2-charming-rapscallion`) | Investigative Mind (`rogue-2-investigative-mind`) |
+| Secluded | Bird Calls (`warlord-2-bird-calls`) | Specialty Ritual (`wizard-2-specialty-ritual`) |
+
+| Upbringing | First power | Second power |
+| --- | --- | --- |
+| Academic | Focused Detect Magic (`wizard-2-focused-detect-magic`) | Fiend Hunter’s Knowledge (`paladin-2-fiend-hunter-s-knowledge`) |
+| Militaristic | Old War Buddy (`fighter-2-old-war-buddy`) | Running Cadence (`warlord-2-running-cadence`) |
+| Lawless | Improvised Distraction (`warlord-2-improvised-distraction`) | Looming Thug (`rogue-2-looming-thug`) |
+| Labor | Only As Good as Their Tools (`fighter-6-only-as-good-as-their-tools`) | Up We Go (Fighter) (`fighter-2-up-we-go-fighter`) |
+| Spiritual | Friendly Pastor (`cleric-2-friendly-pastor`) | Lesser Religious Rites (`cleric-2-lesser-religious-rites`) |
+| Creative | Preacher Power (`cleric-2-preacher-power`) | Are You Not Entertained?! (`fighter-2-are-you-not-entertained`) |
+
+The archived cards use older skill names and check rules. Resolve those references against the 2.0 skill list and check rules when playtesting.
 
 Spend Skill Points to raise a skill one rank at a time. The rank bonus is the total bonus from proficiency.
 
@@ -28,6 +55,59 @@ Spend Skill Points to raise a skill one rank at a time. The rank bonus is the to
 Each Skill Increase gives you a fresh pool. Spend it on one skill or split it across several. You can buy successive ranks for the same skill if you can afford each step and stay within the tier cap. Unspent points expire when you advance. The point budget is the only limit on how many Untrained skills you can raise to Novice in an increase.
 
 At level 4, you could raise a Trained skill to Expert for 3 points, raise a Novice skill to Trained for 2 and make another skill Novice for 1, or make three skills Novice. In Paragon, 5 points buy one Adept promotion or an Expert and a Trained promotion. In Epic, 8 points buy one Master promotion or an Adept and an Expert promotion.
+
+### Class skill options
+
+Where a class lists multiple skills, choose one. That skill starts at Trained and counts as one of your four starting Trained skills.
+
+| Class | Skill options |
+| --- | --- |
+| Artificer | Crafting or Arcana |
+| Avenger | Religion |
+| Barbarian | Athletics |
+| Bard | Occultism |
+| Cleric | Religion |
+| Druid | Nature |
+| Fighter | Athletics or Acrobatics |
+| Invoker | Religion |
+| Paladin | Religion |
+| Ranger | Acrobatics or Athletics |
+| Rogue | Stealth, Finesse, or Deception |
+| Runepriest | Religion or Crafting |
+| Shaman | Occultism or Nature |
+| Sorcerer | Arcana |
+| Swordmage | Arcana |
+| Warden | Nature or Endurance |
+| Warlock | Occultism |
+| Warlord | Command |
+| Wizard | Arcana |
+
+### ZEITGEIST theme skills
+
+After choosing your four Trained skills, choose one of your theme's listed skills that is still Untrained. If both are Trained, choose any Untrained skill. The chosen skill starts at Novice.
+
+| Theme | Primary skill | Secondary skill |
+| --- | --- | --- |
+| Docker | Streetwise | Culture |
+| Eschatologist | Culture | Insight |
+| Gunsmith | Crafting | Arcana |
+| Martial Scientist | Culture | Athletics |
+| Skyseer | Nature | Occultism |
+| Spirit Medium | Occultism | Insight |
+| Technologist | Crafting | Finesse |
+| Vekeshi Mystic | Religion | Insight |
+| Yerasol Veteran | Endurance | Command |
+
+### Skill utility prerequisites
+
+To select a skill utility, your rank in the listed skill must be at least the highest rank available at the utility power's listed level. You must also meet the power's minimum level and any other prerequisites.
+
+| Utility power level | Required skill rank |
+| --- | --- |
+| 1-3 | Trained |
+| 4-10 | Expert |
+| 11-20 | Adept |
+| 21-30 | Master |
 
 ### Idrani at levels 12 and 14
 
@@ -53,9 +133,9 @@ For this playtest, compare the check total to the task's DC to determine the out
 
 | Check total | Outcome |
 | --- | --- |
-| DC + 11 or higher | Perfect success |
-| DC + 1 through DC + 10 | Success with consequences |
-| DC or lower | Failure |
+| DC + 9 or higher | Perfect success |
+| DC through DC + 8 | Success with consequences |
+| Below DC | Failure |
 
 A natural 1 gives failure by default. A natural 20 gives a critical success
 (success with bonus). These results override the check total.
@@ -65,21 +145,25 @@ at +4 and increases at levels 8, 14, 21, and 28, and a Normal check against a
 challenge of the character's level. For this test, add +1 to the baseline Normal
 DC at levels 1–2 and 11–20, and +2 at levels 3–10 and 21–30.
 
-Use Normal DC − 3 for Easy checks and Normal DC + 3 for Hard checks.
+For Very Easy, Easy, Hard, and Extreme checks, adjust the Normal DC by −6, −3, +3, and +6, respectively.
 The outcome thresholds use the selected difficulty's DC.
 
-On Normal checks, a skill promoted at the first opportunity goes from 65% Trained at level 1 to
-70% Expert at level 4, 75% Adept at level 11, and 80% Master at level 21.
-Master stays at 80% through level 30.
+On Normal checks, a skill promoted at the first opportunity goes from 70% Trained at level 1 to
+75% Expert at level 4, 80% Adept at level 11, and 85% Master at level 21.
+Master stays at 85% through level 30. At each of these benchmarks, success with consequences is 45%.
 
 Average Rolled is the mean numeric total: 10.5 from the d20, plus half level
 rounded down, the main ability modifier, and the rank bonus. The dashed line
-marks DC + 1. Green marks totals that meet or exceed that threshold, and red marks
+marks the Normal DC. Green marks totals that meet or exceed that threshold, and red marks
 totals that fall short. The success chance chart combines all three successful
 outcomes and shows all four outcomes for each available rank at the selected
 level. The odds apply the natural 1 and 20 overrides.
 
-## Current test variant
+## Earlier playtest variants
+
+These sections record earlier experiments. Use Skill Points with Novice above for the 2.0 playtest.
+
+### One-promotion test variant
 
 Use proficiency bonuses of **Untrained +0, Trained +3, Expert +5, Adept +7, and Master +9**. Training adds +3, and each later promotion adds +2. Use the ability progression, upgrade picks, and tier caps in the baseline below. Apply the base rank bonuses alone.
 
@@ -139,26 +223,6 @@ Keep the Normal DCs fixed at the values in the table when comparing ability and 
 With the main ability, taking each rank at its first opportunity gives a 75% chance on Normal checks at levels 1–2 and 80% from level 3 onward.
 
 An optional tier bonus would give all Trained or higher skills +1 starting at level 11 and another +1 starting at level 21. The benchmarks above use the base rank bonuses.
-
-## Starting skills and Intelligence
-
-Each character starts with two background skills and a number of free Trained skill picks based on their class.
-
-| Class ability guidance | Free picks | Classes |
-| --- | ---: | --- |
-| Intelligence is a main ability | 1 | Artificer, Swordmage, Wizard |
-| Intelligence is a listed secondary ability | 1 | Avenger, Bard, Cleric, Invoker, Shaman, Warlock, Warlord |
-| Intelligence is neither | 3 | Barbarian, Druid, Fighter, Paladin, Ranger, Rogue, Runepriest, Sorcerer, Warden |
-
-Characters also gain one Trained skill per two points of Intelligence, rounded down, with a minimum of zero and no cap on the Intelligence contribution. When Intelligence rises enough to increase that total, choose another skill to train. The free picks depend on the class's listed abilities.
-
-| Example build | Level 1 | Level 15 | Level 30 |
-| --- | ---: | ---: | ---: |
-| Wizard, main Intelligence starting at +4 | 5 | 6 | 7 |
-| Warlock, secondary Intelligence starting at +3 and raised whenever possible | 4 | 5 | 7 |
-| Fighter, Intelligence stays at +1 | 5 | 5 | 5 |
-
-These totals use the proposed [Ability Advancement](ABILITY_UPDATE.md) schedule and exclude any skill increases spent on new training.
 
 ## Skill ranks and advancement
 

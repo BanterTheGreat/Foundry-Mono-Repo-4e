@@ -22,7 +22,9 @@ Idrani is a Strength-based Fighter. If she chooses Strength and Constitution at 
 
 With even starting scores and repeated Strength and Constitution picks, vanilla 4e gives Idrani the same modifier gains at the same levels. Odd starting scores or different picks can change when vanilla modifiers rise. The proposed Modern 4e track uses the same milestones for every character.
 
-## Level 1 Ability Boosts (Proposal)
+## Deferred: Level 1 Ability Boosts
+
+Keep the existing level 1 ability assignment for 2.0. The boost sequence and theme ability pairs below are retained for reference.
 
 Try a Pathfinder 2e-style boost sequence for level 1. The chosen theme fills the slot Pathfinder gives to ancestry.
 
@@ -36,8 +38,6 @@ Start all six abilities at +0. Each boost adds 1 point. You can boost the same a
 | Free boosts | Boost four different abilities of your choice. |
 
 This gives nine boosts. Boosting one ability in all four steps brings it to +4. The theme's free boost can go into your class's main ability whenever you used the listed boost on a different ability.
-
-**TODO** — Look into how Modern 4e backgrounds work with this boost sequence.
 
 ### Zeitgeist Theme Ability Pairs
 
