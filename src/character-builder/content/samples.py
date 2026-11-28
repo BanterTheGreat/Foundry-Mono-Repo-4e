@@ -204,10 +204,14 @@ REGRESSION_POWERS = [(3, 'attack-encounter-3', 'modern4e.power.fighter-power1004
 REGRESSION_REPLACEMENTS = [(9, 'class-attack-daily', 0, 'power1429', 'modern4e.power.fighter-power10478'),
                            (15, 'class-attack-daily-5', 0, 'attack-daily-5', 'modern4e.power.fighter-power10002'),
                            (19, 'class-attack-daily', 1, 'power1524', 'modern4e.power.fighter-power10005')]
+# Each milestone's pool is fully spent; a saved increase names the rank it reaches.
+REGRESSION_SKILL_INCREASES = {4: [('ATHLETICS', 'EXPERT')], 8: [('CRAFTING', 'EXPERT')], 11: [('ATHLETICS', 'ADEPT')],
+                              14: [('MEDICINE', 'EXPERT'), ('STREETWISE', 'TRAINED')],
+                              18: [('RELIGION', 'EXPERT'), ('STEALTH', 'NOVICE'), ('FINESSE', 'NOVICE')]}
 
 
 def regression_assets(packages=None):
-    """A complete level-19 Fighter: paragon path, daily replacements, ability choices, Linguist values and a multiclass feat."""
+    """A complete level-19 Fighter: paragon path, daily replacements, ability and skill choices, Linguist values and a multiclass feat."""
     packages = build.production() if packages is None else packages
     definitions = {e['id']: (name.split('/')[0], e) for name, chunk in packages.items()
                    if '/entries' in name for e in chunk['entries']}
@@ -235,6 +239,8 @@ def regression_assets(packages=None):
     for level in (8, 14):
         rows[level]['abilityAdvancements'] = [dict(slot=slot(f'advancement.{level}', 'ability'),
                                                   increases=dict(STRENGTH=1, DEXTERITY=1))]
+    for level, increases in REGRESSION_SKILL_INCREASES.items():
+        rows[level]['skillIncreases'] = [dict(skill=skill, rank=rank) for skill, rank in increases]
     rows[4]['values'] = [dict(slot=slot('feat-4', 'modern4e.choice.linguist.languages', ordinal), value=language)
                          for ordinal, language in enumerate(['DRACONIC', 'ELVEN', 'GIANT'])] + [
                          dict(slot=slot('feat-4', 'modern4e.choice.linguist.skill-bonus'), value='INSIGHT')]

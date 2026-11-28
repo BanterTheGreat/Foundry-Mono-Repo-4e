@@ -1,7 +1,7 @@
 package dev.modern4e.builder
 
 /** What tapping a Home ledger row does. */
-internal enum class HomeAction { Continue, Characters, New, Import }
+internal enum class HomeAction { Continue, Characters }
 
 /**
  * One row of the Home ledger.
@@ -17,19 +17,17 @@ internal data class HomeRow(
     val characterId: String? = null,
 )
 
-private val Numerals = listOf("I", "II", "III", "IV")
+private val Numerals = listOf("I", "II")
 
 /**
- * Builds the Home ledger: Continue (only when a character is saved, opening the most recently saved one),
- * Characters, New character and Import, numbered in the order shown.
+ * Builds the Home ledger: Continue (only when a character is saved, opening the most recently saved one)
+ * and Characters, numbered in the order shown.
  */
 internal fun List<CharacterSummary>.homeRows(): List<HomeRow> {
     val latest = forLibrary("", LibrarySort.Recent).firstOrNull()
     val rows = listOfNotNull(
         latest?.let { Triple(HomeAction.Continue, "Continue", "${it.name} · ${it.levelDescription}") },
         Triple(HomeAction.Characters, "Characters", if (isEmpty()) "None yet" else "$size saved"),
-        Triple(HomeAction.New, "New character", "Start from a Modern 4e class"),
-        Triple(HomeAction.Import, "Import", "Add a character file"),
     )
     return rows.mapIndexed { index, (action, title, detail) ->
         HomeRow(action, Numerals[index], title, detail, latest?.id.takeIf { action == HomeAction.Continue })

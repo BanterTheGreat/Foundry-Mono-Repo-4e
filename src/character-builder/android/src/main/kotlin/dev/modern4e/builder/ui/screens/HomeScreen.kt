@@ -23,7 +23,7 @@ import dev.modern4e.builder.R
 import dev.modern4e.builder.ui.theme.*
 import dev.modern4e.builder.ui.components.*
 
-/** Renders the home cover: emblem and wordmark above a numbered ledger of Continue, Characters, New and Import. */
+/** Renders the home cover: emblem and wordmark above a numbered ledger of Continue and Characters. */
 @Composable
 internal fun HomeScreen(model: BuilderSession, task: (suspend BuilderSession.() -> Unit) -> Unit) {
     val rows = model.characters.homeRows()
@@ -45,8 +45,6 @@ internal fun HomeScreen(model: BuilderSession, task: (suspend BuilderSession.() 
                         } else {
                             model.page = "library"
                         }
-                        HomeAction.New -> task { beginCreate() }
-                        HomeAction.Import -> model.page = "import"
                     }
                 }
                 HorizontalDivider(color = Line)

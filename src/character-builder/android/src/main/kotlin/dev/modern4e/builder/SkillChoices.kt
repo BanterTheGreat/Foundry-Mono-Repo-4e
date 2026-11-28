@@ -19,6 +19,18 @@ internal data class SkillTile(
 /** A skill picker row, showing the rank the character would hold with the draft picks. */
 internal data class SkillPickRow(val skill: Skill, val rank: SkillRank, val chosen: Boolean, val blocked: Boolean)
 
+/** What a picker's header counts: [used] of [total] picks or points. [left] is negative when overspent. */
+internal data class PickTally(val title: String, val subtitle: String, val total: Int, val used: Int) {
+    val left: Int get() = total - used
+
+    /** The header read as one sentence. */
+    val description: String get() = "$title, $left of $total left"
+}
+
+/** The free skill picker's header for [picked] draft picks. */
+internal fun freeSkillTally(picked: Int): PickTally = PickTally("Free skills",
+    "Choose ${ModernCreation.FREE_SKILL_COUNT} to start Trained", total = ModernCreation.FREE_SKILL_COUNT, used = picked)
+
 /** The free Trained skill slots, in order. */
 internal val freeSkillSlots: List<ChoiceSlotId>
     get() = (0 until ModernCreation.FREE_SKILL_COUNT).map(ModernCreation::freeSkillSlot)
@@ -61,12 +73,14 @@ internal fun toggleSkillPick(picks: List<Skill>, skill: Skill, slotCount: Int): 
 internal fun EngineResult.skillPickRows(offered: List<Skill>, slots: List<ChoiceSlotId>, picks: List<Skill>,
     granted: SkillRank): List<SkillPickRow> {
     val classSlot = slots.any { it.choiceId == ModernCreation.CLASS_SKILL_CHOICE }
+    // Training bought with Skill Points comes after creation, so it neither blocks nor raises a creation pick.
+    fun heldElsewhere(source: ChoiceSlotId) = source !in slots && SkillAdvancement.levelOf(source) == null
     return offered.map { skill ->
         val chosen = skill in picks
-        val trained = proficiencies[skill].orEmpty().any { it !in slots }
+        val trained = proficiencies[skill].orEmpty().any(::heldElsewhere)
         val held = when {
             trained -> SkillRank.TRAINED
-            noviceSkills[skill].orEmpty().any { it !in slots } -> SkillRank.NOVICE
+            noviceSkills[skill].orEmpty().any(::heldElsewhere) -> SkillRank.NOVICE
             else -> SkillRank.UNTRAINED
         }
         SkillPickRow(skill, if (chosen) maxOf(held, granted) else held, chosen,

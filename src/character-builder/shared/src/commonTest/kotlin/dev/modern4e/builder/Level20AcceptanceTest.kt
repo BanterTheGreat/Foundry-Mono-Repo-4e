@@ -149,13 +149,13 @@ class Level20AcceptanceTest {
         assertEquals(20, AdvancementRules.LAST_ENFORCED_LEVEL)
         assertTrue(AdvancementRules.level(21).previewOnly)
         assertFalse(AdvancementRules.level(20).previewOnly)
-        assertTrue(AdvancementRules.rootSlots(21).isEmpty())
+        assertEquals(listOf(SkillAdvancement.slot(21)), AdvancementRules.rootSlots(21).map { it.slot })
         val state = fixture.pathCharacter(20).let { fixture.at(21, it.document) }
         val unsupported = state.rules.diagnostics.single { it.code == "engine.progressionUnsupported" }
         assertEquals(DiagnosticKind.INCOMPLETE_AUTOMATION, unsupported.kind)
         assertEquals("Epic feats, powers and destinies remain unavailable.", unsupported.message)
-        // The all-ability increase is automatic and level 21 opens no decision slots.
-        assertTrue(state.rules.choices.none { it.acquisitionLevel == 21 })
+        // The all-ability increase is automatic, so level 21 opens only its Skill Points.
+        assertEquals(listOf(SkillAdvancement.slot(21)), state.rules.choices.filter { it.acquisitionLevel == 21 }.map { it.slot })
         assertEquals(7, state.strength())
         assertTrue(state.owns(dailyId))
         // Direct creation covers 1..20 and nothing beyond.

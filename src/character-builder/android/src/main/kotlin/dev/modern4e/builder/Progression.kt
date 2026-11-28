@@ -322,9 +322,6 @@ object Progression {
         )
     }
 
-    /** Compact labels for the skill picker; the row already names the rank and its bonus. */
-    fun skillContributorLabel(label: String): String? = label.takeUnless { it == SKILL_RANK_LABEL }
-
     /** Whether a stepper can move this ability by one point. */
     fun canAdjustAbility(allocation: AbilityAllocation, ability: Ability, delta: Int): Boolean {
         if (ability == allocation.mainAbility || delta !in listOf(-1, 1)) {

@@ -42,6 +42,9 @@ import kotlinx.coroutines.launch
 
 private data class ProgressionEditor(val kind: String, val level: Int = 1, val slot: ChoiceSlotId? = null)
 
+/** The sheet kinds that list skills to pick. */
+private val SkillPickKinds = setOf("free", "environment-skill", "upbringing-skill", "skill")
+
 /** One folio column, with stable engine slots and catalog-backed editing sheets. */
 @Composable
 internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
@@ -69,6 +72,10 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
         futureState?.let(Progression::automaticGrants).orEmpty().filter { it.level > document.level }
     }
     val grantsByLevel = remember(activeGrants, futureGrants) { (activeGrants + futureGrants).groupBy { it.level } }
+    // Replayed from the saved decisions, so upcoming plans follow an edit before the next preview arrives.
+    val skillSteps = remember(state, futureState) {
+        skillSteps(skillGrantsFor(state, futureState), document).associateBy { it.level }
+    }
     val invalidSlots = remember(state.rules) { Progression.invalidChoiceSlots(state.rules) }
     val filledSlots = remember(state) {
         buildSet {
@@ -135,6 +142,9 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             needs += if (needsAttention(slot, level)) 1 else 0
         }
         if (abilityIncreaseInvalid(level)) {
+            needs++
+        }
+        if (skillSteps[level]?.needsAttention == true) {
             needs++
         }
         if (schedule.feat) {
@@ -313,6 +323,12 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 AbilityIncreaseKind.ALL -> Text("+1 to all abilities", color = Dim)
                 null -> Unit
             }
+            skillSteps[level]?.let { step ->
+                SkillIncreaseCard(step, document.skillIncreasesAt(level), reached = !future, enabled = !model.busy,
+                    saving = saving("skill-increase", level)) {
+                    open("skill-increase", level)
+                }
+            }
             if (level > AdvancementRules.LAST_ENFORCED_LEVEL && levelChoices.none { with(Progression) { it.isPowerChoice(powerEntryIds) } }) {
                 schedule.powers.forEach { power ->
                     if ((power.startsWith("Paragon ") && grants.path.any { it.isPower }) ||
@@ -386,7 +402,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 }
             }
         }
-        editorState?.let { ProgressionSheet(request, it, model) { editor = null } }
+        editorState?.let { ProgressionSheet(request, it, futureState, model) { editor = null } }
     }
 }
 
@@ -561,8 +577,15 @@ internal fun LevelChoice(
 }
 
 @Composable
-private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, model: BuilderSession, dismiss: () -> Unit) {
+private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, preview: BuilderState?, model: BuilderSession,
+    dismiss: () -> Unit) {
     val document = state.document
+    val skillPoints = request.kind == "skill-increase"
+    val savedIncreases = document.skillIncreasesAt(request.level)
+    var increases by remember(request) { mutableStateOf(savedIncreases) }
+    var skillExplanation by remember(request) { mutableStateOf<String?>(null) }
+    val skillGrants = remember(state, preview) { skillGrantsFor(state, preview) }
+    val skillDraft = if (skillPoints) skillMatrix(skillGrants, document, request.level, increases) else null
     val mainAbilities = if (request.kind == "allocation") {
         state.rules.choices.firstOrNull { it.slot == document.abilities.source }?.abilities.orEmpty()
     } else {
@@ -614,7 +637,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
             optionLoadFinished = true
         }
     }
-    ChoicePickerSheet(model.busy, dismiss) {
+    ChoicePickerSheet(model.busy, dismiss, sidePadding = if (skillPoints) SkillMatrixSheetPadding else 20.dp) {
         request.slot?.let { Progression.choiceIntroduction(state, it) }?.let { introduction ->
             Box(Modifier.fillMaxWidth().heightIn(max = 120.dp).folioScroll(rememberScrollState()).padding(bottom = 8.dp)) {
                 AdvancementProse(introduction)
@@ -642,6 +665,28 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                         }
                     })
             }
+        } else if (skillDraft != null) {
+            val savedSteps = remember(skillGrants, document) { skillSteps(skillGrants, document) }
+            SkillMatrixEditor(skillDraft, skillDraft.note(savedSteps), skillExplanation,
+                planned = request.level > (model.current?.document?.level ?: document.level),
+                bonus = state.rules::displayedSkill, modifier = Modifier.weight(1f)) { cell ->
+                val next = pressSkillCell(increases, cell)
+                if (next == null) {
+                    skillExplanation = skillDraft.explain(cell)
+                } else {
+                    skillExplanation = null
+                    increases = next
+                    edit = BuilderEdit.SkillIncreases(request.level, next)
+                }
+            }
+        } else if (request.kind in SkillPickKinds) {
+            val kind = request.kind.substringBefore('-')
+            val slots = when (kind) {
+                "free" -> freeSkillSlots
+                "skill" -> listOf(request.slot!!)
+                else -> listOf(ChoiceSlotId("background.$kind.${Progression.background(document, kind)}", "skill", 0))
+            }
+            SkillPickList(state, request.level, slots, free = kind == "free", Modifier.weight(1f)) { edit = it }
         } else {
             Column(Modifier.weight(1f).folioScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 when (request.kind) {
@@ -724,31 +769,6 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                             }, compact = true) { }
                         }
                     }
-                    "free", "environment-skill", "upbringing-skill", "skill" -> {
-                        val kind = request.kind.substringBefore('-')
-                        val slots = when (kind) {
-                            "free" -> freeSkillSlots
-                            "skill" -> listOf(request.slot!!)
-                            else -> listOf(ChoiceSlotId("background.$kind.${Progression.background(document, kind)}", "skill", 0))
-                        }
-                        val offer = state.rules.choices.firstOrNull { it.slot == slots.first() }
-                        val offered = if (kind == "free") Skill.catalog else offer?.skills.orEmpty()
-                        val granted = offer?.skillRank ?: SkillRank.TRAINED
-                        var picks by remember { mutableStateOf(savedSkillPicks(document, slots, offered)) }
-                        if (offered.isEmpty()) { Text("No skills are available for this choice yet.", color = Dim) }
-                        if (granted == SkillRank.NOVICE) {
-                            Text("Choose one skill to start at Novice.", color = Dim)
-                        }
-                        state.rules.skillPickRows(offered, slots, picks, granted).forEach { row ->
-                            SkillRow(row.skill, row.rank, state.rules.displayedSkill(row.skill, row.rank),
-                                row.chosen, row.blocked) {
-                                picks = toggleSkillPick(picks, row.skill, slots.size)
-                                edit = skillPickEdit(request.level, slots, picks)
-                            }
-                        }
-                        if (slots.size > 1) { Text("${slots.size - picks.size} left", color = Dim) }
-
-                    }
                     else -> Unit
                 }
             }
@@ -758,6 +778,16 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
             saved?.let { replacement ->
                 { edit = BuilderEdit.RemoveReplacement(request.level, replacement.replaces); selected = null; expanded = null }
             }
+        } else if (skillPoints) {
+            if (increases.isEmpty()) {
+                null
+            } else {
+                {
+                    increases = emptyList()
+                    skillExplanation = null
+                    edit = BuilderEdit.SkillIncreases(request.level, emptyList())
+                }
+            }
         } else if (request.kind == "advancement" && (savedAdvancement.isNotEmpty() || abilityPicks.isNotEmpty())) {
             { edit = BuilderEdit.Advancement(request.level, null); abilityPicks = emptySet() }
         } else if (request.slot != null && selected != null) {
@@ -766,17 +796,20 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
             null
         }
         val valid = edit != null &&
+            (skillDraft == null || skillDraft.step.issues.isEmpty() && increases != savedIncreases) &&
             (request.kind != "advancement" || (edit as? BuilderEdit.Advancement)?.value == null || abilityPicks.size == 2) &&
             (request.kind != "free" ||
                 (edit as? BuilderEdit.Batch)?.edits?.count { it is BuilderEdit.Proficiency } == ModernCreation.FREE_SKILL_COUNT) &&
             (request.kind != "allocation" || (edit as? BuilderEdit.Allocation)?.value?.let {
                 it.mainAbility in mainAbilities && Progression.validAllocation(it)
             } == true)
-        ChoicePickerActions(model.busy, valid, dismiss, clear) {
-            val command = edit ?: return@ChoicePickerActions
-            // The session applies and stores it in the background, so the sheet closes at once and the next edit can start.
-            model.submitEdit(command, selectedTitle, request)
-            dismiss()
+        Box(Modifier.padding(horizontal = if (skillPoints) SkillMatrixInset else 0.dp)) {
+            ChoicePickerActions(model.busy, valid, dismiss, clear) {
+                val command = edit ?: return@ChoicePickerActions
+                // The session applies and stores it in the background, so the sheet closes at once and the next edit can start.
+                model.submitEdit(command, selectedTitle, request)
+                dismiss()
+            }
         }
     }
 }

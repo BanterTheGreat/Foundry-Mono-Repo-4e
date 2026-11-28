@@ -7,7 +7,8 @@ internal class ProficiencySelectionRules(
     private val proficiencies: Map<Skill, List<ChoiceSlotId>>,
 ) {
     private val occurrences = entries.associateBy { it.instanceId }
-    private val decisions = document.levels.flatMap { level -> level.proficiencies.map { it.slot to level.level } }.toMap()
+    private val decisions = document.levels.flatMap { level -> level.proficiencies.map { it.slot to level.level } +
+        if (level.skillIncreases.isEmpty()) emptyList() else listOf(SkillAdvancement.slot(level.level) to level.level) }.toMap()
     private val entryLevels = document.levels.flatMap { level -> level.entries.map { it.slot to level.level } }.toMap()
 
     /** Keep this slot's existing value editable while excluding siblings and independent sources. */
@@ -60,7 +61,8 @@ internal class ProficiencySelectionRules(
         return occurrences[instance]?.let { ownedBy(it.slot.sourceInstanceId, owner, seen + instance) } ?: false
     }
 
-    private fun sourceLevel(slot: ChoiceSlotId): Int {
+    /** The level from which the training [slot] gives is held. */
+    fun sourceLevel(slot: ChoiceSlotId): Int {
         decisions[slot]?.let { return it }
         val progressionLevel = occurrences[slot.sourceInstanceId]?.definition?.entry?.mechanics?.progression
             .orEmpty().filter { level -> level.grants.any { it is Grant.Proficiency && it.grantId == slot.choiceId } ||

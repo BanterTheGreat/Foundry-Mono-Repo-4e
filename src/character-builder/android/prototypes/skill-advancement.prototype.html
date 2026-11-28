@@ -3,11 +3,12 @@
 <title>Skill advancement prototype</title>
 <!--
   PROTOTYPE (throwaway), ticket #52. Question: how should spending 2.0 Skill Points look in Android Levels?
-  Verdict so far: A was chosen, then refined to short press-to-select rows with a right-aligned modifier.
+  Verdict so far: C chosen (after a round on A). C was then reworked for ease of use and moved
+  from a full screen into the usual picker sheet, one level at a time.
   Three structurally different variants on the Levels tab (bottom bar, arrow keys, or ?variant=A|B|C):
-    A  Ledger  : a normal picker sheet, one press-to-select row per skill. CHOSEN.
+    A  Ledger  : a normal picker sheet, one press-to-select row per skill.
     B  Offers  : a normal picker sheet that lists what the points can buy, grouped by price, with a receipt.
-    C  Matrix  : a full-screen skill x rank grid with a strip for hopping between all eight increases.
+    C  Matrix  : a skill x rank grid. CHOSEN.
   Rules come from upcoming/2.0/SKILL_MECHANIC_OVERHAUL.md. Style comes from android/STYLE.md. In memory only.
   Saved model assumed here: per milestone, a target rank per skill. Cost is derived from the rank held on entry,
   so editing an earlier increase re-prices later ones.
@@ -24,7 +25,6 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .phone{position:relative;width:100%;max-width:400px;height:740px;display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 35px #0002}
 .topbar{flex:none;height:62px;display:flex;flex-direction:column;justify-content:center;align-items:center;border-bottom:1px solid var(--line);position:relative}
 .topbar b{font:normal 22px var(--serif)}.topbar small{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-.back{position:absolute;left:8px;top:7px;width:48px;height:48px;color:var(--accent);font-size:30px;text-align:center}
 .viewport{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--accent) var(--wash)}
 .page{padding:10px 20px 28px}
 .strip{height:42px;display:flex;align-items:center;gap:6px;padding:0 16px;background:var(--wash);border-left:3px solid var(--accent);font-size:13px}.strip b{color:var(--accent)}.strip u{margin-left:auto;color:var(--accent);text-decoration:none;font-weight:600}
@@ -67,15 +67,27 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .offer{border:1px solid var(--line);border-radius:2px;padding:7px 10px;min-height:48px}.offer b{display:block;font-weight:400;font-size:15px;line-height:18px}.offer span{display:block;font-size:11px;color:var(--dim)}.offer:disabled{opacity:.45}.offer:not(:disabled):hover{background:var(--wash);border-color:var(--accent)}
 .note{font-size:12px;color:var(--dim);margin:4px 0}
 /* C: matrix */
-.full{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;background:var(--paper)}
-.miles{flex:none;display:grid;grid-template-columns:repeat(8,1fr);border-bottom:1px solid var(--line);padding:0 6px}
-.mile{text-align:center;padding:5px 0 6px;border-bottom:3px solid transparent;color:var(--dim)}.mile b{display:block;font:normal 19px var(--serif)}.mile span{display:block;font-size:10px}.mile.on{border-color:var(--accent);color:var(--accent)}.mile.on span{font-weight:700}.mile.bad{color:var(--err)}.mile.up b{opacity:.6}
-.grid{display:grid;grid-template-columns:1fr repeat(5,44px);column-gap:3px;align-items:center}
-.gridhead{flex:none;padding:6px 18px 4px 16px;border-bottom:1px solid var(--line);font-size:10px;text-align:center;color:var(--dim);line-height:12px}.gridhead div:first-child{text-align:left;font-size:11px}.gridhead .over{opacity:.4}
-.matrix{padding:0 6px 6px 16px}.matrix .grid{height:29px}.matrix .grid.brk{border-top:1px solid var(--line)}.matrix .name{font-size:14px;white-space:nowrap}.matrix .name.bought{color:var(--accent);font-weight:700}
-.cell{height:25px;border-radius:2px;border:1px solid transparent;text-align:center;font-size:12px;display:flex;align-items:center;justify-content:center}
-.cell.held{background:#71675c;color:var(--paper)}.cell.new{background:var(--accent);color:var(--paper);font-weight:700}.cell.buy{border-color:var(--accent);color:var(--accent)}.cell.poor{border:1px dashed var(--line);color:var(--dim)}.cell.capped{background:repeating-linear-gradient(135deg,transparent 0 4px,#c9bda766 4px 5px)}.cell.stale{background:#b3261e1a;border-color:var(--err);color:var(--err)}
-.fullfoot{flex:none;padding:0 16px 10px}.tally{display:flex;justify-content:space-between;align-items:baseline;background:var(--wash);border:1px solid var(--line);border-radius:3px;padding:2px 14px;margin-top:4px;font:normal 16px var(--serif)}.tally b{font:normal 24px var(--serif);color:var(--accent)}.tally b.neg{color:var(--err)}.fullfoot .actions{margin-top:6px}
+.sheet.wide{padding-left:8px;padding-right:8px}
+.sheet.wide .actions{margin:0 4px}
+.tally{flex:none;display:flex;justify-content:space-between;align-items:center;gap:10px;height:42px;background:var(--wash);border:1px solid var(--line);border-radius:3px;padding:0 12px;margin:0 4px}
+.tally h2{margin:0;font:normal 16px/18px var(--serif)}.tally p{margin:0;font-size:11px;line-height:13px;color:var(--dim)}.tally .grow{flex:1}.tally .pips{margin:0;gap:3px}.tally .pip{width:11px;height:9px}
+.tally .count{font:normal 13px var(--serif);font-variant-numeric:lining-nums;white-space:nowrap}.tally .count b{font:normal 24px var(--serif);color:var(--accent)}.tally .count b.neg{color:var(--err)}
+.grid{display:grid;grid-template-columns:82px repeat(5,1fr) 32px;align-items:stretch;padding:0 4px}
+.gridhead{flex:none;padding-top:5px;padding-bottom:4px;border-bottom:1px solid var(--line);font-size:10px;text-align:center;color:var(--dim);line-height:12px;align-items:end}.gridhead div:first-child{text-align:left}.gridhead div:last-child{text-align:right}.gridhead .over{opacity:.55}
+.matrix{padding:0;scrollbar-width:thin}.matrix .grid{height:30px;flex:none}.matrix .grid.brk{border-top:1px solid var(--line)}.matrix .grid.bought{background:var(--wash)}
+.matrix .name{align-self:center;font-size:14px;white-space:nowrap}.matrix .name.bought{color:var(--accent);font-weight:700}
+.matrix .mod{align-self:center;text-align:right;font-size:13px;color:var(--ink);white-space:nowrap}.matrix .mod strong{color:var(--accent);font-size:15px}
+/* A cell is a full-height press target; its <i> is what is drawn. */
+.cell{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%;text-align:center}.cell i{font-style:normal;display:flex;align-items:center;justify-content:center;font-size:12px;line-height:1;white-space:nowrap}
+.cell.held i,.cell.new i,.cell.over i{width:100%;height:8px;background:#8d8274}.cell.new i,.cell.over i{background:var(--accent)}.cell.over i{background:var(--err)}
+.cell.first i{margin-left:3px;width:calc(100% - 3px);border-radius:4px 0 0 4px}.cell.last i{width:calc(100% - 3px);margin-right:3px;border-radius:0 4px 4px 0}.cell.first.last i{width:calc(100% - 6px);margin:0 3px;border-radius:4px}
+.cell.top i{height:22px;color:var(--paper);font-weight:700;border-radius:0 4px 4px 0}.cell.first.top i{border-radius:4px}
+.cell.buy i{width:calc(100% - 6px);height:24px;border:1px solid var(--accent);border-radius:3px;background:var(--paper);color:var(--accent);font-weight:700}.cell.buy:hover i{background:var(--accent);color:var(--paper)}
+.cell.poor i{width:4px;height:4px;border-radius:50%;background:var(--line)}
+.cell.later i{width:calc(100% - 6px);height:22px;border:1px dashed var(--dim);border-radius:3px;color:var(--dim);font-size:10px}
+.cell.locked{background:repeating-linear-gradient(135deg,transparent 0 4px,#c9bda74d 4px 5px)}
+.cell.stale i{width:calc(100% - 6px);height:24px;border:1px solid var(--err);border-radius:3px;background:#b3261e1a;color:var(--err)}
+.msg{flex:none;height:34px;display:flex;align-items:center;font-size:12px;line-height:15px;color:var(--dim);margin:0 4px;overflow:hidden}.msg.err{color:var(--err)}.msg.say{color:var(--ink)}
 /* ---------- prototype chrome (not part of the design) ---------- */
 .side{width:100%;max-width:400px;font-size:12px;line-height:1.5;color:#3d362e}
 .side h1{font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 4px}
@@ -136,12 +148,12 @@ const SCENES={
   fresh:{level:4,plan:{}},
   idrani:{level:14,plan:{4:{Athletics:3},8:{Endurance:3},11:{Athletics:4},14:{Insight:3,Culture:2}}},
   broken:{level:14,plan:{4:{Stealth:2},8:{Endurance:3},11:{Athletics:4},14:{Insight:3,Culture:2}}}};
-const VARS={A:['Ledger (chosen)','<b>A · Ledger (chosen).</b> A normal picker sheet with all 16 skills in their groups. Press a row to buy the next rank. If another rank is affordable, press again to buy it. Otherwise the next press deselects. The modifier is on the right.'],
+const VARS={A:['Ledger','<b>A · Ledger.</b> A normal picker sheet with all 16 skills in their groups. Press a row to buy the next rank. If another rank is affordable, press again to buy it. Otherwise the next press deselects. The modifier is on the right.'],
   B:['Offers','<b>B · Offers.</b> The sheet answers “what can I buy?”. Purchases sit in a receipt on top, and offers are grouped by price. Buying a rank moves that skill to the next group.'],
-  C:['Matrix','<b>C · Matrix.</b> A full screen with all skills and ranks at once. A number in a cell is the total cost to get there. The strip on top moves between all eight increases and shows how an edit carries forward. Save stores the whole plan.']};
+  C:['Matrix (chosen)','<b>C · Matrix (chosen).</b> A normal picker sheet for one level. Press the rank you want a skill to reach. A box shows the cost, the bar shows ranks held, and the bonus is on the right. Press a ✓ again to undo. Press a dot, bar or locked cell to see why you cannot buy it. Dashed cells are planned at a later level.']};
 const copy=o=>JSON.parse(JSON.stringify(o));
 const params=new URLSearchParams(location.search);
-let variant=VARS[params.get('variant')]?params.get('variant'):'A';
+let variant=VARS[params.get('variant')]?params.get('variant'):'C';
 let scene=SCENES[params.get('scene')]?params.get('scene'):'fresh';
 let level,plan,edit=null; /* edit = {L, plan: draft of the whole plan} */
 function load(name){scene=name;level=SCENES[name].level;plan=copy(SCENES[name].plan);edit=null}
@@ -183,12 +195,11 @@ function levelsPage(){let h='';
 function impact(){const hit=MILES.filter(m=>m>edit.L&&ledger(m,edit.plan).bad&&!ledger(m,plan).bad);
   return hit.length?`<div class="impact">${hit.map(m=>`Saving breaks the level ${m} increase: ${ledger(m,edit.plan).why}`).join('<br>')}</div>`:''}
 function actions(){const g=ledger(edit.L,edit.plan);
-  const dirty=JSON.stringify(edit.plan)!==JSON.stringify(plan);
-  const invalid=variant==='C'?MILES.some(m=>ledger(m,edit.plan).bad&&!ledger(m,plan).bad&&m<=edit.L):g.bad;
-  return `<div class="actions"><button class="tbtn lead" data-act="clear" ${g.buys.length?'':'disabled'}>Clear</button><button class="tbtn" data-act="cancel">Cancel</button><button class="fbtn" data-act="save" ${dirty&&!invalid?'':'disabled'}>Save</button></div>`}
+  const dirty=JSON.stringify(edit.plan[edit.L]||{})!==JSON.stringify(plan[edit.L]||{});
+  return `<div class="actions"><button class="tbtn lead" data-act="clear" ${g.buys.length?'':'disabled'}>Clear</button><button class="tbtn" data-act="cancel">Cancel</button><button class="fbtn" data-act="save" ${dirty&&!g.bad?'':'disabled'}>Save</button></div>`}
 const subline=g=>`${tierOf(g.L)} · up to ${RANKS[capOf(g.L)]}${g.L>level?' · planned':''}`;
 function budget(g,extra=''){return `<div class="budget"><div class="grow"><h2>Level ${g.L} skill points</h2><p>${subline(g)}</p>${extra}</div><div style="text-align:right"><span class="big${g.left<0?' neg':''}">${g.left}</span><p>of ${POOL[g.L]} left</p></div></div>`}
-const sheet=inner=>`<div class="overlay"><div class="sheet" role="dialog">${inner}</div></div>`;
+const sheet=(inner,cls='')=>`<div class="overlay"><div class="sheet ${cls}" role="dialog">${inner}</div></div>`;
 const expiryNote=g=>g.left>0?`<p class="note">Unspent points expire when you advance. They do not carry to the next increase.</p>`:'';
 const staleNote=g=>g.bad?`<div class="impact" style="border:0;padding:0 0 6px">${g.why}</div>`:'';
 /* ---------- A: ledger ---------- */
@@ -218,22 +229,47 @@ function editorB(){const g=ledger(edit.L,edit.plan),cap=capOf(g.L),total=POOL[g.
   const later=cap<5?`<p class="note">${RANKS[cap+1]} opens at level ${cap===3?11:21}.</p>`:'';
   return sheet(budget(g,pips)+staleNote(g)+receipt+`<div class="scroll" data-keep>${offers}${later}${expiryNote(g)}</div>${impact()}${actions()}`)}
 /* ---------- C: matrix ---------- */
+/** The level at which `s` first reached rank `r` in `p`: 1 for a starting rank. */
+const reachedAt=(s,r,p)=>(START[s]||0)>=r?1:MILES.find(m=>entering(m+1,p)[s]>=r);
+/** The first later increase that already plans `s` up to rank `r`. */
+const plannedAt=(s,r,L,p)=>MILES.find(m=>m>L&&((p[m]||{})[s]||0)>=r);
+/** What the sheet says after pressing a cell that cannot be bought. */
+function explain(s,r,kind){const g=ledger(edit.L,edit.plan);
+  if(kind==='held'){const m=reachedAt(s,r,edit.plan);return m===1?`${s} starts as ${RANKS[START[s]]} at level 1.`:`${s} reached ${RANKS[r]} at level ${m}.`}
+  if(kind==='later')return `You planned ${s} to ${RANKS[r]} at level ${plannedAt(s,r,g.L,edit.plan)}.`;
+  if(kind==='locked')return `${RANKS[r]} opens at level ${r===4?11:21}.`;
+  return `${s} to ${RANKS[r]} costs ${pts(cost(g.now(s),r))}. You have ${Math.max(0,g.left)} left.`}
+/** The one line under the table: the pressed cell's explanation, else the most urgent thing to know. */
+function note(g){const line=(cls,text)=>`<div class="msg ${cls}" role="status">${text}</div>`;
+  if(edit.msg)return line('say',edit.msg);
+  if(g.bad)return line('err',g.why);
+  const broken=MILES.find(m=>m>g.L&&ledger(m,edit.plan).bad&&!ledger(m,plan).bad);
+  if(broken)return line('err',`Saving breaks level ${broken}: ${ledger(broken,edit.plan).why}`);
+  if(!g.buys.length)return line('','Press the rank you want a skill to reach. The box shows what it costs.');
+  return line('',`${g.left?'Unspent points expire when you advance. ':'All points spent. '}Press a ✓ again to undo it.`)}
 function editorC(){const g=ledger(edit.L,edit.plan),cap=capOf(g.L);
-  const miles=MILES.map(m=>{const x=ledger(m,edit.plan);return `<button class="mile${m===g.L?' on':''}${x.bad?' bad':''}${m>level?' up':''}" data-act="mile" data-l="${m}" aria-label="Level ${m} skill increase"><b>${m}</b><span>${x.bad?'!':x.spent?x.spent+'/'+POOL[m]:'–/'+POOL[m]}</span></button>`}).join('');
-  const head=`<div class="gridhead grid"><div>${subline(g)}</div>${[1,2,3,4,5].map(r=>`<div class="${r>cap?'over':''}">${['','Nov','Train','Exp','Adept','Master'][r]}<br>+${BONUS[r]}</div>`).join('')}</div>`;
-  const row=(s,first)=>{const base=g.base[s],now=g.now(s),pick=g.picks[s],stale=pick!==undefined&&pick<=base;
+  const head=`<div class="gridhead grid"><div>Skill</div>${[1,2,3,4,5].map(r=>`<div class="${r>cap?'over':''}">${r>cap?'Lv '+(r===4?11:21)+'<br>':''}${RANKS[r]}</div>`).join('')}<div>Bonus</div></div>`;
+  const row=(s,first)=>{const base=g.base[s],now=g.now(s),pick=g.picks[s],stale=pick!==undefined&&pick<=base,bought=now>base;
     const cells=[1,2,3,4,5].map(r=>{const name=`${s} ${RANKS[r]}`;
-      if(stale&&r===pick)return `<button class="cell stale" aria-label="Remove stale ${name}" data-act="rank" data-s="${s}" data-t="${base}">✕</button>`;
-      if(r<=base)return `<div class="cell held" title="${name}, held before level ${g.L}">✓</div>`;
-      if(r<=now)return `<button class="cell new" aria-label="Remove ${name}" data-act="rank" data-s="${s}" data-t="${r-1}">▲</button>`;
-      if(r>cap)return `<div class="cell capped" title="${name} is above this tier"></div>`;
-      const price=cost(now,r);
-      return price<=g.left?`<button class="cell buy" aria-label="Buy ${name} for ${price}" data-act="rank" data-s="${s}" data-t="${r}">${price}</button>`:`<div class="cell poor" title="${name} costs ${price}">${price}</div>`}).join('');
-    return `<div class="grid${first?' brk':''}"><div class="name${now>base?' bought':''}">${s}</div>${cells}</div>`};
+      const btn=(cls,inner,label,attrs)=>`<button class="cell ${cls}" aria-label="${label}" ${attrs}><i>${inner}</i></button>`;
+      const buy=(cls,inner,label,target)=>btn(cls,inner,label,`data-act="rank" data-s="${s}" data-t="${target}"`);
+      const why=(cls,inner,label,kind)=>btn(cls,inner,label,`data-act="why" data-s="${s}" data-r="${r}" data-k="${kind}"`);
+      const ends=(r===1?' first':'')+(r===now?' last':'');
+      if(stale&&r===pick)return buy('stale','✕',`Remove stale ${name}`,base);
+      if(r<=base)return why('held'+ends,'',`${name}, already held`,'held');
+      /* Pressing the end of a purchase undoes it; pressing inside it shortens it to that rank. */
+      if(r<=now){const top=r===now;return buy((g.left<0?'over':'new')+ends+(top?' top':''),top?'✓':'',top?`Undo ${name}`:`Stop at ${name}`,top?base:r)}
+      const later=plannedAt(s,r,g.L,edit.plan),price=cost(now,r);
+      if(r<=cap&&price<=g.left)return buy('buy',`${price} pt`,`Raise to ${name} for ${pts(price)}`,r);
+      if(later)return why('later'+(r>cap?' locked':''),`Lv ${later}`,`${name}, planned at level ${later}`,'later');
+      if(r>cap)return why('locked','',`${name}, locked`,'locked');
+      return why('poor','',`${name}, costs ${price}`,'poor')}).join('');
+    const mod=bought?`<strong>+${BONUS[now]}</strong>`:`+${BONUS[now]}`;
+    return `<div class="grid${first?' brk':''}${bought||stale?' bought':''}"><div class="name${bought?' bought':''}">${s}</div>${cells}<div class="mod">${mod}</div></div>`};
   const rows=GROUPS.map(([,list],gi)=>list.map((s,i)=>row(s,gi>0&&i===0)).join('')).join('');
-  return `<div class="full" role="dialog"><header class="topbar"><button class="back" data-act="cancel" aria-label="Back to Levels">‹</button><b>Skill increases</b><small>Level ${level} · Fighter</small></header>
-    <div class="miles">${miles}</div>${head}<div class="scroll matrix" data-keep>${rows}</div>
-    <div class="fullfoot"><div class="tally"><span>Level ${g.L} points left</span><span><b class="${g.left<0?'neg':''}">${g.left}</b> of ${POOL[g.L]}</span></div>${staleNote(g)}${impact()}${actions()}</div></div>`}
+  const pips=`<div class="pips">${Array.from({length:POOL[g.L]},(_,i)=>`<i class="pip${i<g.spent?' used':''}"></i>`).join('')}</div>`;
+  const tally=`<div class="tally"><div class="grow"><h2>Level ${g.L} skill points</h2><p>${subline(g)}</p></div>${pips}<span class="count"><b class="${g.left<0?'neg':''}">${g.left}</b> left</span></div>`;
+  return sheet(tally+head+`<div class="scroll matrix" data-keep>${rows}</div>${note(g)}${actions()}`,'wide')}
 const EDITORS={A:editorA,B:editorB,C:editorC};
 /* ---------- shell ---------- */
 function statePanel(){const shown=edit?edit.plan:plan;
@@ -258,12 +294,13 @@ function focusLevel(){const reached=MILES.filter(m=>m<=level);const L=reached.fi
 function cycle(d){const keys=Object.keys(VARS);variant=keys[(keys.indexOf(variant)+d+keys.length)%keys.length];
   edit=null;render()}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t||t.disabled)return;const a=t.dataset.act;
-  if(a==='open')edit={L:+t.dataset.l,plan:copy(plan)};
+  if(edit)edit.msg=null;
+  if(a==='why')edit.msg=explain(t.dataset.s,+t.dataset.r,t.dataset.k);
+  else if(a==='open')edit={L:+t.dataset.l,plan:copy(plan)};
   else if(a==='rank')setRank(t.dataset.s,+t.dataset.t);
   else if(a==='clear')delete edit.plan[edit.L];
   else if(a==='cancel')edit=null;
   else if(a==='save'){plan=edit.plan;edit=null}
-  else if(a==='mile')edit.L=+t.dataset.l;
   else if(a==='lvl')level=Math.max(1,Math.min(30,level+ +t.dataset.d));
   else if(a==='cycle'){cycle(+t.dataset.d);return}
   else if(a==='scene'){load(t.dataset.v);render();focusLevel();return}

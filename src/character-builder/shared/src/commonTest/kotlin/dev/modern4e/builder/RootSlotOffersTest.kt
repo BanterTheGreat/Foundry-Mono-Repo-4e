@@ -40,9 +40,10 @@ class RootSlotOffersTest {
         assertNull(AdvancementRules.level(20).replacement)
         assertFalse(AdvancementRules.replacesDailyAttack(20))
         assertFalse(AdvancementRules.choosesAbilityIncrease(20))
-        // Later levels open only the level 28 ability choice.
+        // Later levels open only ability and Skill Point choices.
         for (level in 21..30) {
-            assertEquals(if (level == 28) listOf(AdvancementRules.abilitySlot(28)) else emptyList(),
+            assertEquals(listOfNotNull(AdvancementRules.abilitySlot(28).takeIf { level == 28 },
+                SkillAdvancement.slot(level).takeIf { level in listOf(21, 24, 28) }),
                 AdvancementRules.rootSlots(level).map { it.slot })
             assertEquals(level == 28, AdvancementRules.choosesAbilityIncrease(level))
         }
@@ -84,20 +85,25 @@ class RootSlotOffersTest {
             ChoiceSlotId("creation", "theme", 0) to (1 to entry(EntryCategory.THEME)),
             ChoiceSlotId("creation", "feat", 0) to (1 to feat),
             ChoiceSlotId("advancement.2", "feat", 0) to (2 to feat),
+            SkillAdvancement.slot(4) to (4 to SlotCategory.SkillIncrease),
             ChoiceSlotId("advancement.4", "feat", 0) to (4 to feat),
             ChoiceSlotId("advancement.6", "feat", 0) to (6 to feat),
             ChoiceSlotId("advancement.8", "ability", 0) to (8 to SlotCategory.AbilityIncrease),
+            SkillAdvancement.slot(8) to (8 to SlotCategory.SkillIncrease),
             ChoiceSlotId("advancement.8", "feat", 0) to (8 to feat),
             ChoiceSlotId("advancement.9", "replacement", 0) to (9 to SlotCategory.Replacement(ReplacementUsage.DAILY)),
             ChoiceSlotId("advancement.10", "feat", 0) to (10 to feat),
+            SkillAdvancement.slot(11) to (11 to SlotCategory.SkillIncrease),
             ChoiceSlotId("advancement.11", "feat", 0) to (11 to feat),
             ChoiceSlotId("advancement.11", "paragon-path", 0) to (11 to entry(EntryCategory.PARAGON_PATH)),
             ChoiceSlotId("advancement.12", "feat", 0) to (12 to feat),
             ChoiceSlotId("advancement.14", "ability", 0) to (14 to SlotCategory.AbilityIncrease),
+            SkillAdvancement.slot(14) to (14 to SlotCategory.SkillIncrease),
             ChoiceSlotId("advancement.14", "feat", 0) to (14 to feat),
             ChoiceSlotId("advancement.15", "replacement", 0) to (15 to SlotCategory.Replacement(ReplacementUsage.DAILY)),
             ChoiceSlotId("advancement.16", "feat", 0) to (16 to feat),
             ChoiceSlotId("advancement.17", "feat", 0) to (17 to feat),
+            SkillAdvancement.slot(18) to (18 to SlotCategory.SkillIncrease),
             ChoiceSlotId("advancement.18", "feat", 0) to (18 to feat),
             ChoiceSlotId("advancement.19", "replacement", 0) to (19 to SlotCategory.Replacement(ReplacementUsage.DAILY)),
         )
@@ -120,7 +126,7 @@ class RootSlotOffersTest {
     }
 
     @Test
-    fun abilityOfferRequiresAValidPairAndEpicProgressionOffersOnlyAbilityAdvancement() {
+    fun abilityOfferRequiresAValidPairAndEpicProgressionOffersOnlyAbilityAndSkillAdvancement() {
         val main = ChoiceSlotId("class", "main", 0)
         fun document(level: Int, increases: Map<Ability, Int>) = CharacterDocument(id = "increase", savedAt = "2026-11-20T12:00:00Z",
             identity = CharacterIdentity("Increase"), packages = emptyList(), level = level,
@@ -133,7 +139,8 @@ class RootSlotOffersTest {
         assertTrue(offer(RulesEngine.evaluate(document(8, pair), content)).filled)
         assertFalse(offer(RulesEngine.evaluate(document(8, mapOf(Ability.STRENGTH to 2)), content)).filled)
         val epic = RulesEngine.evaluate(document(30, pair), content)
-        assertEquals(listOf(AdvancementRules.abilitySlot(28)),
+        assertEquals(listOf(SkillAdvancement.slot(21), SkillAdvancement.slot(24), AdvancementRules.abilitySlot(28),
+            SkillAdvancement.slot(28)),
             epic.choices.filter { (it.acquisitionLevel ?: 0) > 20 }.map { it.slot })
     }
 

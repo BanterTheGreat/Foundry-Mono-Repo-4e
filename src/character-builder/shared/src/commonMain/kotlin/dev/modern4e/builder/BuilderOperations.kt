@@ -9,6 +9,8 @@ sealed class BuilderEdit {
     data class Allocation(val value: AbilityAllocation) : BuilderEdit()
     data class Level(val value: Int) : BuilderEdit()
     data class Advancement(val level: Int, val value: AbilityAdvancement?) : BuilderEdit()
+    /** Replaces one milestone's skill increases; an empty list clears it. */
+    data class SkillIncreases(val level: Int, val increases: List<SkillIncrease>) : BuilderEdit()
     data class Entry(val level: Int, val slot: ChoiceSlotId, val entryId: String, val instanceId: String,
         val acceptIneligible: Boolean = false) : BuilderEdit()
     data class ReplacePower(val level: Int, val slot: ChoiceSlotId, val entryId: String,
@@ -201,6 +203,22 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                 next = document.copy(levels = levels(document, edit.level).map { level ->
                     if (level.level == edit.level) level.copy(abilityAdvancements = listOfNotNull(edit.value)) else level
                 })
+            }
+            is BuilderEdit.SkillIncreases -> {
+                if (edit.level !in SkillAdvancement.levels) {
+                    return reject("Skill Points are spent at levels ${SkillAdvancement.levels.joinToString()}.")
+                }
+                if (edit.increases.map { it.skill.current }.let { skills -> null in skills || skills.distinct() != skills }) {
+                    return reject("Raise each 2.0 skill once per level.")
+                }
+                next = document.copy(levels = levels(document, edit.level).map { level ->
+                    if (level.level == edit.level) level.copy(skillIncreases = edit.increases.toList()) else level
+                })
+                // This milestone must stay legal. Later ones keep their saved ranks and report their own problems.
+                val step = evaluate(next.forChoiceAt(edit.level)).rules.skillIncreases.single { it.level == edit.level }
+                if (step.issues.isNotEmpty()) {
+                    return reject("Those increases do not fit level ${edit.level}'s Skill Points, ranks or cap.")
+                }
             }
             is BuilderEdit.Level -> {
                 if (edit.value !in 1..30) {

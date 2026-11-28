@@ -14,8 +14,8 @@ class HomeLedgerTest {
     @Test
     fun emptyLibraryOmitsContinueAndRenumbers() {
         val rows = emptyList<CharacterSummary>().homeRows()
-        assertEquals(listOf(HomeAction.Characters, HomeAction.New, HomeAction.Import), rows.map { it.action })
-        assertEquals(listOf("I", "II", "III"), rows.map { it.numeral })
+        assertEquals(listOf(HomeAction.Characters), rows.map { it.action })
+        assertEquals(listOf("I"), rows.map { it.numeral })
         assertEquals("None yet", rows.first().detail)
     }
 
@@ -26,7 +26,8 @@ class HomeLedgerTest {
         assertEquals(HomeAction.Continue, cont.action)
         assertEquals("1", cont.characterId)
         assertEquals("Mara Vey · Level 5 Dwarf Fighter", cont.detail)
-        assertEquals(listOf("I", "II", "III", "IV"), rows.map { it.numeral })
+        assertEquals(listOf(HomeAction.Continue, HomeAction.Characters), rows.map { it.action })
+        assertEquals(listOf("I", "II"), rows.map { it.numeral })
     }
 
     @Test
@@ -36,7 +37,7 @@ class HomeLedgerTest {
 
     @Test
     fun onlyContinueCarriesACharacterId() {
-        assertEquals(listOf("1", null, null, null), listOf(mara).homeRows().map { it.characterId })
+        assertEquals(listOf("1", null), listOf(mara).homeRows().map { it.characterId })
         assertNull(emptyList<CharacterSummary>().homeRows().firstNotNullOfOrNull { it.characterId })
     }
 

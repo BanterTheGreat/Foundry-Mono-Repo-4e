@@ -117,17 +117,26 @@ data class EngineResult(
     val slotIssues: Map<ChoiceSlotId, List<SlotIssue>> = emptyMap(),
     /** Definitions of occurrences a saved replacement retired, from the occurrence timeline; full evaluations only. */
     internal val retired: List<ContentEntry> = emptyList(),
-    /** Skills held at Novice, keyed like [proficiencies], which lists the skills held at Trained. */
+    /** Skills held at Novice, keyed like [proficiencies], which lists the skills held at Trained or higher. */
     val noviceSkills: Map<Skill, List<ChoiceSlotId>> = emptyMap(),
+    /** The ranks starting choices, features and feats give, with the level each applies from; not serialized. */
+    val skillGrants: List<SkillGrant> = emptyList(),
+    /** Every Skill Increase milestone the character has reached, priced from its saved increases; not serialized. */
+    val skillIncreases: List<SkillIncreaseStep> = emptyList(),
 ) {
     fun ability(ability: Ability) = statistics.getValue(ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)).value
     fun skill(skill: Skill) = statistics.getValue(skillTarget(skill.catalogSkill())).value
 
-    /** The highest rank any active source gives [skill]. */
-    fun skillRank(skill: Skill): SkillRank = when (val current = skill.catalogSkill()) {
-        in proficiencies -> SkillRank.TRAINED
-        in noviceSkills -> SkillRank.NOVICE
-        else -> SkillRank.UNTRAINED
+    /** The highest rank any active source or Skill Increase gives [skill]. */
+    fun skillRank(skill: Skill): SkillRank {
+        val current = skill.catalogSkill()
+        val granted = when (current) {
+            in proficiencies -> SkillRank.TRAINED
+            in noviceSkills -> SkillRank.NOVICE
+            else -> SkillRank.UNTRAINED
+        }
+        // Expert and above come only from increases; grants after the last milestone stop at Trained.
+        return maxOf(granted, skillIncreases.lastOrNull()?.rankAfter(current) ?: SkillRank.UNTRAINED)
     }
 
     /** Show known defense totals while the character has unfinished choices. */
@@ -420,6 +429,8 @@ private class Evaluation(
     private val modifiers = mutableListOf<ModifierContribution>()
     private val proficiencies = linkedMapOf<Skill, MutableList<ChoiceSlotId>>()
     private val noviceSkills = linkedMapOf<Skill, MutableList<ChoiceSlotId>>()
+    private var skillGrants = emptyList<SkillGrant>()
+    private var skillSteps = emptyList<SkillIncreaseStep>()
     private val equipmentProficiencies = linkedMapOf<String, MutableList<ChoiceSlotId>>()
     private val choiceAcquisitionLevels = timeline.choiceLevels
     private val sets = mutableListOf<SelectionSetResult>()
@@ -545,6 +556,7 @@ private class Evaluation(
         for ((slot, definition) in skillChoices.filter { it.second.rank == SkillRank.NOVICE }) {
             applyNovice(slot, definition)
         }
+        applySkillIncreases()
         for (decision in entryDecisions.filter { it !in timeline.used }) {
             invalid("orphanEntry", "Choice has no active granting source or supported root slot.", decision.slot, decision.selection.entryId)
         }
@@ -560,7 +572,7 @@ private class Evaluation(
         if (factsOnly) {
             return EngineResult(emptyMap(), entries.toList(), emptyList(), proficiencies.mapValues { it.value.toList() },
                 entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct(),
-                slotIssues = slotIssues.mapValues { it.value.toList() })
+                slotIssues = slotIssues.mapValues { it.value.toList() }, skillIncreases = skillSteps)
         }
         val entryIds = entries.map { it.definition.entry.id }.toSet()
         val selectedEligibility = entries.filter { (!it.granted || it.slot in grantReplacementSlots) &&
@@ -574,7 +586,7 @@ private class Evaluation(
                 entryEligibility = selectedEligibility, selectionSets = sets.toList(),
                 overviewAbilityTotals = overviewAbilityTotals.toMap(),
                 equipmentProficiencies = equipmentProficiencies.mapValues { it.value.toList() }, facts = facts.toList(),
-                slotIssues = slotIssues.mapValues { it.value.toList() })
+                slotIssues = slotIssues.mapValues { it.value.toList() }, skillIncreases = skillSteps)
         }
         val decided = document.levels.flatMapTo(mutableSetOf()) { level ->
             level.entries.map { it.slot } + level.proficiencies.map { it.slot } + level.values.map { it.slot }
@@ -615,11 +627,7 @@ private class Evaluation(
             // Unknown definitions may carry skill bonuses, so their totals stay unavailable.
             val base = if (blockers.isEmpty()) skillBase() else ContractResult.Unavailable(blockers.toList())
             val target = skillTarget(skill)
-            val trained = proficiencies[skill]?.firstOrNull()
-            val training = when {
-                trained != null -> skillTraining(skill, SkillRank.TRAINED, trained)
-                else -> noviceSkills[skill]?.firstOrNull()?.let { skillTraining(skill, SkillRank.NOVICE, it) }.orEmpty()
-            }
+            val training = skillTraining(skill, finalRank(skill), rankSource(skill))
             val halfLevel = ModifierContribution(
                 TypedModifier(target, ModifierOperation.ADD, document.level / 2),
                 "Half level", "modern.skill-half-level:$skill")
@@ -662,14 +670,75 @@ private class Evaluation(
             } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap(), equipmentProficiencies.mapValues { it.value.toList() }, facts.toList(),
             overviewStatistics, slotIssues.mapValues { it.value.toList() },
             timeline.retirements.map { it.retiredDefinition.entry },
-            noviceSkills.mapValues { it.value.toList() })
+            noviceSkills.mapValues { it.value.toList() }, skillGrants, skillSteps)
+    }
+
+    /** The highest rank [skill] holds from a grant or an increase. */
+    private fun finalRank(skill: Skill): SkillRank = maxOf(
+        when (skill) {
+            in proficiencies -> SkillRank.TRAINED
+            in noviceSkills -> SkillRank.NOVICE
+            else -> SkillRank.UNTRAINED
+        },
+        skillSteps.lastOrNull()?.rankAfter(skill) ?: SkillRank.UNTRAINED)
+
+    /** The slot a skill total credits: the increase that reached an advanced rank, else the training that first gave it. */
+    private fun rankSource(skill: Skill): ChoiceSlotId? =
+        skillSteps.lastOrNull { step -> step.purchases.any { it.skill == skill && it.to > SkillRank.TRAINED && it.cost > 0 } }
+            ?.let { SkillAdvancement.slot(it.level) }
+            ?: proficiencies[skill]?.firstOrNull() ?: noviceSkills[skill]?.firstOrNull()
+
+    /**
+     * Spend each reached milestone's Skill Points after the grants are known. An increase that reaches Trained counts
+     * as training from its level, so later choices and prerequisites see it. Increases above the character's level
+     * stay saved without effect.
+     */
+    private fun applySkillIncreases() {
+        skillGrants = (proficiencies.entries.map { it to SkillRank.TRAINED } +
+            noviceSkills.entries.map { it to SkillRank.NOVICE }).flatMap { (held, rank) ->
+            held.value.map { SkillGrant(held.key, rank, proficiencySelectionRules.sourceLevel(it)) }
+        }
+        skillSteps = SkillAdvancement.replay(skillGrants, document.skillIncreaseDecisions(), through = document.level)
+        for (step in skillSteps) {
+            val slot = SkillAdvancement.slot(step.level)
+            for (purchase in step.purchases.filter { it.cost > 0 }) {
+                if (purchase.from < SkillRank.TRAINED && purchase.to >= SkillRank.TRAINED) {
+                    proficiencies.getOrPut(purchase.skill) { mutableListOf() }.add(slot)
+                } else if (purchase.to == SkillRank.NOVICE) {
+                    noviceSkills.getOrPut(purchase.skill) { mutableListOf() }.add(slot)
+                }
+            }
+            for (issue in step.issues) {
+                reportSkillIssue(step.level, issue, slot)
+            }
+        }
+        for (level in document.activeLevels) {
+            if (level.skillIncreases.isNotEmpty() && level.level !in SkillAdvancement.levels) {
+                invalid("skillIncreaseLevel", "Level ${level.level} grants no Skill Points.",
+                    ChoiceSlotId("advancement.${level.level}", SkillAdvancement.CHOICE_ID, 0))
+            }
+        }
+    }
+
+    private fun reportSkillIssue(level: Int, issue: SkillIncreaseIssue, slot: ChoiceSlotId) {
+        when (issue) {
+            is SkillIncreaseIssue.OverBudget -> invalid("skillPoints",
+                "Level $level spends ${issue.spent} of ${issue.pool} Skill Points.", slot)
+            is SkillIncreaseIssue.AlreadyHeld -> invalid("skillRankHeld",
+                "${issue.skill.title} is already ${issue.held.title} at level $level.", slot)
+            is SkillIncreaseIssue.AboveCap -> invalid("skillRankCap",
+                "${issue.skill.title} cannot reach ${issue.rank.title} at level $level; the cap is ${issue.cap.title}.", slot)
+            is SkillIncreaseIssue.RemovedSkill -> invalid("skillRemoved",
+                "${issue.skill.title} is not a 2.0 skill.", slot)
+        }
     }
 
     /**
      * Offer every root slot the advancement schedule opens by the character's level. Root listings are deferred: their
      * candidates come from the catalog through [BuilderOptionListing] and are never evaluated here. [decided] holds
      * the slots with a saved decision; an ability increase is filled only by a valid pair of increases, a
-     * replacement milestone by any progression replacement recorded at its level.
+     * replacement milestone by any progression replacement recorded at its level, and a Skill Increase once it is
+     * legal and its leftover points can buy nothing.
      */
     private fun rootOffers(decided: Set<ChoiceSlotId>): List<EngineChoice> =
         (1..document.level).flatMap(AdvancementRules::rootSlots).map { root ->
@@ -680,6 +749,8 @@ private class Evaluation(
                     AdvancementRules.validAdvancement(root.level, it)
                 } == true
                 is SlotCategory.Replacement -> row?.replacements.orEmpty().any { it.kind == ReplacementKind.PROGRESSION }
+                // Points left over keep the milestone open only while they can still buy something.
+                SlotCategory.SkillIncrease -> skillSteps.none { it.level == root.level && it.needsAttention }
             }
             EngineChoice(root.slot, acquisitionLevel = root.level, category = root.category, required = true, filled = filled,
                 listing = SlotListing.DEFERRED)
@@ -699,6 +770,11 @@ private class Evaluation(
         for (offer in missing) {
             val replacement = offer.category as? SlotCategory.Replacement ?: continue
             invalid("missingRootChoice", "Replace an earlier class ${replacement.usage.name.lowercase()} attack power.", offer.slot)
+        }
+        // An illegal milestone already reports why; only unspent points need their own reminder.
+        for (offer in missing.filter { it.category == SlotCategory.SkillIncrease }) {
+            val step = skillSteps.singleOrNull { it.level == offer.acquisitionLevel && it.issues.isEmpty() } ?: continue
+            invalid("unspentSkillPoints", "Spend the level ${step.level} Skill Points: ${step.left} left.", offer.slot)
         }
     }
 

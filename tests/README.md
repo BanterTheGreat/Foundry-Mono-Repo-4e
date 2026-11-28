@@ -1,5 +1,7 @@
 # Running tests yourself
 
+Character Builder 2.0 Skill Points: from `src/character-builder`, run `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest`. `SkillAdvancementTest` covers pools, prices, rank caps, pooled and over-budget spending, expiry, repricing after earlier changes, plans above the character's level, Trained prerequisites, editing and export. `SkillMatrixTest` covers the picker cells, presses, explanations, warnings and card text, and saving and reopening reached and upcoming levels. The picker's layout is checked by hand on a device (see FEATURES.md); device UI tests remain opt-in.
+
 Modern 4e utility cards: run `python -X utf8 -m unittest discover -s src/modern4e/scripts -p test_utility_content.py`. The suite checks the authored skill ranks, preserves other prerequisites, and validates the shared utility catalog.
 
 Modern 4e rules PDF: run `npm run typst:compile` for the development PDF or `npm run typst:release` for the versioned PDF. With Typst 0.15 or newer on PATH (or set `TYPST_BIN`), run `node --test scripts/test/modern4e-rules.test.mjs` to verify which chapters appear, the ability and Skill Point milestones, the armor table, and the sample DCs.
@@ -1040,7 +1042,7 @@ a complete tradeoff that leaves every non-main score below 3.
 name, ancestry and class matching, trimmed and blank queries, Recent / A–Z /
 Level ordering, tie-breaking, offset-aware save times and unreadable dates).
 
-`HomeLedgerTest` covers the Home ledger rows: Continue only when a character exists and opening
+`HomeLedgerTest` covers the Home ledger's two rows, Continue and Characters: Continue only when a character exists and opening
 the most recently saved one, Roman renumbering without it, the Characters count and
 the Continue detail line when ancestry or class is unchosen.
 

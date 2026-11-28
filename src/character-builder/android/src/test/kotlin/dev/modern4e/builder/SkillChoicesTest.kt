@@ -166,6 +166,14 @@ class SkillChoicesTest {
         assertTrue(novice.none { it.blocked })
     }
 
+    @Test fun theFreeSkillHeaderCountsTheDraftPicksLeft() {
+        val empty = freeSkillTally(0)
+        assertEquals("Free skills", empty.title)
+        assertEquals("Choose 3 to start Trained", empty.subtitle)
+        assertEquals(listOf(3, 2, 1, 0), (0..3).map { freeSkillTally(it).left })
+        assertEquals("Free skills, 2 of 3 left", freeSkillTally(1).description)
+    }
+
     @Test fun pickerDraftsDropUnofferedSavedPicksAndRespectTheSlotCount() {
         val document = starter().let { base ->
             base.copy(levels = listOf(base.levels.single().copy(proficiencies = listOf(Skill.SOCIETY, Skill.DIPLOMACY,

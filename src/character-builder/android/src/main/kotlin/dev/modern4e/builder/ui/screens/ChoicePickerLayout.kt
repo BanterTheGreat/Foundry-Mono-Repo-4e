@@ -17,6 +17,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import dev.modern4e.builder.folioScroll
@@ -34,10 +35,15 @@ private object PickerBodyScroll : NestedScrollConnection {
         Velocity(0f, available.y)
 }
 
-/** Uses the same sheet bounds and insets for Levels and Equipment choices. */
+/**
+ * Uses the same sheet bounds and insets for Levels and Equipment choices.
+ *
+ * @param sidePadding the space beside the content; only the skill matrix narrows it.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ChoicePickerSheet(busy: Boolean, dismiss: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
+internal fun ChoicePickerSheet(busy: Boolean, dismiss: () -> Unit, sidePadding: Dp = 20.dp,
+    content: @Composable ColumnScope.() -> Unit) {
     val isBusy by rememberUpdatedState(busy)
     ModalBottomSheet(
         onDismissRequest = { if (!busy) { dismiss() } },
@@ -51,7 +57,7 @@ internal fun ChoicePickerSheet(busy: Boolean, dismiss: () -> Unit, content: @Com
                 .nestedScroll(PickerBodyScroll)
                 // Descendants handle their own scrolls first. Dragging blank space in this body also stays in place.
                 .pointerInput(Unit) { detectVerticalDragGestures { change, _ -> change.consume() } }
-                .padding(horizontal = 20.dp),
+                .padding(horizontal = sidePadding),
             content = content,
         )
     }

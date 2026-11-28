@@ -12,12 +12,15 @@ enum class AbilityIncreaseKind { CHOOSE_TWO, ALL }
 /** The usage of the earlier class attack power a progression replacement swaps. */
 enum class ReplacementUsage { DAILY, ENCOUNTER }
 
+/** The Skill Points one milestone grants and the highest rank they can buy. */
+data class SkillPointPool(val points: Int, val cap: SkillRank)
+
 /** Path or destiny features a level grants automatically; [several] marks a paragon path's starting features. */
 data class ScheduledFeatures(val source: EntryCategory, val several: Boolean = false)
 
 /**
  * What one character level opens in the local Modern 4e advancement schedule. Levels after
- * [AdvancementRules.LAST_ENFORCED_LEVEL] are [previewOnly]: shown for planning, with ability advancement available independently.
+ * [AdvancementRules.LAST_ENFORCED_LEVEL] are [previewOnly]: shown for planning, with ability and skill advancement applied.
  */
 data class AdvancementLevel(
     val level: Int,
@@ -29,12 +32,15 @@ data class AdvancementLevel(
     val pathSelection: EntryCategory? = null,
     val features: ScheduledFeatures? = null,
     val previewOnly: Boolean = level > AdvancementRules.LAST_ENFORCED_LEVEL,
+    /** The Skill Increase this level grants, if any. It applies on preview levels too. */
+    val skillPoints: SkillPointPool? = null,
 )
 
-/** What a slot offer decides: an entry of one category, a pair of ability increases, or a progression power replacement. */
+/** What a slot offer decides: an entry of one category, a pair of ability increases, skill points or a power replacement. */
 sealed class SlotCategory {
     data class Entry(val category: EntryCategory) : SlotCategory()
     data object AbilityIncrease : SlotCategory()
+    data object SkillIncrease : SlotCategory()
     data class Replacement(val usage: ReplacementUsage) : SlotCategory()
 }
 
@@ -43,7 +49,7 @@ data class RootSlot(val slot: ChoiceSlotId, val level: Int, val category: SlotCa
 
 /**
  * The one local Modern 4e advancement schedule for levels 1-30, and the root slots it opens. Rules, editors and
- * screens read levels, root slot identities and categories from here; preview levels open only ability advancement slots.
+ * screens read levels, root slot identities and categories from here; preview levels open only ability and skill slots.
  */
 object AdvancementRules {
     /** The last level whose schedule the engine enforces; later levels are preview only. */
@@ -56,38 +62,42 @@ object AdvancementRules {
     private val encounter = power(ScheduledPowerKind.ENCOUNTER)
     private val daily = power(ScheduledPowerKind.DAILY)
     private val utility = power(ScheduledPowerKind.UTILITY)
+    private val heroicPoints = SkillPointPool(3, SkillRank.EXPERT)
+    private val paragonPoints = SkillPointPool(5, SkillRank.ADEPT)
+    private val epicPoints = SkillPointPool(8, SkillRank.MASTER)
 
     /** Levels 1-30 in order; `schedule[n - 1]` is level n. */
     val schedule: List<AdvancementLevel> = listOf(
         AdvancementLevel(1, listOf(atWill, atWill, encounter, daily, daily), feat = true),
         AdvancementLevel(2, listOf(utility), feat = true),
         AdvancementLevel(3, listOf(encounter)),
-        AdvancementLevel(4, feat = true),
+        AdvancementLevel(4, feat = true, skillPoints = heroicPoints),
         AdvancementLevel(5, listOf(daily)),
         AdvancementLevel(6, listOf(utility), feat = true),
         AdvancementLevel(7, listOf(encounter)),
-        AdvancementLevel(8, feat = true, abilityIncrease = AbilityIncreaseKind.CHOOSE_TWO),
+        AdvancementLevel(8, feat = true, abilityIncrease = AbilityIncreaseKind.CHOOSE_TWO, skillPoints = heroicPoints),
         AdvancementLevel(9, replacement = ReplacementUsage.DAILY),
         AdvancementLevel(10, listOf(utility), feat = true),
         AdvancementLevel(11, listOf(power(ScheduledPowerKind.ENCOUNTER, path)), feat = true, pathSelection = path,
-            features = ScheduledFeatures(path, several = true)),
+            features = ScheduledFeatures(path, several = true), skillPoints = paragonPoints),
         AdvancementLevel(12, listOf(power(ScheduledPowerKind.UTILITY, path)), feat = true),
         AdvancementLevel(13, listOf(encounter)),
-        AdvancementLevel(14, feat = true, abilityIncrease = AbilityIncreaseKind.CHOOSE_TWO),
+        AdvancementLevel(14, feat = true, abilityIncrease = AbilityIncreaseKind.CHOOSE_TWO, skillPoints = paragonPoints),
         AdvancementLevel(15, replacement = ReplacementUsage.DAILY),
         AdvancementLevel(16, feat = true, features = ScheduledFeatures(path)),
         AdvancementLevel(17, listOf(utility, encounter), feat = true),
-        AdvancementLevel(18, feat = true),
+        AdvancementLevel(18, feat = true, skillPoints = paragonPoints),
         AdvancementLevel(19, replacement = ReplacementUsage.DAILY),
         AdvancementLevel(20, listOf(power(ScheduledPowerKind.DAILY, path)), feat = true),
-        AdvancementLevel(21, feat = true, abilityIncrease = AbilityIncreaseKind.ALL, pathSelection = destiny, features = ScheduledFeatures(destiny)),
+        AdvancementLevel(21, feat = true, abilityIncrease = AbilityIncreaseKind.ALL, pathSelection = destiny,
+            features = ScheduledFeatures(destiny), skillPoints = epicPoints),
         AdvancementLevel(22, listOf(utility), feat = true),
         AdvancementLevel(23, replacement = ReplacementUsage.ENCOUNTER),
-        AdvancementLevel(24, feat = true, features = ScheduledFeatures(destiny)),
+        AdvancementLevel(24, feat = true, features = ScheduledFeatures(destiny), skillPoints = epicPoints),
         AdvancementLevel(25, replacement = ReplacementUsage.DAILY),
         AdvancementLevel(26, listOf(power(ScheduledPowerKind.UTILITY, destiny)), feat = true),
         AdvancementLevel(27, listOf(encounter)),
-        AdvancementLevel(28, feat = true, abilityIncrease = AbilityIncreaseKind.CHOOSE_TWO),
+        AdvancementLevel(28, feat = true, abilityIncrease = AbilityIncreaseKind.CHOOSE_TWO, skillPoints = epicPoints),
         AdvancementLevel(29, replacement = ReplacementUsage.DAILY),
         AdvancementLevel(30, feat = true, features = ScheduledFeatures(destiny)),
     )
@@ -123,6 +133,9 @@ object AdvancementRules {
             }
             if (choosesAbilityIncrease(level)) {
                 add(RootSlot(abilitySlot(level), level, SlotCategory.AbilityIncrease))
+            }
+            if (row.skillPoints != null) {
+                add(RootSlot(SkillAdvancement.slot(level), level, SlotCategory.SkillIncrease))
             }
             if (row.previewOnly) {
                 return@buildList

@@ -391,11 +391,6 @@ class ProgressionTest {
         assertEquals(6, Progression.remainingPoints(base.copy(points = base.points + (Ability.CHARISMA to -1))))
     }
 
-    @Test fun skillLabelsHideTheRankTermAndKeepOtherSources() {
-        assertNull(Progression.skillContributorLabel(SKILL_RANK_LABEL))
-        assertEquals("Half level", Progression.skillContributorLabel("Half level"))
-        assertEquals("Manual Adjustment", Progression.skillContributorLabel("Manual Adjustment"))
-    }
     @Test fun steppersEnforceSinglePairedTradeoff() {
         val base = AbilityAllocation(ChoiceSlotId("fighter", "main", 0), Ability.STRENGTH,
             mapOf(Ability.STRENGTH to 4, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2))
@@ -454,7 +449,7 @@ class ProgressionTest {
     }
 
     /** A document with a valid allocation and level 1 skills, so only the remaining engine slot offers decide the badge. */
-    @Test fun levelTwentyFeatSlotIsARealRequiredOfferButLevelTwentyOneOffersNothing() {
+    @Test fun levelTwentyFeatSlotIsARealRequiredOfferAndLevelTwentyOneOnlyAddsSkillPoints() {
         fun missingSlots(level: Int) = engineState(badgeDocument(level, (1..level).map { LevelDecisions(it) }), emptyList())
             .rules.choices.filter { it.missing && it.listing == SlotListing.DEFERRED }.mapNotNull { it.acquisitionLevel }
         val twenty = missingSlots(20)
@@ -462,7 +457,7 @@ class ProgressionTest {
         assertEquals(1, twenty.count { it == 20 })
         assertEquals("Level 20 opens exactly one deferred slot, matching the schedule", 1, AdvancementRules.rootSlots(20).size)
         assertEquals(missingSlots(19).size + 1, twenty.size)
-        assertEquals("Level 21 is preview only and adds no required slot", twenty.size, missingSlots(21).size)
+        assertEquals("Level 21 is preview only apart from its skill points", twenty + 21, missingSlots(21))
         assertTrue(Progression.level(20).feat)
     }
 

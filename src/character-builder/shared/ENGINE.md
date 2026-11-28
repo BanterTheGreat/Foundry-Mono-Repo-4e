@@ -121,7 +121,8 @@ saved pick of a removed skill is invalid and does not count. A prerequisite nami
 one is reported as needing adaptation (`engine.retiredSkill`), never as failed.
 
 `SkillRank` supplies the rank bonus (Untrained 0, Novice 1, Trained 3, Expert 5,
-Adept 7, Master 9); only the first three are granted today. A skill has no ability.
+Adept 7, Master 9). Starting choices, features and feats grant up to Trained; Expert and above come from Skill
+Points (below). A skill has no ability.
 Its total is **half the character's level (rounded down)**, the rank bonus and
 applicable modifiers; the approach picks the ability at the table, so invalid or
 missing ability points do not affect skill totals. Unresolved content still makes
@@ -140,6 +141,29 @@ the four starting Trained skills are held, then the theme's skills outside them,
 every other skill when none is left. A pick outside the offer stays saved and
 inactive. Class and theme skill decisions left without an active slot are ignored
 without a diagnostic.
+
+### Skill Points
+
+`AdvancementRules.schedule` gives each Skill Increase level its `SkillPointPool`
+(points and rank cap). `SkillAdvancement` owns prices and replay, so the engine and
+editors cannot disagree. `LevelDecisions.skillIncreases` stores
+`SkillIncrease(skill, rank)`: the rank a skill reaches, never its price. The field is
+omitted when empty, so older documents are unchanged. The slot for diagnostics and
+training sources is `(advancement.N, skill-increase, 0)`.
+
+`replay` walks the milestones in order. A grant acquired at a milestone's level counts
+before its increases, and each pool is separate. A changed earlier decision reprices
+later increases. An over-budget milestone is invalid but its ranks still count, so
+later milestones keep their own results. An increase to a held rank costs nothing, and
+a rank above the cap is not applied; both are invalid. An increase that reaches Trained
+joins `proficiencies` from its level, which Trained prerequisites and distinct training
+choices see. Skill utility prerequisites above Trained are not evaluated.
+
+`EngineResult.skillGrants` lists the granted ranks by level and `skillIncreases` holds
+the reached milestones. Editors replay `skillGrants` with every saved decision to price
+upcoming plans. `BuilderEdit.SkillIncreases` replaces one milestone's list. It rejects
+a milestone that would be illegal itself and allows one that breaks a later milestone.
+Neither value is serialized by the web bridge.
 
 `ModernCreation.BACKGROUNDS_ENABLED` is off for the 2.0 playtest: no Environment or
 Upbringing slot is offered, `BuilderEdit.Background` is rejected and saved
@@ -273,8 +297,10 @@ each level (`classSlot`/`ancestrySlot` serve document readers).
 `EngineResult.choices` holds every slot offer. Inner offers, opened by entries, keep
 their `INLINE` listing and evaluated `entries` unchanged. Root offers follow them:
 class, ancestry, theme and the creation feat, then by level the chosen ability increases,
-feat, paragon path and daily replacement up to the character's level. Above level 20
-only the level-28 ability increase adds a root offer.
+Skill Increase, feat, paragon path and daily replacement up to the character's level.
+Above level 20 only Skill Increases and the level-28 ability increase add root offers.
+A Skill Increase is `filled` once it is legal and its leftover points can buy nothing;
+until then it reports its own problem or `engine.unspentSkillPoints`.
 Each carries its `category` (`SlotCategory.Entry`, `AbilityIncrease` or
 `Replacement`), acquisition level, `required = true` and a `DEFERRED` listing: its
 candidates are never evaluated during `evaluate` and come only from

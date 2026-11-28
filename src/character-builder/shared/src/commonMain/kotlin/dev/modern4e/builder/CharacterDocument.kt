@@ -161,6 +161,10 @@ data class ProficiencyChoice(val slot: ChoiceSlotId, val skill: Skill)
 @Serializable
 data class AbilityAdvancement(val slot: ChoiceSlotId, val increases: Map<Ability, Int>)
 
+/** One skill raised with a milestone's Skill Points, saved as the [rank] it reaches. */
+@Serializable
+data class SkillIncrease(val skill: Skill, val rank: SkillRank)
+
 @Serializable
 data class LevelDecisions(
     val level: Int,
@@ -170,9 +174,12 @@ data class LevelDecisions(
     val replacements: List<Replacement> = emptyList(),
     @OptIn(ExperimentalSerializationApi::class)
     @EncodeDefault(EncodeDefault.Mode.NEVER) val values: List<ValueChoice> = emptyList(),
+    @OptIn(ExperimentalSerializationApi::class)
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val skillIncreases: List<SkillIncrease> = emptyList(),
 ) {
     init {
         require(level in 1..30)
+        require(skillIncreases.map { it.skill }.distinct().size == skillIncreases.size)
     }
 }
 

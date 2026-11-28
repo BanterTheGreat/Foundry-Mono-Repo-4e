@@ -121,6 +121,20 @@ text is title case, a verb or short verb phrase ("Save", "Import"), not
 - Same-kind powers at one level are ordinary choices laid out in a row of two (the two At-Wills,
   the two Dailies); a kind with one slot is full width. Never squeeze more than two powers into one row.
 
+## Skill increase matrix
+
+The Skill Increase picker is the usual sheet and footer, with two exceptions that apply to it alone:
+
+- Its sides are 8 dp instead of 20 dp, so the five rank columns stay wide enough to press. The points panel,
+  note and footer are inset a further 4 dp.
+- Its rows are at least 30 dp, below the usual 48 dp touch height, so all 16 skills fit on a tall phone. Each
+  cell's whole area is its press target, and a press is undone by pressing the same cell again. Rows grow with
+  font size and the table scrolls when it does not fit.
+
+Cells use shape as well as colour: a bar for held ranks, a filled ✓ for the rank bought here, an outlined
+price for an affordable rank, a dashed "Lv N" for a later plan, hatching above the cap and a dot for an
+unaffordable rank. The right column shows one total, bold once the draft raises it.
+
 ## Navigation and motion
 
 - Use the shared fixed-height 62 dp header: oxblood back chevron, a centered 22 sp serif title and, on
