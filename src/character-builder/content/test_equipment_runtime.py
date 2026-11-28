@@ -97,7 +97,7 @@ class EquipmentRuntimeTest(unittest.TestCase):
 
     def test_descriptions_render_structured_fields_only(self):
         plate = self.description("modern4e.armor.plate")
-        for text in ("Armor. Proficiency: Plate.", "Category: Heavy.", "Armor bonus: +9.", "Speed modifier: -1.",
+        for text in ("Armor. Proficiency: Plate.", "Category: Heavy.", "Armor bonus: +7.", "Speed modifier: -1.",
                      "Armor check modifier: -1.", self.catalog["armorRules"]["armorCheckDescription"]):
             self.assertIn(text, plate)
         self.assertNotIn("Light armor ability", plate)

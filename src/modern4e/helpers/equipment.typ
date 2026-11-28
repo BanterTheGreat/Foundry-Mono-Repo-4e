@@ -1,6 +1,4 @@
 #import "class_text.typ": classText;
-#import "configuration.typ" as config;
-#import "revised_rules.typ" as revised;
 
 #let catalog = json("../content/equipment/equipment.json")
 #assert(catalog.schemaVersion == 1, message: "Unsupported equipment authoring schema")
@@ -43,33 +41,24 @@
 
 #let armorRow(entry) = {
   let armor = entry.equipment
-  let speed = armor.speedModifier
-  let check = armor.armorCheckModifier
-  let bonus = if armor.kind == "SHIELD" {
-    signed(armor.shieldBonus)
-  } else if config.isRevisedRules {
-    let heavy = armor.armorCategory == "HEAVY"
-    speed = if heavy { -1 } else { 0 }
-    check = if entry.id == "modern4e.armor.plate" { -1 } else { 0 }
-    signed(revised.armorBonuses.at(entry.id.split(".").last()))
-  } else if armor.armorCategory == "LIGHT" {
-    catalog.armorRules.lightArmorAbilities.map(ability => {
-      display(ability) + if armor.armorBonus == 0 { "" } else { " + " + str(armor.armorBonus) }
-    }).join(" or ")
-  } else {
-    signed(armor.armorBonus)
-  }
+  let bonus = if armor.kind == "SHIELD" { armor.shieldBonus } else { armor.armorBonus }
   (
     entry.presentation.title,
-    bonus,
-    if speed == 0 { "-" } else { number(speed) },
-    if check == 0 { "-0" } else { number(check) },
+    signed(bonus),
+    if armor.speedModifier == 0 { "-" } else { number(armor.speedModifier) },
+    if armor.armorCheckModifier == 0 { "-0" } else { number(armor.armorCheckModifier) },
   )
 }
 
-#let sectionRows(section) = section.entryIds.map(id => {
+#let sectionRows(section, showAbilityCap: false) = section.entryIds.map(id => {
   let entry = entries.at(id)
-  if entry.equipment.kind == "WEAPON" { weaponRow(entry) } else { armorRow(entry) }
+  if entry.equipment.kind == "WEAPON" { weaponRow(entry) } else {
+    let row = armorRow(entry)
+    if showAbilityCap {
+      row.push(signed(entry.equipment.acAbilityCap))
+    }
+    row
+  }
 }).flatten()
 
 // Data stays literal: only the shared emphasis syntax and bullet lists render.

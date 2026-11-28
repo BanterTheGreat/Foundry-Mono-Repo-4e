@@ -1,5 +1,4 @@
 #import "../helpers/theme.typ" as theme;
-#import "../helpers/configuration.typ" as config;
 
 #let versionHistoryPage() = {
   return [
@@ -27,13 +26,11 @@
     = v1.3 - Barbarian Powers
     - Added revised Barbarian attack powers through level 11 directly to the Barbarian chapter, with new pages for each power type and level.
 
-    #if config.isRevisedRules [
-      = v2.0 - Abilities, Armor, and Skills
-      - Ability increases now come at levels 8, 14, 21, and 28.
-      - Light armor caps the ability bonus at +3. The new armor and defense rules set how AC, Fortitude, Reflex, and Will improve with level.
-      - The new skill list lets the GM choose an ability based on how the character tackles the task.
-      - Skill Points raise skill ranks. Updated check outcomes, difficulty tables, and utility prerequisites use those ranks.
-    ]
+    = v2.0 - Abilities, Armor, and Skills
+    - Ability increases now come at levels 8, 14, 21, and 28.
+    - Light armor caps the ability bonus at +3. The new armor and defense rules set how AC, Fortitude, Reflex, and Will improve with level.
+    - The new skill list lets the GM choose an ability based on how the character tackles the task.
+    - Skill Points raise skill ranks. Updated check outcomes, difficulty tables, and utility prerequisites use those ranks.
 
     #v(200pt)
     == Paragon feats to double-check

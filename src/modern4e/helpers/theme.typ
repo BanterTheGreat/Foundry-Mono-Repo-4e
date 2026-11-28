@@ -62,7 +62,7 @@
     #counter(page).display("1", both: false);
     #colbreak();
     #align(right)[
-      #(if config.isRevisedRules { config.version } else { "v1.3" })
+      #config.version
     ]
     ]
   ]
@@ -323,9 +323,6 @@
 
 #let featCardsFromJson(file) = {
   json(file).feats.map(resolveFeat).map(feat => {
-    if config.isRevisedRules and feat.id == "modern4e.feat.skill-training" {
-      feat.description = "Choose two additional skills and raise each to Trained."
-    }
     featBlock(
       title: feat.title,
       content: featContent(feat),

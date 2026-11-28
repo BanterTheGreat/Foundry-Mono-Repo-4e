@@ -1,6 +1,5 @@
 #import "../helpers/theme.typ" as theme;
 #import "../helpers/path_content.typ" as paths;
-#import "../helpers/configuration.typ" as config;
 
 #let zeitgeistPathsPage() = [
   #theme.pageTitle(title: paths.catalog.document.title)
@@ -95,11 +94,7 @@
     #paths.flavor("modern4e.path.monument-of-war")
     #paths.prerequisite("modern4e.path.monument-of-war")
     = Level 11 Features
-    #if config.isRevisedRules [
-      *Instant Boot Camp.* When you spend an action point, you and every ally who can see or hear you gain proficiency with all simple and military weapons and have at least Expert Athletics (+5) until the end of your next turn. Anyone already Adept or Master in Athletics keeps their rank and treats a roll of 1?7 on an Athletics check as an 8 during that time. Each affected creature can immediately stand up or drop prone, then move 2 squares.
-    ] else {
-      paths.feature("modern4e.feature.monument-of-war-instant-boot-camp")
-    }
+    #paths.feature("modern4e.feature.monument-of-war-instant-boot-camp")
 
     #paths.feature("modern4e.feature.monument-of-war-fearless-mein")
     #paths.feature("modern4e.feature.monument-of-war-do-you-want-to-live-forever", level: 16)

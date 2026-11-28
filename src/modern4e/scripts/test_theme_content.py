@@ -50,6 +50,26 @@ class ThemeContentTest(unittest.TestCase):
         self.assertIn("half your bloodied value", self.entries["modern4e.feature.technologist-level-5"]["description"])
         self.assertIn("Normal", self.entries["modern4e.power.speak-with-spirit"]["description"])
 
+    def test_novice_skills_are_authored_in_level_one_benefits(self):
+        expected = {
+            "docker": ("Streetwise", "Culture"),
+            "eschatologist": ("Culture", "Insight"),
+            "gunsmith": ("Crafting", "Arcana"),
+            "martial-scientist": ("Culture", "Athletics"),
+            "skyseer": ("Nature", "Occultism"),
+            "spirit-medium": ("Occultism", "Insight"),
+            "technologist": ("Crafting", "Finesse"),
+            "vekeshi-mystic": ("Religion", "Insight"),
+            "yerasol-veteran": ("Endurance", "Command"),
+        }
+        for theme, (first, second) in expected.items():
+            with self.subTest(theme=theme):
+                benefit = self.entries[f"modern4e.feature.{theme}-level-1"]["description"]
+                self.assertIn(f"*{first}* or *{second}*", benefit)
+                self.assertIn("become Novice", benefit)
+                self.assertIn("If you are already Trained in both, choose any Untrained skill instead.", benefit)
+        self.assertNotIn("Society", self.entries["modern4e.feature.martial-scientist-level-1"]["description"])
+
     def test_rejects_invalid_catalog_and_ordered_powers(self):
         mutations = [
             lambda d: d.update(schemaVersion=True),

@@ -21,6 +21,7 @@ ARMOR = "LIGHT HEAVY CLOTH LEATHER HIDE CHAINMAIL SCALE PLATE".split()
 SHIELDS = ["LIGHT_SHIELD", "HEAVY_SHIELD"]
 WEAPONS = "SIMPLE_MELEE SIMPLE_RANGED MILITARY_MELEE MILITARY_RANGED SUPERIOR_MELEE SUPERIOR_RANGED DAGGER QUARTERSTAFF HAND_CROSSBOW SHORT_SWORD SLING STAFF MILITARY_LIGHT_BLADE MILITARY_HEAVY_BLADE".split()
 IMPLEMENTS = "HOLY_SYMBOL ORB STAFF WAND TOME ROD DAGGER TOTEM LIGHT_BLADE HEAVY_BLADE".split()
+TRAINING_SKILLS = "ATHLETICS ACROBATICS ENDURANCE STEALTH FINESSE ARCANA OCCULTISM CRAFTING MEDICINE NATURE CULTURE RELIGION INSIGHT STREETWISE DECEPTION COMMAND".split()
 GROUPS = "AXE FLAIL HAMMER HEAVY_BLADE LIGHT_BLADE MACE PICK POLEARM SPEAR STAFF".split()
 KEYWORDS = shared.SOURCES + "WEAPON IMPLEMENT BEAST_FORM HEALING CONJURATION POLYMORPH SPIRIT ELEMENTAL VARIES ILLUSION SUMMONING RELIABLE INVIGORATING BARD".split()
 CATEGORIES = {"classes": "CLASS", "features": "FEATURE", "powers": "POWER", "rules": "RULE"}
@@ -253,7 +254,7 @@ def catalog(content=CONTENT):
             validate_ordered_power(entry, entries, references)
             continue
         optional = ["source", "note", "grants", "choices", "selectionModifiers", "collections"]
-        extra = {"CLASS": ["flavor", "role", "powerSources", "abilities", "proficiencies", "statistics", "ruleIds"], "FEATURE": [], "POWER": ["usage", "action", "keywords", "range", "rows"], "RULE": []}[entry["category"]]
+        extra = {"CLASS": ["flavor", "role", "powerSources", "abilities", "proficiencies", "skillTraining", "statistics", "ruleIds"], "FEATURE": [], "POWER": ["usage", "action", "keywords", "range", "rows"], "RULE": []}[entry["category"]]
         more = {"CLASS": [], "FEATURE": ["weaponAbilities", "sections", "conditionalModifiers", "grantDisplay"], "POWER": ["trigger", "target", "requirement", "attack", "flavor", "level", "powerKind"], "RULE": []}[entry["category"]]
         fields(entry, ["id", "category", "title", "description", "access", "prerequisites", "selection", "coverage"] + extra, optional + more, loc)
         validate_grant_display(entry, loc)
@@ -434,6 +435,7 @@ def validate_class(entry, entries, references, loc):
     fields(entry["proficiencies"], ["armor", "shields", "weapons", "implements"], [], loc)
     for key, allowed in [("armor", ARMOR), ("shields", SHIELDS), ("weapons", WEAPONS), ("implements", IMPLEMENTS)]:
         values(entry["proficiencies"][key], allowed, loc + ".proficiencies." + key)
+    values(entry["skillTraining"], TRAINING_SKILLS, loc + ".skillTraining", True)
     stats = entry["statistics"]
     fields(stats, ["defenses", "health", "healingSurges"], [], loc)
     for name, keys in [("defenses", ["FORTITUDE", "REFLEX", "WILL"]), ("health", ["base", "perLevel", "constitutionMultiplier"]), ("healingSurges", ["base", "constitutionMultiplier"])]:

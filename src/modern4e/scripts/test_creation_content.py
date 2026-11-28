@@ -16,10 +16,12 @@ class CreationContentTest(unittest.TestCase):
     def setUp(self):
         self.rules = content.read(content.SOURCE)
 
-    def test_preserves_all_original_steps_and_progression_rows(self):
+    def test_current_creation_steps_and_original_progression_rows(self):
         rules = content.validate(self.rules)
         golden = content.read(content.BOOK / 'scripts/fixtures/creation-source-golden.json')
-        self.assertEqual(rules['steps'], golden['steps'])
+        self.assertEqual([step['id'].rsplit('.', 1)[-1] for step in rules['steps']],
+                         ['ancestry', 'class', 'equipment', 'skills', 'theme', 'feat'])
+        self.assertEqual(rules['steps'][3]['title'], 'Choose four Trained skills')
         for row, original in zip(rules['levels'], golden['rows']):
             kind = row['abilityIncrease']['type']
             ability = {'CLASS': 'See class', 'NONE': '\u2014', 'MAIN': '+1 to main', 'NON_MAIN': '+1 to non-main', 'ALL': '+1 to all'}[kind]
@@ -33,7 +35,7 @@ class CreationContentTest(unittest.TestCase):
         rules = content.validate(self.rules)
         self.assertEqual([r['level'] for r in rules['levels'] if any(e['operation'] == 'REPLACE' for e in r['events'])], [9, 15, 19, 23, 25, 29])
         self.assertEqual([r['level'] for r in rules['levels'] if r['status'] == 'PROVISIONAL'], list(range(11, 31)))
-        self.assertFalse(rules['steps'][5]['required'])
+        self.assertFalse(rules['steps'][4]['required'])
         self.assertTrue(rules['techniqueAcquisition']['optional'])
         self.assertEqual(list(range(rules['techniqueAcquisition']['firstLevel'], 31, rules['techniqueAcquisition']['everyLevels'])), list(range(2, 31, 2)))
         self.assertEqual(rules['abilityAllocation']['nonMainBudget'], 5)
@@ -106,11 +108,8 @@ class CreationContentTest(unittest.TestCase):
             self.assertEqual(cells[0]['value'], 150)
             rendered = json.loads(subprocess.check_output(command + ['<chapter>'], encoding='utf-8'))[0]['value']
             for step in self.rules['steps']:
-                if step['id'] in ('modern4e.creation.background', 'modern4e.creation.skills'):
-                    self.assertNotIn(step['title'], rendered)
-                else:
-                    self.assertIn(step['title'], rendered)
-            self.assertIn('Choose four Trained skills', rendered)
+                self.assertIn(step['title'], rendered)
+            self.assertNotIn('Create a Background', rendered)
             last = json.loads(subprocess.check_output(command + ['<last-cell>'], encoding='utf-8'))[0]['value']
             self.assertIn('2/7/4/7', last)
         finally:

@@ -47,7 +47,7 @@ class ModernEquipmentTest(unittest.TestCase):
         profile = lambda key: self.entries["modern4e." + key]["equipment"]
         self.assertEqual({"diceCount": 1, "dieSize": 10}, profile("weapon.battleaxe")["damage"])
         self.assertEqual(3, profile("weapon.warhammer")["proficiencyBonus"])
-        self.assertEqual(9, profile("armor.plate")["armorBonus"])
+        self.assertEqual(7, profile("armor.plate")["armorBonus"])
         self.assertEqual(0, profile("armor.hide")["armorCheckModifier"])
         self.assertEqual([{"id": "OFF_HAND"}, {"id": "THROWN"}], profile("weapon.dagger")["properties"])
         self.assertIsNone(profile("weapon.musket")["handsRequired"])
@@ -56,7 +56,11 @@ class ModernEquipmentTest(unittest.TestCase):
         self.assertIn({"id": "VERSATILE"}, profile("weapon.quarterstaff")["properties"])
         self.assertEqual(["INTELLIGENCE", "DEXTERITY"], self.catalog["armorRules"]["lightArmorAbilities"])
         self.assertEqual(["STRENGTH", "DEXTERITY", "CONSTITUTION"], self.catalog["armorRules"]["armorCheckAbilities"])
-        self.assertFalse(any("acAbility" in e["equipment"] for e in self.entries.values()))
+        self.assertEqual(
+            {"modern4e.armor.cloth": 3, "modern4e.armor.leather": 3, "modern4e.armor.hide": 3},
+            {key: entry["equipment"]["acAbilityCap"] for key, entry in self.entries.items()
+             if "acAbilityCap" in entry["equipment"]},
+        )
 
     def test_renames_preserve_persisted_identity(self):
         result = self.edited(lambda d: d["equipment"][0]["presentation"].update(title="Renamed Unarmed Attack"))
@@ -114,7 +118,7 @@ class ModernEquipmentTest(unittest.TestCase):
         self.assertIn("must not overwrite", result.stderr)
 
     @unittest.skipUnless(shutil.which(TYPST), "Typst is not installed")
-    def test_typst_uses_shared_entries_and_preserves_every_printed_value(self):
+    def test_typst_uses_shared_entries_and_prints_current_armor(self):
         # Query actual Typst functions rather than a second Python renderer.
         with tempfile.TemporaryDirectory(dir=BOOK) as directory:
             path = Path(directory) / "equipment-query.typ"
@@ -141,6 +145,15 @@ class ModernEquipmentTest(unittest.TestCase):
                     if original["kind"] == "weapon":
                         expected[3] = expected[3].replace("None, ", "").lower()
                         row[3] = row[3].lower()
+                    elif original["title"] != "Shields":
+                        expected = {
+                            "Cloth": ["Cloth", "+0", "-", "-0"],
+                            "Leather": ["Leather", "+2", "-", "-0"],
+                            "Hide": ["Hide", "+3", "-", "-0"],
+                            "Chainmail": ["Chainmail", "+5", "-1", "-0"],
+                            "Scale": ["Scale", "+6", "-1", "-0"],
+                            "Plate": ["Plate", "+7", "-1", "-1"],
+                        }[row[0]]
                     self.assertEqual(expected, row)
 
     @unittest.skipUnless(shutil.which(TYPST), "Typst is not installed")

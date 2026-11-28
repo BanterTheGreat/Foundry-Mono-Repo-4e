@@ -13,8 +13,6 @@
   str(level), if level < 11 { 3 } else if level < 21 { 5 } else { 8 },
 )).to-dict()
 
-#let armorBonuses = (cloth: 0, leather: 2, hide: 3, chainmail: 5, scale: 6, plate: 7)
-
 #let extraArmorLevels = (5, 9, 13, 17, 19, 25, 27, 29)
 
 #let normalDcs = (

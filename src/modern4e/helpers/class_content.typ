@@ -23,6 +23,7 @@
     armorProficiencies: prof.armor.map(value => if value == "LIGHT" or value == "HEAVY" { display(value) + " Armor" } else { display(value) }) + shields,
     weaponProficiencies: prof.weapons.map(value => if value == "SHORT_SWORD" { "Shortsword" } else { display(value) }),
     implementProficiencies: prof.implements.map(display),
+    skillTraining: class.skillTraining.map(display).join(", ", last: " or "),
   )
   let stats = class.statistics
   reference.referenceSection("Defenses", [

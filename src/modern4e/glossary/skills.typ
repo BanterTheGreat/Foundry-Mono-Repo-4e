@@ -1,4 +1,3 @@
-#import "../helpers/configuration.typ" as config
 #import "../helpers/revised_rules.typ" as revised
 #import "../helpers/theme.typ" as theme
 
@@ -29,6 +28,9 @@
     Tell the GM what you want to do and how you plan to do it. If the result is uncertain, the GM chooses the skill that fits the task and the ability that fits your approach. Roll *1d20 + half your level (rounded down) + your ability points + your skill rank bonus*. Add any other bonuses or penalties that apply. When no skill fits, make an ability check with the same formula and skip the rank bonus.
 
     You might roll Dexterity with Stealth to slip past a lookout, or Wisdom with Stealth to spot a lookout who's hiding. You could use Charisma with Command to give an order, or Strength with Command to back up a threat by bending the bars of a gate.
+
+    == Skill training
+    Your class banner lists the skill you start Trained in or gives you a choice. Choose three other skills to start Trained in. Intelligence gives no extra skills. The rest start Untrained, except for any skill your theme grants at Novice.
 
     == Raising your ranks
     At certain levels, you get a fresh pool of Skill Points. Spend them to raise skills one rank at a time. You can split points across skills or buy several ranks in one skill as long as you stay within the rank limit. Any points left over expire when you reach your next level. In the *Heroic* tier, you can increase a skill up to Expert, in *Paragon*, Adept, and in *Epic*, Master
@@ -94,8 +96,8 @@
       (1fr, 2fr),
       ("Check total", "Outcome"),
       (
-        (">=DC + 9", "Perfect success. You get what you were trying for."),
-        (">=DC", "Success with consequences. You get what you wanted and face a cost or complication."),
+        (">.DC + 9", "Perfect success. You get what you were trying for."),
+        (">=DC", "Success with a minor hurdle. You get what you wanted and face a cost or complication."),
         ("<DC", "Failure."),
       ),
     )
@@ -114,61 +116,4 @@
 
     #dcTable(21),
   ]
-
-
-
-  #pagebreak()
-  = Skill training <revised-skill-training>
-  Start Trained in one skill from your class and three other skills of your choice. Intelligence gives no extra skills. Every other skill starts Untrained, except for a Novice skill from a ZEITGEIST theme.
-
-  #grid(
-    columns: (1fr, 1fr),
-    gutter: 12pt,
-    rulesTable(
-      (1fr, 1fr),
-      ("Class", "Choose one"),
-      (
-        ("Artificer", "Crafting or Arcana"),
-        ("Avenger", "Religion"),
-        ("Barbarian", "Athletics"),
-        ("Bard", "Occultism"),
-        ("Cleric", "Religion"),
-        ("Druid", "Nature"),
-        ("Fighter", "Athletics or Acrobatics"),
-        ("Invoker", "Religion"),
-        ("Paladin", "Religion"),
-        ("Ranger", "Acrobatics or Athletics"),
-        ("Rogue", "Stealth, Finesse, or Deception"),
-        ("Runepriest", "Religion or Crafting"),
-        ("Shaman", "Occultism or Nature"),
-        ("Sorcerer", "Arcana"),
-        ("Swordmage", "Arcana"),
-        ("Warden", "Nature or Endurance"),
-        ("Warlock", "Occultism"),
-        ("Warlord", "Command"),
-        ("Wizard", "Arcana"),
-      ),
-    ),
-    if config.isZeitgeistBuild [
-      After choosing your four Trained skills, pick an Untrained skill from your theme's row and make it Novice. If both are already Trained, pick any Untrained skill.
-
-      #rulesTable(
-        (1fr, 1fr),
-        ("ZEITGEIST theme", "Choose one"),
-        (
-          ("Docker", "Streetwise or Culture"),
-          ("Eschatologist", "Culture or Insight"),
-          ("Gunsmith", "Crafting or Arcana"),
-          ("Martial Scientist", "Culture or Athletics"),
-          ("Skyseer", "Nature or Occultism"),
-          ("Spirit Medium", "Occultism or Insight"),
-          ("Technologist", "Crafting or Finesse"),
-          ("Vekeshi Mystic", "Religion or Insight"),
-          ("Yerasol Veteran", "Endurance or Command"),
-        ),
-      )
-    ] else [
-      Homebrew themes currently grant no Novice skill.
-    ],
-  )
 ]

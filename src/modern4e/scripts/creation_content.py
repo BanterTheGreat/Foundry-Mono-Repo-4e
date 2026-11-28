@@ -46,7 +46,7 @@ def validate(data, initial=None):
     def identity(value):
         require(isinstance(value, str) and value.startswith('modern4e.') and value not in ids, 'Invalid/duplicate identity')
         ids.add(value)
-    require(len(data['steps']) == 7, 'Expected seven creation steps')
+    require(len(data['steps']) == 6, 'Expected six creation steps')
     for step in data['steps']:
         fields(step, 'id title description required')
         identity(step['id'])

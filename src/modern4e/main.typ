@@ -12,13 +12,11 @@
 // #import "glossary/bonds.typ" as bonds;
 #import "glossary/utility.typ";
 #import "glossary/creation_&_advancement.typ" as creationAndAdvancement;
-#import "glossary/skill_checks.typ" as skillChecks;
 #import "glossary/skills.typ" as skills;
 #import "glossary/background_utilities.typ" as backgroundUtilities;
 #import "glossary/negotiation.typ" as negotiation;
 #import "glossary/rituals.typ" as rituals;
 #import "glossary/balance_changes.typ" as balanceChanges;
-#import "glossary/background.typ" as background;
 #import "glossary/quick_rules.typ" as rules;
 #import "glossary/version_history.typ" as versionHistory;
 
@@ -74,7 +72,7 @@
   set page(background: image("./images/cover.jpg", width: 100%, fit: "stretch"), footer: none)
 
   align(center)[
-    #text([*#(if config.isRevisedRules { "Modern 4e 2.0" } else { config.editionName })*], size: 32pt, fill: white, font: "Alfa Slab One", stroke: black)
+    #text([*#config.editionName*], size: 32pt, fill: white, font: "Alfa Slab One", stroke: black)
   ]
 }
 
@@ -118,7 +116,6 @@
   pages: (
     creationAndAdvancement.creationAndAdvancementPage(),
     ancestries.ancestriesPage(),
-    ..if not config.isRevisedRules { (background.backgroundPage(),) } else { () },
     classes.classesPage(),
     // bonds.bondsPage(),
     equipment.equipmentPage(),
@@ -126,9 +123,9 @@
     ..if config.isZeitgeistBuild { (zeitgeistPaths.zeitgeistPathsPage(),) } else { () },
     feats.featsPage(),
     utility.utilityPage(),
-    ..if config.isRevisedRules { (backgroundUtilities.backgroundUtilitiesPage(),) } else { () },
+    backgroundUtilities.backgroundUtilitiesPage(),
     rituals.ritualsPage(),
-    if config.isRevisedRules { skills.skillsPage() } else { skillChecks.skillChecksPage() },
+    skills.skillsPage(),
     negotiation.negotiationPage(),
     balanceChanges.balanceChangesPage(),
     rules.rulesPage(),

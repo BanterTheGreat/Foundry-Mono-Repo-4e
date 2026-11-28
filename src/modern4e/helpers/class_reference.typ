@@ -30,12 +30,14 @@
   armorProficiencies: none,
   weaponProficiencies: none,
   implementProficiencies: none,
+  skillTraining: none,
 ) = {
   let rows = ()
   for (title, value) in (
     ("Armor", armorProficiencies),
     ("Weapons", weaponProficiencies),
     ("Implements", implementProficiencies),
+    ("Skills", skillTraining),
   ) {
     if value != none and value != () {
       rows.push(block(above: 0pt, below: 5pt)[

@@ -1,5 +1,4 @@
 #import "../helpers/theme.typ" as theme;
-#import "../helpers/configuration.typ" as config;
 
 #let balanceChangesPage() = {
   [
@@ -51,13 +50,6 @@
       *Items still provide their normal bonuses* to attack, damage, AC, defenses, and critical-hit damage.
 
       The full table is *optional; GM opt-in only*.
-
-      #if not config.isRevisedRules [
-        == Skill Changes
-        Some skills got merged into other skills and renamed.
-
-        *Dungeoneering* is now part of Nature while some of their Utility powers have been taken by other skills. *Crafting* is a new skill that handles knowledge about mechanical devices as well as alchemy. Meanwhile *Streetwise* is now part of History which has been renamed to *Society*, *Religion* is now a Wisdom skill and *Heal* has been renamed to *Medicine* and taken to Intelligence.
-      ]
 
       #colbreak();
 
