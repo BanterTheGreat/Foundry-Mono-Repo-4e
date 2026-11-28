@@ -136,7 +136,7 @@ remain visible; these samples do not claim complete playable characters.
 
 `samples.py` also generates `sample-regression-fighter-19.json`: the level-2 acceptance
 Fighter completed through level 19 with Notorious Celebrity, daily replacements at
-9/15/19, ability choices at 4 and 12, Linguist languages and skill bonus, and the
+9/15/19, Strength and Dexterity increases at 8 and 14, Linguist languages and skill bonus, and the
 Student of Battle multiclass feat. Its picks are fixed IDs the engine offered as
 eligible; it evaluates with coverage diagnostics only, and the performance and
 listing-retention baselines run on it.

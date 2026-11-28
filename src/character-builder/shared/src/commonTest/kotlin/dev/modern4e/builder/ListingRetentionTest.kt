@@ -96,8 +96,8 @@ class ListingRetentionTest {
         val featEdited = world.edit(before, unrelatedFeat)
         assertEquals("kept", world.outcome(encounter, before, featEdited))
 
-        val abilityEdited = world.edit(before, BuilderEdit.Advancement(4, AbilityAdvancement(AdvancementRules.abilitySlot(4),
-            mapOf(Ability.WISDOM to 1))))
+        val abilityEdited = world.edit(before, BuilderEdit.Advancement(8, AbilityAdvancement(AdvancementRules.abilitySlot(8),
+            mapOf(Ability.STRENGTH to 1, Ability.WISDOM to 1))))
         assertEquals("rebased 164/164", world.outcome(encounter, before, abilityEdited))
         assertEquals("rebased 354/354", world.outcome(utility, before, abilityEdited))
     }

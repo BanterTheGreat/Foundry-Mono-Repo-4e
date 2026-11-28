@@ -26,6 +26,7 @@ LIMITATIONS = {
     "ARMOR": ["Armor and proficiency contribute to defense totals. Speed and skill penalties remain descriptive."],
     "SHIELD": ["Proficient shields contribute to AC and Reflex. Hand occupancy, speed and skill penalties remain descriptive."],
     "IMPLEMENT": ["Records the equipped implement type. Attack and damage calculations remain descriptive."],
+    "NECK": ["Records the equipped neck enhancement for Fortitude, Reflex and Will. Other item properties remain manual."],
 }
 
 
@@ -85,6 +86,8 @@ def describe(entry, definitions, rules):
             lines.append("Properties: none.")
     elif kind == "IMPLEMENT":
         lines.append(f"{KIND_LABELS[kind]}. Proficiency: {label(profile['proficiencyKey'])}.")
+    elif kind == "NECK":
+        lines.append("The equipped enhancement adds to Fortitude, Reflex and Will.")
     else:
         lines.append(f"{KIND_LABELS[kind]}. Proficiency: {label(profile['proficiencyKey'])}.")
         if kind == "ARMOR":
@@ -92,7 +95,8 @@ def describe(entry, definitions, rules):
             lines.append(f"Armor bonus: {signed(profile['armorBonus'])}.")
             if profile["armorCategory"] == "LIGHT":
                 abilities = ", ".join(label(ability) for ability in rules["lightArmorAbilities"])
-                lines.append(f"Light armor ability: {label(rules['lightArmorAbilityOperation'])} of {abilities}.")
+                cap = signed(profile["acAbilityCap"])
+                lines.append(f"Light armor ability: {label(rules['lightArmorAbilityOperation'])} of {abilities}, up to {cap}.")
         else:
             lines.append(f"Hands occupied: {profile['handsOccupied']}.")
             lines.append(f"Shield bonus: {signed(profile['shieldBonus'])}.")
@@ -136,4 +140,7 @@ def build(content=None):
         implement = {"id": "modern4e.implement." + key.lower().replace("_", "-"), "category": "ITEM",
                      "presentation": {"title": label(key)}, "equipment": {"kind": "IMPLEMENT", "proficiencyKey": key}}
         entries.append(compile_entry(implement, definitions, catalog["armorRules"]))
+    neck = {"id": "modern4e.neck.item", "category": "ITEM",
+            "presentation": {"title": "Neck Item"}, "equipment": {"kind": "NECK"}}
+    entries.append(compile_entry(neck, definitions, catalog["armorRules"]))
     return runtime_common.package(PACKAGE, TITLE, entries, revision="2")

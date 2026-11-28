@@ -6,8 +6,8 @@ enum class ScheduledPowerKind { AT_WILL, ENCOUNTER, DAILY, UTILITY }
 /** One power a level offers. [source] is the class unless a paragon path or epic destiny supplies it. */
 data class ScheduledPower(val kind: ScheduledPowerKind, val source: EntryCategory = EntryCategory.CLASS)
 
-/** Which abilities an earned increase raises by 1: one chosen non-main ability, the main ability, or all six. */
-enum class AbilityIncreaseKind { NON_MAIN, MAIN, ALL }
+/** Which abilities an earned increase raises by 1: two chosen abilities or all six. */
+enum class AbilityIncreaseKind { CHOOSE_TWO, ALL }
 
 /** The usage of the earlier class attack power a progression replacement swaps. */
 enum class ReplacementUsage { DAILY, ENCOUNTER }
@@ -17,8 +17,7 @@ data class ScheduledFeatures(val source: EntryCategory, val several: Boolean = f
 
 /**
  * What one character level opens in the local Modern 4e advancement schedule. Levels after
- * [AdvancementRules.LAST_ENFORCED_LEVEL] are [previewOnly]: shown for planning, never enforced, and the engine
- * offers no slots for them.
+ * [AdvancementRules.LAST_ENFORCED_LEVEL] are [previewOnly]: shown for planning, with ability advancement available independently.
  */
 data class AdvancementLevel(
     val level: Int,
@@ -32,7 +31,7 @@ data class AdvancementLevel(
     val previewOnly: Boolean = level > AdvancementRules.LAST_ENFORCED_LEVEL,
 )
 
-/** What a slot offer decides: an entry of one category, a non-main ability increase, or a progression power replacement. */
+/** What a slot offer decides: an entry of one category, a pair of ability increases, or a progression power replacement. */
 sealed class SlotCategory {
     data class Entry(val category: EntryCategory) : SlotCategory()
     data object AbilityIncrease : SlotCategory()
@@ -44,7 +43,7 @@ data class RootSlot(val slot: ChoiceSlotId, val level: Int, val category: SlotCa
 
 /**
  * The one local Modern 4e advancement schedule for levels 1-30, and the root slots it opens. Rules, editors and
- * screens read levels, root slot identities and categories from here; only enforced levels open root slots.
+ * screens read levels, root slot identities and categories from here; preview levels open only ability advancement slots.
  */
 object AdvancementRules {
     /** The last level whose schedule the engine enforces; later levels are preview only. */
@@ -63,33 +62,32 @@ object AdvancementRules {
         AdvancementLevel(1, listOf(atWill, atWill, encounter, daily, daily), feat = true),
         AdvancementLevel(2, listOf(utility), feat = true),
         AdvancementLevel(3, listOf(encounter)),
-        AdvancementLevel(4, feat = true, abilityIncrease = AbilityIncreaseKind.NON_MAIN),
+        AdvancementLevel(4, feat = true),
         AdvancementLevel(5, listOf(daily)),
         AdvancementLevel(6, listOf(utility), feat = true),
         AdvancementLevel(7, listOf(encounter)),
-        AdvancementLevel(8, feat = true, abilityIncrease = AbilityIncreaseKind.MAIN),
+        AdvancementLevel(8, feat = true, abilityIncrease = AbilityIncreaseKind.CHOOSE_TWO),
         AdvancementLevel(9, replacement = ReplacementUsage.DAILY),
         AdvancementLevel(10, listOf(utility), feat = true),
         AdvancementLevel(11, listOf(power(ScheduledPowerKind.ENCOUNTER, path)), feat = true, pathSelection = path,
             features = ScheduledFeatures(path, several = true)),
-        AdvancementLevel(12, listOf(power(ScheduledPowerKind.UTILITY, path)), feat = true,
-            abilityIncrease = AbilityIncreaseKind.NON_MAIN),
+        AdvancementLevel(12, listOf(power(ScheduledPowerKind.UTILITY, path)), feat = true),
         AdvancementLevel(13, listOf(encounter)),
-        AdvancementLevel(14, feat = true),
+        AdvancementLevel(14, feat = true, abilityIncrease = AbilityIncreaseKind.CHOOSE_TWO),
         AdvancementLevel(15, replacement = ReplacementUsage.DAILY),
-        AdvancementLevel(16, feat = true, abilityIncrease = AbilityIncreaseKind.ALL, features = ScheduledFeatures(path)),
+        AdvancementLevel(16, feat = true, features = ScheduledFeatures(path)),
         AdvancementLevel(17, listOf(utility, encounter), feat = true),
         AdvancementLevel(18, feat = true),
         AdvancementLevel(19, replacement = ReplacementUsage.DAILY),
-        AdvancementLevel(20, listOf(power(ScheduledPowerKind.DAILY, path)), feat = true, abilityIncrease = AbilityIncreaseKind.MAIN),
-        AdvancementLevel(21, feat = true, pathSelection = destiny, features = ScheduledFeatures(destiny)),
+        AdvancementLevel(20, listOf(power(ScheduledPowerKind.DAILY, path)), feat = true),
+        AdvancementLevel(21, feat = true, abilityIncrease = AbilityIncreaseKind.ALL, pathSelection = destiny, features = ScheduledFeatures(destiny)),
         AdvancementLevel(22, listOf(utility), feat = true),
         AdvancementLevel(23, replacement = ReplacementUsage.ENCOUNTER),
-        AdvancementLevel(24, feat = true, abilityIncrease = AbilityIncreaseKind.NON_MAIN, features = ScheduledFeatures(destiny)),
+        AdvancementLevel(24, feat = true, features = ScheduledFeatures(destiny)),
         AdvancementLevel(25, replacement = ReplacementUsage.DAILY),
         AdvancementLevel(26, listOf(power(ScheduledPowerKind.UTILITY, destiny)), feat = true),
         AdvancementLevel(27, listOf(encounter)),
-        AdvancementLevel(28, feat = true, abilityIncrease = AbilityIncreaseKind.MAIN),
+        AdvancementLevel(28, feat = true, abilityIncrease = AbilityIncreaseKind.CHOOSE_TWO),
         AdvancementLevel(29, replacement = ReplacementUsage.DAILY),
         AdvancementLevel(30, feat = true, features = ScheduledFeatures(destiny)),
     )
@@ -114,8 +112,8 @@ object AdvancementRules {
         else -> ChoiceSlotId("advancement.$level", category.name.lowercase(), 0)
     }
 
-    /** Root slots of every enforced level, in schedule order: creation entries, then each level's own slots. */
-    private val roots: Map<Int, List<RootSlot>> = enforced.associate { row ->
+    /** Root slots of each level, in schedule order: creation entries, then each level's own slots. */
+    private val roots: Map<Int, List<RootSlot>> = schedule.associate { row ->
         val level = row.level
         val slots = buildList {
             if (level == 1) {
@@ -123,8 +121,11 @@ object AdvancementRules {
                     add(RootSlot(entrySlot(1, category), 1, SlotCategory.Entry(category)))
                 }
             }
-            if (row.abilityIncrease == AbilityIncreaseKind.NON_MAIN) {
+            if (choosesAbilityIncrease(level)) {
                 add(RootSlot(abilitySlot(level), level, SlotCategory.AbilityIncrease))
+            }
+            if (row.previewOnly) {
+                return@buildList
             }
             if (row.feat) {
                 add(RootSlot(entrySlot(level, EntryCategory.FEAT), level, SlotCategory.Entry(EntryCategory.FEAT)))
@@ -138,7 +139,7 @@ object AdvancementRules {
     }
     private val rootsBySlot: Map<ChoiceSlotId, RootSlot> = roots.values.flatten().associateBy { it.slot }
 
-    /** The root slots level [level] opens; preview-only levels open none. */
+    /** The root slots level [level] opens; preview levels can open ability advancement. */
     fun rootSlots(level: Int): List<RootSlot> = roots[level].orEmpty()
 
     /** The root slot of [category] that level [level] opens, if any. */
@@ -157,18 +158,23 @@ object AdvancementRules {
     fun rootCategory(level: Int, slot: ChoiceSlotId): EntryCategory? =
         rootsBySlot[slot]?.takeIf { it.level == level }?.let { (it.category as? SlotCategory.Entry)?.category }
 
-    /** Whether level [level] lets the player choose one non-main ability to increase. */
-    fun choosesNonMainIncrease(level: Int): Boolean = enforcedLevel(level)?.abilityIncrease == AbilityIncreaseKind.NON_MAIN
+    /** Whether [level] grants two distinct player-chosen increases. */
+    fun choosesAbilityIncrease(level: Int): Boolean =
+        schedule.getOrNull(level - 1)?.abilityIncrease == AbilityIncreaseKind.CHOOSE_TWO
 
     /** Whether level [level] replaces one earlier class daily attack power. */
     fun replacesDailyAttack(level: Int): Boolean = enforcedLevel(level)?.replacement == ReplacementUsage.DAILY
 
-    /** Automatic increases earned by [level]: how many main-ability and all-ability increases have arrived. */
-    fun automaticIncreases(level: Int, kind: AbilityIncreaseKind): Int =
-        enforced.count { it.level <= level && it.abilityIncrease == kind }
+    /** Number of automatic all-ability increases earned by [level]. */
+    fun automaticAbilityIncreases(level: Int): Int =
+        schedule.count { it.level <= level && it.abilityIncrease == AbilityIncreaseKind.ALL }
 
-    /** Non-main increases are player choices; main and all-ability increases are automatic. */
-    fun validAdvancement(level: Int, value: AbilityAdvancement, main: Ability): Boolean =
-        choosesNonMainIncrease(level) && value.slot == abilitySlot(level) &&
-            value.increases.size == 1 && value.increases.values.single() == 1 && main !in value.increases
+    /** A committed pair must identify the milestone and raise each distinct ability by one. */
+    fun validAdvancement(level: Int, value: AbilityAdvancement): Boolean =
+        choosesAbilityIncrease(level) && value.slot == abilitySlot(level) &&
+            value.increases.size == 2 && value.increases.values.all { it == 1 }
+
+    /** Preserve former advancement records in saves without applying them to 2.0 totals. */
+    fun isLegacyAdvancement(level: Int, value: AbilityAdvancement): Boolean =
+        level in setOf(4, 12, 24) && value.slot == abilitySlot(level) && value.increases.values.singleOrNull() == 1
 }

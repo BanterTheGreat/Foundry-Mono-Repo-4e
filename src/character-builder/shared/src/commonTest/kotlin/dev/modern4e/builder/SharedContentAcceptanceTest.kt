@@ -32,10 +32,10 @@ class SharedContentAcceptanceTest {
             assertEquals(4, result.overviewAbilityTotals.getValue(Ability.STRENGTH))
             assertEquals(22 + 7 * level, total(result, Statistic.HIT_POINTS))
             assertEquals(11, total(result, Statistic.HEALING_SURGES))
-            assertEquals(19 + level / 2, total(result, Statistic.AC))
-            assertEquals(20, total(result, Statistic.FORTITUDE))
-            assertEquals(17, total(result, Statistic.REFLEX))
-            assertEquals(12, total(result, Statistic.WILL))
+            assertEquals(18 + level / 2, total(result, Statistic.AC))
+            assertEquals(18 + level / 2, total(result, Statistic.FORTITUDE))
+            assertEquals(16 + level / 2, total(result, Statistic.REFLEX))
+            assertEquals(12 + level / 2, total(result, Statistic.WILL))
             assertEquals(5, total(result, Statistic.SPEED))
             assertEquals(6, result.proficiencies.size)
             assertEquals(level, document.levels.flatMap { it.entries }.count {
@@ -58,13 +58,13 @@ class SharedContentAcceptanceTest {
         val unarmored = document.copy(equipment = listOf(scale.copy(equipped = false), shield.copy(equipped = false)))
         val unarmoredResult = RulesEngine.evaluate(unarmored, RulesContent.load(unarmored, catalog))
         assertEquals(12, total(unarmoredResult, Statistic.AC))
-        assertEquals(15, total(unarmoredResult, Statistic.REFLEX))
+        assertEquals(14, total(unarmoredResult, Statistic.REFLEX))
 
         val duplicateArmor = document.copy(equipment = listOf(scale, scale.copy(instanceId = "second-armor")))
         val conflicting = RulesEngine.evaluate(duplicateArmor, RulesContent.load(duplicateArmor, catalog))
         assertIs<ContractResult.Unavailable>(conflicting.displayedDefense(Statistic.AC))
         assertIs<ContractResult.Unavailable>(conflicting.displayedDefense(Statistic.REFLEX))
-        assertEquals(20, total(conflicting, Statistic.FORTITUDE))
+        assertEquals(18, total(conflicting, Statistic.FORTITUDE))
 
         val content = RulesContent.load(document, catalog)
         val classSelection = document.levels.first().entries.single { it.slot.choiceId == "class" }.selection
@@ -76,8 +76,24 @@ class SharedContentAcceptanceTest {
         val untrainedResult = RulesEngine.evaluate(document, content.copy(
             selections = content.selections + (classSelection to ContractResult.Available(untrained)),
         ))
-        assertEquals(17, total(untrainedResult, Statistic.AC))
-        assertEquals(13, total(untrainedResult, Statistic.REFLEX))
+        assertEquals(16, total(untrainedResult, Statistic.AC))
+        assertEquals(12, total(untrainedResult, Statistic.REFLEX))
+
+        val neckId = "modern4e.neck.item"
+        val neck = assertNotNull(assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup(neckId)).value)
+        val neckSelection = EquipmentSelection("test-neck",
+            SavedSelection(neckId, neck.entry.presentation.title, neck.supplier.packageId, neck.fingerprint),
+            equipped = true).withDefenseEnhancement(3)
+        val enhanced = document.copy(equipment = listOf(scale.withDefenseEnhancement(2), shield, neckSelection))
+        val enhancedResult = RulesEngine.evaluate(enhanced, RulesContent.load(enhanced, catalog))
+        assertEquals(20, total(enhancedResult, Statistic.AC))
+        assertEquals(21, total(enhancedResult, Statistic.FORTITUDE))
+        assertEquals(19, total(enhancedResult, Statistic.REFLEX))
+        assertEquals(15, total(enhancedResult, Statistic.WILL))
+        val cleared = enhanced.copy(equipment = listOf(scale, shield, neckSelection.copy(equipped = false)))
+        val clearedResult = RulesEngine.evaluate(cleared, RulesContent.load(cleared, catalog))
+        assertEquals(18, total(clearedResult, Statistic.AC))
+        assertEquals(18, total(clearedResult, Statistic.FORTITUDE))
     }
 
     private fun total(result: EngineResult, statistic: Statistic) =

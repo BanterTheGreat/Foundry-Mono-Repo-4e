@@ -24,8 +24,8 @@ class AncestryComboFeatTest {
             abilities = AbilityAllocation(ChoiceSlotId("class", "main", 0), Ability.STRENGTH,
                 mapOf(Ability.STRENGTH to 4, Ability.CONSTITUTION to 2, Ability.DEXTERITY to 2, Ability.INTELLIGENCE to 1)),
             levels = listOf(LevelDecisions(1, entries = listOf(pick(classId, "class"), pick(ancestryId, "ancestry"))),
-                LevelDecisions(4, abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(4),
-                    mapOf(Ability.DEXTERITY to 1)))), LevelDecisions(11)))
+                LevelDecisions(8, abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(8),
+                    mapOf(Ability.DEXTERITY to 1, Ability.CONSTITUTION to 1)))), LevelDecisions(11)))
 
         val elfRanger = operations.optionListing(document("modern4e.class.ranger", "modern4e.ancestry.elf"), 11, featSlot)
         assertTrue(elfRanger.rows(FeatGroup.ANCESTRY).any { it.metadata.metadata.id == featId })

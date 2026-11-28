@@ -47,7 +47,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You set a marching chant that keeps everyone's feet moving lon after they'd normally drop.\n\nDAILY / STANDARD\n\nPersonal\n\nPrerequisite: You must be proficient in Endurance.\n\nEffect: You and your allies may make a DC 20 Endurance check to continue traveling overland at a fast pace beyond 1 hour. If you fail, you must spend a healing surge or take damage equal to your level as normal. The DC increases by 5 every hour after that. In addi tion, if you or an ally would take damage from this, they take only half the damage instead.",
+        "description": "You set a marching chant that keeps everyone's feet moving lon after they'd normally drop.\n\nDAILY / STANDARD\n\nPersonal\n\nPrerequisite: You must be at least Trained in Endurance.\n\nEffect: You and your allies may make a DC 20 Endurance check to continue traveling overland at a fast pace beyond 1 hour. If you fail, you must spend a healing surge or take damage equal to your level as normal. The DC increases by 5 every hour after that. In addi tion, if you or an ally would take damage from this, they take only half the damage instead.",
         "title": "Running Cadence"
       },
       "sharedData": {
@@ -63,7 +63,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Endurance.",
+                "text": "You must be at least Trained in Endurance.",
                 "type": "effect"
               },
               {
@@ -192,7 +192,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You ask an ally to take the lead during their moment of expertis to quickly and smoothly accomplish your whole team's goals.\n\nDAILY / NO_ACTION\n\nPersonal\n\nTrigger: It is your turn to take an action during a skill challenge.\n\nPrerequisite: You must be proficient in Diplomacy.\n\nEffect: You may have an ally make an action during the skill challenge instead. This doesn't count as their action for the round. They get a +1 bonus to any skill checks they make during that action. When Delegating Matters This power earns its keep at tables where a skill challenge runs in rounds and every player is expected to act before the next round begins — handing your action to an ally is a real concession of the spotlight. If your skill challenges are looser, with pl ayers contributing whenever they have an idea, it does much less work.",
+        "description": "You ask an ally to take the lead during their moment of expertis to quickly and smoothly accomplish your whole team's goals.\n\nDAILY / NO_ACTION\n\nPersonal\n\nTrigger: It is your turn to take an action during a skill challenge.\n\nPrerequisite: You must be at least Expert in Command.\n\nEffect: You may have an ally make an action during the skill challenge instead. This doesn't count as their action for the round. They get a +1 bonus to any skill checks they make during that action. When Delegating Matters This power earns its keep at tables where a skill challenge runs in rounds and every player is expected to act before the next round begins — handing your action to an ally is a real concession of the spotlight. If your skill challenges are looser, with pl ayers contributing whenever they have an idea, it does much less work.",
         "title": "Delegate Skill Challenge"
       },
       "sharedData": {
@@ -208,7 +208,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Diplomacy.",
+                "text": "You must be at least Expert in Command.",
                 "type": "effect"
               },
               {
@@ -279,7 +279,7 @@
           "entryId": "warlord-6-delegate-skill-challenge",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Diplomacy | Level 6",
+        "subtitle": "Command | Level 6",
         "title": "Delegate Skill Challenge",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -338,7 +338,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You sing a song while marching along to force your allies to kee going when they would normally tire out. “I don’t know what I’v been told!”\n\nDAILY / MINOR\n\nPersonal\n\nPrerequisite: You must be proficient in Endurance.\n\nEffect: Until the end of the day, you and your allies gain a +5 bonus to Endurance checks to walk or run for long periods of time. In addition, the DC does not increase by 5 after the first hour when walking beyond 10 hours in a day. You and your allies’ encumbran ce carrying capacity doubles during this time.",
+        "description": "You sing a song while marching along to force your allies to kee going when they would normally tire out. “I don’t know what I’v been told!”\n\nDAILY / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Expert in Endurance.\n\nEffect: Until the end of the day, you and your allies gain a +5 bonus to Endurance checks to walk or run for long periods of time. In addition, the DC does not increase by 5 after the first hour when walking beyond 10 hours in a day. You and your allies’ encumbran ce carrying capacity doubles during this time.",
         "title": "Forced March Cadence"
       },
       "sharedData": {
@@ -354,7 +354,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Endurance.",
+                "text": "You must be at least Expert in Endurance.",
                 "type": "effect"
               },
               {
@@ -482,7 +482,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A word in the right ear at the right moment — you’ve always known how to steer a friend true.\n\nDAILY / IMMEDIATE_REACTION\n\nRanged 5\n\nTrigger: An ally within range that you can see or hear makes a skill check using a skill in which you have a positive bonus. This must be used before you know the result.\n\nPrerequisite: You must be proficient in Diplomacy.\n\nEffect: Grant the ally the ability to reroll the skill check, with a power bonus equal to the higher of your Intelligence or Wisdom if you are proficient in that skill. If you are not proficient in that skill, they get a power bonus equal to your Charisma modif ier - 2.",
+        "description": "A word in the right ear at the right moment — you’ve always known how to steer a friend true.\n\nDAILY / IMMEDIATE_REACTION\n\nRanged 5\n\nTrigger: An ally within range that you can see or hear makes a skill check using a skill in which you have a positive bonus. This must be used before you know the result.\n\nPrerequisite: You must be at least Expert in Insight.\n\nEffect: Grant the ally the ability to reroll the skill check, with a power bonus equal to the higher of your Intelligence or Wisdom if you are at least Trained in that skill. If you are below Trained in that skill, they get a power bonus equal to your Charisma modif ier - 2.",
         "title": "Friendly Advice"
       },
       "sharedData": {
@@ -498,13 +498,13 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Diplomacy.",
+                "text": "You must be at least Expert in Insight.",
                 "type": "effect"
               },
               {
                 "id": "rule-3",
                 "label": "Effect",
-                "text": "Grant the ally the ability to reroll the skill check, with a power bonus equal to the higher of your Intelligence or Wisdom if you are proficient in that skill. If you are not proficient in that skill, they get a power bonus equal to your Charisma modif ier - 2.",
+                "text": "Grant the ally the ability to reroll the skill check, with a power bonus equal to the higher of your Intelligence or Wisdom if you are at least Trained in that skill. If you are below Trained in that skill, they get a power bonus equal to your Charisma modif ier - 2.",
                 "type": "effect"
               }
             ],
@@ -569,7 +569,7 @@
           "entryId": "warlord-6-friendly-advice",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Diplomacy | Level 6",
+        "subtitle": "Insight | Level 6",
         "title": "Friendly Advice",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -628,7 +628,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "When all else fails, you know to listen to your gut.\n\nDAILY / MINOR\n\nPersonal\n\nPrerequisite: You must be proficient in Insight.\n\nEffect: You can ask the DM one question about the current situation or an action you or the party is about to take. The DM can only respond with “You have a good feeling about this,” “You have a bad feeling about this,” or “You have mixed feelings about this.” If it’s the last answer, the DM should at least give some sort of ratio of good to bad feelings.\n\nSpecial: You may use this power twice before each extended rest. Reading the Gut Answer this power from what the character could plausibly sense — the tension in a room, the wrongness of a too -quiet road — rather than from what the party hasn’t discovered yet. A bad feeling flags danger, not its source. When the answer is mixed, a roug h ratio (“mostly good, but something here is off”) gives the party something to act on without handing them the plot.",
+        "description": "When all else fails, you know to listen to your gut.\n\nDAILY / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Expert in Insight.\n\nEffect: You can ask the DM one question about the current situation or an action you or the party is about to take. The DM can only respond with “You have a good feeling about this,” “You have a bad feeling about this,” or “You have mixed feelings about this.” If it’s the last answer, the DM should at least give some sort of ratio of good to bad feelings.\n\nSpecial: You may use this power twice before each extended rest. Reading the Gut Answer this power from what the character could plausibly sense — the tension in a room, the wrongness of a too -quiet road — rather than from what the party hasn’t discovered yet. A bad feeling flags danger, not its source. When the answer is mixed, a roug h ratio (“mostly good, but something here is off”) gives the party something to act on without handing them the plot.",
         "title": "I Got a Bad Feeling About This"
       },
       "sharedData": {
@@ -644,7 +644,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Insight.",
+                "text": "You must be at least Expert in Insight.",
                 "type": "effect"
               },
               {
@@ -778,7 +778,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Ten minutes watching a foe move, breathe, and bluster tells you most of what you need to know about them.\n\nENCOUNTER / STANDARD\n\nPersonal\n\nPrerequisite: You must be proficient in Insight.\n\nCast Time: 10 minutes\n\nEffect: Choose one creature you observed or interacted with, outside of combat, for the power’s cast time. You learn certain information about its capabilities compared to your own: the DM tells you whether the creature is your equal, superior, or inferior with regard to one of the following of your choice — Strength, Dexterity, Constitution, Wisdom, Intelligence, Charisma, Armor Class, Fortitude, Reflex, or current hit points.",
+        "description": "Ten minutes watching a foe move, breathe, and bluster tells you most of what you need to know about them.\n\nENCOUNTER / STANDARD\n\nPersonal\n\nPrerequisite: You must be at least Expert in Insight.\n\nCast Time: 10 minutes\n\nEffect: Choose one creature you observed or interacted with, outside of combat, for the power’s cast time. You learn certain information about its capabilities compared to your own: the DM tells you whether the creature is your equal, superior, or inferior with regard to one of the following of your choice — Strength, Dexterity, Constitution, Wisdom, Intelligence, Charisma, Armor Class, Fortitude, Reflex, or current hit points.",
         "title": "Quickly Know Your Enemy"
       },
       "sharedData": {
@@ -794,7 +794,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Insight.",
+                "text": "You must be at least Expert in Insight.",
                 "type": "effect"
               },
               {
@@ -928,7 +928,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "While you may not know the exact ritual, you know the base theory well enough, and can provide help making it more efficie as long as you're told vague instructions about where to draw t chalk or where to place the candles.\n\nENCOUNTER / STANDARD\n\nRanged 5\n\nRequirement: An ally is performing a ritual.\n\nPrerequisite: You must be proficient in Arcana.\n\nEffect: Choose one benefit: the ritual costs 25% fewer components, or it takes 25% less time to perform. This counts as you assisting with the ritual. You cannot assist the ritual in any other way.",
+        "description": "While you may not know the exact ritual, you know the base theory well enough, and can provide help making it more efficie as long as you're told vague instructions about where to draw t chalk or where to place the candles.\n\nENCOUNTER / STANDARD\n\nRanged 5\n\nRequirement: An ally is performing a ritual.\n\nPrerequisite: You must be at least Expert in Arcana.\n\nEffect: Choose one benefit: the ritual costs 25% fewer components, or it takes 25% less time to perform. This counts as you assisting with the ritual. You cannot assist the ritual in any other way.",
         "title": "Aid With Ritual"
       },
       "sharedData": {
@@ -944,7 +944,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Arcana.",
+                "text": "You must be at least Expert in Arcana.",
                 "type": "effect"
               },
               {

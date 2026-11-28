@@ -238,16 +238,17 @@ class BuilderSession(
      * lacks proficiency for is stored with [acceptIneligible] and reported on Validation. Call on Main.
      *
      * @param linkedWeaponId the equipped weapon an implement slot reuses, if any.
+     * @param enhancement the staged defense enhancement, or null to retain the current value for the same item.
      */
     internal fun submitEquipment(slot: EquipmentSlot, entry: ResolvedEntry?, linkedWeaponId: String? = null,
-        acceptIneligible: Boolean = false) {
+        acceptIneligible: Boolean = false, enhancement: Int? = null) {
         if (errors.isNotEmpty()) {
             return
         }
         val title = entry?.entry?.presentation?.title?.let { title ->
-            linkedWeaponId?.let { "$title (${slot.title})" } ?: title
+            linkedWeaponId?.let { "$title (${slot.title})" } ?: title.withEnhancementLabel(enhancement ?: 0)
         }
-        enqueue({ resolveEquipmentEdit(slot, entry, linkedWeaponId, acceptIneligible) },
+        enqueue({ resolveEquipmentEdit(slot, entry, linkedWeaponId, acceptIneligible, enhancement) },
             mapOf(slot.pendingSlot to PendingSelection(title)), slot)
     }
 
@@ -569,8 +570,8 @@ class BuilderSession(
      * The picker queues the same change through [submitEquipment] instead.
      */
     internal suspend fun selectEquipment(slot: EquipmentSlot, entry: ResolvedEntry?, linkedWeaponId: String? = null,
-        acceptIneligible: Boolean = false) {
-        edit(resolveEquipmentEdit(slot, entry, linkedWeaponId, acceptIneligible) ?: return)
+        acceptIneligible: Boolean = false, enhancement: Int? = null) {
+        edit(resolveEquipmentEdit(slot, entry, linkedWeaponId, acceptIneligible, enhancement) ?: return)
     }
 
     /**
@@ -580,7 +581,7 @@ class BuilderSession(
      * @return the edit, or null when there is nothing to clear or the item is not offered, which blocks the session.
      */
     private suspend fun resolveEquipmentEdit(slot: EquipmentSlot, entry: ResolvedEntry?, linkedWeaponId: String?,
-        acceptIneligible: Boolean): BuilderEdit? {
+        acceptIneligible: Boolean, enhancement: Int?): BuilderEdit? {
         val state = current ?: return null
         if (entry == null) {
             val selected = equipmentOptions(slot).selected ?: return null
@@ -596,6 +597,10 @@ class BuilderSession(
             } else {
                 BuilderEdit.RemoveEquipment(selected.instanceId)
             }
+        }
+        if (enhancement != null && (!slot.supportsDefenseEnhancement || enhancement !in DefenseEnhancementValues)) {
+            return reject(listOf(Diagnostic("android.equipment.enhancement", DiagnosticKind.INVALID_SELECTION,
+                "Choose an armor or neck enhancement from 0 to +6.")))
         }
         return withContext(Dispatchers.IO) {
             val prepared = when (val loaded = loadEquipmentCatalog(state.document, sample())) {
@@ -636,7 +641,12 @@ class BuilderSession(
                 } else {
                     val selection = SavedSelection(chosen.entry.id, chosen.entry.presentation.title, chosen.supplier.packageId,
                         chosen.fingerprint)
-                    add(BuilderEdit.Equipment(EquipmentSelection(instanceId, selection, equipped = true)))
+                    val sameItem = previous?.takeIf {
+                        it.selection.entryId == selection.entryId && it.selection.supplierPackageId == selection.supplierPackageId
+                    }
+                    val equipped = EquipmentSelection(instanceId, selection, equipped = true,
+                        quantity = sameItem?.quantity ?: 1, configuration = sameItem?.configuration.orEmpty())
+                    add(BuilderEdit.Equipment(if (enhancement == null) equipped else equipped.withDefenseEnhancement(enhancement)))
                 }
             })
         }

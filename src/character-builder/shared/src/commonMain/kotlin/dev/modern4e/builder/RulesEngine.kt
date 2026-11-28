@@ -86,7 +86,7 @@ data class EngineChoice(
     @kotlinx.serialization.Transient val category: SlotCategory? = null,
     /** Whether the character is incomplete until this slot holds a decision. */
     @kotlinx.serialization.Transient val required: Boolean = false,
-    /** Whether the slot holds a saved decision; an ability increase counts only when it is a valid non-main increase. */
+    /** Whether the slot holds a saved decision; an ability increase counts only when it is a valid pair of increases. */
     @kotlinx.serialization.Transient val filled: Boolean = false,
     @kotlinx.serialization.Transient val listing: SlotListing = SlotListing.INLINE,
 ) {
@@ -469,7 +469,7 @@ private class Evaluation(
         }
         if (document.level > AdvancementRules.LAST_ENFORCED_LEVEL) {
             diagnostics += diagnostic("progressionUnsupported", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                "Progression after level 20 remains unsupported.")
+                "Epic feats, powers and destinies remain unavailable.")
         }
         reportActivation()
         choices += timeline.choices
@@ -560,7 +560,7 @@ private class Evaluation(
             val contributions = listOf(halfLevel) + proficiency + modifiers.filter { it.modifier.target == target }
             statistics[target] = ModifierCalculator.calculate(ability, contributions)
         }
-        val defenseEquipment = DefenseEquipment(entries, equipmentProficiencies.keys)
+        val defenseEquipment = DefenseEquipment(entries, equipmentProficiencies.keys, document.equipment)
         val overviewStatistics = linkedMapOf<Statistic, ContractResult<CalculatedValue>>()
         val mayPreview = blockers.all { it in unfilledChoiceBlockers }
         for (statistic in Statistic.entries.filter { it != Statistic.ABILITY_POINTS && it != Statistic.SKILL_CHECK }) {
@@ -599,17 +599,17 @@ private class Evaluation(
     /**
      * Offer every root slot the advancement schedule opens by the character's level. Root listings are deferred: their
      * candidates come from the catalog through [BuilderOptionListing] and are never evaluated here. [decided] holds
-     * the slots with a saved decision; an ability increase is filled only by a valid non-main increase, a
+     * the slots with a saved decision; an ability increase is filled only by a valid pair of increases, a
      * replacement milestone by any progression replacement recorded at its level.
      */
     private fun rootOffers(decided: Set<ChoiceSlotId>): List<EngineChoice> =
-        (1..minOf(document.level, AdvancementRules.LAST_ENFORCED_LEVEL)).flatMap(AdvancementRules::rootSlots).map { root ->
+        (1..document.level).flatMap(AdvancementRules::rootSlots).map { root ->
             val row = document.levels.firstOrNull { it.level == root.level }
             val filled = when (root.category) {
                 is SlotCategory.Entry -> root.slot in decided
-                SlotCategory.AbilityIncrease -> row?.abilityAdvancements.orEmpty().any {
-                    AdvancementRules.validAdvancement(root.level, it, document.abilities.mainAbility)
-                }
+                SlotCategory.AbilityIncrease -> row?.abilityAdvancements?.singleOrNull()?.let {
+                    AdvancementRules.validAdvancement(root.level, it)
+                } == true
                 is SlotCategory.Replacement -> row?.replacements.orEmpty().any { it.kind == ReplacementKind.PROGRESSION }
             }
             EngineChoice(root.slot, acquisitionLevel = root.level, category = root.category, required = true, filled = filled,
@@ -865,6 +865,14 @@ private class Evaluation(
         } else {
             mutableListOf(Contributor("${owner.definition.entry.presentation.title} base", formula.base, owner.slot))
         }
+        val defenseAbilities = nonArmorDefenseAbilities[statistic]
+        if (defenseAbilities != null) {
+            when (val ability = defenseAbility(defenseAbilities, abilityValue)) {
+                is ContractResult.Unavailable -> return ability
+                is ContractResult.Available -> terms += ability.value.copy(source = document.abilities.source)
+            }
+            return classFormulaTotal(terms)
+        }
         val level = formula.perLevel.toLong() * document.level
         if (level !in Int.MIN_VALUE.toLong()..Int.MAX_VALUE.toLong()) {
             return ContractResult.Unavailable(listOf(diagnostic("formulaOverflow", DiagnosticKind.INCOMPLETE_AUTOMATION, "Class formula overflow.")))
@@ -881,6 +889,10 @@ private class Evaluation(
             }
             terms += Contributor("$ability x $multiplier", term.toInt(), document.abilities.source)
         }
+        return classFormulaTotal(terms)
+    }
+
+    private fun classFormulaTotal(terms: List<Contributor>): ContractResult<CalculatedValue> {
         val total = terms.sumOf { it.value.toLong() }
         return if (total in Int.MIN_VALUE.toLong()..Int.MAX_VALUE.toLong()) {
             ContractResult.Available(CalculatedValue(total.toInt(), terms))
@@ -1067,12 +1079,15 @@ private class Evaluation(
             }
         }
         val advancementPoints = Ability.entries.associateWith { 0 }.toMutableMap()
-        for (level in document.levels) {
+        for (level in document.activeLevels) {
             for (advancement in level.abilityAdvancements) {
-                if (!AdvancementRules.validAdvancement(level.level, advancement, allocation.mainAbility) ||
+                if (AdvancementRules.isLegacyAdvancement(level.level, advancement)) {
+                    continue
+                }
+                if (!AdvancementRules.validAdvancement(level.level, advancement) ||
                     level.abilityAdvancements.size != 1) {
                     errors += diagnostic("abilityAdvancement", DiagnosticKind.INVALID_SELECTION,
-                        "Choose exactly one non-main ability to increase by 1 at levels 4 and 12.", advancement.slot)
+                        "Choose two different abilities to increase by 1 at levels 8, 14, or 28.", advancement.slot)
                 } else {
                     for ((ability, amount) in advancement.increases) {
                         advancementPoints[ability] = advancementPoints.getValue(ability) + amount
@@ -1080,15 +1095,13 @@ private class Evaluation(
                 }
             }
         }
-        for (level in (1..document.level).filter(AdvancementRules::choosesNonMainIncrease)) {
+        for (level in (1..document.level).filter(AdvancementRules::choosesAbilityIncrease)) {
             if (document.levels.singleOrNull { it.level == level }?.abilityAdvancements.isNullOrEmpty()) {
                 errors += diagnostic("missingAdvancement", DiagnosticKind.INVALID_SELECTION,
-                    "Choose a non-main ability to increase by 1.", AdvancementRules.abilitySlot(level))
+                    "Choose two different abilities to increase by 1.", AdvancementRules.abilitySlot(level))
             }
         }
-        advancementPoints[allocation.mainAbility] = advancementPoints.getValue(allocation.mainAbility) +
-            AdvancementRules.automaticIncreases(document.level, AbilityIncreaseKind.MAIN)
-        val allIncreases = AdvancementRules.automaticIncreases(document.level, AbilityIncreaseKind.ALL)
+        val allIncreases = AdvancementRules.automaticAbilityIncreases(document.level)
         for (ability in Ability.entries) {
             advancementPoints[ability] = advancementPoints.getValue(ability) + allIncreases
         }

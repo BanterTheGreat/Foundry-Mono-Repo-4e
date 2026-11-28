@@ -43,7 +43,7 @@ class SharedClassTest {
     fun fighterHasLocalFormulaGoldensIndependentChoicesAndThreeAutomaticPowers() {
         val result = evaluate()
         for ((statistic, expected) in mapOf(Statistic.HIT_POINTS to 29, Statistic.HEALING_SURGES to 11,
-            Statistic.AC to 12, Statistic.FORTITUDE to 20, Statistic.REFLEX to 15, Statistic.WILL to 12)) {
+            Statistic.AC to 12, Statistic.FORTITUDE to 18, Statistic.REFLEX to 14, Statistic.WILL to 12)) {
             val value = calculation(result, statistic)
             assertEquals(expected, value.total)
             assertEquals(expected, value.contributors.sumOf { it.value })
@@ -64,7 +64,7 @@ class SharedClassTest {
     }
 
     @Test
-    fun nonAcDefensesGetTierBonusWhileArmorClassGetsFlooredHalfLevelInstead() {
+    fun defensesUseHigherAbilitiesAndTheirOwnProgressionBonuses() {
         val doc = character()
         for ((level, tier) in listOf(1 to 1, 2 to 1, 3 to 1, 10 to 1, 11 to 2, 20 to 2, 21 to 3, 30 to 3)) {
             val target = ModifierTarget(Statistic.FORTITUDE)
@@ -72,18 +72,19 @@ class SharedClassTest {
                 ManualAdjustment("fortitude-$amount", TypedModifier(target, ModifierOperation.ADD, amount, BonusType.ITEM))
             }
             val progressed = doc.copy(level = level, levels = doc.levels +
-                (1..level).filter(AdvancementRules::choosesNonMainIncrease).map { at -> LevelDecisions(at,
-                    abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(at), mapOf(Ability.WISDOM to 1)))) },
+                (1..level).filter(AdvancementRules::choosesAbilityIncrease).map { at -> LevelDecisions(at,
+                    abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(at), mapOf(Ability.WISDOM to 1, Ability.INTELLIGENCE to 1)))) },
                 manualAdjustments = adjustments)
             val result = evaluate(progressed)
             fun points(ability: Ability) = assertIs<ContractResult.Available<CalculatedValue>>(result.ability(ability)).value.total
             val fortitude = calculation(result, Statistic.FORTITUDE)
-            assertEquals(13 + points(Ability.STRENGTH) + points(Ability.CONSTITUTION) + tier + 2, fortitude.total)
+            assertEquals(13 + maxOf(points(Ability.STRENGTH), points(Ability.CONSTITUTION)) + level / 2 + tier + 2, fortitude.total)
             assertEquals(1, fortitude.contributors.count { it.label == "Tier bonus" && it.value == tier })
-            assertEquals(11 + points(Ability.DEXTERITY) + points(Ability.INTELLIGENCE) + tier, calculation(result, Statistic.REFLEX).total)
-            assertEquals(11 + points(Ability.WISDOM) + points(Ability.CHARISMA) + tier, calculation(result, Statistic.WILL).total)
+            assertEquals(11 + maxOf(points(Ability.DEXTERITY), points(Ability.INTELLIGENCE)) + level / 2 + tier, calculation(result, Statistic.REFLEX).total)
+            assertEquals(11 + maxOf(points(Ability.WISDOM), points(Ability.CHARISMA)) + level / 2 + tier, calculation(result, Statistic.WILL).total)
             val ac = calculation(result, Statistic.AC)
-            assertEquals(10 + maxOf(points(Ability.DEXTERITY), points(Ability.INTELLIGENCE)) + level / 2, ac.total)
+            assertEquals(10 + maxOf(points(Ability.DEXTERITY), points(Ability.INTELLIGENCE)).coerceAtMost(3) +
+                level / 2 + listOf(5, 9, 13, 17, 19, 25, 27, 29).count { it <= level }, ac.total)
             assertEquals(0, ac.contributors.count { it.label == "Tier bonus" })
             assertEquals(level / 2, ac.contributors.filter { it.label == "Half level" }.sumOf { it.value })
         }
@@ -172,10 +173,11 @@ class SharedClassTest {
         val late = feature("combat-reactivity")
         val updated = fighter.copy(mechanics = fighter.mechanics.copy(grants = fighter.mechanics.grants + Grant.Entry("late-five", late.id, 5)))
         val original = character("combat-superiority")
-        val doc = original.copy(level = 5, levels = original.levels + LevelDecisions(4,
-            abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.DEXTERITY to 1)))))
+        val doc = original.copy(level = 8, levels = original.levels + LevelDecisions(8,
+            abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(8),
+                mapOf(Ability.DEXTERITY to 1, Ability.STRENGTH to 1)))))
         val result = evaluate(doc, listOf(updated))
-        assertEquals(57, calculation(result, Statistic.HIT_POINTS).total)
+        assertEquals(78, calculation(result, Statistic.HIT_POINTS).total)
         assertTrue(result.entries.any { it.instanceId == ModernCreation.grantInstance("fighter", "late-five") })
         assertFalse(result.diagnostics.any { it.code == "engine.progressionUnsupported" })
     }

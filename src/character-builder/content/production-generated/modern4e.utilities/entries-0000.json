@@ -44,7 +44,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "With a quick leap, you are back on your feet and ready to act.\n\nAT_WILL / MINOR\n\nPersonal\n\nEffect: You stand up.",
+        "description": "With a quick leap, you are back on your feet and ready to act.\n\nAT_WILL / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Trained in Acrobatics.\n\nEffect: You stand up.",
         "title": "Agile Recovery"
       },
       "sharedData": {
@@ -57,6 +57,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Acrobatics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -168,7 +174,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You call out choice verses of prophecy. The knowledge that destiny is on your side renews your ally's vigor.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nClose burst 5\n\nTrigger: An ally within 5 squares of you spends a healing surge\n\nEffect: The triggering ally gains 3d6 temporary hit points.",
+        "description": "You call out choice verses of prophecy. The knowledge that destiny is on your side renews your ally's vigor.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nClose burst 5\n\nTrigger: An ally within 5 squares of you spends a healing surge\n\nPrerequisite: You must be at least Expert in Religion.\n\nEffect: The triggering ally gains 3d6 temporary hit points.",
         "title": "Assurance of Prophecy"
       },
       "sharedData": {
@@ -181,6 +187,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Religion.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -301,7 +313,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You know the right things to say to make people like you.\n\nENCOUNTER / MINOR\n\nRanged 5\n\nRequirement: The target must have -3 Intelligence or higher\n\nTarget: One nonhostile creature\n\nEffect: Until the end of the encounter, you gain a +5 power bonus to Bluff checks and Diplomacy checks against the target.",
+        "description": "You know the right things to say to make people like you.\n\nENCOUNTER / MINOR\n\nRanged 5\n\nRequirement: The target must have -3 Intelligence or higher\n\nTarget: One nonhostile creature\n\nPrerequisite: You must be at least Expert in Deception.\n\nEffect: Until the end of the encounter, you gain a +5 power bonus to Deception checks and Charisma checks to persuade against the target.",
         "title": "Befriend"
       },
       "sharedData": {
@@ -320,9 +332,15 @@
             },
             "blocks": [
               {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Deception.",
+                "type": "effect"
+              },
+              {
                 "id": "rule-1",
                 "label": "Effect",
-                "text": "Until the end of the encounter, you gain a +5 power bonus to Bluff checks and Diplomacy checks against the target.",
+                "text": "Until the end of the encounter, you gain a +5 power bonus to Deception checks and Charisma checks to persuade against the target.",
                 "type": "effect"
               }
             ],
@@ -384,7 +402,7 @@
           "entryId": "befriend",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Diplomacy | Level 10",
+        "subtitle": "Deception | Level 10",
         "title": "Befriend",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -442,7 +460,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Brandishing your holy symbol, you drive undead away and bolster your allies against them.\n\nENCOUNTER / MINOR\n\nClose burst 1\n\nRequirement: You must be wearing or holding a holy symbol.\n\nEffect: The burst creates a zone that lasts until the end of your next turn. When you move, the zone moves with you, remaining centered on you. While within the zone, your allies gain a +2 power bonus to all defenses against undead creatures. If an undead creature ends its turn within the zone, you push it 1 square as a free action.",
+        "description": "Brandishing your holy symbol, you drive undead away and bolster your allies against them.\n\nENCOUNTER / MINOR\n\nClose burst 1\n\nRequirement: You must be wearing or holding a holy symbol.\n\nPrerequisite: You must be at least Expert in Religion.\n\nEffect: The burst creates a zone that lasts until the end of your next turn. When you move, the zone moves with you, remaining centered on you. While within the zone, your allies gain a +2 power bonus to all defenses against undead creatures. If an undead creature ends its turn within the zone, you push it 1 square as a free action.",
         "title": "Censure the Unholy"
       },
       "sharedData": {
@@ -455,6 +473,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Religion.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -581,7 +605,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You've charmed your way past more marks than you can count, turning wary strangers into fast friends with little more than a grin and a good story.\n\nENCOUNTER / MINOR\n\nPersonal\n\nPrerequisite: You must be proficient in Diplomacy.\n\nEffect: Until the end of your next turn, gain a +1 bonus to your next Bluff or Diplomacy check to persuade, sell something, or increase the impression or favorability someone has of you. If this is the first time you've met this NPC ever, the bonus increases to a +3. If you have ever done a negative action against this creature (tricked, swindled, cheated, stolen from, attacked, etc.) and they recognize you, then you cannot use this power on them.",
+        "description": "You've charmed your way past more marks than you can count, turning wary strangers into fast friends with little more than a grin and a good story.\n\nENCOUNTER / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Trained in Deception.\n\nEffect: Until the end of your next turn, gain a +1 bonus to your next Deception or Charisma check to persuade, sell something, or increase the impression or favorability someone has of you. If this is the first time you've met this NPC ever, the bonus increases to a +3. If you have ever done a negative action against this creature (tricked, swindled, cheated, stolen from, attacked, etc.) and they recognize you, then you cannot use this power on them.",
         "title": "Charming Rapscallion"
       },
       "sharedData": {
@@ -597,13 +621,13 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Diplomacy.",
+                "text": "You must be at least Trained in Deception.",
                 "type": "effect"
               },
               {
                 "id": "rule-2",
                 "label": "Effect",
-                "text": "Until the end of your next turn, gain a +1 bonus to your next Bluff or Diplomacy check to persuade, sell something, or increase the impression or favorability someone has of you. If this is the first time you've met this NPC ever, the bonus increases to a +3. If you have ever done a negative action against this creature (tricked, swindled, cheated, stolen from, attacked, etc.) and they recognize you, then you cannot use this power on them.",
+                "text": "Until the end of your next turn, gain a +1 bonus to your next Deception or Charisma check to persuade, sell something, or increase the impression or favorability someone has of you. If this is the first time you've met this NPC ever, the bonus increases to a +3. If you have ever done a negative action against this creature (tricked, swindled, cheated, stolen from, attacked, etc.) and they recognize you, then you cannot use this power on them.",
                 "type": "effect"
               }
             ],
@@ -666,7 +690,7 @@
           "entryId": "charming-rapscallion",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Diplomacy | Level 2",
+        "subtitle": "Deception | Level 2",
         "title": "Charming Rapscallion",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -722,7 +746,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You spew a stream of nonsense, leaving your enemies puzzled.\n\nENCOUNTER / MINOR\n\nClose burst 1\n\nTarget: Each enemy in the burst\n\nEffect: You make a Bluff check opposed by each target's passive Insight check. If the check succeeds against a target, that target cannot make opportunity attacks against you until the end of your next turn.",
+        "description": "You spew a stream of nonsense, leaving your enemies puzzled.\n\nENCOUNTER / MINOR\n\nClose burst 1\n\nTarget: Each enemy in the burst\n\nPrerequisite: You must be at least Expert in Deception.\n\nEffect: You make a Deception check opposed by each target's passive Insight check. If the check succeeds against a target, that target cannot make opportunity attacks against you until the end of your next turn.",
         "title": "Confusing Blather"
       },
       "sharedData": {
@@ -741,9 +765,15 @@
             },
             "blocks": [
               {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Deception.",
+                "type": "effect"
+              },
+              {
                 "id": "rule-1",
                 "label": "Effect",
-                "text": "You make a Bluff check opposed by each target's passive Insight check. If the check succeeds against a target, that target cannot make opportunity attacks against you until the end of your next turn.",
+                "text": "You make a Deception check opposed by each target's passive Insight check. If the check succeeds against a target, that target cannot make opportunity attacks against you until the end of your next turn.",
                 "type": "effect"
               }
             ],
@@ -804,7 +834,7 @@
           "entryId": "confusing-blather",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Bluff | Level 6",
+        "subtitle": "Deception | Level 6",
         "title": "Confusing Blather",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -860,7 +890,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You whisper a prayer for aid to overcome hardship.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You gain a +5 bonus to the next saving throw you make before the start of your next turn.",
+        "description": "You whisper a prayer for aid to overcome hardship.\n\nENCOUNTER / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Expert in Religion.\n\nEffect: You gain a +5 bonus to the next saving throw you make before the start of your next turn.",
         "title": "Conviction"
       },
       "sharedData": {
@@ -873,6 +903,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Religion.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -991,7 +1027,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You smash free from your enemy's grasp, sending it reeling and making it susceptible to your next attack.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You make an escape attempt using Athletics.\n\nEffect: You gain a power bonus to your Athletics check equal to your Strength. If you escape and a creature was grabbing you, that creature gains vulnerable 5 to your attacks until the end of your next turn.",
+        "description": "You smash free from your enemy's grasp, sending it reeling and making it susceptible to your next attack.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You make an escape attempt using Athletics.\n\nPrerequisite: You must be at least Expert in Athletics.\n\nEffect: You gain a power bonus to your Athletics check equal to your Strength. If you escape and a creature was grabbing you, that creature gains vulnerable 5 to your attacks until the end of your next turn.",
         "title": "Crushing Escape"
       },
       "sharedData": {
@@ -1004,6 +1040,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Athletics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -1123,7 +1165,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "With pleading words and gestures, you discourage your enemies from striking down the wounded.\n\nENCOUNTER / MINOR\n\nClose burst 5\n\nRequirement: The target must be bloodied\n\nTarget: You or one ally in the burst\n\nEffect: Until the end of your next turn or until the target is no longer bloodied, the target's movement does not provoke opportunity attacks, and the target gains a +4 power bonus to all defenses.",
+        "description": "With pleading words and gestures, you discourage your enemies from striking down the wounded.\n\nENCOUNTER / MINOR\n\nClose burst 5\n\nRequirement: The target must be bloodied\n\nTarget: You or one ally in the burst\n\nPrerequisite: You must be at least Expert in Command.\n\nEffect: Until the end of your next turn or until the target is no longer bloodied, the target's movement does not provoke opportunity attacks, and the target gains a +4 power bonus to all defenses.",
         "title": "Cry for Mercy"
       },
       "sharedData": {
@@ -1141,6 +1183,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Command.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -1206,7 +1254,7 @@
           "entryId": "cry-for-mercy",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Diplomacy | Level 10",
+        "subtitle": "Command | Level 10",
         "title": "Cry for Mercy",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -1262,7 +1310,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You give of yourself in the belief that somewhere, something will give a little back.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You spend a healing surge but regain no hit points. You gain temporary hit points equal to your healing surge value.",
+        "description": "You give of yourself in the belief that somewhere, something will give a little back.\n\nENCOUNTER / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Expert in Religion.\n\nEffect: You spend a healing surge but regain no hit points. You gain temporary hit points equal to your healing surge value.",
         "title": "Deliverance of Faith"
       },
       "sharedData": {
@@ -1275,6 +1323,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Religion.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -1396,7 +1450,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You call on a demonic entity to wreak greater destruction, but you tear part of your own mind in the process.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You roll damage and dislike the result.\n\nEffect: You reroll the damage and must use the second result. You then take psychic damage equal to twice your level.",
+        "description": "You call on a demonic entity to wreak greater destruction, but you tear part of your own mind in the process.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You roll damage and dislike the result.\n\nPrerequisite: You must be at least Expert in Arcana.\n\nEffect: You reroll the damage and must use the second result. You then take psychic damage equal to twice your level.",
         "title": "Demonic Bargain"
       },
       "sharedData": {
@@ -1409,6 +1463,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Arcana.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -1533,7 +1593,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You spit an ugly threat at your adversary, making it think twice before it attacks you.\n\nENCOUNTER / FREE\n\nMelee 1\n\nTrigger: You hit an enemy with a melee attack\n\nTarget: The enemy you hit\n\nEffect: The target takes a –2 penalty to attack rolls against you until the end of your next turn.",
+        "description": "You spit an ugly threat at your adversary, making it think twice before it attacks you.\n\nENCOUNTER / FREE\n\nMelee 1\n\nTrigger: You hit an enemy with a melee attack\n\nTarget: The enemy you hit\n\nPrerequisite: You must be at least Expert in Command.\n\nEffect: The target takes a –2 penalty to attack rolls against you until the end of your next turn.",
         "title": "Demoralize Foe"
       },
       "sharedData": {
@@ -1551,6 +1611,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Command.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -1618,7 +1684,7 @@
           "entryId": "demoralize-foe",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Intimidate | Level 6",
+        "subtitle": "Command | Level 6",
         "title": "Demoralize Foe",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -1674,7 +1740,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "With a flurry of taps, shoves, and nudges, you push past your foe, leaving it flustered.\n\nENCOUNTER / MOVE\n\nMelee 1\n\nTarget: One creature\n\nEffect: You move your speed through the target's space to a square adjacent to it. This movement does not provoke an opportunity attack from the target. In addition, the target takes a –2 penalty to attack rolls until the start of your next turn.",
+        "description": "With a flurry of taps, shoves, and nudges, you push past your foe, leaving it flustered.\n\nENCOUNTER / MOVE\n\nMelee 1\n\nTarget: One creature\n\nPrerequisite: You must be at least Expert in Finesse.\n\nEffect: You move your speed through the target's space to a square adjacent to it. This movement does not provoke an opportunity attack from the target. In addition, the target takes a –2 penalty to attack rolls until the start of your next turn.",
         "title": "Disruptive Stunt"
       },
       "sharedData": {
@@ -1692,6 +1758,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Finesse.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -1756,7 +1828,7 @@
           "entryId": "disruptive-stunt",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Thievery | Level 10",
+        "subtitle": "Finesse | Level 10",
         "title": "Disruptive Stunt",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -1812,7 +1884,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Relying on superior balance and agility, you move in the blink of an eye.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: An enemy ends its turn adjacent to you\n\nEffect: You shift 1 square.",
+        "description": "Relying on superior balance and agility, you move in the blink of an eye.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: An enemy ends its turn adjacent to you\n\nPrerequisite: You must be at least Expert in Acrobatics.\n\nEffect: You shift 1 square.",
         "title": "Dodge Step"
       },
       "sharedData": {
@@ -1825,6 +1897,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Acrobatics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -1944,7 +2022,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You fall off a ledge, but your training allows you to dash forward after landing safely.\n\nAT_WILL / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: You fall and take no damage\n\nEffect: You shift 3 squares.",
+        "description": "You fall off a ledge, but your training allows you to dash forward after landing safely.\n\nAT_WILL / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: You fall and take no damage\n\nPrerequisite: You must be at least Expert in Acrobatics.\n\nEffect: You shift 3 squares.",
         "title": "Drop and Roll"
       },
       "sharedData": {
@@ -1957,6 +2035,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Acrobatics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -2069,7 +2153,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You slip past the notice of creatures that have adapted to life underground.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: Until the end of your next turn, creatures can't use darkvision, blindsight, or tremorsense to detect you. You can be detected with other senses as normal.",
+        "description": "You slip past the notice of creatures that have adapted to life underground.\n\nENCOUNTER / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Trained in Stealth.\n\nEffect: Until the end of your next turn, creatures can't use darkvision, blindsight, or tremorsense to detect you. You can be detected with other senses as normal.",
         "title": "Elude Senses"
       },
       "sharedData": {
@@ -2082,6 +2166,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Stealth.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -2200,7 +2290,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You grin and bear it, shrugging off the pain of a new wound.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: You are hit by an attack\n\nEffect: Until the end of your next turn, you gain resistance to all damage equal to 5 + your Constitution.",
+        "description": "You grin and bear it, shrugging off the pain of a new wound.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: You are hit by an attack\n\nPrerequisite: You must be at least Trained in Endurance.\n\nEffect: Until the end of your next turn, you gain resistance to all damage equal to 5 + your Constitution.",
         "title": "Endure Pain"
       },
       "sharedData": {
@@ -2213,6 +2303,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Endurance.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -2334,7 +2430,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You inspire terror in your enemies.\n\nENCOUNTER / MINOR\n\nClose blast 3\n\nTarget: Each enemy in the blast\n\nEffect: You push each target 1 square, but not into hindering terrain.",
+        "description": "You inspire terror in your enemies.\n\nENCOUNTER / MINOR\n\nClose blast 3\n\nTarget: Each enemy in the blast\n\nPrerequisite: You must be at least Expert in Command.\n\nEffect: You push each target 1 square, but not into hindering terrain.",
         "title": "Everybody Move"
       },
       "sharedData": {
@@ -2352,6 +2448,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Command.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -2418,7 +2520,7 @@
           "entryId": "everybody-move",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Intimidate | Level 6",
+        "subtitle": "Command | Level 6",
         "title": "Everybody Move",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -2474,7 +2576,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Negotiations are breaking down and will end in bloodshed. You realize this fact a split-second before your enemies do.\n\nDAILY / FREE\n\nClose burst 5\n\nTrigger: You and your allies roll initiative and it is not a surprise round.\n\nTarget: You and each ally in the burst\n\nEffect: Each target gains a +2 power bonus to the initiative check. In addition, the target has combat advantage against all enemies until the end of his or her next turn.",
+        "description": "Negotiations are breaking down and will end in bloodshed. You realize this fact a split-second before your enemies do.\n\nDAILY / FREE\n\nClose burst 5\n\nTrigger: You and your allies roll initiative and it is not a surprise round.\n\nTarget: You and each ally in the burst\n\nPrerequisite: You must be at least Trained in Culture.\n\nEffect: Each target gains a +2 power bonus to the initiative check. In addition, the target has combat advantage against all enemies until the end of his or her next turn.",
         "title": "Failed Diplomacy"
       },
       "sharedData": {
@@ -2492,6 +2594,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Culture.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -2557,7 +2665,7 @@
           "entryId": "failed-diplomacy",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Society | Level 2",
+        "subtitle": "Culture | Level 2",
         "title": "Failed Diplomacy",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -2615,7 +2723,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your prayers help an ally recover from injury.\n\nDAILY / STANDARD\n\nMelee touch\n\nTarget: One creature\n\nEffect: The target can spend a healing surge.",
+        "description": "Your prayers help an ally recover from injury.\n\nDAILY / STANDARD\n\nMelee touch\n\nTarget: One creature\n\nPrerequisite: You must be at least Trained in Religion.\n\nEffect: The target can spend a healing surge.",
         "title": "Faith Healing"
       },
       "sharedData": {
@@ -2633,6 +2741,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Religion.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -2755,7 +2869,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You are comfortable maneuvering around precarious terrain.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You ignore difficult terrain until the end of the encounter.",
+        "description": "You are comfortable maneuvering around precarious terrain.\n\nDAILY / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Expert in Acrobatics.\n\nEffect: You ignore difficult terrain until the end of the encounter.",
         "title": "Familiar Footing"
       },
       "sharedData": {
@@ -2768,6 +2882,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Acrobatics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -2886,7 +3006,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your fingers blur as you manipulate objects faster than the eye can follow.\n\nAT_WILL / FREE\n\nPersonal\n\nEffect: You draw or sheathe a weapon, pick up an item in your space or adjacent to it, or retrieve or stow an item\n\nSpecial: You can use this power only once per round.",
+        "description": "Your fingers blur as you manipulate objects faster than the eye can follow.\n\nAT_WILL / FREE\n\nPersonal\n\nPrerequisite: You must be at least Trained in Finesse.\n\nEffect: You draw or sheathe a weapon, pick up an item in your space or adjacent to it, or retrieve or stow an item\n\nSpecial: You can use this power only once per round.",
         "title": "Fast Hands"
       },
       "sharedData": {
@@ -2899,6 +3019,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Finesse.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -2960,7 +3086,7 @@
           "entryId": "fast-hands",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Thievery | Level 2",
+        "subtitle": "Finesse | Level 2",
         "title": "Fast Hands",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -3016,7 +3142,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Something out of place alerts you to imminent danger, letting you foil an enemy's ambush.\n\nDAILY / NO_ACTION\n\nPersonal\n\nTrigger: You are surprised while conscious.\n\nEffect: You are not surprised, and you are aware of the location of any enemy within 10 squares of you that is hidden. You then shift up to half your speed as a free action.",
+        "description": "Something out of place alerts you to imminent danger, letting you foil an enemy's ambush.\n\nDAILY / NO_ACTION\n\nPersonal\n\nTrigger: You are surprised while conscious.\n\nPrerequisite: You must be at least Expert in Stealth.\n\nEffect: You are not surprised, and you are aware of the location of any enemy within 10 squares of you that is hidden. You then shift up to half your speed as a free action.",
         "title": "Foil Ambush"
       },
       "sharedData": {
@@ -3029,6 +3155,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Stealth.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -3092,7 +3224,7 @@
           "entryId": "foil-ambush",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Perception | Level 6",
+        "subtitle": "Stealth | Level 6",
         "title": "Foil Ambush",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -3148,7 +3280,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You dodge past your enemies with speed and grace.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You shift half your speed.",
+        "description": "You dodge past your enemies with speed and grace.\n\nENCOUNTER / MOVE\n\nPersonal\n\nPrerequisite: You must be at least Expert in Acrobatics.\n\nEffect: You shift half your speed.",
         "title": "Graceful Maneuver"
       },
       "sharedData": {
@@ -3161,6 +3293,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Acrobatics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -3279,7 +3417,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Drawing on pure stubbornness, you're ready see your way through disaster.\n\nENCOUNTER / MINOR\n\nPersonal\n\nRequirement: You must have at least 1 healing surge.\n\nEffect: You spend a healing surge but regain no hit points. You make a saving throw against every effect on you that a save can end.",
+        "description": "Drawing on pure stubbornness, you're ready see your way through disaster.\n\nENCOUNTER / MINOR\n\nPersonal\n\nRequirement: You must have at least 1 healing surge.\n\nPrerequisite: You must be at least Trained in Endurance.\n\nEffect: You spend a healing surge but regain no hit points. You make a saving throw against every effect on you that a save can end.",
         "title": "Grit and Spittle"
       },
       "sharedData": {
@@ -3292,6 +3430,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Endurance.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -3411,7 +3555,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "It dawns on you as you botch the job that now might be a good time to make a swift exit.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: Your Thievery check triggers a trap\n\nEffect: You shift a number of squares equal to half your Dexterity.",
+        "description": "It dawns on you as you botch the job that now might be a good time to make a swift exit.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: Your Finesse check triggers a trap\n\nPrerequisite: You must be at least Expert in Finesse.\n\nEffect: You shift a number of squares equal to half your Dexterity.",
         "title": "Hasty Retreat"
       },
       "sharedData": {
@@ -3425,6 +3569,12 @@
             "bindings": {},
             "blocks": [
               {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Finesse.",
+                "type": "effect"
+              },
+              {
                 "id": "rule-1",
                 "label": "Effect",
                 "text": "You shift a number of squares equal to half your Dexterity.",
@@ -3435,7 +3585,7 @@
             "range": {
               "type": "PERSONAL"
             },
-            "trigger": "Your Thievery check triggers a trap",
+            "trigger": "Your Finesse check triggers a trap",
             "usage": {
               "costs": [],
               "frequency": "ENCOUNTER",
@@ -3487,7 +3637,7 @@
           "entryId": "hasty-retreat",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Thievery | Level 6",
+        "subtitle": "Finesse | Level 6",
         "title": "Hasty Retreat",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -3545,7 +3695,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You tend to a fallen comrade and stave off death's touch.\n\nENCOUNTER / STANDARD\n\nMelee 1\n\nTarget: One dying creature\n\nEffect: The target can spend a healing surge.",
+        "description": "You tend to a fallen comrade and stave off death's touch.\n\nENCOUNTER / STANDARD\n\nMelee 1\n\nTarget: One dying creature\n\nPrerequisite: You must be at least Trained in Medicine.\n\nEffect: The target can spend a healing surge.",
         "title": "Healer’s Gift"
       },
       "sharedData": {
@@ -3563,6 +3713,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Medicine.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -3687,7 +3843,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You move with amazing swiftness.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, you gain a +4 power bonus to speed.",
+        "description": "You move with amazing swiftness.\n\nDAILY / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Expert in Athletics.\n\nEffect: Until the stance ends, you gain a +4 power bonus to speed.",
         "title": "Incredible Stride"
       },
       "sharedData": {
@@ -3700,6 +3856,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Athletics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -3820,7 +3982,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You foresee your opponent's move and deny it the advantage.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You do not grant combat advantage until the end of your next turn.",
+        "description": "You foresee your opponent's move and deny it the advantage.\n\nENCOUNTER / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Expert in Insight.\n\nEffect: You do not grant combat advantage until the end of your next turn.",
         "title": "Insightful Counter"
       },
       "sharedData": {
@@ -3833,6 +3995,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Insight.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -3951,7 +4119,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "As your foe unleashes its attack, you realize that you have read about this sort of danger and shout a warning to your friends.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: A creature you can see makes an attack roll for an area or a close attack that includes you as a target\n\nEffect: You and each ally included as a target of the triggering attack gain a +2 power bonus to all defenses against it.",
+        "description": "As your foe unleashes its attack, you realize that you have read about this sort of danger and shout a warning to your friends.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: A creature you can see makes an attack roll for an area or a close attack that includes you as a target\n\nPrerequisite: You must be at least Expert in Arcana.\n\nEffect: You and each ally included as a target of the triggering attack gain a +2 power bonus to all defenses against it.",
         "title": "Insightful Warning"
       },
       "sharedData": {
@@ -3964,6 +4132,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Arcana.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -4083,7 +4257,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Inspired by your resilience, your allies find the will to overcome challenges.\n\nDAILY / STANDARD\n\nClose burst 5\n\nRequirement: Your second wind must be available for you to use\n\nTarget: Each ally in the burst\n\nEffect: You use your second wind, and each target gains temporary hit points equal to 10 + your Constitution.",
+        "description": "Inspired by your resilience, your allies find the will to overcome challenges.\n\nDAILY / STANDARD\n\nClose burst 5\n\nRequirement: Your second wind must be available for you to use\n\nTarget: Each ally in the burst\n\nPrerequisite: You must be at least Trained in Endurance.\n\nEffect: You use your second wind, and each target gains temporary hit points equal to 10 + your Constitution.",
         "title": "Inspiring Fortitude"
       },
       "sharedData": {
@@ -4101,6 +4275,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Endurance.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -4222,7 +4402,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Summoning up reserves of strength, you make a desperate effort to prevail.\n\nDAILY / NO_ACTION\n\nPersonal\n\nTrigger: You are required to roll a saving throw.\n\nEffect: You make the saving throw with a +4 power bonus.",
+        "description": "Summoning up reserves of strength, you make a desperate effort to prevail.\n\nDAILY / NO_ACTION\n\nPersonal\n\nTrigger: You are required to roll a saving throw.\n\nPrerequisite: You must be at least Expert in Endurance.\n\nEffect: You make the saving throw with a +4 power bonus.",
         "title": "Internal Reserves"
       },
       "sharedData": {
@@ -4235,6 +4415,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Endurance.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -4356,7 +4542,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Though your hands do little to comfort the wounded, you ensure that an injury will not keep an ally out of the battle.\n\nENCOUNTER / MINOR\n\nMelee 1\n\nRequirement: The target must have at least two healing surges remaining & be bloodied.\n\nTarget: You or one ally\n\nEffect: The target loses a healing surge and can then spend one or two healing surges. The target also gains temporary hit points equal to half his or her healing surge value.",
+        "description": "Though your hands do little to comfort the wounded, you ensure that an injury will not keep an ally out of the battle.\n\nENCOUNTER / MINOR\n\nMelee 1\n\nRequirement: The target must have at least two healing surges remaining & be bloodied.\n\nTarget: You or one ally\n\nPrerequisite: You must be at least Trained in Medicine.\n\nEffect: The target loses a healing surge and can then spend one or two healing surges. The target also gains temporary hit points equal to half his or her healing surge value.",
         "title": "Iron Resurgence"
       },
       "sharedData": {
@@ -4374,6 +4560,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Medicine.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -4497,7 +4689,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "As you watch your allies, you draw upon past lessons to shout out a few pointers.\n\nDAILY / MINOR\n\nClose burst 5\n\nRequirement: You must have at least 1 healing surge.\n\nTarget: Each ally in the burst\n\nEffect: You spend a healing surge but regain no hit points. Each target can regain one expended encounter utility power of level 10 or lower.",
+        "description": "As you watch your allies, you draw upon past lessons to shout out a few pointers.\n\nDAILY / MINOR\n\nClose burst 5\n\nRequirement: You must have at least 1 healing surge.\n\nTarget: Each ally in the burst\n\nPrerequisite: You must be at least Expert in Culture.\n\nEffect: You spend a healing surge but regain no hit points. Each target can regain one expended encounter utility power of level 10 or lower.",
         "title": "Lessons of Society"
       },
       "sharedData": {
@@ -4515,6 +4707,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Culture.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -4580,7 +4778,7 @@
           "entryId": "lessons-of-society",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Society | Level 10",
+        "subtitle": "Culture | Level 10",
         "title": "Lessons of Society",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -4636,7 +4834,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your throw yourself forward at a breakneck pace, bounding over obstacles.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You move your speed + 4. During this movement, you ignore difficult terrain and gain a +5 power bonus to Athletics checks you make as part of the move.",
+        "description": "Your throw yourself forward at a breakneck pace, bounding over obstacles.\n\nENCOUNTER / MOVE\n\nPersonal\n\nPrerequisite: You must be at least Expert in Athletics.\n\nEffect: You move your speed + 4. During this movement, you ignore difficult terrain and gain a +5 power bonus to Athletics checks you make as part of the move.",
         "title": "Mighty Sprint"
       },
       "sharedData": {
@@ -4649,6 +4847,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Athletics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -4767,7 +4971,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You alert your allies to hidden advantages in the nearby terrain, giving them an opportunity to shift the battle and defend themselves.\n\nENCOUNTER / MINOR\n\nClose burst 3\n\nTarget: Each ally in the burst\n\nEffect: The target gains a +2 power bonus to AC until the end of your next turn. In addition, the target can shift 2 squares as a free action.",
+        "description": "You alert your allies to hidden advantages in the nearby terrain, giving them an opportunity to shift the battle and defend themselves.\n\nENCOUNTER / MINOR\n\nClose burst 3\n\nTarget: Each ally in the burst\n\nPrerequisite: You must be at least Expert in Nature.\n\nEffect: The target gains a +2 power bonus to AC until the end of your next turn. In addition, the target can shift 2 squares as a free action.",
         "title": "Natural Terrain Understanding"
       },
       "sharedData": {
@@ -4785,6 +4989,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Nature.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -4905,7 +5115,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A life spent in the city trained you to maneuver through crowds.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You shift your speed. During this movement, you can move through enemies' spaces.",
+        "description": "A life spent in the city trained you to maneuver through crowds.\n\nENCOUNTER / MOVE\n\nPersonal\n\nPrerequisite: You must be at least Expert in Streetwise.\n\nEffect: You shift your speed. During this movement, you can move through enemies' spaces.",
         "title": "Navigate Crowds"
       },
       "sharedData": {
@@ -4918,6 +5128,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Streetwise.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -4980,7 +5196,7 @@
           "entryId": "navigate-crowds",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Society | Level 10",
+        "subtitle": "Streetwise | Level 10",
         "title": "Navigate Crowds",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -5038,7 +5254,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You demand that an enemy face you to distract it from your wounded friend, who is inspired by your sacrifice.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nClose burst 3\n\nTrigger: An enemy within 3 squares of you makes a melee attack roll against your bloodied ally adjacent to you\n\nTarget: The triggering enemy\n\nEffect: The target's attack roll is against you instead of the bloodied ally. If the attack hits you, the ally gains temporary hit points equal to your Charisma.",
+        "description": "You demand that an enemy face you to distract it from your wounded friend, who is inspired by your sacrifice.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nClose burst 3\n\nTrigger: An enemy within 3 squares of you makes a melee attack roll against your bloodied ally adjacent to you\n\nTarget: The triggering enemy\n\nPrerequisite: You must be at least Expert in Command.\n\nEffect: The target's attack roll is against you instead of the bloodied ally. If the attack hits you, the ally gains temporary hit points equal to your Charisma.",
         "title": "Noble Sacrifice"
       },
       "sharedData": {
@@ -5056,6 +5272,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Command.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -5123,7 +5345,7 @@
           "entryId": "noble-sacrifice",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Diplomacy | Level 10",
+        "subtitle": "Command | Level 10",
         "title": "Noble Sacrifice",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -5179,7 +5401,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You draw your enemy's attention to rest squarely on you.\n\nENCOUNTER / FREE\n\nMelee 1\n\nTrigger: You hit an enemy with a melee attack\n\nTarget: The enemy you hit\n\nEffect: You mark the target until the end of your next turn. In addition, one ally marked by the target is no longer marked.",
+        "description": "You draw your enemy's attention to rest squarely on you.\n\nENCOUNTER / FREE\n\nMelee 1\n\nTrigger: You hit an enemy with a melee attack\n\nTarget: The enemy you hit\n\nPrerequisite: You must be at least Trained in Command.\n\nEffect: You mark the target until the end of your next turn. In addition, one ally marked by the target is no longer marked.",
         "title": "Ominous Threat"
       },
       "sharedData": {
@@ -5197,6 +5419,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Command.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -5262,7 +5490,7 @@
           "entryId": "ominous-threat",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Intimidate | Level 2",
+        "subtitle": "Command | Level 2",
         "title": "Ominous Threat",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -5318,7 +5546,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Something about the aberrant horror's movements strikes a chord; you know just how to fight it.\n\nENCOUNTER / MINOR\n\nClose burst 5\n\nTarget: One aberrant creature you can see in the burst\n\nEffect: You make a Nature check to determine the target's resistances and vulnerabilities. If the check succeeds, you or one ally who can hear you gains a +4 power bonus to his or her next attack roll against the target before the end of your next turn.",
+        "description": "Something about the aberrant horror's movements strikes a chord; you know just how to fight it.\n\nENCOUNTER / MINOR\n\nClose burst 5\n\nTarget: One aberrant creature you can see in the burst\n\nPrerequisite: You must be at least Trained in Nature.\n\nEffect: You make a Nature check to determine the target's resistances and vulnerabilities. If the check succeeds, you or one ally who can hear you gains a +4 power bonus to his or her next attack roll against the target before the end of your next turn.",
         "title": "Otherworldly Lore"
       },
       "sharedData": {
@@ -5336,6 +5564,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Nature.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -5456,7 +5690,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Enemies might hide, but once you find a trace of them, there's no escaping you.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You gain blindsight 5 until the end of your next turn.",
+        "description": "Enemies might hide, but once you find a trace of them, there's no escaping you.\n\nENCOUNTER / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Expert in Stealth.\n\nEffect: You gain blindsight 5 until the end of your next turn.",
         "title": "Perfect Sight"
       },
       "sharedData": {
@@ -5469,6 +5703,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Stealth.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -5531,7 +5771,7 @@
           "entryId": "perfect-sight",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Perception | Level 10",
+        "subtitle": "Stealth | Level 10",
         "title": "Perfect Sight",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -5587,7 +5827,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You follow your prey unseen, waiting for the best time to strike.\n\nAT_WILL / MOVE\n\nClose burst 20\n\nRequirement: You must either have cover or concealment against the target\n\nTarget: One creature in the burst that you can see\n\nEffect: The first time the target moves before the start of your next turn, you can move your speed as an immediate reaction. If you end the movement with cover or concealment against the target, you can make a Stealth check to become hidden.",
+        "description": "You follow your prey unseen, waiting for the best time to strike.\n\nAT_WILL / MOVE\n\nClose burst 20\n\nRequirement: You must either have cover or concealment against the target\n\nTarget: One creature in the burst that you can see\n\nPrerequisite: You must be at least Expert in Stealth.\n\nEffect: The first time the target moves before the start of your next turn, you can move your speed as an immediate reaction. If you end the movement with cover or concealment against the target, you can make a Stealth check to become hidden.",
         "title": "Persistent Tail"
       },
       "sharedData": {
@@ -5605,6 +5845,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Stealth.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -5721,7 +5967,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your extensive training helps you get an ally back into the fight.\n\nENCOUNTER / STANDARD\n\nMelee 1\n\nTarget: You or one ally\n\nEffect: The target can spend a healing surge.",
+        "description": "Your extensive training helps you get an ally back into the fight.\n\nENCOUNTER / STANDARD\n\nMelee 1\n\nTarget: You or one ally\n\nPrerequisite: You must be at least Expert in Medicine.\n\nEffect: The target can spend a healing surge.",
         "title": "Physician's Care"
       },
       "sharedData": {
@@ -5739,6 +5985,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Medicine.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -5861,7 +6113,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your enemy moves, and you match its steps with a countermove.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: An enemy within 5 squares of you moves willingly\n\nEffect: You shift a number of squares equal to one-half your speed.",
+        "description": "Your enemy moves, and you match its steps with a countermove.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: An enemy within 5 squares of you moves willingly\n\nPrerequisite: You must be at least Expert in Insight.\n\nEffect: You shift a number of squares equal to one-half your speed.",
         "title": "Prescient Maneuver"
       },
       "sharedData": {
@@ -5874,6 +6126,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Insight.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -5993,7 +6251,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You pull your friend closer and then slip away.\n\nENCOUNTER / MOVE\n\nMelee 1\n\nTarget: One ally\n\nEffect: You slide the target 1 square into your space. You then shift 1 square.",
+        "description": "You pull your friend closer and then slip away.\n\nENCOUNTER / MOVE\n\nMelee 1\n\nTarget: One ally\n\nPrerequisite: You must be at least Expert in Finesse.\n\nEffect: You slide the target 1 square into your space. You then shift 1 square.",
         "title": "Quick Switch"
       },
       "sharedData": {
@@ -6011,6 +6269,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Finesse.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -6075,7 +6339,7 @@
           "entryId": "quick-switch",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Thievery | Level 6",
+        "subtitle": "Finesse | Level 6",
         "title": "Quick Switch",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -6133,7 +6397,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "The attack was well placed, but you choose not to let it affect you.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: An attack bloodies you\n\nEffect: You spend a healing surge.",
+        "description": "The attack was well placed, but you choose not to let it affect you.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: An attack bloodies you\n\nPrerequisite: You must be at least Expert in Endurance.\n\nEffect: You spend a healing surge.",
         "title": "Reactive Surge"
       },
       "sharedData": {
@@ -6146,6 +6410,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Endurance.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -6269,7 +6539,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You echo your allies' prayers to give them strength.\n\nDAILY / MINOR\n\nClose burst 1\n\nEffect: The burst creates a zone that lasts until the end of your next turn. When you move, the zone moves with you, remaining centered on you. While within the zone, your allies gain a +1 power bonus to attack rolls.\n\nSustain Minor: The zone persists.",
+        "description": "You echo your allies' prayers to give them strength.\n\nDAILY / MINOR\n\nClose burst 1\n\nPrerequisite: You must be at least Expert in Religion.\n\nEffect: The burst creates a zone that lasts until the end of your next turn. When you move, the zone moves with you, remaining centered on you. While within the zone, your allies gain a +1 power bonus to attack rolls.\n\nSustain Minor: The zone persists.",
         "title": "Recitation"
       },
       "sharedData": {
@@ -6282,6 +6552,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Religion.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -6409,7 +6685,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Using the environment agilely, you disappear from view.\n\nENCOUNTER / MINOR\n\nPersonal\n\nRequirement: You must have cover or concealment.\n\nEffect: You make a Stealth check.",
+        "description": "Using the environment agilely, you disappear from view.\n\nENCOUNTER / MINOR\n\nPersonal\n\nRequirement: You must have cover or concealment.\n\nPrerequisite: You must be at least Expert in Stealth.\n\nEffect: You make a Stealth check.",
         "title": "Shrouding Gloom"
       },
       "sharedData": {
@@ -6422,6 +6698,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Stealth.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -6541,7 +6823,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You knock over obstacles, take difficult paths, drop rubbish, and do anything else you can think of to slow your enemies' pursuit.\n\nENCOUNTER / MOVE\n\nPersonal\n\nRequirement: You must be in an urban environment\n\nEffect: You move your speed. At one point during the movement, you create an area of difficult terrain in a close blast 3. The difficult terrain lasts until the end of the encounter.",
+        "description": "You knock over obstacles, take difficult paths, drop rubbish, and do anything else you can think of to slow your enemies' pursuit.\n\nENCOUNTER / MOVE\n\nPersonal\n\nRequirement: You must be in an urban environment\n\nPrerequisite: You must be at least Expert in Culture.\n\nEffect: You move your speed. At one point during the movement, you create an area of difficult terrain in a close blast 3. The difficult terrain lasts until the end of the encounter.",
         "title": "Slow Pursuit"
       },
       "sharedData": {
@@ -6554,6 +6836,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Culture.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -6617,7 +6905,7 @@
           "entryId": "slow-pursuit",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Society | Level 6",
+        "subtitle": "Culture | Level 6",
         "title": "Slow Pursuit",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -6673,7 +6961,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A smack across the face brings your ally back to his or her senses.\n\nENCOUNTER / MINOR\n\nMelee touch\n\nRequirement: The target must be under a dazing, dominating, or stunning effect that a save can end.\n\nTarget: One ally\n\nEffect: The target makes a saving throw against the effect.",
+        "description": "A smack across the face brings your ally back to his or her senses.\n\nENCOUNTER / MINOR\n\nMelee touch\n\nRequirement: The target must be under a dazing, dominating, or stunning effect that a save can end.\n\nTarget: One ally\n\nPrerequisite: You must be at least Expert in Command.\n\nEffect: The target makes a saving throw against the effect.",
         "title": "Snap Out of It"
       },
       "sharedData": {
@@ -6691,6 +6979,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Command.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -6756,7 +7050,7 @@
           "entryId": "snap-out-of-it",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Intimidate | Level 10",
+        "subtitle": "Command | Level 10",
         "title": "Snap Out of It",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -6812,7 +7106,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "The battle done, your allies turn to you for words of encouragement and support.\n\nDAILY / STANDARD\n\nClose burst 5\n\nRequirement: You must be taking a short rest\n\nTarget: Each ally who can hear you in the burst\n\nEffect: When each target spends one or more healing surges at the end of the short rest, he or she regains additional hit points equal to your Charisma.",
+        "description": "The battle done, your allies turn to you for words of encouragement and support.\n\nDAILY / STANDARD\n\nClose burst 5\n\nRequirement: You must be taking a short rest\n\nTarget: Each ally who can hear you in the burst\n\nPrerequisite: You must be at least Trained in Insight.\n\nEffect: When each target spends one or more healing surges at the end of the short rest, he or she regains additional hit points equal to your Charisma.",
         "title": "Soothing Words"
       },
       "sharedData": {
@@ -6830,6 +7124,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Insight.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -6895,7 +7195,7 @@
           "entryId": "soothing-words",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Diplomacy | Level 2",
+        "subtitle": "Insight | Level 2",
         "title": "Soothing Words",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -6951,7 +7251,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Having walked miles of broken trails, you know how to find the safest way through the most treacherous terrain.\n\nENCOUNTER / MINOR\n\nClose burst 5\n\nTarget: You and each ally in the burst\n\nEffect: Each target ignores difficult terrain until the end of your next turn.",
+        "description": "Having walked miles of broken trails, you know how to find the safest way through the most treacherous terrain.\n\nENCOUNTER / MINOR\n\nClose burst 5\n\nTarget: You and each ally in the burst\n\nPrerequisite: You must be at least Expert in Nature.\n\nEffect: Each target ignores difficult terrain until the end of your next turn.",
         "title": "Spot the Path"
       },
       "sharedData": {
@@ -6969,6 +7269,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Nature.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -7089,7 +7395,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your fast talking causes your enemies to hesitate for a crucial moment.\n\nDAILY / FREE\n\nRanged sight\n\nTrigger: You roll initiative\n\nTarget: Each enemy you can see\n\nEffect: Each target's initiative is reduced by 10.",
+        "description": "Your fast talking causes your enemies to hesitate for a crucial moment.\n\nDAILY / FREE\n\nRanged sight\n\nTrigger: You roll initiative\n\nTarget: Each enemy you can see\n\nPrerequisite: You must be at least Expert in Deception.\n\nEffect: Each target's initiative is reduced by 10.",
         "title": "Stall Tactics"
       },
       "sharedData": {
@@ -7107,6 +7413,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Deception.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -7172,7 +7484,7 @@
           "entryId": "stall-tactics",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Bluff | Level 10",
+        "subtitle": "Deception | Level 10",
         "title": "Stall Tactics",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -7228,7 +7540,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You sweep your torch or lantern around you to dazzle enemies accustomed to total darkness.\n\nENCOUNTER / MINOR\n\nPersonal\n\nRequirement: You must be carrying a light source\n\nEffect: Until the end of your next turn, enemies in the squares illuminated by the light source you are carrying take a -2 penalty to attack rolls.",
+        "description": "You sweep your torch or lantern around you to dazzle enemies accustomed to total darkness.\n\nENCOUNTER / MINOR\n\nPersonal\n\nRequirement: You must be carrying a light source\n\nPrerequisite: You must be at least Trained in Nature.\n\nEffect: Until the end of your next turn, enemies in the squares illuminated by the light source you are carrying take a -2 penalty to attack rolls.",
         "title": "Stay Back"
       },
       "sharedData": {
@@ -7241,6 +7553,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Trained in Nature.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -7360,7 +7678,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Reciting your allies' great deeds and talents, you fill them with the confidence they need to win a battle ahead.\n\nDAILY / STANDARD\n\nClose burst 5\n\nRequirement: You must be taking a short rest.\n\nTarget: Each ally who can hear you in the burst\n\nEffect: Until the end of the next encounter, each target gains a +1 bonus to attack rolls and saving throws while not bloodied.",
+        "description": "Reciting your allies' great deeds and talents, you fill them with the confidence they need to win a battle ahead.\n\nDAILY / STANDARD\n\nClose burst 5\n\nRequirement: You must be taking a short rest.\n\nTarget: Each ally who can hear you in the burst\n\nPrerequisite: You must be at least Expert in Command.\n\nEffect: Until the end of the next encounter, each target gains a +1 bonus to attack rolls and saving throws while not bloodied.",
         "title": "Stirring Speech"
       },
       "sharedData": {
@@ -7378,6 +7696,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Command.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -7443,7 +7767,7 @@
           "entryId": "stirring-speech",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Diplomacy | Level 6",
+        "subtitle": "Command | Level 6",
         "title": "Stirring Speech",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -7499,7 +7823,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You spring around your enemy too quickly for it to strike you.\n\nENCOUNTER / MOVE\n\nMelee 1\n\nTarget: One creature\n\nEffect: You make a Athletics check against a DC determined by the target's size: 15 (Medium or smaller), 20 (Large), 25 (Huge), or 30 (Gargantuan). If the check succeeds, you jump to another square adjacent to the target, without provoking an opportunity attack from it.",
+        "description": "You spring around your enemy too quickly for it to strike you.\n\nENCOUNTER / MOVE\n\nMelee 1\n\nTarget: One creature\n\nPrerequisite: You must be at least Expert in Athletics.\n\nEffect: You make a Athletics check against a DC determined by the target's size: 15 (Medium or smaller), 20 (Large), 25 (Huge), or 30 (Gargantuan). If the check succeeds, you jump to another square adjacent to the target, without provoking an opportunity attack from it.",
         "title": "Sudden Leap"
       },
       "sharedData": {
@@ -7517,6 +7841,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Athletics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -7637,7 +7967,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You address a companion's most critical wounds to get him or her back into the battle.\n\nENCOUNTER / MINOR\n\nMelee 1\n\nTarget: One ally\n\nEffect: The target can use his or her second wind without taking an action to do so.",
+        "description": "You address a companion's most critical wounds to get him or her back into the battle.\n\nENCOUNTER / MINOR\n\nMelee 1\n\nTarget: One ally\n\nPrerequisite: You must be at least Expert in Medicine.\n\nEffect: The target can use his or her second wind without taking an action to do so.",
         "title": "Swift Recovery"
       },
       "sharedData": {
@@ -7655,6 +7985,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Medicine.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -7775,7 +8111,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "The enemies' movements are similar to those used in a skirmish you once studied. You use knowledge of it to outmaneuver a foe.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nMelee 1\n\nTrigger: An enemy enters a square adjacent to you or to an ally adjacent to you\n\nTarget: You or the ally\n\nEffect: The target shifts 1 square and gains a +2 bonus to all defenses until the end of your next turn.",
+        "description": "The enemies' movements are similar to those used in a skirmish you once studied. You use knowledge of it to outmaneuver a foe.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nMelee 1\n\nTrigger: An enemy enters a square adjacent to you or to an ally adjacent to you\n\nTarget: You or the ally\n\nPrerequisite: You must be at least Expert in Culture.\n\nEffect: The target shifts 1 square and gains a +2 bonus to all defenses until the end of your next turn.",
         "title": "Tactician's Measure"
       },
       "sharedData": {
@@ -7793,6 +8129,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Culture.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -7858,7 +8200,7 @@
           "entryId": "tactician-s-measure",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Society | Level 10",
+        "subtitle": "Culture | Level 10",
         "title": "Tactician's Measure",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -7914,7 +8256,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Calling on lore culled from sacred texts, you know how to protect yourself from your enemy's attack.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: You are hit by a necrotic or a radiant attack\n\nEffect: Until the end of your next turn, you gain necrotic resistance and radiant resistance equal to 5 + your Intelligence.",
+        "description": "Calling on lore culled from sacred texts, you know how to protect yourself from your enemy's attack.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: You are hit by a necrotic or a radiant attack\n\nPrerequisite: You must be at least Expert in Religion.\n\nEffect: Until the end of your next turn, you gain necrotic resistance and radiant resistance equal to 5 + your Intelligence.",
         "title": "Theologian's Shield"
       },
       "sharedData": {
@@ -7927,6 +8269,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Religion.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -8048,7 +8396,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You have almost endless reserves and can rebound from injuries that would bring down another.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You spend a healing surge.\n\nSpecial: As a standard action, an adjacent ally can make a DC 10 Medicine check to allow you to use this power without spending an action yourself.",
+        "description": "You have almost endless reserves and can rebound from injuries that would bring down another.\n\nDAILY / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Expert in Endurance.\n\nEffect: You spend a healing surge.\n\nSpecial: As a standard action, an adjacent ally can make a DC 10 Medicine check to allow you to use this power without spending an action yourself.",
         "title": "Third Wind"
       },
       "sharedData": {
@@ -8061,6 +8409,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Endurance.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -8187,7 +8541,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You grant your comrade a moment of respite.\n\nENCOUNTER / MINOR\n\nMelee 1\n\nTarget: One ally\n\nEffect: The target regains the use of second wind if he or she has already used it during this encounter.",
+        "description": "You grant your comrade a moment of respite.\n\nENCOUNTER / MINOR\n\nMelee 1\n\nTarget: One ally\n\nPrerequisite: You must be at least Expert in Medicine.\n\nEffect: The target regains the use of second wind if he or she has already used it during this encounter.",
         "title": "Time Out"
       },
       "sharedData": {
@@ -8205,6 +8559,12 @@
               }
             },
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Medicine.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -8325,7 +8685,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Something out of the corner of your eye causes you to step out of the way of danger.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: An enemy targets you with an attack.\n\nEffect: You shift up to half your speed. The triggering enemy can choose a new target for the attack if you are now out of range.",
+        "description": "Something out of the corner of your eye causes you to step out of the way of danger.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: An enemy targets you with an attack.\n\nPrerequisite: You must be at least Expert in Acrobatics.\n\nEffect: You shift up to half your speed. The triggering enemy can choose a new target for the attack if you are now out of range.",
         "title": "Timely Dodge"
       },
       "sharedData": {
@@ -8338,6 +8698,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Acrobatics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -8457,7 +8823,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "As the trap springs, your experience in dealing with such hazards lets you step aside and leave a foe at the trap's mercy.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: A trap or a hazard makes a melee or a ranged attack roll against you\n\nEffect: You gain a +4 power bonus to all defenses against the attack. If the attack misses you, the trap repeats the attack as a free action against an enemy adjacent to you.",
+        "description": "As the trap springs, your experience in dealing with such hazards lets you step aside and leave a foe at the trap's mercy.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: A trap or a hazard makes a melee or a ranged attack roll against you\n\nPrerequisite: You must be at least Expert in Finesse.\n\nEffect: You gain a +4 power bonus to all defenses against the attack. If the attack misses you, the trap repeats the attack as a free action against an enemy adjacent to you.",
         "title": "Trap Sense"
       },
       "sharedData": {
@@ -8470,6 +8836,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Finesse.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -8533,7 +8905,7 @@
           "entryId": "trap-sense",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Thievery | Level 10",
+        "subtitle": "Finesse | Level 10",
         "title": "Trap Sense",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -8589,7 +8961,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You deftly tumble away from a strike.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: A melee attack hits you\n\nEffect: You make an Acrobatics check and gain a bonus to all defenses against the triggering attack equal to the check result divided by 10. If the bonus causes the attack to miss, you shift 1 square.",
+        "description": "You deftly tumble away from a strike.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: A melee attack hits you\n\nPrerequisite: You must be at least Expert in Acrobatics.\n\nEffect: You make an Acrobatics check and gain a bonus to all defenses against the triggering attack equal to the check result divided by 10. If the bonus causes the attack to miss, you shift 1 square.",
         "title": "Tumbling Dodge"
       },
       "sharedData": {
@@ -8602,6 +8974,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Acrobatics.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -8721,7 +9099,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You take a deep breath to fight off a lingering wound.\n\nENCOUNTER / NO_ACTION\n\nPersonal\n\nTrigger: Your turn starts and you have ongoing damage\n\nEffect: Make a saving throw against the ongoing damage before you take the damage.",
+        "description": "You take a deep breath to fight off a lingering wound.\n\nENCOUNTER / NO_ACTION\n\nPersonal\n\nTrigger: Your turn starts and you have ongoing damage\n\nPrerequisite: You must be at least Expert in Endurance.\n\nEffect: Make a saving throw against the ongoing damage before you take the damage.",
         "title": "Walk It Off"
       },
       "sharedData": {
@@ -8734,6 +9112,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Endurance.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -8853,7 +9237,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You spend energy and tap into the web of magic that connects everything, ready to create a few temporary holes.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: A creature uses a burst or blast power that includes you\n\nRequirement: You must have at least 1 healing surge.\n\nEffect: You spend a healing surge but regain no hit points. The triggering burst or blast does not target you or your square.",
+        "description": "You spend energy and tap into the web of magic that connects everything, ready to create a few temporary holes.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: A creature uses a burst or blast power that includes you\n\nRequirement: You must have at least 1 healing surge.\n\nPrerequisite: You must be at least Expert in Arcana.\n\nEffect: You spend a healing surge but regain no hit points. The triggering burst or blast does not target you or your square.",
         "title": "Warp in the Weave"
       },
       "sharedData": {
@@ -8866,6 +9250,12 @@
             "availability": "ENTRY",
             "bindings": {},
             "blocks": [
+              {
+                "id": "skill-rank",
+                "label": "Prerequisite",
+                "text": "You must be at least Expert in Arcana.",
+                "type": "effect"
+              },
               {
                 "id": "rule-1",
                 "label": "Effect",
@@ -8989,7 +9379,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You recall knowledge from your days of religious schooling, studying dusty tomes, old myths, and religious tradition.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You are making a knowledge check (that is not a Monster Knowledge check).\n\nPrerequisite: You must be proficient in Religion.\n\nEffect: You may roll with Religion instead of the original skill and use that for the result of the triggering knowledge check. If it is related to your deity, you get a +2 bonus (DM has the final say on whether the knowledge relates to your deity).",
+        "description": "You recall knowledge from your days of religious schooling, studying dusty tomes, old myths, and religious tradition.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You are making a knowledge check (that is not a Monster Knowledge check).\n\nPrerequisite: You must be at least Expert in Religion.\n\nEffect: You may roll with Religion instead of the original skill and use that for the result of the triggering knowledge check. If it is related to your deity, you get a +2 bonus (DM has the final say on whether the knowledge relates to your deity).",
         "title": "Theologian’s Knowledge"
       },
       "sharedData": {
@@ -9005,7 +9395,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Religion.",
+                "text": "You must be at least Expert in Religion.",
                 "type": "effect"
               },
               {
@@ -9135,7 +9525,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You find working on your amor a restful activity, and can spend some of your downtime honing them while still getting the benefit of a rest.\n\nDAILY / STANDARD\n\nPersonal\n\nRequirement: You must be taking a short or extended rest. .\n\nTarget: One armor or shield.\n\nPrerequisite: You must be proficient in Crafting.\n\nEffect: Until your next short or extended rest, the target armor or shield gains a +1 bonus to AC. If you target a shield, it also gains a +1 bonus to Reflex. If you target an armor, choose a physical activity (ex: climbing, swimming, balancing, jumping, etc). It gets one less armor check penalty when doing that specific activity.",
+        "description": "You find working on your amor a restful activity, and can spend some of your downtime honing them while still getting the benefit of a rest.\n\nDAILY / STANDARD\n\nPersonal\n\nRequirement: You must be taking a short or extended rest. .\n\nTarget: One armor or shield.\n\nPrerequisite: You must be at least Expert in Crafting.\n\nEffect: Until your next short or extended rest, the target armor or shield gains a +1 bonus to AC. If you target a shield, it also gains a +1 bonus to Reflex. If you target an armor, choose a physical activity (ex: climbing, swimming, balancing, jumping, etc). It gets one less armor check penalty when doing that specific activity.",
         "title": "Forger’s Rest"
       },
       "sharedData": {
@@ -9156,7 +9546,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Crafting.",
+                "text": "You must be at least Expert in Crafting.",
                 "type": "effect"
               },
               {
@@ -9288,7 +9678,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You find working on your weapons a restful activity, and can spend some of your downtime honing them while still getting the benefit of a rest.\n\nDAILY / STANDARD\n\nPersonal\n\nRequirement: You must be taking a short or extended rest..\n\nTarget: One weapon for you and each ally who is resting with you.\n\nPrerequisite: You must be proficient in Crafting.\n\nEffect: Until your next short or extended rest, the target weapon gains the brutal 1 weapon property. If you targeted only one weapon, it gets brutal 2 instead.",
+        "description": "You find working on your weapons a restful activity, and can spend some of your downtime honing them while still getting the benefit of a rest.\n\nDAILY / STANDARD\n\nPersonal\n\nRequirement: You must be taking a short or extended rest..\n\nTarget: One weapon for you and each ally who is resting with you.\n\nPrerequisite: You must be at least Expert in Crafting.\n\nEffect: Until your next short or extended rest, the target weapon gains the brutal 1 weapon property. If you targeted only one weapon, it gets brutal 2 instead.",
         "title": "Honing Rest"
       },
       "sharedData": {
@@ -9309,7 +9699,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Crafting.",
+                "text": "You must be at least Expert in Crafting.",
                 "type": "effect"
               },
               {
@@ -9441,7 +9831,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You raise your mighty weapon and smash the contraption shattering it into a thousand pieces.\n\nENCOUNTER / MINOR\n\nPersonal\n\nRequirement: You must be taking a short or extended rest\n\nTarget: One weapon for you and each ally who is resting with you.\n\nPrerequisite: You must be proficient in Athletics.\n\nEffect: Until the end of your next turn, you gain a +5 bonus to Strength checks to break objects, and you deal double damage against objects.\n\nWeapon: If you’re wielding an axe, hammer, or mace, increase the bonus to a +10, and ignore up to 10 damage resistance the object may have to physical damage from your weapons.",
+        "description": "You raise your mighty weapon and smash the contraption shattering it into a thousand pieces.\n\nENCOUNTER / MINOR\n\nPersonal\n\nRequirement: You must be taking a short or extended rest\n\nTarget: One weapon for you and each ally who is resting with you.\n\nPrerequisite: You must be at least Expert in Athletics.\n\nEffect: Until the end of your next turn, you gain a +5 bonus to Strength checks to break objects, and you deal double damage against objects.\n\nWeapon: If you’re wielding an axe, hammer, or mace, increase the bonus to a +10, and ignore up to 10 damage resistance the object may have to physical damage from your weapons.",
         "title": "Iron Breaker ’s Arms"
       },
       "sharedData": {
@@ -9462,7 +9852,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Athletics.",
+                "text": "You must be at least Expert in Athletics.",
                 "type": "effect"
               },
               {
@@ -9598,7 +9988,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You take a brief breath and then pick up your ally like a sack of flour. Others are amazed by the fact that they don't even slow you down.\n\nAT_WILL / MINOR\n\nMelee Touch\n\nTarget: One willing or unconscious creature of medium size or less, of reasonable weight and size that is not encumbered\n\nPrerequisite: You must be proficient in Athletics.\n\nEffect: Pick up the target. While you are carrying this creature, they do not count towards your encumberance or speed. You can only pick up one creature at a time this way and it uses one of your hands.",
+        "description": "You take a brief breath and then pick up your ally like a sack of flour. Others are amazed by the fact that they don't even slow you down.\n\nAT_WILL / MINOR\n\nMelee Touch\n\nTarget: One willing or unconscious creature of medium size or less, of reasonable weight and size that is not encumbered\n\nPrerequisite: You must be at least Trained in Athletics.\n\nEffect: Pick up the target. While you are carrying this creature, they do not count towards your encumberance or speed. You can only pick up one creature at a time this way and it uses one of your hands.",
         "title": "Up We Go (Fighter)"
       },
       "sharedData": {
@@ -9619,7 +10009,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Athletics.",
+                "text": "You must be at least Trained in Athletics.",
                 "type": "effect"
               },
               {
@@ -9740,7 +10130,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You pick up two allies and put one over each shoulder.\n\nAT_WILL / MINOR\n\nMelee Touch\n\nTarget: One or two willing or unconscious creatures of medium size or less, of reasonable weight and size that is not encumbered.\n\nPrerequisite: You must be proficient in Athletics.\n\nEffect: Pick up the target. If they are encumbered, you count as encumbered while carrying them. Otherwise, while you are carrying this creature, they do not count towards your encumberance or speed. You can carry up to two creatures at a time this way and each on e uses one of your hands.\n\nSpecial: Reasonable weight and size is usp to the DM based on character and level. But a good rule of thumb is 400 pounds or less, increasing 100 pounds every level 5 levels.",
+        "description": "You pick up two allies and put one over each shoulder.\n\nAT_WILL / MINOR\n\nMelee Touch\n\nTarget: One or two willing or unconscious creatures of medium size or less, of reasonable weight and size that is not encumbered.\n\nPrerequisite: You must be at least Expert in Athletics.\n\nEffect: Pick up the target. If they are encumbered, you count as encumbered while carrying them. Otherwise, while you are carrying this creature, they do not count towards your encumberance or speed. You can carry up to two creatures at a time this way and each on e uses one of your hands.\n\nSpecial: Reasonable weight and size is usp to the DM based on character and level. But a good rule of thumb is 400 pounds or less, increasing 100 pounds every level 5 levels.",
         "title": "Double Fireman Carry"
       },
       "sharedData": {
@@ -9761,7 +10151,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Athletics.",
+                "text": "You must be at least Expert in Athletics.",
                 "type": "effect"
               },
               {
@@ -9888,7 +10278,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You gain a rush of adrenaline, pushing you to incredible feats of speed and athleticism.\n\nENCOUNTER / MINOR\n\nPersonal\n\nPrerequisite: You must be proficient in Athletics.\n\nEffect: When used during combat, you gain a bonus to your speed and Athletics checks equal to your Dexterity +1 (minimum bonus of 1) until the end of your next turn.\n\nSustain Minor: The bonus persists until the end of your next turn. This power can only be sustained during a skill challenge that involves a chase, race, or similar scenario.",
+        "description": "You gain a rush of adrenaline, pushing you to incredible feats of speed and athleticism.\n\nENCOUNTER / MINOR\n\nPersonal\n\nPrerequisite: You must be at least Expert in Athletics.\n\nEffect: When used during combat, you gain a bonus to your speed and Athletics checks equal to your Dexterity +1 (minimum bonus of 1) until the end of your next turn.\n\nSustain Minor: The bonus persists until the end of your next turn. This power can only be sustained during a skill challenge that involves a chase, race, or similar scenario.",
         "title": "Rush of Adrenaline"
       },
       "sharedData": {
@@ -9904,7 +10294,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Athletics.",
+                "text": "You must be at least Expert in Athletics.",
                 "type": "effect"
               },
               {
@@ -10037,7 +10427,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You see an incline and use this opportunity to slide down the hill lik a board.\n\nAT_WILL / FREE\n\nPersonal\n\nRequirement: You must be wielding a shield.\n\nPrerequisite: You must be proficient in Acrobatics.\n\nEffect: You may slide downhill of the ground you are on. You shift up to your speed downhill, but you must end your movement at the end of the ramp, stairs, or incline you are going down. You may also choose to jump at the end of your shift. You gain a +1 bonus for each square you shifted and it counts as a running jump.",
+        "description": "You see an incline and use this opportunity to slide down the hill lik a board.\n\nAT_WILL / FREE\n\nPersonal\n\nRequirement: You must be wielding a shield.\n\nPrerequisite: You must be at least Expert in Acrobatics.\n\nEffect: You may slide downhill of the ground you are on. You shift up to your speed downhill, but you must end your movement at the end of the ramp, stairs, or incline you are going down. You may also choose to jump at the end of your shift. You gain a +1 bonus for each square you shifted and it counts as a running jump.",
         "title": "Shield Slide"
       },
       "sharedData": {
@@ -10053,7 +10443,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Acrobatics.",
+                "text": "You must be at least Expert in Acrobatics.",
                 "type": "effect"
               },
               {
@@ -10175,7 +10565,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You observe an enemy's stance, scars, weapons, and everything el about them to get a judge on their capabilities .\n\nENCOUNTER / MINOR\n\nClose Burst 20\n\nTarget: One humanoid creature within the burst.\n\nPrerequisite: You must be proficient in Insight.\n\nEffect: Roll an Insight check vs the Will of the target. If you spend at least 10 minutes interacting with the target or observing an ally interact with them outside combat, you gain a +5 bonus to your Insight check. If used in combat, after they have attacked you or you have attacked them, you gain a +2 bonus to the check. Depending on the result, you may learn some of the following characteristics of your choice based on the table below: Insight Check Result Characteristics Learned 1 - 9 No effect 10 - 19 Learn 1 20 – 29 Learn 2 30 - 39 Learn 3 * 40 or higher Learn 3** The characteristics you canl earn are one of the following: + One of the target’s defenses: (AC, Fort, Ref, or Will) + Target’s current or maximum hit points + Target’s fighting style (i.e. monster role) or general lore + Learn one ability (*can only be picked if you roll 30 or above) + Learn a vulnerability or resistance (*can only be picked if you roll 30 or above) + Instead of learning a characteristic, you may gain combat advantage against the target until the end of your first turn, the next time you are in a combat encounter against them before the end of your next extended rest. (** can only be picked if you roll 40 or above)",
+        "description": "You observe an enemy's stance, scars, weapons, and everything el about them to get a judge on their capabilities .\n\nENCOUNTER / MINOR\n\nClose Burst 20\n\nTarget: One humanoid creature within the burst.\n\nPrerequisite: You must be at least Expert in Insight.\n\nEffect: Roll an Insight check vs the Will of the target. If you spend at least 10 minutes interacting with the target or observing an ally interact with them outside combat, you gain a +5 bonus to your Insight check. If used in combat, after they have attacked you or you have attacked them, you gain a +2 bonus to the check. Depending on the result, you may learn some of the following characteristics of your choice based on the table below: Insight Check Result Characteristics Learned 1 - 9 No effect 10 - 19 Learn 1 20 – 29 Learn 2 30 - 39 Learn 3 * 40 or higher Learn 3** The characteristics you canl earn are one of the following: + One of the target’s defenses: (AC, Fort, Ref, or Will) + Target’s current or maximum hit points + Target’s fighting style (i.e. monster role) or general lore + Learn one ability (*can only be picked if you roll 30 or above) + Learn a vulnerability or resistance (*can only be picked if you roll 30 or above) + Instead of learning a characteristic, you may gain combat advantage against the target until the end of your first turn, the next time you are in a combat encounter against them before the end of your next extended rest. (** can only be picked if you roll 40 or above)",
         "title": "Size Up"
       },
       "sharedData": {
@@ -10196,7 +10586,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Insight.",
+                "text": "You must be at least Expert in Insight.",
                 "type": "effect"
               },
               {
@@ -10326,7 +10716,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your threat seems even scarier when whispered in the ear of the enemy you are grappled.\n\nENCOUNTER / FREE\n\nMelee Touch\n\nRequirement: You must have a creature grabbed.\n\nPrerequisite: You must be proficient in Intimidate.\n\nEffect: Until the end of your next turn, you get a +5 bonus to your next Intimidate check against a creature you have grabbed. If you succeed, you may choose to make it so no one else is aware of this interaction.",
+        "description": "Your threat seems even scarier when whispered in the ear of the enemy you are grappled.\n\nENCOUNTER / FREE\n\nMelee Touch\n\nRequirement: You must have a creature grabbed.\n\nPrerequisite: You must be at least Expert in Command.\n\nEffect: Until the end of your next turn, you get a +5 bonus to your next Command check against a creature you have grabbed. If you succeed, you may choose to make it so no one else is aware of this interaction.",
         "title": "Whispered Threat"
       },
       "sharedData": {
@@ -10342,13 +10732,13 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Intimidate.",
+                "text": "You must be at least Expert in Command.",
                 "type": "effect"
               },
               {
                 "id": "rule-3",
                 "label": "Effect",
-                "text": "Until the end of your next turn, you get a +5 bonus to your next Intimidate check against a creature you have grabbed. If you succeed, you may choose to make it so no one else is aware of this interaction.",
+                "text": "Until the end of your next turn, you get a +5 bonus to your next Command check against a creature you have grabbed. If you succeed, you may choose to make it so no one else is aware of this interaction.",
                 "type": "effect"
               }
             ],
@@ -10413,7 +10803,7 @@
           "entryId": "fighter-6-whispered-threat",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Intimidate | Level 6",
+        "subtitle": "Command | Level 6",
         "title": "Whispered Threat",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -10471,7 +10861,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You take the lead on a task, inspiring those behind you.\n\nENCOUNTER / NO_ACTION\n\nPersonal\n\nTrigger: You succeed on a skill check during a skill challenge or group skill check.\n\nPrerequisite: You must be proficient in Diplomacy.\n\nEffect: The next ally who rolls the skill check gets a +3 bonus. In addition, another player may roll the skill check even if they normally couldn't. (For example, some skill challenges restrict how many times a skill can be done in a row, or can be done in total.)",
+        "description": "You take the lead on a task, inspiring those behind you.\n\nENCOUNTER / NO_ACTION\n\nPersonal\n\nTrigger: You succeed on a skill check during a skill challenge or group skill check.\n\nPrerequisite: You must be at least Expert in Command.\n\nEffect: The next ally who rolls the skill check gets a +3 bonus. In addition, another player may roll the skill check even if they normally couldn't. (For example, some skill challenges restrict how many times a skill can be done in a row, or can be done in total.)",
         "title": "Inspirational Follow -Up"
       },
       "sharedData": {
@@ -10487,7 +10877,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Diplomacy.",
+                "text": "You must be at least Expert in Command.",
                 "type": "effect"
               },
               {
@@ -10556,7 +10946,7 @@
           "entryId": "paladin-10-inspirational-follow-up",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Diplomacy | Level 10",
+        "subtitle": "Command | Level 10",
         "title": "Inspirational Follow -Up",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -10615,7 +11005,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your experience in hunting evil creatures comes in handy.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You are making a monster knowledge check .\n\nPrerequisite: You must be proficient in Religion.\n\nEffect: You may roll the triggering roll with Religion instead of the original skill check and use that for the result of the knowledge check. It must be an undead, demon, devil, or a creature related to your deity (as ruled by the DM).",
+        "description": "Your experience in hunting evil creatures comes in handy.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You are making a monster knowledge check .\n\nPrerequisite: You must be at least Trained in Religion.\n\nEffect: You may roll the triggering roll with Religion instead of the original skill check and use that for the result of the knowledge check. It must be an undead, demon, devil, or a creature related to your deity (as ruled by the DM).",
         "title": "Fiend Hunter’s Knowledge"
       },
       "sharedData": {
@@ -10631,7 +11021,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Religion.",
+                "text": "You must be at least Trained in Religion.",
                 "type": "effect"
               },
               {
@@ -10759,7 +11149,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You take a brief breath and then pick up your ally like a sack of flour. Others are amazed by the fact that they don't even slow you down.\n\nAT_WILL / MINOR\n\nMelee Touch\n\nTarget: One willing or unconscious creature of medium size or less, of reasonable weight and size that is not encumbered\n\nPrerequisite: You must be proficient in Athletics.\n\nEffect: Pick up the target. While you are carrying this creature, they do not count towards your encumberance or speed. You can only pick up one creature at a time this way and it uses one of your hands.",
+        "description": "You take a brief breath and then pick up your ally like a sack of flour. Others are amazed by the fact that they don't even slow you down.\n\nAT_WILL / MINOR\n\nMelee Touch\n\nTarget: One willing or unconscious creature of medium size or less, of reasonable weight and size that is not encumbered\n\nPrerequisite: You must be at least Trained in Athletics.\n\nEffect: Pick up the target. While you are carrying this creature, they do not count towards your encumberance or speed. You can only pick up one creature at a time this way and it uses one of your hands.",
         "title": "Up We Go (Paladin)"
       },
       "sharedData": {
@@ -10780,7 +11170,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Athletics.",
+                "text": "You must be at least Trained in Athletics.",
                 "type": "effect"
               },
               {
@@ -10903,7 +11293,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You motivate an ally to go beyond their limits with a bit of help fro divine magic.\n\nDAILY / FREE\n\nMelee Touch\n\nTrigger: An ally would lose a healing surge to take damage from failing a skill check or skill challenge, or forcing themselves beyond an out -of-combat limit (for example, overland travel at a faster pace beyond 1 hour).\n\nTarget: The triggering ally.\n\nPrerequisite: You must be proficient in Endurance.\n\nEffect: The target does not lose a healing surge or take damage, but continues on as if they had spent a healing surge.",
+        "description": "You motivate an ally to go beyond their limits with a bit of help fro divine magic.\n\nDAILY / FREE\n\nMelee Touch\n\nTrigger: An ally would lose a healing surge to take damage from failing a skill check or skill challenge, or forcing themselves beyond an out -of-combat limit (for example, overland travel at a faster pace beyond 1 hour).\n\nTarget: The triggering ally.\n\nPrerequisite: You must be at least Expert in Endurance.\n\nEffect: The target does not lose a healing surge or take damage, but continues on as if they had spent a healing surge.",
         "title": "Encouraging Push Beyond Limits"
       },
       "sharedData": {
@@ -10924,7 +11314,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Endurance.",
+                "text": "You must be at least Expert in Endurance.",
                 "type": "effect"
               },
               {
@@ -11057,7 +11447,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your allies can feel safe as you watch over them while they rest.\n\nDAILY / STANDARD\n\nPersonal\n\nRequirement: You must be doing an extended rest.\n\nTarget: The triggering ally.\n\nPrerequisite: You must be proficient in Endurance.\n\nEffect: You remain aware and alert while taking an extended rest while still gaining the full benefits. You gain a +3 bonus to Perception checks during this extended rest, and you gain a +3 bonus to Intimidate checks to appear both awake and scary to ward threats from the campsite or rest spot. You do not regain this power at the end of an extended rest unless you make a Hard DC Endurance check with a -5 penalty. After every extended rest you make, you get an increasing, stacking +5 bonus to this check.",
+        "description": "Your allies can feel safe as you watch over them while they rest.\n\nDAILY / STANDARD\n\nPersonal\n\nRequirement: You must be doing an extended rest.\n\nTarget: The triggering ally.\n\nPrerequisite: You must be at least Expert in Endurance.\n\nEffect: You remain aware and alert while taking an extended rest while still gaining the full benefits. You gain a +3 bonus to checks to notice something during this extended rest, and you gain a +3 bonus to Command checks to appear both awake and scary to ward threats from the campsite or rest spot. You do not regain this power at the end of an extended rest unless you make a Hard DC Endurance check with a -5 penalty. After every extended rest you make, you get an increasing, stacking +5 bonus to this check.",
         "title": "Guardian of the Sleeping"
       },
       "sharedData": {
@@ -11078,13 +11468,13 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Endurance.",
+                "text": "You must be at least Expert in Endurance.",
                 "type": "effect"
               },
               {
                 "id": "rule-4",
                 "label": "Effect",
-                "text": "You remain aware and alert while taking an extended rest while still gaining the full benefits. You gain a +3 bonus to Perception checks during this extended rest, and you gain a +3 bonus to Intimidate checks to appear both awake and scary to ward threats from the campsite or rest spot. You do not regain this power at the end of an extended rest unless you make a Hard DC Endurance check with a -5 penalty. After every extended rest you make, you get an increasing, stacking +5 bonus to this check.",
+                "text": "You remain aware and alert while taking an extended rest while still gaining the full benefits. You gain a +3 bonus to checks to notice something during this extended rest, and you gain a +3 bonus to Command checks to appear both awake and scary to ward threats from the campsite or rest spot. You do not regain this power at the end of an extended rest unless you make a Hard DC Endurance check with a -5 penalty. After every extended rest you make, you get an increasing, stacking +5 bonus to this check.",
                 "type": "effect"
               }
             ],
@@ -11210,7 +11600,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You search for herbs or fungi native to the area with medicinal properties.\n\nDAILY / STANDARD\n\nPersonal\n\nPrerequisite: You must be proficient in Nature.\n\nCast Time: 1 hour\n\nEffect: Roll a Nature check to forage. The check is modified by the environment like normal foraging rolls. If you succeed, instead of finding food, you may choose a single result from the table below as long as you reached that DC or higher. If y ou find poison, it is a consumable item that only lasts until your next extended rest. While these don't normally end to saving throws. If the victim takes something that grants them a saving throw to poison effects specifically, they may attempt to end th e effects of these poisons with that. DC Possible Forage Result Less than 15 You find nothing. 15 You find a poison that causes unattractive splotches when applied topically or consumed via food or drink. They must make an easy DC Endurance check based on your level. If they fail, they get itching splotches on their skin that give a -2 peanlty to Diplo macy and Bluff checks for 2 days. The penalty increases to a -4 after one day unless they stopped themselves from itching by making a Hard DC Endurance check or resisting an attack against their Will equal to your level + 5. 20 You find a poison that when consumed via food or drink, causes the imbiber to vomit over the course of 1 hour or if combat begins. They get a - 5 penalty to Perception checks during this time and can't benefit from short or extended rests. If combat begins after that before they've had a chance to really rest, they will be out of healing surges during that combat and be unable to heal. Dilutes in any food bigger than a large stew cauldron or water bigger than a barrel, but can take out about a small camp's worth of people. 25 You find a poison that when consumed via food or drink, causes the imbiber to take a -2 penalty to all attack rolls, skill checks, ability checks, and defenses. A Normal DC Endurance check based on your level is required to overcome it. They make a check every hour. If they don't succeed, they lose a healing surge. Dilutes in anything bigger than a meal or water containe r for one person. 30 or higher You find a poison that when consumed via food or drink , causes the imbiber to feel a little ill. Adrenaline can overcome it but everyday tasks become difficult. They get a -2 penalty to all skill checks and ability checks. A DC 20 Endurance check is required to overcome it. They make a check every hour, unless combat begins in, in which case they make a saving at the end of every one of their turns, until combat ends again. It can affect a wide area and a little goes a logn way, allowing it to affect whole villages, small towns, military camps, etc. It dilutes in anything bigger than well or river, or a whole farm field.",
+        "description": "You search for herbs or fungi native to the area with medicinal properties.\n\nDAILY / STANDARD\n\nPersonal\n\nPrerequisite: You must be at least Expert in Nature.\n\nCast Time: 1 hour\n\nEffect: Roll a Nature check to forage. The check is modified by the environment like normal foraging rolls. If you succeed, instead of finding food, you may choose a single result from the table below as long as you reached that DC or higher. If y ou find poison, it is a consumable item that only lasts until your next extended rest. While these don't normally end to saving throws. If the victim takes something that grants them a saving throw to poison effects specifically, they may attempt to end th e effects of these poisons with that. DC Possible Forage Result Less than 15 You find nothing. 15 You find a poison that causes unattractive splotches when applied topically or consumed via food or drink. They must make an easy DC Endurance check based on your level. If they fail, they get itching splotches on their skin that give a -2 peanlty to Charisma checks to persuade and Deception checks for 2 days. The penalty increases to a -4 after one day unless they stopped themselves from itching by making a Hard DC Endurance check or resisting an attack against their Will equal to your level + 5. 20 You find a poison that when consumed via food or drink, causes the imbiber to vomit over the course of 1 hour or if combat begins. They get a - 5 penalty to checks to notice something during this time and can't benefit from short or extended rests. If combat begins after that before they've had a chance to really rest, they will be out of healing surges during that combat and be unable to heal. Dilutes in any food bigger than a large stew cauldron or water bigger than a barrel, but can take out about a small camp's worth of people. 25 You find a poison that when consumed via food or drink, causes the imbiber to take a -2 penalty to all attack rolls, skill checks, ability checks, and defenses. A Normal DC Endurance check based on your level is required to overcome it. They make a check every hour. If they don't succeed, they lose a healing surge. Dilutes in anything bigger than a meal or water containe r for one person. 30 or higher You find a poison that when consumed via food or drink , causes the imbiber to feel a little ill. Adrenaline can overcome it but everyday tasks become difficult. They get a -2 penalty to all skill checks and ability checks. A DC 20 Endurance check is required to overcome it. They make a check every hour, unless combat begins in, in which case they make a saving at the end of every one of their turns, until combat ends again. It can affect a wide area and a little goes a logn way, allowing it to affect whole villages, small towns, military camps, etc. It dilutes in anything bigger than well or river, or a whole farm field.",
         "title": "Foraging for Poison Herbs"
       },
       "sharedData": {
@@ -11226,7 +11616,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Nature.",
+                "text": "You must be at least Expert in Nature.",
                 "type": "effect"
               },
               {
@@ -11238,7 +11628,7 @@
               {
                 "id": "rule-3",
                 "label": "Effect",
-                "text": "Roll a Nature check to forage. The check is modified by the environment like normal foraging rolls. If you succeed, instead of finding food, you may choose a single result from the table below as long as you reached that DC or higher. If y ou find poison, it is a consumable item that only lasts until your next extended rest. While these don't normally end to saving throws. If the victim takes something that grants them a saving throw to poison effects specifically, they may attempt to end th e effects of these poisons with that. DC Possible Forage Result Less than 15 You find nothing. 15 You find a poison that causes unattractive splotches when applied topically or consumed via food or drink. They must make an easy DC Endurance check based on your level. If they fail, they get itching splotches on their skin that give a -2 peanlty to Diplo macy and Bluff checks for 2 days. The penalty increases to a -4 after one day unless they stopped themselves from itching by making a Hard DC Endurance check or resisting an attack against their Will equal to your level + 5. 20 You find a poison that when consumed via food or drink, causes the imbiber to vomit over the course of 1 hour or if combat begins. They get a - 5 penalty to Perception checks during this time and can't benefit from short or extended rests. If combat begins after that before they've had a chance to really rest, they will be out of healing surges during that combat and be unable to heal. Dilutes in any food bigger than a large stew cauldron or water bigger than a barrel, but can take out about a small camp's worth of people. 25 You find a poison that when consumed via food or drink, causes the imbiber to take a -2 penalty to all attack rolls, skill checks, ability checks, and defenses. A Normal DC Endurance check based on your level is required to overcome it. They make a check every hour. If they don't succeed, they lose a healing surge. Dilutes in anything bigger than a meal or water containe r for one person. 30 or higher You find a poison that when consumed via food or drink , causes the imbiber to feel a little ill. Adrenaline can overcome it but everyday tasks become difficult. They get a -2 penalty to all skill checks and ability checks. A DC 20 Endurance check is required to overcome it. They make a check every hour, unless combat begins in, in which case they make a saving at the end of every one of their turns, until combat ends again. It can affect a wide area and a little goes a logn way, allowing it to affect whole villages, small towns, military camps, etc. It dilutes in anything bigger than well or river, or a whole farm field.",
+                "text": "Roll a Nature check to forage. The check is modified by the environment like normal foraging rolls. If you succeed, instead of finding food, you may choose a single result from the table below as long as you reached that DC or higher. If y ou find poison, it is a consumable item that only lasts until your next extended rest. While these don't normally end to saving throws. If the victim takes something that grants them a saving throw to poison effects specifically, they may attempt to end th e effects of these poisons with that. DC Possible Forage Result Less than 15 You find nothing. 15 You find a poison that causes unattractive splotches when applied topically or consumed via food or drink. They must make an easy DC Endurance check based on your level. If they fail, they get itching splotches on their skin that give a -2 peanlty to Charisma checks to persuade and Deception checks for 2 days. The penalty increases to a -4 after one day unless they stopped themselves from itching by making a Hard DC Endurance check or resisting an attack against their Will equal to your level + 5. 20 You find a poison that when consumed via food or drink, causes the imbiber to vomit over the course of 1 hour or if combat begins. They get a - 5 penalty to checks to notice something during this time and can't benefit from short or extended rests. If combat begins after that before they've had a chance to really rest, they will be out of healing surges during that combat and be unable to heal. Dilutes in any food bigger than a large stew cauldron or water bigger than a barrel, but can take out about a small camp's worth of people. 25 You find a poison that when consumed via food or drink, causes the imbiber to take a -2 penalty to all attack rolls, skill checks, ability checks, and defenses. A Normal DC Endurance check based on your level is required to overcome it. They make a check every hour. If they don't succeed, they lose a healing surge. Dilutes in anything bigger than a meal or water containe r for one person. 30 or higher You find a poison that when consumed via food or drink , causes the imbiber to feel a little ill. Adrenaline can overcome it but everyday tasks become difficult. They get a -2 penalty to all skill checks and ability checks. A DC 20 Endurance check is required to overcome it. They make a check every hour, unless combat begins in, in which case they make a saving at the end of every one of their turns, until combat ends again. It can affect a wide area and a little goes a logn way, allowing it to affect whole villages, small towns, military camps, etc. It dilutes in anything bigger than well or river, or a whole farm field.",
                 "type": "effect"
               }
             ],
@@ -11362,7 +11752,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You begin to carve up the monster, taking the sharpest fangs, the hardest scales, or the most pliable sinew to help you with your journey.\n\nDAILY / STANDARD\n\nMelee Weapon\n\nTarget: One dead non -humanoid and non -animate creature corpse.\n\nPrerequisite: You must be proficient in Nature.\n\nCast Time: 10 minutes.\n\nEffect: You create a single object from the target corpse. The corpse is destroyed as a result. The object is a single weapon, a set of 10 ammunition, armor, shield, a consumable/combustible item, or other equipment that can be reasonably made from the creature's corpse (the DM has the final word on this). It can be magical, but generally it's just an enhanced version of a mundane item with an enhancement bonus depending on the level the target was when alive, rather than containing a specific magical enchantment. Without proper preservation, the object lasts only until the end of your next extended rest. It can be made into a permanent item by someone with crafting abilities. Doing so costs as much as the item you are trying to make with a 10% discount. It can't b e disenchanted until it's been made into a permanent item. You can also integrate it into the crafting of another magic item. Doing so either gives the crafter a 10% discount on that magic item, or at the DM's discretion they may choose to allow the crafted item to gain a new property based on the monster it was h arvested from instead (or in addition to the discount). This is usually only the case for particularly interesting parts craft from particularly rare or interesting monsters. Monster Level Enhancement Extra Critical Bonus Damage 4 +1 +1d6 6 +2 +2d6 11 +3 +3d6 16 +4 +4d6 21 +5 +5d6 26 +6 +6d6 31 +7 +7d6",
+        "description": "You begin to carve up the monster, taking the sharpest fangs, the hardest scales, or the most pliable sinew to help you with your journey.\n\nDAILY / STANDARD\n\nMelee Weapon\n\nTarget: One dead non -humanoid and non -animate creature corpse.\n\nPrerequisite: You must be at least Expert in Nature.\n\nCast Time: 10 minutes.\n\nEffect: You create a single object from the target corpse. The corpse is destroyed as a result. The object is a single weapon, a set of 10 ammunition, armor, shield, a consumable/combustible item, or other equipment that can be reasonably made from the creature's corpse (the DM has the final word on this). It can be magical, but generally it's just an enhanced version of a mundane item with an enhancement bonus depending on the level the target was when alive, rather than containing a specific magical enchantment. Without proper preservation, the object lasts only until the end of your next extended rest. It can be made into a permanent item by someone with crafting abilities. Doing so costs as much as the item you are trying to make with a 10% discount. It can't b e disenchanted until it's been made into a permanent item. You can also integrate it into the crafting of another magic item. Doing so either gives the crafter a 10% discount on that magic item, or at the DM's discretion they may choose to allow the crafted item to gain a new property based on the monster it was h arvested from instead (or in addition to the discount). This is usually only the case for particularly interesting parts craft from particularly rare or interesting monsters. Monster Level Enhancement Extra Critical Bonus Damage 4 +1 +1d6 6 +2 +2d6 11 +3 +3d6 16 +4 +4d6 21 +5 +5d6 26 +6 +6d6 31 +7 +7d6",
         "title": "Harvesting Rare Monster Parts"
       },
       "sharedData": {
@@ -11383,7 +11773,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Nature.",
+                "text": "You must be at least Expert in Nature.",
                 "type": "effect"
               },
               {
@@ -11522,7 +11912,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You are a specialist in one type of terrain. You can spend a lifetime there, surviving only on the flora and fauna, familiar to all the challenges and roughages of navigating there.\n\nAT_WILL / FREE\n\nPersonal\n\nPrerequisite: You must be proficient in Nature.\n\nSpecial: The first time you use this power, you may select a type of terrain to be your favored terrain. You may choose from arctic, coast, desert, forest, grassland, mountain, swamp, or underground (or the Underdark). Alternatively, you may select up to two specif ic cities, towns, or villages. You can only change your favored terrain whenever you gain a level, or, if the DM allows it, at narratively significant moments of the story.\n\nEffect: Choose one of the following bonuses to gain. You must be in your chosen favored terrain to gain the benefits. + You gain a +2 bonus to your next Nature, Insight, Society, or Perception check relating to the local area's terrain, plants, fungi, or creatures that reside in that type of terrain. You must be proficient in that skill to gain the bonus. + If you succeeded on a check to forage for food or water, you gain twice that amount of food or water. This power can only be used once per turn.\n\nSpecial: You may select this same power again even if you have already learned it to select another type of favored foe(s).",
+        "description": "You are a specialist in one type of terrain. You can spend a lifetime there, surviving only on the flora and fauna, familiar to all the challenges and roughages of navigating there.\n\nAT_WILL / FREE\n\nPersonal\n\nPrerequisite: You must be at least Trained in Nature.\n\nSpecial: The first time you use this power, you may select a type of terrain to be your favored terrain. You may choose from arctic, coast, desert, forest, grassland, mountain, swamp, or underground (or the Underdark). Alternatively, you may select up to two specif ic cities, towns, or villages. You can only change your favored terrain whenever you gain a level, or, if the DM allows it, at narratively significant moments of the story.\n\nEffect: Choose one of the following bonuses to gain. You must be in your chosen favored terrain to gain the benefits. + You gain a +2 bonus to your next Nature, Insight, or Culture check relating to the local area's terrain, plants, fungi, or creatures that reside in that type of terrain. You must be at least Trained in that skill to gain the bonus. + If you succeeded on a check to forage for food or water, you gain twice that amount of food or water. This power can only be used once per turn.\n\nSpecial: You may select this same power again even if you have already learned it to select another type of favored foe(s).",
         "title": "Favored Terrain"
       },
       "sharedData": {
@@ -11538,7 +11928,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Nature.",
+                "text": "You must be at least Trained in Nature.",
                 "type": "effect"
               },
               {
@@ -11550,7 +11940,7 @@
               {
                 "id": "rule-3",
                 "label": "Effect",
-                "text": "Choose one of the following bonuses to gain. You must be in your chosen favored terrain to gain the benefits. + You gain a +2 bonus to your next Nature, Insight, Society, or Perception check relating to the local area's terrain, plants, fungi, or creatures that reside in that type of terrain. You must be proficient in that skill to gain the bonus. + If you succeeded on a check to forage for food or water, you gain twice that amount of food or water. This power can only be used once per turn.",
+                "text": "Choose one of the following bonuses to gain. You must be in your chosen favored terrain to gain the benefits. + You gain a +2 bonus to your next Nature, Insight, or Culture check relating to the local area's terrain, plants, fungi, or creatures that reside in that type of terrain. You must be at least Trained in that skill to gain the bonus. + If you succeeded on a check to forage for food or water, you gain twice that amount of food or water. This power can only be used once per turn.",
                 "type": "effect"
               },
               {
@@ -11675,7 +12065,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You search the area for rare herbs you can utilize for rituals .\n\nDAILY / MINOR\n\nPersonal\n\nRequirement: You are in the wilderness above or below ground.\n\nPrerequisite: You must be proficient in Nature.\n\nCast Time: 1 hour.\n\nEffect: Roll a Nature check to forage. The check is modified by the environment as with normal foraging rolls. If you succeed, instead of finding food, you find 2x your skil check's worth of gold in Rare Herbs that can be used as components for Na ture rituals started by you or an ally until your next extended rest or in the next 24 hours (whichever is sooner). You may convert up to half of what you find into alchemical reagents, mystic salves, or sanctified incense (for Arcana, Medicine, or Religion ri tuals). At level 11, it increases to 10x your check's result. At level 20, it increases to 20x your check's result.",
+        "description": "You search the area for rare herbs you can utilize for rituals .\n\nDAILY / MINOR\n\nPersonal\n\nRequirement: You are in the wilderness above or below ground.\n\nPrerequisite: You must be at least Trained in Nature.\n\nCast Time: 1 hour.\n\nEffect: Roll a Nature check to forage. The check is modified by the environment as with normal foraging rolls. If you succeed, instead of finding food, you find 2x your skil check's worth of gold in Rare Herbs that can be used as components for Na ture rituals started by you or an ally until your next extended rest or in the next 24 hours (whichever is sooner). You may convert up to half of what you find into alchemical reagents, mystic salves, or sanctified incense (for Arcana, Medicine, or Religion ri tuals). At level 11, it increases to 10x your check's result. At level 20, it increases to 20x your check's result.",
         "title": "Forage for Magical Herbs"
       },
       "sharedData": {
@@ -11691,7 +12081,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Nature.",
+                "text": "You must be at least Trained in Nature.",
                 "type": "effect"
               },
               {
@@ -11829,7 +12219,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You carve up a monster to find in order to appropriate claws, teeth fangs, scales, sinew, and more to other uses.\n\nDAILY / MINOR\n\nMelee Weapon\n\nTarget: One dead non -humanoid corpse.\n\nPrerequisite: You must be proficient in Nature.\n\nCast Time: 10 minutes\n\nEffect: You create a single non -living, non-magical object from the target corpse. The corpse is destroyed as a result. The object is a single weapon, a set of 10 ammunition, or item from \"Adventuring Gear\" page 222 of the Player's Handbook that can be reasonably made from the creature's corpse (with the DM having the final word on whether such a chosen item is reasonable). Without proper preservation, the object lasts only until the end of your next extended rest. It can be integrated into the crafting of a more p ermanent, but still non-magical, item by someone with crafting abilities, but it costs as much as the item you want to make with a 20% discount. At the DM's discrention, you can also create some other non-magical object no longer than one a Medium creature can carry.",
+        "description": "You carve up a monster to find in order to appropriate claws, teeth fangs, scales, sinew, and more to other uses.\n\nDAILY / MINOR\n\nMelee Weapon\n\nTarget: One dead non -humanoid corpse.\n\nPrerequisite: You must be at least Trained in Nature.\n\nCast Time: 10 minutes\n\nEffect: You create a single non -living, non-magical object from the target corpse. The corpse is destroyed as a result. The object is a single weapon, a set of 10 ammunition, or item from \"Adventuring Gear\" page 222 of the Player's Handbook that can be reasonably made from the creature's corpse (with the DM having the final word on whether such a chosen item is reasonable). Without proper preservation, the object lasts only until the end of your next extended rest. It can be integrated into the crafting of a more p ermanent, but still non-magical, item by someone with crafting abilities, but it costs as much as the item you want to make with a 20% discount. At the DM's discrention, you can also create some other non-magical object no longer than one a Medium creature can carry.",
         "title": "Harvesting Useful Monster Parts"
       },
       "sharedData": {
@@ -11850,7 +12240,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Nature.",
+                "text": "You must be at least Trained in Nature.",
                 "type": "effect"
               },
               {
@@ -11993,7 +12383,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You can move through your favored terrain with ease and when guiding your party through it, travel becomes a breeze.\n\nDAILY / STANDARD\n\nPersonal\n\nTarget: You and each ally in the party within sight and speech range.\n\nPrerequisite: You must be proficient in Nature.\n\nPrerequisite: You have the Favored Terrain skill utility power (level 2).\n\nEffect: Until the end of your next extended rest, predominantly difficult terrain means your overland exploration speed is multiplied by 0.75x (instead of 0.5x). Also, your party is not slowed by widespread difficult terrain at all during overland exploration. Finally, you and your allies also gain a +2 bonus to initiative for the first combat encounter that occurs for the duration of this power when doing overland exploration in your favored terrain.",
+        "description": "You can move through your favored terrain with ease and when guiding your party through it, travel becomes a breeze.\n\nDAILY / STANDARD\n\nPersonal\n\nTarget: You and each ally in the party within sight and speech range.\n\nPrerequisite: You must be at least Expert in Nature.\n\nPrerequisite: You have the Favored Terrain skill utility power (level 2).\n\nEffect: Until the end of your next extended rest, predominantly difficult terrain means your overland exploration speed is multiplied by 0.75x (instead of 0.5x). Also, your party is not slowed by widespread difficult terrain at all during overland exploration. Finally, you and your allies also gain a +2 bonus to initiative for the first combat encounter that occurs for the duration of this power when doing overland exploration in your favored terrain.",
         "title": "Favored Terrain’s Deft Exploration"
       },
       "sharedData": {
@@ -12014,7 +12404,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Nature.",
+                "text": "You must be at least Expert in Nature.",
                 "type": "effect"
               },
               {
@@ -12156,7 +12546,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You search for herbs or fungi native to the area with medicinal properties.\n\nDAILY / STANDARD\n\nPersonal\n\nPrerequisite: You must be proficient in Nature.\n\nCast Time: 1 hour\n\nEffect: Roll a Nature check to forage (based on your current environment). The check is modified by the environment, like normal foraging rolls. If you succeed, instead of finding food, you may choose a single result from the table below as long a s you reached that DC or higher. If you find herbs, they are a consumable item that only lasts until your next extended rest. DC Possible Forage Result 1-9 You find nothing. 10 -14 You find a single person's worth of food or water for the day (or a source of water). 15 -19 You find herbs that can be expended to gain temporary hit points equal to the user's healing surge value during a short or extended rest. 20 or higher You find herbs that can be expended to regain a Ranger healing power the user has. It is a minor action to consume these.",
+        "description": "You search for herbs or fungi native to the area with medicinal properties.\n\nDAILY / STANDARD\n\nPersonal\n\nPrerequisite: You must be at least Expert in Nature.\n\nCast Time: 1 hour\n\nEffect: Roll a Nature check to forage (based on your current environment). The check is modified by the environment, like normal foraging rolls. If you succeed, instead of finding food, you may choose a single result from the table below as long a s you reached that DC or higher. If you find herbs, they are a consumable item that only lasts until your next extended rest. DC Possible Forage Result 1-9 You find nothing. 10 -14 You find a single person's worth of food or water for the day (or a source of water). 15 -19 You find herbs that can be expended to gain temporary hit points equal to the user's healing surge value during a short or extended rest. 20 or higher You find herbs that can be expended to regain a Ranger healing power the user has. It is a minor action to consume these.",
         "title": "Foraging for Healing Herbs"
       },
       "sharedData": {
@@ -12172,7 +12562,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Nature.",
+                "text": "You must be at least Expert in Nature.",
                 "type": "effect"
               },
               {
@@ -12309,7 +12699,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You find the parts of the monster normally reserved for magic potions or spell components.\n\nDAILY / STANDARD\n\nMelee Weapon\n\nTarget: One dead non -humanoid and non -animate creature corpse.\n\nPrerequisite: You must be proficient in Nature.\n\nCast Time: 10 minutes.\n\nEffect: Roll a monster knowledge check against a monderate DC of the target's level with a bonus equal to the highest of your Dexterity or Strength. If you succeed, instead of gaining knowledge, you tear apart the creature's corpse and gain your check res ult's worth of gold in Alchemical Reagents that can be used for Arcana rituals or alcehmical item creations, as long as they are started before the end of you rnext extended rest or in the next 24 hours (whichever is sooner). Double the amount gained if th e creature is a magical beast. These components cannot be sold for gold. For certain creature, you may instead convert half or all of the gained components into Mystic Salve or Sanctified Incense components instead (for Medicine or Religion rituals). (The DM may decide that creatures associated with healing , such as pheonix or un icorn, is needed for the former; or that creatures associated with religion, such as pegasi, undead monsters, demons, or devils, are required for the latter.) This can only be used once per target. The creature cannot be raised from the dead after this power has been used on them. At level 11, it increases to 5x your check result. At level 20, it increases to 10x your check result.",
+        "description": "You find the parts of the monster normally reserved for magic potions or spell components.\n\nDAILY / STANDARD\n\nMelee Weapon\n\nTarget: One dead non -humanoid and non -animate creature corpse.\n\nPrerequisite: You must be at least Expert in Nature.\n\nCast Time: 10 minutes.\n\nEffect: Roll a monster knowledge check against a monderate DC of the target's level with a bonus equal to the highest of your Dexterity or Strength. If you succeed, instead of gaining knowledge, you tear apart the creature's corpse and gain your check res ult's worth of gold in Alchemical Reagents that can be used for Arcana rituals or alcehmical item creations, as long as they are started before the end of you rnext extended rest or in the next 24 hours (whichever is sooner). Double the amount gained if th e creature is a magical beast. These components cannot be sold for gold. For certain creature, you may instead convert half or all of the gained components into Mystic Salve or Sanctified Incense components instead (for Medicine or Religion rituals). (The DM may decide that creatures associated with healing , such as pheonix or un icorn, is needed for the former; or that creatures associated with religion, such as pegasi, undead monsters, demons, or devils, are required for the latter.) This can only be used once per target. The creature cannot be raised from the dead after this power has been used on them. At level 11, it increases to 5x your check result. At level 20, it increases to 10x your check result.",
         "title": "Harvesting Magical Monster Reagents"
       },
       "sharedData": {
@@ -12330,7 +12720,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Nature.",
+                "text": "You must be at least Expert in Nature.",
                 "type": "effect"
               },
               {
@@ -12469,7 +12859,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A few simple modifications is all it takes to cause an enemy to stumble into the same trap they set up. “Something has change they think, as they hear the familiar click before the blade come swinging down.\n\nENCOUNTER / STANDARD\n\nPersonal\n\nRequirement: You must have a trap -making kit.\n\nTarget: One trap or hazard.\n\nPrerequisite: You must be proficient in Thievery.\n\nEffect: Make a Thievery check against the DC to disable the target trap or hazard, or against a DC of your level + 10 if it does not have one. If you succeed and the target trap or hazard does not trigger on or target enemies, a specific creature, or a type of creature, you change it so that it now does, and so that it does not target you or your allies. If it is a trap, you may also change the type of damage it deals from one type to another. If you fail, you gain a +2 bonus to the next skill check you make to tr y to disable that trap or hazard.",
+        "description": "A few simple modifications is all it takes to cause an enemy to stumble into the same trap they set up. “Something has change they think, as they hear the familiar click before the blade come swinging down.\n\nENCOUNTER / STANDARD\n\nPersonal\n\nRequirement: You must have a trap -making kit.\n\nTarget: One trap or hazard.\n\nPrerequisite: You must be at least Expert in Finesse.\n\nEffect: Make a Finesse check against the DC to disable the target trap or hazard, or against a DC of your level + 10 if it does not have one. If you succeed and the target trap or hazard does not trigger on or target enemies, a specific creature, or a type of creature, you change it so that it now does, and so that it does not target you or your allies. If it is a trap, you may also change the type of damage it deals from one type to another. If you fail, you gain a +2 bonus to the next skill check you make to tr y to disable that trap or hazard.",
         "title": "Sabotage Trap"
       },
       "sharedData": {
@@ -12490,13 +12880,13 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Thievery.",
+                "text": "You must be at least Expert in Finesse.",
                 "type": "effect"
               },
               {
                 "id": "rule-4",
                 "label": "Effect",
-                "text": "Make a Thievery check against the DC to disable the target trap or hazard, or against a DC of your level + 10 if it does not have one. If you succeed and the target trap or hazard does not trigger on or target enemies, a specific creature, or a type of creature, you change it so that it now does, and so that it does not target you or your allies. If it is a trap, you may also change the type of damage it deals from one type to another. If you fail, you gain a +2 bonus to the next skill check you make to tr y to disable that trap or hazard.",
+                "text": "Make a Finesse check against the DC to disable the target trap or hazard, or against a DC of your level + 10 if it does not have one. If you succeed and the target trap or hazard does not trigger on or target enemies, a specific creature, or a type of creature, you change it so that it now does, and so that it does not target you or your allies. If it is a trap, you may also change the type of damage it deals from one type to another. If you fail, you gain a +2 bonus to the next skill check you make to tr y to disable that trap or hazard.",
                 "type": "effect"
               }
             ],
@@ -12562,7 +12952,7 @@
           "entryId": "rogue-10-sabotage-trap",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Thievery | Level 10",
+        "subtitle": "Finesse | Level 10",
         "title": "Sabotage Trap",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -12621,7 +13011,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Some instinct screams “move!” —and you do, ducking the trap before it fully bites.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You are hit by a trap or hazard attack.\n\nTarget: The triggering trap or hazard.\n\nPrerequisite: You must be proficient in Acrobatics.\n\nEffect: The target rerolls its attack against you. You gain a +4 bonus to all your defenses against that specific attack.",
+        "description": "Some instinct screams “move!” —and you do, ducking the trap before it fully bites.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You are hit by a trap or hazard attack.\n\nTarget: The triggering trap or hazard.\n\nPrerequisite: You must be at least Expert in Acrobatics.\n\nEffect: The target rerolls its attack against you. You gain a +4 bonus to all your defenses against that specific attack.",
         "title": "Evasive Trap Sense"
       },
       "sharedData": {
@@ -12642,7 +13032,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Acrobatics.",
+                "text": "You must be at least Expert in Acrobatics.",
                 "type": "effect"
               },
               {
@@ -12773,7 +13163,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You may not know how to do the thing, but you know someone who does. “Translating an ancient text? No idea. But a professo at the local university probably could, and I know how to get there.”\n\nENCOUNTER / STANDARD\n\nPersonal\n\nPrerequisite: You must be proficient in Society.\n\nEffect: Make a Society check with a +3 bonus to find a type of person who can get you a piece of information. If you succeed, you also learn their general or usual location and how to get there.",
+        "description": "You may not know how to do the thing, but you know someone who does. “Translating an ancient text? No idea. But a professo at the local university probably could, and I know how to get there.”\n\nENCOUNTER / STANDARD\n\nPersonal\n\nPrerequisite: You must be at least Expert in Streetwise.\n\nEffect: Make a Streetwise check with a +3 bonus to find a type of person who can get you a piece of information. If you succeed, you also learn their general or usual location and how to get there.",
         "title": "I Know a Guy Who Knows a Guy"
       },
       "sharedData": {
@@ -12789,13 +13179,13 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Society.",
+                "text": "You must be at least Expert in Streetwise.",
                 "type": "effect"
               },
               {
                 "id": "rule-2",
                 "label": "Effect",
-                "text": "Make a Society check with a +3 bonus to find a type of person who can get you a piece of information. If you succeed, you also learn their general or usual location and how to get there.",
+                "text": "Make a Streetwise check with a +3 bonus to find a type of person who can get you a piece of information. If you succeed, you also learn their general or usual location and how to get there.",
                 "type": "effect"
               }
             ],
@@ -12859,7 +13249,7 @@
           "entryId": "rogue-6-i-know-a-guy-who-knows-a-guy",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Society | Level 6",
+        "subtitle": "Streetwise | Level 6",
         "title": "I Know a Guy Who Knows a Guy",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -12919,7 +13309,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You make something look more decrepit, new, or mundane than it actually is.\n\nAT_WILL / STANDARD\n\nPersonal\n\nRequirement: You must be wielding a Disguise Kit, a Forgery Kit, or a kit relevant to the item you are modifying (such as Blacksmith’s Tools if modifying a weapon or armor, or Carpenter’s Tools if modifying something wooden).\n\nPrerequisite: You must be proficient in Bluff.\n\nEffect: Choose one of the following effects:\n\nNew: Make the target object seem new and unblemished, masking any flaws, age, breakage, or imperfections. Using a broken object for its purpose reveals its true state. Creatures familiar with that type of object can attempt a saving throw when they first inter act with the object to overcome the disguise, and every hour thereafter that they continue to interact with it.\n\nDecrepit: Make the target object seem like a worthless, aged, useless, rusting, or otherwise decrepit version of itself. Using an object that seems broken for its purpose reveals its true state. Creatures familiar with that type of object can attempt a saving throw when they first interact with the object to overcome the disguise, and every hour thereafter that they continue to interact with it.\n\nMundane: Make an object that is especially interesting or blemished appear like a mundane, unremarkable version of itself; a magical longsword seems ordinary, a broken spear looks like every other on the rack, a long-unused throne seems standard. Interacting with the object directly reveals its true state immediately if it is magical; otherwise the user gets a saving throw to discover the disguise.",
+        "description": "You make something look more decrepit, new, or mundane than it actually is.\n\nAT_WILL / STANDARD\n\nPersonal\n\nRequirement: You must be wielding a Disguise Kit, a Forgery Kit, or a kit relevant to the item you are modifying (such as Blacksmith’s Tools if modifying a weapon or armor, or Carpenter’s Tools if modifying something wooden).\n\nPrerequisite: You must be at least Expert in Deception.\n\nEffect: Choose one of the following effects:\n\nNew: Make the target object seem new and unblemished, masking any flaws, age, breakage, or imperfections. Using a broken object for its purpose reveals its true state. Creatures familiar with that type of object can attempt a saving throw when they first inter act with the object to overcome the disguise, and every hour thereafter that they continue to interact with it.\n\nDecrepit: Make the target object seem like a worthless, aged, useless, rusting, or otherwise decrepit version of itself. Using an object that seems broken for its purpose reveals its true state. Creatures familiar with that type of object can attempt a saving throw when they first interact with the object to overcome the disguise, and every hour thereafter that they continue to interact with it.\n\nMundane: Make an object that is especially interesting or blemished appear like a mundane, unremarkable version of itself; a magical longsword seems ordinary, a broken spear looks like every other on the rack, a long-unused throne seems standard. Interacting with the object directly reveals its true state immediately if it is magical; otherwise the user gets a saving throw to discover the disguise.",
         "title": "Modify Item Quality Appearance"
       },
       "sharedData": {
@@ -12935,7 +13325,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Bluff.",
+                "text": "You must be at least Expert in Deception.",
                 "type": "effect"
               },
               {
@@ -13017,7 +13407,7 @@
           "entryId": "rogue-6-modify-item-quality-appearance",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Bluff | Level 6",
+        "subtitle": "Deception | Level 6",
         "title": "Modify Item Quality Appearance",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -13077,7 +13467,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You mess up and make a sound, but on their way to check on yo others simply find a cat, a window someone must have left open or something else innocuous.\n\nDAILY / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: You fail a Stealth check against creatures that are not aware of you, can’t see you, and whose line of sight you are not within.\n\nRequirement: You are out of combat.\n\nPrerequisite: You must be proficient in Stealth.\n\nEffect: You may reroll the Stealth check. You must use the second result. If the roll succeeds in hiding you, you may then immediately move up to your speed + 2 to another location that you can hide behind or in. You are hidden during and after this move.",
+        "description": "You mess up and make a sound, but on their way to check on yo others simply find a cat, a window someone must have left open or something else innocuous.\n\nDAILY / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: You fail a Stealth check against creatures that are not aware of you, can’t see you, and whose line of sight you are not within.\n\nRequirement: You are out of combat.\n\nPrerequisite: You must be at least Expert in Stealth.\n\nEffect: You may reroll the Stealth check. You must use the second result. If the roll succeeds in hiding you, you may then immediately move up to your speed + 2 to another location that you can hide behind or in. You are hidden during and after this move.",
         "title": "Must Have Been the Wind"
       },
       "sharedData": {
@@ -13093,7 +13483,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Stealth.",
+                "text": "You must be at least Expert in Stealth.",
                 "type": "effect"
               },
               {
@@ -13225,7 +13615,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "With pre-established codewords, you and your crew are able to have an entirely different conversation than the one the people around you hear.\n\nENCOUNTER / STANDARD\n\nPersonal\n\nPrerequisite: You must be proficient in Bluff.\n\nEffect: Until the end of the encounter, you can send secret messages embedded in normal speech to allies in the nearby area who can hear you and understand your language. You must have had at least one long rest with an ally for them to understand you. Delivering a secret message generally takes twice as long as the message would otherwise take to relay. If an enemy becomes aware you are sending secret messages in your normal speech, they can try to figure it out with an Insight check vs. DC 10 + your current bonu s to Bluff checks.",
+        "description": "With pre-established codewords, you and your crew are able to have an entirely different conversation than the one the people around you hear.\n\nENCOUNTER / STANDARD\n\nPersonal\n\nPrerequisite: You must be at least Expert in Deception.\n\nEffect: Until the end of the encounter, you can send secret messages embedded in normal speech to allies in the nearby area who can hear you and understand your language. You must have had at least one long rest with an ally for them to understand you. Delivering a secret message generally takes twice as long as the message would otherwise take to relay. If an enemy becomes aware you are sending secret messages in your normal speech, they can try to figure it out with an Insight check vs. DC 10 + your current bonu s to Deception checks.",
         "title": "Secret Speech (Rogue)"
       },
       "sharedData": {
@@ -13241,13 +13631,13 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Bluff.",
+                "text": "You must be at least Expert in Deception.",
                 "type": "effect"
               },
               {
                 "id": "rule-2",
                 "label": "Effect",
-                "text": "Until the end of the encounter, you can send secret messages embedded in normal speech to allies in the nearby area who can hear you and understand your language. You must have had at least one long rest with an ally for them to understand you. Delivering a secret message generally takes twice as long as the message would otherwise take to relay. If an enemy becomes aware you are sending secret messages in your normal speech, they can try to figure it out with an Insight check vs. DC 10 + your current bonu s to Bluff checks.",
+                "text": "Until the end of the encounter, you can send secret messages embedded in normal speech to allies in the nearby area who can hear you and understand your language. You must have had at least one long rest with an ally for them to understand you. Delivering a secret message generally takes twice as long as the message would otherwise take to relay. If an enemy becomes aware you are sending secret messages in your normal speech, they can try to figure it out with an Insight check vs. DC 10 + your current bonu s to Deception checks.",
                 "type": "effect"
               }
             ],
@@ -13311,7 +13701,7 @@
           "entryId": "rogue-6-secret-speech-rogue",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Bluff | Level 6",
+        "subtitle": "Deception | Level 6",
         "title": "Secret Speech (Rogue)",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -13370,7 +13760,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Like a proper thug, you are not only good at making threats, bu you are good at realizing them.\n\nDAILY / NO_ACTION\n\nPersonal\n\nTrigger: You succeeded on an Intimidate check against a creature or group of creatures you’ve been talking to for at least 1 minute.\n\nRequirement: You are not in combat.\n\nPrerequisite: You must be proficient in Intimidate.\n\nEffect: If you roll initiative to enter a combat encounter against any of the triggering creatures before your next extended rest, all of the triggering creatures that are in that encounter as an enemy are rattled until the end of their first turn. Ruthless Ruffian: Targeted enemies also take a -2 penalty to their initiative check.",
+        "description": "Like a proper thug, you are not only good at making threats, bu you are good at realizing them.\n\nDAILY / NO_ACTION\n\nPersonal\n\nTrigger: You succeeded on an Command check against a creature or group of creatures you’ve been talking to for at least 1 minute.\n\nRequirement: You are not in combat.\n\nPrerequisite: You must be at least Expert in Command.\n\nEffect: If you roll initiative to enter a combat encounter against any of the triggering creatures before your next extended rest, all of the triggering creatures that are in that encounter as an enemy are rattled until the end of their first turn. Ruthless Ruffian: Targeted enemies also take a -2 penalty to their initiative check.",
         "title": "Threats Come True"
       },
       "sharedData": {
@@ -13386,7 +13776,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Intimidate.",
+                "text": "You must be at least Expert in Command.",
                 "type": "effect"
               },
               {
@@ -13401,7 +13791,7 @@
               "type": "PERSONAL"
             },
             "requirement": "You are not in combat.",
-            "trigger": "You succeeded on an Intimidate check against a creature or group of creatures you’ve been talking to for at least 1 minute.",
+            "trigger": "You succeeded on an Command check against a creature or group of creatures you’ve been talking to for at least 1 minute.",
             "usage": {
               "costs": [],
               "frequency": "DAILY",
@@ -13457,7 +13847,7 @@
           "entryId": "rogue-6-threats-come-true",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Intimidate | Level 6",
+        "subtitle": "Command | Level 6",
         "title": "Threats Come True",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -13518,7 +13908,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Everyone you ever ran with left a door cracked open somewhere You still know which ones to knock on.\n\nDAILY / STANDARD\n\nPersonal\n\nPrerequisite: You must be proficient in Society.\n\nEffect: Make a Society check with a bonus equal to the higher of your Intelligence or +2 to reach out to an old contact in the area. Depending on the result, you find them if able, or you easily learn whether they’ve moved on from the area. A result b elow 10 means you can’t find or access them this time. When you use this power, determine whether you are asking for a favor or for knowledge; it must relate to their purview.\n\nFavor: A favor may require persuasion depending on your past. Diplomacy and similar social rolls to convince them gain a modifier based on the Social Mod of the check result (in addition to DM modifiers for the favor’s nature and size). You may raise their Influ ence / Access one row, but the Social Mod worsens by a further - 2 (you did not part on good terms). The DM may let this improve during play by doing favors for the NPC.\n\nKnowledge: Roll a knowledge check using your own stats to see if the contact can answer your question; if they can, gain a bonus to your next knowledge check while talking to them, as long as it is information they would reasonably know (often set by the Influence / Access column). Check Knowledge Social Result Bonus Influence / Access Mod 10 +0 Very low (common -3 pickpocket, beggar, slave, or ordinary citizen out of the game) 15 +1 Low (guild thief or -2 low-level goon, mundane but useful job like dock worker or tavern waitress) 20 +2 Med-Low (busy +0 shopkeep, maid or butler at an important place, city guard, second -story thief, lockpicker, or an unnoticed sneaky child) 25 +3 Med-High +0 (professional spy and information dealer, trusted guild member, smuggler, fence, someone with a basic network, poison crafter) 30 +4 High (well - +1 connected information dealer, guard to a very important place, local mob boss or smaller guild leader) 35 +5 Very high (mob boss +2 whose power crosses cities and planes, chief of security for a noble’s estate, extremely professional spy or assassin)\n\nSpecial: The first time you use this power, while in a populated settlement, choose a contact. The contact must be related to your past as an adventurer . Once chosen, you cannot change it until that contact is removed from the story in a way you could not reach them again (dies, sent to another plane, imprisoned, etc) or you retrain this power. You may choose this power again even if you already know it, to gain access to another contact. Underworld Contact Inspiration/Examples What does it mean that the contact relates to your past as a rogue? Here are some examples of some contacts for the Underworld Contact rogue power: a comrade from a guild (thieves’ or assassins’), a fence, a smuggler, an old boss, a former henchman, a corr upt guard who was on the take, an upright guard who used to arrest you but recognized your potential, a fellow wandering hobo or beggar, etc.",
+        "description": "Everyone you ever ran with left a door cracked open somewhere You still know which ones to knock on.\n\nDAILY / STANDARD\n\nPersonal\n\nPrerequisite: You must be at least Expert in Streetwise.\n\nEffect: Make a Streetwise check with a bonus equal to the higher of your Intelligence or +2 to reach out to an old contact in the area. Depending on the result, you find them if able, or you easily learn whether they’ve moved on from the area. A result b elow 10 means you can’t find or access them this time. When you use this power, determine whether you are asking for a favor or for knowledge; it must relate to their purview.\n\nFavor: A favor may require persuasion depending on your past. Charisma checks and relevant skill checks to convince them gain a modifier based on the Social Mod of the check result (in addition to DM modifiers for the favor’s nature and size). You may raise their Influ ence / Access one row, but the Social Mod worsens by a further - 2 (you did not part on good terms). The DM may let this improve during play by doing favors for the NPC.\n\nKnowledge: Roll a knowledge check using your own stats to see if the contact can answer your question; if they can, gain a bonus to your next knowledge check while talking to them, as long as it is information they would reasonably know (often set by the Influence / Access column). Check Knowledge Social Result Bonus Influence / Access Mod 10 +0 Very low (common -3 pickpocket, beggar, slave, or ordinary citizen out of the game) 15 +1 Low (guild thief or -2 low-level goon, mundane but useful job like dock worker or tavern waitress) 20 +2 Med-Low (busy +0 shopkeep, maid or butler at an important place, city guard, second -story thief, lockpicker, or an unnoticed sneaky child) 25 +3 Med-High +0 (professional spy and information dealer, trusted guild member, smuggler, fence, someone with a basic network, poison crafter) 30 +4 High (well - +1 connected information dealer, guard to a very important place, local mob boss or smaller guild leader) 35 +5 Very high (mob boss +2 whose power crosses cities and planes, chief of security for a noble’s estate, extremely professional spy or assassin)\n\nSpecial: The first time you use this power, while in a populated settlement, choose a contact. The contact must be related to your past as an adventurer . Once chosen, you cannot change it until that contact is removed from the story in a way you could not reach them again (dies, sent to another plane, imprisoned, etc) or you retrain this power. You may choose this power again even if you already know it, to gain access to another contact. Underworld Contact Inspiration/Examples What does it mean that the contact relates to your past as a rogue? Here are some examples of some contacts for the Underworld Contact rogue power: a comrade from a guild (thieves’ or assassins’), a fence, a smuggler, an old boss, a former henchman, a corr upt guard who was on the take, an upright guard who used to arrest you but recognized your potential, a fellow wandering hobo or beggar, etc.",
         "title": "Underworld Contact"
       },
       "sharedData": {
@@ -13534,19 +13924,19 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Society.",
+                "text": "You must be at least Expert in Streetwise.",
                 "type": "effect"
               },
               {
                 "id": "rule-2",
                 "label": "Effect",
-                "text": "Make a Society check with a bonus equal to the higher of your Intelligence or +2 to reach out to an old contact in the area. Depending on the result, you find them if able, or you easily learn whether they’ve moved on from the area. A result b elow 10 means you can’t find or access them this time. When you use this power, determine whether you are asking for a favor or for knowledge; it must relate to their purview.",
+                "text": "Make a Streetwise check with a bonus equal to the higher of your Intelligence or +2 to reach out to an old contact in the area. Depending on the result, you find them if able, or you easily learn whether they’ve moved on from the area. A result b elow 10 means you can’t find or access them this time. When you use this power, determine whether you are asking for a favor or for knowledge; it must relate to their purview.",
                 "type": "effect"
               },
               {
                 "id": "rule-3",
                 "label": "Favor",
-                "text": "A favor may require persuasion depending on your past. Diplomacy and similar social rolls to convince them gain a modifier based on the Social Mod of the check result (in addition to DM modifiers for the favor’s nature and size). You may raise their Influ ence / Access one row, but the Social Mod worsens by a further - 2 (you did not part on good terms). The DM may let this improve during play by doing favors for the NPC.",
+                "text": "A favor may require persuasion depending on your past. Charisma checks and relevant skill checks to convince them gain a modifier based on the Social Mod of the check result (in addition to DM modifiers for the favor’s nature and size). You may raise their Influ ence / Access one row, but the Social Mod worsens by a further - 2 (you did not part on good terms). The DM may let this improve during play by doing favors for the NPC.",
                 "type": "effect"
               },
               {
@@ -13623,7 +14013,7 @@
           "entryId": "rogue-6-underworld-contact",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Society | Level 6",
+        "subtitle": "Streetwise | Level 6",
         "title": "Underworld Contact",
         "utilitySection": {
           "availability": "AVAILABLE",
@@ -13682,7 +14072,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Experience has taught you the sound, feel, or look of a trap that has been triggered, and at this point your muscles jump into action before you can even think about it.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: A trap or hazard is triggered that attacks an ally.\n\nTarget: One ally attacked by the trap or hazard who is adjacent to you after the shift\n\nPrerequisite: You must be proficient in Acrobatics.\n\nEffect: Shift 3 squares. You and the target each gain a +3 bonus to AC or Reflex (your choice; the same defense for both) against the triggering attack, and you both fall prone. If you are holding a shield, the bonus is +4 instead, it applies to all of your defens es, and neither of you falls prone.",
+        "description": "Experience has taught you the sound, feel, or look of a trap that has been triggered, and at this point your muscles jump into action before you can even think about it.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: A trap or hazard is triggered that attacks an ally.\n\nTarget: One ally attacked by the trap or hazard who is adjacent to you after the shift\n\nPrerequisite: You must be at least Expert in Acrobatics.\n\nEffect: Shift 3 squares. You and the target each gain a +3 bonus to AC or Reflex (your choice; the same defense for both) against the triggering attack, and you both fall prone. If you are holding a shield, the bonus is +4 instead, it applies to all of your defens es, and neither of you falls prone.",
         "title": "Trap Instincts"
       },
       "sharedData": {
@@ -13703,7 +14093,7 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Acrobatics.",
+                "text": "You must be at least Expert in Acrobatics.",
                 "type": "effect"
               },
               {
@@ -13834,7 +14224,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A whistle here, a warble there — a private language hidden in the ordinary sounds of the wild.\n\nDAILY / STANDARD\n\nPersonal\n\nRequirement: You must currently be taking a short or extended rest in an area with local wildlife that makes sounds.\n\nPrerequisite: You must be proficient in Nature.\n\nEffect: You establish a set of signals that you and any allies resting with you understand. Choose up to 10 different signals and the message or phrase they are trying to communicate. They sound exactly like the local wildlife. You can make such sounds without mak ing a check, and they can be heard up to 1000 feet away. After hearing it, an ally can make a Normal DC Nature or Perception check to determine your general distance away and direction. Your allies that were resting with you when you used this power must m ake a Nature check based on your level - Easy if the area has a lot of low level wildlife, or a Medium Nature check if it has barely any or only high level wildlife - in order to gain access to the same calls. You and your allies can use these calls to mak e these signals until the next time you use this power, although they are only useful while near the current environment. Per the DM's prerogative, dense, forested areas, noisy wind, or other similar areas that can shorten sound may shorten the distance it can be heard up to half. Optimal conditions, such as an open area with soft wind to carry sound, or an echoing space, may increase the distance the calls can be heard up to 1 mile. Bird Call Signal Examples Some example signals you and your allies might establish: “Danger”, “Help!”, “Come back quick!”, “Run away!”, “All clear”, “Enemy spotted, move in”, “Enemy spotted, hide.”",
+        "description": "A whistle here, a warble there — a private language hidden in the ordinary sounds of the wild.\n\nDAILY / STANDARD\n\nPersonal\n\nRequirement: You must currently be taking a short or extended rest in an area with local wildlife that makes sounds.\n\nPrerequisite: You must be at least Trained in Nature.\n\nEffect: You establish a set of signals that you and any allies resting with you understand. Choose up to 10 different signals and the message or phrase they are trying to communicate. They sound exactly like the local wildlife. You can make such sounds without mak ing a check, and they can be heard up to 1000 feet away. After hearing it, an ally can make a Normal DC Nature check to determine your general distance away and direction. Your allies that were resting with you when you used this power must m ake a Nature check based on your level - Easy if the area has a lot of low level wildlife, or a Medium Nature check if it has barely any or only high level wildlife - in order to gain access to the same calls. You and your allies can use these calls to mak e these signals until the next time you use this power, although they are only useful while near the current environment. Per the DM's prerogative, dense, forested areas, noisy wind, or other similar areas that can shorten sound may shorten the distance it can be heard up to half. Optimal conditions, such as an open area with soft wind to carry sound, or an echoing space, may increase the distance the calls can be heard up to 1 mile. Bird Call Signal Examples Some example signals you and your allies might establish: “Danger”, “Help!”, “Come back quick!”, “Run away!”, “All clear”, “Enemy spotted, move in”, “Enemy spotted, hide.”",
         "title": "Bird Calls"
       },
       "sharedData": {
@@ -13850,13 +14240,13 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Nature.",
+                "text": "You must be at least Trained in Nature.",
                 "type": "effect"
               },
               {
                 "id": "rule-3",
                 "label": "Effect",
-                "text": "You establish a set of signals that you and any allies resting with you understand. Choose up to 10 different signals and the message or phrase they are trying to communicate. They sound exactly like the local wildlife. You can make such sounds without mak ing a check, and they can be heard up to 1000 feet away. After hearing it, an ally can make a Normal DC Nature or Perception check to determine your general distance away and direction. Your allies that were resting with you when you used this power must m ake a Nature check based on your level - Easy if the area has a lot of low level wildlife, or a Medium Nature check if it has barely any or only high level wildlife - in order to gain access to the same calls. You and your allies can use these calls to mak e these signals until the next time you use this power, although they are only useful while near the current environment. Per the DM's prerogative, dense, forested areas, noisy wind, or other similar areas that can shorten sound may shorten the distance it can be heard up to half. Optimal conditions, such as an open area with soft wind to carry sound, or an echoing space, may increase the distance the calls can be heard up to 1 mile. Bird Call Signal Examples Some example signals you and your allies might establish: “Danger”, “Help!”, “Come back quick!”, “Run away!”, “All clear”, “Enemy spotted, move in”, “Enemy spotted, hide.”",
+                "text": "You establish a set of signals that you and any allies resting with you understand. Choose up to 10 different signals and the message or phrase they are trying to communicate. They sound exactly like the local wildlife. You can make such sounds without mak ing a check, and they can be heard up to 1000 feet away. After hearing it, an ally can make a Normal DC Nature check to determine your general distance away and direction. Your allies that were resting with you when you used this power must m ake a Nature check based on your level - Easy if the area has a lot of low level wildlife, or a Medium Nature check if it has barely any or only high level wildlife - in order to gain access to the same calls. You and your allies can use these calls to mak e these signals until the next time you use this power, although they are only useful while near the current environment. Per the DM's prerogative, dense, forested areas, noisy wind, or other similar areas that can shorten sound may shorten the distance it can be heard up to half. Optimal conditions, such as an open area with soft wind to carry sound, or an echoing space, may increase the distance the calls can be heard up to 1 mile. Bird Call Signal Examples Some example signals you and your allies might establish: “Danger”, “Help!”, “Come back quick!”, “Run away!”, “All clear”, “Enemy spotted, move in”, “Enemy spotted, hide.”",
                 "type": "effect"
               }
             ],
@@ -13981,7 +14371,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You stun and terrify onlookers with your risky and brave maneuvers.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You succeed a Medium or Hard skill check that involves Strength or Dexterity, or use such a skill check to bypass difficult or hindering terrain, or a similar danger.\n\nPrerequisite: You must be proficient in Intimidate.\n\nEffect: You may make an immediate Intimidate check with a +2 bonus (even if it would normally take a standard action).",
+        "description": "You stun and terrify onlookers with your risky and brave maneuvers.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You succeed a Medium or Hard skill check that involves Strength or Dexterity, or use such a skill check to bypass difficult or hindering terrain, or a similar danger.\n\nPrerequisite: You must be at least Trained in Command.\n\nEffect: You may make an immediate Command check with a +2 bonus (even if it would normally take a standard action).",
         "title": "Intimidating Stunt"
       },
       "sharedData": {
@@ -13997,13 +14387,13 @@
               {
                 "id": "rule-1",
                 "label": "Prerequisite",
-                "text": "You must be proficient in Intimidate.",
+                "text": "You must be at least Trained in Command.",
                 "type": "effect"
               },
               {
                 "id": "rule-3",
                 "label": "Effect",
-                "text": "You may make an immediate Intimidate check with a +2 bonus (even if it would normally take a standard action).",
+                "text": "You may make an immediate Command check with a +2 bonus (even if it would normally take a standard action).",
                 "type": "effect"
               }
             ],
@@ -14068,7 +14458,7 @@
           "entryId": "warlord-2-intimidating-stunt",
           "publication": "Modern 4e utility adaptation"
         },
-        "subtitle": "Intimidate | Level 2",
+        "subtitle": "Command | Level 2",
         "title": "Intimidating Stunt",
         "utilitySection": {
           "availability": "AVAILABLE",

@@ -36,8 +36,11 @@ class SampleTest(unittest.TestCase):
             self.assertEqual(samples.fingerprint(definitions[selection['entryId']]), selection['acknowledgedFingerprint'])
         self.assertIn('modern4e.path.notorious-celebrity', [e['selection']['entryId'] for e in rows[11]['entries']])
         self.assertEqual([9, 15, 19], [level for level, row in rows.items() if row.get('replacements')])
-        self.assertEqual({4: 'CONSTITUTION', 12: 'DEXTERITY'}, {level: next(iter(row['abilityAdvancements'][0]['increases']))
-                                                              for level, row in rows.items() if row.get('abilityAdvancements')})
+        self.assertEqual(
+            {level: [{'slot': dict(sourceInstanceId=f'advancement.{level}', choiceId='ability', ordinal=0),
+                      'increases': dict(STRENGTH=1, DEXTERITY=1)}] for level in (8, 14)},
+            {level: row['abilityAdvancements'] for level, row in rows.items() if row.get('abilityAdvancements')},
+        )
         self.assertEqual(4, len(rows[4]['values']))
         self.assertTrue(any(definitions[s['entryId']]['mechanics'].get('multiclassFor') for s in selections))
 

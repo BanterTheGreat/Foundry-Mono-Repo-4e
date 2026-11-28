@@ -125,7 +125,7 @@ class ProductionContentPackagesTest {
         assertEquals(13, catalog.search(category = EntryCategory.ANCESTRY).count { it.supplier.packageId == "modern4e.ancestries" })
         assertEquals(9, catalog.search(category = EntryCategory.THEME).count { it.supplier.packageId == "modern4e.themes" })
         assertEquals(798, catalog.search(category = EntryCategory.FEAT).count { it.supplier.packageId == "modern4e.feats" })
-        assertEquals(60, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.equipment" })
+        assertEquals(61, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.equipment" })
         assertEquals(1046, catalog.search(category = EntryCategory.POWER).count { it.supplier.packageId == "modern4e.utilities" })
         assertEquals(83, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.rituals" })
         assertEquals(79, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.formulas" })
@@ -264,7 +264,7 @@ class ProductionContentPackagesTest {
         val before = operations.evaluate(sample).rules
         val after = result.state.rules
         assertEquals(12, assertIs<ContractResult.Available<CalculatedValue>>(before.displayedDefense(Statistic.AC)).value.total)
-        assertEquals(16, assertIs<ContractResult.Available<CalculatedValue>>(after.displayedDefense(Statistic.AC)).value.total)
+        assertEquals(15, assertIs<ContractResult.Available<CalculatedValue>>(after.displayedDefense(Statistic.AC)).value.total)
         val ac = ModifierTarget(Statistic.AC)
         assertEquals(before.statistics - ac, after.statistics - ac)
     }

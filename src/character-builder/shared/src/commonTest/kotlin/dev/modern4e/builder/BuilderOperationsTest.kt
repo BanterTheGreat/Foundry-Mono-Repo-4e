@@ -103,9 +103,9 @@ class BuilderOperationsTest {
         val plannedPower = select(ops, plannedFeat, 2, utilitySlot, power.id, "utility")
         val training = ProficiencyChoice(ChoiceSlotId("fighter", "skill", 0), Skill.ACROBATICS)
         val language = ValueChoice(ChoiceSlotId("fighter", "language", 0), "elven")
-        val increase = AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.DEXTERITY to 1))
+        val increase = AbilityAdvancement(AdvancementRules.abilitySlot(8), mapOf(Ability.DEXTERITY to 1, Ability.STRENGTH to 1))
         val planned = ops.apply(plannedPower, BuilderEdit.Batch(listOf(
-            BuilderEdit.Proficiency(4, training), BuilderEdit.Value(4, language), BuilderEdit.Advancement(4, increase))))
+            BuilderEdit.Proficiency(4, training), BuilderEdit.Value(4, language), BuilderEdit.Advancement(8, increase))))
         assertTrue(planned.applied, planned.diagnostics.toString())
         assertEquals(1, planned.state.document.level)
         assertEquals(currentRules, planned.state.rules)
@@ -122,7 +122,7 @@ class BuilderOperationsTest {
         assertTrue(Skill.ACROBATICS in levelFour.state.rules.proficiencies)
         assertTrue(levelFour.state.rules.facts.any { it.kind == FactKind.LANGUAGE && it.value == "elven" })
         assertEquals(currentRules.overviewAbilityTotals.getValue(Ability.DEXTERITY) + 1,
-            levelFour.state.rules.overviewAbilityTotals.getValue(Ability.DEXTERITY))
+            ops.apply(reopened, BuilderEdit.Level(8)).state.rules.overviewAbilityTotals.getValue(Ability.DEXTERITY))
     }
 
     @Test fun proficiencyEditsKeepTheirAcquisitionLevelAfterAdvancing() = run {
@@ -145,7 +145,7 @@ class BuilderOperationsTest {
         assertEquals(5, raised.state.document.level)
         assertEquals((1..5).toList(), raised.state.document.levels.map { it.level }.sorted())
         assertTrue(raised.state.document.levels.filter { it.level > 1 }.all { it.entries.isEmpty() && it.abilityAdvancements.isEmpty() })
-        assertTrue(raised.state.rules.diagnostics.any { it.code == "engine.missingAdvancement" })
+        assertFalse(raised.state.rules.diagnostics.any { it.code == "engine.missingAdvancement" })
         assertIs<ContractResult.Available<String>>(ContractCodec.encodeChecked(raised.state.document))
         val same = ops.apply(raised.state.document, BuilderEdit.Level(5))
         assertTrue(same.applied)
@@ -153,6 +153,8 @@ class BuilderOperationsTest {
         val top = ops.apply(raised.state.document, BuilderEdit.Level(30))
         assertTrue(top.applied, top.diagnostics.toString())
         assertEquals((1..30).toList(), top.state.document.levels.map { it.level }.sorted())
+        assertEquals(listOf(8, 14, 28).map(AdvancementRules::abilitySlot),
+            top.state.rules.diagnostics.filter { it.code == "engine.missingAdvancement" }.map { it.slot })
         assertFalse(ops.apply(raised.state.document, BuilderEdit.Level(0)).applied)
         assertFalse(ops.apply(top.state.document, BuilderEdit.Level(31)).applied)
         assertEquals(29, ops.apply(top.state.document, BuilderEdit.Level(29)).state.document.level)
@@ -164,13 +166,13 @@ class BuilderOperationsTest {
         val ops = operations()
         var document = create(ops, 19)
         document = select(ops, document, 1, ChoiceSlotId("creation", "class", 0), "fighter", "fighter")
-        val increase = AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.DEXTERITY to 1))
-        val changed = ops.apply(document, BuilderEdit.Advancement(4, increase))
+        val increase = AbilityAdvancement(AdvancementRules.abilitySlot(8), mapOf(Ability.DEXTERITY to 1, Ability.STRENGTH to 1))
+        val changed = ops.apply(document, BuilderEdit.Advancement(8, increase))
         assertTrue(changed.applied)
-        assertEquals(listOf(increase), changed.state.document.levels.single { it.level == 4 }.abilityAdvancements)
-        assertFalse(ops.apply(document, BuilderEdit.Advancement(4, increase.copy(increases = mapOf(Ability.STRENGTH to 1)))).applied)
-        assertFalse(ops.apply(document, BuilderEdit.Advancement(8, increase)).applied)
-        val cleared = ops.apply(changed.state.document, BuilderEdit.Advancement(4, null))
+        assertEquals(listOf(increase), changed.state.document.levels.single { it.level == 8 }.abilityAdvancements)
+        assertFalse(ops.apply(document, BuilderEdit.Advancement(8, increase.copy(increases = mapOf(Ability.STRENGTH to 2)))).applied)
+        assertFalse(ops.apply(document, BuilderEdit.Advancement(14, increase)).applied)
+        val cleared = ops.apply(changed.state.document, BuilderEdit.Advancement(8, null))
         assertTrue(cleared.applied)
         assertTrue(cleared.state.rules.diagnostics.any { it.code == "engine.missingAdvancement" && it.slot == increase.slot })
         for (at in (1..19).filter(AdvancementRules::replacesDailyAttack)) {

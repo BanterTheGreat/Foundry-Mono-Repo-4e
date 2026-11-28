@@ -230,8 +230,9 @@ def regression_assets(packages=None):
     for level, instance, entry_id in REGRESSION_POWERS:
         rows[level]['entries'].append(dict(instanceId=instance, slot=slot('fighter', 'modern4e.choice.class-' + instance),
                                            selection=saved(entry_id)))
-    for level, ability in [(4, 'CONSTITUTION'), (12, 'DEXTERITY')]:
-        rows[level]['abilityAdvancements'] = [dict(slot=slot(f'advancement.{level}', 'ability'), increases={ability: 1})]
+    for level in (8, 14):
+        rows[level]['abilityAdvancements'] = [dict(slot=slot(f'advancement.{level}', 'ability'),
+                                                  increases=dict(STRENGTH=1, DEXTERITY=1))]
     rows[4]['values'] = [dict(slot=slot('feat-4', 'modern4e.choice.linguist.languages', ordinal), value=language)
                          for ordinal, language in enumerate(['DRACONIC', 'ELVEN', 'GIANT'])] + [
                          dict(slot=slot('feat-4', 'modern4e.choice.linguist.skill-bonus'), value='DIPLOMACY')]

@@ -50,12 +50,12 @@ class Level19AcceptanceTest {
         val operations = BuilderOperations(catalog)
         var state = operations.apply(initial, BuilderEdit.Level(19)).also { assertTrue(it.applied) }.state
         state = operations.apply(state.document, BuilderEdit.Batch(listOf(
-            BuilderEdit.Advancement(4, AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.CONSTITUTION to 1))),
-            BuilderEdit.Advancement(12, AbilityAdvancement(AdvancementRules.abilitySlot(12), mapOf(Ability.DEXTERITY to 1))),
+            BuilderEdit.Advancement(8, AbilityAdvancement(AdvancementRules.abilitySlot(8), mapOf(Ability.STRENGTH to 1, Ability.CONSTITUTION to 1))),
+            BuilderEdit.Advancement(14, AbilityAdvancement(AdvancementRules.abilitySlot(14), mapOf(Ability.STRENGTH to 1, Ability.DEXTERITY to 1))),
         ))).also { assertTrue(it.applied, it.diagnostics.toString()) }.state
         assertEquals(6, state.rules.overviewAbilityTotals.getValue(Ability.STRENGTH))
-        assertEquals(4, state.rules.overviewAbilityTotals.getValue(Ability.CONSTITUTION))
-        assertEquals(4, state.rules.overviewAbilityTotals.getValue(Ability.DEXTERITY))
+        assertEquals(3, state.rules.overviewAbilityTotals.getValue(Ability.CONSTITUTION))
+        assertEquals(3, state.rules.overviewAbilityTotals.getValue(Ability.DEXTERITY))
         assertFalse(state.rules.diagnostics.any { it.code == "engine.progressionUnsupported" })
 
         val powers = catalog.search(category = EntryCategory.POWER, classIds = initial.classEntryIds())

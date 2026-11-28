@@ -1,8 +1,8 @@
-# Level progression through 20
+# Level progression and 2.0 abilities
 
-Android and the shared engine support the local advancement schedule through level 20: earned feat slots, class power acquisition, level-11 paragon paths, non-main ability choices at 4 and 12, automatic main increases at 8 and 20 and an all-ability increase at 16, the level-20 Paragon feat slot and path daily, and daily replacements at 9, 15 and 19. Later choices use the shared editor and eligibility checks and retain portable occurrence identities. Equipment Choices omits its former Stats button.
+Android and the shared engine support feats, class power acquisition and paragon paths through level 20. Ability advancement follows the 2.0 schedule through level 30. Choose two distinct abilities to increase by one at levels 8, 14 and 28. Level 21 increases all six by one. Future picks remain saved when you lower a character's level. Armor Class, Fortitude, Reflex and Will use the 2.0 defense formulas, and Android Equipment accepts armor and neck enhancement values.
 
-Production includes class attacks through level 19, structured Zeitgeist paths and the 205 class paragon paths (all 19 classes) with their features and level 11/12/20 powers. Levels previews authored future grants from selected sources. About counts the powers already acquired, and Stats tracks known rituals and alchemical formulas. Combat execution, unspecified retraining allowances, and levels 21–30 remain incomplete. Historical milestone notes below describe earlier scope.
+Production includes class attacks through level 19, structured Zeitgeist paths and the 205 class paragon paths (all 19 classes) with their features and level 11/12/20 powers. Levels previews authored future grants from selected sources. About counts the powers already acquired, and Stats tracks known rituals and alchemical formulas. Combat execution, unspecified retraining allowances, and other level 21 through 30 features remain incomplete. Historical milestone notes below describe earlier scope.
 
 Validate from this directory with `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. Device UI tests are opt-in. See [test commands](../../tests/README.md) and [choice contracts](CHOICES.md).
 

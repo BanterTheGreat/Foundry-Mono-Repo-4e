@@ -45,10 +45,6 @@
           ],
           "statistics": {
             "FORTITUDE": {
-              "abilities": {
-                "CONSTITUTION": 1,
-                "STRENGTH": 1
-              },
               "base": 13
             },
             "HEALING_SURGES": {
@@ -66,17 +62,9 @@
               "perLevel": 7
             },
             "REFLEX": {
-              "abilities": {
-                "DEXTERITY": 1,
-                "INTELLIGENCE": 1
-              },
               "base": 11
             },
             "WILL": {
-              "abilities": {
-                "CHARISMA": 1,
-                "WISDOM": 1
-              },
               "base": 11
             }
           }
@@ -209,6 +197,10 @@
           "constraints": [],
           "maximum": 1
         },
+        "skillTraining": [
+          "ATHLETICS",
+          "ACROBATICS"
+        ],
         "statistics": {
           "defenses": {
             "FORTITUDE": 13,

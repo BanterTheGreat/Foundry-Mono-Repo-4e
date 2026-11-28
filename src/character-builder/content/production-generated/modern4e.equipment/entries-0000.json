@@ -25,7 +25,7 @@
         "version": 2
       },
       "presentation": {
-        "description": "Armor. Proficiency: Chainmail.\nCategory: Heavy.\nArmor bonus: +6.\nSpeed modifier: -1.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "description": "Armor. Proficiency: Chainmail.\nCategory: Heavy.\nArmor bonus: +5.\nSpeed modifier: -1.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
         "title": "Chainmail"
       },
       "sharedData": {
@@ -50,7 +50,8 @@
           "status": "UNIMPLEMENTED"
         },
         "equipment": {
-          "armorBonus": 6,
+          "acAbilityCap": 0,
+          "armorBonus": 5,
           "armorCategory": "HEAVY",
           "armorCheckModifier": 0,
           "kind": "ARMOR",
@@ -90,7 +91,7 @@
         "version": 2
       },
       "presentation": {
-        "description": "Armor. Proficiency: Cloth.\nCategory: Light.\nArmor bonus: 0.\nLight armor ability: Highest of Intelligence, Dexterity.\nSpeed modifier: 0.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "description": "Armor. Proficiency: Cloth.\nCategory: Light.\nArmor bonus: 0.\nLight armor ability: Highest of Intelligence, Dexterity, up to +3.\nSpeed modifier: 0.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
         "title": "Cloth"
       },
       "sharedData": {
@@ -115,6 +116,7 @@
           "status": "UNIMPLEMENTED"
         },
         "equipment": {
+          "acAbilityCap": 3,
           "armorBonus": 0,
           "armorCategory": "LIGHT",
           "armorCheckModifier": 0,
@@ -155,7 +157,7 @@
         "version": 2
       },
       "presentation": {
-        "description": "Armor. Proficiency: Hide.\nCategory: Light.\nArmor bonus: +3.\nLight armor ability: Highest of Intelligence, Dexterity.\nSpeed modifier: 0.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "description": "Armor. Proficiency: Hide.\nCategory: Light.\nArmor bonus: +3.\nLight armor ability: Highest of Intelligence, Dexterity, up to +3.\nSpeed modifier: 0.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
         "title": "Hide"
       },
       "sharedData": {
@@ -180,6 +182,7 @@
           "status": "UNIMPLEMENTED"
         },
         "equipment": {
+          "acAbilityCap": 3,
           "armorBonus": 3,
           "armorCategory": "LIGHT",
           "armorCheckModifier": 0,
@@ -220,7 +223,7 @@
         "version": 2
       },
       "presentation": {
-        "description": "Armor. Proficiency: Leather.\nCategory: Light.\nArmor bonus: +2.\nLight armor ability: Highest of Intelligence, Dexterity.\nSpeed modifier: 0.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "description": "Armor. Proficiency: Leather.\nCategory: Light.\nArmor bonus: +2.\nLight armor ability: Highest of Intelligence, Dexterity, up to +3.\nSpeed modifier: 0.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
         "title": "Leather"
       },
       "sharedData": {
@@ -245,6 +248,7 @@
           "status": "UNIMPLEMENTED"
         },
         "equipment": {
+          "acAbilityCap": 3,
           "armorBonus": 2,
           "armorCategory": "LIGHT",
           "armorCheckModifier": 0,
@@ -285,7 +289,7 @@
         "version": 2
       },
       "presentation": {
-        "description": "Armor. Proficiency: Plate.\nCategory: Heavy.\nArmor bonus: +9.\nSpeed modifier: -1.\nArmor check modifier: -1.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "description": "Armor. Proficiency: Plate.\nCategory: Heavy.\nArmor bonus: +7.\nSpeed modifier: -1.\nArmor check modifier: -1.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
         "title": "Plate"
       },
       "sharedData": {
@@ -310,7 +314,8 @@
           "status": "UNIMPLEMENTED"
         },
         "equipment": {
-          "armorBonus": 9,
+          "acAbilityCap": 0,
+          "armorBonus": 7,
           "armorCategory": "HEAVY",
           "armorCheckModifier": -1,
           "kind": "ARMOR",
@@ -350,7 +355,7 @@
         "version": 2
       },
       "presentation": {
-        "description": "Armor. Proficiency: Scale.\nCategory: Heavy.\nArmor bonus: +7.\nSpeed modifier: -1.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "description": "Armor. Proficiency: Scale.\nCategory: Heavy.\nArmor bonus: +6.\nSpeed modifier: -1.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
         "title": "Scale"
       },
       "sharedData": {
@@ -375,7 +380,8 @@
           "status": "UNIMPLEMENTED"
         },
         "equipment": {
-          "armorBonus": 7,
+          "acAbilityCap": 0,
+          "armorBonus": 6,
           "armorCategory": "HEAVY",
           "armorCheckModifier": 0,
           "kind": "ARMOR",
@@ -673,6 +679,46 @@
         "id": "modern4e.implement.wand",
         "presentation": {
           "title": "Wand"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Records the equipped neck enhancement for Fortitude, Reflex and Will. Other item properties remain manual."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.neck.item",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "The equipped enhancement adds to Fortitude, Reflex and Will.",
+        "title": "Neck Item"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "equipment": {
+          "kind": "NECK"
+        },
+        "id": "modern4e.neck.item",
+        "presentation": {
+          "title": "Neck Item"
         },
         "propertyDefinitions": []
       }

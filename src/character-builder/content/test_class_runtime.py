@@ -49,7 +49,7 @@ class ClassRuntimeTest(unittest.TestCase):
             self.assertEqual("modern4e.feat.technique-master", grant["entryId"])
             self.assertEqual(["modern4e.feat.alchemist"], grant["replacementEntryIds"])
             self.assertEqual(1, grant["atLevel"])
-            self.assertIn("manual", " ".join(entries[entry_id]["coverage"]["limitations"]))
+            self.assertIn("Known rituals and formulas are tracked in Stats.", " ".join(entries[entry_id]["coverage"]["limitations"]))
             self.assertEqual([], entries[entry_id]["mechanics"]["choices"])
 
     def test_invalid_or_duplicate_grant_substitutions_are_rejected_at_authoring(self):
@@ -77,7 +77,11 @@ class ClassRuntimeTest(unittest.TestCase):
         entries = {e["id"]: e for e in chunk["entries"]}
         fighter = entries["modern4e.class.fighter"]
         self.assertEqual(4, len(fighter["mechanics"]["grants"]))
-        self.assertEqual(18, fighter["mechanics"]["classProfile"]["statistics"]["HIT_POINTS"]["base"])
+        statistics = fighter["mechanics"]["classProfile"]["statistics"]
+        self.assertEqual(18, statistics["HIT_POINTS"]["base"])
+        self.assertEqual({"base": 13}, statistics["FORTITUDE"])
+        self.assertEqual({"base": 11}, statistics["REFLEX"])
+        self.assertEqual({"base": 11}, statistics["WILL"])
         for name in ("fighter-reactivity", "fighter-specialization"):
             feature = entries["modern4e.feature." + name]
             self.assertEqual("CHOICE_INTRODUCTION", feature["presentation"]["grantDisplay"])

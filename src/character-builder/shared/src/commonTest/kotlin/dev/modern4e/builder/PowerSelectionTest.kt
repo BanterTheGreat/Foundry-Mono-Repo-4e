@@ -222,9 +222,9 @@ class PowerSelectionTest {
             val initial = character(root, listOf(first, second), 19)
             val lateHistory = Replacement(first.slot, decision(nineteen, first.slot), ReplacementKind.PROGRESSION)
             val document = initial.copy(levels = initial.levels + listOf(
-                LevelDecisions(4, abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.STRENGTH to 1)))),
+                LevelDecisions(8, abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(8), mapOf(Ability.STRENGTH to 1, Ability.WISDOM to 1)))),
                 LevelDecisions(9, replacements = listOf(Replacement(first.slot, decision(nine, first.slot), ReplacementKind.PROGRESSION))),
-                LevelDecisions(12, abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(12), mapOf(Ability.STRENGTH to 1)))),
+                LevelDecisions(14, abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(14), mapOf(Ability.STRENGTH to 1, Ability.WISDOM to 1)))),
                 LevelDecisions(19, replacements = listOf(lateHistory))))
             val importedInvalid = document.copy(levels = document.levels.map { row ->
                 if (row.level == 9) row.copy(replacements = listOf(Replacement(first.slot, decision(nineteen, first.slot), ReplacementKind.PROGRESSION))) else row

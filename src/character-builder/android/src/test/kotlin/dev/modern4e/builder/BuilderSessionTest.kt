@@ -321,19 +321,33 @@ class BuilderSessionTest {
         assertTrue(document.packages.none { it.packageId.contains("proof") || it.packageId.startsWith("test.") })
     }
     @Test fun laterProgressionUsesValidatedAdvancementAndReopens() = runBlocking {
-        val document = sample().copy(id = "later-progression", level = 4)
+        val document = sample().copy(id = "later-progression", level = 8)
         store.save(document, SaveMode.CREATE)
         val model = session()
         model.load(document.id)
-        val advancement = AbilityAdvancement(ChoiceSlotId("advancement.4", "ability", 0), mapOf(Ability.WISDOM to 1))
-        model.edit(BuilderEdit.Advancement(4, advancement))
+        val pair = mapOf(Ability.WISDOM to 1, Ability.STRENGTH to 1)
+        val advancement = AbilityAdvancement(AdvancementRules.abilitySlot(8), pair)
+        val epic = AbilityAdvancement(AdvancementRules.abilitySlot(28), pair)
+        val starting = model.current!!.rules.overviewAbilityTotals.getValue(Ability.WISDOM)
+        model.edit(BuilderEdit.Advancement(8, advancement))
+        model.edit(BuilderEdit.Advancement(14, AbilityAdvancement(AdvancementRules.abilitySlot(14), pair)))
+        model.edit(BuilderEdit.Advancement(28, epic))
         assertTrue(model.errors.isEmpty())
-        assertEquals(1, model.current!!.rules.overviewAbilityTotals.getValue(Ability.WISDOM))
+        assertEquals(starting + 1, model.current!!.rules.overviewAbilityTotals.getValue(Ability.WISDOM))
         assertFalse(model.current!!.rules.diagnostics.any { it.code in setOf("engine.abilityAdvancement", "engine.missingAdvancement") })
+
         val reopened = session()
         reopened.load(document.id)
-        assertEquals(advancement, reopened.current!!.document.levels.single { it.level == 4 }.abilityAdvancements.single())
-        assertTrue(reopened.progressionOptions(4, ChoiceSlotId("advancement.4", "feat", 0)).isNotEmpty())
+        val levels = reopened.current!!.document.levels
+        assertEquals(advancement, levels.single { it.level == 8 }.abilityAdvancements.single())
+        assertEquals(epic, levels.single { it.level == 28 }.abilityAdvancements.single())
+        reopened.edit(BuilderEdit.Level(28))
+        assertEquals(starting + 4, reopened.current!!.rules.overviewAbilityTotals.getValue(Ability.WISDOM))
+        reopened.edit(BuilderEdit.Level(7))
+        assertEquals(starting, reopened.current!!.rules.overviewAbilityTotals.getValue(Ability.WISDOM))
+        assertEquals(epic, reopened.current!!.document.levels.single { it.level == 28 }.abilityAdvancements.single())
+        reopened.edit(BuilderEdit.Level(28))
+        assertEquals(starting + 4, reopened.current!!.rules.overviewAbilityTotals.getValue(Ability.WISDOM))
     }
 
     @Test fun reachingParagonEnablesBundledPathsWithoutChangingSavedSuppliersOrOverrideOrder() = runBlocking {
@@ -1267,7 +1281,7 @@ class BuilderSessionTest {
         model.create("modern4e.class.wizard")
         val rules = model.current!!.rules
 
-        assertEquals("14", rules.defenseDisplay(Statistic.AC))
+        assertEquals("13", rules.defenseDisplay(Statistic.AC))
         assertEquals("12", rules.defenseDisplay(Statistic.FORTITUDE))
         assertEquals("16", rules.defenseDisplay(Statistic.REFLEX))
         assertEquals("14", rules.defenseDisplay(Statistic.WILL))

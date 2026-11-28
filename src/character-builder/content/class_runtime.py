@@ -95,10 +95,7 @@ def compile_entry(entry):
             mechanics["unsupported"].append("Ambiguous selectable power usage; excluded from query pools.")
     if entry["category"] == "CLASS":
         stats = entry["statistics"]
-        defense_abilities = {"FORTITUDE": ["STRENGTH", "CONSTITUTION"],
-                             "REFLEX": ["INTELLIGENCE", "DEXTERITY"], "WILL": ["WISDOM", "CHARISMA"]}
-        formulas = {name: {"base": value, "abilities": dict.fromkeys(defense_abilities[name], 1)}
-                    for name, value in stats["defenses"].items()}
+        formulas = {name: {"base": value} for name, value in stats["defenses"].items()}
         for name, source in [("HIT_POINTS", "health"), ("HEALING_SURGES", "healingSurges")]:
             formula = stats[source]
             formulas[name] = {"base": formula["base"], "perLevel": formula.get("perLevel", 0),

@@ -147,6 +147,39 @@ class EquipmentOptionsTest {
         assertTrue(options.ineligible.isEmpty())
     }
 
+    @Test fun armorDetailsAndDefenseEnhancementsUseTheEquipmentPickerAndSurviveReopen() = runBlocking {
+        val model = session()
+        model.create("modern4e.class.paladin")
+        val armor = model.equipmentOptions(EquipmentSlot.ARMOR)
+        val hide = armor.eligible.single { it.entry.id == "modern4e.armor.hide" }
+        val plate = armor.eligible.single { it.entry.id == "modern4e.armor.plate" }
+        assertTrue(hide.entry.presentation.description.contains("Armor bonus: +3."))
+        assertTrue(hide.entry.presentation.description.contains("up to +3."))
+        assertTrue(plate.entry.presentation.description.contains("Armor bonus: +7."))
+        assertTrue(plate.entry.presentation.description.contains("Speed modifier: -1."))
+        assertTrue(plate.entry.presentation.description.contains("Armor check modifier: -1."))
+        val neck = model.equipmentOptions(EquipmentSlot.NECK).eligible.single()
+        model.submitEquipment(EquipmentSlot.ARMOR, hide, enhancement = 2)
+        model.submitEquipment(EquipmentSlot.NECK, neck, enhancement = 3)
+        model.awaitSaved()
+        assertTrue(model.errors.isEmpty())
+        assertTrue(model.current!!.rules.diagnostics.none { it.code == "engine.equipmentConfiguration" })
+
+        val reopened = session()
+        reopened.load(model.current!!.document.id)
+        assertEquals(2, reopened.equipmentOptions(EquipmentSlot.ARMOR).selected?.defenseEnhancement)
+        assertEquals(3, reopened.equipmentOptions(EquipmentSlot.NECK).selected?.defenseEnhancement)
+        reopened.selectEquipment(EquipmentSlot.NECK, neck)
+        assertEquals(3, reopened.equipmentOptions(EquipmentSlot.NECK).selected?.defenseEnhancement)
+        reopened.selectEquipment(EquipmentSlot.ARMOR, plate)
+        assertEquals(0, reopened.equipmentOptions(EquipmentSlot.ARMOR).selected?.defenseEnhancement)
+        reopened.selectEquipment(EquipmentSlot.NECK, neck, enhancement = 0)
+        assertEquals(0, reopened.equipmentOptions(EquipmentSlot.NECK).selected?.defenseEnhancement)
+        reopened.selectEquipment(EquipmentSlot.NECK, null)
+        assertNull(reopened.equipmentOptions(EquipmentSlot.NECK).selected)
+        assertTrue(reopened.errors.isEmpty())
+    }
+
     @Test fun implementSelectionLinksTheSpecificWeaponAndCanSwitchToAStandaloneImplement() = runBlocking {
         val model = session()
         model.create("modern4e.class.wizard")

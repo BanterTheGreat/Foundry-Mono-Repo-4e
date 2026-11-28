@@ -17,25 +17,23 @@ their defaults, preserving legacy v1 serialization and `sha256-v1` fingerprints.
 The fingerprint algorithm includes every populated v2 field and preserved shared
 authoring data. Character documents remain v1: no ID mapping or migration occurs.
 
-`classProfile` supplies role, class power sources, direct main/secondary abilities,
-equipment proficiencies and closed linear formulas over level/direct abilities.
-The main-ability slot is `(class instance, "main", 0)`. Class HP, surges and three
-non-AC defenses use these formulas and return an explanation of every term.
-Missing/invalid dependencies, conflicting class profiles and integer overflow
-produce unavailable values. Fortitude, Reflex and Will include the default
-Modern 4e tier bonus once: +1 at levels 1-10, +2 at 11-20 and +3 at 21-30.
-Armor Class gets no tier bonus; it adds half the character level, rounded down, and is otherwise
-10 plus the greater of direct Dexterity
-or Intelligence points in light armor or without armor, plus the equipped
-armor's listed bonus. Heavy armor replaces the ability contribution. A proficient
-equipped shield adds its bonus to Armor Class and Reflex. Unproficient armor
-imposes a −2 Reflex penalty. Multiple equipped armor entries make Armor Class
-and Reflex unavailable. Known points support a Stats preview during unfinished
-creation choices. Class-specific non-AC defense bonuses are shown separately
-from the base 10 in their calculation contributors. Half level is added only to
-Armor Class; skill and non-AC defense formulas remain authored. Attacks and damage still have
-no default base. Allocation remains main 4/non-main budget 5/cap 2 with the
-optional trade.
+`classProfile` supplies role, class power sources, direct main and secondary abilities,
+equipment proficiencies, defense bases, and linear HP and surge formulas.
+The main-ability slot is `(class instance, "main", 0)`. Missing dependencies,
+conflicting class profiles and overflow make affected calculations unavailable.
+Fortitude, Reflex and Will add the higher ability in their pair, floored half
+level, equipped neck enhancement and the tier bonus of +1, +2 or +3.
+Armor Class adds floored half level, equipped armor bonus and enhancement,
+and a cumulative +1 at 5, 9, 13, 17, 19, 25, 27 and 29. Light or unarmored AC
+uses the best eligible ability, capped at +3. Dexterity and Intelligence are
+eligible by default, and Barbarian Agility, Primal Guardian and World Speaker
+Spirit add alternatives when active. Heavy armor omits the ability contribution.
+A proficient equipped shield adds to AC and Reflex. Unproficient armor applies
+a -2 Reflex penalty. Multiple equipped armor entries make AC and Reflex
+unavailable. The Stats breakdown displays each term and can preview defenses
+using known ability points during unfinished creation choices. Attacks and
+damage still have no default base. Starting allocation remains main 4,
+non-main budget 5 and cap 2 with the optional trade.
 
 Entry grants and finite entry choices activate at their absolute `atLevel`,
 independently of entry prerequisites. Automatically acquired entries are not
@@ -66,15 +64,19 @@ entries, inline choices, proficiency sources, coverage, diagnostics, conditional
 benefits and occurrence eligibility. Root offers and the offers' category,
 required, filled and listing fields are not serialized. No platform math is required.
 
-Modern 4e progression is evaluated through level 19. Starting allocation stays
-separate from earned increases: levels 4 and 12 require one non-main +1 decision,
-level 8 automatically increases the main ability by 1, and level 16 automatically
-increases all abilities by 1. Invalid or missing non-main decisions stay saved and
-make dependent totals unavailable; known previews still show earned valid points.
-Historical prerequisite snapshots include only increases earned by that level.
-Character feat roots follow the advancement schedule, including levels 11 and 17; the
+The builder evaluates the full progression schedule through level 20 and ability
+advancement through level 30. Starting allocation stays separate from earned
+increases. At levels 8, 14 and 28 each decision grants +1 to two distinct abilities.
+The same pair can recur at multiple milestones, and either pick can be the main
+ability. Level 21 automatically grants +1 to all six abilities. Invalid or missing
+earned decisions make dependent totals unavailable. Known previews retain valid
+earned points. Historical prerequisite snapshots use only increases earned by that
+level, and future ability choices remain in the save when the level is lowered.
+Saved choices from former levels 4, 12 and 24 are preserved for portability and
+have no effect on 2.0 totals. Character feat roots include levels 11 and 17. The
 paragon-path root is `advancement.11/paragon-path/0`. Authored path grants and
-choices activate at their declared acquisition levels. Levels 20–30 are preview only.
+choices activate at their declared acquisition levels. Other progression above
+level 20 remains preview only.
 
 `SharedClassTest` consumes the exact compiled Fighter golden on JVM/JS; the web
 boundary test consumes the same content. It covers all six independent build
@@ -237,24 +239,26 @@ and is acquired at the current level.
 
 `AdvancementRules.schedule` is the one advancement schedule for levels 1–30. Each
 `AdvancementLevel` holds the powers offered (kind and class, path or destiny source),
-whether a feat is gained, the ability increase (non-main, main or all), the
+whether a feat is gained, the ability increase (two chosen abilities or all six), the
 replacement (daily or encounter), the path or destiny selected and the path or
-destiny features granted. Levels 20–30 are `previewOnly`: shown for planning, never
-enforced, and they open no root slots. The engine reads automatic main/all increases,
-non-main decision levels, daily replacement levels and root categories from it, and
+destiny features granted. Levels 21–30 are `previewOnly`: shown for planning, and
+their ability advancement is the only part the engine applies or opens a root slot
+for. The engine reads automatic all-ability increases, paired decision levels, daily
+replacement levels and root categories from it, and
 `AdvancementRules.rootSlots(level)` gives the root slot identities and categories of
-each enforced level (`classSlot`/`ancestrySlot` serve document readers).
+each level (`classSlot`/`ancestrySlot` serve document readers).
 
 `EngineResult.choices` holds every slot offer. Inner offers, opened by entries, keep
 their `INLINE` listing and evaluated `entries` unchanged. Root offers follow them:
-class, ancestry, theme and the creation feat, then by level the non-main increase,
-feat, paragon path and daily replacement up to the character's level (at most 19).
+class, ancestry, theme and the creation feat, then by level the chosen ability increases,
+feat, paragon path and daily replacement up to the character's level. Above level 20
+only the level-28 ability increase adds a root offer.
 Each carries its `category` (`SlotCategory.Entry`, `AbilityIncrease` or
 `Replacement`), acquisition level, `required = true` and a `DEFERRED` listing: its
 candidates are never evaluated during `evaluate` and come only from
 `BuilderOptionListing` when asked for, so the prepared feat fast path and progressive
 feat listing are untouched. `filled` is true when the slot holds a saved decision;
-an ability increase counts only when it is a valid non-main increase, a replacement
+an ability increase counts only when it is a valid pair of distinct +1 increases, a replacement
 milestone when a progression replacement is recorded at its level. Inner entry,
 proficiency and value offers are required unless optional; the main-ability offer is
 filled by the allocation and is not required. An unfilled root entry or replacement

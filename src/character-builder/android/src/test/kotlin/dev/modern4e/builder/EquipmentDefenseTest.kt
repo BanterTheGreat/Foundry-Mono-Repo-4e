@@ -24,20 +24,20 @@ class EquipmentDefenseTest {
         val session = BuilderSession(store, source) { unarmored }
         session.create()
         val characterId = checkNotNull(session.current).document.id
-        session.assertDefenses(ac = "12", reflex = "15")
+        session.assertDefenses(ac = "12", reflex = "14")
 
         session.equip(EquipmentSlot.ARMOR, "modern4e.armor.scale")
-        session.assertDefenses(ac = "17", reflex = "15")
+        session.assertDefenses(ac = "16", reflex = "14")
         session.equip(EquipmentSlot.SHIELD, "modern4e.shield.heavy-shield")
-        session.assertDefenses(ac = "19", reflex = "17")
+        session.assertDefenses(ac = "18", reflex = "16")
         session.equip(EquipmentSlot.ARMOR, "modern4e.armor.leather")
-        session.assertDefenses(ac = "16", reflex = "17")
+        session.assertDefenses(ac = "16", reflex = "16")
         session.equip(EquipmentSlot.SHIELD, "modern4e.shield.light-shield")
-        session.assertDefenses(ac = "15", reflex = "16")
+        session.assertDefenses(ac = "15", reflex = "15")
 
         val reopened = BuilderSession(store, source) { unarmored }
         reopened.load(characterId)
-        reopened.assertDefenses(ac = "15", reflex = "16")
+        reopened.assertDefenses(ac = "15", reflex = "15")
         val equipment = checkNotNull(reopened.current).document.equipment
         assertEquals(setOf("modern4e.armor.leather", "modern4e.shield.light-shield"),
             equipment.map { it.selection.entryId }.toSet())
@@ -45,11 +45,11 @@ class EquipmentDefenseTest {
         assertTrue(equipment.all { it.equipped })
 
         reopened.selectEquipment(EquipmentSlot.SHIELD, null)
-        reopened.assertDefenses(ac = "14", reflex = "15")
+        reopened.assertDefenses(ac = "14", reflex = "14")
         reopened.selectEquipment(EquipmentSlot.ARMOR, null)
-        reopened.assertDefenses(ac = "12", reflex = "15")
+        reopened.assertDefenses(ac = "12", reflex = "14")
         session.load(characterId)
-        session.assertDefenses(ac = "12", reflex = "15")
+        session.assertDefenses(ac = "12", reflex = "14")
         assertTrue(checkNotNull(session.current).document.equipment.isEmpty())
     }
 
@@ -65,7 +65,7 @@ class EquipmentDefenseTest {
         val rules = checkNotNull(current).rules
         assertEquals(ac, rules.defenseDisplay(Statistic.AC))
         assertEquals(reflex, rules.defenseDisplay(Statistic.REFLEX))
-        assertEquals("20", rules.defenseDisplay(Statistic.FORTITUDE))
+        assertEquals("18", rules.defenseDisplay(Statistic.FORTITUDE))
         assertEquals("12", rules.defenseDisplay(Statistic.WILL))
     }
 }

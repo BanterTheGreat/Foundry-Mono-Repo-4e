@@ -37,15 +37,17 @@ class EquipmentRuntimeTest(unittest.TestCase):
                           "title": "Modern 4e shared equipment", "indexes": ["index"], "chunks": ["entries-0000"]}, manifest)
         authored = self.catalog["entries"]
         self.assertEqual(53, len(authored))
-        self.assertEqual(60, len(runtime_common.entries_of(self.assets)))
-        self.assertEqual({entry["id"] for entry in authored}, {key for key in self.entries if ".implement." not in key})
+        self.assertEqual(61, len(runtime_common.entries_of(self.assets)))
+        self.assertEqual({entry["id"] for entry in authored},
+                         {key for key in self.entries if self.entries[key]["sharedData"]["equipment"]["kind"] in
+                          ("WEAPON", "ARMOR", "SHIELD")})
         self.assertTrue(all(entry["category"] == "ITEM" for entry in self.entries.values()))
         index = self.assets[f"{PACKAGE}/index.json"]["entries"]
         self.assertEqual(sorted(self.entries), [row["id"] for row in index])
         self.assertTrue(all(row["category"] == "ITEM" and row["chunkId"] == "entries-0000" for row in index))
         counts = {kind: sum(e["sharedData"]["equipment"]["kind"] == kind for e in self.entries.values())
-                  for kind in ("WEAPON", "ARMOR", "SHIELD", "IMPLEMENT")}
-        self.assertEqual({"WEAPON": 45, "ARMOR": 6, "SHIELD": 2, "IMPLEMENT": 7}, counts)
+                  for kind in ("WEAPON", "ARMOR", "SHIELD", "IMPLEMENT", "NECK")}
+        self.assertEqual({"WEAPON": 45, "ARMOR": 6, "SHIELD": 2, "IMPLEMENT": 7, "NECK": 1}, counts)
 
     def test_basic_implements_have_proficiencies_and_no_armor_rules(self):
         implements = [entry for entry in self.entries.values() if ".implement." in entry["id"]]
@@ -74,7 +76,7 @@ class EquipmentRuntimeTest(unittest.TestCase):
                 authored = [text for text in entry["sharedData"]["coverage"]["limitations"]
                             if not text.startswith(runtime_common.OUT_OF_SCOPE_LIMITATIONS)]
                 self.assertEqual(authored, entry["coverage"]["limitations"])
-            elif kind != "IMPLEMENT":
+            elif kind in ("ARMOR", "SHIELD"):
                 self.assertIn("contribute to", entry["coverage"]["limitations"][0])
                 self.assertIn("remain descriptive", entry["coverage"]["limitations"][0])
 
@@ -101,7 +103,9 @@ class EquipmentRuntimeTest(unittest.TestCase):
                      "Armor check modifier: -1.", self.catalog["armorRules"]["armorCheckDescription"]):
             self.assertIn(text, plate)
         self.assertNotIn("Light armor ability", plate)
-        self.assertIn("Light armor ability: Highest of Intelligence, Dexterity.", self.description("modern4e.armor.cloth"))
+        self.assertIn("Light armor ability: Highest of Intelligence, Dexterity, up to +3.",
+                      self.description("modern4e.armor.cloth"))
+        self.assertIn("Fortitude, Reflex and Will", self.description("modern4e.neck.item"))
         shield = self.description("modern4e.shield.heavy-shield")
         self.assertIn("Shield bonus: +2.", shield)
         self.assertIn("Hands occupied: 1.", shield)

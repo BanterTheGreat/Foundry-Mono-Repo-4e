@@ -1,5 +1,9 @@
 package dev.modern4e.builder
 
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
+
 /** A grant one entry makes, with the earliest character level its own data allows it to activate. */
 internal data class TimedGrant(val grant: Grant, val atLevel: Int)
 
@@ -242,7 +246,9 @@ internal class OccurrenceTimeline private constructor(
                 log += TimelineEvent.EquipmentCategory(slot, definition.entry.id)
                 continue
             }
-            if (equipment.configuration.isNotEmpty()) {
+            val profile = definition.entry.sharedData?.get("equipment") as? JsonObject
+            val kind = (profile?.get("kind") as? JsonPrimitive)?.contentOrNull
+            if (equipment.hasUnsupportedConfiguration(kind)) {
                 log += TimelineEvent.EquipmentConfiguration(slot, definition.entry.id)
             }
             visit(definition, equipment.instanceId, slot, false, emptySet(), document.level)

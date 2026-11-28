@@ -194,9 +194,9 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
             }
             is BuilderEdit.Allocation -> next = document.copy(abilities = edit.value.copy(points = edit.value.points.toMap()))
             is BuilderEdit.Advancement -> {
-                if (!AdvancementRules.choosesNonMainIncrease(edit.level) ||
-                    edit.value?.let { !AdvancementRules.validAdvancement(edit.level, it, document.abilities.mainAbility) } == true) {
-                    return reject("Choose one non-main ability to increase at level 4 or 12.")
+                if (!AdvancementRules.choosesAbilityIncrease(edit.level) ||
+                    edit.value?.let { !AdvancementRules.validAdvancement(edit.level, it) } == true) {
+                    return reject("Choose two different abilities to increase by 1 at levels 8, 14, or 28.")
                 }
                 next = document.copy(levels = levels(document, edit.level).map { level ->
                     if (level.level == edit.level) level.copy(abilityAdvancements = listOfNotNull(edit.value)) else level

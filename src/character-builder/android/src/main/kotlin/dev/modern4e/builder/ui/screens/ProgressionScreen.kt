@@ -105,12 +105,8 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
         }
     }
     fun abilityIncreaseInvalid(level: Int): Boolean {
-        val rootSlot = AdvancementRules.rootSlot(level, SlotCategory.AbilityIncrease)
-        val advancements = document.levels.firstOrNull { it.level == level }?.abilityAdvancements.orEmpty()
-        val increase = advancements.singleOrNull()?.takeIf { it.slot == (rootSlot ?: AdvancementRules.abilitySlot(level)) }
-            ?.increases?.entries?.singleOrNull()
-        return rootSlot != null && level <= document.level &&
-            (increase?.value != 1 || increase.key == document.abilities.mainAbility)
+        val slot = AdvancementRules.rootSlot(level, SlotCategory.AbilityIncrease) ?: return false
+        return needsAttention(slot, level)
     }
     fun replacementInvalid(level: Int): Boolean {
         val replacementSlot = AdvancementRules.rootSlots(level).firstOrNull { root -> root.category is SlotCategory.Replacement }?.slot
@@ -140,7 +136,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
         AdvancementRules.rootSlot(level, EntryCategory.PARAGON_PATH)?.let { slot ->
             needs += if (needsAttention(slot, level)) 1 else 0
         }
-        if (schedule.ability == "non-main" && abilityIncreaseInvalid(level)) {
+        if (abilityIncreaseInvalid(level)) {
             needs++
         }
         if (schedule.feat) {
@@ -301,20 +297,20 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 levelChoices.none { it.slot.choiceId.contains("react", ignoreCase = true) }) {
                 Text("Reactivity and Combat Superiority choices are not yet authored in the installed Fighter proof.", color = Dim)
             }
-            if (schedule.ability != null) {
-                if (schedule.ability == "non-main") {
-                    val rootSlot = AdvancementRules.rootSlot(level, SlotCategory.AbilityIncrease)
-                    val supported = rootSlot != null
+            when (schedule.ability) {
+                AbilityIncreaseKind.CHOOSE_TWO -> {
                     val advancements = document.levels.firstOrNull { it.level == level }?.abilityAdvancements.orEmpty()
-                    val slot = rootSlot ?: AdvancementRules.abilitySlot(level)
-                    val increase = advancements.singleOrNull()?.takeIf { it.slot == slot }?.increases?.entries?.singleOrNull()
-                    LevelChoice("Ability increase", increase?.key?.name?.readable() ?: if (supported) ChoosePlaceholder else "Unavailable",
-                        enabled = supported && !model.busy,
+                    val picks = advancements.singleOrNull()?.increases?.keys.orEmpty()
+                    val summary = picks.joinToString(", ") { it.name.readable() }.ifEmpty { ChoosePlaceholder }
+                    LevelChoice("Ability increases", summary,
+                        enabled = !model.busy,
                         invalid = abilityIncreaseInvalid(level),
                         saving = saving("advancement", level)) {
                         open("advancement", level)
                     }
-                } else { Text("+1 to ${schedule.ability} abilities arrives automatically", color = Dim) }
+                }
+                AbilityIncreaseKind.ALL -> Text("+1 to all abilities", color = Dim)
+                null -> Unit
             }
             if (level > AdvancementRules.LAST_ENFORCED_LEVEL && levelChoices.none { with(Progression) { it.isPowerChoice(powerEntryIds) } }) {
                 schedule.powers.forEach { power ->
@@ -583,10 +579,18 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
     }
     var selected by remember(request) { mutableStateOf(if (request.kind == "replacement") {
         savedReplacement?.replacement?.selection?.entryId
-    } else if (request.kind == "advancement") {
-        document.levels.firstOrNull { it.level == request.level }?.abilityAdvancements?.singleOrNull()?.increases?.keys?.singleOrNull()?.name
     } else state.document.levels.flatMap { it.entries }.firstOrNull { it.slot == request.slot }?.selection?.entryId
         ?: state.rules.entries.firstOrNull { it.slot == request.slot && it.granted }?.definition?.entry?.id) }
+    val savedAdvancement = if (request.kind == "advancement") {
+        document.levels.firstOrNull { it.level == request.level }?.abilityAdvancements.orEmpty()
+    } else {
+        emptyList()
+    }
+    var abilityPicks by remember(request) {
+        mutableStateOf(savedAdvancement.singleOrNull()?.takeIf {
+            AdvancementRules.validAdvancement(request.level, it)
+        }?.increases?.keys.orEmpty())
+    }
     var expanded by remember(request) { mutableStateOf(selected) }
     var selectedTitle by remember(request) { mutableStateOf<String?>(null) }
     var featTab by remember(request) { mutableStateOf("Class") }
@@ -641,13 +645,16 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
             Column(Modifier.weight(1f).folioScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 when (request.kind) {
                     "advancement" -> {
-                        val preview = Progression.advancementPreviewPoints(state, request.level,
-                            Ability.entries.firstOrNull { it.name == selected })
-                        Ability.entries.filter { it != document.abilities.mainAbility }.forEach { ability ->
-                            ChoiceCard(ability.name.readable(), selected == ability.name, false, true, null, {
-                                selected = ability.name
-                                edit = BuilderEdit.Advancement(request.level,
-                                    AbilityAdvancement(AdvancementRules.abilitySlot(request.level), mapOf(ability to 1)))
+                        val preview = Progression.advancementPreviewPoints(state, request.level, abilityPicks)
+                        Text("Choose two different abilities to increase by 1.", color = Dim)
+                        for (ability in Ability.entries) {
+                            val chosen = ability in abilityPicks
+                            ChoiceCard(ability.name.readable(), chosen, false, true, null, {
+                                if (chosen || abilityPicks.size < 2) {
+                                    abilityPicks = if (chosen) abilityPicks - ability else abilityPicks + ability
+                                    edit = BuilderEdit.Advancement(request.level, AbilityAdvancement(
+                                        AdvancementRules.abilitySlot(request.level), abilityPicks.associateWith { 1 }))
+                                }
                             }, compact = true, trailingValue = preview[ability]?.toString()) { }
                         }
                     }
@@ -751,14 +758,15 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
             saved?.let { replacement ->
                 { edit = BuilderEdit.RemoveReplacement(request.level, replacement.replaces); selected = null; expanded = null }
             }
-        } else if (request.kind == "advancement" && selected != null) {
-            { edit = BuilderEdit.Advancement(request.level, null); selected = null }
+        } else if (request.kind == "advancement" && (savedAdvancement.isNotEmpty() || abilityPicks.isNotEmpty())) {
+            { edit = BuilderEdit.Advancement(request.level, null); abilityPicks = emptySet() }
         } else if (request.slot != null && selected != null) {
             { edit = BuilderEdit.RemoveEntry(request.slot); selected = null; expanded = null }
         } else {
             null
         }
         val valid = edit != null &&
+            (request.kind != "advancement" || (edit as? BuilderEdit.Advancement)?.value == null || abilityPicks.size == 2) &&
             (request.kind != "free" || (edit as? BuilderEdit.Batch)?.edits?.count { it is BuilderEdit.Proficiency } == 2) &&
             (request.kind != "allocation" || (edit as? BuilderEdit.Allocation)?.value?.let {
                 it.mainAbility in mainAbilities && Progression.validAllocation(it)

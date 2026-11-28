@@ -12,11 +12,11 @@ import org.junit.Test
 class StatsDisplayTest {
     @Test fun defenseBreakdownIncludesClassAndOtherAppliedBonusesAndPenalties() {
         val contributors = listOf(Contributor("Defense base", 10), Contributor("Fighter defense bonus", 3),
-            Contributor("CONSTITUTION points", 4), Contributor("Tier bonus", 1), Contributor("Penalty", -2),
-            Contributor("Class level", 0))
+            Contributor("CONSTITUTION points", 4), Contributor("Half level", 5), Contributor("Tier bonus", 2),
+            Contributor("Neck enhancement", 3), Contributor("Penalty", -2), Contributor("Unused", 0))
         val result = rules().copy(statistics = mapOf(ModifierTarget(Statistic.FORTITUDE) to
-            StatisticCalculation(ContractResult.Available(CalculatedValue(16, contributors)), emptyList())))
-        assertEquals("Defense base +10, Fighter defense bonus +3, CONSTITUTION points +4, Tier bonus +1, Penalty -2",
+            StatisticCalculation(ContractResult.Available(CalculatedValue(25, contributors)), emptyList())))
+        assertEquals("Defense base +10, Fighter defense bonus +3, CONSTITUTION points +4, Half level +5, Tier bonus +2, Neck enhancement +3, Penalty -2",
             result.defenseBreakdown(Statistic.FORTITUDE))
         assertEquals("—", result.defenseBreakdown(Statistic.AC))
     }

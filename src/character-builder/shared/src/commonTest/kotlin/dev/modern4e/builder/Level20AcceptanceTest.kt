@@ -22,14 +22,14 @@ class Level20AcceptanceTest {
         return Fixture(catalog, BuilderOperations(catalog), initial)
     }
 
-    /** The level-19 character with the Notorious Celebrity path chosen at 11 and both non-main increases made. */
+    /** The level-19 character with the Notorious Celebrity path chosen at 11 and both ability pairs chosen. */
     private suspend fun Fixture.pathCharacter(level: Int = 19): BuilderState {
         var state = at(11)
         state = operations.apply(state.document, BuilderEdit.Entry(11, pathSlot,
             "modern4e.path.notorious-celebrity", "celebrity")).also { assertTrue(it.applied, it.diagnostics.toString()) }.state
         state = operations.apply(state.document, BuilderEdit.Batch(listOf(
-            BuilderEdit.Advancement(4, AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.CONSTITUTION to 1))),
-            BuilderEdit.Advancement(12, AbilityAdvancement(AdvancementRules.abilitySlot(12), mapOf(Ability.DEXTERITY to 1))),
+            BuilderEdit.Advancement(8, AbilityAdvancement(AdvancementRules.abilitySlot(8), mapOf(Ability.STRENGTH to 1, Ability.CONSTITUTION to 1))),
+            BuilderEdit.Advancement(14, AbilityAdvancement(AdvancementRules.abilitySlot(14), mapOf(Ability.STRENGTH to 1, Ability.DEXTERITY to 1))),
         ))).also { assertTrue(it.applied, it.diagnostics.toString()) }.state
         return at(level, state.document)
     }
@@ -96,23 +96,17 @@ class Level20AcceptanceTest {
     }
 
     @Test
-    fun levelTwentyAppliesTheAutomaticMainIncreaseLikeLevelsEightAndSixteen() = synchronous {
+    fun levelTwentyKeepsThePairsAndLevelTwentyOneRaisesEveryAbility() = synchronous {
         val fixture = fixture()
         val nineteen = fixture.pathCharacter(19)
         val twenty = fixture.at(20, nineteen.document)
-        // Strength: 4 base + level 8 main + level 16 all = 6 at 19; level 20 adds the second main increase.
+        val twentyOne = fixture.at(21, twenty.document)
         assertEquals(6, nineteen.strength())
-        assertEquals(7, twenty.strength())
-        assertEquals(nineteen.rules.overviewAbilityTotals.getValue(Ability.CONSTITUTION),
-            twenty.rules.overviewAbilityTotals.getValue(Ability.CONSTITUTION))
-        for (ability in Ability.entries - Ability.STRENGTH) {
-            assertEquals(nineteen.rules.overviewAbilityTotals.getValue(ability), twenty.rules.overviewAbilityTotals.getValue(ability),
-                ability.name)
+        assertEquals(nineteen.rules.overviewAbilityTotals, twenty.rules.overviewAbilityTotals)
+        for (ability in Ability.entries) {
+            assertEquals(twenty.rules.overviewAbilityTotals.getValue(ability) + 1,
+                twentyOne.rules.overviewAbilityTotals.getValue(ability), ability.name)
         }
-        assertEquals(1, AdvancementRules.automaticIncreases(8, AbilityIncreaseKind.MAIN))
-        assertEquals(1, AdvancementRules.automaticIncreases(19, AbilityIncreaseKind.MAIN))
-        assertEquals(2, AdvancementRules.automaticIncreases(20, AbilityIncreaseKind.MAIN))
-        assertEquals(1, AdvancementRules.automaticIncreases(20, AbilityIncreaseKind.ALL))
     }
 
     @Test
@@ -123,7 +117,7 @@ class Level20AcceptanceTest {
             AbilityAdvancement(AdvancementRules.abilitySlot(20), mapOf(Ability.WISDOM to 1))))
         assertFalse(ability.applied)
         assertEquals(state.document, ability.state.document)
-        assertEquals(7, state.strength())
+        assertEquals(6, state.strength())
         val daily = state.rules.entries.first { !it.granted && it.definition.entry.mechanics.powerProfile?.usage == "DAILY" }
         val replacement = fixture.operations.apply(state.document,
             BuilderEdit.ReplacePower(20, daily.slot, daily.definition.entry.id, ReplacementKind.PROGRESSION))
@@ -150,7 +144,7 @@ class Level20AcceptanceTest {
     }
 
     @Test
-    fun levelTwentyOneIsStillPreviewOnlyAndReportsUnsupportedProgression() = synchronous {
+    fun levelTwentyOneIncreasesAbilitiesWhileOtherEpicProgressionStaysPreviewOnly() = synchronous {
         val fixture = fixture()
         assertEquals(20, AdvancementRules.LAST_ENFORCED_LEVEL)
         assertTrue(AdvancementRules.level(21).previewOnly)
@@ -159,8 +153,8 @@ class Level20AcceptanceTest {
         val state = fixture.pathCharacter(20).let { fixture.at(21, it.document) }
         val unsupported = state.rules.diagnostics.single { it.code == "engine.progressionUnsupported" }
         assertEquals(DiagnosticKind.INCOMPLETE_AUTOMATION, unsupported.kind)
-        assertEquals("Progression after level 20 remains unsupported.", unsupported.message)
-        // Level 21 opens no feat slot and no further increases beyond what level 20 earned.
+        assertEquals("Epic feats, powers and destinies remain unavailable.", unsupported.message)
+        // The all-ability increase is automatic and level 21 opens no decision slots.
         assertTrue(state.rules.choices.none { it.acquisitionLevel == 21 })
         assertEquals(7, state.strength())
         assertTrue(state.owns(dailyId))
@@ -210,7 +204,7 @@ class Level20AcceptanceTest {
         val filled = fixture.operations.apply(twenty.document, BuilderEdit.Entry(20, featSlot, feat.id, "level20-feat"))
             .also { assertTrue(it.applied, it.diagnostics.toString()) }.state
         assertTrue(filled.owns(dailyId))
-        assertEquals(7, filled.strength())
+        assertEquals(6, filled.strength())
 
         val lowered = fixture.at(19, filled.document)
         assertEquals(filled.document.levels, lowered.document.levels, "choices are kept for the way back up")
@@ -226,7 +220,7 @@ class Level20AcceptanceTest {
         val raised = fixture.at(20, lowered.document)
         assertEquals(filled.document.levels, raised.document.levels)
         assertTrue(raised.owns(dailyId))
-        assertEquals(7, raised.strength())
+        assertEquals(6, raised.strength())
         assertTrue(raised.rules.choices.single { it.slot == featSlot }.filled)
     }
 
@@ -237,7 +231,7 @@ class Level20AcceptanceTest {
         assertFalse(state.owns(dailyId))
         assertTrue(state.rules.choices.single { it.slot == featSlot }.missing)
         assertTrue(state.rules.choices.single { it.slot == pathSlot }.missing)
-        assertEquals(7, state.strength(), "main increases at 8 and 20 plus the level-16 all increase, from 4")
+        assertEquals(4, state.strength(), "base Strength with both ability pairs still unchosen")
     }
 
     private fun Prerequisite.requiresLevelAtLeast(level: Int): Boolean = when (this) {

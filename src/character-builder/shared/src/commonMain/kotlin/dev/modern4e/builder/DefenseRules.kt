@@ -6,18 +6,57 @@ import kotlinx.serialization.json.intOrNull
 
 internal val defenseStatistics = setOf(Statistic.AC, Statistic.FORTITUDE, Statistic.REFLEX, Statistic.WILL)
 
+internal val nonArmorDefenseAbilities = mapOf(
+    Statistic.FORTITUDE to listOf(Ability.STRENGTH, Ability.CONSTITUTION),
+    Statistic.REFLEX to listOf(Ability.DEXTERITY, Ability.INTELLIGENCE),
+    Statistic.WILL to listOf(Ability.WISDOM, Ability.CHARISMA),
+)
+
+private val armorClassMilestones = listOf(5, 9, 13, 17, 19, 25, 27, 29)
+private const val barbarianAgility = "modern4e.feature.barbarian-barbarian-agility"
+private val armorAbilitySubstitutions = mapOf(
+    barbarianAgility to Ability.STRENGTH,
+    "modern4e.feature.primal-guardian" to Ability.CONSTITUTION,
+    "modern4e.feature.world-speaker-spirit" to Ability.CONSTITUTION,
+)
+
+/** Resolve the best available ability and apply a cap when the defense calls for one. */
+internal fun defenseAbility(
+    abilities: List<Ability>,
+    abilityValue: (Ability) -> ContractResult<CalculatedValue>,
+    cap: Int = Int.MAX_VALUE,
+): ContractResult<Contributor> {
+    val terms = abilities.map { ability ->
+        when (val result = abilityValue(ability)) {
+            is ContractResult.Unavailable -> return result
+            is ContractResult.Available -> Contributor("${ability.name} points", result.value.total)
+        }
+    }
+    val best = terms.maxBy { it.value }
+    return ContractResult.Available(if (best.value > cap) {
+        best.copy(label = "${best.label} (capped at $cap)", value = cap)
+    } else {
+        best
+    })
+}
+
 /** Armor proficiency can cover an entire category or a specific armor type. */
 fun isArmorProficient(proficiencyKey: String?, armorCategory: String?, proficiencies: Set<String>): Boolean =
     proficiencyKey in proficiencies || (armorCategory in setOf("LIGHT", "HEAVY") && armorCategory in proficiencies)
 
 /** Static equipment contributions to defenses. Equipment proficiency never equips an item. */
-internal class DefenseEquipment(entries: List<EngineEntry>, proficiencies: Set<String>) {
+internal class DefenseEquipment(
+    entries: List<EngineEntry>,
+    proficiencies: Set<String>,
+    selections: List<EquipmentSelection> = emptyList(),
+) {
     private data class Equipped(val entry: EngineEntry, val data: JsonObject) {
         val kind get() = data.string("kind")
         val proficiency get() = data.string("proficiencyKey")
         val category get() = data.string("armorCategory")
         val armorBonus get() = (data["armorBonus"] as? JsonPrimitive)?.intOrNull
         val shieldBonus get() = (data["shieldBonus"] as? JsonPrimitive)?.intOrNull
+        val armorAbilityCap get() = (data["acAbilityCap"] as? JsonPrimitive)?.intOrNull ?: 3
         val title get() = entry.definition.entry.presentation.title
         val slot get() = entry.slot
     }
@@ -27,6 +66,9 @@ internal class DefenseEquipment(entries: List<EngineEntry>, proficiencies: Set<S
     private val armor = equipped.filter { it.kind == "ARMOR" }
     private val shields = equipped.filter { it.kind == "SHIELD" }
     private val wornArmor = armor.singleOrNull()
+    private val neck = equipped.filter { it.kind == "NECK" }.singleOrNull()
+    private val enhancements = selections.filter { it.equipped }.associate { it.instanceId to it.defenseEnhancement }
+    private val classFeatures = entries.filter { it.definition.entry.id in armorAbilitySubstitutions }
     private val proficientArmor = isArmorProficient(wornArmor?.proficiency, wornArmor?.category, proficiencies)
     private val shield = shields.filter { it.proficiency in proficiencies }.maxByOrNull { it.shieldBonus ?: 0 }
     private val armorUnavailable = if (
@@ -39,38 +81,47 @@ internal class DefenseEquipment(entries: List<EngineEntry>, proficiencies: Set<S
     } else null
     val reflexUnavailable get() = armorUnavailable ?: shieldUnavailable
 
-    /** Use the higher direct Dexterity or Intelligence score unless heavy armor replaces it. */
+    /** Choose the best eligible ability for light or unarmored AC. */
     fun armorClassBase(abilityValue: (Ability) -> ContractResult<CalculatedValue>): ContractResult<CalculatedValue> {
         reflexUnavailable?.let { return it }
         val base = Contributor("Armor Class base", 10)
         if (wornArmor?.category == "HEAVY") {
             return ContractResult.Available(CalculatedValue(base.value, listOf(base)))
         }
-        val abilities = listOf(Ability.DEXTERITY, Ability.INTELLIGENCE).map { ability ->
-            when (val result = abilityValue(ability)) {
-                is ContractResult.Unavailable -> return result
-                is ContractResult.Available -> Contributor("${ability.name} points", result.value.total)
-            }
+        val abilities = listOf(Ability.DEXTERITY, Ability.INTELLIGENCE) +
+            classFeatures.map { armorAbilitySubstitutions.getValue(it.definition.entry.id) }
+        return when (val ability = defenseAbility(abilities.distinct(), abilityValue, wornArmor?.armorAbilityCap ?: 3)) {
+            is ContractResult.Unavailable -> ability
+            is ContractResult.Available -> ContractResult.Available(
+                CalculatedValue(base.value + ability.value.value, listOf(base, ability.value)),
+            )
         }
-        val higher = abilities.maxBy { it.value }
-        val total = base.value.toLong() + higher.value
-        if (total > Int.MAX_VALUE) {
-            return unavailable("Armor Class exceeds the supported integer range.")
-        }
-        return ContractResult.Available(CalculatedValue(total.toInt(), listOf(base, higher)))
     }
 
-    /** Fortitude, Reflex and Will get the tier bonus; AC gets half the level, rounded down, instead. */
+    /** Supply defense progression and equipped item contributions. */
     fun modifiers(statistic: Statistic, level: Int): List<ModifierContribution> = buildList {
-        fun addDefense(value: Int, title: String, key: String, source: ChoiceSlotId? = null) {
-            add(ModifierContribution(TypedModifier(ModifierTarget(statistic), ModifierOperation.ADD, value), title, key, source))
+        fun addDefense(value: Int, title: String, key: String, source: ChoiceSlotId? = null, type: BonusType = BonusType.UNTYPED) {
+            add(ModifierContribution(TypedModifier(ModifierTarget(statistic), ModifierOperation.ADD, value, type), title, key, source))
         }
-        if (statistic != Statistic.AC) {
+        addDefense(level / 2, "Half level", "modern.defense-half-level")
+        if (statistic == Statistic.AC) {
+            addDefense(armorClassMilestones.count { it <= level }, "AC advancement", "modern.armor-advancement")
+            wornArmor?.armorBonus?.let { addDefense(it, wornArmor.title, "modern.armor-bonus", wornArmor.slot) }
+        } else {
             addDefense((level - 1) / 10 + 1, "Tier bonus", "modern.defense-tier")
         }
-        if (statistic == Statistic.AC) {
-            addDefense(level / 2, "Half level", "modern.armor-half-level")
-            wornArmor?.armorBonus?.let { addDefense(it, wornArmor.title, "modern.armor-bonus", wornArmor.slot) }
+        val enhancedItem = if (statistic == Statistic.AC) wornArmor else neck
+        if (enhancedItem != null) {
+            val enhancement = enhancements[enhancedItem.entry.instanceId] ?: 0
+            if (enhancement > 0) {
+                val label = if (statistic == Statistic.AC) "Armor enhancement" else "Neck enhancement"
+                addDefense(enhancement, label, "modern.defense-enhancement", enhancedItem.slot, BonusType.ENHANCEMENT)
+            }
+        }
+        if (statistic == Statistic.REFLEX && wornArmor?.category != "HEAVY") {
+            classFeatures.firstOrNull { it.definition.entry.id == barbarianAgility }?.let {
+                addDefense(1, it.definition.entry.presentation.title, barbarianAgility, it.slot)
+            }
         }
         if (statistic == Statistic.REFLEX && wornArmor?.proficiency != null && !proficientArmor) {
             addDefense(-2, "${wornArmor.title} nonproficiency", "modern.armor-nonproficiency", wornArmor.slot)

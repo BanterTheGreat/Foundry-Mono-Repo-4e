@@ -10,15 +10,15 @@ class AdvancementRulesTest {
     private val saved = SavedSelection(definition.id, "Test class", "standard", ContractCodec.fingerprint(definition))
     private val resolved = ResolvedEntry(definition, PackageRevision("standard", "1"), ContractCodec.fingerprint(definition))
 
-    private fun document(level: Int, nonMain: Ability = Ability.DEXTERITY): CharacterDocument = CharacterDocument(
+    private fun document(level: Int, second: Ability = Ability.DEXTERITY): CharacterDocument = CharacterDocument(
         id = "advancement", savedAt = "2026-11-19T12:00:00Z", identity = CharacterIdentity("Progression"),
         packages = emptyList(), level = level,
         abilities = AbilityAllocation(main, Ability.STRENGTH, mapOf(Ability.STRENGTH to 4,
             Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.INTELLIGENCE to 1)),
         levels = (1..level).map { n -> LevelDecisions(n,
             entries = if (n == 1) listOf(EntryChoice("class-instance", ChoiceSlotId("creation", "class", 0), saved)) else emptyList(),
-            abilityAdvancements = if (AdvancementRules.choosesNonMainIncrease(n)) listOf(
-                AbilityAdvancement(AdvancementRules.abilitySlot(n), mapOf(nonMain to 1))) else emptyList()) })
+            abilityAdvancements = if (AdvancementRules.choosesAbilityIncrease(n)) listOf(
+                AbilityAdvancement(AdvancementRules.abilitySlot(n), mapOf(Ability.STRENGTH to 1, second to 1))) else emptyList()) })
 
     private fun evaluate(document: CharacterDocument) = RulesEngine.evaluate(document,
         RulesContent(mapOf(definition.id to ContractResult.Available(resolved)), mapOf(saved to ContractResult.Available(resolved))))
@@ -26,25 +26,42 @@ class AdvancementRulesTest {
 
     @Test
     fun earnedAbilityIncreasesApplyAtTheirMilestonesAndReachSkills() {
-        for (level in 1..20) {
+        for (level in 1..30) {
             val rules = evaluate(document(level))
-            assertEquals(4 + (if (level >= 8) 1 else 0) + (if (level >= 16) 1 else 0) + (if (level >= 20) 1 else 0), total(rules, Ability.STRENGTH), "level $level")
-            assertEquals(2 + (if (level >= 4) 1 else 0) + (if (level >= 12) 1 else 0) + (if (level >= 16) 1 else 0), total(rules, Ability.DEXTERITY), "level $level")
+            val chosen = listOf(8, 14, 28).count { it <= level }
+            val automatic = if (level >= 21) 1 else 0
+            assertEquals(4 + chosen + automatic, total(rules, Ability.STRENGTH), "level $level")
+            assertEquals(2 + chosen + automatic, total(rules, Ability.DEXTERITY), "level $level")
+            assertEquals(automatic, total(rules, Ability.CHARISMA), "level $level")
             assertEquals(total(rules, Ability.DEXTERITY) + level / 2, assertIs<ContractResult.Available<CalculatedValue>>(rules.skill(Skill.ACROBATICS)).value.total)
-            assertFalse(rules.diagnostics.any { it.code == "engine.progressionUnsupported" })
         }
     }
 
     @Test
-    fun invalidAndMissingNonMainChoicesRemainVisibleAndDoNotInventTotals() {
-        val invalid = evaluate(document(4, Ability.STRENGTH))
+    fun invalidAndMissingAbilityPairsRemainVisibleAndDoNotInventTotals() {
+        val invalid = evaluate(document(8, Ability.STRENGTH))
         assertTrue(invalid.diagnostics.any { it.code == "engine.abilityAdvancement" })
         assertIs<ContractResult.Unavailable>(invalid.ability(Ability.STRENGTH))
         assertEquals(4, invalid.overviewAbilityTotals[Ability.STRENGTH])
-        val missing = document(12).let { it.copy(levels = it.levels.map { row ->
-            if (row.level == 12) row.copy(abilityAdvancements = emptyList()) else row
+        val missing = document(14).let { it.copy(levels = it.levels.map { row ->
+            if (row.level == 14) row.copy(abilityAdvancements = emptyList()) else row
         }) }
-        assertTrue(evaluate(missing).diagnostics.any { it.code == "engine.missingAdvancement" && it.slot == AdvancementRules.abilitySlot(12) })
+        assertTrue(evaluate(missing).diagnostics.any { it.code == "engine.missingAdvancement" && it.slot == AdvancementRules.abilitySlot(14) })
+    }
+
+    @Test
+    fun formerMilestoneDecisionsRemainSavedWithoutAffectingTotals() {
+        val original = document(19)
+        val old = AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.CHARISMA to 1))
+        val updated = original.copy(levels = original.levels.map { row ->
+            if (row.level == 4) row.copy(abilityAdvancements = listOf(old)) else row
+        })
+        val reopened = assertIs<ContractResult.Available<CharacterDocument>>(
+            ContractCodec.decode(ContractCodec.encode(updated))).value
+        assertEquals(updated, reopened)
+        val result = evaluate(reopened)
+        assertEquals(evaluate(original).overviewAbilityTotals, result.overviewAbilityTotals)
+        assertFalse(result.diagnostics.any { it.code == "engine.abilityAdvancement" })
     }
 
     @Test
@@ -62,7 +79,7 @@ class AdvancementRulesTest {
         val result = RulesEngine.evaluate(selected, RulesContent(
             mapOf(definition.id to ContractResult.Available(resolved), feat.id to ContractResult.Available(featResolved)),
             mapOf(saved to ContractResult.Available(resolved), featSaved to ContractResult.Available(featResolved))))
-        assertEquals(5, total(result, Ability.DEXTERITY))
+        assertEquals(4, total(result, Ability.DEXTERITY))
         assertEquals(Eligibility.INELIGIBLE, result.entryEligibility.getValue("feat-instance").status)
     }
 

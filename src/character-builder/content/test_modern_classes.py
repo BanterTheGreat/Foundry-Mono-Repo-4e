@@ -89,7 +89,8 @@ class ModernClassesTest(unittest.TestCase):
         for key, entry in self.entries.items():
             self.assertEqual("PARTIAL" if key in partial else "UNIMPLEMENTED", entry["coverage"]["status"])
             if key in partial:
-                self.assertTrue(any("remain manual" in limitation for limitation in entry["coverage"]["limitations"]))
+                self.assertTrue(any("Known rituals and formulas are tracked in Stats." in limitation
+                                    for limitation in entry["coverage"]["limitations"]))
 
     def test_renaming_and_moving_do_not_change_identity_or_access(self):
         def edit(root):

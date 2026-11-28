@@ -63,7 +63,7 @@ occurrence IDs survive replacement, keeping child slots stable; new occurrence
 IDs come from callers. Repeated choices use distinct ordinals and instances.
 
 `Level(2)` preserves all prior choices and exposes authored level-2 choices.
-Direct level-2 creation allows filling both levels. `Level(n)` accepts levels 1–30. Raising pads empty decisions for each new level. Lowering removes decisions acquired above the target level. Progression through level 19 uses the local advancement table. `Advancement(level, value)` saves or clears the non-main increase at levels 4 and 12; level 8 main and level 16 all-ability increases are automatic. Retraining allowances remain unspecified.
+Direct level-2 creation allows filling both levels. `Level(n)` accepts levels 1–30. Raising pads empty decisions for each new level. Lowering retains decisions above the target level and suspends their effects. Progression through level 20 uses the local advancement table. `Advancement(level, value)` saves or clears two distinct +1 increases at levels 8, 14 and 28. Level 21 increases all six abilities automatically. Retraining allowances remain unspecified.
 
 `Background` selects environment/upbringing and one skill; changing its name
 preserves the old skill unless explicitly replaced, so a now-invalid skill stays

@@ -109,7 +109,7 @@ class ListingRetentionBaselineTest {
             "encounter power" to listOf("feat 18 class: retained", "feat 18 ancestry: retained", "feat 18 general: rebased 48/148",
                 "utility 17: retained", "encounter 13: rebased 164/164",
                 "paragon path: retained", "linguist language: empty"),
-            "ability at 4" to structural + listOf("paragon path: rebased 35/35", "linguist language: empty"),
+            "ability at 8" to structural + listOf("paragon path: rebased 35/35", "linguist language: empty"),
             "level 1 skill" to structural + listOf("paragon path: rebased 35/35", "linguist language: empty"),
             "paragon path" to structural + listOf("paragon path: retained", "linguist language: empty"),
         ), observed)

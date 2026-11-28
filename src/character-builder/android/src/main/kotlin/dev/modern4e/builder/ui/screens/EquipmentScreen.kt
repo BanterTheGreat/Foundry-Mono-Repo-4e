@@ -3,6 +3,7 @@ package dev.modern4e.builder.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
@@ -45,7 +46,9 @@ internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
                     val linked = slotOptions?.linkedWeapons?.firstOrNull { it.selection.instanceId == selected?.instanceId }
                     val ineligible = linked?.let { !it.eligible }
                         ?: (entry?.meetsEquipmentProficiencyRequirement(state.rules.equipmentProficiencies.keys) == false)
-                    val title = entry?.presentation?.title ?: selected?.selection?.savedTitle
+                    val enhancement = selected?.defenseEnhancement?.takeIf { slot.supportsDefenseEnhancement } ?: 0
+                    val title = (entry?.presentation?.title ?: selected?.selection?.savedTitle)
+                        ?.withEnhancementLabel(enhancement)
                     val saved = if (linked == null) title else "$title (${linked.slot.title})"
                     // A submitted change shows ahead of its commit, as it does on Levels.
                     val pending = model.pendingSelection(slot.pendingSlot)
@@ -57,8 +60,9 @@ internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
                     } else {
                         shownValues[slot]
                     }
+                    val ready = !model.busy && slotOptions != null && (!slot.supportsDefenseEnhancement || fresh && !saving)
                     LevelChoice(slot.title, value ?: ChoosePlaceholder, Modifier.weight(1f).fillMaxHeight(),
-                        enabled = !model.busy && slotOptions != null, invalid = ineligible, saving = saving) { editing = slot }
+                        enabled = ready, invalid = ineligible, saving = saving) { editing = slot }
                 }
             }
         }
@@ -68,10 +72,10 @@ internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
     val slotOptions = options[slot]
     if (slot != null && slotOptions != null) {
         key(slot) {
-            EquipmentPicker(slot, slotOptions, model.busy, dismiss = { editing = null }) { row ->
+            EquipmentPicker(slot, slotOptions, model.busy, dismiss = { editing = null }) { row, enhancement ->
                 // The session stores it in the background, so the sheet closes at once like every other choice.
                 model.submitEquipment(slot, row?.option, row?.weapon?.selection?.instanceId,
-                    acceptIneligible = row?.eligible == false)
+                    acceptIneligible = row?.eligible == false, enhancement = enhancement)
                 editing = null
             }
         }
@@ -97,6 +101,7 @@ internal fun equipmentPickerSections(slot: EquipmentSlot, options: EquipmentOpti
         EquipmentSlot.ARMOR -> listOf("LIGHT" to "Light Armor", "HEAVY" to "Heavy Armor", "OTHER" to "Other Armor")
         EquipmentSlot.SHIELD -> listOf("SHIELD" to "Shields")
         EquipmentSlot.IMPLEMENT -> listOf("LINKED" to "Equipped Weapons", "IMPLEMENT" to "Implements")
+        EquipmentSlot.NECK -> listOf("NECK" to "Neck Items")
     }
     val rows = options.eligible.map { EquipmentPickerRow(it, eligible = true) } +
         options.ineligible.map { EquipmentPickerRow(it, eligible = false) } +
@@ -109,6 +114,7 @@ internal fun equipmentPickerSections(slot: EquipmentSlot, options: EquipmentOpti
             EquipmentSlot.ARMOR -> profile?.equipmentString("armorCategory")
             EquipmentSlot.SHIELD -> "SHIELD"
             EquipmentSlot.IMPLEMENT -> if (row.weapon != null) "LINKED" else "IMPLEMENT"
+            EquipmentSlot.NECK -> "NECK"
         }
         if (key != null && key in sectionKeys) key else "OTHER"
     }
@@ -136,7 +142,7 @@ private fun EquipmentPicker(
     options: EquipmentOptions,
     busy: Boolean,
     dismiss: () -> Unit,
-    save: (EquipmentPickerRow?) -> Unit,
+    save: (EquipmentPickerRow?, Int?) -> Unit,
 ) {
     val sections = remember(slot, options) { equipmentPickerSections(slot, options) }
     val savedKey = options.selected?.takeIf { slot == EquipmentSlot.IMPLEMENT && it.isLinkedImplement }?.instanceId
@@ -145,6 +151,8 @@ private fun EquipmentPicker(
     var draft by remember { mutableStateOf(saved) }
     var expanded by remember { mutableStateOf(saved?.key) }
     var clearing by remember { mutableStateOf(false) }
+    val savedEnhancement = options.selected?.defenseEnhancement ?: 0
+    var enhancement by remember { mutableIntStateOf(savedEnhancement) }
     ChoicePickerSheet(busy, dismiss) {
         SectionedChoiceList(
             sections,
@@ -162,6 +170,9 @@ private fun EquipmentPicker(
                 enabled = !busy, badge = null, compact = true,
                 titleColor = if (row.eligible) Ink else MaterialTheme.colorScheme.error,
                 click = {
+                    if (draft?.key != row.key) {
+                        enhancement = if (row.key == saved?.key) savedEnhancement else 0
+                    }
                     expanded = choiceExpansionOnTap(row.key, draft?.key, expanded)
                     draft = row
                     clearing = false
@@ -175,6 +186,20 @@ private fun EquipmentPicker(
         } else {
             null
         }
-        ChoicePickerActions(busy, clearing || draft?.key != saved?.key, dismiss, clear) { save(draft) }
+        val showEnhancement = slot.supportsDefenseEnhancement && draft != null
+        if (showEnhancement) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("Enhancement", color = Ink, modifier = Modifier.weight(1f))
+                FolioStepper("−", "Decrease enhancement", !busy && enhancement > DefenseEnhancementValues.first) {
+                    enhancement--
+                }
+                Text("+$enhancement", color = Ink)
+                FolioStepper("+", "Increase enhancement", !busy && enhancement < DefenseEnhancementValues.last) {
+                    enhancement++
+                }
+            }
+        }
+        val changed = clearing || draft?.key != saved?.key || showEnhancement && enhancement != savedEnhancement
+        ChoicePickerActions(busy, changed, dismiss, clear) { save(draft, enhancement.takeIf { showEnhancement }) }
     }
 }

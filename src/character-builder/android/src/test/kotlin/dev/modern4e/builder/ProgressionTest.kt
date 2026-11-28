@@ -29,34 +29,36 @@ class ProgressionTest {
         }
     }
 
-    @Test fun abilityIncreasePreviewMovesTheDraftWithoutStackingTheSavedIncrease() {
+    @Test fun abilityIncreasePreviewReplacesTheSavedPairWithoutStacking() {
         val points = Ability.entries.associateWith { if (it == Ability.STRENGTH) 6 else 2 }
         val document = CharacterDocument(id = "preview", savedAt = "2026-11-19T00:00:00Z",
             identity = CharacterIdentity("Preview"), packages = emptyList(), level = 19,
             abilities = AbilityAllocation(ChoiceSlotId("class", "main", 0), Ability.STRENGTH, emptyMap()),
-            levels = listOf(LevelDecisions(4, abilityAdvancements = listOf(
-                AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.WISDOM to 1))))))
+            levels = listOf(LevelDecisions(8, abilityAdvancements = listOf(
+                AbilityAdvancement(AdvancementRules.abilitySlot(8), mapOf(Ability.STRENGTH to 1, Ability.WISDOM to 1))))))
         val rules = EngineResult(emptyMap(), emptyList(), emptyList(), emptyMap(), emptyMap(), emptyList(),
             overviewAbilityTotals = points)
         val state = BuilderState(document, rules)
-        assertEquals(points, Progression.advancementPreviewPoints(state, 4, Ability.WISDOM))
-        val moved = Progression.advancementPreviewPoints(state, 4, Ability.DEXTERITY)
+        assertEquals(points, Progression.advancementPreviewPoints(state, 8, setOf(Ability.STRENGTH, Ability.WISDOM)))
+        val moved = Progression.advancementPreviewPoints(state, 8, setOf(Ability.STRENGTH, Ability.DEXTERITY))
         assertEquals(1, moved[Ability.WISDOM])
         assertEquals(3, moved[Ability.DEXTERITY])
         assertEquals(6, moved[Ability.STRENGTH])
         assertEquals(2, moved[Ability.CONSTITUTION])
-        assertEquals(1, Progression.advancementPreviewPoints(state, 4, null)[Ability.WISDOM])
-        assertEquals(3, Progression.advancementPreviewPoints(state, 12, Ability.WISDOM)[Ability.WISDOM])
+        val cleared = Progression.advancementPreviewPoints(state, 8, emptySet())
+        assertEquals(1, cleared[Ability.WISDOM])
+        assertEquals(5, cleared[Ability.STRENGTH])
+        assertEquals(3, Progression.advancementPreviewPoints(state, 14, setOf(Ability.WISDOM))[Ability.WISDOM])
         assertEquals(points, state.rules.overviewAbilityTotals)
-        assertEquals(points, Progression.advancementPreviewPoints(state, 8, Ability.WISDOM))
+        assertEquals(points, Progression.advancementPreviewPoints(state, 28, setOf(Ability.WISDOM, Ability.DEXTERITY)))
     }
 
     @Test fun invalidSavedAbilityIncreaseIsNotSubtractedFromKnownPoints() {
-        val base = evaluated(4, emptyList(), emptyList())
-        val invalid = base.copy(document = base.document.copy(levels = listOf(LevelDecisions(4,
-            abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(4), mapOf(Ability.STRENGTH to 1)))))))
+        val base = evaluated(8, emptyList(), emptyList())
+        val invalid = base.copy(document = base.document.copy(levels = listOf(LevelDecisions(8,
+            abilityAdvancements = listOf(AbilityAdvancement(AdvancementRules.abilitySlot(8), mapOf(Ability.STRENGTH to 2)))))))
         val before = invalid.rules.overviewAbilityTotals
-        val preview = Progression.advancementPreviewPoints(invalid, 4, Ability.WISDOM)
+        val preview = Progression.advancementPreviewPoints(invalid, 8, setOf(Ability.WISDOM))
         assertEquals(before.getValue(Ability.STRENGTH), preview[Ability.STRENGTH])
         assertEquals(before.getValue(Ability.WISDOM) + 1, preview[Ability.WISDOM])
     }
@@ -302,7 +304,7 @@ class ProgressionTest {
                 else -> emptyList()
             }
             val printed = ProgressionLevel(n, powers, n in setOf(1, 2, 4, 6, 8, 10, 11, 12, 14, 16, 17, 18, 20, 21, 22, 24, 26, 28, 30),
-                when (n) { 4, 12, 24 -> "non-main"; 8, 20, 28 -> "main"; 16 -> "all"; else -> null },
+                when (n) { 8, 14, 28 -> AbilityIncreaseKind.CHOOSE_TWO; 21 -> AbilityIncreaseKind.ALL; else -> null },
                 when (n) { 9, 15, 19, 25, 29 -> "daily"; 23 -> "encounter"; else -> null },
                 when (n) { 11 -> listOf("Paragon path features"); 16 -> listOf("Paragon path feature");
                     21, 24, 30 -> listOf("Epic destiny feature"); else -> emptyList() })

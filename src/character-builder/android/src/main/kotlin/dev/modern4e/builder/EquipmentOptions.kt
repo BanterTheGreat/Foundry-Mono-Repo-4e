@@ -12,7 +12,14 @@ internal enum class EquipmentSlot(val title: String, val kind: String, val insta
     ARMOR("Armor", "ARMOR", "builder.equipment.armor"),
     SHIELD("Shield", "SHIELD", "builder.equipment.shield"),
     IMPLEMENT("Implement", "IMPLEMENT", "builder.equipment.implement"),
+    NECK("Neck", "NECK", "builder.equipment.neck");
+
+    val supportsDefenseEnhancement get() = this == ARMOR || this == NECK
 }
+
+/** Display an item's positive enhancement alongside its name. */
+internal fun String.withEnhancementLabel(enhancement: Int): String =
+    if (enhancement == 0) this else "$this +$enhancement"
 
 internal val WeaponSlots = listOf(EquipmentSlot.WEAPON_ONE, EquipmentSlot.WEAPON_TWO)
 private const val ImplementLink = "builder.equipment.use-as-implement"
@@ -53,6 +60,7 @@ internal fun ContentEntry.meetsEquipmentProficiencyRequirement(proficiencies: Se
         "ARMOR" -> return isArmorProficient(profile.equipmentString("proficiencyKey"),
             profile.equipmentString("armorCategory"), proficiencies)
         "SHIELD", "IMPLEMENT" -> return profile.equipmentString("proficiencyKey") in proficiencies
+        "NECK" -> return true
         "WEAPON" -> {
             val category = profile.equipmentString("proficiencyCategory")
             if (category == "IMPROVISED") {

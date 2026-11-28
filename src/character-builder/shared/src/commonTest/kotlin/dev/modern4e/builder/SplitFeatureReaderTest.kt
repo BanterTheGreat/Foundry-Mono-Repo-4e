@@ -3,7 +3,7 @@ package dev.modern4e.builder
 import kotlin.coroutines.*
 import kotlin.test.*
 
-/** Sorcerer Spell Source and Warlock Eldritch Pact open the split reader with each option's granted powers loaded. */
+/** The shared option listing supplies the granted powers displayed in the Warlock pact reader. */
 class SplitFeatureReaderTest {
     private fun run(block: suspend () -> Unit) {
         var result: Result<Unit>? = null
@@ -14,7 +14,7 @@ class SplitFeatureReaderTest {
         checkNotNull(result).getOrThrow()
     }
 
-    @Test fun warlockPactRowsCarryTheirGrantedPowersButOtherFeatureChoicesDoNot() = run {
+    @Test fun warlockPactRowsCarryTheirGrantedPowers() = run {
         val prefix = "authoritative/"
         val packageIds = productionFixtures.keys.filter { it.startsWith(prefix) && it.endsWith("/manifest.json") }
             .map { it.removePrefix(prefix).substringBefore('/') }
@@ -39,7 +39,6 @@ class SplitFeatureReaderTest {
                 warlock.supplier.packageId, warlock.fingerprint))))))
         val rules = RulesEngine.evaluate(document, RulesContent.load(document, catalog))
         val pact = rules.choices.single { it.slot.choiceId == "modern4e.choice.warlock-eldritch-pact" }.slot
-        assertTrue(pact.usesSplitFeatureReader())
 
         val operations = BuilderOperations(catalog)
         val listing = operations.optionListing(document, 1, pact)
@@ -50,10 +49,5 @@ class SplitFeatureReaderTest {
             setOf("modern4e.power.warlock-darkspiral-aura", "modern4e.power.warlock-spiteful-glamor"),
             dark.advancementDefinitions.keys,
         )
-        val plainSlot = rules.choices.first { !it.slot.usesSplitFeatureReader() && it.entries.any { e -> e.entryId.startsWith("modern4e.feature.") } }.slot
-        val plain = operations.optionListing(document, 1, plainSlot)
-        val plainIds = plain.rows().map { it.metadata.metadata.id }
-        assertTrue(plainIds.isNotEmpty())
-        assertTrue(plain.check(plainIds).all { it.advancementDefinitions.isEmpty() })
     }
 }

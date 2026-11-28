@@ -162,6 +162,31 @@ data class EquipmentSelection(
     }
 }
 
+private const val DefenseEnhancementKey = "builder.equipment.defense-enhancement"
+val DefenseEnhancementValues = 0..6
+
+/** Read the per-item enhancement. Old selections without one retain a +0 bonus. */
+val EquipmentSelection.defenseEnhancement: Int
+    get() = configuration[DefenseEnhancementKey].parseDefenseEnhancement() ?: 0
+
+/** Report any configured option the engine cannot apply to this item. */
+internal fun EquipmentSelection.hasUnsupportedConfiguration(kind: String?): Boolean =
+    configuration.any { (key, value) ->
+        key != DefenseEnhancementKey || (kind != "ARMOR" && kind != "NECK") || value.parseDefenseEnhancement() == null
+    }
+
+private fun String?.parseDefenseEnhancement(): Int? = this?.toIntOrNull()?.takeIf { it in DefenseEnhancementValues }
+
+/** Update the enhancement without discarding other saved item configuration. */
+fun EquipmentSelection.withDefenseEnhancement(value: Int): EquipmentSelection {
+    require(value in DefenseEnhancementValues)
+    return if (value == 0) {
+        copy(configuration = configuration - DefenseEnhancementKey)
+    } else {
+        copy(configuration = configuration + (DefenseEnhancementKey to value.toString()))
+    }
+}
+
 @Serializable
 data class ManualAdjustment(@OpaqueIdentifier val id: String, val modifier: TypedModifier, val reason: String = "")
 

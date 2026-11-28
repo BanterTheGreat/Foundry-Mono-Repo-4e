@@ -5,7 +5,7 @@ package dev.modern4e.builder
  * combat statistics.
  */
 data class ProgressionLevel(val level: Int, val powers: List<String>, val feat: Boolean,
-    val ability: String? = null, val replacement: String? = null, val automatic: List<String> = emptyList())
+    val ability: AbilityIncreaseKind? = null, val replacement: String? = null, val automatic: List<String> = emptyList())
 
 internal data class ProgressionGrant(val occurrence: EngineEntry, val level: Int, val sourceCategory: EntryCategory) {
     val entry get() = occurrence.definition.entry
@@ -16,22 +16,22 @@ internal data class ProgressionGrant(val occurrence: EngineEntry, val level: Int
 
 object Progression {
     /** Preview a replacement draft for this milestone without counting its saved increase twice. */
-    internal fun advancementPreviewPoints(state: BuilderState, level: Int, selected: Ability?): Map<Ability, Int> {
+    internal fun advancementPreviewPoints(state: BuilderState, level: Int, selected: Set<Ability>): Map<Ability, Int> {
         val current = state.rules.overviewAbilityTotals
-        if (!AdvancementRules.choosesNonMainIncrease(level) || level > state.document.level) {
+        if (!AdvancementRules.choosesAbilityIncrease(level) || level > state.document.level) {
             return current
         }
         val saved = state.document.levels.firstOrNull { it.level == level }?.abilityAdvancements?.singleOrNull()
-            ?.takeIf { AdvancementRules.validAdvancement(level, it, state.document.abilities.mainAbility) }
+            ?.takeIf { AdvancementRules.validAdvancement(level, it) }
         return current.mapValues { (ability, points) ->
             points - (saved?.increases?.get(ability) ?: 0) +
-                if (ability == selected && ability != state.document.abilities.mainAbility) 1 else 0
+                if (ability in selected) 1 else 0
         }
     }
 
     private val grantSources = setOf(EntryCategory.ANCESTRY, EntryCategory.CLASS, EntryCategory.THEME, EntryCategory.PARAGON_PATH, EntryCategory.EPIC_DESTINY)
 
-    /** Level [n] of the shared schedule as display strings, such as "Paragon encounter" or "non-main". */
+    /** Level [n] of the shared schedule with display labels for scheduled powers and features. */
     fun level(n: Int): ProgressionLevel {
         val row = AdvancementRules.level(n)
         val powers = row.powers.map { power ->
@@ -47,19 +47,13 @@ object Progression {
                 else -> kind.replaceFirstChar { it.titlecase() }
             }
         }
-        val ability = when (row.abilityIncrease) {
-            AbilityIncreaseKind.NON_MAIN -> "non-main"
-            AbilityIncreaseKind.MAIN -> "main"
-            AbilityIncreaseKind.ALL -> "all"
-            null -> null
-        }
         val features = row.features?.let { features ->
             when (features.source) {
                 EntryCategory.PARAGON_PATH -> if (features.several) "Paragon path features" else "Paragon path feature"
                 else -> "Epic destiny feature"
             }
         }
-        return ProgressionLevel(n, powers, row.feat, ability, row.replacement?.name?.lowercase(), listOfNotNull(features))
+        return ProgressionLevel(n, powers, row.feat, row.abilityIncrease, row.replacement?.name?.lowercase(), listOfNotNull(features))
     }
 
     /** Level at which an engine entry arrived: its own decision level, else its source chain's grant/progression level. */
