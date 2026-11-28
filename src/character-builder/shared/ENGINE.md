@@ -110,24 +110,46 @@ budget **5**, normally **0–2** per ability. An optional trade lowers one non-m
 from zero to **−1**, raising another non-main by **1** (up to 3). The resulting
 non-main total remains 5. Missing point-map members represent zero. Allocation
 must identify an active main-ability choice and an allowed ability. Invalid
-allocations make ability and dependent skill calculations unavailable.
+allocations make ability and dependent calculations unavailable.
 
-The 16 `Skill` identities and their ability mappings come from
-`glossary/skill_checks.typ` and `glossary/balance_changes.typ`. A displayed skill
-bonus is its default ability's direct points plus **half the character's level
-(rounded down)**, **5** for proficiency, and applicable modifiers. Half-level
-applies to proficient and untrained skills. No vanilla ability-score conversion is used.
-These are builder statistics; live GM-selected alternate-ability checks are not
-a session feature of this builder.
+`Skill.catalog` holds the 16 2.0 skills from
+`glossary/skills.typ`. The enum also keeps the retired identifiers so older saves
+and unadapted content decode and re-encode unchanged. Rules read every identifier
+through `Skill.current`: Thievery, Society, Bluff and Intimidate become Finesse,
+Culture, Deception and Command; Diplomacy and Perception have no successor. A
+saved pick of a removed skill is invalid and does not count. A prerequisite naming
+one is reported as needing adaptation (`engine.retiredSkill`), never as failed.
 
-Background skill options are exposed by `ModernCreation.environments` and
-`ModernCreation.upbringings`, transcribed from `glossary/background.typ`.
-Background selections use `background.environment.<name>/skill/0` and
-`background.upbringing.<name>/skill/0`; names are lower-case. Two independent
-free slots are `creation/free-skill/0` and `creation/free-skill/1`. Choice sources
-are preserved even when the same skill is granted repeatedly; +5 applies once.
-Duplicate chosen proficiency emits incomplete automation: replacement rules are
-unspecified, so the engine neither invents a replacement nor deletes a choice.
+`SkillRank` supplies the rank bonus (Untrained 0, Novice 1, Trained 3, Expert 5,
+Adept 7, Master 9); only the first three are granted today. A skill has no ability.
+Its total is **half the character's level (rounded down)**, the rank bonus and
+applicable modifiers; the approach picks the ability at the table, so invalid or
+missing ability points do not affect skill totals. Unresolved content still makes
+the `statistics` totals unavailable. `displayedSkill(skill, rank)` totals the known
+inputs for the committed rank or a picker's draft rank. The builder neither rolls
+nor sets DCs.
+
+`EngineResult.proficiencies` lists Trained skills with their sources;
+`noviceSkills` lists Novice ones. Only Trained skills meet a proficiency
+prerequisite. A class's skill is a grant, or a choice when it lists several, with
+ID `modern4e.choice.class-skill`. Three free slots are
+`creation/free-skill/0..2`; with the class skill they must all differ
+(`engine.startingSkillDistinct`). A theme authors one
+`modern4e.choice.theme-skill` choice with `rank: NOVICE`. It offers nothing until
+the four starting Trained skills are held, then the theme's skills outside them, or
+every other skill when none is left. A pick outside the offer stays saved and
+inactive. Class and theme skill decisions left without an active slot are ignored
+without a diagnostic.
+
+`ModernCreation.BACKGROUNDS_ENABLED` is off for the 2.0 playtest: no Environment or
+Upbringing slot is offered, `BuilderEdit.Background` is rejected and saved
+`background.*` decisions are retained without effect or diagnostics. Their options
+remain in `ModernCreation.environments` and `ModernCreation.upbringings`.
+
+Choice sources are preserved even when the same skill is granted repeatedly; the
+highest rank bonus applies once. Duplicate training outside the starting skills
+emits incomplete automation: replacement rules are unspecified, so the engine
+neither invents a replacement nor deletes a choice.
 
 Initial root entry slots are `creation/{class,ancestry,theme,feat}/0` at level 1.
 Later feats use `advancement.N/feat/0` at each local feat level, and the level-11
@@ -343,8 +365,8 @@ compendium was read for these rules.
   repeated penalties from the same entry ID keep the strongest penalty.
 - Manual adjustments use their persistent adjustment ID as their source identity
   and the exact contributor label **Manual Adjustment**, without requiring a reason.
-- Skill proficiency's baseline +5 participates as a `PROFICIENCY` bonus so another
-  proficiency modifier cannot accidentally add another +5.
+- The skill rank bonus participates as a `PROFICIENCY` bonus so another
+  proficiency modifier cannot accidentally stack with it.
 
 `SET` and `MINIMUM` are explicitly authored engine operations, not inferred
 published stacking rules. Calculation order is **SET base → stacked ADD → final
@@ -364,8 +386,8 @@ From `src/character-builder/`:
 ```
 
 The same `RulesEngineTest` and `EngineModifiersTest` common tests run on JVM and
-JavaScript, covering the baseline allocation/tradeoff, changed main abilities,
-all skill mappings, background/free/granted proficiency, typed and named-source
+JavaScript (`SkillRulesTest` covers the 2.0 skill rules), covering the baseline allocation/tradeoff, changed main abilities,
+all skill mappings, free/granted training, typed and named-source
 stacking, penalties, SET/MINIMUM, diagnostics, missing/cyclic grants, repeated
 choices, eligibility limits, catalog supplier protection and unavailable values.
 Combat execution remains outside the builder. V2 class formulas are described above.

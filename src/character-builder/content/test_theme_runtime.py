@@ -1,4 +1,5 @@
 """Theme authoring compiles to a lossless, deterministic mechanics-v2 runtime package."""
+import copy
 import json
 from pathlib import Path
 import tempfile
@@ -46,7 +47,10 @@ class ThemeRuntimeTest(unittest.TestCase):
             self.assertEqual({"type": "always"}, mechanics["access"])
             self.assertEqual([{"type": "always"}], mechanics["prerequisites"])
             self.assertEqual(1, mechanics["maximumSelections"])
-            self.assertEqual([], mechanics["choices"])
+            if entry["category"] == "THEME":
+                self.assertEqual([theme_runtime.THEME_SKILL_CHOICE], [c["id"] for c in mechanics["choices"]])
+            else:
+                self.assertEqual([], mechanics["choices"])
             limitations = entry["coverage"]["limitations"]
             self.assertEqual("PARTIAL" if limitations else "SUPPORTED", entry["coverage"]["status"])
             self.assertTrue(all(text.strip() for text in limitations))
@@ -63,6 +67,33 @@ class ThemeRuntimeTest(unittest.TestCase):
             for key in ("role", "concept", "sections"):
                 self.assertEqual(authored[key], self.entries[theme_id]["sharedData"][key])
         self.assertEqual([], self.entries["modern4e.feature.docker-level-1"]["mechanics"]["grants"])
+
+    def test_each_theme_offers_one_novice_pick_from_its_two_listed_skills(self):
+        expected = {
+            "docker": ["STREETWISE", "CULTURE"], "eschatologist": ["CULTURE", "INSIGHT"],
+            "gunsmith": ["CRAFTING", "ARCANA"], "martial-scientist": ["CULTURE", "ATHLETICS"],
+            "skyseer": ["NATURE", "OCCULTISM"], "spirit-medium": ["OCCULTISM", "INSIGHT"],
+            "technologist": ["CRAFTING", "FINESSE"], "vekeshi-mystic": ["RELIGION", "INSIGHT"],
+            "yerasol-veteran": ["ENDURANCE", "COMMAND"],
+        }
+        for slug, skills in expected.items():
+            with self.subTest(theme=slug):
+                self.assertEqual(
+                    [{"type": "proficiencies", "id": theme_runtime.THEME_SKILL_CHOICE, "count": 1,
+                      "skills": skills, "rank": "NOVICE"}],
+                    self.entries[f"modern4e.theme.{slug}"]["mechanics"]["choices"])
+
+    def test_a_theme_without_authored_novice_skills_cannot_be_compiled(self):
+        authored = theme_runtime.authoring.shared.shared.load_json(theme_runtime.authoring.CONTENT)
+        for mutate in (lambda theme: theme.pop("noviceSkills"),
+                       lambda theme: theme.update(noviceSkills=[]),
+                       lambda theme: theme.update(noviceSkills=["DIPLOMACY"]),
+                       lambda theme: theme.update(noviceSkills=["CULTURE", "CULTURE"])):
+            data = copy.deepcopy(authored)
+            mutate(data["themes"][0])
+            with self.subTest(theme=data["themes"][0].get("noviceSkills")):
+                with self.assertRaises(ValueError):
+                    theme_runtime.authoring.validate(data)
 
     def test_grant_summary_role_keeps_individual_theme_power_grants(self):
         themes = {
@@ -102,7 +133,7 @@ class ThemeRuntimeTest(unittest.TestCase):
         self.assertEqual(options, gunsmith["sharedData"]["modifications"])
         self.assertTrue(gunsmith["mechanics"]["unsupported"])
         self.assertTrue(any("modification" in text for text in gunsmith["coverage"]["limitations"]))
-        self.assertEqual([], gunsmith["mechanics"]["choices"])
+        self.assertEqual([theme_runtime.THEME_SKILL_CHOICE], [c["id"] for c in gunsmith["mechanics"]["choices"]])
         self.assertFalse({g["entryId"] for g in gunsmith["mechanics"]["grants"]} & set(options))
         for theme_id, entry in self.entries.items():
             if entry["category"] == "THEME" and theme_id != "modern4e.theme.gunsmith":

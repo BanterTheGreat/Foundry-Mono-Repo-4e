@@ -195,7 +195,13 @@ sealed class ChoiceDefinition {
     }
     @Serializable @SerialName("proficiencies")
     data class Proficiencies(val id: String, val count: Int, val skills: List<Skill>,
-        @EncodeDefault(EncodeDefault.Mode.NEVER) val distinctAgainstCharacter: Boolean = false) : ChoiceDefinition()
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val distinctAgainstCharacter: Boolean = false,
+        /** The rank each pick grants. A NOVICE choice is offered only after the four starting Trained skills. */
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val rank: SkillRank = SkillRank.TRAINED) : ChoiceDefinition() {
+        init {
+            require(rank == SkillRank.TRAINED || rank == SkillRank.NOVICE)
+        }
+    }
     @Serializable @SerialName("mainAbility")
     data class MainAbility(val id: String, val abilities: List<Ability>) : ChoiceDefinition()
 }

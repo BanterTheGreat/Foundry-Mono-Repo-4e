@@ -391,11 +391,9 @@ class ProgressionTest {
         assertEquals(6, Progression.remainingPoints(base.copy(points = base.points + (Ability.CHARISMA to -1))))
     }
 
-    @Test fun skillLabelsAreCompactAndKeepOtherSources() {
-        Ability.entries.forEach { ability ->
-            assertEquals(ability.name.readable(), Progression.skillContributorLabel("${ability.name} points"))
-        }
-        assertNull(Progression.skillContributorLabel("Proficiency"))
+    @Test fun skillLabelsHideTheRankTermAndKeepOtherSources() {
+        assertNull(Progression.skillContributorLabel(SKILL_RANK_LABEL))
+        assertEquals("Half level", Progression.skillContributorLabel("Half level"))
         assertEquals("Manual Adjustment", Progression.skillContributorLabel("Manual Adjustment"))
     }
     @Test fun steppersEnforceSinglePairedTradeoff() {
@@ -448,14 +446,14 @@ class ProgressionTest {
         // Root offers have their own rows; the level's inline choice rows never repeat them.
         assertEquals(4, complete.rules.choices.count { it.listing == SlotListing.DEFERRED })
         assertTrue(Progression.levelChoices(complete, 1).none { it.listing == SlotListing.DEFERRED })
-        // An unchosen environment is no slot: neither its name nor its skill's source is saved.
+        // Environment is disabled, so leaving it unchosen adds nothing to finish.
         val noEnvironment = complete.document.copy(identity = doc.identity.copy(environment = ""), levels = complete.document.levels.map { row ->
             row.copy(proficiencies = row.proficiencies.filterNot { it.slot.sourceInstanceId.startsWith("background.environment.") })
         })
-        assertEquals(1, Progression.unfinished(complete.copy(document = noEnvironment)))
+        assertEquals(0, Progression.unfinished(complete.copy(document = noEnvironment)))
     }
 
-    /** A document with both origins and a valid allocation and level 1 skills, so only the remaining engine slot offers decide the badge. */
+    /** A document with a valid allocation and level 1 skills, so only the remaining engine slot offers decide the badge. */
     @Test fun levelTwentyFeatSlotIsARealRequiredOfferButLevelTwentyOneOffersNothing() {
         fun missingSlots(level: Int) = engineState(badgeDocument(level, (1..level).map { LevelDecisions(it) }), emptyList())
             .rules.choices.filter { it.missing && it.listing == SlotListing.DEFERRED }.mapNotNull { it.acquisitionLevel }
@@ -478,6 +476,7 @@ class ProgressionTest {
             if (row.level != 1) row else row.copy(proficiencies = listOf(
                 ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 0), Skill.ATHLETICS),
                 ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 1), Skill.STEALTH),
+                ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 2), Skill.INSIGHT),
                 ProficiencyChoice(ChoiceSlotId("background.environment.urban", "skill", 0), Skill.BLUFF),
                 ProficiencyChoice(ChoiceSlotId("background.upbringing.academic", "skill", 0), Skill.ARCANA)))
         },

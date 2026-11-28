@@ -31,7 +31,7 @@ def validate(data):
             shared.require(value["rulesProfile"] == "MODERN4E", eid, "expected local rules")
             continue
         if category == "themes":
-            shared.fields(value, BASE + ["role", "concept", "sections", "grants"], ["modifications"], eid)
+            shared.fields(value, BASE + ["role", "concept", "sections", "grants", "noviceSkills"], ["modifications"], eid)
         else:
             shared.fields(value, BASE, ["grantDisplay"], eid)
             shared.validate_grant_display(value, eid)
@@ -45,6 +45,8 @@ def validate(data):
         if category != "themes":
             continue
         shared.enum(value["role"], ["DEFENDER", "STRIKER", "LEADER", "CONTROLLER"], eid)
+        # Every theme needs authored Novice grants, so a homebrew theme cannot ship without them.
+        shared.values(value["noviceSkills"], shared.TRAINING_SKILLS, eid + ".noviceSkills", True)
         shared.string(value["concept"], eid)
         shared.require(isinstance(value["sections"], dict) and bool(value["sections"]), eid, "missing prose sections")
         for key, prose in value["sections"].items():

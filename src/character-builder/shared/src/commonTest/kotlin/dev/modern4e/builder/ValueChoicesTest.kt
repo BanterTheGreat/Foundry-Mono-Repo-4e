@@ -25,19 +25,19 @@ class ValueChoicesTest {
     private val ancestry = entry("ancestry", EntryCategory.ANCESTRY, Mechanics(version = 2,
         facts = listOf(FactGrant(FactKind.LANGUAGE, listOf("COMMON")))))
     private val linguist = entry("linguist", mechanics = Mechanics(version = 2, choices = listOf(language,
-        ChoiceDefinition.Values("bonus", 1, FactKind.SKILL_BONUS, listOf("DIPLOMACY", "SOCIETY", "INSIGHT").map { option(it) },
+        ChoiceDefinition.Values("bonus", 1, FactKind.SKILL_BONUS, listOf("ARCANA", "SOCIETY", "INSIGHT").map { option(it) },
             distinctScope = FactScope.ENTRY, allowRepeatWhenExhausted = true, bonus = 2, epicBonus = 3))))
 
     @Test fun languagesGrantNewDistinctFactsAndSkillBonusSurvivesPortableRoundTrip() {
         val values = listOf("A", "B", "C").mapIndexed { index, value -> ValueChoice(slot("first", "languages", index), value) } +
-            ValueChoice(slot("first", "bonus"), "DIPLOMACY")
+            ValueChoice(slot("first", "bonus"), "ARCANA")
         val original = document(listOf(LevelDecisions(1, listOf(choose(ancestry, "origin", id = "ancestry"), choose(linguist, "first")), values = values)))
         val encoded = (ContractCodec.encodeChecked(original) as ContractResult.Available).value
         val reopened = (ContractCodec.decode(encoded) as ContractResult.Available).value
         assertEquals(original, reopened)
         val result = evaluate(reopened, listOf(ancestry, linguist))
         assertEquals(setOf("COMMON", "A", "B", "C"), result.facts.filter { it.kind == FactKind.LANGUAGE }.map { it.value }.toSet())
-        assertTrue(result.statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = Skill.DIPLOMACY)).modifiers.any {
+        assertTrue(result.statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = Skill.ARCANA)).modifiers.any {
             it.contribution.modifier.value == 2 && it.contribution.modifier.bonusType == BonusType.FEAT })
         assertFalse(result.diagnostics.any { it.code == "engine.valueOption" })
     }
@@ -64,10 +64,10 @@ class ValueChoicesTest {
     @Test fun entryDistinctSkillFallbackAllowsRepeatOnlyAfterAllOptionsUsed() {
         val bonus = (linguist.mechanics.choices[1] as ChoiceDefinition.Values).copy(count = 4)
         val feat = linguist.copy(mechanics = linguist.mechanics.copy(choices = listOf(bonus)))
-        val values = listOf("DIPLOMACY", "SOCIETY", "INSIGHT", "DIPLOMACY").mapIndexed { i, value -> ValueChoice(slot("first", "bonus", i), value) }
+        val values = listOf("ARCANA", "SOCIETY", "INSIGHT", "ARCANA").mapIndexed { i, value -> ValueChoice(slot("first", "bonus", i), value) }
         val doc = document(listOf(LevelDecisions(1, listOf(choose(feat, "first")), values = values)))
         assertFalse(evaluate(doc, listOf(feat)).diagnostics.any { it.code == "engine.valueOption" })
-        val invalid = doc.copy(levels = listOf(doc.levels.single().copy(values = values.take(1) + values[1].copy(value = "DIPLOMACY"))))
+        val invalid = doc.copy(levels = listOf(doc.levels.single().copy(values = values.take(1) + values[1].copy(value = "ARCANA"))))
         assertTrue(evaluate(invalid, listOf(feat)).diagnostics.any { it.code == "engine.valueOption" })
     }
 

@@ -24,10 +24,10 @@ class SharedClassTest {
             decision(feature(reactivity), "reactivity", ownedChoice("fighter-reactivity")),
             decision(feature(specialization), "specialization", ownedChoice("fighter-specialization"))),
             proficiencies = listOf(
-                ProficiencyChoice(ChoiceSlotId("background.environment.urban", "skill", 0), Skill.SOCIETY),
-                ProficiencyChoice(ChoiceSlotId("background.upbringing.labor", "skill", 0), Skill.CRAFTING),
+                ProficiencyChoice(ChoiceSlotId("fighter", ModernCreation.CLASS_SKILL_CHOICE, 0), Skill.ATHLETICS),
                 ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 0), Skill.MEDICINE),
-                ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 1), Skill.RELIGION)))),
+                ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 1), Skill.RELIGION),
+                ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 2), Skill.CRAFTING)))),
     )
     private fun content(document: CharacterDocument, replacements: List<ContentEntry> = emptyList()): RulesContent {
         val all = definitions + replacements.associateBy { it.id }
@@ -263,8 +263,8 @@ class SharedClassTest {
         val talent = feature("one-handed-weapon-talent")
         val reactivity = feature("combat-reactivity")
         val first = talent.copy(mechanics = talent.mechanics.copy(prerequisites = listOf(Prerequisite.AbilityPoints(Ability.WISDOM, 2)),
-            grants = listOf(Grant.Proficiency("dependent-proficiency", Skill.ATHLETICS))))
-        val second = reactivity.copy(mechanics = reactivity.mechanics.copy(prerequisites = listOf(Prerequisite.Proficiency(Skill.ATHLETICS)),
+            grants = listOf(Grant.Proficiency("dependent-proficiency", Skill.ENDURANCE))))
+        val second = reactivity.copy(mechanics = reactivity.mechanics.copy(prerequisites = listOf(Prerequisite.Proficiency(Skill.ENDURANCE)),
             modifiers = listOf(TypedModifier(ModifierTarget(Statistic.ABILITY_POINTS, ability = Ability.WISDOM), ModifierOperation.ADD, 2))))
         val result = evaluate(replacements = listOf(first, second))
         assertEquals(Eligibility.INELIGIBLE, result.entryEligibility.getValue("specialization").status)
@@ -288,12 +288,12 @@ class SharedClassTest {
     @Test
     fun laterGrantsAndProficienciesCannotRetroactivelyQualifyEarlierSelections() {
         val talent = feature("one-handed-weapon-talent")
-        val qualified = talent.copy(mechanics = talent.mechanics.copy(prerequisites = listOf(Prerequisite.Proficiency(Skill.ATHLETICS))))
+        val qualified = talent.copy(mechanics = talent.mechanics.copy(prerequisites = listOf(Prerequisite.Proficiency(Skill.ENDURANCE))))
         val later = fighter.copy(mechanics = fighter.mechanics.copy(progression = fighter.mechanics.progression +
-            ClassProgression(2, grants = listOf(Grant.Proficiency("late-athletics", Skill.ATHLETICS)))))
+            ClassProgression(2, grants = listOf(Grant.Proficiency("late-endurance", Skill.ENDURANCE)))))
         val doc = character().let { it.copy(level = 2, levels = it.levels + LevelDecisions(2)) }
         val result = evaluate(doc, listOf(qualified, later))
-        assertTrue(Skill.ATHLETICS in result.proficiencies)
+        assertTrue(Skill.ENDURANCE in result.proficiencies)
         assertEquals(Eligibility.INELIGIBLE, result.entryEligibility.getValue("specialization").status)
     }
 

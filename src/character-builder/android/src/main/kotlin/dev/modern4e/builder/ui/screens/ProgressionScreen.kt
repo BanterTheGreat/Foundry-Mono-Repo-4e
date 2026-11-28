@@ -93,16 +93,12 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
         val backgroundOptions = if (kind == "environment") ModernCreation.environments else ModernCreation.upbringings
         return if (slot == null) Progression.background(document, kind) !in backgroundOptions else needsAttention(slot)
     }
-    fun skillTileChosen(kind: String): Boolean {
-        val backgroundKind = kind.removeSuffix("-skill").takeIf { it != kind }
-        val background = backgroundKind?.let { Progression.background(document, it) }
-        val available = background == null || background.isNotBlank()
-        val freeSlots = (0..1).map { ChoiceSlotId("creation", "free-skill", it) }
-        return when (kind) {
-            "allocation" -> Progression.validAllocation(document.abilities) && document.abilities.source !in invalidSlots
-            "free" -> freeSlots.none { needsAttention(it) }
-            else -> available && !needsAttention(ChoiceSlotId("background.$backgroundKind.$background", "skill", 0))
-        }
+    val skillTiles = startingSkillTiles(state) { needsAttention(it) }
+    val allocationChosen = Progression.validAllocation(document.abilities) && document.abilities.source !in invalidSlots
+    val creationKinds = listOf("ancestry", "class", "theme") + Progression.backgroundKinds
+    fun backgroundSkillMissing(kind: String): Boolean {
+        val background = Progression.background(document, kind)
+        return background.isBlank() || needsAttention(ChoiceSlotId("background.$kind.$background", "skill", 0))
     }
     fun abilityIncreaseInvalid(level: Int): Boolean {
         val slot = AdvancementRules.rootSlot(level, SlotCategory.AbilityIncrease) ?: return false
@@ -117,7 +113,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             })
     }
     /** Counts what the Base heading reports: the origin choices shown above Level 1. */
-    fun baseNeeds(): Int = listOf("ancestry", "class", "theme", "environment", "upbringing").count(::creationNeedsAttention) +
+    fun baseNeeds(): Int = creationKinds.count(::creationNeedsAttention) +
         ancestryLanguages.count { needsAttention(it.slot, optional = it.optional) } +
         ancestryPowers.count { needsAttention(it.slot, optional = it.optional) }
     /** Counts the choices a reached level's rows flag, so its heading can report how many are left. */
@@ -131,7 +127,9 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
         val shown = powerSlots + regularChoices.filter { it.entries.isNotEmpty() || it.valueKind != null || it.skills.isNotEmpty() }
         var needs = shown.count { needsAttention(it.slot, level, it.optional) }
         if (level == 1) {
-            needs += listOf("allocation", "environment-skill", "upbringing-skill", "free").count { !skillTileChosen(it) }
+            needs += skillTiles.count { !it.chosen } + (if (allocationChosen) 0 else 1) +
+                // Enabled background skills are ordinary tiles' worth of choices.
+                Progression.backgroundKinds.count { backgroundSkillMissing(it) }
         }
         AdvancementRules.rootSlot(level, EntryCategory.PARAGON_PATH)?.let { slot ->
             needs += if (needsAttention(slot, level)) 1 else 0
@@ -201,9 +199,11 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             CreationChoice("class", Modifier.weight(1f).fillMaxHeight())
             CreationChoice("theme", Modifier.weight(1f).fillMaxHeight())
         }
-        CreationChoicePair {
-            CreationChoice("environment", Modifier.weight(1f).fillMaxHeight())
-            CreationChoice("upbringing", Modifier.weight(1f).fillMaxHeight())
+        if (ModernCreation.BACKGROUNDS_ENABLED) {
+            CreationChoicePair {
+                CreationChoice("environment", Modifier.weight(1f).fillMaxHeight())
+                CreationChoice("upbringing", Modifier.weight(1f).fillMaxHeight())
+            }
         }
         val startingGrants = grantsByLevel[0].orEmpty().groupBy { it.sourceCategory }
         listOf(EntryCategory.ANCESTRY, EntryCategory.CLASS, EntryCategory.THEME).forEach { source ->
@@ -226,31 +226,30 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                     null
                 })
             if (level == 1) {
-                val tiles = listOf("Ability Scores", "Environment skill", "Upbringing skill", "Free skills")
-                tiles.chunked(2).forEach { row ->
+                val allocationTile = SkillTile("Ability Scores", "allocation", null,
+                    if (allocationChosen) "✓" else ChoosePlaceholder, allocationChosen, enabled = true)
+                val backgroundTiles = Progression.backgroundKinds.map { kind ->
+                    val background = Progression.background(document, kind)
+                    val chosen = !backgroundSkillMissing(kind)
+                    SkillTile("${kind.readable()} skill", "$kind-skill", null,
+                        when {
+                            background.isBlank() -> "Choose ${kind.readable()} first"
+                            chosen -> "✓"
+                            else -> ChoosePlaceholder
+                        }, chosen, enabled = background.isNotBlank(), hint = background.isBlank())
+                }
+                (listOf(allocationTile) + backgroundTiles + skillTiles).chunked(2).forEach { row ->
                     Row(
                         Modifier.fillMaxWidth().height(IntrinsicSize.Min),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        row.forEach { label ->
-                            val kind = when (label) { "Ability Scores" -> "allocation"; "Free skills" -> "free";
-                                "Environment skill" -> "environment-skill"; else -> "upbringing-skill" }
-                            val backgroundKind = kind.removeSuffix("-skill").takeIf { it != kind }
-                            val background = backgroundKind?.let { Progression.background(document, it) }
-                            val available = background == null || background.isNotBlank()
-                            val freeCount = (0..1).count { ChoiceSlotId("creation", "free-skill", it) in filledSlots }
-                            val chosen = skillTileChosen(kind)
-                            val value = when {
-                                !available -> "Choose ${backgroundKind.orEmpty().readable()} first"
-                                chosen -> "✓"
-                                kind == "free" && freeCount < 2 -> "${2 - freeCount} LEFT"
-                                else -> ChoosePlaceholder
-                            }
+                        row.forEach { tile ->
                             LevelChoice(
-                                label, value, Modifier.weight(1f).fillMaxHeight(),
-                                enabled = available && !model.busy, valueIsHint = !available || (kind == "free" && freeCount < 2),
-                                invalid = !chosen, saving = saving(kind),
-                            ) { open(kind) }
+                                tile.title, tile.value, Modifier.weight(1f).fillMaxHeight(),
+                                enabled = tile.enabled && !model.busy, valueIsHint = tile.hint,
+                                invalid = !tile.chosen,
+                                saving = saving(tile.kind, slot = tile.slot),
+                            ) { open(tile.kind, slot = tile.slot) }
                         }
                     }
                 }
@@ -286,7 +285,9 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                         open("value", level, choice.slot)
                     }
                 } else if (choice.skills.isNotEmpty()) {
-                    LevelChoice(Progression.choiceLabel(choice.slot.choiceId, className), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: ChoosePlaceholder, enabled = !model.busy, invalid = invalid,
+                    LevelChoice(Progression.choiceLabel(choice.slot.choiceId, className),
+                        skills.firstOrNull { it.slot == choice.slot }?.skill?.let { (it.current ?: it).title } ?: ChoosePlaceholder,
+                        enabled = !model.busy, invalid = invalid,
                         saving = saving("skill", level, choice.slot)) {
                         open("skill", level, choice.slot)
                     }
@@ -726,27 +727,26 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                     "free", "environment-skill", "upbringing-skill", "skill" -> {
                         val kind = request.kind.substringBefore('-')
                         val slots = when (kind) {
-                            "free" -> (0..1).map { ChoiceSlotId("creation", "free-skill", it) }
+                            "free" -> freeSkillSlots
                             "skill" -> listOf(request.slot!!)
                             else -> listOf(ChoiceSlotId("background.$kind.${Progression.background(document, kind)}", "skill", 0))
                         }
-                        val offered = if (kind == "free") Skill.entries else state.rules.choices.firstOrNull { it.slot == slots.first() }?.skills.orEmpty()
-                        var picks by remember { mutableStateOf(document.levels.flatMap { it.proficiencies }.filter { it.slot in slots }.map { it.skill }) }
-                        if (offered.isEmpty()) { Text("Choose ${kind.readable()} first.", color = Dim) }
-                        offered.forEach { skill ->
-                            val chosen = skill in picks
-                            val otherSource = state.rules.proficiencies[skill].orEmpty().firstOrNull { it !in slots }
-                            val blocked = otherSource != null
-                            val draftSource = slots.getOrNull(picks.indexOf(skill))
-                            val modifier = state.rules.displayedSkill(skill, otherSource ?: draftSource)
-                            SkillRow(skill, modifier, chosen, blocked) {
-                                picks = if (chosen) picks - skill else if (slots.size == 1) listOf(skill) else if (picks.size < 2) picks + skill else picks
-                                edit = BuilderEdit.Batch(listOf(BuilderEdit.RemoveProficiency(slots.toSet())) + picks.mapIndexed { index, pick ->
-                                    BuilderEdit.Proficiency(request.level, ProficiencyChoice(slots[index], pick))
-                                })
+                        val offer = state.rules.choices.firstOrNull { it.slot == slots.first() }
+                        val offered = if (kind == "free") Skill.catalog else offer?.skills.orEmpty()
+                        val granted = offer?.skillRank ?: SkillRank.TRAINED
+                        var picks by remember { mutableStateOf(savedSkillPicks(document, slots, offered)) }
+                        if (offered.isEmpty()) { Text("No skills are available for this choice yet.", color = Dim) }
+                        if (granted == SkillRank.NOVICE) {
+                            Text("Choose one skill to start at Novice.", color = Dim)
+                        }
+                        state.rules.skillPickRows(offered, slots, picks, granted).forEach { row ->
+                            SkillRow(row.skill, row.rank, state.rules.displayedSkill(row.skill, row.rank),
+                                row.chosen, row.blocked) {
+                                picks = toggleSkillPick(picks, row.skill, slots.size)
+                                edit = skillPickEdit(request.level, slots, picks)
                             }
                         }
-                        if (slots.size == 2) { Text("${2 - picks.size} left", color = Dim) }
+                        if (slots.size > 1) { Text("${slots.size - picks.size} left", color = Dim) }
 
                     }
                     else -> Unit
@@ -767,7 +767,8 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
         }
         val valid = edit != null &&
             (request.kind != "advancement" || (edit as? BuilderEdit.Advancement)?.value == null || abilityPicks.size == 2) &&
-            (request.kind != "free" || (edit as? BuilderEdit.Batch)?.edits?.count { it is BuilderEdit.Proficiency } == 2) &&
+            (request.kind != "free" ||
+                (edit as? BuilderEdit.Batch)?.edits?.count { it is BuilderEdit.Proficiency } == ModernCreation.FREE_SKILL_COUNT) &&
             (request.kind != "allocation" || (edit as? BuilderEdit.Allocation)?.value?.let {
                 it.mainAbility in mainAbilities && Progression.validAllocation(it)
             } == true)

@@ -471,25 +471,17 @@ class BuilderSessionTest {
         assertTrue((store.listRecovery(copy.id) as ContractResult.Available).value.isEmpty())
     }
 
-    @Test fun progressionBackgroundClearsSkillAndPersistsIndependentOrigin() = runBlocking {
+    @Test fun disabledBackgroundsKeepTheSavedOriginWithoutOfferingItsSkill() = runBlocking {
         val model = session()
         model.create()
         val id = model.current!!.document.id
-        val original = model.current!!.document
-        val candidate = model.previewProgression(model.backgroundEdit("environment", "rural"))!!
-        assertEquals(original, model.current!!.document)
-        assertEquals("rural", candidate.document.identity.environment)
-        assertTrue(candidate.document.levels.flatMap { it.proficiencies }.none {
-            it.slot.sourceInstanceId.startsWith("background.environment.")
-        })
-        assertTrue(candidate.rules.choices.any { it.slot == ChoiceSlotId("background.environment.rural", "skill", 0) })
         model.edit(model.backgroundEdit("environment", "rural"))
         val reopened = session()
         reopened.load(id)
         assertEquals("rural", Progression.background(reopened.current!!.document, "environment"))
         val slot = ChoiceSlotId("background.environment.rural", "skill", 0)
-        reopened.edit(BuilderEdit.Proficiency(1, ProficiencyChoice(slot, Skill.PERCEPTION)))
-        assertEquals(Skill.PERCEPTION, reopened.current!!.document.levels.flatMap { it.proficiencies }.single { it.slot == slot }.skill)
+        assertTrue(reopened.current!!.rules.choices.none { it.slot == slot })
+        assertNull(reopened.previewProgression(BuilderEdit.Proficiency(1, ProficiencyChoice(slot, Skill.RELIGION))))
     }
 
     @Test fun progressionBatchRejectsAtomicallyAndKeepsStableEntryOccurrence() = runBlocking {
@@ -1048,16 +1040,16 @@ class BuilderSessionTest {
         assertNotSame("A background changes the rules inputs, so they are calculated again", renamed.rules, model.current!!.rules)
     }
 
-    @Test fun skillsOverviewListsTrainedAndUntrainedSkillsWithCommittedTotals() = runBlocking {
+    @Test fun skillsOverviewListsTheCatalogWithCommittedRanksAndTotals() = runBlocking {
         val model = session()
         model.create()
         val rules = model.current!!.rules
         val rows = rules.skillOverviewRows()
-        assertEquals(Skill.entries.toList(), rows.map { it.skill })
-        assertTrue(rows.any { it.proficient })
-        assertTrue(rows.any { !it.proficient })
-        assertEquals(rules.proficiencies.keys, rows.filter { it.proficient }.map { it.skill }.toSet())
-        assertEquals(Skill.entries.map { rules.displayedSkill(it) }, rows.map { it.modifier })
+        assertEquals(Skill.catalog, rows.map { it.skill })
+        assertTrue(rows.any { it.rank == SkillRank.TRAINED })
+        assertTrue(rows.any { it.rank == SkillRank.UNTRAINED })
+        assertEquals(rules.proficiencies.keys, rows.filter { it.rank == SkillRank.TRAINED }.map { it.skill }.toSet())
+        assertEquals(Skill.catalog.map { rules.displayedSkill(it) }, rows.map { it.modifier })
     }
 
     @Test fun deletionRequiresConfirmationAndPreservesOtherCharactersAndRecovery() = runBlocking {

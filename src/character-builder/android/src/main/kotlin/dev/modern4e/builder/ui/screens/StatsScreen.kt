@@ -157,9 +157,7 @@ internal fun AboutProficiencies(state: BuilderState, model: BuilderSession) {
     CurrentPowerTally(state, model, columns = if (narrow) 2 else 4)
     ProficiencyRow(
         "Skills",
-        state.rules.proficiencies.keys.map { skill ->
-            "${skill.name.readable()} ${state.rules.displayedSkill(skill).display(signed = true)}"
-        },
+        state.rules.heldSkillLabels(),
         modifier = Modifier.clickable { showingSkills = true },
     )
     EquipmentCategory.entries.forEach { ProficiencyRow(it.title, equipment.getValue(it)) }
@@ -169,7 +167,7 @@ internal fun AboutProficiencies(state: BuilderState, model: BuilderSession) {
         ChoicePickerSheet(busy = false, dismiss = { showingSkills = false }) {
             CollapsibleChoiceList(Modifier.weight(1f)) {
                 items(skills, key = { it.skill.name }) { row ->
-                    SkillRow(row.skill, row.modifier, chosen = row.proficient)
+                    SkillRow(row.skill, row.rank, row.modifier, chosen = row.rank != SkillRank.UNTRAINED)
                 }
             }
             FolioActions { FolioTextButton("Close") { showingSkills = false } }
@@ -179,13 +177,18 @@ internal fun AboutProficiencies(state: BuilderState, model: BuilderSession) {
 
 internal data class SkillOverviewRow(
     val skill: Skill,
+    val rank: SkillRank,
     val modifier: ContractResult<CalculatedValue>,
-    val proficient: Boolean,
 )
 
-/** The full picker order, with committed proficiency and modifiers. */
+/** The 2.0 catalog in printed order, with committed ranks and total bonuses. */
 internal fun EngineResult.skillOverviewRows(): List<SkillOverviewRow> =
-    Skill.entries.map { SkillOverviewRow(it, displayedSkill(it), it in proficiencies) }
+    Skill.catalog.map { SkillOverviewRow(it, skillRank(it), displayedSkill(it)) }
+
+/** About's summary of the skills held above Untrained, each with its total bonus. */
+internal fun EngineResult.heldSkillLabels(): List<String> = Skill.catalog
+    .filter { skillRank(it) != SkillRank.UNTRAINED }
+    .map { "${it.title} ${displayedSkill(it).display(signed = true)}" }
 
 /** Places related scores in a grid that can expand vertically with the font scale. */
 @Composable

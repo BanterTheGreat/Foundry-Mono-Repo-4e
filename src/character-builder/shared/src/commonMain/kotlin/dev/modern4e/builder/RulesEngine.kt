@@ -82,6 +82,8 @@ data class EngineChoice(
     val acquisitionLevel: Int? = null,
     val values: List<ValueOption> = emptyList(),
     val valueKind: FactKind? = null,
+    /** The rank a skill slot grants; null for other offers. A skill slot can be offered before it has options. */
+    @kotlinx.serialization.Transient val skillRank: SkillRank? = null,
     /** What a root offer decides; null for inner offers. */
     @kotlinx.serialization.Transient val category: SlotCategory? = null,
     /** Whether the character is incomplete until this slot holds a decision. */
@@ -115,9 +117,18 @@ data class EngineResult(
     val slotIssues: Map<ChoiceSlotId, List<SlotIssue>> = emptyMap(),
     /** Definitions of occurrences a saved replacement retired, from the occurrence timeline; full evaluations only. */
     internal val retired: List<ContentEntry> = emptyList(),
+    /** Skills held at Novice, keyed like [proficiencies], which lists the skills held at Trained. */
+    val noviceSkills: Map<Skill, List<ChoiceSlotId>> = emptyMap(),
 ) {
     fun ability(ability: Ability) = statistics.getValue(ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)).value
-    fun skill(skill: Skill) = statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = skill)).value
+    fun skill(skill: Skill) = statistics.getValue(skillTarget(skill.catalogSkill())).value
+
+    /** The highest rank any active source gives [skill]. */
+    fun skillRank(skill: Skill): SkillRank = when (val current = skill.catalogSkill()) {
+        in proficiencies -> SkillRank.TRAINED
+        in noviceSkills -> SkillRank.NOVICE
+        else -> SkillRank.UNTRAINED
+    }
 
     /** Show known defense totals while the character has unfinished choices. */
     fun displayedDefense(statistic: Statistic): ContractResult<CalculatedValue> {
@@ -131,23 +142,40 @@ data class EngineResult(
             ?: ContractResult.Unavailable(listOf(diagnostic("missingBase", DiagnosticKind.INCOMPLETE_AUTOMATION,
                 "$statistic has no calculation.")))
 
-    /** Calculate the displayed modifier using committed proficiency or the picker’s draft source. */
-    fun displayedSkill(skill: Skill, proficiencySource: ChoiceSlotId? = proficiencies[skill]?.firstOrNull()): ContractResult<CalculatedValue> {
-        val target = ModifierTarget(Statistic.SKILL_CHECK, skill = skill)
-        val proficiencyKey = "modern.proficiency:$skill"
-        val known = statistics.getValue(target).modifiers.map { it.contribution }.filter { it.sourceKey != proficiencyKey }
-        val points = overviewAbilityTotals.getValue(skill.ability)
-        val base = ContractResult.Available(CalculatedValue(points, listOf(Contributor("${skill.ability.name} points", points))))
-        return ModifierCalculator.calculate(base, skillProficiency(skill, proficiencySource) + known).value
+    /**
+     * A skill's total bonus from known inputs: floored half level, the rank bonus and the skill's other bonuses.
+     * No ability is included, because the approach picks one when the check is made.
+     *
+     * @param skill the skill that fits the task.
+     * @param rank the committed rank, or a picker's draft rank.
+     */
+    fun displayedSkill(skill: Skill, rank: SkillRank = skillRank(skill)): ContractResult<CalculatedValue> {
+        val current = skill.catalogSkill()
+        val rankKey = skillRankKey(current)
+        val known = statistics.getValue(skillTarget(current)).modifiers.map { it.contribution }.filter { it.sourceKey != rankKey }
+        val source = proficiencies[current]?.firstOrNull() ?: noviceSkills[current]?.firstOrNull()
+        return ModifierCalculator.calculate(skillBase(), skillTraining(current, rank, source) + known).value
     }
 }
 
 private val partialStatistics = setOf(Statistic.SPEED, Statistic.HIT_POINTS, Statistic.HEALING_SURGES)
 
-private fun skillProficiency(skill: Skill, source: ChoiceSlotId?): List<ModifierContribution> =
-    if (source == null) emptyList() else listOf(ModifierContribution(
-        TypedModifier(ModifierTarget(Statistic.SKILL_CHECK, skill = skill), ModifierOperation.ADD, 5, BonusType.PROFICIENCY),
-        "Proficiency", "modern.proficiency:$skill", source))
+/** The contributor label for the rank bonus, which interfaces show beside the rank instead. */
+const val SKILL_RANK_LABEL = "Skill rank"
+
+private fun Skill.catalogSkill(): Skill = requireNotNull(current) { "$title is not a 2.0 skill." }
+
+private fun skillTarget(skill: Skill) = ModifierTarget(Statistic.SKILL_CHECK, skill = skill)
+
+/** Every skill total starts from nothing; all of it comes from named contributions. */
+private fun skillBase() = ContractResult.Available(CalculatedValue(0, emptyList()))
+
+private fun skillRankKey(skill: Skill) = "modern.skill-rank:$skill"
+
+private fun skillTraining(skill: Skill, rank: SkillRank, source: ChoiceSlotId?): List<ModifierContribution> =
+    if (rank == SkillRank.UNTRAINED) emptyList() else listOf(ModifierContribution(
+        TypedModifier(skillTarget(skill), ModifierOperation.ADD, rank.bonus, BonusType.PROFICIENCY),
+        SKILL_RANK_LABEL, skillRankKey(skill), source))
 
 /** Shared baseline choice identities match the portable v1 fixtures. */
 object ModernCreation {
@@ -166,6 +194,27 @@ object ModernCreation {
         "spiritual" to listOf(Skill.RELIGION, Skill.DIPLOMACY, Skill.MEDICINE, Skill.NATURE),
         "creative" to listOf(Skill.BLUFF, Skill.ACROBATICS, Skill.CRAFTING, Skill.DIPLOMACY),
     )
+
+    /**
+     * The 2.0 playtest turns Environment and Upbringing and their skill grants off. Their data and
+     * implementation stay, and saved background decisions remain in the file without effect.
+     */
+    val BACKGROUNDS_ENABLED: Boolean = false
+
+    /** The choice or grant ID a class uses for its Trained skill. */
+    const val CLASS_SKILL_CHOICE = "modern4e.choice.class-skill"
+
+    /** The choice ID a theme uses for its Novice skill. */
+    const val THEME_SKILL_CHOICE = "modern4e.choice.theme-skill"
+
+    /** Trained skills chosen freely, in addition to the class skill. */
+    const val FREE_SKILL_COUNT = 3
+
+    /** The class skill and the free skills; the theme's Novice pick is offered only once all are held. */
+    const val STARTING_TRAINED_SKILLS = FREE_SKILL_COUNT + 1
+
+    /** The slot of one freely chosen Trained skill. */
+    fun freeSkillSlot(ordinal: Int) = ChoiceSlotId("creation", "free-skill", ordinal)
 
     /** Stable across saves and package reordering; grantId is scoped to its parent occurrence. */
     fun grantInstance(parent: String, grantId: String) = "grant:${parent.length}:$parent:${grantId.length}:$grantId"
@@ -370,6 +419,7 @@ private class Evaluation(
     private val grantReplacementSlots = timeline.substitutionChoices
     private val modifiers = mutableListOf<ModifierContribution>()
     private val proficiencies = linkedMapOf<Skill, MutableList<ChoiceSlotId>>()
+    private val noviceSkills = linkedMapOf<Skill, MutableList<ChoiceSlotId>>()
     private val equipmentProficiencies = linkedMapOf<String, MutableList<ChoiceSlotId>>()
     private val choiceAcquisitionLevels = timeline.choiceLevels
     private val sets = mutableListOf<SelectionSetResult>()
@@ -483,15 +533,22 @@ private class Evaluation(
             }
         }
         baselineProficiencies()
-        for ((slot, definition) in choices) {
-            if (definition is ChoiceDefinition.Proficiencies) {
-                applyProficiency(slot, definition.skills)
-            }
+        val skillChoices = choices.mapNotNull { (slot, definition) ->
+            (definition as? ChoiceDefinition.Proficiencies)?.let { slot to it }
+        }
+        // Starting skills resolve first, so a duplicate is reported against the later source.
+        for ((slot, definition) in skillChoices.filter { it.second.rank == SkillRank.TRAINED }
+            .sortedBy { !isStartingSkillSlot(it.first) }) {
+            applyProficiency(slot, definition.skills)
+        }
+        // Novice options depend on the finished set of starting Trained skills.
+        for ((slot, definition) in skillChoices.filter { it.second.rank == SkillRank.NOVICE }) {
+            applyNovice(slot, definition)
         }
         for (decision in entryDecisions.filter { it !in timeline.used }) {
             invalid("orphanEntry", "Choice has no active granting source or supported root slot.", decision.slot, decision.selection.entryId)
         }
-        for (decision in proficiencyDecisions.filter { it !in usedProficiencies }) {
+        for (decision in proficiencyDecisions.filter { it !in usedProficiencies && !isInertSkillDecision(it.slot) }) {
             invalid("orphanProficiency", "Proficiency choice has no active granting source.", decision.slot)
         }
         for (adjustment in document.manualAdjustments) {
@@ -537,8 +594,12 @@ private class Evaluation(
                             }.map { it.copy(slot = slot, entryId = id) })
                     }
                 })
-                is ChoiceDefinition.Proficiencies -> EngineChoice(slot, skills = proficiencySelectionRules.skills(slot, definition),
-                    acquisitionLevel = choiceAcquisitionLevels[slot], required = true, filled = slot in decided)
+                is ChoiceDefinition.Proficiencies -> EngineChoice(slot,
+                    skills = if (definition.rank == SkillRank.NOVICE) noviceOptions(definition)
+                        else proficiencySelectionRules.skills(slot, definition),
+                    skillRank = definition.rank,
+                    acquisitionLevel = choiceAcquisitionLevels[slot], required = true,
+                    filled = slot in decided && proficiencyDecisions.none { it.slot == slot && it.skill.current == null })
                 // The allocation fills the main-ability slot; its validity is reported with the allocation.
                 is ChoiceDefinition.MainAbility -> EngineChoice(slot, abilities = definition.abilities)
                 is ChoiceDefinition.Values -> EngineChoice(slot, values = valueOptions[slot].orEmpty(), valueKind = definition.kind,
@@ -550,15 +611,22 @@ private class Evaluation(
         for ((ability, value) in abilityValues) {
             statistics[ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)] = value
         }
-        for (skill in Skill.entries) {
-            val ability = abilityValues.getValue(skill.ability).value
-            val target = ModifierTarget(Statistic.SKILL_CHECK, skill = skill)
-            val proficiency = skillProficiency(skill, proficiencies[skill]?.firstOrNull())
+        for (skill in Skill.catalog) {
+            // Unknown definitions may carry skill bonuses, so their totals stay unavailable.
+            val base = if (blockers.isEmpty()) skillBase() else ContractResult.Unavailable(blockers.toList())
+            val target = skillTarget(skill)
+            val trained = proficiencies[skill]?.firstOrNull()
+            val training = when {
+                trained != null -> skillTraining(skill, SkillRank.TRAINED, trained)
+                else -> noviceSkills[skill]?.firstOrNull()?.let { skillTraining(skill, SkillRank.NOVICE, it) }.orEmpty()
+            }
             val halfLevel = ModifierContribution(
                 TypedModifier(target, ModifierOperation.ADD, document.level / 2),
                 "Half level", "modern.skill-half-level:$skill")
-            val contributions = listOf(halfLevel) + proficiency + modifiers.filter { it.modifier.target == target }
-            statistics[target] = ModifierCalculator.calculate(ability, contributions)
+            // Bonuses authored against a renamed skill follow it; those against a removed skill have no target.
+            val bonuses = modifiers.filter { it.modifier.target.skill?.current == skill }
+                .map { it.copy(modifier = it.modifier.copy(target = target)) }
+            statistics[target] = ModifierCalculator.calculate(base, listOf(halfLevel) + training + bonuses)
         }
         val defenseEquipment = DefenseEquipment(entries, equipmentProficiencies.keys, document.equipment)
         val overviewStatistics = linkedMapOf<Statistic, ContractResult<CalculatedValue>>()
@@ -593,7 +661,8 @@ private class Evaluation(
                 ConditionalContribution(occurrence.instanceId, occurrence.slot, it)
             } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap(), equipmentProficiencies.mapValues { it.value.toList() }, facts.toList(),
             overviewStatistics, slotIssues.mapValues { it.value.toList() },
-            timeline.retirements.map { it.retiredDefinition.entry })
+            timeline.retirements.map { it.retiredDefinition.entry },
+            noviceSkills.mapValues { it.value.toList() })
     }
 
     /**
@@ -661,7 +730,9 @@ private class Evaluation(
                         "Grant IDs must be nonblank and unique within an occurrence.", event.slot, event.entryId)
                     blockers += diagnostics.last()
                 }
-                is TimelineEvent.ProficiencyGranted -> proficiencies.getOrPut(event.skill) { mutableListOf() }.add(event.slot)
+                is TimelineEvent.ProficiencyGranted -> event.skill.current?.let { skill ->
+                    proficiencies.getOrPut(skill) { mutableListOf() }.add(event.slot)
+                }
                 is TimelineEvent.RepeatedSubstitution -> invalid("duplicateSlot", "A grant substitution needs exactly one saved decision.", event.slot)
                 is TimelineEvent.LateSubstitution -> invalid("grantTiming",
                     "A grant substitution must be recorded at its source acquisition level; the default grant remains active.", event.slot, event.entryId)
@@ -754,14 +825,19 @@ private class Evaluation(
                             ownerEntry.instanceId == it.slot.sourceInstanceId && ownerEntry.definition.entry.id == owner.definition.entry.id
                         } }.map { it.value }
                     }
+                    val options = if (choice.kind == FactKind.SKILL_BONUS) {
+                        choice.options.mapNotNull(::currentSkillOption)
+                    } else {
+                        choice.options
+                    }
                     for (ordinal in 0 until choice.count) {
                         val slot = ChoiceSlotId(owner.instanceId, choice.id, ordinal)
-                        var available = choice.options.filter { it.id !in prior }
+                        var available = options.filter { it.id !in prior }
                         if (choice.distinctScope == FactScope.NONE) {
-                            available = choice.options
+                            available = options
                         }
                         if (available.isEmpty() && choice.allowRepeatWhenExhausted) {
-                            available = choice.options
+                            available = options
                         }
                         valueOptions[slot] = available
                         val decisions = valueDecisions.filter { it.slot == slot }
@@ -789,7 +865,7 @@ private class Evaluation(
                             grant(choice.kind, value, choice.targetId, slot)
                         }
                         if (choice.kind == FactKind.SKILL_BONUS) {
-                            val skill = Skill.entries.firstOrNull { it.name == option.id }
+                            val skill = Skill.entries.firstOrNull { it.name == option.id }?.current
                             if (skill != null) {
                                 val bonus = if (document.level >= 21 && choice.epicBonus != 0) choice.epicBonus else choice.bonus
                                 modifiers += ModifierContribution(TypedModifier(ModifierTarget(Statistic.SKILL_CHECK, skill = skill),
@@ -805,6 +881,16 @@ private class Evaluation(
             invalid("orphanValue", "Saved decision has no active granting source or slot.", decision.slot)
             issue(decision.slot, SlotIssue.Orphan)
         }
+    }
+
+    /**
+     * A skill bonus option under the 2.0 list: removed skills are not offered and renamed skills show their new
+     * name. The ID stays as authored, so saved decisions keep matching.
+     */
+    private fun currentSkillOption(option: ValueOption): ValueOption? {
+        val skill = Skill.entries.firstOrNull { it.name == option.id } ?: return option
+        val current = skill.current ?: return null
+        return if (current == skill) option else option.copy(title = current.title)
     }
 
     /** Replay equipment grants in acquisition order, including independent grants before each advancement. */
@@ -1001,10 +1087,17 @@ private class Evaluation(
     }
 
     private fun baselineProficiencies() {
-        for (ordinal in 0..1) {
-            val slot = ChoiceSlotId("creation", "free-skill", ordinal)
-            choices[slot] = ChoiceDefinition.Proficiencies("free-skill", 2, Skill.entries)
+        for (ordinal in 0 until ModernCreation.FREE_SKILL_COUNT) {
+            choices[ModernCreation.freeSkillSlot(ordinal)] =
+                ChoiceDefinition.Proficiencies("free-skill", ModernCreation.FREE_SKILL_COUNT, Skill.catalog)
         }
+        if (ModernCreation.BACKGROUNDS_ENABLED) {
+            backgroundProficiencies()
+        }
+    }
+
+    /** Environment and Upbringing each offer one skill; kept for when the playtest re-enables them. */
+    private fun backgroundProficiencies() {
         fun background(kind: String, options: Map<String, List<Skill>>) {
             val prefix = "background.$kind."
             val explicit = if (kind == "environment") document.identity.environment else document.identity.upbringing
@@ -1033,18 +1126,66 @@ private class Evaluation(
             invalid("missingChoice", "Select exactly one skill for this slot.", slot)
             return
         }
-        val decision = decisions.single()
-        if (decision.skill !in options) {
+        val skill = decisions.single().skill.current
+        if (skill == null || options.none { it.current == skill }) {
             invalid("choiceOption", "Skill is not an option for its source.", slot)
             return
         }
-        val sources = proficiencies.getOrPut(decision.skill) { mutableListOf() }
-        if (sources.isNotEmpty()) {
+        val sources = proficiencies.getOrPut(skill) { mutableListOf() }
+        if (isStartingSkillSlot(slot) && sources.any(::isStartingSkillSlot)) {
+            invalid("startingSkillDistinct", "Your four starting Trained skills must be different.", slot)
+        } else if (sources.isNotEmpty()) {
             diagnostics += diagnostic("duplicateProficiency", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                "Duplicate proficiency adds +5 only once. Any replacement choice needs a rule clarification.", slot)
+                "Duplicate training adds its rank bonus only once. Any replacement choice needs a rule clarification.", slot)
         }
         sources += slot
     }
+
+    /** Whether the slot holds the class skill or one of the free skills. */
+    private fun isStartingSkillSlot(slot: ChoiceSlotId): Boolean =
+        slot.ordinal < ModernCreation.FREE_SKILL_COUNT && slot == ModernCreation.freeSkillSlot(slot.ordinal) ||
+            slot.choiceId == ModernCreation.CLASS_SKILL_CHOICE && entries.any {
+                it.instanceId == slot.sourceInstanceId && it.definition.entry.category == EntryCategory.CLASS
+            }
+
+    /** A theme's listed skills that are not starting Trained skills, or every other skill when none is left. */
+    private fun noviceOptions(definition: ChoiceDefinition.Proficiencies): List<Skill> {
+        val starting = proficiencies.filterValues { sources -> sources.any(::isStartingSkillSlot) }.keys
+        if (starting.size < ModernCreation.STARTING_TRAINED_SKILLS) {
+            return emptyList()
+        }
+        val authored = definition.skills.mapNotNull { it.current }.distinct().filter { it !in starting }
+        return authored.ifEmpty { Skill.catalog.filter { it !in starting } }
+    }
+
+    /** Hold the theme's Novice pick, which stays saved but inert while it does not fit the starting skills. */
+    private fun applyNovice(slot: ChoiceSlotId, definition: ChoiceDefinition.Proficiencies) {
+        val decisions = proficiencyDecisions.filter { it.slot == slot }
+        usedProficiencies += decisions
+        val options = noviceOptions(definition)
+        if (options.isEmpty()) {
+            invalid("missingChoice", "Choose your four Trained skills before the Novice skill.", slot)
+            return
+        }
+        if (decisions.size != 1) {
+            invalid("missingChoice", "Select exactly one skill for this slot.", slot)
+            return
+        }
+        val skill = decisions.single().skill.current
+        if (skill == null || skill !in options) {
+            invalid("choiceOption", "Skill is not an option for the Novice pick.", slot)
+            return
+        }
+        noviceSkills.getOrPut(skill) { mutableListOf() }.add(slot)
+    }
+
+    /**
+     * Saved skill decisions that wait without a diagnostic because nothing on the sheet could clear them:
+     * disabled background grants, and class or theme picks left behind by a changed origin.
+     */
+    private fun isInertSkillDecision(slot: ChoiceSlotId): Boolean =
+        !ModernCreation.BACKGROUNDS_ENABLED && slot.sourceInstanceId.startsWith("background.") ||
+            slot.choiceId == ModernCreation.CLASS_SKILL_CHOICE || slot.choiceId == ModernCreation.THEME_SKILL_CHOICE
 
     private fun calculateAbilities() {
         val allocation = document.abilities
@@ -1373,7 +1514,24 @@ private class Evaluation(
                 }
             }
             is Prerequisite.Proficiency -> {
-                if (prerequisite.skill in proficiencies) true else if (factBlockers.isNotEmpty()) { unresolved = true; null } else false
+                val skill = prerequisite.skill.current
+                if (skill == null) {
+                    // The content still names a removed skill, so the requirement waits for review instead of failing.
+                    val review = Prerequisite.Unadapted(
+                        "Trained in ${prerequisite.skill.title}, which is not a 2.0 skill")
+                    incomplete = true
+                    errors += diagnostic("retiredSkill", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                        "Prerequisite needs adaptation: ${review.sourceText}", slot, entry.id)
+                    unmet += UnmetCondition.Unadapted(review)
+                    null
+                } else if (skill in proficiencies) {
+                    true
+                } else if (factBlockers.isNotEmpty()) {
+                    unresolved = true
+                    null
+                } else {
+                    false
+                }
             }
             is Prerequisite.Unadapted -> {
                 incomplete = true

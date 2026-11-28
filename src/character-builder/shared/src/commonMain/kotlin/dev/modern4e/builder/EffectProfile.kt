@@ -112,7 +112,7 @@ class EffectProfile private constructor(private val entry: ContentEntry) {
             else -> cascades
         }
         is Prerequisite.Proficiency -> cascades || mechanics.grants.any {
-            it is Grant.Proficiency && it.skill == leaf.skill
+            it is Grant.Proficiency && it.skill.current == leaf.skill.current
         }
         is Prerequisite.AbilityPoints -> cascades || mechanics.conditionalModifiers.isNotEmpty() ||
             mechanics.modifiers.any { it.target.statistic == Statistic.ABILITY_POINTS && it.target.ability == leaf.ability }

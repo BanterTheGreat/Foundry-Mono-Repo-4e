@@ -50,7 +50,7 @@ class PerformanceBaselineTest {
         assertEquals(6, state.rules.overviewAbilityTotals.getValue(Ability.STRENGTH))
         assertEquals(2, state.rules.overviewAbilityTotals.getValue(Ability.CONSTITUTION))
         assertEquals(4, state.rules.overviewAbilityTotals.getValue(Ability.DEXTERITY))
-        assertEquals(listOf("DRACONIC", "ELVEN", "GIANT", "DIPLOMACY"),
+        assertEquals(listOf("DRACONIC", "ELVEN", "GIANT", "INSIGHT"),
             state.document.levels.single { it.level == 4 }.values.map { it.value })
     }
 

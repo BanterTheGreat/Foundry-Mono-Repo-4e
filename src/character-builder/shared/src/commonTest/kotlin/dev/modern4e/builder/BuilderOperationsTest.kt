@@ -195,15 +195,9 @@ class BuilderOperationsTest {
         assertFalse(ops.apply(doc, BuilderEdit.Entry(1, slot, "missing", "missing", true)).applied)
     }
 
-    @Test fun allocationBackgroundAndUnrelatedMissingContentEditsKeepDecisions() = run {
+    @Test fun allocationAndUnrelatedMissingContentEditsKeepDecisions() = run {
         val ops = operations()
         var doc = create(ops)
-        doc = ops.apply(doc, BuilderEdit.Background(BackgroundKind.ENVIRONMENT, "urban", Skill.SOCIETY)).state.document
-        val changed = ops.apply(doc, BuilderEdit.Background(BackgroundKind.ENVIRONMENT, "rural"))
-        assertTrue(changed.applied)
-        assertEquals(Skill.SOCIETY, changed.state.document.levels.first().proficiencies.single().skill)
-        assertTrue(changed.state.rules.diagnostics.any { it.code == "engine.choiceOption" })
-        assertFalse(ops.apply(doc, BuilderEdit.Background(BackgroundKind.UPBRINGING, "unknown", Skill.ARCANA)).applied)
         doc = select(ops, doc, 1, ChoiceSlotId("creation", "class", 0), "fighter", "fighter")
         val invalid = ops.apply(doc, BuilderEdit.Allocation(allocation.copy(points = allocation.points + (Ability.DEXTERITY to 3))))
         assertTrue(invalid.applied)
@@ -227,19 +221,17 @@ class BuilderOperationsTest {
         for (ordinal in 0..1) {
             doc = select(ops, doc, 1, ChoiceSlotId("fighter", "powers", ordinal), "power", "power-$ordinal")
         }
-        doc = ops.apply(doc, BuilderEdit.Background(BackgroundKind.ENVIRONMENT, "urban", Skill.SOCIETY)).state.document
-        doc = ops.apply(doc, BuilderEdit.Background(BackgroundKind.UPBRINGING, "labor", Skill.CRAFTING)).state.document
-        for ((ordinal, skill) in listOf(Skill.MEDICINE, Skill.RELIGION).withIndex()) {
+        for ((ordinal, skill) in listOf(Skill.MEDICINE, Skill.RELIGION, Skill.CRAFTING).withIndex()) {
             val edit = ops.apply(doc, BuilderEdit.Proficiency(1, ProficiencyChoice(ChoiceSlotId("creation", "free-skill", ordinal), skill)))
             assertTrue(edit.applied)
             doc = edit.state.document
         }
-        assertEquals(6, assertIs<ContractResult.Available<CalculatedValue>>(ops.evaluate(doc).rules.skill(Skill.MEDICINE)).value.total)
+        assertEquals(3, assertIs<ContractResult.Available<CalculatedValue>>(ops.evaluate(doc).rules.skill(Skill.MEDICINE)).value.total)
         val adjustment = ManualAdjustment("manual", TypedModifier(ModifierTarget(Statistic.SKILL_CHECK, skill = Skill.MEDICINE),
             ModifierOperation.ADD, 2, BonusType.FEAT))
         val adjusted = ops.apply(doc, BuilderEdit.Adjustment(adjustment))
         val value = assertIs<ContractResult.Available<CalculatedValue>>(adjusted.state.rules.skill(Skill.MEDICINE)).value
-        assertEquals(8, value.total)
+        assertEquals(5, value.total)
         assertTrue(value.contributors.any { it.label == "Manual Adjustment" })
         assertEquals(doc, ops.apply(adjusted.state.document, BuilderEdit.RemoveAdjustment("manual")).state.document)
         val item = EquipmentSelection("inventory", SavedSelection("unknown", "Unknown", "standard", "old"),

@@ -17,10 +17,9 @@ class ProficiencySelectionTest {
     private fun trained(instance: String, ordinal: Int, skill: Skill) = ProficiencyChoice(slot(instance, "skills", ordinal), skill)
     private fun document(first: List<ProficiencyChoice>, second: List<ProficiencyChoice>? = null): CharacterDocument {
         val baseline = listOf(
-            ProficiencyChoice(slot("background.environment.urban", "skill"), Skill.SOCIETY),
-            ProficiencyChoice(slot("background.upbringing.labor", "skill"), Skill.CRAFTING),
             ProficiencyChoice(slot("creation", "free-skill"), Skill.MEDICINE),
-            ProficiencyChoice(slot("creation", "free-skill", 1), Skill.RELIGION))
+            ProficiencyChoice(slot("creation", "free-skill", 1), Skill.RELIGION),
+            ProficiencyChoice(slot("creation", "free-skill", 2), Skill.CRAFTING))
         return CharacterDocument(id = "distinct", savedAt = "2026-11-18T12:00:00Z", identity = CharacterIdentity("Distinct"),
             packages = emptyList(), level = if (second == null) 1 else 2,
             abilities = AbilityAllocation(slot("fighter", "main"), Ability.STRENGTH,
@@ -46,14 +45,14 @@ class ProficiencySelectionTest {
         val offered = result.choices.single { it.slot == slot("first", "skills") }.skills
         assertTrue(Skill.ATHLETICS in offered)
         assertFalse(Skill.ENDURANCE in offered)
-        assertFalse(Skill.SOCIETY in offered)
+        assertFalse(Skill.CRAFTING in offered)
         assertFalse(Skill.MEDICINE in offered)
         assertTrue(result.diagnostics.none { it.code == "engine.proficiencyDistinct" })
     }
 
     @Test
-    fun backgroundAndWithinOccurrenceDuplicatesStaySavedButAreInvalid() {
-        for (skills in listOf(listOf(Skill.SOCIETY, Skill.ATHLETICS), listOf(Skill.ATHLETICS, Skill.ATHLETICS))) {
+    fun startingSkillAndWithinOccurrenceDuplicatesStaySavedButAreInvalid() {
+        for (skills in listOf(listOf(Skill.CRAFTING, Skill.ATHLETICS), listOf(Skill.ATHLETICS, Skill.ATHLETICS))) {
             val document = document(skills.mapIndexed { index, skill -> trained("first", index, skill) })
             val result = evaluate(document)
             assertEquals(Eligibility.INELIGIBLE, result.entryEligibility.getValue("first").status)
@@ -75,7 +74,7 @@ class ProficiencySelectionTest {
 
     @Test
     fun exhaustionRequiresFullCountAndAutomaticClassProficienciesCount() {
-        val classDefinition = fighter.copy(mechanics = fighter.mechanics.copy(grants = Skill.entries.dropLast(1).map {
+        val classDefinition = fighter.copy(mechanics = fighter.mechanics.copy(grants = Skill.catalog.dropLast(1).map {
             Grant.Proficiency("class-$it", it)
         }))
         val result = evaluate(document(emptyList()), classDefinition)
@@ -95,10 +94,10 @@ class ProficiencySelectionTest {
 
     @Test
     fun defaultFalsePreservesLegacyWireFormatAndOrdinaryChoices() {
-        val ordinary = ChoiceDefinition.Proficiencies("ordinary", 1, listOf(Skill.SOCIETY))
+        val ordinary = ChoiceDefinition.Proficiencies("ordinary", 1, listOf(Skill.CULTURE))
         val encoded = ContractCodec.json.encodeToString(ChoiceDefinition.serializer(), ordinary)
         assertFalse("distinctAgainstCharacter" in encoded)
-        val rules = ProficiencySelectionRules(document(emptyList()), emptyList(), mapOf(Skill.SOCIETY to listOf(slot("other", "skill"))))
-        assertEquals(listOf(Skill.SOCIETY), rules.skills(slot("first", "ordinary"), ordinary))
+        val rules = ProficiencySelectionRules(document(emptyList()), emptyList(), mapOf(Skill.CULTURE to listOf(slot("other", "skill"))))
+        assertEquals(listOf(Skill.CULTURE), rules.skills(slot("first", "ordinary"), ordinary))
     }
 }

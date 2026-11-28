@@ -88,10 +88,7 @@ class ContractTest {
 
     @Test
     fun modernSkillAndAbilityBaseline() {
-        assertEquals(16, Skill.entries.size)
-        assertEquals(Ability.INTELLIGENCE, Skill.MEDICINE.ability)
-        assertEquals(Ability.INTELLIGENCE, Skill.SOCIETY.ability)
-        assertEquals(Ability.WISDOM, Skill.RELIGION.ability)
+        assertEquals(16, Skill.catalog.size)
         assertEquals(4, character().abilities.points[Ability.STRENGTH])
         assertEquals(5, character().abilities.points.filterKeys { it != Ability.STRENGTH }.values.sum())
         assertEquals(1, character().levels.last().abilityAdvancements.single().increases[Ability.CONSTITUTION])

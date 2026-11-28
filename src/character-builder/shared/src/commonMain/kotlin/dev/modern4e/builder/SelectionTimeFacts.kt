@@ -30,8 +30,12 @@ internal class SelectionTimeFacts<T>(
         val sourceModifiers = mechanics.modifiers + mechanics.progression.filter { it.level <= document.level }.flatMap { it.modifiers }
         val direct = when (prerequisite) {
             is Prerequisite.AbilityPoints -> sourceModifiers.any { it.target == ModifierTarget(Statistic.ABILITY_POINTS, ability = prerequisite.ability) }
-            is Prerequisite.Proficiency -> grants.filterIsInstance<Grant.Proficiency>().any { it.skill == prerequisite.skill } ||
-                sourceChoices.filterIsInstance<ChoiceDefinition.Proficiencies>().any { prerequisite.skill in it.skills }
+            // Only Trained sources can satisfy a proficiency requirement.
+            is Prerequisite.Proficiency -> grants.filterIsInstance<Grant.Proficiency>()
+                .any { it.skill.current == prerequisite.skill.current } ||
+                sourceChoices.filterIsInstance<ChoiceDefinition.Proficiencies>().any { choice ->
+                    choice.rank == SkillRank.TRAINED && choice.skills.any { it.current == prerequisite.skill.current }
+                }
             is Prerequisite.ClassPowerSource -> prerequisite.powerSource in mechanics.classProfile?.powerSources.orEmpty() ||
                 mechanics.multiclassFor?.let { target ->
                     val profile = (content.entries[target] as? ContractResult.Available)?.value?.entry?.mechanics?.classProfile

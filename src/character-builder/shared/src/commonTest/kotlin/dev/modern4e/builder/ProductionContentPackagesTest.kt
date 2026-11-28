@@ -161,8 +161,10 @@ class ProductionContentPackagesTest {
         val theme = themes.first().entry.entry
         state = operations.apply(state.document, BuilderEdit.Entry(1, ChoiceSlotId("creation", "theme", 0),
             theme.id, "theme")).also { assertTrue(it.applied) }.state
-        assertTrue(state.rules.diagnostics.none {
-            it.kind == DiagnosticKind.INVALID_SELECTION && it.slot?.sourceInstanceId in setOf("ancestry", "theme") })
+        // Only the theme's Novice skill is still open, waiting for the four Trained skills.
+        assertEquals(listOf(ModernCreation.THEME_SKILL_CHOICE), state.rules.diagnostics.filter {
+            it.kind == DiagnosticKind.INVALID_SELECTION && it.slot?.sourceInstanceId in setOf("ancestry", "theme")
+        }.map { it.slot?.choiceId })
         val dwarfEntry = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup("modern4e.ancestry.dwarf")).value!!
         assertTrue(dwarfEntry.entry.mechanics.grants.isNotEmpty())
         val reopened = assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(state.document))).value

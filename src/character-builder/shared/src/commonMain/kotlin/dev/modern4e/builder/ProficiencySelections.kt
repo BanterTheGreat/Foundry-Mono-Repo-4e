@@ -12,11 +12,12 @@ internal class ProficiencySelectionRules(
 
     /** Keep this slot's existing value editable while excluding siblings and independent sources. */
     fun skills(slot: ChoiceSlotId, definition: ChoiceDefinition.Proficiencies): List<Skill> {
+        val offered = definition.skills.mapNotNull { it.current }.distinct()
         if (!definition.distinctAgainstCharacter) {
-            return definition.skills
+            return offered
         }
         val atLevel = decisions[slot] ?: acquisitionLevel(slot.sourceInstanceId)
-        return definition.skills.filter { skill -> proficiencies[skill].orEmpty().none {
+        return offered.filter { skill -> proficiencies[skill].orEmpty().none {
             it != slot && sourceLevel(it) <= atLevel
         } }
     }
@@ -35,13 +36,13 @@ internal class ProficiencySelectionRules(
             val independent = proficiencies.filterValues { sources -> sources.any {
                 sourceLevel(it) <= atLevel && !ownedBy(it.sourceInstanceId, occurrence?.instanceId)
             } }.keys
-            if (choice.skills.count { it !in independent } < choice.count) {
+            if (choice.skills.mapNotNull { it.current }.distinct().count { it !in independent } < choice.count) {
                 errors += error("proficiencyExhausted", "Select ${choice.count} new skills; too few untrained options remain.", slot, entry.id)
             }
             val selected = document.levels.filter { it.level <= atLevel }.flatMap { it.proficiencies }
                 .filter { it.slot.sourceInstanceId == occurrence?.instanceId && it.slot.choiceId == choice.id && it.slot.ordinal < choice.count }
             for (decision in selected) {
-                if (decision.skill in independent || selected.count { it.skill == decision.skill } > 1) {
+                if (decision.skill.current in independent || selected.count { it.skill.current == decision.skill.current } > 1) {
                     errors += error("proficiencyDistinct", "This choice must grant a skill not already proficient from another source or slot.", decision.slot, entry.id)
                 }
             }

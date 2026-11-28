@@ -19,9 +19,9 @@ class RulesEngineTest {
             Ability.CONSTITUTION to 2, Ability.INTELLIGENCE to 1, Ability.WISDOM to 0, Ability.CHARISMA to 0)),
         levels = listOf(LevelDecisions(1, entries = listOf(choice(fighter, slot = slot("creation", "class"))) + additions,
             proficiencies = listOf(ProficiencyChoice(slot("background.environment.urban"), Skill.SOCIETY),
-                ProficiencyChoice(slot("background.upbringing.labor"), Skill.CRAFTING),
                 ProficiencyChoice(slot("creation", "free-skill"), Skill.MEDICINE),
-                ProficiencyChoice(slot("creation", "free-skill", 1), Skill.RELIGION)))),
+                ProficiencyChoice(slot("creation", "free-skill", 1), Skill.RELIGION),
+                ProficiencyChoice(slot("creation", "free-skill", 2), Skill.CRAFTING)))),
     )
     private fun content(document: CharacterDocument, vararg definitions: ContentEntry): RulesContent {
         val all = (listOf(fighter) + definitions).associateBy { it.id }
@@ -45,8 +45,8 @@ class RulesEngineTest {
         val classOverview = evaluate(classOnly)
         assertEquals(4, classOverview.overviewAbilityTotals.getValue(Ability.STRENGTH))
         assertEquals(0, classOverview.overviewAbilityTotals.getValue(Ability.DEXTERITY))
-        assertEquals(4, total(classOverview.displayedSkill(Skill.ATHLETICS)))
-        assertEquals(5, total(classOverview.displayedSkill(Skill.MEDICINE)))
+        assertEquals(0, total(classOverview.displayedSkill(Skill.ATHLETICS)))
+        assertEquals(3, total(classOverview.displayedSkill(Skill.MEDICINE)))
 
         val abilityTarget = ModifierTarget(Statistic.ABILITY_POINTS, ability = Ability.DEXTERITY)
         val bonus = entry("bonus", mechanics = Mechanics(
@@ -61,18 +61,17 @@ class RulesEngineTest {
         assertTrue(result.diagnostics.any { it.code == "engine.missingChoice" })
         assertEquals(4, result.overviewAbilityTotals.getValue(Ability.DEXTERITY))
         assertIs<ContractResult.Unavailable>(result.ability(Ability.DEXTERITY))
-        assertEquals(4, total(result.displayedSkill(Skill.ACROBATICS)))
-        assertEquals(8, total(result.displayedSkill(Skill.MEDICINE)))
-        val draftSlot = slot("creation", "free-skill")
-        assertEquals(9, total(result.displayedSkill(Skill.ACROBATICS, draftSlot)))
-        assertEquals(3, total(result.displayedSkill(Skill.MEDICINE, proficiencySource = null)))
+        assertEquals(0, total(result.displayedSkill(Skill.ACROBATICS)))
+        assertEquals(5, total(result.displayedSkill(Skill.MEDICINE)))
+        assertEquals(3, total(result.displayedSkill(Skill.ACROBATICS, rank = SkillRank.TRAINED)))
+        assertEquals(2, total(result.displayedSkill(Skill.MEDICINE, rank = SkillRank.UNTRAINED)))
         assertIs<ContractResult.Unavailable>(result.skill(Skill.MEDICINE))
         val raised = evaluate(character(choice(pending), choice(known, slot = slot("creation", "theme"))).copy(level = 2),
             pending, known, bonus)
         assertIs<ContractResult.Unavailable>(raised.skill(Skill.MEDICINE))
-        assertEquals(9, total(raised.displayedSkill(Skill.MEDICINE)))
-        assertEquals(5, total(raised.displayedSkill(Skill.ACROBATICS)))
-        assertEquals(10, total(raised.displayedSkill(Skill.ACROBATICS, draftSlot)))
+        assertEquals(6, total(raised.displayedSkill(Skill.MEDICINE)))
+        assertEquals(1, total(raised.displayedSkill(Skill.ACROBATICS)))
+        assertEquals(4, total(raised.displayedSkill(Skill.ACROBATICS, rank = SkillRank.TRAINED)))
     }
 
     @Test
@@ -116,38 +115,36 @@ class RulesEngineTest {
     fun modernAbilityAndSkillGoldenHasExplainedProficiency() {
         val result = evaluate()
         assertEquals(4, total(result.ability(Ability.STRENGTH)))
-        assertEquals(6, total(result.skill(Skill.MEDICINE)))
-        assertEquals(6, total(result.skill(Skill.CRAFTING)))
-        assertEquals(6, total(result.skill(Skill.SOCIETY)))
-        assertEquals(5, total(result.skill(Skill.RELIGION)))
-        assertEquals(2, total(result.skill(Skill.ACROBATICS)))
+        assertEquals(3, total(result.skill(Skill.MEDICINE)))
+        assertEquals(3, total(result.skill(Skill.CRAFTING)))
+        assertEquals(0, total(result.skill(Skill.CULTURE)))
+        assertEquals(3, total(result.skill(Skill.RELIGION)))
+        assertEquals(0, total(result.skill(Skill.ACROBATICS)))
         assertEquals(16, result.statistics.keys.count { it.statistic == Statistic.SKILL_CHECK })
-        for (skill in Skill.entries) {
-            assertEquals(total(result.ability(skill.ability)) + if (skill in result.proficiencies) 5 else 0, total(result.skill(skill)))
+        for (skill in Skill.catalog) {
+            assertEquals(if (skill in result.proficiencies) 3 else 0, total(result.skill(skill)))
         }
         val medicine = assertIs<ContractResult.Available<CalculatedValue>>(result.skill(Skill.MEDICINE)).value
-        assertEquals(listOf(1, 0, 5), medicine.contributors.map { it.value })
+        assertEquals(listOf(0, 3), medicine.contributors.map { it.value })
         assertEquals(slot("creation", "free-skill"), medicine.contributors.last().source)
-        assertEquals(4, result.choices.count { it.skills.isNotEmpty() })
+        assertEquals(3, result.choices.count { it.skills.isNotEmpty() })
         val (missingRoots, other) = result.diagnostics.partition { it.code == "engine.missingRootChoice" }
         assertEquals(listOf("ancestry", "theme", "feat"), missingRoots.map { it.slot?.choiceId })
         assertTrue(other.isEmpty(), other.toString())
     }
 
     @Test
-    fun skillsIncludeFlooredHalfLevelOnceForTrainedUntrainedAndDraftProficiency() {
+    fun skillsIncludeFlooredHalfLevelOnceForTrainedUntrainedAndDraftRanks() {
         for (level in 1..3) {
             val document = character().copy(level = level)
             val result = evaluate(document)
-            for (skill in Skill.entries) {
-                val points = total(result.ability(skill.ability))
-                val proficiency = if (skill in result.proficiencies) 5 else 0
-                val expected = points + level / 2 + proficiency
+            for (skill in Skill.catalog) {
+                val proficiency = if (skill in result.proficiencies) 3 else 0
+                val expected = level / 2 + proficiency
                 assertEquals(expected, total(result.skill(skill)), "$skill at level $level")
                 assertEquals(expected, total(result.displayedSkill(skill)), "displayed $skill at level $level")
-                assertEquals(points + level / 2, total(result.displayedSkill(skill, proficiencySource = null)))
-                assertEquals(points + level / 2 + 5,
-                    total(result.displayedSkill(skill, slot("creation", "free-skill"))))
+                assertEquals(level / 2, total(result.displayedSkill(skill, rank = SkillRank.UNTRAINED)))
+                assertEquals(level / 2 + 3, total(result.displayedSkill(skill, rank = SkillRank.TRAINED)))
                 val value = assertIs<ContractResult.Available<CalculatedValue>>(result.skill(skill)).value
                 assertEquals(level / 2, value.contributors.filter { it.label == "Half level" }.sumOf { it.value })
                 assertEquals(1, value.contributors.count { it.label == "Half level" })
@@ -170,13 +167,14 @@ class RulesEngineTest {
         )) {
             val result = evaluate(original.copy(abilities = original.abilities.copy(points = points)))
             assertIs<ContractResult.Unavailable>(result.ability(Ability.STRENGTH))
-            assertIs<ContractResult.Unavailable>(result.skill(Skill.ATHLETICS))
+            // Skill totals do not depend on ability points.
+            assertEquals(0, total(result.skill(Skill.ATHLETICS)))
             assertTrue(result.diagnostics.any { it.code == "engine.abilityAllocation" })
         }
         val changed = original.copy(abilities = original.abilities.copy(mainAbility = Ability.INTELLIGENCE,
             points = original.abilities.points + (Ability.STRENGTH to 1) + (Ability.INTELLIGENCE to 4)))
-        assertEquals(9, total(evaluate(changed).skill(Skill.MEDICINE)))
-        assertEquals(1, total(evaluate(changed).skill(Skill.ATHLETICS)))
+        assertEquals(4, total(evaluate(changed).ability(Ability.INTELLIGENCE)))
+        assertEquals(3, total(evaluate(changed).skill(Skill.MEDICINE)))
         assertIs<ContractResult.Unavailable>(evaluate(changed.copy(abilities = changed.abilities.copy(mainAbility = Ability.WISDOM))).ability(Ability.WISDOM))
     }
 
@@ -185,26 +183,25 @@ class RulesEngineTest {
         val trained = entry("training", mechanics = Mechanics(grants = listOf(Grant.Proficiency("medicine", Skill.MEDICINE),
             Grant.Proficiency("medicine-again", Skill.MEDICINE))))
         val result = evaluate(character(choice(trained)), trained)
-        assertEquals(6, total(result.skill(Skill.MEDICINE)))
+        assertEquals(3, total(result.skill(Skill.MEDICINE)))
         assertEquals(3, result.proficiencies.getValue(Skill.MEDICINE).size)
         assertTrue(result.diagnostics.any { it.code == "engine.duplicateProficiency" && it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
         assertEquals(2, result.entries.size)
     }
 
     @Test
-    fun backgroundAndFreeSlotsAreSeparateAndInvalidSkillsRemainStored() {
+    fun repeatedFreeSkillsAreInvalidAndStayStored() {
         val original = character()
-        val invalid = original.copy(levels = listOf(original.levels.single().copy(proficiencies =
-            original.levels.single().proficiencies.map { if (it.slot.sourceInstanceId.contains("environment")) it.copy(skill = Skill.ATHLETICS) else it })))
-        val result = evaluate(invalid)
-        assertTrue(result.diagnostics.any { it.code == "engine.choiceOption" && it.slot == slot("background.environment.urban") })
-        assertEquals(4, invalid.levels.single().proficiencies.size)
-        assertFalse(Skill.ATHLETICS in result.proficiencies)
-        assertEquals(2, result.choices.count { it.slot.sourceInstanceId == "creation" && it.slot.choiceId == "free-skill" })
-        val changed = original.copy(levels = listOf(original.levels.single().copy(proficiencies = original.levels.single().proficiencies.map {
-            if (it.slot.sourceInstanceId.contains("environment")) it.copy(slot = slot("background.environment.rural")) else it
-        })))
-        assertTrue(evaluate(changed).diagnostics.any { it.code == "engine.choiceOption" })
+        val repeated = original.copy(levels = listOf(original.levels.single().copy(proficiencies =
+            original.levels.single().proficiencies.map {
+                if (it.slot == slot("creation", "free-skill", 2)) it.copy(skill = Skill.MEDICINE) else it
+            })))
+        val result = evaluate(repeated)
+        assertTrue(result.diagnostics.any { it.code == "engine.startingSkillDistinct" &&
+            it.slot == slot("creation", "free-skill", 2) && it.kind == DiagnosticKind.INVALID_SELECTION })
+        assertEquals(4, repeated.levels.single().proficiencies.size)
+        assertEquals(3, result.choices.count { it.slot.sourceInstanceId == "creation" && it.slot.choiceId == "free-skill" })
+        assertEquals(3, total(result.skill(Skill.MEDICINE)))
     }
 
     @Test
@@ -251,7 +248,7 @@ class RulesEngineTest {
         val document = character(choice(unsupported)).copy(manualAdjustments = listOf(ManualAdjustment("manual",
             TypedModifier(ModifierTarget(Statistic.SKILL_CHECK, skill = Skill.MEDICINE), ModifierOperation.ADD, 2))))
         val result = evaluate(document, unsupported)
-        assertEquals(8, total(result.skill(Skill.MEDICINE)))
+        assertEquals(5, total(result.skill(Skill.MEDICINE)))
         val contributors = assertIs<ContractResult.Available<CalculatedValue>>(result.skill(Skill.MEDICINE)).value.contributors
         assertEquals("Manual Adjustment", contributors.last().label)
         assertTrue(result.diagnostics.any { it.code == "engine.unadaptedPrerequisite" })
@@ -283,7 +280,7 @@ class RulesEngineTest {
         assertTrue(evaluate(doubled).diagnostics.any { it.code == "engine.duplicateSlot" })
         val orphan = entry("orphan", mechanics = Mechanics(modifiers = listOf(TypedModifier(ModifierTarget(Statistic.SKILL_CHECK, skill = Skill.MEDICINE), ModifierOperation.ADD, 100))))
         val result = evaluate(character(choice(orphan, slot = slot("missing-source", "feat"))), orphan)
-        assertEquals(6, total(result.skill(Skill.MEDICINE)))
+        assertEquals(3, total(result.skill(Skill.MEDICINE)))
         assertTrue(result.diagnostics.any { it.code == "engine.orphanEntry" })
     }
 
@@ -296,7 +293,7 @@ class RulesEngineTest {
         val document = character().let { doc -> doc.copy(level = 2, levels = listOf(doc.levels.single().copy(entries =
             listOf(choice(parent, "fighter", slot("creation", "class")))), LevelDecisions(2, entries = listOf(choice(utility, slot = slot("fighter", "utility")))))) }
         val result = evaluate(document, parent, utility)
-        assertEquals(7, total(result.skill(Skill.MEDICINE)))
+        assertEquals(4, total(result.skill(Skill.MEDICINE)))
         assertEquals(30, total(result.statistics.getValue(ModifierTarget(Statistic.HIT_POINTS)).value))
         assertEquals(2, result.entries.size)
         assertEquals(13, total(result.statistics.getValue(ModifierTarget(Statistic.AC)).value))
@@ -328,7 +325,7 @@ class RulesEngineTest {
             val catalog = assertIs<ContractResult.Available<ContentCatalog>>(ContentCatalog.open(source, "standard", emptyList())).value
             val snapshot = RulesContent.load(document, catalog)
             assertTrue("child" in snapshot.entries)
-            assertEquals(9, total(RulesEngine.evaluate(document, snapshot).skill(Skill.ATHLETICS)))
+            assertEquals(3, total(RulesEngine.evaluate(document, snapshot).skill(Skill.ATHLETICS)))
             val lost = document.copy(levels = listOf(document.levels.single().copy(entries = document.levels.single().entries.map { it.copy(selection = it.selection.copy(supplierPackageId = "missing-custom")) })))
             val result = RulesEngine.evaluate(lost, RulesContent.load(lost, catalog))
             assertIs<ContractResult.Unavailable>(result.skill(Skill.ATHLETICS))
@@ -355,9 +352,10 @@ class RulesEngineTest {
         val target = ModifierTarget(Statistic.SKILL_CHECK, skill = Skill.MEDICINE)
         val original = character().copy(manualAdjustments = listOf(ManualAdjustment("proficiency",
             TypedModifier(target, ModifierOperation.ADD, 5, BonusType.PROFICIENCY))))
-        assertEquals(6, total(evaluate(original).skill(Skill.MEDICINE)))
+        // The larger typed bonus replaces the Trained rank bonus instead of adding to it.
+        assertEquals(5, total(evaluate(original).skill(Skill.MEDICINE)))
         val overflow = original.copy(manualAdjustments = listOf(ManualAdjustment("extreme",
-            TypedModifier(ModifierTarget(Statistic.ABILITY_POINTS, ability = Ability.INTELLIGENCE), ModifierOperation.SET, Int.MAX_VALUE))))
+            TypedModifier(target, ModifierOperation.SET, Int.MAX_VALUE))))
         assertIs<ContractResult.Unavailable>(evaluate(overflow).skill(Skill.MEDICINE))
         assertTrue(evaluate(overflow).diagnostics.any { it.code == "engine.overflow" })
     }

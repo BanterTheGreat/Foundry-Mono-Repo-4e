@@ -26,8 +26,8 @@ class PowerRequirementsTest {
             prerequisites = listOf(skill), powerProfile = PowerProfile(2, "ENCOUNTER", "UTILITY")),
             listOf(UnmetCondition.Failed(skill)), diagnostics = diagnostics),
             mapOf("modern4e.class.wizard" to "Wizard"), setOf("modern4e.class.wizard"))
-        assertEquals("Proficient in Arcana", preview.requirements)
-        assertEquals(listOf("Proficient in Arcana"), preview.unmet)
+        assertEquals("Trained in Arcana", preview.requirements)
+        assertEquals(listOf("Trained in Arcana"), preview.unmet)
         assertFalse(preview.requirements!!.contains("modern4e"))
     }
 
@@ -38,7 +38,7 @@ class PowerRequirementsTest {
             prerequisites = listOf(Prerequisite.Level(6), Prerequisite.AbilityPoints(Ability.WISDOM, 2)),
             powerProfile = PowerProfile(6, "DAILY", "UTILITY"))
         val preview = powerRequirementPreview(row(mechanics), mapOf("class.druid" to "Druid"))
-        assertEquals("(Arcane power source or (Druid and Proficient in Nature)); Wisdom 2+", preview.requirements)
+        assertEquals("(Arcane power source or (Druid and Trained in Nature)); Wisdom 2+", preview.requirements)
         assertTrue(preview.unmet.isEmpty())
     }
 
@@ -56,8 +56,8 @@ class PowerRequirementsTest {
         val mechanics = Mechanics(version = 2, prerequisites = listOf(Prerequisite.AnyOf(listOf(arcana, nature))))
         val preview = powerRequirementPreview(row(mechanics, listOf(
             UnmetCondition.Failed(nature))), emptyMap())
-        assertEquals("(Proficient in Arcana or Proficient in Nature)", preview.requirements)
-        assertEquals(listOf("Proficient in Nature"), preview.unmet)
+        assertEquals("(Trained in Arcana or Trained in Nature)", preview.requirements)
+        assertEquals(listOf("Trained in Nature"), preview.unmet)
     }
 
     @Test fun unknownRequirementFactsStayCompactAndUnavailableDefinitionsHaveNoInventedRequirements() {
@@ -112,8 +112,8 @@ class PowerRequirementsTest {
         for (category in listOf(EntryCategory.THEME, EntryCategory.PARAGON_PATH, EntryCategory.EPIC_DESTINY)) {
             val preview = entryRequirementPreview(row(Mechanics(version = 2, prerequisites = conditions), missing, category),
                 mapOf("class.wizard" to "Wizard"), setOf("class.wizard"))
-            assertEquals("Wizard; Level 11+; Proficient in Arcana", preview.requirements)
-            assertEquals(listOf("Wizard", "Proficient in Arcana"), preview.unmet)
+            assertEquals("Wizard; Level 11+; Trained in Arcana", preview.requirements)
+            assertEquals(listOf("Wizard", "Trained in Arcana"), preview.unmet)
         }
     }
 
@@ -125,7 +125,7 @@ class PowerRequirementsTest {
         val reworded = Diagnostic("engine.prerequisite", DiagnosticKind.INVALID_SELECTION, "Any presentation text")
         val preview = powerRequirementPreview(row(mechanics, listOf(UnmetCondition.Failed(skill)),
             diagnostics = listOf(reworded)), emptyMap())
-        assertEquals(listOf("Proficient in Arcana"), preview.unmet)
+        assertEquals(listOf("Trained in Arcana"), preview.unmet)
     }
 
     @Test fun everyUnmetConditionKindHasItsConciseLine() {

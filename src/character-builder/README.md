@@ -2,6 +2,8 @@
 
 Android and the shared engine support feats, class power acquisition and paragon paths through level 20. Ability advancement follows the 2.0 schedule through level 30. Choose two distinct abilities to increase by one at levels 8, 14 and 28. Level 21 increases all six by one. Future picks remain saved when you lower a character's level. Armor Class, Fortitude, Reflex and Will use the 2.0 defense formulas, and Android Equipment accepts armor and neck enhancement values.
 
+Skills use the 2.0 list with Untrained, Novice and Trained ranks. Level 1 takes the class skill, three other Trained skills and the theme's Novice skill, and each skill total is half level, rank bonus and other skill bonuses without an ability. Environment and Upbringing are disabled for the playtest. Skill Point spending and importing validation remain open work.
+
 Production includes class attacks through level 19, structured Zeitgeist paths and the 205 class paragon paths (all 19 classes) with their features and level 11/12/20 powers. Levels previews authored future grants from selected sources. About counts the powers already acquired, and Stats tracks known rituals and alchemical formulas. Combat execution, unspecified retraining allowances, and other level 21 through 30 features remain incomplete. Historical milestone notes below describe earlier scope.
 
 Validate from this directory with `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :android:assembleDebug`. Device UI tests are opt-in. See [test commands](../../tests/README.md) and [choice contracts](CHOICES.md).

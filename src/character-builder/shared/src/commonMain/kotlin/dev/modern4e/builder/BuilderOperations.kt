@@ -298,9 +298,13 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                     return reject("Choose a proficiency level from 1 to 30.")
                 }
                 val slot = edit.value.slot
-                val offered = evaluate(document.forChoiceAt(edit.level)).rules.choices.singleOrNull { it.slot == slot && it.skills.isNotEmpty() }
+                val offered = evaluate(document.forChoiceAt(edit.level)).rules.choices
+                    .singleOrNull { it.slot == slot && it.skillRank != null }
                 if (offered == null) {
-                    return reject("Proficiency slot is not active; choose a background with Background first.")
+                    return reject("Proficiency slot is not active.")
+                }
+                if (offered.skills.isEmpty()) {
+                    return reject("Choose your four Trained skills first.")
                 }
                 if ((offered.acquisitionLevel ?: 1) != edit.level) {
                     return reject("Proficiency decisions belong to their source acquisition level.")
@@ -309,6 +313,9 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                     level.proficiencies.filterNot { it.slot == slot } + if (level.level == edit.level) listOf(edit.value) else emptyList()) })
             }
             is BuilderEdit.Background -> {
+                if (!ModernCreation.BACKGROUNDS_ENABLED) {
+                    return reject("Environment and Upbringing are disabled for the 2.0 playtest.")
+                }
                 val kind = edit.kind.name.lowercase()
                 val choices = if (edit.kind == BackgroundKind.ENVIRONMENT) ModernCreation.environments else ModernCreation.upbringings
                 if (edit.name !in choices) {

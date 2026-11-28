@@ -186,7 +186,8 @@ object Progression {
         choices: List<EngineChoice>,
         powerEntryIds: Set<String>,
     ): Pair<List<EngineChoice>, List<EngineChoice>> =
-        choices.filter { it.abilities.isEmpty() }.partition { choice ->
+        // The class and theme skills are chosen on their own tiles.
+        choices.filter { it.abilities.isEmpty() && !it.slot.hasSkillTile() }.partition { choice ->
             level == 1 && choice.isPowerChoice(powerEntryIds)
         }
 
@@ -321,12 +322,8 @@ object Progression {
         )
     }
 
-    /** Compact labels for the skill picker; proficiency is already conveyed by selection/status. */
-    fun skillContributorLabel(label: String): String? = when {
-        label == "Proficiency" -> null
-        Ability.entries.any { label == "${it.name} points" } -> label.removeSuffix(" points").readable()
-        else -> label
-    }
+    /** Compact labels for the skill picker; the row already names the rank and its bonus. */
+    fun skillContributorLabel(label: String): String? = label.takeUnless { it == SKILL_RANK_LABEL }
 
     /** Whether a stepper can move this ability by one point. */
     fun canAdjustAbility(allocation: AbilityAllocation, ability: Ability, delta: Int): Boolean {
@@ -382,14 +379,18 @@ object Progression {
     /** Lays one power group's slots out in rows of at most two: a pair sits side by side, a lone slot takes the full width. */
     fun <T> powerRows(group: List<T>): List<List<T>> = group.chunked(2)
 
+    /** The origins Environment and Upbringing add while they are enabled. */
+    val backgroundKinds: List<String>
+        get() = if (ModernCreation.BACKGROUNDS_ENABLED) listOf("environment", "upbringing") else emptyList()
+
     /**
-     * Decisions the character still needs: the engine's required slot offers that are unfilled, plus the two
+     * Decisions the character still needs: the engine's required slot offers that are unfilled, plus any enabled
      * background origins and an invalid allocation, which are not slots.
      */
     fun unfinished(state: BuilderState): Int {
         val doc = state.document
         return state.rules.choices.count { it.missing } +
-            listOf("environment", "upbringing").count { background(doc, it).isEmpty() } +
+            backgroundKinds.count { background(doc, it).isEmpty() } +
             if (validAllocation(doc.abilities)) 0 else 1
     }
 }

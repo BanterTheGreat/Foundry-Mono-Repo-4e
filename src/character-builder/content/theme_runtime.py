@@ -23,6 +23,7 @@ finally:
     sys.path.remove(str(SCRIPTS))
 
 PACKAGE = "modern4e.themes"
+THEME_SKILL_CHOICE = "modern4e.choice.theme-skill"
 CATEGORIES = {"modern4e.theme.": "THEME", "modern4e.feature.": "FEATURE", "modern4e.power.": "POWER"}
 
 
@@ -46,6 +47,9 @@ def compile_theme_entry(entry):
     runtime = class_runtime.compile_entry({**source, "category": category_of(source["id"])})
     runtime["sharedData"] = source
     mechanics = runtime["mechanics"]
+    if runtime["category"] == "THEME":
+        mechanics["choices"].append({"type": "proficiencies", "id": THEME_SKILL_CHOICE, "count": 1,
+                                     "skills": source["noviceSkills"], "rank": "NOVICE"})
     notes = []
     if source.get("modifications"):
         notes.append(

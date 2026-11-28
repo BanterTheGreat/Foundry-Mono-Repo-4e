@@ -40,7 +40,7 @@
         {
           "instanceId": "fighter",
           "selection": {
-            "acknowledgedFingerprint": "sha256-v1:8054e0a181b80b0c5a71cd11c92c8c437ff9ddd4cf5278f5efbad40a6b972a86",
+            "acknowledgedFingerprint": "sha256-v1:e3f44adf97153d1f7ca77a2340bcf8cd3da70d89c5ef031857bdaf3656608219",
             "entryId": "modern4e.class.fighter",
             "savedTitle": "Fighter",
             "supplierPackageId": "modern4e.classes"
@@ -68,7 +68,7 @@
         {
           "instanceId": "training",
           "selection": {
-            "acknowledgedFingerprint": "sha256-v1:f9b0ff090363017d46b9eea851a140cabf53d53b858bfcffe13e437e8a8c4cd2",
+            "acknowledgedFingerprint": "sha256-v1:fc3e217b32978beef0ffd5d908bac40938d4c3d76cbd927ca4f8503490d12a33",
             "entryId": "modern4e.feat.skill-training",
             "savedTitle": "Skill Training",
             "supplierPackageId": "modern4e.feats"
@@ -181,23 +181,15 @@
       "level": 1,
       "proficiencies": [
         {
-          "skill": "SOCIETY",
+          "skill": "ATHLETICS",
           "slot": {
-            "choiceId": "skill",
+            "choiceId": "modern4e.choice.class-skill",
             "ordinal": 0,
-            "sourceInstanceId": "background.environment.urban"
+            "sourceInstanceId": "fighter"
           }
         },
         {
           "skill": "CRAFTING",
-          "slot": {
-            "choiceId": "skill",
-            "ordinal": 0,
-            "sourceInstanceId": "background.upbringing.labor"
-          }
-        },
-        {
-          "skill": "MEDICINE",
           "slot": {
             "choiceId": "free-skill",
             "ordinal": 0,
@@ -205,7 +197,7 @@
           }
         },
         {
-          "skill": "RELIGION",
+          "skill": "MEDICINE",
           "slot": {
             "choiceId": "free-skill",
             "ordinal": 1,
@@ -213,7 +205,15 @@
           }
         },
         {
-          "skill": "ATHLETICS",
+          "skill": "RELIGION",
+          "slot": {
+            "choiceId": "free-skill",
+            "ordinal": 2,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "skill": "CULTURE",
           "slot": {
             "choiceId": "modern4e.choice.skill-training.skills",
             "ordinal": 0,

@@ -76,19 +76,11 @@
       "proficiencies": [
         {
           "slot": {
-            "sourceInstanceId": "background.environment.urban",
-            "choiceId": "skill",
+            "sourceInstanceId": "fighter",
+            "choiceId": "modern4e.choice.class-skill",
             "ordinal": 0
           },
-          "skill": "SOCIETY"
-        },
-        {
-          "slot": {
-            "sourceInstanceId": "background.upbringing.labor",
-            "choiceId": "skill",
-            "ordinal": 0
-          },
-          "skill": "CRAFTING"
+          "skill": "ATHLETICS"
         },
         {
           "slot": {
@@ -105,6 +97,14 @@
             "ordinal": 1
           },
           "skill": "RELIGION"
+        },
+        {
+          "slot": {
+            "sourceInstanceId": "creation",
+            "choiceId": "free-skill",
+            "ordinal": 2
+          },
+          "skill": "CRAFTING"
         }
       ]
     }

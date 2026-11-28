@@ -135,10 +135,10 @@ def assets(packages=None):
                         selection=saved(f'modern4e.power.fighter-{power_id}')))
             document['levels'][0]['proficiencies'] = [dict(slot=dict(sourceInstanceId=source, choiceId=choice, ordinal=ordinal), skill=skill)
                 for source, choice, ordinal, skill in [
-                    ('background.environment.urban', 'skill', 0, 'SOCIETY'),
-                    ('background.upbringing.labor', 'skill', 0, 'CRAFTING'),
-                    ('creation', 'free-skill', 0, 'MEDICINE'), ('creation', 'free-skill', 1, 'RELIGION'),
-                    ('training', 'modern4e.choice.skill-training.skills', 0, 'ATHLETICS'),
+                    ('fighter', 'modern4e.choice.class-skill', 0, 'ATHLETICS'),
+                    ('creation', 'free-skill', 0, 'CRAFTING'), ('creation', 'free-skill', 1, 'MEDICINE'),
+                    ('creation', 'free-skill', 2, 'RELIGION'),
+                    ('training', 'modern4e.choice.skill-training.skills', 0, 'CULTURE'),
                     ('training', 'modern4e.choice.skill-training.skills', 1, 'ENDURANCE')]]
             document['equipment'] = [dict(instanceId='longsword', selection=saved('modern4e.weapon.longsword'), quantity=1, equipped=True)]
             if level == 2:
@@ -165,10 +165,12 @@ def accepted_assets(packages=None):
     for level in (1, 2):
         document = assets(packages)[f'sample-current-fighter-{level}-base.json']
         document.update(id=f'accepted-fighter-{level}')
-        document['identity'].update(name='Accepted Fighter', environment='urban', upbringing='labor')
+        document['identity'].update(name='Accepted Fighter')
         document['levels'][0]['entries'].append(dict(instanceId='docker',
             slot=dict(sourceInstanceId='creation', choiceId='theme', ordinal=0),
             selection=saved('modern4e.theme.docker')))
+        document['levels'][0]['proficiencies'].append(dict(
+            slot=dict(sourceInstanceId='docker', choiceId='modern4e.choice.theme-skill', ordinal=0), skill='STREETWISE'))
         for item_id, instance in [('modern4e.armor.scale', 'scale'), ('modern4e.shield.heavy-shield', 'shield')]:
             document['equipment'].append(dict(instanceId=instance, selection=saved(item_id), quantity=1, equipped=True))
         if level == 2:
@@ -235,7 +237,7 @@ def regression_assets(packages=None):
                                                   increases=dict(STRENGTH=1, DEXTERITY=1))]
     rows[4]['values'] = [dict(slot=slot('feat-4', 'modern4e.choice.linguist.languages', ordinal), value=language)
                          for ordinal, language in enumerate(['DRACONIC', 'ELVEN', 'GIANT'])] + [
-                         dict(slot=slot('feat-4', 'modern4e.choice.linguist.skill-bonus'), value='DIPLOMACY')]
+                         dict(slot=slot('feat-4', 'modern4e.choice.linguist.skill-bonus'), value='INSIGHT')]
     for level, choice, ordinal, instance, entry_id in REGRESSION_REPLACEMENTS:
         target = slot('fighter', f'modern4e.choice.{choice}', ordinal)
         rows[level]['replacements'] = [dict(replaces=target, kind='PROGRESSION',

@@ -33,7 +33,7 @@ class AdvancementRulesTest {
             assertEquals(4 + chosen + automatic, total(rules, Ability.STRENGTH), "level $level")
             assertEquals(2 + chosen + automatic, total(rules, Ability.DEXTERITY), "level $level")
             assertEquals(automatic, total(rules, Ability.CHARISMA), "level $level")
-            assertEquals(total(rules, Ability.DEXTERITY) + level / 2, assertIs<ContractResult.Available<CalculatedValue>>(rules.skill(Skill.ACROBATICS)).value.total)
+            assertEquals(level / 2, assertIs<ContractResult.Available<CalculatedValue>>(rules.skill(Skill.ACROBATICS)).value.total)
         }
     }
 

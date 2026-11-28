@@ -15,6 +15,8 @@ SPEC = importlib.util.spec_from_file_location(
 authoring = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(authoring)
 
+CLASS_SKILL_CHOICE = "modern4e.choice.class-skill"
+
 
 def condition(node):
     """Preserve grouping and explicit gaps; no prose parsing or eligibility guesses."""
@@ -72,6 +74,14 @@ def compile_entry(entry):
                  "choices": [], "unsupported": [], "maximumSelections": entry["selection"]["maximum"]}
     for choice in entry.get("choices", []) if entry["category"] != "POWER" else []:
         mechanics["choices"].append(compile_choice(choice))
+    if entry["category"] == "CLASS":
+        # One listed skill is granted outright; several become the player's pick.
+        training = entry["skillTraining"]
+        if len(training) == 1:
+            mechanics["grants"].append({"type": "proficiency", "grantId": CLASS_SKILL_CHOICE, "skill": training[0]})
+        else:
+            mechanics["choices"].append({"type": "proficiencies", "id": CLASS_SKILL_CHOICE, "count": 1,
+                                         "skills": training})
     for key in ("selectionModifiers", "collections"):
         if entry.get(key):
             mechanics[key] = entry[key]

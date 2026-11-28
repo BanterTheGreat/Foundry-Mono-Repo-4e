@@ -39,7 +39,7 @@ private fun Prerequisite.requirementText(titles: Map<String, String>, omit: (Pre
     return when (this) {
         Prerequisite.Always -> null
         is Prerequisite.Level -> "Level $minimum+"
-        is Prerequisite.Proficiency -> "Proficient in ${skill.name.readable()}"
+        is Prerequisite.Proficiency -> "Trained in ${(skill.current ?: skill).title}"
         is Prerequisite.ClassPowerSource -> "${powerSource.readable()} power source"
         is Prerequisite.EquipmentProficiency -> "Proficient with ${equipment.replace('-', '_').readable()}"
         is Prerequisite.AbilityPoints -> "${ability.name.readable()} $minimum+"

@@ -109,16 +109,50 @@ data class AbilityAllocation(
 @Serializable
 enum class Ability { STRENGTH, DEXTERITY, CONSTITUTION, INTELLIGENCE, WISDOM, CHARISMA }
 
-/** Default mapping; the GM may request another ability for an individual check. */
+/**
+ * The 2.0 skills in their printed group order, followed by retired identifiers.
+ *
+ * A skill has no ability of its own: the approach picks the ability when a check is made.
+ * Retired identifiers stay decodable so older saves and unadapted content round-trip unchanged.
+ * Rules read them through [current].
+ */
 @Serializable
-enum class Skill(val ability: Ability) {
-    ATHLETICS(Ability.STRENGTH),
-    ACROBATICS(Ability.DEXTERITY), STEALTH(Ability.DEXTERITY), THIEVERY(Ability.DEXTERITY),
-    ENDURANCE(Ability.CONSTITUTION),
-    ARCANA(Ability.INTELLIGENCE), CRAFTING(Ability.INTELLIGENCE),
-    SOCIETY(Ability.INTELLIGENCE), MEDICINE(Ability.INTELLIGENCE),
-    INSIGHT(Ability.WISDOM), NATURE(Ability.WISDOM), PERCEPTION(Ability.WISDOM), RELIGION(Ability.WISDOM),
-    BLUFF(Ability.CHARISMA), DIPLOMACY(Ability.CHARISMA), INTIMIDATE(Ability.CHARISMA),
+enum class Skill {
+    ATHLETICS, ACROBATICS, ENDURANCE,
+    STEALTH, FINESSE,
+    ARCANA, OCCULTISM, CRAFTING, MEDICINE, NATURE, CULTURE, RELIGION,
+    INSIGHT, STREETWISE, DECEPTION, COMMAND,
+
+    // Retired by the 2.0 list.
+    THIEVERY, SOCIETY, BLUFF, INTIMIDATE, PERCEPTION, DIPLOMACY;
+
+    /** The 2.0 skill this identifier stands for: itself, its renamed successor, or null when 2.0 removed it. */
+    val current: Skill?
+        get() = when (this) {
+            THIEVERY -> FINESSE
+            SOCIETY -> CULTURE
+            BLUFF -> DECEPTION
+            INTIMIDATE -> COMMAND
+            PERCEPTION, DIPLOMACY -> null
+            else -> this
+        }
+
+    /** The printed name. */
+    val title: String get() = name.lowercase().replaceFirstChar { it.uppercase() }
+
+    companion object {
+        /** The skills a 2.0 character can hold, in printed order. */
+        val catalog: List<Skill> get() = entries.filter { it.current == it }
+    }
+}
+
+/** Skill Points with Novice ranks; [bonus] is the total bonus the rank adds to a check. */
+@Serializable
+enum class SkillRank(val bonus: Int) {
+    UNTRAINED(0), NOVICE(1), TRAINED(3), EXPERT(5), ADEPT(7), MASTER(9);
+
+    /** The printed name. */
+    val title: String get() = name.lowercase().replaceFirstChar { it.uppercase() }
 }
 
 @Serializable

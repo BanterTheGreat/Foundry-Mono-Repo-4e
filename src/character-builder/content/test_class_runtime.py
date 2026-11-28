@@ -18,7 +18,7 @@ class ClassRuntimeTest(unittest.TestCase):
         power_id = "modern4e.power.warlock-warlock-s-curse"
         summary = entries[summary_id]
         self.assertEqual("GRANT_SUMMARY", summary["presentation"]["grantDisplay"])
-        self.assertIn(summary_id, {g["entryId"] for g in entries["modern4e.class.warlock"]["mechanics"]["grants"]})
+        self.assertIn(summary_id, {g.get("entryId") for g in entries["modern4e.class.warlock"]["mechanics"]["grants"]})
         self.assertEqual([power_id], [g["entryId"] for g in summary["mechanics"]["grants"]])
         self.assertEqual("POWER", entries[power_id]["category"])
         self.assertNotIn("grantDisplay", entries[power_id]["presentation"])
@@ -67,6 +67,27 @@ class ClassRuntimeTest(unittest.TestCase):
                 path.write_text(json.dumps(data), encoding="utf-8")
                 with self.assertRaisesRegex(ValueError, message):
                     class_runtime.build(root)
+
+    def test_class_skill_is_granted_when_listed_alone_and_chosen_when_several_are_listed(self):
+        entries = {e["id"]: e for e in runtime_common.entries_of(class_runtime.build(include_advancement=False))}
+        classes = [e for e in entries.values() if e["category"] == "CLASS"]
+        self.assertEqual(19, len(classes))
+        for entry in classes:
+            with self.subTest(entry=entry["id"]):
+                training = entry["sharedData"]["skillTraining"]
+                grants = [g for g in entry["mechanics"]["grants"] if g["type"] == "proficiency"]
+                choices = [c for c in entry["mechanics"]["choices"] if c["type"] == "proficiencies"]
+                if len(training) == 1:
+                    self.assertEqual([{"type": "proficiency", "grantId": class_runtime.CLASS_SKILL_CHOICE,
+                                       "skill": training[0]}], grants)
+                    self.assertEqual([], choices)
+                else:
+                    self.assertEqual([], grants)
+                    self.assertEqual([{"type": "proficiencies", "id": class_runtime.CLASS_SKILL_CHOICE,
+                                       "count": 1, "skills": training}], choices)
+        self.assertEqual(["STEALTH", "FINESSE", "DECEPTION"],
+                         entries["modern4e.class.rogue"]["sharedData"]["skillTraining"])
+        self.assertEqual(["COMMAND"], entries["modern4e.class.warlord"]["sharedData"]["skillTraining"])
 
     def test_fighter_exact_runtime_golden_and_independent_choices(self):
         assets = class_runtime.build(class_ids=["modern4e.class.fighter"], include_advancement=False)

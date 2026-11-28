@@ -18,9 +18,9 @@ class CurrentDataSampleTest {
                 }
                 val result = RulesEngine.evaluate(document, RulesContent.load(document, catalog))
                 assertEquals(4, result.overviewAbilityTotals.getValue(Ability.STRENGTH))
-                assertEquals(9 + level / 2, total(result.displayedSkill(Skill.ATHLETICS)))
-                assertEquals(7 + level / 2, total(result.displayedSkill(Skill.ENDURANCE)))
-                assertEquals(setOf(Skill.SOCIETY, Skill.CRAFTING, Skill.MEDICINE, Skill.RELIGION, Skill.ATHLETICS, Skill.ENDURANCE), result.proficiencies.keys)
+                assertEquals(3 + level / 2, total(result.displayedSkill(Skill.ATHLETICS)))
+                assertEquals(3 + level / 2, total(result.displayedSkill(Skill.ENDURANCE)))
+                assertEquals(setOf(Skill.CULTURE, Skill.CRAFTING, Skill.MEDICINE, Skill.RELIGION, Skill.ATHLETICS, Skill.ENDURANCE), result.proficiencies.keys)
                 assertTrue(result.diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
                 // The samples have no Theme or level 2 feat yet; the engine reports those root slots and nothing else invalid.
                 val (missingRoots, other) = result.diagnostics.partition { it.code == "engine.missingRootChoice" }

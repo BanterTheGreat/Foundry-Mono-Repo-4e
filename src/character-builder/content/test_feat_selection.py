@@ -33,7 +33,7 @@ class FeatSelectionTest(unittest.TestCase):
         entry = self.entries["Skill Training"]
         choice = entry["choices"][0]
         self.assertEqual(2, choice["count"])
-        self.assertEqual(set(feats.SKILLS), set(choice["source"]["values"]))
+        self.assertEqual(feats.CURRENT_SKILLS, choice["source"]["values"])
         self.assertEqual({"scope": "CHARACTER", "fact": "SKILL_PROFICIENCY"}, entry["selection"]["constraints"][0]["against"])
         self.assertEqual("BLOCK", entry["selection"]["constraints"][0]["whenExhausted"])
         self.assertIn("not already proficient", self.catalog["selectionText"][entry["id"]])
